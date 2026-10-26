@@ -110,6 +110,7 @@ A setting that only applies when a parent is on is **hidden when the parent is o
 
 ## Plan-gated and dangerous settings
 
+- **New or Beta tag:** goes on the label side, never beside the control. Put a DS `<aha-badge kind="new">` or `kind="beta"` in the row's `badge` slot; it sits right after the "?" or the Paywall crown, inline or stacked, locked or not.
 - **Plan-gated:** stays **visible but locked** — never hidden. The row reads: the label, the Paywall crown badge in the place of the "?" (no "?" while locked), and the real control **disabled**. The label keeps its normal colour. The badge opens the shared Paywall popover (owned by the `paywall` guide). Set `locked` (with `plan`, `feature-key`, `upgrade-body`) on `<aha-setting-row>` or the list's row; never swap the control for the crown.
 - **Danger zone:** dangerous/irreversible settings sit **last**, set apart by the largest gap (48). CTA is the **danger Button** (`colorError`, no hardcoded hex); red never on the label. Any irreversible action **requires a confirmation modal** (per the `overlays` guide) — never a bare toggle flip.
 
