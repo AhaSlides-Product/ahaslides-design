@@ -24,8 +24,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.399.0 — 2026-10-26
 ### Added
-- `<aha-leaderboard>`, one ranked list for the slide canvas and the audience phone: rank chip, name, score at the end, optional bar sized to the top score, a trophy on first place, ties ranked 1, 2, 2, 4, rows fitted to the element height with an "and N more" line, the participant's own row pinned with a "You" tag, teams, empty and loading states, and a row slide with score count-up (none under reduced motion); themed only by `--aha-deck-*` tokens (#PRNUM)
-- Revert: revert the PR; a new component, nothing else changes (#PRNUM)
+- `<aha-leaderboard>`, one ranked list for the slide canvas and the audience phone: rank chip, name, score at the end, optional bar sized to the top score, a trophy on first place, ties ranked 1, 2, 2, 4, rows fitted to the element height with an "and N more" line, the participant's own row pinned with a "You" tag, teams, empty and loading states, and a row slide with score count-up (none under reduced motion); themed only by `--aha-deck-*` tokens (#390)
+- Revert: revert the PR; a new component, nothing else changes (#390)
 
 ## 0.396.0 — 2026-10-26
 ### Added
