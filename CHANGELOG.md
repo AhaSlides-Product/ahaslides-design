@@ -22,6 +22,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.395.0 — 2026-10-26
+### Added
+- `applyCanvasDeck` takes an optional `palette` (the deck's `presentationColorPalette`) and writes `--aha-deck-palette-<n>` (the colour) and `--aha-deck-palette-<n>-ink` (`#1A1A1A` or white, whichever contrasts more, AA 4.5:1) for each colour, 1-based, up to 24; a slide type styles a palette container with tokens only. Without `palette` nothing changes
+- `readableTextInk` is exported from the canvas and audience entries (`lib/canvas.js`, `lib/audience.js`)
+- Revert: revert the PR; additive and opt-in, no existing caller changes (#387)
+
 ## 0.391.0 — 2026-10-24
 ### Added
 - `<aha-canvas-play>`, the centred Play control for a slide canvas: a flat disc on `--aha-color-primary` with the white `system-play` glyph, sizes `md` (48), `lg` (64, default) and `hero` (96), the deck focus ring, no shadow; registered in the canvas bundle (#385)

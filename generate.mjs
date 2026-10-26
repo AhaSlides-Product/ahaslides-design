@@ -1533,7 +1533,7 @@ function surfaceCdnBox(surface) {
     <pre style="margin:8px 0;white-space:pre-wrap;word-break:break-all;font:12px/18px Menlo,monospace">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@${CDN_REF}/lib/tokens.css"&gt;
 &lt;script type="module" src="${surfaceCdnUrl(surface)}"&gt;&lt;/script&gt;</pre>
     ${surface === 'audience' ? `<p style="margin:0 0 6px">It also re-exports <code>applyDeck</code> and the shared deck ladder: <code>import { applyDeck, applyDeckTokens } from '${surfaceCdnUrl(surface)}'</code>.</p>` : ''}
-    ${surface === 'canvas' ? `<p style="margin:0 0 6px">It registers <code>&lt;aha-chart&gt;</code> and the canvas controls, so the Chart and Components pages share this one tag. It also re-exports <code>applyCanvasDeck</code> and the shared deck ladder: <code>import { applyCanvasDeck, applyDeckTokens } from '${surfaceCdnUrl(surface)}'</code>.</p>` : ''}
+    ${surface === 'canvas' ? `<p style="margin:0 0 6px">It registers <code>&lt;aha-chart&gt;</code> and the canvas controls, so the Chart and Components pages share this one tag. It also re-exports <code>applyCanvasDeck</code>, the shared deck ladder and <code>readableTextInk</code> (the DS text ink or white, whichever contrasts more on a fill): <code>import { applyCanvasDeck, applyDeckTokens, readableTextInk } from '${surfaceCdnUrl(surface)}'</code>.</p>` : ''}
     <details><summary>Registers ${entry.files.length} elements</summary><p style="margin:6px 0 0;font-size:12px">${tags}</p></details>
     <p style="margin:6px 0 0;font-size:12px">Other surfaces: ${Object.keys(SURFACE_ENTRIES).filter(k => k !== surface).map(k => `<code>lib/${k}.js</code>`).join(', ')}; every element: <code>lib/all.js</code>.</p></div>`;
 }
@@ -3338,7 +3338,7 @@ for (const [surface, entry] of Object.entries(SURFACE_ENTRIES)) {
     entry.files.map(f => `import './${f}';`).join('\n') + '\n' +
     (surface === 'audience' ? `export { applyDeck } from './audience-deck.js';\n` : '') +
     (surface === 'canvas' ? `export { applyCanvasDeck } from './canvas-deck.js';\n` : '') +
-    (surface === 'audience' || surface === 'canvas' ? `export { applyDeckTokens, deckTokens } from './deck.js';\n` : ''));
+    (surface === 'audience' || surface === 'canvas' ? `export { applyDeckTokens, deckTokens, readableTextInk } from './deck.js';\n` : ''));
   console.log(`  ✓ lib/${surface}.js — ${surface} surface entry (${entry.files.length} elements)`);
 }
 
