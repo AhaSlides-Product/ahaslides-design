@@ -22,10 +22,21 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.441.1 — 2026-10-26
+## 0.443.1 — 2026-10-26
 ### Changed
 - Website > Marketing > Header: eight duplicate layouts removed, 24 to 16. Hero Pale Pink and Hero Pale Pink Vertical were Hero Pink and Hero Pink Vertical with the Pale Pink state on, so the Pale Pink state of the Hero Pink pair now carries their guidance; Hero screen mockup 04 was Hero screen mockup 02 with the same markup and styles, 05 was 01 with the screenshot cropped by the section edge, 03 was 01 without the badge; Hero split image 05 was Hero split image 03 with a larger bleeding image; Header centered brand and Header left tabs brand were Header centered and Header left tabs with the Vivid Pink state on, which those layouts already switch to. The Choosing a header text, the layout counts and the G2 reviews list follow.
 - Revert: revert the PR; `marketing/header.json` (eight layouts, counts and guidance text) and one sentence in `generate.mjs`, no component or contract (#399)
+
+## 0.443.0 — 2026-10-26
+### Added
+- `aha-input` is form-associated: its value submits under `name`, form reset restores the initial value, a disabled fieldset disables it, and Enter calls the form's `requestSubmit()` like a native text input, with a native default `<button>` or `<input>` as the submitter, deferred by one task so a host-level Enter keydown listener can veto it with `preventDefault()` (skipped for a disabled or loading default button, and for several fields with no submit button).
+- `aha-input` `label` attribute: a visible label rendered as a real `<label for>` to the inner field; an external `<label for="host-id">` now focuses the field and names it.
+- `aha-input` `aria-controls`: resolved to element references on the inner field where the browser supports ARIA element reflection (Chrome, Safari), so a field can point at a light-DOM results list.
+### Fixed
+- `aha-select`: Escape on the trigger closes the open list and keeps focus on the trigger, as a native select does; Escape from the list or the trigger no longer reaches a surrounding modal or drawer while the list is open, and does nothing when the list is closed.
+- `aha-drawer` and `aha-audience-modal`: Escape pressed inside an open `aha-select` closes only the list, not the surrounding drawer or modal.
+- `aha-button`: `aria-expanded`, `aria-controls`, `aria-pressed` and `aria-haspopup` on the host are copied to the inner button and follow later changes, so a disclosure toggle built on it announces open and closed.
+- Revert: revert the PR; the input changes are additions in `lib/aha-input.js` and its contract, the select and button fixes are small additions in `lib/aha-select.js` and `lib/aha-button.js` (#393)
 
 ## 0.441.0 — 2026-10-26
 ### Removed
@@ -45,6 +56,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `aha-paywall`: only one upgrade popover is open at a time; opening any paywall (hover, focus, click, or the disabled control of a locked setting row) closes the one that was open (#392)
 - `aha-paywall`: the first open no longer slides sideways. The align set just before the first open made the horizontal offset glide from its stale value (about 166 px on a start-aligned popover); the offset now sits in the non-animated translate property, so every open is a 4 px vertical lift (#392)
 - Revert: revert the PR; the badge slot is additive in `lib/aha-setting-row.js` and `lib/aha-settings-list.js`, the paywall fixes are inside `lib/aha-paywall.js`, no existing API changes (#392)
+
 ## 0.434.0 — 2026-10-26
 ### Fixed
 - `<aha-button>` keyboard focus is now an outline, a 2px solid ring 2px outside the button (`--aha-button-focus-ring`), with the gap still a box-shadow (`--aha-button-focus-gap`). The ring used to be a box-shadow, the same property as the elevation, so a box-shadow a consumer put on the button (a `::part(button)` rule built on `--aha-button-elevate-secondary`, for example) replaced it and a Tab-focused secondary button showed no ring. `secondary-deck` and `tertiary-deck` now draw the same ring instead of the browser's `outline:auto`. Default look, hover and press are unchanged; `--aha-button-focus-outline` and the new `--aha-button-focus-outline-offset` re-point the outline. (#372)
