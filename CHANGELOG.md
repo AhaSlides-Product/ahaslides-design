@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.405.0 — 2026-10-26
+## 0.407.0 — 2026-10-26
 ### Added
 - `aha-input` is form-associated: its value submits under `name`, form reset restores the initial value, a disabled fieldset disables it, and Enter calls the form's `requestSubmit()` like a native text input (skipped for a disabled or loading default button, and for several fields with no submit button).
 - `aha-input` `label` attribute: a visible label rendered as a real `<label for>` to the inner field; an external `<label for="host-id">` now focuses the field and names it.
@@ -31,6 +31,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `aha-select`: Escape on the trigger closes the open list and keeps focus on the trigger, as a native select does; Escape from the list or the trigger no longer reaches a surrounding modal or drawer while the list is open, and does nothing when the list is closed.
 - `aha-button`: `aria-expanded`, `aria-controls`, `aria-pressed` and `aria-haspopup` on the host are copied to the inner button and follow later changes, so a disclosure toggle built on it announces open and closed.
 - Revert: revert the PR; the input changes are additions in `lib/aha-input.js` and its contract, the select and button fixes are small additions in `lib/aha-select.js` and `lib/aha-button.js` (#393)
+
+## 0.403.1 — 2026-10-26
+### Changed
+- Website > Marketing pages: prose longer than about two lines is a closed disclosure with its heading still visible (Choosing a header, Which is which, video slot, Composed of, Details, and any long layout or card summary). Native `<details>`, keyboard accessible, opens when a link targets its anchor. The `.md` and llms feeds keep the full text.
+- Revert: revert the PR; only the docs generator changed, no component or contract (#396)
 
 ## 0.396.0 — 2026-10-26
 ### Added
