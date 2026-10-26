@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.393.0 — 2026-10-24
+## 0.404.0 — 2026-10-26
 ### Removed
 - **Breaking:** the `--aha-radius-pill` token (`radius.pill`, 999px) and the pill shape. AhaSlides has no pill: a true circle (avatar, dot, radio mark, slider thumb, spinner, count disc) is `border-radius: 50%`; every elongated shape (badge, count bubble, chip, tag, switch track, progress and slider tracks) takes a radius from the 4 · 6 · 8 · 12 · 16 scale. Consumers that read `--aha-radius-pill` fall back to their own value: replace it with `50%` or a scale token (#337).
 - `<aha-image radius="pill">`: the option is gone, an unknown value keeps the default 8px frame (#337).
@@ -31,6 +31,22 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Audience and canvas kits, Marketing sections (Cards, FAQ, Header badges, Pricing slider) and the docs search chips follow the same rule; the Foundations Radius page, `design.md` and the canvas / audience / settings / feedback / report-image guidelines say there is no pill shape (#337).
 - `standards.mjs` fails a 999px radius and any `--aha-radius-pill` reference in component source (#337).
 - `screen-lint` fails a 999px or 9999px `border-radius` as `radius-off-scale` (#337).
+
+## 0.403.1 — 2026-10-26
+### Changed
+- Website > Marketing pages: prose longer than about two lines is a closed disclosure with its heading still visible (Choosing a header, Which is which, video slot, Composed of, Details, and any long layout or card summary). Native `<details>`, keyboard accessible, opens when a link targets its anchor. The `.md` and llms feeds keep the full text.
+- Revert: revert the PR; only the docs generator changed, no component or contract (#396)
+
+## 0.396.0 — 2026-10-26
+### Added
+- Website > Marketing > Features: five Compact layouts that keep the section within one screen (about 560 to 800 px at 1440): accordion beside one image (`aha-features--compact-accordion`), tabs over one screenshot with a centred tab row (`aha-features--compact-tabs`), swipeable card scroller (`aha-features--compact-scroller`), pick from a list (`aha-features--compact-master-detail`) and top three with a See all features button (`aha-features--compact-see-all`). 48 px top and bottom padding on the shipped side gutters, the shipped closing call-to-action row, no intro sentence under the title, closed content stays in the HTML (#386)
+- Revert: revert the PR; five new layouts in `marketing/features.json`, the 11 existing layouts are untouched (#386)
+
+## 0.395.0 — 2026-10-26
+### Added
+- `applyCanvasDeck` takes an optional `palette` (the deck's `presentationColorPalette`) and writes `--aha-deck-palette-<n>` (the colour) and `--aha-deck-palette-<n>-ink` (`#1A1A1A` or white, whichever contrasts more, AA 4.5:1) for each colour, 1-based, up to 24; a slide type styles a palette container with tokens only. Without `palette` nothing changes
+- `readableTextInk` is exported from the canvas and audience entries (`lib/canvas.js`, `lib/audience.js`)
+- Revert: revert the PR; additive and opt-in, no existing caller changes (#387)
 
 ## 0.391.0 — 2026-10-24
 ### Added

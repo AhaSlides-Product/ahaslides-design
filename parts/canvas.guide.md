@@ -268,6 +268,7 @@ from the deck once with `applyCanvasDeck`:
     accent: xprops.presentationColorPalette[0],
     ink: xprops.slide.textColour,
     background: xprops.slide.baseColour,
+    palette: xprops.presentationColorPalette,
   });
 </script>
 <div class="controls">
@@ -289,6 +290,15 @@ from the deck once with `applyCanvasDeck`:
   label by contrast, darkens hover 12% and pressed 22%, and drops the hover shadow, so hover is
   a fill change only. It is scoped to the element you pass, so app buttons outside the canvas
   keep their look.
+- **Text on a palette colour is a token, never a computed flip.** Pass `palette:
+  xprops.presentationColorPalette` and `applyCanvasDeck` writes `--aha-deck-palette-<n>` (the
+  colour) and `--aha-deck-palette-<n>-ink` (`#1A1A1A` or white, whichever contrasts more, so
+  it meets AA 4.5:1) for each colour, 1-based like `--aha-viz-series-<n>`, up to 24. Style an
+  option card, bar or chip with `background: var(--aha-deck-palette-2); color:
+  var(--aha-deck-palette-2-ink)`. Never hand-roll a "luminance > 0.6 → dark, else white" flip: it
+  picks white on mid colours (`#4CAF50` white 2.78:1, ink 6.27:1) and fails AA. For a colour that is
+  not in the palette, import `readableTextInk` from `lib/canvas.js` (also `lib/audience.js`).
+  Without `palette` nothing changes.
 - The variant hierarchy is the same as the host bar's: at most one `primary`, the rest
   `secondary-deck` (white on every deck), per-round steppers `secondary-deck`. `tertiary-deck`
   is never used on a photographic deck — a borderless button gets lost on a busy picture — so
