@@ -22,6 +22,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.404.0 — 2026-10-26
+### Added
+- `<aha-question-list>` host API, so a slide type's settings use the list instead of hand-building it: `notices` (InfoBoxes with links that open a question), `accordion`, a cancelable `question-toggle` event, `setQuestionOpen(id, open)`, a `question-leave` event, `change` `detail.edit` naming each edit, `singlecorrect`, `multiline` (a 1 to 3 row prompt), `promptmaxlength` / `optionmaxlength`, per-question `current` and `untitled`, the `markAsCorrect` and plural `countZero` / `countTwo` / `countFew` / `countMany` strings, `testid` hooks and `data-question-id` / `data-option-id`. Every one is opt-in; without them the list behaves as before (#PR)
+### Changed
+- Setting `questions` again with the same question and option ids in the same order now updates the list in place, so focus and the caret survive a host that writes every edit back (#PR)
+- llms.txt: a DS gap is never a ds-lint-allow reason; check the component at the latest release, bump the pin, and add what is still missing to the DS (#PR)
+- Revert: revert the PR; the changes sit in `lib/aha-question-list.js`, `contracts/question-list.json` and one llms.txt line in `generate.mjs` (#PR)
+
 ## 0.396.0 — 2026-10-26
 ### Added
 - Website > Marketing > Features: five Compact layouts that keep the section within one screen (about 560 to 800 px at 1440): accordion beside one image (`aha-features--compact-accordion`), tabs over one screenshot with a centred tab row (`aha-features--compact-tabs`), swipeable card scroller (`aha-features--compact-scroller`), pick from a list (`aha-features--compact-master-detail`) and top three with a See all features button (`aha-features--compact-see-all`). 48 px top and bottom padding on the shipped side gutters, the shipped closing call-to-action row, no intro sentence under the title, closed content stays in the HTML (#386)

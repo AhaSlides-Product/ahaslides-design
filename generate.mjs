@@ -3468,6 +3468,7 @@ const indexLines = [
   `>   import { lintHtml } from '@ahaslides-product/design/screen-lint';`,
   `>   lintHtml(html, { surface: 'product' | 'canvas' }) → { findings: [{ rule, line, message, severity }] }`,
   '>   Opt out per line, per rule: ds-lint-allow: <rule-id>[,<rule-id>] (<reason>) — a bare ds-lint-allow suppresses nothing and warns.',
+  '>   A DS gap is never an opt-out reason: before writing ds-lint-allow (DS gap) or hand-assembling what a DS component does, read that component\'s agent.json at the LATEST release (top of CHANGELOG.md) and bump your pinned version; what is still missing is added to the DS (contract + lib/, released), never built in the consumer.',
   '',
   ...routeLines(ENVIRONMENTS, SITE),
   ...patternIndexLines(),
