@@ -22,12 +22,17 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.409.0 — 2026-10-26
+## 0.421.0 — 2026-10-26
 ### Added
 - Progress: a running state. `status="active"` on a line `<aha-progress>` / `<aha-progressbar>` now draws white diagonal stripes moving over the fill, on the new `--aha-motion-loop`; they stop under `prefers-reduced-motion`. Steps and circle are unchanged. The Progressbar page has a Running example. (#184)
 - Tokens: `--aha-shadow-floating` (the Notification elevation), `--aha-layer-floating` (1100) and `--aha-floating-inset-bottom` (88px) for fixed floating cards. (#184)
 ### Changed
 - Background task: the bar is now the DS `<aha-progress size="small">` in its running state (6px, grey track, DS fill and motion, stripes kept); offline turns it grey and still. The card binds to DS tokens throughout: heading in text-default, description and caption in text-secondary, radius-lg, the floating shadow, the space, size, line-height and motion tokens. The private `--aha-toast-*` custom properties are removed; they were never documented API. (#184)
+
+## 0.417.0 — 2026-10-26
+### Added
+- Icon library: `system-bug`, a beetle with antennae and legs, for reporting a bug or giving feedback. Same stroke style as the other `system-*` glyphs; no existing icon changes. No `-filled` pair: `system-chat-*` and the rest of `system-*` have none
+- Revert: revert the PR; one new SVG and its meaning words, nothing else references it (#401)
 
 ## 0.403.1 — 2026-10-26
 ### Changed
