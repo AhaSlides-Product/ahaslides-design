@@ -26,7 +26,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Fixed
 - `aha-select`: Escape on the trigger closes the open list and keeps focus on the trigger, as a native select does; Escape from the list or the trigger no longer reaches a surrounding modal or drawer while the list is open, and does nothing when the list is closed.
 - `aha-button`: `aria-expanded`, `aria-controls`, `aria-pressed` and `aria-haspopup` on the host are copied to the inner button and follow later changes, so a disclosure toggle built on it announces open and closed.
-- Revert: revert the PR; both fixes are small additions in `lib/aha-select.js` and `lib/aha-button.js` (#NNN)
+- Revert: revert the PR; both fixes are small additions in `lib/aha-select.js` and `lib/aha-button.js` (#393)
 
 ## 0.396.0 — 2026-10-26
 ### Added
