@@ -92,6 +92,7 @@ const withLayouts = (slug) => {
 
 for (const slug of ['features', 'numbers', 'pricing']) addSection(slug, withLayouts(slug), `.aha-${slug}__inner`);
 addSection('testimonials', withLayouts('testimonials'), '.aha-testimonials__inner');
+addSection('gallery', withLayouts('gallery'), '.aha-gallery__inner');
 addSection('cards', [readSection('cards').baseCss], '.aha-marketing-cards__grid');
 addSection('faq', [readSection('faq').css], '.aha-faq__inner');
 const footerBanner = readSection('footer-banner').css;
@@ -105,7 +106,7 @@ addSection('navigation menu', [navigation], '.aha-header__menu', { gutterFrom: '
 for (const layout of readSection('header').layouts) addSection(layout.slug, [layout.css], `.${layout.class}__inner`);
 
 test('every Marketing section other than the edge to edge Logos marquee is checked against the gutter', () => {
-  const checked = new Set(['features', 'numbers', 'pricing', 'testimonials', 'cards', 'faq', 'footer-banner', 'footer', 'navigation', 'header']);
+  const checked = new Set(['features', 'numbers', 'pricing', 'testimonials', 'cards', 'faq', 'footer-banner', 'footer', 'navigation', 'header', 'gallery']);
   const slugs = readdirSync(new URL('../marketing/', import.meta.url)).filter((file) => file.endsWith('.json')).map((file) => file.replace('.json', ''));
   assert.deepEqual(slugs.filter((slug) => !checked.has(slug)), ['logos']);
 });
@@ -126,7 +127,7 @@ for (const width of MOBILE_WIDTHS) {
 }
 
 test('the gutter is 64 px on desktop for the sections that read it there', () => {
-  const reading = sections.filter((section) => ['features', 'numbers', 'pricing', 'testimonials', 'faq', 'footer banner'].includes(section.name));
+  const reading = sections.filter((section) => ['features', 'numbers', 'pricing', 'testimonials', 'gallery', 'faq', 'footer banner'].includes(section.name));
   assert.ok(reading.length > 0);
   for (const section of reading) assert.equal(sidePadding(section.rules, section.selector, 1440, 64).left, 64, section.selector);
 });
@@ -149,6 +150,7 @@ for (const slug of ['features', 'numbers']) {
   }
 }
 for (const { css } of closeCalls('testimonials')) buttonSpacing.push([css, '.aha-testimonials__cta', 'margin-top', 48, 32]);
+for (const { css } of closeCalls('gallery')) buttonSpacing.push([css, '.aha-gallery__cta', 'margin-top', 48, 32]);
 buttonSpacing.push([readSection('faq').css, '.aha-faq__cta', 'margin-top', 48, 32]);
 buttonSpacing.push([footerBanner, '.aha-footer-banner__text', 'margin-bottom', 32, 24]);
 for (const layout of readSection('header').layouts) {

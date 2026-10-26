@@ -22,6 +22,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.402.0 — 2026-10-26
+### Added
+- Website > Marketing > Header: five multi-image heroes — fanned photo stack (`aha-header-section-hero-photo-stack`), bento collage beside the copy (`aha-header-section-hero-bento-collage`), photo marquee under centred copy with a Pause button (`aha-header-section-hero-image-marquee`), crossfading slideshow with dot controls (`aha-header-section-hero-slideshow`) and floating framed photos either side of the copy (`aha-header-section-hero-floating-images`). Each ships White, Accent and Vivid Pink (#129)
+- Website > Marketing > Gallery: a new section page with six ways to show several photos across a page — bento grid, masonry, carousel with arrows and dots, sticky stack, marquee rows with a Pause button, and tabbed images (`aha-gallery`) (#129)
+- `lib/marketing-motion.js` arms `data-aha-gallery` slideshows, carousels, tabs and marquees: keyboard-reachable controls, nothing autoplays unless `data-aha-autoplay` is set, and all motion stops under reduced motion, `data-aha-motion="off"` and print (#129)
+- A Marketing page may list `previewModules` to load extra scripts into its docs previews (#129)
+- Revert: revert the PR; five new layouts in `marketing/header.json`, the new `marketing/gallery.json`, and an appended block at the end of `lib/marketing-motion.js` — the 24 existing hero layouts are untouched (#129)
+
 ## 0.396.0 — 2026-10-26
 ### Added
 - Website > Marketing > Features: five Compact layouts that keep the section within one screen (about 560 to 800 px at 1440): accordion beside one image (`aha-features--compact-accordion`), tabs over one screenshot with a centred tab row (`aha-features--compact-tabs`), swipeable card scroller (`aha-features--compact-scroller`), pick from a list (`aha-features--compact-master-detail`) and top three with a See all features button (`aha-features--compact-see-all`). 48 px top and bottom padding on the shipped side gutters, the shipped closing call-to-action row, no intro sentence under the title, closed content stays in the HTML (#386)
