@@ -1,0 +1,241 @@
+{
+  "name": "Question navigator",
+  "slug": "question-nav",
+  "group": "Navigation",
+  "tier": "leaf",
+  "badge": "shared web component",
+  "element": "aha-question-nav",
+  "reuse": {
+    "entry": "./aha-question-nav",
+    "registers": "aha-question-nav",
+    "exportsNamed": [
+      "AhaQuestionNav",
+      "defineAhaQuestionNav"
+    ]
+  },
+  "summary": "A numbered jump list for the questions of a quiz or report: one button per question, the current one ringed, arrow-key navigation, overflow scroll for long quizzes, and an optional answer mark per number.",
+  "highlights": [
+    "One numbered button per question; the current one is ringed in the brand colour on a tint and carries aria-current",
+    "One tab stop: arrow keys, Home and End move focus, Enter or click picks the question",
+    "Long lists scroll in the strip with scroll buttons; `wrap` lays them out on lines instead",
+    "Optional <aha-answer-mark> per number; the number stays ink"
+  ],
+  "lead": "ONE custom element — <aha-question-nav> — for jumping between the questions of a report or a result view. Set `count` and `current` (1-based) and listen for `change`. Pass `results=\"correct|incorrect||correct\"` to show the answer mark beside a number; the mark is the only place answer colour appears (colour rule 11.3), the number stays ink. It reuses the page cell of <aha-pagination> (32px square, radius 8, same hover and focus) but jumps to a known item rather than paging, scrolls instead of eliding with an ellipsis, and carries a per-item result, which pagination, <aha-segmented> (a few mutually exclusive options) and <aha-tabs> (content panels) do not.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render across frameworks. `current` and `count` are attributes; `change` is a composed CustomEvent.",
+  "tokensUsed": [
+    "border-default",
+    "bg-container",
+    "text-default",
+    "text-inverse",
+    "color-primary",
+    "border-focus",
+    "text-disabled",
+    "border-disabled",
+    "motion-fast",
+    "ease-out"
+  ],
+  "spec": [
+    {
+      "label": "Item",
+      "value": "32px high, min-width 32px, radius 8px, 1px --aha-border-default border, 600 weight, 6px gap between items"
+    },
+    {
+      "label": "Current",
+      "value": "--aha-color-primary border plus a 1px inner ring on --aha-bg-accent, number stays ink (never a brand fill, so an answer mark never sits on pink), aria-current=\"page\""
+    },
+    {
+      "label": "Result",
+      "value": "with `results`, a 16px <aha-answer-mark> (decorative) sits 4px after the number; the button's accessible name carries the result"
+    },
+    {
+      "label": "Overflow",
+      "value": "the strip scrolls sideways without a scrollbar; previous / next scroll buttons appear only when it overflows and disable at the ends; the current item is scrolled into view. `wrap` lays items out on several lines"
+    },
+    {
+      "label": "Keyboard",
+      "value": "one tab stop (the current item); ArrowLeft/Up and ArrowRight/Down, Home and End move focus; Enter, Space or a click picks the question"
+    }
+  ],
+  "props": [
+    {
+      "name": "count",
+      "type": "number",
+      "default": "0",
+      "desc": "How many questions; items are numbered 1 to count"
+    },
+    {
+      "name": "current",
+      "type": "number",
+      "default": "1",
+      "desc": "The selected question (1-based); reflected when the user picks one"
+    },
+    {
+      "name": "results",
+      "type": "string",
+      "default": "—",
+      "desc": "Pipe list, one entry per question: correct, incorrect or empty (\"correct|incorrect||correct\"); adds an answer mark beside the number"
+    },
+    {
+      "name": "wrap",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Lay the items out on several lines instead of scrolling one strip"
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "Questions",
+      "desc": "Accessible name of the list; pass a translated string"
+    },
+    {
+      "name": "item-label",
+      "type": "string",
+      "default": "Question {n}",
+      "desc": "Accessible name of each button; {n} is the number"
+    },
+    {
+      "name": "correct-label / incorrect-label",
+      "type": "string",
+      "default": "correct / incorrect",
+      "desc": "Result words appended to a button's accessible name"
+    },
+    {
+      "name": "change",
+      "type": "CustomEvent<{value,index}>",
+      "default": "—",
+      "desc": "Composed event when a question is picked; value is the 1-based number, index the 0-based position"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Question navigator",
+        "when": "a report, result or review screen where the user jumps to any question by its number, 5 to 100 of them"
+      },
+      {
+        "what": "Pagination",
+        "when": "a long list or table is split into pages of rows"
+      },
+      {
+        "what": "Segmented",
+        "when": "two to five mutually exclusive options that fit in one row, not numbered items"
+      },
+      {
+        "what": "Tabs",
+        "when": "each choice swaps a content panel"
+      },
+      {
+        "what": "Question list",
+        "when": "the editor's collapsible list of slides with titles and status, not a bare jump list"
+      }
+    ],
+    "note": "Show the answer mark only when the screen already reports per-question results; otherwise leave `results` out. Never colour the number or the cell with an answer token: the mark carries the verdict by shape and colour (colour rule 11.3). Keep the cell on the 32px square scale. The current item is a ring on a tint rather than pagination's brand fill so the answer mark's red or green disc never sits on pink."
+  },
+  "a11y": {
+    "role": "<nav> named by `label`, containing an ordered list of buttons; the current button has aria-current=\"page\"",
+    "keyboard": "roving tabindex: one tab stop; arrows, Home and End move focus; Enter, Space or click picks",
+    "note": "`current`, `count`, `results` and the label attributes are observed, so aria follows the attributes. Each button is named \"Question 3\" or \"Question 3, correct\"."
+  },
+  "surfaces": [
+    "dashboard",
+    "admin",
+    "presenter"
+  ],
+  "environment": [
+    "product"
+  ],
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "question-nav.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a web component in an HTML file renders on open, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "question-nav.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "question-nav.vue.txt"
+    }
+  ],
+  "preview": "question-nav.preview.html",
+  "playground": {
+    "controls": [
+      {
+        "prop": "wrap",
+        "label": "Overflow",
+        "default": "scroll",
+        "options": [
+          {
+            "label": "Scroll",
+            "value": null
+          },
+          {
+            "label": "Wrap",
+            "value": ""
+          }
+        ]
+      }
+    ]
+  },
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI. The probe is a 12-question list with the 3rd current and the 1st correct.",
+    "ready": "!!(document.querySelector('aha-question-nav[data-probe]') && document.querySelector('aha-question-nav[data-probe]').shadowRoot && document.querySelector('aha-question-nav[data-probe]').shadowRoot.querySelector('.item[aria-current]'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-question-nav[data-probe]');var r=el.shadowRoot;var c=r.querySelector('.item[aria-current]');var s=getComputedStyle(c);var o=getComputedStyle(r.querySelector('.item:not([aria-current])'));var m=r.querySelector('aha-answer-mark');return{bg:s.backgroundColor,color:s.color,ring:s.borderTopColor,minWidth:s.minWidth,radius:s.borderTopLeftRadius,height:o.height,ariaCurrent:c.getAttribute('aria-current'),numberColor:getComputedStyle(r.querySelector('.item:not([aria-current]) .num')).color,tabStops:r.querySelectorAll('.item[tabindex=\"0\"]').length,hasMark:!!m,name:c.getAttribute('aria-label')};})()",
+    "expect": {
+      "bg": "rgba(231, 14, 104, 0.05)",
+      "color": "rgb(26, 26, 26)",
+      "minWidth": "32px",
+      "radius": "8px",
+      "height": "32px",
+      "ariaCurrent": "page",
+      "numberColor": "rgb(26, 26, 26)",
+      "tabStops": 1,
+      "hasMark": true,
+      "name": "Question 3",
+      "ring": "rgb(231, 14, 104)"
+    }
+  },
+  "selfCheck": [
+    {
+      "label": "number stays ink; answer colour only on the <aha-answer-mark> disc (colour rule 11.3)",
+      "verdict": "PASS"
+    },
+    {
+      "label": "roving tabindex with arrow keys, Home and End; aria-current on the current item",
+      "verdict": "PASS"
+    },
+    {
+      "label": "icons by name (system-caret-left/right), answer mark reused, no hand-drawn glyph",
+      "verdict": "PASS"
+    },
+    {
+      "label": "persistent nodes; `current` updates in place, the strip does not rebuild",
+      "verdict": "PASS"
+    }
+  ],
+  "composedOf": [
+    {
+      "component": "aha-icon",
+      "status": "shipped"
+    },
+    {
+      "component": "aha-answer-mark",
+      "status": "shipped"
+    },
+    {
+      "icon": "system-caret-left",
+      "status": "shipped"
+    },
+    {
+      "icon": "system-caret-right",
+      "status": "shipped"
+    }
+  ]
+}

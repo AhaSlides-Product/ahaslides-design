@@ -7,5 +7,5 @@
 </script>
 
 <div class="stage" style="padding:40px">
-  <aha-canvas-status answered="8" total="24"></aha-canvas-status>
+  <aha-canvas-status></aha-canvas-status>
 </div>

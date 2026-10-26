@@ -1,0 +1,43 @@
+<style>
+  .drawer-stage{ position:relative; width:100%; max-width:720px; height:380px; overflow:hidden; box-sizing:border-box; border:1px solid var(--aha-border-default); border-radius:var(--aha-radius-default); background:var(--aha-bg-layout) }
+  .drawer-stage p{ margin:0 0 var(--aha-space-12); font-size:var(--aha-size-default); line-height:var(--aha-line-height-body); color:var(--aha-text-default) }
+  .drawer-actions{ display:flex; justify-content:flex-end; gap:var(--aha-space-8) }
+</style>
+<div class="pad">
+  <div class="lbl">Right, open: title, scrolling body, footer</div>
+  <div class="drawer-stage">
+    <aha-drawer inline open data-probe heading="Participant report">
+      <p>Minh Anh answered 4 of 5 questions correctly.</p>
+      <p>Question 3 took the longest: 41 seconds against a class average of 18.</p>
+      <p>Question 5 was answered wrongly. The correct answer was Hanoi.</p>
+      <p>Scores are shown to you only, not to the participant.</p>
+      <p>The body scrolls when it is taller than the panel; the header and footer stay put.</p>
+      <p>Minh Anh answered 4 of 5 questions correctly.</p>
+      <p>Question 3 took the longest: 41 seconds against a class average of 18.</p>
+      <div slot="footer" class="drawer-actions"><aha-button variant="secondary" size="sm">Close</aha-button><aha-button variant="primary" size="sm">Export</aha-button></div>
+    </aha-drawer>
+  </div>
+  <div class="lbl">Left, large</div>
+  <div class="drawer-stage">
+    <aha-drawer inline open placement="left" size="large" heading="Slide settings">
+      <p>placement="left" mirrors the panel and its shadow. size="large" is 736 wide and never wider than its container.</p>
+    </aha-drawer>
+  </div>
+  <div class="lbl">Live: opens over the page, Esc, the mask and the close button close it, focus returns here</div>
+  <div class="row">
+    <aha-button id="drawer-open" variant="secondary">Open drawer</aha-button>
+  </div>
+  <aha-drawer id="drawer-live" heading="Participant report">
+    <p>Press Tab: focus stays inside the drawer. Press Escape or click the dimmed area to close it.</p>
+    <div slot="footer" class="drawer-actions"><aha-button id="drawer-done" variant="secondary" size="sm">Done</aha-button></div>
+  </aha-drawer>
+</div>
+
+<!-- Imports the REAL shipped element, so the preview can never drift from lib/ and qa measures what consumers get. -->
+<script type="module">
+  import '../lib/aha-drawer.js';   // registers <aha-drawer>
+  import '../lib/aha-button.js';
+  const live = document.getElementById('drawer-live');
+  document.getElementById('drawer-open').addEventListener('click', () => live.show());
+  document.getElementById('drawer-done').addEventListener('click', () => live.close());
+</script>
