@@ -45,7 +45,7 @@ const fontFamily = computed(() => presentationProps.value?.fontFamily ?? 'Plus J
   justify-content: center;
   width: 32px;
   height: 32px;
-  border-radius: 999px;
+  border-radius: 50%;
   border: 1px solid color-mix(in srgb, currentColor 10%, transparent);
 }
 .or-letter {

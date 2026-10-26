@@ -332,7 +332,7 @@
     },
     {
       "id": "function-token-not-lookalike",
-      "rule": "Use the actual function token (colorSuccess, colorError, colorWarning, colorInfo — all the default ink #1A1A1A under the 7 October 2026 colour rules) for state marks, and let the icon (✓ / ✗ / !) and wording carry the meaning, never a colour alone and never a lookalike accent (a teal such as #20E8B5 as a tick is wrong and fails contrast at ~1.58:1). On a dark deck put the dark glyph on a bounded light fill (white badge), or a white glyph on a black pill. A quiz answer's correct or wrong mark is the one exception: a white tick or cross on the answer pair's disc (colour rules section 11).",
+      "rule": "Use the actual function token (colorSuccess, colorError, colorWarning, colorInfo — all the default ink #1A1A1A under the 7 October 2026 colour rules) for state marks, and let the icon (✓ / ✗ / !) and wording carry the meaning, never a colour alone and never a lookalike accent (a teal such as #20E8B5 as a tick is wrong and fails contrast at ~1.58:1). On a dark deck put the dark glyph on a bounded light fill (white badge), or a white glyph on a black chip. A quiz answer's correct or wrong mark is the one exception: a white tick or cross on the answer pair's disc (colour rules section 11).",
       "ref": [
         "C10",
         "§2"
@@ -414,7 +414,7 @@
     },
     {
       "id": "radius-cap-8",
-      "rule": "Rectangular content containers stay on the DS radius scale: cards and panels 12px (--aha-radius-lg, as the DS card measures), option tiles, inputs, the swipe card's inner tiles and the submit button 8px, and nothing above 12px — rounded-2xl/3xl (16/24) read toy-like, and the cap applies to the OUTER wrapper too. Intentionally circular elements (pills, chips, badges, avatars, dots, progress tracks) stay fully rounded.",
+      "rule": "Rectangular content containers stay on the DS radius scale: cards and panels 12px (--aha-radius-lg, as the DS card measures), option tiles, inputs, the swipe card's inner tiles and the submit button 8px, and nothing above 12px — rounded-2xl/3xl (16/24) read toy-like, and the cap applies to the OUTER wrapper too. There is no pill shape: true circles (avatars, dots, radio marks, slider thumbs) are round at 50%, while chips, badges and progress tracks stay on the radius scale.",
       "ref": [
         "C6",
         "C32",

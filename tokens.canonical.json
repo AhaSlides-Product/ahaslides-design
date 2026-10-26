@@ -79,7 +79,7 @@
   "lineHeight": { "tight": 1.2, "heading": 1.3, "body": 1.5, "normal": "normal",
     "$note": "Unitless RATIOS, not px. body 1.5 → 21px at 14 — matches the MEASURED shipped components (checkbox 21px). The export token file's px line-heights (22/28) are drift from what ships; export's --aha-lh-tight:8px is a bug, discarded." },
   "letterSpacing": { "headlines": "0px", "subheadings": "0.2px", "paragraph": "0.2px", "subtext": "0.3px" },
-  "radius": { "xs": 4, "sm": 6, "default": 8, "lg": 12, "xl": 16, "pill": 999, "marketing": 20,
+  "radius": { "xs": 4, "sm": 6, "default": 8, "lg": 12, "xl": 16, "marketing": 20,
     "$note": "MEASURED wins: default=8 (button md / input / modal), card=12. Export MISLABELS default as 6 and lg as 8 — corrected. Export's radius-64 is off-scale (audit: likely 80) — see open items." },
   "controlHeight": { "root": 32, "sm": 24, "lg": 40, "button": { "sm": 28, "md": 36, "lg": 40, "xl": 52 },
     "$note": "MEASURED wins: fields (Input/Select/DatePicker) inherit root 32 (sm 24 / lg 40); Button carries 28/36/40/52 via components.Button. Export specimen field heights (32/36/40) are drift." },
