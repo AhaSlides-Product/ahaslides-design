@@ -24,8 +24,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.403.0 — 2026-10-26
 ### Added
-- Website > Marketing > Comparison table: a new section page with one comparison table in five forms — two, three (with or without a highlighted column), four and five compared columns beside a feature column (`aha-comparison`). Grouped rows under a group heading, tick, cross or short text cells, and the Pricing Large table's highlighted-column outline with a Recommended tag. On a phone two and three columns stay a table; four and five scroll sideways with the feature column held in place (#129)
-- Revert: revert the PR; it only adds `marketing/comparison.json`, its test and a gutter test entry (#129)
+- Website > Marketing > Comparison table: a new section page with one comparison table in five forms — two, three (with or without a highlighted column), four and five compared columns beside a feature column (`aha-comparison`). Grouped rows under a group heading, tick, cross or short text cells, and the Pricing Large table's highlighted-column outline with a Recommended tag. On a phone two and three columns stay a table; four and five scroll sideways with the feature column held in place (#395)
+- Revert: revert the PR; it only adds `marketing/comparison.json`, its test and a gutter test entry (#395)
 
 ## 0.396.0 — 2026-10-26
 ### Added
