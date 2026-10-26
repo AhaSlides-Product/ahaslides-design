@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.437.0 — 2026-10-26
+## 0.440.0 — 2026-10-26
 ### Added
 - Website > Marketing > Comparison table: a new section page with one comparison table in five forms — two, three (with or without a highlighted column), four and five compared columns beside a feature column (`aha-comparison`). Grouped rows under a group heading, tick, cross or short text cells, and the Pricing Large table's highlighted-column outline with a Recommended tag. On a phone two and three columns stay a table; four and five scroll sideways with the feature column held in place (#395)
 ### Changed
@@ -30,6 +30,14 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Website guideline and judge, W8: one exception to no horizontal scroll — a Comparison table with four or five compared columns scrolls sideways inside its own table frame on a phone, feature column sticky, while the page never scrolls; the table's `ds-lint-allow` now cites W8 (#395)
 - Revert: revert the PR; it adds `marketing/comparison.json`, its test and a gutter test entry, and the W1 and W8 edits in `guidelines/website.json` and `anti-slop/criteria.json` (with its generated `agent/` copy) (#395)
 
+- `aha-setting-row` and `aha-settings-item`: a `badge` slot for a New or Beta tag (a DS `<aha-badge kind="new|beta">`). It sits in the label line after the "?" help or the locked crown, never beside the control; works inline and stacked, locked and unlocked. A stacked row's full-width rule now applies to the control slot only (#392)
+### Fixed
+- `aha-paywall`: only one upgrade popover is open at a time; opening any paywall (hover, focus, click, or the disabled control of a locked setting row) closes the one that was open (#392)
+- `aha-paywall`: the first open no longer slides sideways. The align set just before the first open made the horizontal offset glide from its stale value (about 166 px on a start-aligned popover); the offset now sits in the non-animated translate property, so every open is a 4 px vertical lift (#392)
+- Revert: revert the PR; the badge slot is additive in `lib/aha-setting-row.js` and `lib/aha-settings-list.js`, the paywall fixes are inside `lib/aha-paywall.js`, no existing API changes (#392)
+
+## 0.437.0 — 2026-10-26
+### Added
 - `aha-setting-row` and `aha-settings-item`: a `badge` slot for a New or Beta tag (a DS `<aha-badge kind="new|beta">`). It sits in the label line after the "?" help or the locked crown, never beside the control; works inline and stacked, locked and unlocked. A stacked row's full-width rule now applies to the control slot only (#392)
 ### Fixed
 - `aha-paywall`: only one upgrade popover is open at a time; opening any paywall (hover, focus, click, or the disabled control of a locked setting row) closes the one that was open (#392)
