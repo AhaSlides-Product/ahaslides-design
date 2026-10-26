@@ -1,0 +1,46 @@
+<div class="pad">
+  <div class="lbl">Details: one option in full, the picture above the text (opened from More on a long option)</div>
+  <div class="row" style="width:100%;max-width:360px;box-sizing:border-box">
+    <aha-audience-modal inline id="details-example">Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday</aha-audience-modal>
+  </div>
+  <div class="lbl">Action: a heading, a task and one primary action</div>
+  <div class="row" style="width:100%;max-width:360px;box-sizing:border-box">
+    <aha-audience-modal inline data-probe type="action" heading="Change your display name">
+      <aha-audience-field label="Display name"><aha-counted-input size="lg" maxlength="30" value="Minh Anh"></aha-counted-input></aha-audience-field>
+      <aha-button slot="actions" data-action="save" variant="primary" size="touch">Save name</aha-button>
+    </aha-audience-modal>
+  </div>
+  <div class="lbl">Confirmation: a question, one line and two named answers, stacked on a phone</div>
+  <div class="row" style="width:100%;max-width:360px;box-sizing:border-box">
+    <aha-audience-modal inline type="confirmation" heading="Send your answer?">
+      You cannot change it after you send it.
+      <aha-button slot="actions" data-action="send" variant="primary" size="touch">Send answer</aha-button>
+      <aha-button slot="actions" data-action="cancel" variant="secondary-deck" size="touch">Not yet</aha-button>
+    </aha-audience-modal>
+  </div>
+  <div class="lbl">Destructive confirmation: the safe choice is primary, the destructive one is danger, a tap outside does nothing</div>
+  <div class="row" style="width:100%;max-width:360px;box-sizing:border-box">
+    <aha-audience-modal inline type="confirmation" heading="Leave the quiz?" destructive>
+      Answers you have not sent will be lost.
+      <aha-button slot="actions" data-action="stay" variant="primary" size="touch">Stay in quiz</aha-button>
+      <aha-button slot="actions" data-action="leave" variant="danger" size="touch">Leave quiz</aha-button>
+    </aha-audience-modal>
+  </div>
+  <div class="lbl">From 400px wide the actions sit in one row, the first one rightmost</div>
+  <div class="row" style="width:100%;max-width:480px;box-sizing:border-box">
+    <aha-audience-modal inline type="confirmation" heading="Send your answer?">
+      You cannot change it after you send it.
+      <aha-button slot="actions" data-action="send" variant="primary" size="touch">Send answer</aha-button>
+      <aha-button slot="actions" data-action="cancel" variant="secondary-deck" size="touch">Not yet</aha-button>
+    </aha-audience-modal>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element, so the preview can never drift from lib/ and qa measures what consumers get. -->
+<script type="module">
+  import '../lib/aha-audience-modal.js';   // registers <aha-audience-modal>
+  import '../lib/aha-button.js';
+  import '../lib/aha-audience-field.js';
+  import '../lib/aha-counted-input.js';
+  document.getElementById('details-example').setAttribute('image', "data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23E70E68' fill-opacity='.15'/%3E%3Ccircle cx='200' cy='130' r='60' fill='%23E70E68'/%3E%3Crect x='120' y='210' width='160' height='24' rx='12' fill='%231A1A1A' fill-opacity='.7'/%3E%3C/svg%3E");
+</script>

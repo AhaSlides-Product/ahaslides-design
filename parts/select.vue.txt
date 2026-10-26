@@ -1,7 +1,12 @@
+// main.ts — register <aha-icon> + mark aha-* as custom elements
+import '@ahaslides-product/design/icons';        // <aha-icon> — the caret
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
 <script setup>
 import { ref } from 'vue';
 import { ConfigProvider, Select } from 'ant-design-vue';   // ant-design-vue v4
-import { selectTheme } from '@ahaslides-product/design/select-theme';
+import { selectTheme, selectCaretCss } from '@ahaslides-product/design/select-theme';
 
 const type = ref('poll');
 const options = [
@@ -14,6 +19,7 @@ const options = [
 
 <template>
   <a-config-provider :theme="selectTheme">
+    <component :is="'style'">{{ selectCaretCss }}</component>   <!-- caret colour + flip while open — inject once -->
     <a-select
       v-model:value="type"
       show-search
@@ -26,7 +32,9 @@ const options = [
       placeholder="Choose a slide type"
       :options="options"
       style="width: 240px"
-    />
+    >
+      <template #suffixIcon><aha-icon name="system-caret-down" size="16" /></template>   <!-- same caret as Select field -->
+    </a-select>
   </a-config-provider>
 </template>
 <!-- The SAME selectTheme as React → one DS V3 look across both vendor libraries. -->

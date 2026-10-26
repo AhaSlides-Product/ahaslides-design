@@ -12,8 +12,21 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
     <aha-switch slot="control" />
   </aha-setting-row>
 
+  <!-- locked (plan-gated) — Paywall crown in place of the "?", control disabled -->
+  <aha-setting-row label="Custom branding" locked plan="pro" feature-key="custom_branding"
+                   upgrade-body="Add your logo and colours to every deck.">
+    <aha-switch slot="control" />
+  </aha-setting-row>
+
   <!-- stack — label above, control full-width (a wide textarea / wide select) -->
   <aha-setting-row label="Speaker notes" layout="stack">
     <aha-input slot="control" placeholder="Notes only you can see" />
   </aha-setting-row>
+
+  <!-- locked row in a right-hand scrolling panel — the Paywall popover opens to the left of the crown -->
+  <div style="width:280px;height:320px;overflow:auto;margin-left:auto">
+    <aha-setting-row label="Custom branding" locked plan="pro" upgrade-body="Add your logo and colours to every deck.">
+      <aha-switch slot="control" />
+    </aha-setting-row>
+  </div>
 </template>

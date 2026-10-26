@@ -1,0 +1,24 @@
+import { useEffect, useRef } from 'react';
+import '@ahaslides-product/design/aha-question-nav';   // registers <aha-question-nav>
+import { t } from 'i18next';
+
+// `change` is a CustomEvent, so React <19 needs a ref listener.
+export function QuestionNav({ count, current, results, onSelect }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    const onChange = (event) => onSelect(event.detail.value);
+    el.addEventListener('change', onChange);
+    return () => el.removeEventListener('change', onChange);
+  }, [onSelect]);
+  return (
+    <aha-question-nav
+      ref={ref}
+      count={count}
+      current={current}
+      results={results}
+      label={t('report.questions')}
+      item-label={t('report.questionN')}
+    />
+  );
+}

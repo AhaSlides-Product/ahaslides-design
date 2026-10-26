@@ -14,7 +14,9 @@ Firing modes (per rule in rules.json):
 A hand-made icon (an inline <svg> or a new .svg file) is also blocked, pointing at
 the DS icon search (icon_guard.py), and so is a raw <button> or <aha-button size="xl">
 added to a build-less slide type's presenter.* / audience.* file, .html included
-(slide_control_guard.py).
+(slide_control_guard.py). A write to settings UI (a slide type's settings.* file, or a file a
+rule routes to the `settings` surface) is blocked until the session has loaded the
+settings-design skill (settings_skill.py; AHA_DESIGN_SETTINGS_SKILL_DISABLE=1 turns it off).
 - "nudge"  -> exit 0 with hookSpecificOutput.additionalContext; the write proceeds.
 
 Contract:
@@ -43,7 +45,9 @@ except Exception:  # never let a logging-import problem break a write
 import ds_criteria
 import icon_guard
 import legacy_vue
+import settings_skill
 import slide_control_guard
+import slide_type
 
 CRITERIA_SHOWN_PER_SURFACE = 8
 
@@ -99,6 +103,9 @@ def main():
         return 2
     if _block_hand_made_slide_control(data, tool_input):
         return 2
+    absolute_path = path if os.path.isabs(path) else os.path.join(data.get("cwd") or os.getcwd(), path)
+    if _is_slide_type_settings_file(absolute_path, _introduced_text(tool_input)) and _block_settings_without_skill(data, path):
+        return 2
     if not FRONTEND_EXT.search(path):
         return 0
 
@@ -106,7 +113,6 @@ def main():
     if not text:
         return 0
 
-    absolute_path = path if os.path.isabs(path) else os.path.join(data.get("cwd") or os.getcwd(), path)
     try:
         in_vue2 = legacy_vue.is_vue2(absolute_path)
         legacy_edit = in_vue2 and legacy_vue.is_existing_file(absolute_path)
@@ -149,6 +155,11 @@ def main():
     if not blocks and not nudges:
         _log("clean")
         return 0
+
+    routed_to_settings = any(surface == "settings" for surface, _ in blocks + nudges)
+    if routed_to_settings and not icon_guard.TEST_FILE.search(path.replace(os.sep, "/")) \
+            and _block_settings_without_skill(data, path):
+        return 2
 
     criteria = ds_criteria.load(data.get("cwd") or os.getcwd())
     fired_surfaces = [surface for surface, _ in blocks + nudges]
@@ -208,6 +219,25 @@ def _block_hand_made_slide_control(data, tool_input):
     criteria = ds_criteria.load(cwd)
     print("aha-design guard\n\n[" + surface + "] " + message + _criteria_footer(criteria, [surface]), file=sys.stderr)
     _log("block", "slide-control" + _source_tag(criteria))
+    return True
+
+
+def _is_slide_type_settings_file(absolute_path, text):
+    try:
+        return slide_type.surface_for(absolute_path) == "settings" and slide_type.is_slide_type_file(absolute_path, text)
+    except Exception:
+        return False
+
+
+def _block_settings_without_skill(data, path):
+    try:
+        if settings_skill.disabled() or settings_skill.loaded_in_session(data.get("transcript_path")):
+            return False
+        message = settings_skill.block_message(os.path.basename(path) or path)
+    except Exception:
+        return False
+    print("aha-design guard\n\n[settings] " + message, file=sys.stderr)
+    _log("block", "settings-skill-missing")
     return True
 
 

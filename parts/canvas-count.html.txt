@@ -1,0 +1,12 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-canvas-count> is the SAME shared custom element React and Vue consume. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import { applyCanvasDeck } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/canvas.js';   // registers every canvas element
+  applyCanvasDeck(document.querySelector('.stage'), { ink: '#FFFFFF', background: '#1A1A1A' });
+</script>
+
+<div class="stage" style="display:flex; gap:24px; padding:40px; background:#1A1A1A">
+  <aha-canvas-count correct="12" wrong="3"></aha-canvas-count>
+  <aha-canvas-count answered="24"></aha-canvas-count>
+</div>

@@ -4,7 +4,8 @@
 `.claude-plugin/marketplace.json` and released with every version of this repo. It is a **shim**:
 the DS owns every rule, component, token, composition guideline and anti-slop judge criterion,
 and the eval sets that measure the judge. The plugin only makes the DS fire: one skill that
-reads it, and hooks that force that skill into the work.
+reads it, a second skill (`settings-design`) that is the one runbook for every settings UI, and
+hooks that force both into the work.
 
 ## Where a change goes
 
@@ -12,6 +13,8 @@ reads it, and hooks that force that skill into the work.
 |---|---|
 | Add or edit a rule, a judge criterion, a surface, or a judge eval case | `anti-slop/criteria.json`, `anti-slop/evals/<surface>/`, `guidelines/` (repo root) |
 | Change how the loop is run (sources, report shape, fix rounds) | `agent/skills/aha-design/SKILL.md` |
+| Change how a settings UI is designed or reviewed (the steps, the label self-check table) | `agent/skills/settings-design/SKILL.md`; the settings rules stay in `parts/settings.guide.md`, `guidelines/settings.json` and `anti-slop/criteria.json` |
+| Change when settings-design is enforced | `agent/hooks/settings_skill.py` (prompt signal, transcript check), `design_guard.py` (the write block), `design_judge_stop.py` (the label-table demand); `AHA_DESIGN_SETTINGS_SKILL_DISABLE=1` turns off the write block |
 | Make a code pattern route to a DS surface at write time | `agent/hooks/rules.json` (`surface`, `action`, `signature`, `message`) |
 | Route an impeccable anti-pattern to a DS surface | `agent/hooks/slop_rules.json` |
 | Change which surfaces the end-of-turn judge asks for | `FILE_SURFACE_HINTS` in `agent/hooks/design_judge_stop.py` |
