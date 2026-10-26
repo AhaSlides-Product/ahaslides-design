@@ -58,7 +58,7 @@ shows a different thing.
 | | Page scale | Panel scale |
 | --- | --- | --- |
 | Where | the whole content area (Session detail) | inside a card or tab panel (Participants, Feedback) |
-| Placement | centred both ways, fills the area height | centred, 144 px padding above and below |
+| Placement | centred both ways, fills the area height | centred, with `calc(var(--aha-space-80) + var(--aha-space-64))` (144 px) padding above and below |
 | Illustration | size 128 | size 100 |
 | Illustration to title | 16 px | 16 px |
 | Title to body | 16 px | 8 px |
@@ -115,7 +115,7 @@ it through the live region. (EMPTY-11)
 | 2 | Illustration, title, body, at most one action, one centred column | EMPTY-02 |
 | 3 | An `empty-*` illustration by name, never inline SVG or PNG | EMPTY-03 |
 | 4 | Page scale: art 128, 16 px gaps, 18 px title | EMPTY-04 |
-| 5 | Panel scale: art 100, 144 px padding, 16 and 8 px gaps, 16 px title | EMPTY-05 |
+| 5 | Panel scale: art 100, padding of 80 + 64 px tokens, 16 and 8 px gaps, 16 px title | EMPTY-05 |
 | 6 | Title semibold, sentence case, no full stop | EMPTY-06 |
 | 7 | Body: what is missing, then the next step, British English | EMPTY-07 |
 | 8 | At most one action, a secondary button | EMPTY-08 |

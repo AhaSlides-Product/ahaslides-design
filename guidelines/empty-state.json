@@ -4,6 +4,7 @@
   "kind": "guideline",
   "environment": ["product"],
   "group": "Patterns",
+  "patternsNav": true,
   "badge": "pattern — composition guide",
   "summary": "How a surface looks when it has no content yet: a pink spot illustration that names what is missing, a bold title, one or two short sentences, at most one action, centred in its container. Two scales (page and panel), and when to use plain <aha-empty> instead.",
   "highlights": [
@@ -49,6 +50,8 @@
     { "ref": "result", "as": "component", "use": "the contrast: the outcome of an action, never drawn as an empty state", "status": "available" },
     { "ref": "--aha-space-16", "as": "token", "use": "the gap between illustration, title, body and action at page scale, and the gap above the title at panel scale", "status": "available" },
     { "ref": "--aha-space-8", "as": "token", "use": "the gap between title and body at panel scale", "status": "available" },
+    { "ref": "--aha-space-80", "as": "token", "use": "the panel-scale padding above and below, added to --aha-space-64 (144 px)", "status": "available" },
+    { "ref": "--aha-space-64", "as": "token", "use": "the second half of the panel-scale padding above and below", "status": "available" },
     { "ref": "--aha-text-default", "as": "token", "use": "title and body text", "status": "available" },
     { "ref": "--aha-size-h6", "as": "token", "use": "the page-scale title, 18 px", "status": "available" },
     { "ref": "--aha-size-l", "as": "token", "use": "the panel-scale title, 16 px", "status": "available" },
@@ -78,7 +81,7 @@
     },
     {
       "id": "panel-scale",
-      "rule": "Panel scale (inside a card or tab panel): the column is centred in the panel with 144 px of padding above and below. Illustration size 100, then 16 px to the title, 8 px (--aha-space-8) to the body, 16 px to the optional action. Title 16 px (--aha-size-l) semibold. Body 14 px regular, centred, at most 480 px wide. The panel keeps its tabs and card border; only its body is replaced.",
+      "rule": "Panel scale (inside a card or tab panel): the column is centred in the panel with padding above and below of calc(var(--aha-space-80) + var(--aha-space-64)) (144 px, built from two spacing tokens because the scale has no 144). Illustration size 100, then 16 px to the title, 8 px (--aha-space-8) to the body, 16 px to the optional action. Title 16 px (--aha-size-l) semibold. Body 14 px regular, centred, at most 480 px wide. The panel keeps its tabs and card border; only its body is replaced.",
       "ref": ["EMPTY-05"]
     },
     {
@@ -117,7 +120,7 @@
   "selfCheck": [
     { "label": "an empty-* illustration by name through <aha-illustration>, no inline SVG or PNG", "verdict": "N/A — per surface" },
     { "label": "centred column: illustration, title, body, at most one action, nothing else", "verdict": "N/A — per surface" },
-    { "label": "page scale 128 art, 16 px gaps, 18 px title; panel scale 100 art, 144 px padding, 16 and 8 px gaps, 16 px title; title semibold", "verdict": "N/A — per surface" },
+    { "label": "page scale 128 art, 16 px gaps, 18 px title; panel scale 100 art, padding of --aha-space-80 plus --aha-space-64, 16 and 8 px gaps, 16 px title; title semibold", "verdict": "N/A — per surface" },
     { "label": "body says what is missing then the next step, British English, from i18n", "verdict": "N/A — per surface" },
     { "label": "a failed request is an error page or an alert with Retry, never an empty state", "verdict": "N/A — per surface" }
   ],
