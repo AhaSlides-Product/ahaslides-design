@@ -22,11 +22,19 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.436.0 — 2026-10-26
+## 0.439.0 — 2026-10-26
 ### Changed
 - Website > Marketing: the Features and Numbers pages are gone and their layouts live where an agent looks for them, unchanged. Header gains the Numbers Simple with actions 01 and 02, Split image 02 and Split image 02 brand, and the Features Icons around a phone screenshot and Icons around a results screenshot. Cards gains the other 14 Features layouts after the Feature card (alternating rows, icon grid, icon list with photo, icon cards, the row of 3, side header, tabs and the 5 Compact layouts). Testimonials gains the Numbers Simple centred text. Class names (`aha-features__*`, `aha-numbers__*`) and the shared base CSS are kept, so snippets already on live pages keep matching; `/marketing/features/` redirects to Cards and `/marketing/numbers/` to Header (#315)
 - Website rules W1 to W19 and their anti-slop criteria name the new homes; no rule value changed (#315)
 - Revert: revert the PR; the moved layouts return to their own pages from `marketing/data/shared-css.json` and the layout entries (#315)
+
+## 0.437.0 — 2026-10-26
+### Added
+- `aha-setting-row` and `aha-settings-item`: a `badge` slot for a New or Beta tag (a DS `<aha-badge kind="new|beta">`). It sits in the label line after the "?" help or the locked crown, never beside the control; works inline and stacked, locked and unlocked. A stacked row's full-width rule now applies to the control slot only (#392)
+### Fixed
+- `aha-paywall`: only one upgrade popover is open at a time; opening any paywall (hover, focus, click, or the disabled control of a locked setting row) closes the one that was open (#392)
+- `aha-paywall`: the first open no longer slides sideways. The align set just before the first open made the horizontal offset glide from its stale value (about 166 px on a start-aligned popover); the offset now sits in the non-animated translate property, so every open is a 4 px vertical lift (#392)
+- Revert: revert the PR; the badge slot is additive in `lib/aha-setting-row.js` and `lib/aha-settings-list.js`, the paywall fixes are inside `lib/aha-paywall.js`, no existing API changes (#392)
 
 ## 0.434.0 — 2026-10-26
 ### Fixed
@@ -1804,4 +1812,3 @@ Revert: restore rules 5.3 and 5.4 from git and delete `splash.cssRecipe`, the `c
 ## 0.39.1 — 2026-09-11
 ### Changed
 - **Settings — setting label weight.** A member setting's label is now regular (400), not semibold — only the group/section header (`aha-section-header` / `aha-setting-group` / `settings-list` group header) carries weight (600). Restores the header-vs-member hierarchy (SETTINGS-37) on `aha-setting-row` and `<aha-settings-list>` rows. (#79)
-
