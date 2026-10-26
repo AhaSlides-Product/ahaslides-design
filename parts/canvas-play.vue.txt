@@ -1,0 +1,8 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-canvas-play';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<template>
+  <aha-canvas-play size="hero" label="Play video"></aha-canvas-play>
+</template>

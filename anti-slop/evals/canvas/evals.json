@@ -1953,6 +1953,137 @@
         "authored": "ahaslides-design",
         "why": "DESY-182: the signed-off canvas button (size lg, shortcut chip, lg tooltip with name and chip, no tertiary on a photographic deck)"
       }
+    },
+    {
+      "id": 72,
+      "prompt": "Review this Developer Platform presenter canvas. It calls applyCanvasDeck, then draws a results panel with `.panel { background: color-mix(in srgb, var(--aha-deck-ink) 8%, transparent); border: 1px solid color-mix(in srgb, var(--aha-deck-ink) 20%, transparent); border-radius: 12px; padding: 20px; color: var(--aha-deck-ink) }` and a hint line `color: color-mix(in srgb, var(--aha-deck-ink) 76%, transparent)`. Is the colour on the hand-built panel right?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C1 deck-token axis: the panel mixes its own shades of the ink. Isolation case: only C1 should FAIL.",
+      "expected_output": "C1 FAILs. A hand-built element paints only with the --aha-deck-* ladder that applyCanvasDeck writes; mixing its own shade of the ink with color-mix is the violation. Fix: background var(--aha-deck-container-fill), border 1px solid var(--aha-deck-container-stroke), radius var(--aha-deck-container-radius-lg), padding var(--aha-deck-container-padding-md), hint colour var(--aha-deck-ink-secondary). Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C1 is marked FAIL",
+        "Names color-mix of the ink as the violation",
+        "Fix uses --aha-deck-container-* and --aha-deck-ink-secondary"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C1": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-268: hand-built canvas elements paint only with the --aha-deck-* ladder"
+      }
+    },
+    {
+      "id": 73,
+      "prompt": "Review this Developer Platform presenter canvas. It calls applyCanvasDeck, then draws a results panel with `.panel { background: var(--aha-deck-container-fill); border: 1px solid var(--aha-deck-container-stroke); border-radius: var(--aha-deck-container-radius-lg); padding: var(--aha-deck-container-padding-md); color: var(--aha-deck-ink) }` and a hint line `color: var(--aha-deck-ink-secondary)`. Is the colour on the hand-built panel right?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C1 deck-token axis control: the same panel on the --aha-deck-container-* ladder.",
+      "expected_output": "C1 PASSes. The panel and hint read the --aha-deck-* ladder that applyCanvasDeck writes, with no color-mix and no product colour token. Overall: OK TO SHIP",
+      "assertions": [
+        "C1 is marked PASS",
+        "Does not flag the deck tokens"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C1": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-268: hand-built canvas elements paint only with the --aha-deck-* ladder"
+      }
+    },
+    {
+      "id": 74,
+      "prompt": "Review the slide canvas in fixtures/bad-c24-hover-only-dots/Canvas.vue. It is a 2x2 matrix results view where each response is a dot on the grid and the response text appears only when the dot is hovered. Can a presenter operate it with the keyboard alone?",
+      "files": [
+        {
+          "path": "fixtures/bad-c24-hover-only-dots/Canvas.vue"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "C24 hover-only axis - result dots reveal their label on :hover only and are not focusable. Isolation case: only C24 should FAIL.",
+      "expected_output": "C24 (Keyboard-only operation) FAILs on the hover sub-rule. The dots are plain divs with no tabindex, so Tab never reaches them, and the label is revealed by :hover only, so a keyboard user cannot read any response. Fix: render each dot as a button (or tabindex=0) in reading order with a visible focus ring and show the label on :focus-visible as well as :hover. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C24 is marked FAIL",
+        "Flags that the dots are not focusable and the label is hover-only",
+        "Fix makes the dots focusable and reveals the label on :focus-visible"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C1": "PASS",
+          "C24": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-285: Slide Plugin Policy section 6 (full keyboard control of the presenting view) had no judge criterion"
+      }
+    },
+    {
+      "id": 75,
+      "prompt": "Review the slide canvas in fixtures/bad-c24-drag-only-reorder/Canvas.vue. The presenter reorders four reveal cards by dragging them; there are no other controls. Can a presenter operate it with the keyboard alone?",
+      "files": [
+        {
+          "path": "fixtures/bad-c24-drag-only-reorder/Canvas.vue"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "C24 drag-only axis - the only way to reorder is a pointer drag. Isolation case: only C24 should FAIL.",
+      "expected_output": "C24 (Keyboard-only operation) FAILs on the pointer-gesture sub-rule. Reordering is draggable plus dragstart/drop handlers only: the cards are not focusable and there is no key handler or Move up / Move down control. Fix: make each card focusable and add a keyboard reorder (Space to pick up, ArrowUp/ArrowDown to move, Space or Enter to drop, Esc to cancel) with the new position announced, or add Move up / Move down buttons. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C24 is marked FAIL",
+        "Flags that the drag has no keyboard alternative",
+        "Fix adds a keyboard reorder or Move up / Move down controls"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C1": "PASS",
+          "C24": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-285: Slide Plugin Policy section 6 (full keyboard control of the presenting view) had no judge criterion"
+      }
+    },
+    {
+      "id": 76,
+      "prompt": "Review the slide canvas in fixtures/good-c24-keyboard-operable/Canvas.vue. It has a 2x2 matrix of result dots and a reorderable card list. Is it operable from the keyboard alone?",
+      "files": [
+        {
+          "path": "fixtures/good-c24-keyboard-operable/Canvas.vue"
+        }
+      ],
+      "label": "good-control",
+      "notes": "C24 good-control - focusable dots with a focus-visible reveal, a keyboard reorder alongside the drag, no trap, deck keys left alone.",
+      "expected_output": "C24 PASSes. Every dot is a button in reading order with a visible focus ring and its label shows on :hover and :focus-visible. Each dot button is named by its response text. Each card is focusable and reorders with Space to pick up, ArrowUp/ArrowDown to move, Space/Enter to drop and Esc to return it to its start, with a live-region announcement; moving focus away drops it. A card claims Space and ArrowUp/ArrowDown only while focused (sub-rule e), so ArrowRight/ArrowLeft/PageDown/PageUp still reach the deck. Overall: OK TO SHIP",
+      "assertions": [
+        "C24 is marked PASS",
+        "Recognises the dots are focusable and reveal on focus",
+        "Recognises the keyboard reorder and that the deck navigation keys are not swallowed"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C24": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-285: Slide Plugin Policy section 6 (full keyboard control of the presenting view) had no judge criterion"
+      }
     }
   ]
 }
