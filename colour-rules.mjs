@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { DEPRECATED_ENVIRONMENT_ALIASES } from './environments.mjs';
 
-const withDeprecatedAliases = (byEnvironment) => ({
+export const withDeprecatedAliases = (byEnvironment) => ({
   ...byEnvironment,
   ...Object.fromEntries(Object.entries(DEPRECATED_ENVIRONMENT_ALIASES).map(([oldName, name]) => [oldName, byEnvironment[name]])),
 });
@@ -23,7 +23,7 @@ export function loadBackgrounds(root) {
   return JSON.parse(readFileSync(join(root, BACKGROUNDS_MANIFEST_FILE), 'utf8')).backgrounds;
 }
 
-const escapeHtml = (text) => String(text ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+export const escapeHtml = (text) => String(text ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
 const SWATCH_CLASS = {
   '#E70E68': 'sw-pink', '#DB005B': 'sw-pinkdark', '#FFFFFF': 'sw-white', '#E70E680D': 'sw-pink5', '#FEF3F7': 'sw-pink5',
@@ -57,7 +57,7 @@ export function markupToText(text) {
     .replace(/\n/g, ' ');
 }
 
-const sectionNumber = (section) => section.id.replace(/^s/, '');
+export const sectionNumber = (section) => section.id.replace(/^s/, '');
 
 /** A section's blocks in reading order, with each collapsed panel opened out into the blocks it holds. */
 export function sectionBlocks(section) {
@@ -123,7 +123,14 @@ export function parseTemplate(templateHtml) {
   return { shell, parts };
 }
 
-const fill = (template, values) => template.replace(/\{\{(\w+)\}\}/g, (placeholder, key) => (key in values ? values[key] : placeholder));
+/** Splits a rendered page fragment into its style block and its content. */
+export function splitFragment(html) {
+  const match = html.match(/^<style>([\s\S]*?)<\/style>\n([\s\S]*)$/);
+  if (!match) throw new Error('page fragment must start with a style block');
+  return { extraCss: match[1], main: match[2] };
+}
+
+export const fill = (template, values) => template.replace(/\{\{(\w+)\}\}/g, (placeholder, key) => (key in values ? values[key] : placeholder));
 
 function paletteValueCell(colour) {
   if (colour.hex) return copyChip(colour.hex);
@@ -163,12 +170,13 @@ export function answerSection(rules) {
 const paletteHex = (rules, id) => { const colour = rules.palette.find(entry => entry.id === id); return colour.hex || colour.flatHex; };
 
 /** The human page, self-contained: one file, both font weights embedded. */
-export function renderColourRulesPage(rules, { fonts, templateHtml, icon }) {
+/** The page as a fragment (a style block, then the content) for the shared site shell to wrap. */
+export function renderColourRulesPage(rules, { templateHtml, icon }) {
   const { shell, parts } = parseTemplate(templateHtml);
   const number = (section) => `<span class="num">${sectionNumber(section)}</span>`;
   return fill(shell, {
     title: escapeHtml(rules.title),
-    fontRegular: fonts.regular, fontSemiBold: fonts.semiBold,
+    related: '<p class="updated">The tokens the product uses today are on the <a href="colour.html">Colour token reference</a>.</p>',
     vividPink: paletteHex(rules, 'vivid-pink'), darkerPink: paletteHex(rules, 'darker-pink'),
     vividPink5: paletteHex(rules, 'vivid-pink-5'), vividPink30: paletteHex(rules, 'vivid-pink-30'), purple: paletteHex(rules, 'purple'),
     contents: rules.sections.map(section => `<li><a href="#${section.id}">${number(section)}${escapeHtml(section.title)}</a></li>`).join(''),
@@ -239,7 +247,7 @@ export function renderColourRulesMd(rules, { site, store, backgrounds }) {
       md += `Table ${table.id} ${tag(table.environment)}\n\n| ${table.columns.join(' | ')} |\n|${table.columns.map(() => '---').join('|')}|\n${table.rows.map(row => `| ${row.join(' | ')} |`).join('\n')}\n\n`;
     }
   }
-  md += `## Splash in CSS\n\nCentre and right, drawn in CSS with the full 802 by 788 icon; set --splash-across to .5 (centre) or .75 (right).\n\n\`\`\`css\n${rules.splash.cssRecipe.join('\n')}\n\`\`\`\n\n`;
+  md += `## Splash in CSS\n\nCentre and right, drawn in CSS with the full 802 by 788 icon, in any medium (draw it on the frame it sits in, never place the icon by hand); set --splash-across to .5 (centre) or .75 (right).\n\n\`\`\`css\n${rules.splash.cssRecipe.join('\n')}\n\`\`\`\n\n`;
   md += `## Splash background files\n\nLibrary page: ${site}/${BACKGROUND_LIBRARY_PAGE} · index: ${site}/${BACKGROUNDS_MANIFEST_FILE}\n\n${backgrounds.map(entry => `- ${entry.name} (${entry.width} by ${entry.height}): ${backgroundUrl(site, entry)}`).join('\n')}\n\nAny other size: \`${GENERATOR_COMMAND}\`\n\n`;
   md += `## Still to decide\n\n${rules.open.length ? rules.open.map(point => `- ${point.id} ${tag(point.environment)} ${point.title}. ${markupToText(point.text)} Until it is settled: ${markupToText(point.interim)}`).join('\n') : 'Nothing open.'}\n\n`;
   md += `## What changed\n\n${rules.changes.map(change => `- ${change.version} (${change.date}): ${change.text}`).join('\n')}\n`;
