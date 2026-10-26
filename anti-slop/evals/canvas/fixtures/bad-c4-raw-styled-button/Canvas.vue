@@ -44,7 +44,7 @@ function extend() {
   padding: 2rem;
 }
 .extend-btn {
-  border-radius: 999px;
+  border-radius: 8px;
   padding: 0.25rem 0.75rem;
   font-size: 0.875rem;
   font-weight: 700;
