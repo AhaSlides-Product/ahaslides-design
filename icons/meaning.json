@@ -68,6 +68,7 @@
   "system-bookmark-simple-filled": ["bookmark", "saved", "favourite", "save", "active bookmark"],
   "system-bookmark-simple": ["bookmark", "save", "favourite", "keep", "read later"],
   "system-briefcase": ["briefcase", "work", "business", "job", "career", "company"],
+  "system-bug": ["bug", "report a bug", "feedback", "issue", "defect", "debug"],
   "system-buildings": ["buildings", "company", "organisation", "office", "enterprise", "city"],
   "system-calendar-dot": ["calendar", "date", "event", "schedule", "day", "due date"],
   "system-calendar-dots": ["calendar", "date", "schedule", "month", "dates", "planner"],
