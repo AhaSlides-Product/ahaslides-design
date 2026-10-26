@@ -8,7 +8,7 @@
   contradiction is the whole point of sharing one fixture.
 
   A simplified but faithful Fill-in-the-Blanks reveal. Every criterion C1–C9 is
-  satisfied positively (not vacuously): ≤8px / pill radius, weight 400/600, no
+  satisfied positively (not vacuously): ≤8px radius, no pill, weight 400/600, no
   pastel-monotone surface. C10 (keyboard-shortcut affordances) passes vacuously —
   this canvas renders no bespoke in-canvas controls of its own; Previous/Next are
   host-painted NCB actions.
@@ -90,6 +90,6 @@ const hostTitle = computed(() => slideProps.value?.title ?? labels.title)
 .answer { font-size: 18px; font-weight: 400; }
 .share { font-size: 18px; font-weight: 600; font-variant-numeric: tabular-nums; }
 .mark { font-size: 24px; }
-.bar-track { flex: 1; height: 1.6vh; background: color-mix(in srgb, currentColor 10%, transparent); border-radius: 999px; }
-.bar-fill { display: block; height: 100%; border-radius: 999px; }
+.bar-track { flex: 1; height: 1.6vh; background: color-mix(in srgb, currentColor 10%, transparent); border-radius: 4px; }
+.bar-fill { display: block; height: 100%; border-radius: 4px; }
 </style>
