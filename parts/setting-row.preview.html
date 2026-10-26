@@ -14,6 +14,14 @@
     <aha-setting-row label="Question timer" disabled><aha-switch slot="control" disabled></aha-switch></aha-setting-row>
   </div>
 
+  <div class="lbl">New and Beta tags (label side, after the "?" or the crown)</div>
+  <div class="stack">
+    <aha-setting-row label="Live captions" help="Subtitles for the speaker's voice."><aha-badge slot="badge" kind="new"></aha-badge><aha-switch slot="control" checked></aha-switch></aha-setting-row>
+    <aha-setting-row label="Audience translation"><aha-badge slot="badge" kind="beta"></aha-badge><aha-switch slot="control"></aha-switch></aha-setting-row>
+    <aha-setting-row label="AI summaries" locked plan="pro" upgrade-body="Summarise every session in one click."><aha-badge slot="badge" kind="new"></aha-badge><aha-switch slot="control"></aha-switch></aha-setting-row>
+    <aha-setting-row label="Smart layout" help="Arranges answers to fit the slide." layout="stack"><aha-badge slot="badge" kind="beta"></aha-badge><aha-select slot="control" value="a" options='[{"label":"Automatic","value":"a"},{"label":"Manual","value":"b"}]'></aha-select></aha-setting-row>
+  </div>
+
   <div class="lbl">Locked (plan-gated)</div>
   <div class="stack">
     <aha-setting-row label="Custom branding" help="Your logo on every deck." locked upgrade-body="Add your logo and colours to every deck."><aha-switch slot="control"></aha-switch></aha-setting-row>
@@ -40,6 +48,7 @@
 <script type="module">
   import '../lib/icons.js';             // registers <aha-icon> so the "?" help glyph resolves from the DS library
   import '../lib/aha-setting-row.js';   // registers <aha-setting-row> — the shipped primitive, byte-identical to what consumers get
+  import '../lib/aha-badge.js';         // registers <aha-badge> (a New / Beta tag in the badge slot)
   import '../lib/aha-switch.js';        // registers <aha-switch> (a control it carries)
   import '../lib/aha-checkbox.js';      // registers <aha-checkbox> (a control it carries)
   import '../lib/aha-select.js';        // registers <aha-select> (a locked stacked row)
