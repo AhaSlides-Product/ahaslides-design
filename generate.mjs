@@ -2063,10 +2063,7 @@ ${b.layouts.map(layout => `  <h2 id="${esc(layout.slug)}">${esc(layout.name)}</h
   ${marketingCodeToggle(marketingHasStates(b, layout) ? marketingLayoutStates(b, layout).find(state => !state.modifier).label : `${layout.slug}.html`, resolveDefaultStateVariants(b, layout, marketingLayoutSnippet(b, layout)), '', marketingStatePanes(b, layout, marketingLayoutSnippet(b, layout)))}`).join('\n\n')}
   ${MARKETING_LAYOUT_PREVIEW_SCRIPT}${b.layouts.some(layout => marketingHasStates(b, layout)) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}${b.layouts.some(layout => marketingHasStates(b, layout) && /\sdata-variant-[a-z0-9-]+=/.test(layout.html || '')) ? `\n  ${MARKETING_LAYOUT_VARIANT_SCRIPT}` : ''}${b.reviews ? `\n  ${MARKETING_LAYOUT_REVIEWS_SCRIPT}` : ''}
 
-${b.video ? `  ${docFold(`${b.video.label} (optional, off by default)`, `<p class="body">${esc(b.video.howToTurnOn.replaceAll('{{c}}', '<layout class>'))} Layouts with the slot: ${b.layouts.filter(layout => b.video.layouts.includes(layout.slug)).map(layout => `${esc(layout.name)} (<code>${esc(layout.class)}</code>)`).join(', ')}.</p>
-  ${marketingCodeToggle('video.html', b.video.html, 'Replaces the layout image.')}
-  ${marketingCodeToggle('video.css', b.video.css, 'Add once. Replace {{c}} with the layout class.')}`, 'video-slot')}
-` : ''}
+${marketingVideoHtml(b)}
 ${b.composedOf ? `
   ${docFold('Composed of', `<p class="body">What these sections reuse from the design system, and what the design system does not define yet (each missing item has a DSN ticket and a stand-in).</p>
   ${composedOfTable(b.composedOf)}`, 'composed-of')}
@@ -2091,7 +2088,7 @@ function renderMarketingHtml(b) {
 ${b.snippets ? b.snippets.map(card => `<h2>${esc(card.name)}</h2>
   ${isLongProse(card.summary) ? docFold('About this card', `<p class="body">${esc(card.summary)}</p>`, '', true) : `<p class="body">${esc(card.summary)}</p>`}
   ${marketingCardBreakpointPreview(b, card)}
-  ${marketingCodeToggle(`${card.slug}.html`, marketingCardSnippet(b, card))}`).join('\n  ') + '\n  ' + MARKETING_CARD_BREAKPOINT_SCRIPT : `<h2>Preview</h2>
+  ${marketingCodeToggle(`${card.slug}.html`, marketingCardSnippet(b, card))}`).join('\n  ') + '\n  ' + MARKETING_CARD_BREAKPOINT_SCRIPT + '\n' + marketingVideoHtml(b) : `<h2>Preview</h2>
   <div class="marketing-stage">${marketingBreakpointPreview(b)}</div>
 
   <h2>Paste-and-run HTML</h2>
@@ -2105,10 +2102,23 @@ ${b.snippets ? b.snippets.map(card => `<h2>${esc(card.name)}</h2>
   .marketing-stage{margin:0 0 12px}.code-panel pre{max-height:70vh}
   .demo-toolbar:has(.code-lead){justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--aha-space-20)}.code-lead{margin:0;flex:1 1 20rem;max-width:none}${MARKETING_BREAKPOINT_CSS}` });
 }
+const marketingLayoutClass = (b, layout) => layout.class || layout.classes || `aha-${b.slug}--${layout.slug}`;
+const marketingVideoSnippets = (video) => video.snippets || [{ file: 'video.html', note: 'Replaces the layout image.', html: video.html }];
+const marketingVideoLayouts = (b) => b.layouts.filter(layout => b.video.layouts.includes(layout.slug));
+const marketingVideoAppliesLead = (b) => b.video.appliesTo ? 'Applies to' : 'Layouts with the slot';
+const marketingVideoAppliesHtml = (b) => b.video.appliesTo ? esc(b.video.appliesTo) : marketingVideoLayouts(b).map(layout => `${esc(layout.name)} (<code>${esc(marketingLayoutClass(b, layout))}</code>)`).join(', ');
+const marketingVideoAppliesMd = (b) => b.video.appliesTo || marketingVideoLayouts(b).map(layout => `${layout.name} (\`${marketingLayoutClass(b, layout)}\`)`).join(', ');
+function marketingVideoHtml(b) {
+  if (!b.video) return '';
+  return `  ${docFold(`${b.video.label} (optional, off by default)`, `<p class="body">${esc(b.video.howToTurnOn.replaceAll('{{c}}', '<layout class>'))} ${marketingVideoAppliesLead(b)}: ${marketingVideoAppliesHtml(b)}.</p>
+  ${marketingVideoSnippets(b.video).map(snippet => marketingCodeToggle(snippet.file, snippet.html, snippet.note)).join('\n  ')}
+  ${marketingCodeToggle('video.css', b.video.css, b.video.cssNote || 'Add once. Replace {{c}} with the layout class.')}`, 'video-slot')}
+`;
+}
 function marketingVideoMd(b) {
   if (!b.video) return '';
-  const names = b.layouts.filter(layout => b.video.layouts.includes(layout.slug)).map(layout => `${layout.name} (\`${layout.class}\`)`);
-  return `\n## ${b.video.label} (optional, off by default)\n${b.video.howToTurnOn.replaceAll('{{c}}', '<layout class>')} It replaces ${b.video.replaces.replaceAll('{{c}}', '<layout class>')}. Layouts with the slot: ${names.join(', ')}.\n\n\`\`\`html\n${b.video.html}\n\`\`\`\n\n\`\`\`css\n${b.video.css}\n\`\`\`\n`;
+  const snippets = marketingVideoSnippets(b.video).map(snippet => `${b.video.snippets && snippet.note ? `${snippet.note}\n\n` : ''}\`\`\`html\n${snippet.html}\n\`\`\``).join('\n\n');
+  return `\n## ${b.video.label} (optional, off by default)\n${b.video.howToTurnOn.replaceAll('{{c}}', '<layout class>')} It replaces ${b.video.replaces.replaceAll('{{c}}', '<layout class>')}. ${marketingVideoAppliesLead(b)}: ${marketingVideoAppliesMd(b)}.\n\n${snippets}\n\n\`\`\`css\n${b.video.css}\n\`\`\`\n`;
 }
 function marketingReviewsMd(b) {
   if (!b.reviews) return '';
@@ -2145,8 +2155,9 @@ function renderMarketingAgent(b) {
     } } : {}),
     ...(b.video ? { video: {
       label: b.video.label, defaultState: 'off', howToTurnOn: b.video.howToTurnOn, replaces: b.video.replaces,
-      html: b.video.html, css: b.video.css,
-      layouts: b.layouts.filter(layout => b.video.layouts.includes(layout.slug)).map(layout => ({ slug: layout.slug, class: layout.class })),
+      html: b.video.html || b.video.snippets[0].html, css: b.video.css,
+      ...(b.video.snippets ? { snippets: b.video.snippets } : {}),
+      ...(b.layouts ? { layouts: b.layouts.filter(layout => b.video.layouts.includes(layout.slug)).map(layout => ({ slug: layout.slug, class: layout.class })) } : { appliesTo: b.video.appliesTo }),
     } } : {}),
     html: b.html || '', css: b.css || '',
   }, null, 2) + '\n';

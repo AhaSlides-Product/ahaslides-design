@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.409.0 — 2026-10-26
+### Added
+- Marketing → Cards and Features: an optional Video slot. A step card, a template, article or use-case card, and the alternating Features image rows can hold a `<video>` where they hold an `<img>`, under the same fill or frame rule (W6) and never cropped: the clip's `width` and `height` set the ratio, controls on, no autoplay, loop or sound on load, a captions track only when the clip has audio. Opt-in markup plus one css block per page (`aha-marketing-card__video` / `aha-features__video`, framed `__shot`); existing cards and rows are unchanged. Guideline W6, the website criterion and the agent feeds describe it. (#359)
+
 ## 0.403.1 — 2026-10-26
 ### Changed
 - Website > Marketing pages: prose longer than about two lines is a closed disclosure with its heading still visible (Choosing a header, Which is which, video slot, Composed of, Details, and any long layout or card summary). Native `<details>`, keyboard accessible, opens when a link targets its anchor. The `.md` and llms feeds keep the full text.
