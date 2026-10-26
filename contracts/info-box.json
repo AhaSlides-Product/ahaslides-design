@@ -40,6 +40,10 @@
       "value": "optional shared ✕ (the Alert closable: tertiary icon-only <aha-button>, size xs) on the first line; fades out, then the box is hidden and emits `dismiss`"
     },
     {
+      "label": "Link",
+      "value": "a plain `<a href>` written straight in the message is an inline text link in the Alert's standard style (message size, weight 400, --aha-text-link, underline, focus ring); never an <aha-button> inside the sentence"
+    },
+    {
       "label": "Text",
       "value": "Plus Jakarta 14/21 #1A1A1A"
     }

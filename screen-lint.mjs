@@ -30,6 +30,7 @@
  * (a button / btn / cta class, <button>, [role=button] or link given a fill and a button shape, or
  * state fills) and any restyle of <aha-button> (colour, fill, border, shadow, size, state rules,
  * ::part, a --aha-button-* token). Only layout may be set on <aha-button>.
+ * Every surface also hard-fails alert-button-link: an <aha-button> inside an <aha-alert> or <aha-info-box> message (a link there is a plain <a href>; only slot="action" takes a button).
  *
  * UX writing: on every surface, four hard rules read the user-visible UI strings only (HTML text nodes,
  * the title, aria-label, aria-description, placeholder, alt, label and heading attributes, and string literals

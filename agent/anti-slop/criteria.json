@@ -554,7 +554,7 @@
             "6.5",
             "6.6"
           ],
-          "test": "Pink text and pink links sit on white only. On Vivid Pink at 5% or on grey, text and links are the default ink. On Vivid Pink, text is solid white, never white at a reduced opacity. Pink text on pale pink or on grey fails, and so does see-through white on Vivid Pink."
+          "test": "Pink text and pink links sit on white only. On Vivid Pink at 5% or on grey, text and links are the default ink, except an inline link in an Alert or info box message, which is the link pink with an underline. On Vivid Pink, text is solid white, never white at a reduced opacity. Pink text on pale pink or on grey fails, and so does see-through white on Vivid Pink."
         },
         {
           "id": "C4",

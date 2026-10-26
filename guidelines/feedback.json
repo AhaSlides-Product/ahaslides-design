@@ -149,6 +149,13 @@
       ]
     },
     {
+      "id": "alert-inline-link",
+      "rule": "A link in an Alert or info box message is an inline text link in the one standard style: a plain <a href> written in the sentence, inheriting the message size, weight 400 and line height, with no padding or height, the DS link colour (--aha-text-link, hover --aha-text-link-hover), an underline and the focus ring. Never an <aha-button> (any variant) inside the message sentence: it renders as a button, grows the line and breaks the line spacing. An in-app action that opens something is the same <a href=\"#id\"> with the click default prevented. A button that is a separate action goes in the trailing action slot.",
+      "ref": [
+        "FEEDBACK-10"
+      ]
+    },
+    {
       "id": "alert-sentence-case",
       "rule": "The Alert title/heading is sentence case — capitalize the first letter only (plus proper nouns); never Title Case, never ALL CAPS.",
       "ref": [

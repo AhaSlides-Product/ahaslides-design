@@ -37,5 +37,6 @@
   import '../lib/aha-tag.js';
   import '../lib/aha-question-list.js';   // registers <aha-question-list> — the shipped composite
   await customElements.whenDefined('aha-question-list');
-  document.getElementById('host-api').notices = [{ tone: 'warning', paragraphs: [['Question ', { question: 'h2', label: '2' }, ' has no prompt yet.']] }];
+  document.getElementById('host-api').notices = [{ tone: 'warning', paragraphs: [['Question ', { question: 'h2', label: '2' }, ' has no prompt yet.']] },
+    { tone: 'information', paragraphs: [['Questions ', { question: 'h1', label: '1' }, ' and ', { question: 'h2', label: '2' }, ' run on the same slide.']] }];
 </script>
