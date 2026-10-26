@@ -210,7 +210,7 @@
     { "type": "rules", "rules": [
      { "id": "7.1", "text": "Red, yellow, green and blue are no longer used for danger, warning, success or information. The correct green and wrong red of section 11 are not status colours: they mark a correct or wrong answer, and nothing else." },
      { "id": "7.2", "text": "Show status with an icon, clear wording and an outline or a black fill." },
-     { "id": "7.3", "text": "A rise is plain black with an up arrow. A fall is white on a black pill with a down arrow." },
+     { "id": "7.3", "text": "A rise is plain black with an up arrow. A fall is white on a black chip with a down arrow." },
      { "id": "7.4", "text": "File-type icons are one colour." },
      { "id": "7.5", "text": "Borders and shadows use black, white or a palette colour at any transparency." }
     ] }
