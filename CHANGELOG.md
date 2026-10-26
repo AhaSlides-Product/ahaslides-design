@@ -5,7 +5,7 @@ All notable changes to `@ahaslides-product/design`, **newest first**.
 **The rule:** every merge adds one entry here **and** bumps `version` in `package.json`.
 The top entry's version MUST equal `package.json` → `version` — `standards.mjs` enforces it, so a
 PR that forgets either goes red. The `v<version>` release tag (what `npm publish` ships) matches too.
-The gate also rejects an unfilled `(#129)` placeholder in the top entry: link the **real** PR number.
+The gate also rejects an unfilled `(#394)` placeholder in the top entry: link the **real** PR number.
 
 **Format** — one entry per version:
 
@@ -24,11 +24,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.402.0 — 2026-10-26
 ### Added
-- Website > Marketing > Header: five multi-image heroes — fanned photo stack (`aha-header-section-hero-photo-stack`), bento collage beside the copy (`aha-header-section-hero-bento-collage`), photo marquee under centred copy with a Pause button (`aha-header-section-hero-image-marquee`), crossfading slideshow with dot controls (`aha-header-section-hero-slideshow`) and floating framed photos either side of the copy (`aha-header-section-hero-floating-images`). Each ships White, Accent and Vivid Pink (#129)
-- Website > Marketing > Gallery: a new section page with six ways to show several photos across a page — bento grid, masonry, carousel with arrows and dots, sticky stack, marquee rows with a Pause button, and tabbed images (`aha-gallery`) (#129)
-- `lib/marketing-motion.js` arms `data-aha-gallery` slideshows, carousels, tabs and marquees: keyboard-reachable controls, nothing autoplays unless `data-aha-autoplay` is set, and all motion stops under reduced motion, `data-aha-motion="off"` and print (#129)
-- A Marketing page may list `previewModules` to load extra scripts into its docs previews (#129)
-- Revert: revert the PR; five new layouts in `marketing/header.json`, the new `marketing/gallery.json`, and an appended block at the end of `lib/marketing-motion.js` — the 24 existing hero layouts are untouched (#129)
+- Website > Marketing > Header: five multi-image heroes — fanned photo stack (`aha-header-section-hero-photo-stack`), bento collage beside the copy (`aha-header-section-hero-bento-collage`), photo marquee under centred copy with a Pause button (`aha-header-section-hero-image-marquee`), crossfading slideshow with dot controls (`aha-header-section-hero-slideshow`) and floating framed photos either side of the copy (`aha-header-section-hero-floating-images`). Each ships White, Accent and Vivid Pink (#394)
+- Website > Marketing > Gallery: a new section page with six ways to show several photos across a page — bento grid, masonry, carousel with arrows and dots, sticky stack, marquee rows with a Pause button, and tabbed images (`aha-gallery`) (#394)
+- `lib/marketing-motion.js` arms `data-aha-gallery` slideshows, carousels, tabs and marquees: keyboard-reachable controls, nothing autoplays unless `data-aha-autoplay` is set, and all motion stops under reduced motion, `data-aha-motion="off"` and print (#394)
+- A Marketing page may list `previewModules` to load extra scripts into its docs previews (#394)
+- Revert: revert the PR; five new layouts in `marketing/header.json`, the new `marketing/gallery.json`, and an appended block at the end of `lib/marketing-motion.js` — the 24 existing hero layouts are untouched (#394)
 
 ## 0.396.0 — 2026-10-26
 ### Added
