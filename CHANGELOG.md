@@ -22,10 +22,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.408.0 — 2026-10-26
+## 0.422.0 — 2026-10-26
 ### Added
 - Marketing → Cards: an Integration card with a wide logo (`aha-marketing-card__logo--wide`) for wordmarks such as Zapier and Cornerstone OnDemand: the tile stays 32px high and grows in width, the logo at most 80px wide and 20px high, so a wordmark reads as heavy as a square mark. Square marks and every other card are unchanged.
 - Logo library: `logo/manifest.json` records `"shape": "wide"` for Canva, Zapier, D2L Brightspace and Cornerstone OnDemand, and `standards.mjs` fails a brand logo at least twice as wide as tall that is not marked wide. (#353)
+
+## 0.417.0 — 2026-10-26
+### Added
+- Icon library: `system-bug`, a beetle with antennae and legs, for reporting a bug or giving feedback. Same stroke style as the other `system-*` glyphs; no existing icon changes. No `-filled` pair: `system-chat-*` and the rest of `system-*` have none
+- Revert: revert the PR; one new SVG and its meaning words, nothing else references it (#401)
 
 ## 0.403.1 — 2026-10-26
 ### Changed
