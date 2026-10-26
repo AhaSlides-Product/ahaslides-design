@@ -26,14 +26,19 @@
  * no <aha-*> tag lib/settings.js does not register (the list comes from lib/settings-elements.js),
  * no size="small"/"sm"/"large"/"lg" on a settings field (input, counted input/textarea, number with unit, select), and
  * no maxlength on <aha-input> (a capped field is <aha-counted-input>, counter inside the field).
+ * Every surface hard-fails hand-rolled-button (lib/screen-lint-button.js): CSS that draws its own button
+ * (a button / btn / cta class, <button>, [role=button] or link given a fill and a button shape, or
+ * state fills) and any restyle of <aha-button> (colour, fill, border, shadow, size, state rules,
+ * ::part, a --aha-button-* token). Only layout may be set on <aha-button>.
  *
- * UX writing: on every surface, three hard rules read the user-visible UI strings only (HTML text nodes,
+ * UX writing: on every surface, four hard rules read the user-visible UI strings only (HTML text nodes,
  * the title, aria-label, aria-description, placeholder, alt, label and heading attributes, and string literals
  * under UI-text keys in scripts; never comments, CSS, URLs, identifiers, <code>, <pre> or <kbd>):
  * no-dash-punctuation (UXW-8: no em or en dash), vague-error-copy (UXW-2: no "Something went wrong",
  * "An error occurred", "Oops", "Unexpected error", "Some items could not be loaded") and
  * title-case-slide-name (UXW-1: "Multiple choice", not "Multiple Choice"; same for Word cloud, Open-ended,
- * Spinner wheel, Rating scale). Allow them as a group with ds-lint-allow: copy (why).
+ * Spinner wheel, Rating scale) and retired-wording (the old product descriptions in brand/voice-rules.json
+ * section 14, such as "interactive presentation software" and "sleepy meetings"). Allow them as a group with ds-lint-allow: copy (why).
  *
  * Website is product UI (the product raw-hex, font-weight and responsive checks run, without the product-only
  * region heuristics) with three differences: the min-width breakpoints the shipped Marketing sections use

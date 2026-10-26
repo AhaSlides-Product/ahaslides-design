@@ -19,7 +19,7 @@
     "40px deck container: fill, no stroke, radius 8, frosted on photo decks",
     "Inked by applyCanvasDeck, so it reads on white and black ink"
   ],
-  "lead": "ONE custom element — <aha-canvas-count> — for the count many slide types show on the presenter canvas. Set `correct` and `wrong` for the verdict form (a green check disc, the count and a person glyph, a divider, a red cross disc, the count and a person glyph), or `answered` alone for the answered-only form (the count and a person glyph). Its container is the deck container set applyCanvasDeck writes (--aha-deck-container-fill / -radius-sm / -padding-*), so the same element reads on a light deck, a dark deck and a photo deck with no props.",
+  "lead": "ONE custom element — <aha-canvas-count> — for the count many slide types show on the presenter canvas. Set `correct` and `wrong` for the verdict form (a correct <aha-answer-mark>, the count and a person glyph, a divider, an incorrect <aha-answer-mark>, the count and a person glyph), or `answered` alone for the answered-only form (the count and a person glyph). Its container is the deck container set applyCanvasDeck writes (--aha-deck-container-fill / -radius-sm / -padding-*), so the same element reads on a light deck, a dark deck and a photo deck with no props.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render across frameworks. Attributes only, no events.",
   "tokensUsed": [
     "text-default",
@@ -41,11 +41,11 @@
     },
     {
       "label": "Verdict",
-      "value": "20px disc in --aha-answer-correct with a white system-check 12 · count · system-user 16 · 1px divider (--aha-deck-stroke) · 20px disc in --aha-answer-wrong with a white system-x 12 · count · system-user 16; 6px inside a part, 8px between parts"
+      "value": "<aha-answer-mark result=\"correct\" size=\"20\"> (white system-check 12 on the --aha-answer-correct disc) · count · system-user 16 · 1px divider (--aha-deck-stroke) · <aha-answer-mark result=\"incorrect\" size=\"20\"> (white system-x 12 on the --aha-answer-wrong disc) · count · system-user 16; 6px inside a part, 8px between parts"
     },
     {
       "label": "Answered only",
-      "value": "count · system-user 16, no disc and no divider"
+      "value": "count · system-user 16, no disc and no divider; with `total`, a 14px \"of 30\" in --aha-deck-ink-secondary sits between the count and the glyph"
     },
     {
       "label": "Type",
@@ -74,6 +74,18 @@
       "type": "number",
       "default": "0",
       "desc": "How many answered, shown when neither `correct` nor `wrong` is set"
+    },
+    {
+      "name": "total",
+      "type": "number",
+      "default": "—",
+      "desc": "The known total, answered-only form: shows \"of 30\" after the count and names the group \"12 of 30 answered\". Ignored in the verdict form; without it the count renders as before"
+    },
+    {
+      "name": "strings",
+      "type": "object | JSON attribute",
+      "default": "English",
+      "desc": "Translated copy: ofTotal (\"of {total}\", the visible text), answeredOfTotal (\"{answered} of {total} answered\"), answered (\"{answered} answered\"), correctWrong (\"{correct} correct, {wrong} incorrect\"). A missing key keeps English; `label` still overrides the accessible name"
     },
     {
       "name": "label",
@@ -168,6 +180,10 @@
   "composedOf": [
     {
       "component": "aha-icon",
+      "status": "shipped"
+    },
+    {
+      "component": "aha-answer-mark",
       "status": "shipped"
     },
     {

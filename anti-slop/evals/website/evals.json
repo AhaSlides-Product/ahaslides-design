@@ -38,6 +38,7 @@
           "W13": "PASS",
           "W14": "PASS",
           "W15": "PASS",
+          "W16": "PASS",
           "W17": "PASS",
           "W18": "PASS",
           "W19": "PASS"
@@ -79,6 +80,7 @@
           "W13": "PASS",
           "W14": "PASS",
           "W15": "PASS",
+          "W16": "PASS",
           "W17": "PASS",
           "W18": "PASS",
           "W19": "PASS"
@@ -307,8 +309,8 @@
         }
       ],
       "label": "bad-example",
-      "notes": "Targets W8: overflow, inconsistent stacking and shrunken calls to action.",
-      "expected_output": "W8 FAILs: the icon grid is three fixed 360 px columns (1080 px plus gaps) that never stack, so it scrolls sideways at 768 and 375 px; the Features rows stack the image below the text in one row and above it in the next; and the hero calls to action shrink to the small button height on phones. Fix: drop the overrides so the section's container rules stack it and keep the xl height. Overall: NEEDS FIX.",
+      "notes": "Targets W8: overflow and inconsistent stacking.",
+      "expected_output": "W8 FAILs: the icon grid is three fixed 360 px columns (1080 px plus gaps) that never stack, so it scrolls sideways at 768 and 375 px; the Features rows stack the image below the text in one row and above it in the next. Fix: drop the overrides so the section's container rules stack it. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "W8 is marked FAIL"
@@ -718,6 +720,36 @@
       "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
       "files": [
         {
+          "path": "fixtures/fail-w16-hand-rolled-button/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W16: the games.ahaslides.com case, header Log in / Sign up drawn with the page's own button classes and a grey hover, and a re-hovered DS Button.",
+      "expected_output": "W16 FAILs: Log in and Sign up are <a class=\"site-header__button\"> links painted as buttons by the page's own CSS (fill, border, radius, height) with a grey :hover, instead of <aha-button variant=\"secondary\" size=\"lg\" href> and <aha-button variant=\"primary\" size=\"lg\" href>; and the hero call to action re-hovers the DS Button through aha-button::part(button):hover. screen-lint reports both as hand-rolled-button. Fix: use the Navigation section's <aha-button> markup and delete the button CSS. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W16 is marked FAIL",
+        "Names <aha-button> as the fix"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W16": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 25,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
           "path": "fixtures/fail-w15-linkout-same-tab/Page.html"
         },
         {
@@ -744,7 +776,7 @@
       }
     },
     {
-      "id": 25,
+      "id": 26,
       "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
       "files": [
         {
@@ -774,7 +806,7 @@
       }
     },
     {
-      "id": 26,
+      "id": 27,
       "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
       "files": [
         {

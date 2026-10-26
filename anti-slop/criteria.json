@@ -492,14 +492,20 @@
         },
         {
           "id": "C8",
-          "title": "A Splash background appears only where it is allowed, and comes from the library",
+          "title": "A Splash background appears only where it is allowed, and is a DS layout built for its frame",
           "source": [
+            "5.3",
+            "5.4",
+            "5.5",
             "5.6",
             "5.9",
             "5.10",
-            "5.11"
+            "5.11",
+            "5.17",
+            "5.18",
+            "5.19"
           ],
-          "test": "A Splash background (the logo's hooks, enlarged and cropped by the frame) appears only on an empty state or a hero area, never on a dense app screen such as the editor, a table or a settings panel. The file is one from the Background library, or one built by build-splash.mjs for the exact frame; hooks drawn, placed, stretched or recoloured by hand fail."
+          "test": "Applies to every surface that carries a splash, in any medium (a product screen, a web page, a video, an ad, a report image). A Splash background (the logo's hooks, enlarged and cropped by the frame) appears only on an empty state or a hero area, never on a dense app screen such as the editor, a table or a settings panel. The file is one from the Background library, one built by build-splash.mjs for the exact frame, or drawn with the Splash in CSS block (brand/colour-rules.json, `splash.cssRecipe`) on the frame it sits in. It is never hand-placed: one of the three DS layouts (centre, right, minimal) sized and positioned by the colour-rules geometry for its own frame, the full 802 by 788 icon, `--splash-across` .5 (centre) or .75 (right). A splash icon given a hand-set `height`, `width`, `right`, `left` or `top` offset, a size and position chosen by eye, or hooks drawn, placed, stretched, cropped or recoloured by hand fail."
         }
       ]
     },
@@ -558,7 +564,7 @@
             "6.2",
             "6.3"
           ],
-          "test": "The primary button is Vivid Pink with a white label and turns Darker Pink on hover, with no underline; on a Vivid Pink background it is white with a Vivid Pink label. In a group with a destructive action (Delete, Remove) the safe choice (Cancel, Undo) is the primary button. A primary button in any other colour fails, and so does a red or otherwise coloured danger button."
+          "test": "The primary button is Vivid Pink with a white label and turns Darker Pink on hover, with no underline; on solid Vivid Pink the button is the standard secondary Button (on Vivid Pink at 5% it stays the primary). In a group with a destructive action (Delete, Remove) the safe choice (Cancel, Undo) is the primary button. A primary button in any other colour fails, and so does a red or otherwise coloured danger button."
         },
         {
           "id": "C5",
@@ -771,7 +777,7 @@
         {
           "id": "C6",
           "title": "Plan-gated settings are visible but locked",
-          "test": "A setting requiring a plan the user isn't on stays **visible** (not hidden), shown locked with a crown badge that replaces its normal tooltip and opens the shared Paywall popover (owned by `aha-design-paywall` — one primary Upgrade CTA, not a bespoke two-CTA one). **FAIL** if a gated setting is hidden, or the badge opens a custom popover."
+          "test": "A setting requiring a plan the user isn't on stays **visible** (not hidden), shown locked: the label, then a crown badge in the place of its normal \"?\" tooltip (no \"?\" while locked), and the real control rendered disabled. The badge opens the shared Paywall popover (owned by `aha-design-paywall` — one primary Upgrade CTA, not a bespoke two-CTA one). **FAIL** if a gated setting is hidden, the crown replaces the control, the control stays enabled, the \"?\" shows beside the crown, or the badge opens a custom popover."
         },
         {
           "id": "C7",
@@ -888,7 +894,7 @@
         {
           "id": "C2",
           "title": "Inline correct/incorrect uses the a11y + semantic-token contract",
-          "test": "**Rule.** Result feedback shown in place after an answer carries **`role=\"status\"` with `aria-live=\"polite\"`** (informational, not urgent), and colours its container from **semantic tokens** — border `var(--aha-colorSuccess)` / `var(--aha-colorError)` and background `var(--aha-colorSuccessBg)` / `var(--aha-colorErrorBg)`, **never a hardcoded hex**. It leads with a strong correct/incorrect label, shows the correct answer and explanation below when incorrect, and exposes stable `data-*` hooks (`data-correct`, `data-element-id`) for testing."
+          "test": "**Rule.** Result feedback shown in place after an answer carries **`role=\"status\"` with `aria-live=\"polite\"`** (informational, not urgent), and colours its container with the **answer tokens** (colour rules 11.1 to 11.3) — border `var(--aha-answer-correct)` / `var(--aha-answer-wrong)` over the 5% tint `var(--aha-answer-correct-tint-5)` / `var(--aha-answer-wrong-tint-5)`, the text staying the default ink (11.2), **never a hardcoded hex**. Right and wrong carry equal weight (11.5); only on a reveal or review screen may a wrong answer add a 2px ring in the wrong red, and the answer key beside a response stays plain. It leads with a strong correct/incorrect label, shows the correct answer and explanation below when incorrect, and exposes stable `data-*` hooks (`data-correct`, `data-element-id`) for testing."
         },
         {
           "id": "C3",
@@ -1006,7 +1012,7 @@
         {
           "id": "C1",
           "title": "No hard-coded colours or fonts",
-          "test": "**Rule.** All colour and font values come from xprops: - `xprops.slide.baseColour`, `xprops.slide.textColour`, `xprops.slide.backgroundImage` - `xprops.presentation.fontFamily` - `xprops.presentationColorPalette[n]`, `xprops.presentationLighterColorPalette[n]`"
+          "test": "**Rule.** All colour and font values come from xprops, and colour reaches a hand-built element only as the `--aha-deck-*` ladder that `applyCanvasDeck` writes from them: - `xprops.slide.textColour` becomes `--aha-deck-ink` and its tints (`-ink-secondary`, `-line`, `-stroke`, `-fill`, `-surface`, `--aha-deck-container-*`, `--aha-deck-modal-*`) - `xprops.slide.baseColour`, `xprops.slide.backgroundImage` - `xprops.presentation.fontFamily` - `xprops.presentationColorPalette[n]` is the accent (`--aha-color-primary`) and the fill of charts and data, with `presentationLighterColorPalette[n]` for the lighter shade. **FAIL** when a hand-built element mixes its own shade of the ink (`color-mix()` or an opacity on `textColour`), paints with a product colour token (`--aha-text-*`, `--aha-border-*`, `--aha-bg-*`, `--aha-surface-*`), or hard-codes a colour or font. **PASS** when the same element reads the ladder (`--aha-deck-container-fill` for a panel, `--aha-deck-ink-secondary` for secondary text), or is a DS element such as `<aha-canvas-count>` that is already inked. The role to token table is on the Deck tokens page."
         },
         {
           "id": "C2",
@@ -1117,6 +1123,11 @@
           "id": "C23",
           "title": "Stage steppers and comboboxes are the DS elements, current stage in ink",
           "test": "*(Fires when the canvas shows a stage / round indicator or a type-to-pick field. N/A otherwise.)* A stage indicator is `<aha-stepper>` (size=\"lg\" on the canvas, `color` set to the deck ink) and a type-to-pick field is `<aha-autocomplete>`, both from `lib/all.js`. FAIL on hand-rolled stepper pills (`.step` spans / `<li>`s styled per slide) or a hand-built `<input>` + `<ul>` suggestion list, and FAIL when the current stage is filled or outlined with the primary accent (`--aha-color-primary`, palette[0]) — the accent belongs to the one action that advances the flow; the current stage is marked with ink."
+        },
+        {
+          "id": "C24",
+          "title": "Keyboard-only operation",
+          "test": "*(Applies to every canvas with a presenter interaction, in Standard and Immersive UI styles. A display-only canvas with nothing to press, hover or drag passes vacuously.)* Slide Plugin Policy (POLICY.md) section 6: the presenting view supports full no-mouse, no-touch operation. **Rule.** a. Every presenter interaction works with the keyboard alone: each control is reachable by Tab in a sensible (reading) order, shows a visible focus ring, and activates with Enter or Space, a declared shortcut, or a host-painted action. A `<div>`/`<span>` with a click handler and no `tabindex`/role/key handler FAILs. b. Anything shown on hover (a tooltip, a result label, a highlight, a reveal) is also shown on keyboard focus (`:focus-visible`); a hover-only reveal on a non-focusable element FAILs. c. Any drag, draw, swipe or other pointer gesture has a keyboard alternative (arrow keys, Move up / Move down buttons, Space to pick up and drop); a pointer-only gesture FAILs. d. No keyboard trap: Tab always leaves the canvas controls (a modal's contained Tab cycle is the C10 focus-trap and passes when Esc or a Close control exits). e. The canvas never swallows the deck's navigation and clicker keys (ArrowRight / ArrowLeft, PageDown / PageUp, Space): no blanket `keydown` handler that calls `preventDefault`/`stopPropagation` on them, except to claim a build step through the SDK, or while a widget the presenter has explicitly focused owns the key. Any sub-rule missed → FAIL. C10 covers the shortcut chips, tooltips and focus-trap of bespoke controls; this criterion is the reachability test for every interaction, not only those."
         }
       ]
     },
@@ -1146,7 +1157,7 @@
         {
           "id": "C1",
           "title": "No hard-coded colours or fonts",
-          "test": "**Rule.** All colour and font values come from xprops: - `xprops.slide.textColour` - `xprops.presentation.fontFamily` - `xprops.presentationColorPalette[n]`, `xprops.presentationLighterColorPalette[n]`"
+          "test": "**Rule.** All colour and font values come from xprops, and colour reaches a hand-built element only as the `--aha-deck-*` ladder that `applyDeck` writes from them: - `xprops.slide.textColour` becomes `--aha-deck-ink` and its tints (`-ink-secondary`, `-line`, `-stroke`, `-fill`, `-surface`) - `xprops.presentation.fontFamily` - `xprops.presentationColorPalette[n]`, `xprops.presentationLighterColorPalette[n]` as the accent. **FAIL** when a hand-built element mixes its own shade of the ink (`color-mix()` or an opacity on `textColour`), paints with a product colour token (`--aha-text-*`, `--aha-border-*`, `--aha-bg-*`, `--aha-surface-*`), or hard-codes a colour or font. **PASS** when it reads the ladder."
         },
         {
           "id": "C2",
@@ -1511,7 +1522,7 @@
         },
         {
           "source": "brand/colour-rules.json",
-          "use": "the web background rules W5 cites by id (3.2 to 3.5, 3.8, 3.10) and the primary-button rules W4 cites (6.1, 6.2)"
+          "use": "the web background rules W5 cites by id (3.2 to 3.5, 3.8, 3.10) and the button rules W4 cites (6.1, 6.2)"
         },
         {
           "source": "icons/registry.json",
@@ -1526,8 +1537,8 @@
         },
         {
           "id": "W2",
-          "title": "Sections keep their shipped rhythm",
-          "test": "Every section keeps the padding it ships and never overrides it: Features, Numbers, Pricing and Testimonials ship --aha-space-96 vertical and --aha-space-64 side on desktop, --aha-space-48 / --aha-space-24 at 767 px and below, --aha-space-32 / --aha-space-16 at 479 px and below; Hero (a fluid clamp), Logos (32 px vertical) and FAQ (its own gutter variable) ship different padding and keep that. Sections sit flush. An overridden section padding, a raw px padding added on top, or a margin, spacer element or divider added between sections fails. N/A when the page has a single section."
+          "title": "Sections keep their shipped rhythm and gutter",
+          "test": "Every section keeps the padding it ships and never overrides it. Side padding is one gutter, --aha-web-gutter: --aha-space-64 on desktop, --aha-space-24 at 767 px and below, --aha-space-16 at 479 px and below; Features, Numbers, Pricing, Testimonials, FAQ and the Footer banner read it on desktop too, and Heroes, page Headers, Footer and Navigation switch to it at 767 px and below. Vertical padding stays per section (Features, Numbers, Pricing and Testimonials --aha-space-96, 48 at 767 px, 32 at 479 px; Logos 32 px). A button sits --aha-space-32 below its own block's text (24 at 479 px) and a closing call to action after a list or grid sits --aha-space-48 below it (32 at 479 px). Sections sit flush. An overridden section padding or gutter, a raw px padding or button margin added on top, or a margin, spacer element or divider added between sections fails. N/A when the page has a single section."
         },
         {
           "id": "W3",
@@ -1537,7 +1548,7 @@
         {
           "id": "W4",
           "title": "One H1, one primary action per section, labelled for the page, the hero's action repeated",
-          "test": "The page has exactly one <h1>, in the Header (hero) section. No section has more than one primary button (colour rules 6.1 and 6.2); no more than two buttons sit side by side, a primary and a secondary. The Sign up or primary call to action label is written for the page's context, a verb plus what the visitor gets (Use this template on a template page, Create your quiz free on a quiz-maker page, Start free on pricing); Get started free is only the fallback when no context-specific label fits. When the page has a closing Footer banner it repeats the hero's primary call to action with the same label. Two H1s, an H1 outside the hero, two primary buttons in one section, three or more buttons in a row, or a closing banner with a different main action or label, or the generic Get started free on a page whose context has a more specific label, fails. N/A for the closing-action part when the page has no closing banner."
+          "test": "The page has exactly one <h1>, in the Header (hero) section. No section has more than one primary button (colour rule 6.1; on Vivid Pink the button is the secondary Button, rule 6.2); no more than two buttons sit side by side, a primary and a secondary. The Sign up or primary call to action label is written for the page's context, a verb plus what the visitor gets (Use this template on a template page, Create your quiz free on a quiz-maker page, Start free on pricing); Get started free is only the fallback when no context-specific label fits. When the page has a closing Footer banner it repeats the hero's primary call to action with the same label. Two H1s, an H1 outside the hero, two primary buttons in one section, three or more buttons in a row, or a closing banner with a different main action or label, or the generic Get started free on a page whose context has a more specific label, fails. N/A for the closing-action part when the page has no closing banner."
         },
         {
           "id": "W5",
@@ -1593,6 +1604,11 @@
           "id": "W15",
           "title": "Content card links and section link-out buttons open in a new tab, Sign up does not",
           "test": "Every content card link and see-more link to another page in a Marketing section (Template, Testimonial or case-study, Integration, Article, Feature and Use-case card links, and a Features `Learn more` link) opens in a new tab: `target=\"_blank\"` with `rel=\"noopener\"`, plus a visually-hidden \"(opens in a new tab)\" inside the link for screen readers (`aha-marketing-card__visually-hidden`, `aha-testimonials__visually-hidden` or `aha-features__visually-hidden`), so readers keep the page open and stay longer. So do the section link-out buttons that go to another page (Browse all templates, See all integrations, Read customer stories, Read the docs): the same `target=\"_blank\"`, `rel=\"noopener\"` and hidden new-tab text (`aha-testimonials__visually-hidden`, `aha-faq__visually-hidden`). In the Footer every link that leaves AhaSlides (the G2 and Training Magazine Network award badges, the DMCA badge, the System status page and the social channels) opens in a new tab with `rel=\"noopener\"` and a new-tab cue in its label, all alike. Sign up and the hero's primary call to action (Header, Features, Numbers, Pricing, Footer banner), the Navigation links and the Footer links to AhaSlides pages stay in the same tab. A content card link that opens in the same tab, a new-tab link with no `rel=\"noopener\"` or no hidden new-tab text, a link-out button or an off-site Footer link that opens in the same tab, one off-site Footer badge or social link without the new tab while its neighbours have it, or a Sign up button that opens a new tab fails. N/A when the page has no content card link."
+        },
+        {
+          "id": "W16",
+          "title": "Every button is the DS Button, never restyled",
+          "test": "Every button on the page, the Navigation Log in and Sign up, the Join button and every header, section and footer banner call to action included, is <aha-button variant size> (href for a link, type=\"submit\" in a form), and the page's own CSS sets only layout on it (margin, flex, width, order, align-self). A button the page draws itself (a class named button, btn or cta, or a <button>, [role=button] or link given its own fill, border, radius, height or hover) fails, and so does any colour, fill, border, shadow, height or :hover, :active or :focus rule on aha-button, its ::part or a --aha-button-* token, as screen-lint hand-rolled-button reports. N/A when the page has no button."
         },
         {
           "id": "W17",

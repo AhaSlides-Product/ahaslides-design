@@ -46,7 +46,7 @@
     },
     {
       "label": "Reveal",
-      "value": "a tick (success) or cross (error) on every row; the correct row ringed in success, my wrong pick ringed (2px) and tinted in error, the other rows mute to 55%"
+      "value": "a tick or cross on every row; the correct row edged in --aha-answer-correct, my wrong pick edged and ringed (2px) in --aha-answer-wrong, both on the 5% tint, the other rows mute to 55%"
     },
     {
       "label": "Locked",
@@ -204,5 +204,8 @@
       "gap": "8px",
       "pickedControl": "rgb(231, 14, 104)"
     }
-  }
+  },
+  "environment": [
+    "audience"
+  ]
 }

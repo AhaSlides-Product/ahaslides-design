@@ -146,7 +146,7 @@ The same two-jobs split as the canvas, with less theme forwarded.
 | --- | --- |
 | `colorSuccess` | ✓ icon, "submitted" badge |
 | `colorError` | ✗ icon, validation error, destructive |
-| `--aha-answer-correct` / `--aha-answer-wrong` | the correct-answer and wrong-answer disc, row edge and tints, answers only (colour rules section 11) |
+| `--aha-answer-correct` / `--aha-answer-wrong` | the correct-answer and wrong-answer disc (drawn only by `<aha-answer-mark>`), row edge and tints, answers only (colour rules section 11) |
 | `colorWarning` | caution, "are you sure?" prompt body |
 | `colorInfo` | informational note |
 

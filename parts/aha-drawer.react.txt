@@ -1,0 +1,26 @@
+import '@ahaslides-product/design/aha-drawer';
+import '@ahaslides-product/design/aha-button';
+import { useEffect, useRef, useState } from 'react';
+
+// React (< 19) binds custom-element events through a ref; `open` is set as an attribute.
+export function ParticipantReport() {
+  const [open, setOpen] = useState(false);
+  const drawer = useRef(null);
+  useEffect(() => {
+    const element = drawer.current;
+    const onClosed = () => setOpen(false);
+    element.addEventListener('closed', onClosed);
+    return () => element.removeEventListener('closed', onClosed);
+  }, []);
+  return (
+    <>
+      <aha-button variant="secondary" onClick={() => setOpen(true)}>Participant report</aha-button>
+      <aha-drawer ref={drawer} heading="Participant report" open={open ? '' : undefined}>
+        <p>Minh Anh answered 4 of 5 questions correctly.</p>
+        <div slot="footer" style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <aha-button variant="primary" onClick={() => drawer.current.close()}>Done</aha-button>
+        </div>
+      </aha-drawer>
+    </>
+  );
+}
