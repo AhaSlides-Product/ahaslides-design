@@ -14,7 +14,7 @@
     <aha-skeleton variant="title"></aha-skeleton>
     <aha-skeleton variant="paragraph" rows="3"></aha-skeleton>
     <div style="display:flex; gap:12px">
-      <aha-skeleton variant="button"></aha-skeleton>       <!-- round for a pill: variant="button" round -->
+      <aha-skeleton variant="button"></aha-skeleton>       <!-- softer corners: variant="button" round -->
       <aha-skeleton variant="image" style="width:120px"></aha-skeleton>
     </div>
   </div>

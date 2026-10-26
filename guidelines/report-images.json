@@ -77,7 +77,7 @@
     {
       "ref": "--aha-text-default",
       "as": "token",
-      "use": "black: all text and figures, rises, and the fall pill",
+      "use": "black: all text and figures, rises, and the fall chip",
       "status": "available"
     },
     {
@@ -179,7 +179,7 @@
     },
     {
       "id": "plates",
-      "rule": "A number plate (the KPI tile) is a flat card in Vivid Pink at 5% with a 4px Vivid Pink top bar and 8px corners: the label in black 400, the value in black 600, the change as an absolute number and a whole percent, then the comparison caption in secondary text. A rise is black with the up arrow; a fall is white on a black pill with the down arrow. No green, red or other status colour, and no shadow. On a report page it is <aha-stat-tile look=\"accent\">, as many as the report needs; in an image it is drawn to the same spec. Colour rule 3.11 allows the pale pink card in both.",
+      "rule": "A number plate (the KPI tile) is a flat card in Vivid Pink at 5% with a 4px Vivid Pink top bar and 8px corners: the label in black 400, the value in black 600, the change as an absolute number and a whole percent, then the comparison caption in secondary text. A rise is black with the up arrow; a fall is white on a black chip with the down arrow. No green, red or other status colour, and no shadow. On a report page it is <aha-stat-tile look=\"accent\">, as many as the report needs; in an image it is drawn to the same spec. Colour rule 3.11 allows the pale pink card in both.",
       "ref": [
         "C12"
       ]
