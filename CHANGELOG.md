@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.398.0 — 2026-10-26
 ### Added
-- Website > Marketing > Features: three Bento layouts, a mosaic of tiles in different sizes where every tile shows a live result instead of a picture (an `<aha-chart>` poll, word cloud or leaderboard, `<aha-avatar>` photos in a Q&A list, Logo library logos): one big tile and three around it (`aha-features--bento-spotlight`), a wide Accent tile and one tall tile (`aha-features--bento-tall`) and offset rows (`aha-features--bento-offset`). Titles only, one Learn more link, one call to action, about 810 to 840 px at 1440; two columns below 992 px, one below 600 px. The docs previews now load `aha-chart.js` (#389)
+- Website > Marketing > Features: three Bento layouts, a mosaic of tiles in different sizes where every tile shows a live result instead of a picture (an `<aha-chart>` poll, word cloud or leaderboard, `<aha-avatar>` photos in a Q&A list, Logo library logos): one big tile and three around it (`aha-features--bento-spotlight`), a wide Accent tile and one tall tile (`aha-features--bento-tall`) and offset rows (`aha-features--bento-offset`). Titles only, one Learn more link, one call to action, about 850 to 960 px at 1440; a tile shows only whole rows, never a half-cut line; two columns below 992 px, one below 600 px. The docs previews now load `aha-chart.js` (#389)
 - Revert: revert the PR; three new layouts in `marketing/features.json`, the existing layouts are untouched (#389)
 
 ### Changed
