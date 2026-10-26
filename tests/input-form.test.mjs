@@ -26,12 +26,15 @@ test('aha-input is form-associated, submits on Enter, names itself and points at
     await enterIn('with-disabled-button');
     await enterIn('two-first');
     await enterIn('date-first');
+    await enterIn('with-native-button');
+    await enterIn('vetoed');
     await evaluate(`document.getElementById('external').focus()`);
     await press('X', 'KeyX', 88, 'X');
     await new Promise((resolve) => setTimeout(resolve, 50));
 
     const out = {};
     out.counts = await evaluate('window.submitCounts');
+    out.submitters = await evaluate('window.submitters');
     out.formData = await evaluate(`JSON.stringify([...new FormData(document.getElementById('external-label-form'))])`);
     out.searchForm = await evaluate(`JSON.stringify([...new FormData(document.getElementById('search-form'))])`);
     out.controlsMatch = await evaluate(`(() => { const f = ${inner('search', '')}; return 'ariaControlsElements' in f ? (f.ariaControlsElements || []).map((el) => el.id).join() : 'unsupported'; })()`);
@@ -58,6 +61,9 @@ test('aha-input is form-associated, submits on Enter, names itself and points at
   assert.equal(result.counts['disabled-button-form'], 0, 'a disabled default button blocks implicit submit');
   assert.equal(result.counts['two-field-form'], 0, 'two fields and no submit button: no implicit submit, as native');
   assert.equal(result.counts['date-form'], 0, 'a native date input also blocks implicit submit, as native');
+  assert.equal(result.counts['submitter-form'], 1, 'a native default button submits once');
+  assert.equal(result.submitters['submitter-form'], 'native-go', 'the native default button is the submitter');
+  assert.equal(result.counts['veto-form'], 0, 'a host keydown listener that prevents default vetoes the implicit submit');
   assert.deepEqual(JSON.parse(result.searchForm), [['q', 'intro']], 'value joins the form data under name');
   const [[, typed]] = JSON.parse(result.formData);
   assert.ok(typed.endsWith('X'), 'typed text reaches the form data');

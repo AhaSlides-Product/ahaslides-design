@@ -37,16 +37,27 @@
     <button type="reset" id="reset">Reset</button>
   </form>
 
+  <form id="submitter-form">
+    <aha-input id="with-native-button" name="email"></aha-input>
+    <button type="submit" id="native-go" name="intent" value="join">Join</button>
+  </form>
+
+  <form id="veto-form">
+    <aha-input id="vetoed" name="email"></aha-input>
+  </form>
+
   <fieldset id="locked" disabled>
     <aha-input id="in-fieldset" name="locked"></aha-input>
   </fieldset>
 
   <script type="module">
     window.submitCounts = {};
+    window.submitters = {};
     for (const form of document.forms) {
       window.submitCounts[form.id] = 0;
-      form.addEventListener('submit', (event) => { event.preventDefault(); window.submitCounts[form.id] += 1; });
+      form.addEventListener('submit', (event) => { event.preventDefault(); window.submitCounts[form.id] += 1; window.submitters[form.id] = event.submitter && event.submitter.id; });
     }
+    document.getElementById('vetoed').addEventListener('keydown', (event) => { if (event.key === 'Enter') event.preventDefault(); });
     await import('../lib/aha-input.js');
     await import('../lib/aha-button.js');
     await customElements.whenDefined('aha-input');
