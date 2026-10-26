@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Button focus ring</title>
+<link rel="stylesheet" href="../lib/tokens.css">
+<style id="consumer" media="not all">
+  aha-button{ --aha-button-elevate-primary:0 4px 8px rgba(0,0,0,.4); --aha-button-elevate-secondary:0 4px 8px rgba(0,0,0,.4) }
+  aha-button::part(button){ box-shadow:var(--aha-button-elevate-secondary) }
+</style>
+</head>
+<body>
+  <div id="stage">
+    <aha-button id="primary" variant="primary">Primary</aha-button>
+    <aha-button id="secondary" variant="secondary">Secondary</aha-button>
+    <aha-button id="tertiary" variant="tertiary">Tertiary</aha-button>
+    <aha-button id="link" variant="link">Link</aha-button>
+    <aha-button id="positive" variant="positive">Positive</aha-button>
+    <aha-button id="secondary-deck" variant="secondary-deck">Secondary deck</aha-button>
+    <aha-button id="tertiary-deck" variant="tertiary-deck">Tertiary deck</aha-button>
+    <aha-button id="text" variant="text">Text</aha-button>
+    <aha-button id="text-link" variant="text-link">Text link</aha-button>
+    <aha-button id="primary-alt" variant="primary-alt">Primary alt</aha-button>
+    <aha-button id="danger" variant="danger">Danger</aha-button>
+  </div>
+  <script type="module">
+    await import('../lib/aha-button.js');
+    await customElements.whenDefined('aha-button');
+    window.focusRingFixtureReady = !!document.querySelector('#secondary').shadowRoot?.querySelector('button');
+  </script>
+</body>
+</html>
