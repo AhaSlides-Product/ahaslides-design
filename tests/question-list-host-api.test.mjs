@@ -122,6 +122,16 @@ test('question-leave fires once when focus or a press leaves a question, slotted
   assert.equal(result.total, 2);
 });
 
+test('question-leave counts a press inside a question that never took focus', { skip }, async () => {
+  const result = await run('', `
+    card('q2').querySelector('.prompt').dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, composed: true }));
+    document.getElementById('outside').dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, composed: true })); await frame();
+    document.body.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, composed: true })); await frame();
+    return log.filter((entry) => entry.type === 'question-leave').map((entry) => entry.detail);
+  `);
+  assert.deepEqual(result, [{ id: 'q2', index: 1 }]);
+});
+
 test('same-shape questions patch in place and keep focus; current, untitled and dir apply', { skip }, async () => {
   const result = await run('multiline promptmaxlength="1000" optionmaxlength="60" testid="ql"', `
     const field = card('q1').querySelector('aha-counted-textarea');
