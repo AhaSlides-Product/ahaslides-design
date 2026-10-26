@@ -4,7 +4,7 @@ import { existsSync, mkdtempSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { evaluateInPage, measureAtViewports, resolveChrome } from '../cdp.mjs';
+import { evaluateInPage, measureAtViewports, resolveChrome, withPage } from '../cdp.mjs';
 
 const skip = existsSync(resolveChrome()) ? false : 'needs headless Chrome (set CHROME_BIN)';
 const lib = pathToFileURL(fileURLToPath(new URL('../lib/all.js', import.meta.url))).href;
@@ -192,4 +192,53 @@ test('locked row popover inside an overflow:auto side panel is not clipped, and 
   assert.equal(result.openedHit, true, 'popover centre must hit the popover, not the panel');
   assert.ok(result.beforeGap < 12 && result.afterGap < 12, JSON.stringify(result));
   assert.equal(result.closedWhenAnchorScrolledAway, true, JSON.stringify(result));
+});
+
+const twoRowsPage = `<!doctype html><body style="margin:0;font-family:sans-serif;padding:80px 40px 16px;width:700px">
+<aha-setting-row id="a" label="Custom branding" locked><aha-switch slot="control"></aha-switch></aha-setting-row>
+<aha-setting-row id="b" label="Brand theme" locked><aha-switch slot="control"></aha-switch></aha-setting-row>
+<aha-paywall id="plain" feature-label="Plain"></aha-paywall>
+<script type="module">import '${lib}'; window.ready = true;</script>`;
+
+test('opening a paywall closes every other open one, whichever way it was opened', { skip }, async () => {
+  const file = join(mkdtempSync(join(tmpdir(), 'paywall-single-')), 'page.html');
+  writeFileSync(file, twoRowsPage);
+  const result = await evaluateInPage(pathToFileURL(file).href, `(async () => {
+    const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+    const lockOf = (id) => document.getElementById(id).shadowRoot.querySelector('.lock');
+    const clickControl = (id) => document.getElementById(id).shadowRoot.querySelector('.control').dispatchEvent(new MouseEvent('click', { bubbles: true, composed: true }));
+    const plain = document.getElementById('plain');
+    const openIds = () => [lockOf('a'), lockOf('b'), plain].map((el, index) => el.hasAttribute('open') ? index : null).filter((index) => index !== null);
+    clickControl('a'); await wait(50);
+    const afterA = openIds();
+    clickControl('b'); await wait(50);
+    const afterB = openIds();
+    plain.setAttribute('open', ''); await wait(50);
+    const afterPlain = openIds();
+    plain.shadowRoot.querySelector('.mark').click(); await wait(50);
+    clickControl('a'); await wait(50);
+    return { afterA, afterB, afterPlain, afterReopen: openIds() };
+  })()`, { readyExpr: '!!window.ready && !!customElements.get("aha-switch") && !!customElements.get("aha-paywall")' });
+  assert.deepEqual(result, { afterA: [0], afterB: [1], afterPlain: [2], afterReopen: [0] });
+});
+
+test('the first open of a locked row popover is a pure vertical lift, never a sideways slide', { skip }, async () => {
+  const file = join(mkdtempSync(join(tmpdir(), 'paywall-first-open-')), 'page.html');
+  writeFileSync(file, twoRowsPage);
+  const result = await withPage(pathToFileURL(file).href, async (command) => {
+    await command('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'no-preference' }] });
+    const run = await command('Runtime.evaluate', { awaitPromise: true, returnByValue: true, expression: `new Promise((resolve) => {
+      const host = document.getElementById('a');
+      const pop = host.shadowRoot.querySelector('.lock').shadowRoot.querySelector('.pop');
+      const lefts = []; const tops = []; const start = performance.now();
+      const tick = () => { const box = pop.getBoundingClientRect(); lefts.push(box.left); tops.push(box.top);
+        if (performance.now() - start < 350) requestAnimationFrame(tick); else resolve({ lefts, tops }); };
+      requestAnimationFrame(() => { host.shadowRoot.querySelector('.control').dispatchEvent(new MouseEvent('click', { bubbles: true, composed: true })); tick(); });
+    })` });
+    return run.result.value;
+  }, { readyExpr: '!!window.ready && !!customElements.get("aha-switch") && !!customElements.get("aha-paywall")' });
+  const spreadX = Math.max(...result.lefts) - Math.min(...result.lefts);
+  const spreadY = Math.max(...result.tops) - Math.min(...result.tops);
+  assert.ok(spreadX < 0.5, `horizontal travel ${spreadX}px`);
+  assert.ok(spreadY > 2, `expected a vertical lift, got ${spreadY}px`);
 });
