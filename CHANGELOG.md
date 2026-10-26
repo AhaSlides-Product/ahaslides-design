@@ -22,6 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.436.0 — 2026-10-26
+### Added
+- Progress: a running state. `status="active"` on a line `<aha-progress>` / `<aha-progressbar>` now draws white diagonal stripes moving over the fill, on the new `--aha-motion-loop`; they stop under `prefers-reduced-motion`. Steps and circle are unchanged. The Progressbar page has a Running example. (#184)
+- Tokens: `--aha-shadow-floating` (the Notification elevation), `--aha-layer-floating` (1100) and `--aha-floating-inset-bottom` (88px) for fixed floating cards. (#184)
+### Changed
+- Background task: the bar is now the DS `<aha-progress size="small">` in its running state (6px, grey track, DS fill and motion, stripes kept); offline turns it grey and still. The card binds to DS tokens throughout: heading in text-default, description and caption in text-secondary, radius-lg, the floating shadow, the space, size, line-height and motion tokens. The private `--aha-toast-*` custom properties are removed; they were never documented API. (#184)
+
 ## 0.434.0 — 2026-10-26
 ### Fixed
 - `<aha-button>` keyboard focus is now an outline, a 2px solid ring 2px outside the button (`--aha-button-focus-ring`), with the gap still a box-shadow (`--aha-button-focus-gap`). The ring used to be a box-shadow, the same property as the elevation, so a box-shadow a consumer put on the button (a `::part(button)` rule built on `--aha-button-elevate-secondary`, for example) replaced it and a Tab-focused secondary button showed no ring. `secondary-deck` and `tertiary-deck` now draw the same ring instead of the browser's `outline:auto`. Default look, hover and press are unchanged; `--aha-button-focus-outline` and the new `--aha-button-focus-outline-offset` re-point the outline. (#372)

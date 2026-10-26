@@ -2,10 +2,17 @@
   <div class="lbl">Progress with a label</div>
   <div style="display:flex; flex-direction:column; gap:16px; max-width:360px">
     <aha-progressbar data-probe value="3" max="10" label="Quiz progress" value-text="Question 3 of 10"></aha-progressbar>
-    <aha-progressbar value="64" label="Uploading image" status="active"></aha-progressbar>
     <aha-progressbar value="100" label="Upload complete" status="success"></aha-progressbar>
     <aha-progressbar value="2" max="4" steps="4" label="Setup steps" value-text="Step 2 of 4"></aha-progressbar>
     <aha-progressbar value="45" type="circle" size="small" label="Poll turnout"></aha-progressbar>
+  </div>
+</div>
+
+<div class="pad">
+  <div class="lbl">Running</div>
+  <div style="display:flex; flex-direction:column; gap:16px; max-width:360px">
+    <aha-progressbar value="64" label="Uploading image" status="active"></aha-progressbar>
+    <aha-progressbar value="42" label="Importing slides" status="active" size="small" show-info="false"></aha-progressbar>
   </div>
 </div>
 

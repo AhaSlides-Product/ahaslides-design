@@ -2,7 +2,7 @@
      <aha-progress> is the SAME shared custom element React and Vue consume — here in its
      native form. Theming comes only from the --aha-* tokens in tokens.css.
      type: line (default) | circle · size: default | small · steps: N (segmented line) ·
-     status: default | active | success | warning | exception · show-info="false" hides the label. -->
+     status: default | active | success | warning | exception (active = running, moving stripes) · show-info="false" hides the label. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';       // <aha-icon> for the status glyph
