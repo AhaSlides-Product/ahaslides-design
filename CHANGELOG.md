@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.396.0 — 2026-10-26
+### Added
+- Website > Marketing > Features: five Compact layouts that keep the section within one screen (about 560 to 800 px at 1440): accordion beside one image (`aha-features--compact-accordion`), tabs over one screenshot with a centred tab row (`aha-features--compact-tabs`), swipeable card scroller (`aha-features--compact-scroller`), pick from a list (`aha-features--compact-master-detail`) and top three with a See all features button (`aha-features--compact-see-all`). 48 px top and bottom padding on the shipped side gutters, the shipped closing call-to-action row, no intro sentence under the title, closed content stays in the HTML (#386)
+- Revert: revert the PR; five new layouts in `marketing/features.json`, the 11 existing layouts are untouched (#386)
+
 ## 0.395.0 — 2026-10-26
 ### Added
 - `applyCanvasDeck` takes an optional `palette` (the deck's `presentationColorPalette`) and writes `--aha-deck-palette-<n>` (the colour) and `--aha-deck-palette-<n>-ink` (`#1A1A1A` or white, whichever contrasts more, AA 4.5:1) for each colour, 1-based, up to 24; a slide type styles a palette container with tokens only. Without `palette` nothing changes
