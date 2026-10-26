@@ -1,0 +1,19 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-question-nav';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// QuestionNav.vue
+<script setup>
+defineProps({ count: Number, current: Number, results: String });
+const emit = defineEmits(['select']);
+</script>
+<template>
+  <aha-question-nav
+    :count="count"
+    :current="current"
+    :results="results"
+    :label="t('report.questions')"
+    :item-label="t('report.questionN')"
+    @change="emit('select', $event.detail.value)"
+  />
+</template>

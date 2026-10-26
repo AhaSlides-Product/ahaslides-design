@@ -87,6 +87,18 @@
       "desc": "Non-interactive, dimmed panel (observed → aria-disabled synced)"
     },
     {
+      "name": "status",
+      "type": "'error' | 'warning'",
+      "default": "—",
+      "desc": "Paints the panel border with --aha-border-error or --aha-border-warning (both resolve to the text ink today). Absent, the panel renders as before"
+    },
+    {
+      "name": "selected",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Marks the head as the current row (for example the one playing): keeps the --aha-bg-hover background and sets aria-current=\"true\" on the head button. Replaces a hand-set ::part(head) background"
+    },
+    {
       "name": "header",
       "type": "slot",
       "default": "Section",
