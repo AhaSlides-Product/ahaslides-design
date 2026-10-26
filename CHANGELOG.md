@@ -25,7 +25,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.400.0 — 2026-10-26
 ### Added
 - `applyDeck` (the audience phone) writes `--aha-deck-palette-<n>` and `--aha-deck-palette-<n>-ink` for each colour of `slide.presentationColorPalette`, the same pairs `applyCanvasDeck` writes (1-based, up to 24, the ink `#1A1A1A` or white by contrast); the pairs come from one shared `paletteVars` in `lib/deck.js`, so the canvas and the phone cannot drift. Without a palette nothing is written
-- Revert: revert the PR; additive, no existing token changes (#PRNUM)
+- Revert: revert the PR; additive, no existing token changes (#391)
 
 ## 0.396.0 — 2026-10-26
 ### Added
