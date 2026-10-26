@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.439.0 — 2026-10-26
+## 0.443.0 — 2026-10-26
 ### Added
 - Empty state guideline (`guidelines/empty-state.json`, Patterns badge): the full pattern (an `empty-*` spot illustration, a semibold title, one or two short sentences, at most one action, centred) at page scale (art 128, 16 px gaps, 18 px title) and panel scale (art 100, 144 px padding, 16 and 8 px gaps, 16 px title), when to use plain `<aha-empty>` instead (tables, lists, areas under 240 px), copy rules, do and don't, and "no content is never an error". Built from the three approved Reports states; listed in `guidelines.llms.txt`, the guideline agent feed and the product route
 - Three illustrations in the `empty` family: `empty-report`, `empty-participants`, `empty-feedback` (28 in the registry, up from 25)
@@ -31,6 +31,17 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - UX writing UXW-6 now says an empty state has at most one next action, matching the Empty state guideline; its composed-of list points at `empty` instead of a missing empty-state component
 - A guideline can set `patternsNav` to list itself, and render, under the Patterns sidebar (group "Composition guides"); the Empty state guideline does, and its panel padding is `calc(var(--aha-space-80) + var(--aha-space-64))` so no value is off the token scale
 - Revert: revert the PR; a new doc page and three additive illustrations, no existing name or value changes (#388)
+
+## 0.441.0 — 2026-10-26
+### Removed
+- **Breaking:** the `--aha-radius-pill` token (`radius.pill`, 999px) and the pill shape. AhaSlides has no pill: a true circle (avatar, dot, radio mark, slider thumb, spinner, count disc) is `border-radius: 50%`; every elongated shape (badge, count bubble, chip, tag, switch track, progress and slider tracks) takes a radius from the 4 · 6 · 8 · 12 · 16 scale. Consumers that read `--aha-radius-pill` fall back to their own value: replace it with `50%` or a scale token (#337).
+- `<aha-image radius="pill">`: the option is gone, an unknown value keeps the default 8px frame (#337).
+### Changed
+- Components re-shaped: Badge count bubble 4px, Progress / Countdown / Uploader / background task tracks 4px, Stat tile fall chip 4px, Switch track 6px, tooltip help trigger 4px; avatars, dots, radio-like marks, thumbs and spinners are 50% circles. Skeleton `round` now softens corners to `radius-lg` (12px) and leaves the avatar a circle (#337).
+- Audience and canvas kits, Marketing sections (Cards, FAQ, Header badges, Pricing slider) and the docs search chips follow the same rule; the Foundations Radius page, `design.md` and the canvas / audience / settings / feedback / report-image guidelines say there is no pill shape (#337).
+- `standards.mjs` fails a 999px radius and any `--aha-radius-pill` reference in component source (#337).
+- `screen-lint` fails a 999px or 9999px `border-radius` as `radius-off-scale` (#337).
+
 
 ## 0.437.0 — 2026-10-26
 ### Added
