@@ -121,6 +121,12 @@
       "type": "boolean",
       "default": "false",
       "desc": "(item / schema row) Plan-gates the row: stays visible, the shared Paywall crown badge sits after the label in place of the \"?\" and the control is disabled. Pair with `plan` ('essential'|'pro'), `feature` (the upsell label; defaults to the row label), `featureKey` (analytics key) and `upgradeBody` (one-sentence benefit shown in the popover)"
+    },
+    {
+      "name": "badge",
+      "type": "slot",
+      "default": "—",
+      "desc": "(item) A New or Beta tag — a DS <aha-badge kind=\"new|beta\"> with slot=\"badge\" — in the label line after the \"?\" or the crown, never beside the control"
     }
   ],
   "events": [
