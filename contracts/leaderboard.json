@@ -84,9 +84,9 @@
   "props": [
     {
       "name": "entries",
-      "type": "JSON [{id, name, score, avatar?, members?, colour?}]",
+      "type": "JSON [{id, name, score, avatar?, members?}]",
       "default": "[]",
-      "desc": "The scores, in any order. Also the `entries` property. `avatar` is an emoji or an image URL; `members` makes the row a team; `colour` picks a deck palette colour (1-based) for a team"
+      "desc": "The scores, in any order. Also the `entries` property. `avatar` is an emoji or an image URL; `members` makes the row a team"
     },
     {
       "name": "me",

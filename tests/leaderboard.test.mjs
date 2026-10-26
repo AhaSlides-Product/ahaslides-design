@@ -50,3 +50,23 @@ test('leaderboard: renders ranks, trophy on first, pinned own row and the more l
   assert.equal(result.ordered, true);
   assert.equal(result.emptyShown, true);
 });
+
+test('leaderboard: the own-row tag is drawn once on its own fill, and the empty state is centred in the element', { skip }, async () => {
+  const file = join(mkdtempSync(join(tmpdir(), 'leaderboard-')), 'page.html');
+  const entries = [{ id: 'a', name: 'Linh', score: 1000 }, { id: 'b', name: 'Quynh', score: 300 }];
+  writeFileSync(file, `<!doctype html><body>
+<aha-leaderboard id="lb" me="b" style="display:block;width:400px" entries='${JSON.stringify(entries)}'></aha-leaderboard>
+<aha-leaderboard id="empty" style="display:block;height:200px" entries="[]"></aha-leaderboard>
+<script type="module">import '${lib}'; await customElements.whenDefined('aha-leaderboard'); await new Promise((r) => setTimeout(r, 400)); window.ready = true;</script>`);
+  const result = await evaluateInPage(pathToFileURL(file).href, `(() => {
+    const row = document.getElementById('lb').shadowRoot.querySelector('li.row[data-me]');
+    const [base, over] = [...row.querySelectorAll('.tag')].map((tag) => getComputedStyle(tag));
+    const empty = document.getElementById('empty');
+    const box = empty.shadowRoot.querySelector('li.empty').getBoundingClientRect();
+    const host = empty.getBoundingClientRect();
+    return { baseBackground: base.backgroundColor, overVisibility: over.visibility, offset: Math.abs((box.top + box.height / 2) - (host.top + host.height / 2)) };
+  })()`, { readyExpr: '!!window.ready', timeout: 45000 });
+  assert.notEqual(result.baseBackground, 'rgba(0, 0, 0, 0)');
+  assert.equal(result.overVisibility, 'hidden');
+  assert.ok(result.offset < 2, JSON.stringify(result));
+});
