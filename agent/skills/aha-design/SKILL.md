@@ -141,7 +141,9 @@ Read the list from the DS each time — surfaces get added.
     change only), never `size="xl"` or `::part` sizing. A labelled one carries its key in the
     display-only `shortcut` attribute; an icon-only one sits in
     `<aha-tooltip size="lg" text="Mute music" shortcut="M">` with `aria-label="Mute music (M)"`.
-    No `tertiary-deck` on a photographic deck. Detail in the `canvas` guideline.
+    No `tertiary-deck` on a photographic deck. Text on a deck palette colour uses the
+    `--aha-deck-palette-<n>` / `-ink` pair `applyCanvasDeck` writes from `palette:`, never a hand-rolled
+    luminance flip. Detail in the `canvas` guideline.
 11. Actions on a slide type's audience phone are `<aha-audience-submit>` for the submit and
     `<aha-button size="touch">` in `primary`, `secondary-deck` or `tertiary-deck` for the rest, from
     `lib/audience.js`, never a raw `<button>`. A modal or sheet closes with the ✕ `<aha-button variant="tertiary-deck" size="md" icon-only>` (36px drawn, 44px hit area, `sheet` on white), not the 48px icon-only. Detail in the `audience` guideline.

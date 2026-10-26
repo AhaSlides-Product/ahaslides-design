@@ -11,7 +11,7 @@ const INKS = ['#1A1A1A', '#FFFFFF', 'rgb(40, 80, 200)'];
 test('both surface entries re-export the shared ladder from deck.js', () => {
   for (const entry of ['audience', 'canvas']) {
     const source = readFileSync(new URL(`../lib/${entry}.js`, import.meta.url), 'utf8');
-    assert.match(source, /export \{ applyDeckTokens, deckTokens \} from '\.\/deck\.js';/, entry);
+    assert.match(source, /export \{ applyDeckTokens, deckTokens, readableTextInk \} from '\.\/deck\.js';/, entry);
   }
 });
 
