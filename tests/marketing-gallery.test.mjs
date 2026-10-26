@@ -46,8 +46,49 @@ test('the current slideshow dot changes fill as well as width, on White and on V
     }
     assert.match(layout.css, /__dot\[aria-current="true"\]::before\{width:var\(--aha-space-28\);background:/, slug);
   }
-  const pink = header.layouts.find((layout) => layout.slug === 'hero-pink-slideshow');
-  assert.match(pink.css, new RegExp(`--${pink.class}-dot:var\\(--aha-white-a50\\);--${pink.class}-dot-hover:var\\(--aha-white-a90\\);--${pink.class}-dot-current:var\\(--aha-white\\)`));
+});
+
+const lightThemeTokens = readFileSync(new URL('../lib/tokens.css', import.meta.url), 'utf8').match(/^:root\{[^}]*\}/m)[0];
+const tokenValues = Object.fromEntries([...lightThemeTokens.matchAll(/(--aha-[a-z0-9-]+):\s*([^;}]+)/g)].map((match) => [match[1], match[2].trim()]));
+const resolveToken = (value) => {
+  const reference = value.match(/^var\((--[a-z0-9-]+)\)$/);
+  return reference ? resolveToken(tokenValues[reference[1]]) : value;
+};
+const relativeLuminance = (channels) => channels.map((channel) => {
+  const linear = channel / 255;
+  return linear <= 0.03928 ? linear / 12.92 : ((linear + 0.055) / 1.055) ** 2.4;
+}).reduce((sum, linear, index) => sum + linear * [0.2126, 0.7152, 0.0722][index], 0);
+const parseColour = (colour) => {
+  const functional = colour.match(/^rgba?\(([^)]*)\)$/);
+  if (functional) {
+    const [red, green, blue, alpha = 1] = functional[1].split(',').map(Number);
+    return [red, green, blue, alpha];
+  }
+  const hex = colour.slice(1);
+  return [0, 2, 4].map((offset) => parseInt(hex.slice(offset, offset + 2), 16)).concat(hex.length === 8 ? parseInt(hex.slice(6, 8), 16) / 255 : 1);
+};
+const contrastOnSurface = (tokenReference, surfaceHex) => {
+  const surface = parseColour(surfaceHex).slice(0, 3);
+  const [red, green, blue, alpha] = parseColour(resolveToken(tokenReference));
+  const painted = [red, green, blue].map((channel, index) => channel * alpha + surface[index] * (1 - alpha));
+  const [lighter, darker] = [relativeLuminance(painted), relativeLuminance(surface)].sort((first, second) => second - first);
+  return (lighter + 0.05) / (darker + 0.05);
+};
+
+test('every resting and current dot clears 3:1 against its surface, White and Vivid Pink (WCAG 1.4.11)', () => {
+  const checks = [];
+  for (const slug of ['hero-slideshow', 'hero-pink-slideshow']) {
+    const layout = header.layouts.find((candidate) => candidate.slug === slug);
+    for (const [selector, surface] of [[`.${layout.class}{`, '#FFFFFF'], [`.${layout.class}--brand{`, '#E70E68']]) {
+      const block = layout.css.slice(layout.css.indexOf(selector + `--${layout.class}-dot:`));
+      for (const role of ['dot', 'dot-current']) checks.push([`${slug} ${selector} ${role}`, block.match(new RegExp(`--${layout.class}-${role}:(var\\([^)]*\\))`))[1], surface]);
+    }
+  }
+  const carousel = gallery.baseCss + gallery.layouts.map((layout) => layout.css).join('');
+  for (const role of ['dot', 'dot-current']) checks.push([`gallery ${role}`, carousel.match(new RegExp(`--aha-gallery-${role}:(var\\([^)]*\\))`))[1], '#FFFFFF']);
+  for (const [label, tokenReference, surface] of checks) {
+    assert.ok(contrastOnSurface(tokenReference, surface) >= 3, `${label} ${tokenReference} on ${surface} is ${contrastOnSurface(tokenReference, surface).toFixed(2)}:1`);
+  }
 });
 
 test('W9: every gallery transition and loop is token-timed and stops under reduced motion', () => {
