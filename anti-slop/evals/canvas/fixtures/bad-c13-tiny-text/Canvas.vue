@@ -60,6 +60,6 @@ const rows = computed(() => slideProps.value?.rows ?? [])
 /* ❌ C13 — meaningful text well below the 16px legible floor */
 .answer { font-size: 11px; font-weight: 400; }   /* 11px — illegible on a projector */
 .share  { font-size: 2.3vh; font-weight: 600; }  /* ~11px against the framed iframe viewport */
-.bar-track { flex: 1; height: 1.6vh; background: color-mix(in srgb, currentColor 10%, transparent); border-radius: 999px; }
-.bar-fill { display: block; height: 100%; border-radius: 999px; }
+.bar-track { flex: 1; height: 1.6vh; background: color-mix(in srgb, currentColor 10%, transparent); border-radius: 4px; }
+.bar-fill { display: block; height: 100%; border-radius: 4px; }
 </style>
