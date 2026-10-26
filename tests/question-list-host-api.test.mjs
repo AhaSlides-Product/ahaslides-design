@@ -94,15 +94,35 @@ test('notices render info boxes whose links open and announce a question', { ski
     const boxes = [...root.querySelectorAll('.notices aha-info-box')];
     const shape = boxes.map((box) => ({ variant: box.getAttribute('variant'), testid: box.dataset.testid, paragraphs: box.querySelectorAll('p').length, text: box.textContent }));
     const live = root.querySelector('.notices').getAttribute('aria-live');
-    boxes[0].querySelector('aha-button').click(); await frame();
-    return { shape, live, open: [isOpen('q1'), isOpen('q3')], toggle: log.find((entry) => entry.type === 'question-toggle').detail };
+    const link = boxes[0].querySelector('a');
+    const linkStyle = getComputedStyle(link), paragraphStyle = getComputedStyle(link.parentElement);
+    const linkLook = { tag: link.tagName, buttons: boxes[0].querySelectorAll('aha-button').length, display: linkStyle.display, padding: linkStyle.padding, fontSize: linkStyle.fontSize === paragraphStyle.fontSize, lineHeight: linkStyle.lineHeight === paragraphStyle.lineHeight, weight: linkStyle.fontWeight, colour: linkStyle.color, underline: linkStyle.textDecorationLine, height: link.getBoundingClientRect().height <= parseFloat(paragraphStyle.lineHeight) };
+    const click = new MouseEvent('click', { bubbles: true, cancelable: true });
+    link.dispatchEvent(click); await frame();
+    return { shape, live, linkLook, prevented: click.defaultPrevented, open: [isOpen('q1'), isOpen('q3')], toggle: log.find((entry) => entry.type === 'question-toggle').detail };
   `);
   assert.equal(result.live, 'polite');
+  assert.deepEqual(result.linkLook, { tag: 'A', buttons: 0, display: 'inline', padding: '0px', fontSize: true, lineHeight: true, weight: '400', colour: 'rgb(231, 14, 104)', underline: 'underline', height: true });
+  assert.equal(result.prevented, true);
   assert.deepEqual(result.shape, [
     { variant: 'warning', testid: 'ql-notice-warning', paragraphs: 2, text: 'Question 3 has no prompt.Fix it before presenting.' },
     { variant: 'error', testid: 'ql-notice-error', paragraphs: 1, text: 'Two questions share a time.' }]);
   assert.deepEqual(result.open, [false, true]);
   assert.deepEqual(result.toggle, { id: 'q3', index: 2, open: true, source: 'notice' });
+});
+
+test('a plain link written in an info box or alert is inline text in the DS link style', { skip }, async () => {
+  const result = await run('', `
+    const host = document.createElement('div');
+    host.innerHTML = '<aha-info-box id="ib" variant="warning">Questions <a href="#q2">2</a> and <a href="#q3">3</a> have no prompt.</aha-info-box><aha-alert id="al">See <a href="#q1">question 1</a>.</aha-alert>';
+    document.body.append(host); await frame();
+    const read = (id) => { const link = document.querySelector('#' + id + ' a'); const style = getComputedStyle(link);
+      return { display: style.display, padding: style.padding, weight: style.fontWeight, colour: style.color, underline: style.textDecorationLine, fontSize: style.fontSize, lineHeight: style.lineHeight, textHeight: link.getBoundingClientRect().height <= 21 }; };
+    return { infoBox: read('ib'), alert: read('al') };
+  `);
+  const expected = { display: 'inline', padding: '0px', weight: '400', colour: 'rgb(231, 14, 104)', underline: 'underline', fontSize: '14px', lineHeight: '21px', textHeight: true };
+  assert.deepEqual(result.infoBox, expected);
+  assert.deepEqual(result.alert, expected);
 });
 
 test('question-leave fires once when focus or a press leaves a question, slotted content counting as inside', { skip }, async () => {
