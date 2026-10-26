@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.397.0 — 2026-10-26
+## 0.406.0 — 2026-10-26
 ### Added
 - Empty state guideline (`guidelines/empty-state.json`, Patterns badge): the full pattern (an `empty-*` spot illustration, a semibold title, one or two short sentences, at most one action, centred) at page scale (art 128, 16 px gaps, 18 px title) and panel scale (art 100, 144 px padding, 16 and 8 px gaps, 16 px title), when to use plain `<aha-empty>` instead (tables, lists, areas under 240 px), copy rules, do and don't, and "no content is never an error". Built from the three approved Reports states; listed in `guidelines.llms.txt`, the guideline agent feed and the product route
 - Three illustrations in the `empty` family: `empty-report`, `empty-participants`, `empty-feedback` (28 in the registry, up from 25)
@@ -31,6 +31,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - UX writing UXW-6 now says an empty state has at most one next action, matching the Empty state guideline; its composed-of list points at `empty` instead of a missing empty-state component
 - A guideline can set `patternsNav` to list itself, and render, under the Patterns sidebar (group "Composition guides"); the Empty state guideline does, and its panel padding is `calc(var(--aha-space-80) + var(--aha-space-64))` so no value is off the token scale
 - Revert: revert the PR; a new doc page and three additive illustrations, no existing name or value changes (#388)
+
+## 0.403.1 — 2026-10-26
+### Changed
+- Website > Marketing pages: prose longer than about two lines is a closed disclosure with its heading still visible (Choosing a header, Which is which, video slot, Composed of, Details, and any long layout or card summary). Native `<details>`, keyboard accessible, opens when a link targets its anchor. The `.md` and llms feeds keep the full text.
+- Revert: revert the PR; only the docs generator changed, no component or contract (#396)
 
 ## 0.396.0 — 2026-10-26
 ### Added

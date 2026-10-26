@@ -464,6 +464,18 @@ a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondar
 @media (prefers-reduced-motion:reduce){.doc-main.pjax-in{animation:none}.pjax-bar{transition:opacity var(--aha-motion-fast) linear}}
 
 /* ---- detail page ---- */
+.doc-fold{margin:44px 0 14px;border-bottom:1px solid var(--aha-border-default);scroll-margin-top:80px}
+.doc-fold>summary{display:flex;align-items:center;gap:8px;cursor:pointer;list-style:none;padding:0 0 14px}
+.doc-fold>summary::-webkit-details-marker{display:none}
+.doc-fold>summary:focus-visible{outline:2px solid var(--aha-color-primary);outline-offset:2px;border-radius:8px}
+.doc-main .doc-fold>summary h2{margin:0}
+.doc-fold>summary aha-icon{flex:none;transition:transform var(--aha-motion-fast) var(--aha-ease-out)}
+.doc-fold[open]>summary aha-icon{transform:rotate(90deg)}
+.doc-fold>.doc-fold-body{padding:0 0 20px}
+.doc-fold>.doc-fold-body>:first-child{margin-top:0}
+.doc-fold--small{margin:0 0 24px}
+.doc-fold--small>summary{font-weight:600;color:var(--aha-text-default);padding:0 0 12px}
+@media (prefers-reduced-motion:reduce){.doc-fold>summary aha-icon{transition:none}}
 .highlights{margin:0 0 14px;padding:0;list-style:none;max-width:72ch;display:grid;gap:4px}
 .highlights li{position:relative;margin:0;padding-left:18px;color:var(--aha-text-secondary);font-size:16px;line-height:25px}
 .highlights li::before{content:"";position:absolute;left:3px;top:10px;width:6px;height:6px;border-radius:50%;background:var(--aha-color-primary)}
@@ -2026,12 +2038,20 @@ const MARKETING_LAYOUT_REVIEWS_SCRIPT = `<script type="module">
     });
   })();
   </script>`;
-const marketingGuidanceHtml = (b) => b.guidance ? `  <h2 id="guidance">${esc(b.guidance.title)}</h2>
-  ${b.guidance.intro ? `<p class="body">${esc(b.guidance.intro)}</p>` : ''}
-  <ol class="highlights">${b.guidance.points.map(point => `<li><b>${esc(point.title)}</b>: ${esc(point.text)}</li>`).join('')}</ol>
+const FOLD_LINE_LIMIT_CHARS = 140;
+const docFold = (title, body, id = '', small = false) => `<details class="doc-fold${small ? ' doc-fold--small' : ''}"${id ? ` id="${esc(id)}"` : ''}><summary><aha-icon name="system-caret-right" size="16" decorative></aha-icon>${small ? `<span>${esc(title)}</span>` : `<h2>${esc(title)}</h2>`}</summary><div class="doc-fold-body">${body}</div></details>`;
+const isLongProse = (...texts) => texts.join(' ').length > FOLD_LINE_LIMIT_CHARS;
+const MARKETING_FOLD_OPEN_SCRIPT = `<script>(function(){function o(){var t=location.hash&&document.getElementById(location.hash.slice(1));if(t&&t.closest){var d=t.closest('details.doc-fold');if(d)d.open=true;}}addEventListener('hashchange',o);o();})();</script>`;
+const marketingGuidanceHtml = (b) => b.guidance ? `  ${docFold(b.guidance.title, `${b.guidance.intro ? `<p class="body">${esc(b.guidance.intro)}</p>` : ''}
+  <ol class="highlights">${b.guidance.points.map(point => `<li><b>${esc(point.title)}</b>: ${esc(point.text)}</li>`).join('')}</ol>`, 'guidance')}
 
 ` : '';
 const marketingGuidanceMd = (b) => b.guidance ? `\n## ${b.guidance.title}\n${b.guidance.intro ? b.guidance.intro + '\n' : ''}\n${b.guidance.points.map((point, index) => `${index + 1}. **${point.title}**: ${point.text}`).join('\n')}\n` : '';
+function marketingLayoutIntroHtml(layout) {
+  const summary = `${layout.summary}${layout.reference ? ` Layout reference: Untitled UI ${layout.reference}.` : ''}`;
+  const paragraphs = `<p class="body">${esc(summary)}</p>${layout.useFor ? `\n  <p class="body"><b>Use for:</b> ${esc(layout.useFor)}</p>` : ''}`;
+  return isLongProse(summary, layout.useFor || '') ? docFold('About this layout', paragraphs, '', true) : paragraphs;
+}
 function renderMarketingLayoutsHtml(b) {
   const [intro, ...details] = b.highlights?.length ? b.highlights : [b.summary];
   const main = `
@@ -2039,31 +2059,28 @@ function renderMarketingLayoutsHtml(b) {
   <p class="subtitle">${esc(intro)}</p>
   <p class="gen">◆ generated from marketing/${b.slug}.json — do not edit by hand</p>
 
-${marketingGuidanceHtml(b)}  <h2>Which is which</h2>
-  <p class="body">${esc(b.layoutsIntro || `Each section copies the layout of one Untitled UI ${b.layoutKind || b.name.toLowerCase()} section, and nothing else of it. Class names carry the layout, not the Untitled UI number.`)}</p>
-  <ul class="highlights">${b.layouts.map(layout => `<li><b>${esc(layout.name)}</b>: ${layout.reference ? `Untitled UI ${esc(layout.reference)}, ` : ''}<code>${esc(layout.class || layout.classes || `aha-${b.slug}--${layout.slug}`)}</code>${layout.useFor ? `. Use for: ${esc(layout.useFor)}` : ''}</li>`).join('')}</ul>
+${marketingGuidanceHtml(b)}  ${docFold('Which is which', `<p class="body">${esc(b.layoutsIntro || `Each section copies the layout of one Untitled UI ${b.layoutKind || b.name.toLowerCase()} section, and nothing else of it. Class names carry the layout, not the Untitled UI number.`)}</p>
+  <ul class="highlights">${b.layouts.map(layout => `<li><b>${esc(layout.name)}</b>: ${layout.reference ? `Untitled UI ${esc(layout.reference)}, ` : ''}<code>${esc(layout.class || layout.classes || `aha-${b.slug}--${layout.slug}`)}</code>${layout.useFor ? `. Use for: ${esc(layout.useFor)}` : ''}</li>`).join('')}</ul>`)}
 
 ${b.layouts.map(layout => `  <h2 id="${esc(layout.slug)}">${esc(layout.name)}</h2>
-  <p class="body">${esc(layout.summary)}${layout.reference ? ` Layout reference: Untitled UI ${esc(layout.reference)}.` : ''}</p>
-${layout.useFor ? `  <p class="body"><b>Use for:</b> ${esc(layout.useFor)}</p>\n` : ''}  <div class="marketing-stage">${marketingLayoutPreview(b, layout)}</div>
+  ${marketingLayoutIntroHtml(layout)}
+  <div class="marketing-stage">${marketingLayoutPreview(b, layout)}</div>
   ${marketingCodeToggle(marketingHasStates(b, layout) ? marketingLayoutStates(b, layout).find(state => !state.modifier).label : `${layout.slug}.html`, resolveDefaultStateVariants(b, layout, marketingLayoutSnippet(b, layout)), '', marketingStatePanes(b, layout, marketingLayoutSnippet(b, layout)))}`).join('\n\n')}
   ${MARKETING_LAYOUT_PREVIEW_SCRIPT}${b.layouts.some(layout => marketingHasStates(b, layout)) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}${b.layouts.some(layout => marketingHasStates(b, layout) && /\sdata-variant-[a-z0-9-]+=/.test(layout.html || '')) ? `\n  ${MARKETING_LAYOUT_VARIANT_SCRIPT}` : ''}${b.reviews ? `\n  ${MARKETING_LAYOUT_REVIEWS_SCRIPT}` : ''}
 
-${b.video ? `  <h2 id="video-slot">${esc(b.video.label)} (optional, off by default)</h2>
-  <p class="body">${esc(b.video.howToTurnOn.replaceAll('{{c}}', '<layout class>'))} Layouts with the slot: ${b.layouts.filter(layout => b.video.layouts.includes(layout.slug)).map(layout => `${esc(layout.name)} (<code>${esc(layout.class)}</code>)`).join(', ')}.</p>
+${b.video ? `  ${docFold(`${b.video.label} (optional, off by default)`, `<p class="body">${esc(b.video.howToTurnOn.replaceAll('{{c}}', '<layout class>'))} Layouts with the slot: ${b.layouts.filter(layout => b.video.layouts.includes(layout.slug)).map(layout => `${esc(layout.name)} (<code>${esc(layout.class)}</code>)`).join(', ')}.</p>
   ${marketingCodeToggle('video.html', b.video.html, 'Replaces the layout image.')}
-  ${marketingCodeToggle('video.css', b.video.css, 'Add once. Replace {{c}} with the layout class.')}
+  ${marketingCodeToggle('video.css', b.video.css, 'Add once. Replace {{c}} with the layout class.')}`, 'video-slot')}
 ` : ''}
 ${b.composedOf ? `
-  <h2 id="composed-of">Composed of</h2>
-  <p class="body">What these sections reuse from the design system, and what the design system does not define yet (each missing item has a DSN ticket and a stand-in).</p>
-  ${composedOfTable(b.composedOf)}` : ''}
+  ${docFold('Composed of', `<p class="body">What these sections reuse from the design system, and what the design system does not define yet (each missing item has a DSN ticket and a stand-in).</p>
+  ${composedOfTable(b.composedOf)}`, 'composed-of')}
+  ${MARKETING_FOLD_OPEN_SCRIPT}` : MARKETING_FOLD_OPEN_SCRIPT}
 
   <h2>Load the tokens once</h2>
   ${marketingCodeToggle('head', `<link rel="stylesheet" href="${SITE}/variables.css">`, 'Add this to the page <code>&lt;head&gt;</code> before any section.')}${details.length ? `
 
-  <h2>Details</h2>
-  <ul class="highlights">${details.map(d => `<li>${esc(d)}</li>`).join('')}</ul>` : ''}`;
+  ${docFold('Details', `<ul class="highlights">${details.map(d => `<li>${esc(d)}</li>`).join('')}</ul>`)}` : ''}`;
   return docShell({ base: '../../', active: 'marketing:' + b.slug, title: b.name, section: 'marketing', main, extraCss: `
   .marketing-stage{margin:0 0 var(--aha-space-12)}.code-panel pre{max-height:70vh}
   .demo-toolbar:has(.code-lead){justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--aha-space-20)}.code-lead{margin:0;flex:1 1 20rem;max-width:none}${MARKETING_BREAKPOINT_CSS}` });
@@ -2077,7 +2094,7 @@ function renderMarketingHtml(b) {
   <p class="gen">◆ generated from marketing/${b.slug}.json — do not edit by hand</p>
 
 ${b.snippets ? b.snippets.map(card => `<h2>${esc(card.name)}</h2>
-  <p class="body">${esc(card.summary)}</p>
+  ${isLongProse(card.summary) ? docFold('About this card', `<p class="body">${esc(card.summary)}</p>`, '', true) : `<p class="body">${esc(card.summary)}</p>`}
   ${marketingCardBreakpointPreview(b, card)}
   ${marketingCodeToggle(`${card.slug}.html`, marketingCardSnippet(b, card))}`).join('\n  ') + '\n  ' + MARKETING_CARD_BREAKPOINT_SCRIPT : `<h2>Preview</h2>
   <div class="marketing-stage">${marketingBreakpointPreview(b)}</div>
@@ -2088,8 +2105,7 @@ ${b.snippets ? b.snippets.map(card => `<h2>${esc(card.name)}</h2>
   <h2>Load the tokens once</h2>
   ${marketingCodeToggle('head', `<link rel="stylesheet" href="${SITE}/variables.css">`, 'Add this to the page <code>&lt;head&gt;</code> before the block.')}${details.length ? `
 
-  <h2>Details</h2>
-  <ul class="highlights">${details.map(d => `<li>${esc(d)}</li>`).join('')}</ul>` : ''}`;
+  ${docFold('Details', `<ul class="highlights">${details.map(d => `<li>${esc(d)}</li>`).join('')}</ul>`)}` : ''}`;
   return docShell({ base: '../../', active: 'marketing:' + b.slug, title: b.name, section: 'marketing', main, extraCss: `
   .marketing-stage{margin:0 0 12px}.code-panel pre{max-height:70vh}
   .demo-toolbar:has(.code-lead){justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--aha-space-20)}.code-lead{margin:0;flex:1 1 20rem;max-width:none}${MARKETING_BREAKPOINT_CSS}` });
