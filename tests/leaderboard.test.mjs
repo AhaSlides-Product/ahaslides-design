@@ -101,3 +101,19 @@ test('leaderboard: rows take palette colours in rank order, rank circles are neu
   assert.equal(new Set(result.scoreRights).size, 1);
   assert.deepEqual([result.heading, result.count, result.headerHidden, result.plainHeaderHidden, result.plainDeltaHidden, result.trophyShown], ['Leaderboard', '3 players', false, true, true, false]);
 });
+
+test('leaderboard: on a white-ink deck the name on a bar uses the palette ink and the deck-ink copy is clipped off the bar', { skip }, async () => {
+  const file = join(mkdtempSync(join(tmpdir(), 'leaderboard-')), 'page.html');
+  const entries = [{ id: 'a', name: 'Linh', score: 1000 }, { id: 'b', name: 'Minh', score: 500 }];
+  writeFileSync(file, `<!doctype html><body style="color:rgb(255,255,255);--aha-deck-ink:rgb(255,255,255);--aha-deck-palette-1:rgb(255,64,129);--aha-deck-palette-1-ink:rgb(26,26,26);--aha-deck-palette-2:rgb(32,232,181);--aha-deck-palette-2-ink:rgb(26,26,26)">
+<aha-leaderboard id="lb" style="display:block;width:600px" entries='${JSON.stringify(entries)}'></aha-leaderboard>
+<script type="module">import '${lib}'; await customElements.whenDefined('aha-leaderboard'); await new Promise((r) => setTimeout(r, 700)); window.ready = true;</script>`);
+  const result = await evaluateInPage(pathToFileURL(file).href, `(() => {
+    const rows = [...document.getElementById('lb').shadowRoot.querySelectorAll('li.row')].filter((row) => !row.hidden);
+    return rows.map((row) => ({ over: getComputedStyle(row.querySelector('.over')).color, baseClip: getComputedStyle(row.querySelector('.base')).clipPath }));
+  })()`, { readyExpr: '!!window.ready', timeout: 45000 });
+  for (const row of result) {
+    assert.equal(row.over, 'rgb(26, 26, 26)');
+    assert.notEqual(row.baseClip, 'none');
+  }
+});
