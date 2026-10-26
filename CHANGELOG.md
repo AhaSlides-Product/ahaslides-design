@@ -22,14 +22,24 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.402.0 — 2026-10-26
+## 0.407.0 — 2026-10-26
 ### Added
 - Website > Marketing > Header: five multi-image heroes — fanned photo stack (`aha-header-section-hero-photo-stack`), bento collage beside the copy (`aha-header-section-hero-bento-collage`), photo marquee under centred copy with a Pause button (`aha-header-section-hero-image-marquee`), crossfading slideshow with dot controls (`aha-header-section-hero-slideshow`) and floating framed photos either side of the copy (`aha-header-section-hero-floating-images`). Each ships White, Accent and Vivid Pink (#394)
-- Website > Marketing > Header: a Vivid Pink version of each of the five, paired the way `Header centered brand` pairs `Header centered` — Hero Pink photo stack, Hero Pink bento collage, Hero Pink image marquee, Hero Pink slideshow and Hero Pink floating images (`aha-header-section-hero-pink-*`). Each opens on Vivid Pink with the DS Splash background, a white headline and body and the Sign up button turned secondary, and keeps a White state; on pink the slideshow dots are solid white and the current one is the wider dot (#394)
+- Website > Marketing > Header: a Vivid Pink version of each of the five, paired the way `Header centered brand` pairs `Header centered` — Hero Pink photo stack, Hero Pink bento collage, Hero Pink image marquee, Hero Pink slideshow and Hero Pink floating images (`aha-header-section-hero-pink-*`). Each opens on Vivid Pink with the DS Splash background, a white headline and body and the Sign up button turned secondary, and keeps a White state; on pink the slideshow dots are white at 50% and the current one is solid white and wider, so it changes fill as well as width (#394)
 - Website > Marketing > Gallery: a new section page with six ways to show several photos across a page — bento grid, masonry, carousel with arrows and dots, sticky stack, marquee rows with a Pause button, and tabbed images (`aha-gallery`) (#394)
 - `lib/marketing-motion.js` arms `data-aha-gallery` slideshows, carousels, tabs and marquees: keyboard-reachable controls, nothing autoplays unless `data-aha-autoplay` is set, and all motion stops under reduced motion, `data-aha-motion="off"` and print (#394)
 - A Marketing page may list `previewModules` to load extra scripts into its docs previews (#394)
-- Revert: revert the PR; ten new layouts in `marketing/header.json`, the new `marketing/gallery.json`, and an appended block at the end of `lib/marketing-motion.js` — the 24 existing hero layouts are untouched (#394)
+### Changed
+- Website guideline and judge, W1: Gallery joins the list of DS Marketing sections a page band may be (#394)
+- Website guideline and judge, W6: one narrow exception for photos (never screenshots) in the Header's multi-image heroes and the Gallery page — the photo stack and floating images may tilt a photo in the photo frame (8 px white border and 1 px ring, no shadow), and bento, collage and masonry cells may differ in size or ratio and fill with `object-fit: cover` (#394)
+- Website guideline and judge, W9: the photo marquees (Hero image marquee, Gallery Marquee rows) may loop like the Logos strip, keeping their pause while hovered or focused, their Pause button and their stop under reduced motion, print and `data-aha-motion="off"`; at most one looping photo band per page, never next to the Logos strip (#394)
+- Header and Gallery guidance: a Photo frame point records the frame rule — 8 px white border, `--aha-radius-xl` corner and 1 px ring in the layout's frame colour, no drop shadow (#394)
+- Revert: revert the PR; the W1, W6 and W9 edits in `guidelines/website.json` and `anti-slop/criteria.json` (and its generated `agent/` copy) go with it; ten new layouts in `marketing/header.json`, the new `marketing/gallery.json`, and an appended block at the end of `lib/marketing-motion.js` — the 24 existing hero layouts are untouched (#394)
+
+## 0.403.1 — 2026-10-26
+### Changed
+- Website > Marketing pages: prose longer than about two lines is a closed disclosure with its heading still visible (Choosing a header, Which is which, video slot, Composed of, Details, and any long layout or card summary). Native `<details>`, keyboard accessible, opens when a link targets its anchor. The `.md` and llms feeds keep the full text.
+- Revert: revert the PR; only the docs generator changed, no component or contract (#396)
 
 ## 0.396.0 — 2026-10-26
 ### Added
