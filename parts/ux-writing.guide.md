@@ -95,6 +95,8 @@ support). The recovery lives **in the message**, not only in a toast that vanish
 
 ### An empty state is not an error · UXW-6
 
+The layout of an empty state (illustration, title, body, one action) is the `empty-state` guideline.
+
 - **Empty (success, no data):** encouraging + a **primary next action**. ✅ "No presentations yet.
   **Create your first one.**" Never an apology, never a red alarm.
 - **Failure (couldn't load):** follow UXW-2/3 — name it, offer Retry. Never disguise a failure as

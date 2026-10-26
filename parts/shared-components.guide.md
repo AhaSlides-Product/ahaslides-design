@@ -67,7 +67,7 @@ no id to describe the field; a width-% bar has no role, value or name. Reach for
 - A page that cannot render is `<aha-error-page code="404|403|500|offline">`. The default copy names
   what failed, gives a cause and a next step; pass translated `heading` / `body` / `action-label` to
   override. Listen for `error-page-view` (telemetry) and `action` (retry / navigate).
-- No content is **not** an error: use `<aha-empty>` with one next step.
+- No content is **not** an error: use `<aha-empty>` with one next step on a small surface, and the full Empty state pattern (guidelines/empty-state) on a page or a panel.
 - Loading is `<aha-skeleton>` blocks that mirror the layout they stand in for, inside a container with
   `role="status"` and `aria-busy="true"` — never a lone spinner or a grey box shipped as final.
 

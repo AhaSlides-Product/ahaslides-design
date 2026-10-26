@@ -1,16 +1,17 @@
 {
   "name": "Illustration",
   "slug": "illustration",
+  "environment": ["product", "audience"],
   "group": "General",
   "tier": "leaf-lit",
   "badge": "shared element + registry",
   "element": "aha-illustration",
-  "summary": "One spot-art set, called by name — 25 illustrations imported from Figma and drawn in pink tints, rendered by the shared <aha-illustration>, never inline SVG.",
-  "highlights": ["One spot-art set, called by name", "25 illustrations imported from Figma, drawn in pink tints", "Rendered by <aha-illustration>, never inline SVG"],
+  "summary": "One spot-art set, called by name — 28 illustrations imported from Figma and drawn in pink tints, rendered by the shared <aha-illustration>, never inline SVG.",
+  "highlights": ["One spot-art set, called by name", "28 illustrations imported from Figma, drawn in pink tints", "Rendered by <aha-illustration>, never inline SVG"],
   "lead": "ONE shared element — <aha-illustration name=\"empty-team\"> — renders every spot illustration from a single registry built from Figma (empty states, onboarding, plan tiers, mascots, offers). Agents call a name; they never hand-author or paste an <svg>. Unlike <aha-icon> (one-colour, currentColor), an illustration has fixed colours: one Vivid Pink ramp from pale to full, with white and the default ink; a single size edge scales it, preserving aspect ratio via the viewBox. Browse every name in the Illustration library.",
   "tokensUsed": ["color-error"],
   "spec": [
-    { "label": "Set", "value": "20 illustrations · empty · onboarding · plan · offer · state · team · misc" },
+    { "label": "Set", "value": "28 illustrations · empty · onboarding · plan · offer · state · team · misc" },
     { "label": "Source", "value": "Figma · Oldies library · file P764iQ6y4ZwW7W3f7FLZyW" },
     { "label": "Colour", "value": "one hue, the illustration tints: Vivid Pink at 5, 10, 20, 30, 45, 60, 80 and 100% on white (#FEF3F7, #FDE7F0, #FACFE1, #F8B7D2, #F493BB, #F16EA4, #EC3E86, #E70E68 and Darker Pink #DB005B), with white, the default ink #1A1A1A for outlines and faces, and a neutral grey where the source was grey. Fixed colours (NOT currentColor). The 10, 20, 45, 60 and 80% tints are for illustrations only, never a token or a UI colour; the 5% and 30% tints and Darker Pink keep their interface roles" },
     { "label": "Size", "value": "one edge in px; the other follows the art's aspect ratio" },
@@ -24,7 +25,7 @@
   ],
   "opinion": {
     "whenToUse": [
-      { "what": "empty-* illustration", "when": "an empty state — no presentations, empty trash, no templates, no team yet" },
+      { "what": "empty-* illustration", "when": "an empty state — no report data, no participants, no feedback, no presentations, empty trash, no templates; the layout is the Empty state guideline" },
       { "what": "onboarding-* / plan-* illustration", "when": "onboarding choice cards and plan-tier cards (edu / essential / pro / enterprise)" },
       { "what": "error-* / not-found illustration", "when": "a full-surface error or 404 state, paired with a recovery action" }
     ],
@@ -56,7 +57,7 @@
   },
   "selfCheck": [
     { "label": "called by name from the registry (no inline svg)", "verdict": "PASS" },
-    { "label": "20 pure-SVG illustrations imported from Figma", "verdict": "PASS" },
+    { "label": "28 pure-SVG illustrations imported from Figma", "verdict": "PASS" },
     { "label": "art is drawn in the illustration tints, fixed colours (not currentColor)", "verdict": "PASS" },
     { "label": "single size edge scales, aspect ratio preserved via viewBox", "verdict": "PASS" },
     { "label": "unknown name → visible dashed error box (color-error token)", "verdict": "PASS" },
