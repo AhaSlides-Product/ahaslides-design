@@ -1,0 +1,181 @@
+{
+  "$comment": "Source of truth for marketing-assets/photos/. People photos used on ahaslides.com marketing pages, copied unchanged from the Webflow CDN (already web-sized webp, original ratio, no crop). Pages use them instead of the grey placeholder (website rule W6). Alt text is the alt on ahaslides.com, except the three escape-room photos, whose live alt is empty: those alts describe the picture. Refresh by re-fetching sourceUrl.",
+  "images": [
+    {
+      "file": "photos/trainer-at-front-of-room-laptops.webp",
+      "alt": "A trainer at the front of a room while attendees work on their own laptops",
+      "width": 900,
+      "height": 599,
+      "sourceUrl": "https://cdn.prod.website-files.com/68427231f35040cef4456f89/6acee28136a9045a0ac3ae33_fitb-ph-training.webp",
+      "sourcePage": "https://ahaslides.com (page for the Fill in the blanks slide type)",
+      "usedOn": "ahaslides.com Fill in the blanks page",
+      "licence": "As published on ahaslides.com (Webflow CDN); licence as for the live site",
+      "fetched": "2026-10-22"
+    },
+    {
+      "file": "photos/students-classroom-own-smartphones.webp",
+      "alt": "Students in a classroom each looking at their own smartphone",
+      "width": 900,
+      "height": 599,
+      "sourceUrl": "https://cdn.prod.website-files.com/68427231f35040cef4456f89/6acee280f6f2f4ceeeb35dd9_fitb-ph-language.webp",
+      "sourcePage": "https://ahaslides.com (page for the Fill in the blanks slide type)",
+      "usedOn": "ahaslides.com Fill in the blanks page",
+      "licence": "As published on ahaslides.com (Webflow CDN); licence as for the live site",
+      "fetched": "2026-10-22"
+    },
+    {
+      "file": "photos/students-lecture-hall-own-phones.webp",
+      "alt": "Students at their desks in a lecture hall, each looking at their own phone",
+      "width": 900,
+      "height": 506,
+      "sourceUrl": "https://cdn.prod.website-files.com/68427231f35040cef4456f89/6acee280f12ac86c566aca52_fitb-ph-formula.webp",
+      "sourcePage": "https://ahaslides.com (page for the Fill in the blanks slide type)",
+      "usedOn": "ahaslides.com Fill in the blanks page",
+      "licence": "As published on ahaslides.com (Webflow CDN); licence as for the live site",
+      "fetched": "2026-10-22"
+    },
+    {
+      "file": "photos/colleagues-office-checking-phones.webp",
+      "alt": "Colleagues in an office, two of them checking their own phones",
+      "width": 900,
+      "height": 506,
+      "sourceUrl": "https://cdn.prod.website-files.com/68427231f35040cef4456f89/6acee2816cf20bae7799aa77_fitb-ph-team.webp",
+      "sourcePage": "https://ahaslides.com (page for the Fill in the blanks slide type)",
+      "usedOn": "ahaslides.com Fill in the blanks page",
+      "licence": "As published on ahaslides.com (Webflow CDN); licence as for the live site",
+      "fetched": "2026-10-22"
+    },
+    {
+      "file": "photos/conference-attendee-answering-on-phone.webp",
+      "alt": "A conference attendee answering on his own phone",
+      "width": 900,
+      "height": 600,
+      "sourceUrl": "https://cdn.prod.website-files.com/68427231f35040cef4456f89/6ad182642b4ec19643032355_lapa215-sp-ctx-ownphone.webp",
+      "sourcePage": "https://ahaslides.com (page for the Split the points slide type)",
+      "usedOn": "ahaslides.com Split the points page",
+      "licence": "As published on ahaslides.com (Webflow CDN); licence as for the live site",
+      "fetched": "2026-10-22"
+    },
+    {
+      "file": "photos/product-team-round-table-laptops.webp",
+      "alt": "A product team round a table, each with their own laptop",
+      "width": 900,
+      "height": 600,
+      "sourceUrl": "https://cdn.prod.website-files.com/68427231f35040cef4456f89/6ad18276c79d92c461886f20_lapa215-sp-ctx-product.webp",
+      "sourcePage": "https://ahaslides.com (page for the Split the points slide type)",
+      "usedOn": "ahaslides.com Split the points page",
+      "licence": "As published on ahaslides.com (Webflow CDN); licence as for the live site",
+      "fetched": "2026-10-22"
+    },
+    {
+      "file": "photos/planning-meeting-facilitator-whiteboard.webp",
+      "alt": "A planning meeting with a facilitator at the whiteboard",
+      "width": 900,
+      "height": 600,
+      "sourceUrl": "https://cdn.prod.website-files.com/68427231f35040cef4456f89/6ad18279ea973f3f61eba45e_lapa215-sp-ctx-budget.webp",
+      "sourcePage": "https://ahaslides.com (page for the Split the points slide type)",
+      "usedOn": "ahaslides.com Split the points page",
+      "licence": "As published on ahaslides.com (Webflow CDN); licence as for the live site",
+      "fetched": "2026-10-22"
+    },
+    {
+      "file": "photos/secondary-students-answering-on-phones.webp",
+      "alt": "Secondary school students, each answering on their own phone",
+      "width": 900,
+      "height": 600,
+      "sourceUrl": "https://cdn.prod.website-files.com/68427231f35040cef4456f89/6ad1827bb1120f6eb52b0ad3_lapa215-sp-ctx-class.webp",
+      "sourcePage": "https://ahaslides.com (page for the Split the points slide type)",
+      "usedOn": "ahaslides.com Split the points page",
+      "licence": "As published on ahaslides.com (Webflow CDN); licence as for the live site",
+      "fetched": "2026-10-22"
+    },
+    {
+      "file": "photos/people-side-by-side-on-phones.webp",
+      "alt": "Several people side by side, each on their own phone",
+      "width": 900,
+      "height": 600,
+      "sourceUrl": "https://cdn.prod.website-files.com/68427231f35040cef4456f89/6ad1827f0419ff4aec98af95_lapa215-sp-ctx-icebreaker.webp",
+      "sourcePage": "https://ahaslides.com (page for the Split the points slide type)",
+      "usedOn": "ahaslides.com Split the points page",
+      "licence": "As published on ahaslides.com (Webflow CDN); licence as for the live site",
+      "fetched": "2026-10-22"
+    },
+    {
+      "file": "photos/students-in-uniform-on-phones.webp",
+      "alt": "Students in school uniform seated at desks, each using their own phone",
+      "width": 800,
+      "height": 600,
+      "sourceUrl": "https://cdn.prod.website-files.com/68427231f35040cef4456f89/6acf033a152c936e0e15095a_escape-room-uc-class.webp",
+      "sourcePage": "https://ahaslides.com (page for the Escape room slide type)",
+      "usedOn": "ahaslides.com Escape room page",
+      "licence": "As published on ahaslides.com (Webflow CDN); licence as for the live site",
+      "fetched": "2026-10-22"
+    },
+    {
+      "file": "photos/woman-playing-on-phone-at-desk.webp",
+      "alt": "A smiling woman holding her phone with both hands at a desk, laptop open beside her",
+      "width": 800,
+      "height": 600,
+      "sourceUrl": "https://cdn.prod.website-files.com/68427231f35040cef4456f89/6acf033f152c936e0e150c27_escape-room-uc-training.webp",
+      "sourcePage": "https://ahaslides.com (page for the Escape room slide type)",
+      "usedOn": "ahaslides.com Escape room page",
+      "licence": "As published on ahaslides.com (Webflow CDN); licence as for the live site",
+      "fetched": "2026-10-22"
+    },
+    {
+      "file": "photos/woman-laughing-at-phone-event-crowd.webp",
+      "alt": "A woman laughing at the phone in her hands, an event crowd behind her",
+      "width": 800,
+      "height": 600,
+      "sourceUrl": "https://cdn.prod.website-files.com/68427231f35040cef4456f89/6acf034549ec17b0efba9642_escape-room-uc-events.webp",
+      "sourcePage": "https://ahaslides.com (page for the Escape room slide type)",
+      "usedOn": "ahaslides.com Escape room page",
+      "licence": "As published on ahaslides.com (Webflow CDN); licence as for the live site",
+      "fetched": "2026-10-22"
+    },
+    {
+      "file": "photos/colleague-smiling-at-phone-at-desk.webp",
+      "alt": "Smiling colleague looking at their own phone at a desk",
+      "width": 900,
+      "height": 675,
+      "sourceUrl": "https://cdn.prod.website-files.com/68427231f35040cef4456f89/6ad0586aa63c6b837e37664b_lapa208-photo-icebreaker.webp",
+      "sourcePage": "https://ahaslides.com (page for the Draw answer slide type)",
+      "usedOn": "ahaslides.com Draw answer page",
+      "licence": "As published on ahaslides.com (Webflow CDN); licence as for the live site",
+      "fetched": "2026-10-22"
+    },
+    {
+      "file": "photos/man-using-phone-workshop-chalkboard.webp",
+      "alt": "Smiling man using his phone in a workshop space with a chalkboard behind him",
+      "width": 900,
+      "height": 675,
+      "sourceUrl": "https://cdn.prod.website-files.com/68427231f35040cef4456f89/6ad0586a7a7fb8119951f187_lapa208-photo-recap.webp",
+      "sourcePage": "https://ahaslides.com (page for the Draw answer slide type)",
+      "usedOn": "ahaslides.com Draw answer page",
+      "licence": "As published on ahaslides.com (Webflow CDN); licence as for the live site",
+      "fetched": "2026-10-22"
+    },
+    {
+      "file": "photos/man-smiling-at-phone-by-window.webp",
+      "alt": "Man smiling at his own phone by a window",
+      "width": 900,
+      "height": 675,
+      "sourceUrl": "https://cdn.prod.website-files.com/68427231f35040cef4456f89/6ad0586bba5386da4f6f0a79_lapa208-photo-memories.webp",
+      "sourcePage": "https://ahaslides.com (page for the Draw answer slide type)",
+      "usedOn": "ahaslides.com Draw answer page",
+      "licence": "As published on ahaslides.com (Webflow CDN); licence as for the live site",
+      "fetched": "2026-10-22"
+    },
+    {
+      "file": "photos/woman-laughing-at-phone.webp",
+      "alt": "Woman laughing at the phone in her hand",
+      "width": 900,
+      "height": 900,
+      "sourceUrl": "https://cdn.prod.website-files.com/68427231f35040cef4456f89/6ad0586bc9e7d319bdf4713e_lapa208-photo-benefit.webp",
+      "sourcePage": "https://ahaslides.com (page for the Draw answer slide type)",
+      "usedOn": "ahaslides.com Draw answer page",
+      "licence": "As published on ahaslides.com (Webflow CDN); licence as for the live site",
+      "fetched": "2026-10-22"
+    }
+  ]
+}

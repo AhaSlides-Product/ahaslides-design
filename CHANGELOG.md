@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.410.0 — 2026-10-26
+### Added
+- Marketing photos: 16 people photos used on ahaslides.com (Fill in the blanks, Split the points, Escape room, Draw answer pages) are committed under `marketing-assets/photos/`, with source URL, alt text and fetch date in `marketing-assets/manifest.json`, so a website page can use them instead of the grey placeholder. New docs page Foundations › Marketing photos and an `llms.txt` line. (#358)
+
 ## 0.403.1 — 2026-10-26
 ### Changed
 - Website > Marketing pages: prose longer than about two lines is a closed disclosure with its heading still visible (Choosing a header, Which is which, video slot, Composed of, Details, and any long layout or card summary). Native `<details>`, keyboard accessible, opens when a link targets its anchor. The `.md` and llms feeds keep the full text.
