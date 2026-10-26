@@ -78,13 +78,10 @@ full stop. The approved title is "All quiet here!". (EMPTY-06)
 
 ## Copy
 
-- **Body: what is missing, then the step that fills it.** "No participants found yet. Run a
-  presentation to see participant data here." (EMPTY-07)
+- **Body: what is missing, then the step that fills it.** "No participants found yet. Run a presentation to see participant data here." (EMPTY-07)
 - British English, sentence case, from i18n, no exclamation mark in the body.
 - Encouraging, never an apology, never blame (UXW-6).
-- **One action at most**, a sentence-case verb ("Open the presentation"), only when the user
-  can fill the state from this screen. When the next step is on another screen the body names
-  it and there is no button. (EMPTY-08)
+- **One action at most**, a sentence-case verb ("Open the presentation"), only when the user can fill the state from this screen. When the next step is on another screen the body names it and there is no button. (EMPTY-08)
 
 ## Do and don't
 
