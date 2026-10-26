@@ -49,7 +49,7 @@
     "viz-mix-hover",
     "viz-mix-active",
     "viz-mix-dim",
-    "color-success",
+    "answer-correct",
     "motion-viz-enter",
     "motion-viz-update",
     "motion-viz-reorder",
@@ -106,7 +106,7 @@
     },
     {
       "label": "Palette",
-      "value": "brand = --aha-viz-series-1…6 → the four chart colours of the colour rules, in order: Vivid Pink · black · Vivid Pink at 30% · light grey #A8A8A8, then Vivid Pink · black again (past four series, add a dashed line or pattern and a written label); tints → Vivid Pink at 5% behind the pink series, gray-20 behind the black and grey series · Other / non-correct → icon-muted · correct → color-success · deck = consumer colours + ink · transparent background · more than 6 bar/column options share series 1"
+      "value": "brand = --aha-viz-series-1…6 → the four chart colours of the colour rules, in order: Vivid Pink · black · Vivid Pink at 30% · light grey #A8A8A8, then Vivid Pink · black again (past four series, add a dashed line or pattern and a written label); tints → Vivid Pink at 5% behind the pink series, gray-20 behind the black and grey series · Other / non-correct → icon-muted · correct → answer-correct (Correct green) in both palettes · deck = consumer colours + ink · transparent background · more than 6 bar/column options share series 1"
     },
     {
       "label": "Ink",
@@ -130,7 +130,7 @@
     },
     {
       "label": "Pick Answer",
-      "value": "correct = index (or data item correct:true): ✓ + bold label; correct-style=fill (default, as the mockup) paints the correct mark --aha-color-success and the rest neutral; correct-style=indicator keeps palette colours (canvas.guide Job 1 / Job 2)"
+      "value": "correct = index (or data item correct:true): a 20px <aha-answer-mark> (white ✓ on a solid --aha-answer-correct disc) + bold ink label (colour rules 11.2, 11.3); correct-style=fill (default, as the mockup) paints the correct mark --aha-answer-correct in both palettes and the rest neutral; incorrect options are left unmarked; correct-style=indicator keeps palette colours (canvas.guide Job 1 / Job 2)"
     },
     {
       "label": "Donut · radial · tree map",
@@ -226,7 +226,7 @@
       "name": "correct-style",
       "type": "'fill' | 'indicator'",
       "default": "fill",
-      "desc": "fill paints the correct mark success-green and the rest neutral (the mockup); indicator keeps palette colours and marks the answer with ✓ only"
+      "desc": "fill paints the correct mark the answer-correct green (both palettes) and the rest neutral (the mockup); indicator keeps palette colours and marks the answer with ✓ only"
     },
     {
       "name": "page-size",
@@ -356,7 +356,7 @@
         "when": "a chart type <aha-chart> does not ship (area, scatter, dual-series bars)"
       }
     ],
-    "note": "Never hand-roll result bars with divs or pull a chart engine into the slide canvas: the look, the empty/overflow states and the accessibility layer live here once. Pick Answer follows the mockup by default (correct mark filled with --aha-color-success, the rest neutral, plus a ✓ on the label); set correct-style=\"indicator\" where the canvas guide's Job 1 / Job 2 split applies (palette-coloured marks, ✓ only). The --aha-viz-* values are lifted from the PRO38-69 mockup and are expected to be refined by a token owner; change the tokens, never the element. Start from the chart type's default snippet (`typeDefaults`, one per type) and only ADD attributes or options — never strip or override its data shape: the default is the minimal markup that already has the full intended behaviour (entrance animation, live-update motion, tooltip, legend, empty state, text summary, hidden data table and live-region announcement) with no opt-in attribute. A few things are opt-in only and must be set explicitly: ranking (sort=\"desc\"), Pick Answer (correct), pagination (page-size), highlight-top, log-scale, bell grid / % axis / mean line / step labels, radar data table / scale ticks / hollow centre, word cloud counts / diacritic folding / shapes / rotation / masks, and an editable mind map.",
+    "note": "Never hand-roll result bars with divs or pull a chart engine into the slide canvas: the look, the empty/overflow states and the accessibility layer live here once. Pick Answer follows the mockup by default (correct mark filled with --aha-answer-correct in both palettes, the rest neutral, plus the green tick disc on the label); set correct-style=\"indicator\" where the canvas guide's Job 1 / Job 2 split applies (palette-coloured marks, ✓ only). The --aha-viz-* values are lifted from the PRO38-69 mockup and are expected to be refined by a token owner; change the tokens, never the element. Start from the chart type's default snippet (`typeDefaults`, one per type) and only ADD attributes or options — never strip or override its data shape: the default is the minimal markup that already has the full intended behaviour (entrance animation, live-update motion, tooltip, legend, empty state, text summary, hidden data table and live-region announcement) with no opt-in attribute. A few things are opt-in only and must be set explicitly: ranking (sort=\"desc\"), Pick Answer (correct), pagination (page-size), highlight-top, log-scale, bell grid / % axis / mean line / step labels, radar data table / scale ticks / hollow centre, word cloud counts / diacritic folding / shapes / rotation / masks, and an editable mind map.",
     "dsv3": "New in the DS (PRO38-69) — the visual source is the \"AhaSlides Chart Slides\" mockup; a signed-off exception to the @ant-design/plots rule for result charts."
   },
   "surfaces": [
@@ -442,7 +442,7 @@
       "verdict": "PASS"
     },
     {
-      "label": "transparent background; Pick Answer state via ✓ (+ success fill unless correct-style=indicator)",
+      "label": "transparent background; Pick Answer state via the tick disc (+ answer-correct fill unless correct-style=indicator)",
       "verdict": "PASS"
     },
     {

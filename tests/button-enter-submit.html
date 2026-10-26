@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Button Enter submits its form</title>
+</head>
+<body>
+  <form id="two-fields">
+    <input id="two-fields-name" name="name" value="Ada">
+    <input id="two-fields-email" name="email" type="email" value="ada@example.com">
+    <aha-button variant="primary" type="submit">Join</aha-button>
+  </form>
+  <form id="one-field">
+    <input id="one-field-email" name="email" type="email" value="ada@example.com">
+    <aha-button variant="primary" type="submit">Join</aha-button>
+  </form>
+  <form id="required-empty">
+    <input id="required-empty-name" name="name" value="Ada">
+    <input id="required-empty-email" name="email" type="email" required>
+    <aha-button variant="primary" type="submit">Join</aha-button>
+  </form>
+  <form id="disabled-button">
+    <input id="disabled-button-name" name="name" value="Ada">
+    <input id="disabled-button-email" name="email" type="email" value="ada@example.com">
+    <aha-button variant="primary" type="submit" disabled>Join</aha-button>
+  </form>
+  <form id="click-prevented">
+    <input id="click-prevented-name" name="name" value="Ada">
+    <aha-button id="click-prevented-button" variant="primary" type="submit">Join</aha-button>
+  </form>
+  <form id="click-allowed">
+    <input id="click-allowed-name" name="name" value="Ada">
+    <aha-button id="click-allowed-button" variant="primary" type="submit">Join</aha-button>
+  </form>
+  <script type="module">
+    window.submitCounts = {};
+    for (const form of document.forms) {
+      window.submitCounts[form.id] = 0;
+      form.addEventListener('submit', (event) => { event.preventDefault(); window.submitCounts[form.id] += 1; });
+    }
+    document.getElementById('click-prevented-button').addEventListener('click', (event) => event.preventDefault());
+    await import('../lib/aha-button.js');
+    await customElements.whenDefined('aha-button');
+    window.enterSubmitFixtureReady = true;
+  </script>
+</body>
+</html>

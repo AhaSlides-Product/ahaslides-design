@@ -16,7 +16,7 @@
 <!-- 1) Schema-driven — the list renders the rows and reuses the named DS controls.
      `description` becomes a "?" help tooltip after the label (not a standing line); `layout:"stack"`
      puts the label above a full-width control. A row can be disabled (dimmed) or locked
-     (visible-but-gated → the shared Paywall crown). -->
+     (visible-but-gated: the shared Paywall crown sits after the label, the control is disabled). -->
 <aha-settings-list style="max-width:360px; display:block"
   schema='{"sections":[{"label":"Presentation","rows":[
     {"key":"progressBar","label":"Progress bar","control":{"type":"switch","checked":true}},
@@ -25,7 +25,7 @@
     {"key":"notes","label":"Speaker notes","description":"Only you see these while presenting.","layout":"stack","control":{"type":"input","value":""}},
     {"key":"theme","label":"Slide theme","control":{"type":"select","value":"light","options":[{"label":"Light","value":"light"},{"label":"Dark","value":"dark"},{"label":"High contrast","value":"contrast"}]}},
     {"key":"timer","label":"Question timer","disabled":true,"control":{"type":"switch"}},
-    {"key":"branding","label":"Custom branding","locked":true,"plan":"pro","feature":"Custom branding"}
+    {"key":"branding","label":"Custom branding","locked":true,"plan":"pro","upgradeBody":"Add your logo and colours to every deck.","control":{"type":"switch"}}
   ]}]}'></aha-settings-list>
 <script type="module">
   document.querySelector('aha-settings-list')
@@ -36,5 +36,8 @@
 <aha-settings-list label="Audience" style="max-width:360px; display:block; margin-top:24px">
   <aha-settings-item label="Anonymous join">
     <aha-switch slot="control" checked></aha-switch>
+  </aha-settings-item>
+  <aha-settings-item label="Custom branding" locked plan="pro" upgrade-body="Add your logo and colours to every deck.">
+    <aha-switch slot="control"></aha-switch>
   </aha-settings-item>
 </aha-settings-list>

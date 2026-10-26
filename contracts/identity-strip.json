@@ -2,6 +2,7 @@
   "name": "Identity strip",
   "slug": "identity-strip",
   "group": "Audience",
+  "environment": ["audience"],
   "tier": "leaf-lit",
   "badge": "shared web component",
   "element": "aha-identity-strip",
@@ -24,7 +25,7 @@
     },
     {
       "label": "Eyebrow",
-      "value": "12px semibold uppercase, 0.06em tracking, the muted ink"
+      "value": "12px semibold uppercase, 0.06em tracking, the secondary ink"
     }
   ],
   "props": [

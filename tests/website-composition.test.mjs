@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
 
 const readJson = (path) => JSON.parse(readFileSync(new URL(`../${path}`, import.meta.url), 'utf8'));
 
@@ -9,13 +10,19 @@ const criteria = readJson('anti-slop/criteria.json').surfaces.website.criteria;
 const agentCriteria = readJson('agent/anti-slop/criteria.json').surfaces.website.criteria;
 const evals = readJson('anti-slop/evals/website/evals.json').evals;
 const cardsCss = readJson('marketing/cards.json').baseCss;
+const sharedCss = readJson('marketing/data/shared-css.json');
+const layoutsUsing = (key) => ['header', 'cards', 'testimonials'].flatMap((slug) => readJson(`marketing/${slug}.json`).layouts.filter((layout) => layout.sharedCss === key));
+const numbersCss = sharedCss['aha-numbers'];
+const features = { baseCss: sharedCss['aha-features'], layouts: layoutsUsing('aha-features') };
+const featuresCss = features.baseCss;
 const testimonialsCss = readJson('marketing/testimonials.json').baseCss;
 const pricingCss = readJson('marketing/pricing.json').baseCss;
 const faqCss = readJson('marketing/faq.json').css;
 const footerBannerCss = readJson('marketing/footer-banner.json').css;
 const cardSnippetsCss = readJson('marketing/cards.json').snippets.map((snippet) => snippet.css ?? '').join('\n');
+const alternatingRowCss = features.layouts.find((layout) => layout.slug === 'alternating-screenshots').css;
 
-for (const id of ['W11', 'W12', 'W13', 'W14', 'W15']) {
+for (const id of ['W9', 'W11', 'W12', 'W13', 'W14', 'W15', 'W17', 'W18', 'W19']) {
   test(`${id} has a guideline rule, a criterion, a synced copy and a failing eval`, () => {
     assert.ok(guideline.rules.some((rule) => rule.ref.includes(id)), 'guideline rule');
     assert.ok(criteria.some((criterion) => criterion.id === id), 'criterion');
@@ -57,14 +64,15 @@ test('templates are a 3 by n grid on desktop and skip count balancing', () => {
 });
 
 test('W15: every content card link opens in a new tab with noopener and hidden text, calls to action do not', () => {
-  const linkClasses = ['aha-marketing-card__link', 'aha-testimonials__link'];
-  for (const slug of ['cards', 'testimonials']) {
+  const linkClasses = ['aha-marketing-card__link', 'aha-testimonials__link', 'aha-features__more'];
+  for (const slug of ['cards', 'testimonials', 'header']) {
     const raw = readFileSync(new URL(`../marketing/${slug}.json`, import.meta.url), 'utf8');
     const links = linkClasses.flatMap((name) => [...raw.matchAll(new RegExp(`<a class=\\\\"${name}\\\\"[^>]*>`, 'g'))].map((match) => match[0]));
     for (const link of links) assert.match(link, /target=\\"_blank\\" rel=\\"noopener\\"/, link);
-    assert.doesNotMatch(raw, /(aha-header-button)[^>]*target=/);
+    assert.doesNotMatch(raw, /(aha-features__button|aha-header-button)[^>]*target=/);
   }
   assert.match(testimonialsCss, /aha-testimonials__visually-hidden/);
+  assert.match(featuresCss, /aha-features__visually-hidden/);
   assert.match(cardsCss, /aha-marketing-card__visually-hidden/);
   const failing = evals.find((entry) => entry.expected.criteria.W15 === 'FAIL');
   const page = readFileSync(new URL(`../anti-slop/evals/website/${failing.files[0].path}`, import.meta.url), 'utf8');
@@ -72,8 +80,8 @@ test('W15: every content card link opens in a new tab with noopener and hidden t
   assert.doesNotMatch(page, /target="_blank"/);
 });
 
-test('the Cards grid balances by item count', () => {
-  for (const css of [cardsCss]) {
+test('the Cards grid and the feature icon grid balance by item count', () => {
+  for (const css of [cardsCss, featuresCss]) {
     assert.match(css, /:has\(>:first-child:last-child\)\{grid-template-columns:minmax\(0,36rem\)/);
     assert.match(css, /:has\(>:nth-child\(2\):last-child\),[^{]*:has\(>:nth-child\(4\):last-child\)\{grid-template-columns:repeat\(2,/);
     assert.match(css, /:nth-child\(3n\+2\):last-child:nth-child\(n\+5\)\)>:last-child\{grid-column:4 \/ span 2\}/);
@@ -83,6 +91,12 @@ test('the Cards grid balances by item count', () => {
 
 test('the Steps row and the image-led grid keep their own layout', () => {
   assert.match(cardsCss, /\.aha-marketing-cards__grid:not\(\.aha-marketing-cards__grid--image-led\):not\(\.aha-marketing-cards__grid--row\):has/);
+});
+
+test('the numbers centred stats balance by item count', () => {
+  assert.match(numbersCss, /\.aha-numbers--centred \.aha-numbers__stats:has\(>:nth-child\(2\):last-child\)\{grid-template-columns:repeat\(2,/);
+  assert.match(numbersCss, /\.aha-numbers--centred \.aha-numbers__stats:has\(>:nth-child\(4\):last-child\)\{grid-template-columns:repeat\(2,/);
+  assert.match(numbersCss, /:nth-child\(3n\+2\):last-child:nth-child\(n\+5\)\)>:last-child\{grid-column:4 \/ span 2\}/);
 });
 
 const topLevelCss = (css) => css.replace(/@[^{]+\{(?:[^{}]*\{[^{}]*\})*[^{}]*\}/g, '');
@@ -111,6 +125,8 @@ const SEMIBOLD = 'var(--aha-weight-semibold)';
 test('W14: every item or card title resolves to one token, xl semibold', () => {
   const titles = [
     [cardsCss, '.aha-marketing-card__title'],
+    [featuresCss, '.aha-features__item-title'],
+    [numbersCss, '.aha-numbers__stat-title'],
     [testimonialsCss, '.aha-testimonials__card-title'],
     [pricingCss, '.aha-pricing__item-title'],
     [faqCss, '.aha-faq__heading'],
@@ -126,6 +142,8 @@ test('W14: every item or card title resolves to one token, xl semibold', () => {
 test('W14: every body text resolves to size-l', () => {
   const bodies = [
     [cardsCss, '.aha-marketing-card__text'],
+    [featuresCss, '.aha-features__item-text'],
+    [numbersCss, '.aha-numbers__stat-text'],
     [testimonialsCss, '.aha-testimonials__text'],
     [pricingCss, '.aha-pricing__item-text'],
     [faqCss, '.aha-faq__answer-text'],
@@ -135,6 +153,8 @@ test('W14: every body text resolves to size-l', () => {
 
 test('W14: every section h2 shares one size, weight and line-height and the same steps down', () => {
   const headings = [
+    [featuresCss, '.aha-features__title', 'aha-features'],
+    [numbersCss, '.aha-numbers__title', 'aha-numbers'],
     [pricingCss, '.aha-pricing__title', 'aha-pricing'],
     [testimonialsCss, '.aha-testimonials__title', 'aha-testimonials'],
     [faqCss, '.aha-faq__title', 'aha-faq'],
@@ -148,10 +168,13 @@ test('W14: every section h2 shares one size, weight and line-height and the same
     assert.match(css, new RegExp(`@container ${container} \\(max-width:991px\\)\\{[^@]*\\${selector}\\{font-size:var\\(--aha-size-h3\\)\\}`), `${selector} 32 px at 991`);
     assert.match(css, new RegExp(`@container ${container} \\(max-width:479px\\)\\{[^@]*\\${selector}\\{font-size:var\\(--aha-size-h4\\)\\}`), `${selector} 24 px at 479`);
   }
+  assert.doesNotMatch(features.layouts.map((layout) => layout.css).join('\n'), /\.aha-features__side \.aha-features__title\{font-size/);
 });
 
 test('W14: section leads and quotes share the lead token, regular', () => {
   for (const [css, selector] of [
+    [featuresCss, '.aha-features__lead'],
+    [numbersCss, '.aha-numbers__lead'],
     [pricingCss, '.aha-pricing__lead'],
     [testimonialsCss, '.aha-testimonials__lead'],
     [footerBannerCss, '.aha-footer-banner__text'],
@@ -162,10 +185,94 @@ test('W14: section leads and quotes share the lead token, regular', () => {
   assert.doesNotMatch(testimonialsCss, /\.aha-testimonials__quote--(large|card)\{/);
 });
 
+test('W14: the alternating row title is h4 semibold on the product face', () => {
+  assert.deepEqual(typeOf(alternatingRowCss, '.aha-features--alternating-screenshots .aha-features__row-title'), { size: 'var(--aha-size-h4)', weight: SEMIBOLD, family: undefined });
+});
+
 test('W14: no Marketing section sets the display face; every heading inherits Plus Jakarta Sans', () => {
-  const marketing = ['cards', 'pricing', 'testimonials', 'faq', 'footer-banner', 'header'];
+  const marketing = ['cards', 'data/shared-css', 'pricing', 'testimonials', 'faq', 'footer-banner', 'header'];
   for (const slug of marketing) {
     assert.doesNotMatch(readFileSync(new URL(`../marketing/${slug}.json`, import.meta.url), 'utf8'), /--aha-font-display/, slug);
   }
   assert.doesNotMatch(readFileSync(new URL('../anti-slop/evals/website/fixtures/sections.css', import.meta.url), 'utf8'), /--aha-font-display/);
+});
+
+const marketingFile = (slug) => readFileSync(new URL(`../marketing/${slug}.json`, import.meta.url), 'utf8');
+const sectionPage = (name) => readFileSync(new URL(`../anti-slop/evals/website/fixtures/${name}/Page.html`, import.meta.url), 'utf8');
+
+test('W17: the FAQ title centres itself and symmetric headers carry the centre class', () => {
+  assert.match(declarations(faqCss, '.aha-faq__title')['text-align'] ?? '', /^center$/);
+  const centred = ['alternating-screenshots', 'icon-grid', 'icon-cards', 'tabs-screenshots'];
+  for (const slug of centred) {
+    assert.match(features.layouts.find((layout) => layout.slug === slug).html, /aha-features__header aha-features__header--center/, slug);
+  }
+  assert.match(sectionPage('fail-w17-heading-alignment'), /\.aha-faq__title\{justify-content:flex-start;text-align:left\}/);
+});
+
+test('W18: every content section ships one call to action, aligned with its heading', () => {
+  for (const slug of ['alternating-screenshots', 'icon-grid', 'tabs-screenshots']) {
+    assert.match(features.layouts.find((layout) => layout.slug === slug).html, /<div class="aha-features__cta"><aha-button variant="primary" size="xl" href="#sign-up">Sign up<\/aha-button><\/div>/, slug);
+  }
+  assert.match(readJson('marketing/faq.json').html, /aha-faq__cta"><aha-button variant="secondary" size="xl" href="#docs">Read the docs/);
+  assert.match(featuresCss, /\.aha-features__cta\{display:flex;flex-wrap:wrap;justify-content:center/);
+  assert.match(numbersCss, /\.aha-numbers__cta\{display:flex;flex-wrap:wrap;justify-content:center/);
+  assert.match(testimonialsCss, /\.aha-testimonials__cta--start\{justify-content:flex-start\}/);
+  for (const slug of ['faq', 'cards', 'header', 'testimonials']) {
+    assert.doesNotMatch(marketingFile(slug), /href=\\"#(sign-up|case-studies|docs)\\"[^>]*target=/, slug);
+  }
+  assert.doesNotMatch(sectionPage('fail-w18-missing-section-cta'), /aha-faq__cta/);
+});
+
+test('W4 and W18 agree: a section Sign-up call to action repeats the hero label in every fixture', () => {
+  for (const entry of evals) {
+    const page = readFileSync(new URL(`../anti-slop/evals/website/${entry.files[0].path}`, import.meta.url), 'utf8');
+    const heroLabel = page.match(/<aha-button variant="secondary" size="xl" href="\/signup">([^<]+)</)?.[1];
+    if (!heroLabel) continue;
+    const sectionPrimaryLabels = [...page.matchAll(/<aha-button variant="primary" size="xl"[^>]*>([^<]+)</g)].map((match) => match[1]);
+    for (const label of sectionPrimaryLabels) assert.equal(label, heroLabel, entry.files[0].path);
+  }
+});
+
+test('W19: testimonial authors are left aligned and share a baseline through subgrid', () => {
+  assert.equal(declarations(testimonialsCss, '.aha-testimonials__person')['text-align'], 'left');
+  assert.equal(declarations(testimonialsCss, '.aha-testimonials__person-text')['align-items'], 'flex-start');
+  assert.equal(declarations(testimonialsCss, '.aha-testimonials__quote')['text-align'], 'left');
+  assert.equal(declarations(testimonialsCss, '.aha-testimonials__card--quote')['grid-template-rows'], 'subgrid');
+});
+
+test('W9: the motion script reveals with a stagger, drifts photos, counts numbers up and honours reduced motion', () => {
+  const script = readFileSync(new URL('../lib/marketing-motion.js', import.meta.url), 'utf8');
+  assert.match(script, /STAGGER_MILLISECONDS = 80/);
+  assert.match(script, /PARALLAX_RANGE_PIXELS = 48/);
+  assert.match(script, /--aha-motion-viz-enter/);
+  assert.match(script, /--aha-ease-out/);
+  assert.match(script, /prefers-reduced-motion: reduce/);
+  assert.match(script, /data-aha-motion="off"/);
+  assert.match(script, /aha-numbers__value/);
+  const packageJson = readJson('package.json');
+  assert.equal(packageJson.exports['./marketing-motion'], './lib/marketing-motion.js');
+  assert.ok(packageJson.sideEffects.includes('./lib/marketing-motion.js'));
+  for (const entry of evals.filter((item) => item.label === 'good-control')) {
+    assert.match(sectionPage(entry.files[0].path.split('/')[1]), /lib\/marketing-motion\.js/);
+  }
+});
+
+test('W9: the motion script imports as a no-op outside a browser and keeps the final number for screen readers and print', async () => {
+  await import('../lib/marketing-motion.js');
+  const script = readFileSync(new URL('../lib/marketing-motion.js', import.meta.url), 'utf8');
+  assert.match(script, /typeof document !== 'undefined'/);
+  assert.match(script, /aha-motion-final/);
+  assert.match(script, /@media print\{[^]*\.aha-motion-count\{display:none\}/);
+});
+
+test('W16: every fixture marked W16 PASS has no hand-rolled button and no class-based call to action', () => {
+  const passing = evals.filter((entry) => JSON.stringify(entry).includes('"W16":"PASS"'));
+  assert.ok(passing.length > 0);
+  for (const entry of passing) {
+    const path = entry.files[0].path;
+    const page = readFileSync(new URL(`../anti-slop/evals/website/${path}`, import.meta.url), 'utf8');
+    assert.doesNotMatch(page, /<a class="aha-[a-z-]+__button/, path);
+    const lint = spawnSync(process.execPath, ['screen-lint.mjs', '--surface=website', new URL(`../anti-slop/evals/website/${path}`, import.meta.url).pathname], { cwd: new URL('..', import.meta.url).pathname, encoding: 'utf8' });
+    assert.doesNotMatch(lint.stdout + lint.stderr, /hand-rolled-button/, path);
+  }
 });

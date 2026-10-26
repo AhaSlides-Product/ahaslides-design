@@ -1,0 +1,19 @@
+<div class="pad">
+  <div class="lbl">Sizes · md 48, lg 64, hero 96</div>
+  <div class="row" style="align-items:center; gap:24px; flex-wrap:wrap">
+    <aha-canvas-play size="md"></aha-canvas-play>
+    <aha-canvas-play size="lg"></aha-canvas-play>
+    <aha-canvas-play size="hero"></aha-canvas-play>
+    <aha-canvas-play size="hero" disabled></aha-canvas-play>
+  </div>
+  <div class="lbl">Hero on a dark deck (focus ring follows the deck)</div>
+  <div data-play-deck data-ink="#FFFFFF" style="display:grid; place-items:center; height:200px; border-radius:var(--aha-radius-lg,12px); background:var(--aha-gray-100,#1A1A1A)">
+    <aha-canvas-play size="hero" label="Play video"></aha-canvas-play>
+  </div>
+</div>
+<script type="module">
+  import '../lib/icons.js';
+  import '../lib/aha-canvas-play.js';
+  import { applyCanvasDeck } from '../lib/canvas-deck.js';
+  for (const deck of document.querySelectorAll('[data-play-deck]')) applyCanvasDeck(deck, { ink: deck.dataset.ink });
+</script>
