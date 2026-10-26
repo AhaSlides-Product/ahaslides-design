@@ -33,12 +33,21 @@ test('each Vivid Pink hero opens on Vivid Pink with the Splash and keeps its whi
   }
 });
 
-test('slideshow dots on Vivid Pink are solid white, the current one marked by its width', () => {
+test('the current slideshow dot changes fill as well as width, on White and on Vivid Pink', () => {
+  for (const slug of ['hero-slideshow', 'hero-pink-slideshow']) {
+    const layout = header.layouts.find((candidate) => candidate.slug === slug);
+    const dotTokens = (selector) => {
+      const block = layout.css.match(new RegExp(`${selector}\\{(--${layout.class}-dot[^}]*)\\}`))[1];
+      return Object.fromEntries(block.split(';').map((declaration) => declaration.split(':')));
+    };
+    for (const selector of [`\\.${layout.class}`, `\\.${layout.class}--brand`]) {
+      const tokens = dotTokens(selector);
+      assert.notEqual(tokens[`--${layout.class}-dot`], tokens[`--${layout.class}-dot-current`], `${slug} ${selector}`);
+    }
+    assert.match(layout.css, /__dot\[aria-current="true"\]::before\{width:var\(--aha-space-28\);background:/, slug);
+  }
   const pink = header.layouts.find((layout) => layout.slug === 'hero-pink-slideshow');
-  const dots = pink.css.match(new RegExp(`\\.${pink.class}--brand\\{(--${pink.class}-dot[^}]*)\\}`))[1];
-  assert.match(dots, new RegExp(`--${pink.class}-dot:var\\(--aha-white\\);`));
-  assert.match(dots, new RegExp(`--${pink.class}-dot-current:var\\(--aha-white\\)`));
-  assert.match(pink.css, /__dot\[aria-current="true"\]::before\{width:var\(--aha-space-28\)/);
+  assert.match(pink.css, new RegExp(`--${pink.class}-dot:var\\(--aha-white-a50\\);--${pink.class}-dot-hover:var\\(--aha-white-a90\\);--${pink.class}-dot-current:var\\(--aha-white\\)`));
 });
 
 test('W9: every gallery transition and loop is token-timed and stops under reduced motion', () => {
@@ -134,4 +143,17 @@ test('marquee: hovering or focusing the Play button does not hold the loop pause
     assert.doesNotMatch(layout.css, /__marquee:(?:hover|focus-within) /, layout.slug);
     assert.match(layout.css, /__marquee-(?:row|track):hover/, layout.slug);
   }
+});
+
+test('W1, W6 and W9 allow the Gallery section, the multi-image photo treatments and the photo marquee loops', () => {
+  const guideline = JSON.parse(readFileSync(new URL('../guidelines/website.json', import.meta.url), 'utf8'));
+  const criteria = JSON.parse(readFileSync(new URL('../anti-slop/criteria.json', import.meta.url), 'utf8')).surfaces.website.criteria;
+  const rule = (id) => guideline.rules.find((candidate) => candidate.ref.includes(id)).rule;
+  const criterion = (id) => criteria.find((candidate) => candidate.id === id).test;
+  assert.match(rule('W1'), /Pricing, Gallery, FAQ/);
+  assert.match(criterion('W1'), /Pricing, Gallery, FAQ/);
+  assert.match(rule('W6'), /photo stack and floating images may tilt a photo/);
+  assert.match(criterion('W6'), /cover-cropped photo cells of mixed size or ratio/);
+  assert.match(rule('W9'), /Hero image marquee and the Gallery Marquee rows/);
+  assert.match(criterion('W9'), /photo marquees \(the Header's Hero image marquee and the Gallery Marquee rows\)/);
 });

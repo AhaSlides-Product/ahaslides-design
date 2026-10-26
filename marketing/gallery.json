@@ -37,6 +37,10 @@
       {
         "title": "Background",
         "text": "White is the default. Add aha-gallery--accent to lay the pale pink Accent background (bgAccent) over white when the section needs to stand apart; never place an Accent section next to another coloured one."
+      },
+      {
+        "title": "Photo frame",
+        "text": "A photo that tilts or overlaps others (Hero photo stack, Hero floating images and their Vivid Pink versions) sits in the photo frame: an 8 px white border (--aha-space-8 solid --aha-white), the --aha-radius-xl corner and a 1 px ring in the layout's frame colour (--aha-border-default on White and Accent, --aha-vivid-pink-dark on Vivid Pink). No drop shadow: the DS has no shadow token for photos, so the white border and ring lift the photo off the surface. Flat photos in a grid, collage, slideshow, carousel or marquee have no frame. Tilted photos and cover-cropped cells of mixed size or ratio are allowed for photos in these multi-image layouts only (rule W6), never for screenshots."
       }
     ]
   },
