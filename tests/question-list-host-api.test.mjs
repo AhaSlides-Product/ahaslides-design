@@ -172,3 +172,19 @@ test('count picks the plural category for the page language and falls back to co
   `, { lang: 'ru' });
   assert.deepEqual(result, ['3 вопроса', '1 вопрос']);
 });
+
+test('accordion keeps only the first open question when a host writes back several', { skip }, async () => {
+  const result = await run('accordion', `
+    const openIds = () => ['q1', 'q2', 'q3'].filter(isOpen);
+    const first = openIds();
+    const model = list.questions.map((question) => ({ ...question, open: question.id !== 'q3' }));
+    list.questions = model; await frame();
+    const patched = openIds();
+    list.questions = model.map((question) => ({ ...question, open: question.id !== 'q1' })); await frame();
+    return { first, patched, later: openIds(), model: list.questions.map((question) => question.open) };
+  `);
+  assert.deepEqual(result.first, ['q1']);
+  assert.deepEqual(result.patched, ['q1']);
+  assert.deepEqual(result.later, ['q2']);
+  assert.deepEqual(result.model, [false, true, false]);
+});
