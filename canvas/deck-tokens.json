@@ -84,6 +84,20 @@
       "snippet": ".panel{ color:var(--aha-deck-ink); background:var(--aha-deck-container-fill);\n  border:1px solid var(--aha-deck-container-stroke); border-radius:var(--aha-deck-container-radius-lg);\n  padding:var(--aha-deck-container-padding-md) }\n.panel .hint{ color:var(--aha-deck-ink-secondary) }\n.panel .rule{ border-top:1px solid var(--aha-deck-line) }\n.panel .chip{ background:var(--aha-deck-fill); border:1px solid var(--aha-deck-stroke-chip) }\n.panel .chip:hover{ background:var(--aha-deck-fill-hover) }"
     },
     {
+      "name": "Deck palette fills and inks",
+      "element": "--aha-deck-palette-<n> · --aha-deck-palette-<n>-ink",
+      "kind": "Tokens",
+      "what": "One fill and one text ink per colour of the deck palette, written by applyCanvasDeck when it is given `palette` (the deck's presentationColorPalette), 1-based like --aha-viz-series-<n>, up to 24 colours. The ink is #1A1A1A or white, whichever contrasts more on the fill (readableTextInk), so text on a palette container meets AA 4.5:1 with no contrast logic in the slide type.",
+      "useWhen": "text on a container, bar or chip filled with a deck palette colour (an option card, a result bar, a legend chip)",
+      "notFor": "a hand-rolled luminance threshold: it picks white on mid colours and fails AA. A colour outside the palette uses readableTextInk from lib/canvas.js.",
+      "rules": [
+        {
+          "label": "Pair",
+          "value": "`background: var(--aha-deck-palette-2); color: var(--aha-deck-palette-2-ink)`. Omit `palette` and no palette variable is written (an earlier call's variables are removed)"
+        }
+      ]
+    },
+    {
       "name": "Deck containers and modals",
       "element": "--aha-deck-container-* · --aha-deck-modal-*",
       "kind": "Tokens",
