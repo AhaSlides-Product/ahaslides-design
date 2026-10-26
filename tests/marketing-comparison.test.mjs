@@ -45,3 +45,15 @@ test('on a phone four and five columns scroll in a focusable region with the fea
   assert.match(comparison.baseCss, /\.aha-comparison--scroll \.aha-comparison__table :is\(thead td:first-child,tbody th\[scope="row"\]\)\{position:sticky;left:0/);
   assert.match(comparison.baseCss, /ds-lint-allow: overflow-x-scroll/);
 });
+
+test('W1 lists the Comparison table and W8 backs its phone sideways scroll', () => {
+  const guideline = JSON.parse(readFileSync(new URL('../guidelines/website.json', import.meta.url), 'utf8'));
+  const criteria = JSON.parse(readFileSync(new URL('../anti-slop/criteria.json', import.meta.url), 'utf8')).surfaces.website.criteria;
+  const rule = (id) => guideline.rules.find((candidate) => candidate.ref.includes(id)).rule;
+  const criterion = (id) => criteria.find((candidate) => candidate.id === id).test;
+  assert.match(rule('W1'), /Pricing, Comparison table, FAQ/);
+  assert.match(criterion('W1'), /Pricing, Comparison table, FAQ/);
+  assert.match(rule('W8'), /Comparison table with four or five compared columns .* scrolls sideways inside its own table frame/);
+  assert.match(criterion('W8'), /Comparison table with four or five compared columns .* scrolls sideways inside its own table frame/);
+  assert.match(comparison.baseCss, /ds-lint-allow: overflow-x-scroll \(website rule W8:/);
+});
