@@ -24,11 +24,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.404.0 — 2026-10-26
 ### Added
-- `<aha-question-list>` host API, so a slide type's settings use the list instead of hand-building it: `notices` (InfoBoxes with links that open a question), `accordion`, a cancelable `question-toggle` event, `setQuestionOpen(id, open)`, a `question-leave` event, `change` `detail.edit` naming each edit, `singlecorrect`, `multiline` (a 1 to 3 row prompt), `promptmaxlength` / `optionmaxlength`, per-question `current` and `untitled`, the `markAsCorrect` and plural `countZero` / `countTwo` / `countFew` / `countMany` strings, `testid` hooks and `data-question-id` / `data-option-id`. Every one is opt-in; without them the list behaves as before (#PR)
+- `<aha-question-list>` host API, so a slide type's settings use the list instead of hand-building it: `notices` (InfoBoxes with links that open a question), `accordion`, a cancelable `question-toggle` event, `setQuestionOpen(id, open)`, a `question-leave` event, `change` `detail.edit` naming each edit, `singlecorrect`, `multiline` (a 1 to 3 row prompt), `promptmaxlength` / `optionmaxlength`, per-question `current` and `untitled`, the `markAsCorrect` and plural `countZero` / `countTwo` / `countFew` / `countMany` strings, `testid` hooks and `data-question-id` / `data-option-id`. Every one is opt-in; without them the list behaves as before (#397)
 ### Changed
-- Setting `questions` again with the same question and option ids in the same order now updates the list in place, so focus and the caret survive a host that writes every edit back (#PR)
-- llms.txt: a DS gap is never a ds-lint-allow reason; check the component at the latest release, bump the pin, and add what is still missing to the DS (#PR)
-- Revert: revert the PR; the changes sit in `lib/aha-question-list.js`, `contracts/question-list.json` and one llms.txt line in `generate.mjs` (#PR)
+- Setting `questions` again with the same question and option ids in the same order now updates the list in place, so focus and the caret survive a host that writes every edit back (#397)
+- llms.txt: a DS gap is never a ds-lint-allow reason; check the component at the latest release, bump the pin, and add what is still missing to the DS (#397)
+- Revert: revert the PR; the changes sit in `lib/aha-question-list.js`, `contracts/question-list.json` and one llms.txt line in `generate.mjs` (#397)
 
 ## 0.396.0 — 2026-10-26
 ### Added
