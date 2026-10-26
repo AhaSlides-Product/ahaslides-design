@@ -22,10 +22,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.403.0 — 2026-10-26
+## 0.408.0 — 2026-10-26
 ### Added
 - Website > Marketing > Comparison table: a new section page with one comparison table in five forms — two, three (with or without a highlighted column), four and five compared columns beside a feature column (`aha-comparison`). Grouped rows under a group heading, tick, cross or short text cells, and the Pricing Large table's highlighted-column outline with a Recommended tag. On a phone two and three columns stay a table; four and five scroll sideways with the feature column held in place (#395)
 - Revert: revert the PR; it only adds `marketing/comparison.json`, its test and a gutter test entry (#395)
+
+## 0.403.1 — 2026-10-26
+### Changed
+- Website > Marketing pages: prose longer than about two lines is a closed disclosure with its heading still visible (Choosing a header, Which is which, video slot, Composed of, Details, and any long layout or card summary). Native `<details>`, keyboard accessible, opens when a link targets its anchor. The `.md` and llms feeds keep the full text.
+- Revert: revert the PR; only the docs generator changed, no component or contract (#396)
 
 ## 0.396.0 — 2026-10-26
 ### Added
