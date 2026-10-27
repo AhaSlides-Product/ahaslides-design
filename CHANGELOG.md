@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.501.0 — 2026-10-27
+### Fixed
+- The pill is back on the presenting canvas too. The canvas kit badge (`.canvas-lib .badge` in `canvas/canvas.css`) is `var(--aha-radius-pill)` again instead of 4px, the Canvas guideline and guide say avatars, dots, chips, badges and bar tracks may be fully rounded again, the canvas anti-slop evals and fixtures read as before 0.441.0 (999px bars and badges, 50% marks), and the canvas-only pill check in `standards.mjs` and the canvas pill rule in screen-lint are removed. `--aha-radius-pill` (999px) stays the one token. (#410)
+- Marketing Header: the Hero split and Hero stacked badge is a pill again (`var(--aha-radius-pill)`), as every Header badge was before 0.441.0; it stayed at 6px when the Header layouts were merged into five. An audit of every radius against 0.440.0 found no other change: rounded rectangles keep their radius, and only what was fully round before is fully round again. Revert: revert the PR (#410)
+
 ## 0.498.1 — 2026-10-27
 ### Fixed
 - `aha-input` and `aha-button` keep their `ElementInternals` only when it has the form API (`setFormValue`); jsdom's partial internals is treated as none, so `form` and `labels` fall back and `aha-input` no longer throws "this._internals.setFormValue is not a function" in consumer unit tests. Browsers are unchanged. No API change. Revert: revert this PR. (#419)

@@ -267,7 +267,7 @@
     },
     {
       "id": 11,
-      "prompt": "Review the finished slide canvas in fixtures/good-fill-in-the-blanks/Canvas.vue together with its fixtures/good-fill-in-the-blanks/plugin-manifest.json. It binds colour to xprops.slide.textColour and font to xprops.presentation.fontFamily (only a host-side fallback constant, as a fallback); applies bundled colorSuccess/colorError only to the checkmark/cross indicator while bars use xprops.presentationColorPalette; declares Previous/Next in the manifest (one primary, boolean disabled) with no in-canvas action buttons; sizes text with fixed-px type-scale roles (title 48px, body 18px, subhead 24px) — no vh, no clamp; pairs correctness colour with an icon and aria-label; declares setting.enableFullScreen: true and renders its own title; and initialises locale from xprops.presentation.language with Intl.NumberFormat percentages. Corners are ≤8px on containers (the thin bars take the 4px radius), display text is weight 400/600 (no extra-bold), and no surface is a pastel wash under same-tone ink. Is this canvas correct?",
+      "prompt": "Review the finished slide canvas in fixtures/good-fill-in-the-blanks/Canvas.vue together with its fixtures/good-fill-in-the-blanks/plugin-manifest.json. It binds colour to xprops.slide.textColour and font to xprops.presentation.fontFamily (only a host-side fallback constant, as a fallback); applies bundled colorSuccess/colorError only to the checkmark/cross indicator while bars use xprops.presentationColorPalette; declares Previous/Next in the manifest (one primary, boolean disabled) with no in-canvas action buttons; sizes text with fixed-px type-scale roles (title 48px, body 18px, subhead 24px) — no vh, no clamp; pairs correctness colour with an icon and aria-label; declares setting.enableFullScreen: true and renders its own title; and initialises locale from xprops.presentation.language with Intl.NumberFormat percentages. Corners are ≤8px on containers (the thin bars stay pill-shaped), display text is weight 400/600 (no extra-bold), and no surface is a pastel wash under same-tone ink. Is this canvas correct?",
       "files": [
         {
           "path": "fixtures/good-fill-in-the-blanks/Canvas.vue"
@@ -278,7 +278,7 @@
       ],
       "label": "good-control",
       "notes": "Shared good-control — also referenced by the aha-design-canvas build skill as the canonical correct pattern. If the judge ever fails this, the build skill and the judge have drifted.",
-      "expected_output": "All ten criteria PASS. C1: colour/font from xprops, no hard-coded values. C2: bundled semantic tokens on the indicator only, bars on the palette. C3: actions declared in the manifest, none in-canvas. C4: exactly one primary, disabled as a boolean. C5: text uses fixed-px type-scale roles (title 48 / body 18 / subhead 24), which the 1280x720 stage transform scales proportionally — no vh, no clamp floor. C6: colour paired with an icon and aria-label. C7: setting.enableFullScreen: true declared and the canvas renders its own title. C8: locale from xprops and Intl.NumberFormat used. C9: weight 400/600 (no extra-bold), container corners ≤8px with the thin bars at 4px, no pastel-monotone surface. C10: the canvas renders no bespoke in-canvas controls (Previous/Next are host-painted NCB actions), so the keyboard-shortcut-affordance criterion passes with nothing to violate. Overall: OK TO SHIP",
+      "expected_output": "All ten criteria PASS. C1: colour/font from xprops, no hard-coded values. C2: bundled semantic tokens on the indicator only, bars on the palette. C3: actions declared in the manifest, none in-canvas. C4: exactly one primary, disabled as a boolean. C5: text uses fixed-px type-scale roles (title 48 / body 18 / subhead 24), which the 1280x720 stage transform scales proportionally — no vh, no clamp floor. C6: colour paired with an icon and aria-label. C7: setting.enableFullScreen: true declared and the canvas renders its own title. C8: locale from xprops and Intl.NumberFormat used. C9: weight 400/600 (no extra-bold), container corners ≤8px with the bars as exempt pills, no pastel-monotone surface. C10: the canvas renders no bespoke in-canvas controls (Previous/Next are host-painted NCB actions), so the keyboard-shortcut-affordance criterion passes with nothing to violate. Overall: OK TO SHIP",
       "assertions": [
         "Overall verdict is OK TO SHIP",
         "All criteria C1 through C10 are marked PASS",
@@ -533,7 +533,7 @@
       "files": [],
       "label": "bad-example",
       "notes": "Rule 3 (AHAM-507) — over-rounded content containers (>8px). Maps to new C9.",
-      "expected_output": "C9 (Visual restraint) FAILs on the corner-radius axis. Content containers (answer boxes, score card) use rounded-3xl / 20px, well above the design-system cap (12px for cards, 8px for tiles; the borderRadius default) — over-rounded reads toy-like and 'AI'. Fix: use rounded-lg (≤8px) on rectangular containers. True circles (avatars, dots) may be 50%; there is no pill shape, so badges and progress bars take the radius scale too. Overall: NEEDS FIX",
+      "expected_output": "C9 (Visual restraint) FAILs on the corner-radius axis. Content containers (answer boxes, score card) use rounded-3xl / 20px, well above the design-system cap (12px for cards, 8px for tiles; the borderRadius default) — over-rounded reads toy-like and 'AI'. Fix: use rounded-lg (≤8px) on rectangular containers. Intentionally circular elements — pills, badges, avatars, progress bars — may stay fully rounded; the cap is for boxes. Overall: NEEDS FIX",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C9 is marked FAIL",
@@ -554,14 +554,14 @@
     },
     {
       "id": 21,
-      "prompt": "Review this canvas. The answer boxes and score card use `class=\"rounded-lg\"` (8px), and the thin progress bars use `border-radius: 4px` (--aha-radius-xs). Is the corner radius right?",
+      "prompt": "Review this canvas. The answer boxes and score card use `class=\"rounded-lg\"` (8px), while the thin progress bars keep `border-radius: 999px` pill ends. Is the corner radius right?",
       "files": [],
       "label": "good-control",
-      "notes": "Rule 3 (AHAM-507) AFTER — rounded-lg boxes; bars on the radius scale (no pill shape). Focused good-control pinned to C9.",
-      "expected_output": "C9 (Visual restraint) PASSes on the corner-radius axis. Rectangular containers use rounded-lg (8px), the design-system cap, and the progress bars take 4px from the radius scale. AhaSlides has no pill shape, so a 999px bar would fail.",
+      "notes": "Rule 3 (AHAM-507) AFTER — rounded-lg boxes; pills stay fully rounded (exempt). Focused good-control pinned to C9.",
+      "expected_output": "C9 (Visual restraint) PASSes on the corner-radius axis. Rectangular containers use rounded-lg (8px), the design-system cap, and the fully-rounded 999px is on the progress bars — intentionally-pill elements that are exempt from the 8px cap.",
       "assertions": [
         "C9 is marked PASS",
-        "Recognises 8px boxes comply and the 4px bar is on the radius scale"
+        "Recognises 8px boxes comply and the 999px is an exempt pill/bar"
       ],
       "expected": {
         "overall": "OK_TO_SHIP",
@@ -1459,7 +1459,7 @@
     },
     {
       "id": 52,
-      "prompt": "Review the finished canvas in fixtures/good-fill-in-the-blanks/Canvas.vue with its plugin-manifest.json, focusing on visual restraint. Container corners stay within the cap, display text is weight 400/600 (no extra-bold), there is no pastel-monotone surface and no decorative watermark, and the thin UNLABELLED magnitude tracks (aria-hidden, no text inside) use 4px corners from the radius scale. Is the visual-restraint contract satisfied?",
+      "prompt": "Review the finished canvas in fixtures/good-fill-in-the-blanks/Canvas.vue with its plugin-manifest.json, focusing on visual restraint. Container corners stay within the cap, display text is weight 400/600 (no extra-bold), there is no pastel-monotone surface and no decorative watermark, and the thin UNLABELLED magnitude tracks (aria-hidden, no text inside) keep their 999px pill ends. Is the visual-restraint contract satisfied?",
       "files": [
         {
           "path": "fixtures/good-fill-in-the-blanks/Canvas.vue"
@@ -1469,8 +1469,8 @@
         }
       ],
       "label": "good-control",
-      "notes": "C9 restraint/radius axis AFTER — canonical all-pass fixture; thin UNLABELLED tracks sit on the radius scale (no pill shape anywhere).",
-      "expected_output": "C9 (Visual restraint) PASSes. Corners are within the cap, weights are 400/600, no monotone pastel or watermark, and the thin unlabelled meter tracks sit on the radius scale (4px), with no pill shape. Overall: OK TO SHIP",
+      "notes": "C9 restraint/radius axis AFTER — canonical all-pass fixture; thin UNLABELLED tracks stay exempt under the sharpened rule (no labelled pill bar to fail).",
+      "expected_output": "C9 (Visual restraint) PASSes. Corners are within the cap, weights are 400/600, no monotone pastel or watermark, and the only fully-rounded elements are thin unlabelled meter tracks, which stay exempt. Overall: OK TO SHIP",
       "assertions": [
         "Overall verdict is OK TO SHIP",
         "C9 is marked PASS",
