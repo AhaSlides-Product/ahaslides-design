@@ -278,6 +278,7 @@
   "system-sign-out": ["sign out", "log out", "logout", "exit", "leave"],
   "system-sliders-horizontal": ["settings", "adjust", "filters", "controls", "preferences", "customise"],
   "system-smiley": ["happy", "smile", "emoji", "reaction", "positive", "face"],
+  "system-ai-credit": ["ai credit", "ai credits", "credits used", "usage", "ai", "credit balance"],
   "system-sparkle": ["ai", "magic", "new", "sparkle", "generate", "highlight"],
   "system-speaker-simple-high": ["sound on", "volume", "audio", "speaker", "unmute", "loud"],
   "system-speaker-simple-slash": ["mute", "sound off", "volume off", "silent", "audio off"],

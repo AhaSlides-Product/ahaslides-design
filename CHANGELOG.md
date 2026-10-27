@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.418.0 — 2026-10-26
+## 0.458.0 — 2026-10-27
 ### Added
 - `<aha-question-list>` host API, so a slide type's settings use the list instead of hand-building it: `notices` (InfoBoxes with links that open a question), `accordion`, a cancelable `question-toggle` event, `setQuestionOpen(id, open)`, a `question-leave` event, `change` `detail.edit` naming each edit, `singlecorrect`, `multiline` (a 1 to 3 row prompt), `promptmaxlength` / `optionmaxlength`, per-question `current` and `untitled`, the `markAsCorrect` and plural `countZero` / `countTwo` / `countFew` / `countMany` strings, `testid` hooks and `data-question-id` / `data-option-id`. Every one is opt-in; without them the list behaves as before (#397)
 ### Changed
@@ -32,6 +32,61 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `<aha-question-list accordion>`: when a host writes back several open questions, only the first stays open, so at most one is open as the contract says
 - llms.txt: a DS gap is never a ds-lint-allow reason; check the component at the latest release, bump the pin, and add what is still missing to the DS (#397)
 - Revert: revert the PR; the changes sit in `lib/aha-question-list.js`, `lib/aha-alert.js`, `lib/aha-info-box.js`, their contracts, the feedback guideline and one llms.txt line in `generate.mjs` (#397)
+
+## 0.451.0 — 2026-10-27
+### Added
+- Icon library: `system-ai-credit`, a circle with a four-point spark, for AI credit usage and balances. Same stroke style as the other `system-*` glyphs; no existing icon changes
+- Revert: revert the PR; one new SVG and its meaning words, nothing else references it (#400)
+
+## 0.444.0 — 2026-10-27
+### Added
+- Colour rules v24: rule 2.1 allows the black logo and the black Splash (both #1A1A1A) for one-colour print on white only; new rule 2.11 and a Logo library section for the AhaSlides × Partner co-brand lockup (order, ×, spacing, sizes, greyscale at rest, white on Vivid Pink); new rules 4.10 and 4.11 for photography (real moments and relaxed portraits; avoid staged shots and stiff portraits) (#404)
+- `aha-tag` `color="solid"`: a Vivid Pink fill with a white label (4.51:1), for a tag on white or on Vivid Pink at 5%. This is a visible addition to the Tag component (#404)
+### Changed
+- Rule 4.6 covers Vivid Pink at 5% surfaces and forbids Vivid Pink text on them (4.16:1); the Tag contract now states what `color="primary"` already renders, a black label on the 5% fill (#404)
+- The contrast table names the app's light grey as #F7F7F7 (4.21:1 with Vivid Pink), not #FAFAFA (#404)
+- `ahaslides-logo-black.svg` is #1A1A1A, the same black as `thesplash-black.svg` (was #000) (#404)
+- `--aha-font-display` and `--aha-font-secondary` are deprecated aliases of Plus Jakarta Sans (were Nunito and Nunito Sans, never loaded); the canvas and audience library headings use `--aha-font-product` (#404)
+
+## 0.443.0 — 2026-10-26
+### Added
+- `aha-input` is form-associated: its value submits under `name`, form reset restores the initial value, a disabled fieldset disables it, and Enter calls the form's `requestSubmit()` like a native text input, with a native default `<button>` or `<input>` as the submitter, deferred by one task so a host-level Enter keydown listener can veto it with `preventDefault()` (skipped for a disabled or loading default button, and for several fields with no submit button).
+- `aha-input` `label` attribute: a visible label rendered as a real `<label for>` to the inner field; an external `<label for="host-id">` now focuses the field and names it.
+- `aha-input` `aria-controls`: resolved to element references on the inner field where the browser supports ARIA element reflection (Chrome, Safari), so a field can point at a light-DOM results list.
+### Fixed
+- `aha-select`: Escape on the trigger closes the open list and keeps focus on the trigger, as a native select does; Escape from the list or the trigger no longer reaches a surrounding modal or drawer while the list is open, and does nothing when the list is closed.
+- `aha-drawer` and `aha-audience-modal`: Escape pressed inside an open `aha-select` closes only the list, not the surrounding drawer or modal.
+- `aha-button`: `aria-expanded`, `aria-controls`, `aria-pressed` and `aria-haspopup` on the host are copied to the inner button and follow later changes, so a disclosure toggle built on it announces open and closed.
+- Revert: revert the PR; the input changes are additions in `lib/aha-input.js` and its contract, the select and button fixes are small additions in `lib/aha-select.js` and `lib/aha-button.js` (#393)
+
+## 0.441.0 — 2026-10-26
+### Removed
+- **Breaking:** the `--aha-radius-pill` token (`radius.pill`, 999px) and the pill shape. AhaSlides has no pill: a true circle (avatar, dot, radio mark, slider thumb, spinner, count disc) is `border-radius: 50%`; every elongated shape (badge, count bubble, chip, tag, switch track, progress and slider tracks) takes a radius from the 4 · 6 · 8 · 12 · 16 scale. Consumers that read `--aha-radius-pill` fall back to their own value: replace it with `50%` or a scale token (#337).
+- `<aha-image radius="pill">`: the option is gone, an unknown value keeps the default 8px frame (#337).
+### Changed
+- Components re-shaped: Badge count bubble 4px, Progress / Countdown / Uploader / background task tracks 4px, Stat tile fall chip 4px, Switch track 6px, tooltip help trigger 4px; avatars, dots, radio-like marks, thumbs and spinners are 50% circles. Skeleton `round` now softens corners to `radius-lg` (12px) and leaves the avatar a circle (#337).
+- Audience and canvas kits, Marketing sections (Cards, FAQ, Header badges, Pricing slider) and the docs search chips follow the same rule; the Foundations Radius page, `design.md` and the canvas / audience / settings / feedback / report-image guidelines say there is no pill shape (#337).
+- `standards.mjs` fails a 999px radius and any `--aha-radius-pill` reference in component source (#337).
+- `screen-lint` fails a 999px or 9999px `border-radius` as `radius-off-scale` (#337).
+
+
+## 0.437.0 — 2026-10-26
+### Added
+- `aha-setting-row` and `aha-settings-item`: a `badge` slot for a New or Beta tag (a DS `<aha-badge kind="new|beta">`). It sits in the label line after the "?" help or the locked crown, never beside the control; works inline and stacked, locked and unlocked. A stacked row's full-width rule now applies to the control slot only (#392)
+### Fixed
+- `aha-paywall`: only one upgrade popover is open at a time; opening any paywall (hover, focus, click, or the disabled control of a locked setting row) closes the one that was open (#392)
+- `aha-paywall`: the first open no longer slides sideways. The align set just before the first open made the horizontal offset glide from its stale value (about 166 px on a start-aligned popover); the offset now sits in the non-animated translate property, so every open is a 4 px vertical lift (#392)
+- Revert: revert the PR; the badge slot is additive in `lib/aha-setting-row.js` and `lib/aha-settings-list.js`, the paywall fixes are inside `lib/aha-paywall.js`, no existing API changes (#392)
+
+## 0.434.0 — 2026-10-26
+### Fixed
+- `<aha-button>` keyboard focus is now an outline, a 2px solid ring 2px outside the button (`--aha-button-focus-ring`), with the gap still a box-shadow (`--aha-button-focus-gap`). The ring used to be a box-shadow, the same property as the elevation, so a box-shadow a consumer put on the button (a `::part(button)` rule built on `--aha-button-elevate-secondary`, for example) replaced it and a Tab-focused secondary button showed no ring. `secondary-deck` and `tertiary-deck` now draw the same ring instead of the browser's `outline:auto`. Default look, hover and press are unchanged; `--aha-button-focus-outline` and the new `--aha-button-focus-outline-offset` re-point the outline. (#372)
+- The Button contract's Focus row and the deck variants' rows (and the audience tertiary-deck entry) describe the outline ring; the deck variants no longer say "the browser's own focus ring".
+- `<aha-audience-submit>` keeps its focus ring 1px off the button (`--aha-button-focus-outline-offset:1px`), so it looks as before. The Button contract's hooks paragraph lists the new default outline and `--aha-button-focus-outline-offset`.
+
+## 0.417.1 — 2026-10-26
+### Changed
+- `system-bug` redrawn after the Lucide bug icon (ISC, credits in `icons/svg/system/LUCIDE-CREDITS.md`): rounded head with two antennae, split body, three legs a side. Same name and size. (#402)
 
 ## 0.417.0 — 2026-10-26
 ### Added
@@ -1799,4 +1854,3 @@ Revert: restore rules 5.3 and 5.4 from git and delete `splash.cssRecipe`, the `c
 ## 0.39.1 — 2026-09-11
 ### Changed
 - **Settings — setting label weight.** A member setting's label is now regular (400), not semibold — only the group/section header (`aha-section-header` / `aha-setting-group` / `settings-list` group header) carries weight (600). Restores the header-vs-member hierarchy (SETTINGS-37) on `aha-setting-row` and `<aha-settings-list>` rows. (#79)
-

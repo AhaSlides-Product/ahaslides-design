@@ -50,6 +50,12 @@
       "status": "available"
     },
     {
+      "ref": "badge",
+      "as": "component",
+      "use": "a New or Beta tag in a setting row's badge slot, on the label side",
+      "status": "available"
+    },
+    {
       "ref": "checkbox",
       "as": "component",
       "use": "grouped options saved together; consent",
@@ -273,7 +279,7 @@
     },
     {
       "id": "numbered-item-chip-stock",
-      "rule": "Never restyle or replace the NumberedItem number chip. It stays the stock muted-grey 22px pill: no ::part(chip) override of its size, colour, ring or shadow, and no custom badge standing in for it. The number in a settings row is a plain ordinal; it never mirrors the canvas marker (e.g. a navy pin badge). Configure NumberedItem only through its real attributes (n, label, variant, deletable, candelete) and its default body slot.",
+      "rule": "Never restyle or replace the NumberedItem number chip. It stays the stock muted-grey 22px circle: no ::part(chip) override of its size, colour, ring or shadow, and no custom badge standing in for it. The number in a settings row is a plain ordinal; it never mirrors the canvas marker (e.g. a navy pin badge). Configure NumberedItem only through its real attributes (n, label, variant, deletable, candelete) and its default body slot.",
       "ref": [
         "SETTINGS-15",
         "SETTINGS-43"
@@ -290,6 +296,13 @@
     {
       "id": "plan-gated",
       "rule": "A plan-gated setting stays visible but locked — never hidden. It reads: label, the Paywall crown badge in the place of the \"?\" help (no \"?\" while locked), and the real control disabled; the crown never replaces the control. The badge opens the shared Paywall popover (owned by the `paywall` guide), not a bespoke one.",
+      "ref": [
+        "SETTINGS-08"
+      ]
+    },
+    {
+      "id": "status-badge-placement",
+      "rule": "A New or Beta tag on a setting sits on the label side: in the `badge` slot of the row, as a DS <aha-badge kind=\"new\"> or kind=\"beta\", right after the \"?\" help or the Paywall crown. It never sits beside the control, so the control column stays aligned.",
       "ref": [
         "SETTINGS-08"
       ]

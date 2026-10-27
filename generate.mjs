@@ -349,7 +349,7 @@ function tokenVars(t) {
     drop(vz.mix).map(([k, value]) => `--aha-viz-mix-${kebab(k)}:${value}%;`).join(' '));
   /* type + shape */
   L.push(`--aha-font-product:${f.product}; --aha-font-display:${f.display}; --aha-font-secondary:${f.secondary}; --aha-font-mono:${f.mono};`);
-  L.push(`--aha-radius-xs:${r.xs}px; --aha-radius-sm:${r.sm}px; --aha-radius-default:${r.default}px; --aha-radius-lg:${r.lg}px; --aha-radius-xl:${r.xl}px; --aha-radius-marketing:${r.marketing}px; --aha-radius-pill:${r.pill}px;`);
+  L.push(`--aha-radius-xs:${r.xs}px; --aha-radius-sm:${r.sm}px; --aha-radius-default:${r.default}px; --aha-radius-lg:${r.lg}px; --aha-radius-xl:${r.xl}px; --aha-radius-marketing:${r.marketing}px;`);
   /* layout — default max-width for centred app content (page/screen container) */
   L.push(`--aha-content-max-width:${t.layout.contentMaxWidth}px; --aha-tooltip-max-width:${t.layout.tooltipMaxWidth}px;`);
   /* type scale + spacing + weight + line-height + tracking — the canonical size/space/weight/lineHeight/
@@ -536,7 +536,7 @@ table.api td,table.api th{text-align:left;padding:10px 14px;border-bottom:1px so
 table.api tr:last-child td{border-bottom:none}
 table.api th{color:var(--aha-text-secondary);font-weight:var(--aha-weight-semibold);font-size:13px;background:var(--aha-gray-20)}
 ul{margin:0;padding-left:18px}li{margin:5px 0;line-height:1.6}
-.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;background:var(--aha-gray-20);color:var(--aha-text-default);margin:2px 4px 2px 0}
+.pill{display:inline-block;padding:2px 9px;border-radius:var(--aha-radius-xs);font-size:12px;font-weight:600;background:var(--aha-gray-20);color:var(--aha-text-default);margin:2px 4px 2px 0}
 .pill.na{background:var(--aha-gray-20);color:var(--aha-text-tertiary)}
 .spec-line{margin-bottom:12px;color:var(--aha-text-secondary);font-size:13px;line-height:1.7}
 
@@ -2555,7 +2555,7 @@ Font **Plus Jakarta Sans** (self-hosted), weights **400 / 600** only. Base body 
 Size scale: 12 · 14 · 16 · 18 · 20 · 24 · 32 · 40 · 48 · 56 · 64. Letter-spacing: headings 0, body 0.2px, subtext 0.3px. No Inter.
 
 ## Shape & density
-Radius scale: ${t.radius.xs} · ${t.radius.sm} · **${t.radius.default}** (default) · ${t.radius.lg} · ${t.radius.xl}; pills ${t.radius.pill}.
+Radius scale: ${t.radius.xs} · ${t.radius.sm} · **${t.radius.default}** (default) · ${t.radius.lg} · ${t.radius.xl}; no pill shape — a true circle is \`border-radius: 50%\`.
 Control height: root **${t.controlHeight.root}** (Input/Select inherit); Button ${t.controlHeight.button.sm}/${t.controlHeight.button.md}/${t.controlHeight.button.lg}/${t.controlHeight.button.xl}.
 Spacing: 4-based — ${t.space.slice(0,12).join(' · ')} …
 Layout: app content max-width **${t.layout.contentMaxWidth}** (centred; bind to \`--aha-content-max-width\`).
@@ -2668,7 +2668,7 @@ function renderTokenPage(pageSlug) {
       title: 'Radius', highlights: ["The corner-radius scale: 4, 6, 8, 12, 16", "Anything off the scale is drift"], lead: 'The corner-radius scale. Anything off <code>4 · 6 · 8 · 12 · 16</code> is drift.',
       body: `
   <div class="scale-row">${radChips}</div>
-  <p class="body">Pill <code>${r.pill}px</code> for capsules; <code>${r.marketing}px</code> reserved for marketing surfaces. Anything off the 4·6·8·12·16 scale is drift.</p>`,
+  <p class="body">No pill shape: chips, badges, tags and bar tracks take a radius from the scale, and only a true circle (avatar, dot, radio mark, slider thumb) uses <code>50%</code>. <code>${r.marketing}px</code> reserved for marketing surfaces. Anything off the 4·6·8·12·16 scale is drift.</p>`,
     },
     sizing: {
       title: 'Sizing', highlights: ["Control heights: root field height and the Button size ramp", "Plus the app-content max-width"], lead: 'Control heights — the root field height and the Button size ramp — plus the app-content max-width.',
@@ -2938,7 +2938,7 @@ function renderIconGallery() {
   #icon-search{flex:1 1 320px;min-width:240px;height:38px;padding:0 14px;font-family:var(--aha-font-product);font-size:14px;border:1px solid var(--aha-border-default,#D4D4D4);border-radius:8px;outline:none}
   #icon-search:focus{border-color:var(--aha-color-primary);box-shadow:0 0 0 3px var(--aha-focus-ring-soft)}
   .fam-chips{display:flex;gap:6px}
-  .fam-chip{font-family:var(--aha-font-product);font-size:13px;color:var(--aha-text-secondary);background:var(--aha-gray-20);border:1px solid transparent;border-radius:999px;padding:6px 12px;cursor:pointer;text-transform:capitalize}
+  .fam-chip{font-family:var(--aha-font-product);font-size:13px;color:var(--aha-text-secondary);background:var(--aha-gray-20);border:1px solid transparent;border-radius:var(--aha-radius-default);padding:6px 12px;cursor:pointer;text-transform:capitalize}
   .fam-chip b{opacity:.6;font-weight:600}
   .fam-chip.on{background:var(--aha-bg-accent);border-color:var(--aha-border-hover);color:var(--aha-text-default)}
   .gal-count{font-size:12px;color:var(--aha-text-tertiary);font-family:Menlo,monospace;margin-left:auto}
@@ -2982,6 +2982,16 @@ const LOCKUP_SPEC = [
   ['No approved product name', 'The Splash and AhaSlides only; never invent a name'],
 ];
 const LOCKUP_DONTS = ['Hand-set the lockup from the logo file and a text span: use <aha-product-lockup>', 'Put a divider or a bar between The Splash and the words', 'Scale The Splash and the text separately: one size drives both', 'Use a product name nobody approved'];
+const COBRAND_SPEC = [
+  ['Order', 'AhaSlides first, the multiplication sign, then the partner'],
+  ['The ×', 'The multiplication sign ×, not the letter x, in text-secondary #4A4A4A (white on Vivid Pink), centred on the capitals'],
+  ['Spacing', 'One clear space (the height of the "A" in AhaSlides, rule 2.8) between each logo and the ×'],
+  ['Sizes', 'Both logos share one optical height (the height of the AhaSlides wordmark capitals); the AhaSlides logo is never below its 154 × 35 px minimum on screen or 175 × 40 mm in print'],
+  ['On white', 'The AhaSlides colour logo and the partner logo in greyscale, from the one-colour file in logo/'],
+  ['On Vivid Pink', 'The white AhaSlides logo, a white ×, and the partner logo in white'],
+  ['Hover and focus', 'In an interface the partner logo shows its own colours on hover and keyboard focus (rule 2.6); a printed or exported lockup stays greyscale'],
+];
+const COBRAND_DONTS = ['Set the partner logo larger than the AhaSlides logo', 'Use the letter x, a plus sign, a slash or a divider bar instead of ×', 'Put the partner logo in full colour at rest', 'Place the lockup on any ground other than white or Vivid Pink'];
 const BRAND_LOGO_HOVER_HTML = `<a class="brand-entry" href="/integrations/zoom">
   <span class="brand-logo">
     <img class="brand-logo-rest" src="${LIVE_SITE}/logo/zoom.svg" alt="">
@@ -3104,6 +3114,15 @@ function renderLogoPage() {
   <ul class="lg-donts">${LOCKUP_DONTS.map(d => `<li>${esc(d)}</li>`).join('')}</ul>
   <h3 class="tok-h3" id="clear-space">Clear space and isotype (rules 2.8 to 2.10)</h3>
   <p class="body">Keep the height of the &ldquo;A&rdquo; in AhaSlides clear on every side of the logo. The isotype is The Splash on its own, for a favicon, an avatar or a small secondary graphic, at 256, 180, 152, 60 and 16 px: transparent, or white on Vivid Pink in a circle or a square.</p>
+  <h3 class="tok-h3" id="co-brand">Co-brand lockup: AhaSlides &times; Partner</h3>
+  <p class="body">Use the lockup when AhaSlides appears next to a partner: a joint webinar, an integration launch, a co-marketing page. It is the AhaSlides logo, a &times;, and the partner logo, on one line.</p>
+  <div class="cobrand-demo">
+    <div class="cobrand-tile"><div class="cobrand-row"><img class="cobrand-logo" src="../logo/ahaslides-logo.svg" alt="AhaSlides"><span class="cobrand-x" aria-hidden="true">&times;</span><span class="cobrand-partner">Partner</span></div><p>On white: partner in greyscale, at rest</p></div>
+    <div class="cobrand-tile cobrand-tile--pink"><div class="cobrand-row"><img class="cobrand-logo" src="../logo/ahaslides-logo-white.svg" alt="AhaSlides"><span class="cobrand-x" aria-hidden="true">&times;</span><span class="cobrand-partner">Partner</span></div><p>On Vivid Pink: both logos in white</p></div>
+  </div>
+  ${docTable('<th>Measure</th><th>Value</th>', COBRAND_SPEC.map(([k, v]) => `<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>`).join(''))}
+  <p class="body">Don&rsquo;t:</p>
+  <ul class="lg-donts">${COBRAND_DONTS.map(d => `<li>${esc(d)}</li>`).join('')}</ul>
   <h3 class="tok-h3" id="favicon">Favicon</h3>
   <p class="body">The four files in <code>logo/favicon/</code> are The Splash in its own colours, centred with even padding: <code>favicon.ico</code>, <code>favicon-32.png</code>, <code>favicon-180.png</code> (white ground) and <code>favicon-512.png</code>. Rebuild them with <code>node favicons.mjs</code>. Which tag uses which file, and where <code>/favicon.ico</code> must answer, is in the <a href="../guidelines/page-title-favicon/index.html">Page title and favicon</a> guideline.</p>
   <h3 class="tok-h3">Don&rsquo;t</h3>
@@ -3158,6 +3177,16 @@ function renderLogoPage() {
   .lg-donts{margin:0;padding-left:20px;font-size:14px;line-height:1.8;color:var(--aha-text-default)}
   .lockup-demo{display:flex;flex-wrap:wrap;align-items:center;gap:24px 40px;padding:24px;margin:12px 0;border:1px solid var(--aha-border);border-radius:8px}
   .lockup-demo--dark{background:var(--aha-bg-dark);border-color:var(--aha-bg-dark)}
+  .cobrand-demo{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin:12px 0}
+  .cobrand-tile{padding:32px 24px 16px;border:1px solid var(--aha-border);border-radius:8px;background:#fff}
+  .cobrand-tile p{margin:20px 0 0;font-size:13px;color:var(--aha-text-secondary)}
+  .cobrand-tile--pink{background:var(--aha-color-primary);border-color:var(--aha-color-primary)}
+  .cobrand-tile--pink p{color:var(--aha-text-inverse)}
+  .cobrand-row{display:flex;align-items:center;justify-content:center;gap:28px}
+  .cobrand-logo{height:32px;width:auto}
+  .cobrand-x{font-size:24px;line-height:1;color:var(--aha-text-secondary)}
+  .cobrand-partner{font-size:32px;line-height:1;font-weight:600;color:var(--aha-text-secondary)}
+  .cobrand-tile--pink .cobrand-x,.cobrand-tile--pink .cobrand-partner{color:var(--aha-text-inverse)}
   .lg-pair{gap:12px}
   .lg-pair figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:6px}
   .lg-pair img{width:40px;height:40px}

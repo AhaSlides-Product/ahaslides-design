@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Select in a drawer and a modal</title>
+</head>
+<body>
+  <aha-drawer id="drawer" open title="Settings">
+    <aha-select id="drawer-select" options='["One","Two"]'></aha-select>
+  </aha-drawer>
+  <aha-audience-modal id="modal" open title="Pick">
+    <aha-select id="modal-select" options='["One","Two"]'></aha-select>
+  </aha-audience-modal>
+  <script type="module">
+    await import('../lib/aha-select.js');
+    await import('../lib/aha-drawer.js');
+    await import('../lib/aha-audience-modal.js');
+    await customElements.whenDefined('aha-select');
+    window.selectEscapeFixtureReady = true;
+  </script>
+</body>
+</html>
