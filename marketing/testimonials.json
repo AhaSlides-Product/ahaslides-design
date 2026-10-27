@@ -8,7 +8,7 @@
   "highlights": [
     "Three layouts, each with its own labelled preview and paste-and-run snippet",
     "Two backgrounds: White (the default) and Accent, the pale pink bgAccent surface laid over white by adding aha-testimonials--accent to the section; the cards stay white, so they read on both",
-    "Every placeholder (customer photo, case study covers) is an <img> pointing at a real image file with alt text, and every avatar is <aha-avatar> with a photo src, never a drawn box or initials; the files and their sources are listed in marketing/images/testimonials/manifest.json",
+    "Every placeholder (customer photo, case study covers) is an <img> pointing at a real image file with alt text, and every avatar is <aha-avatar> with a photo src; a reviewer with no photo has no avatar at all, the author row is the name and role only, never a drawn box, initials or a placeholder; the files and their sources are listed in marketing/images/testimonials/manifest.json",
     "Rating is <aha-rate readonly size=\"sm\">, avatars are <aha-avatar> (default 40), arrows are <aha-button variant=\"secondary\" icon-only>; quote, name and role styles are the Testimonial card of the Cards page, the case study cards are its Case study card, and the section frame, header block and photo ratios are the Features section's",
     "Case study cards are a native scroll-snap track with the DS secondary icon-only button for arrows; no autoplay, the track is focusable and scrolls with the arrow keys, and the small script only moves the track",
     "Quote cards are three equal white cards (on the pale pink Accent background when you switch it on) that keep the avatar, name and role on one baseline whatever the quote length, and stack to one column at 767px",
@@ -40,7 +40,7 @@
       "slug": "quote-cards",
       "reference": "What our users say (ahaslides.com word cloud page)",
       "classes": "aha-testimonials aha-testimonials--quote-cards",
-      "summary": "A centred heading and lead on a pale pink band, then three equal white cards. Each card holds the quote at the top and the customer avatar, name and role pinned to the bottom.",
+      "summary": "A centred heading and lead on a pale pink band, then three equal white cards. Each card holds the quote at the top and the customer photo avatar (none when there is no photo), name and role pinned to the bottom.",
       "html": "<section class=\"aha-testimonials aha-testimonials--quote-cards\" aria-label=\"Customer testimonials\">\n  <div class=\"aha-testimonials__inner\">\n    <header class=\"aha-testimonials__header aha-testimonials__header--centre\"><div class=\"aha-testimonials__heading\"><h2 class=\"aha-testimonials__title\">What our users say</h2><p class=\"aha-testimonials__lead\">Hear from the teachers, trainers and teams who use it every day.</p></div></header>\n    <ul class=\"aha-testimonials__grid\">\n      <li class=\"aha-testimonials__slide\"><figure class=\"aha-testimonials__card aha-testimonials__card--quote\"><blockquote class=\"aha-testimonials__quote aha-testimonials__quote--card\"><p>&ldquo;AhaSlides for me was a big win. Without a doubt it gives a voice to my students to speak and feel valued.&rdquo;</p></blockquote><figcaption class=\"aha-testimonials__person\"><aha-avatar class=\"aha-testimonials__avatar\" src=\"{{images}}/avatar-quote-01.webp\" name=\"Jo Patton\" size=\"default\"></aha-avatar><span class=\"aha-testimonials__person-text\"><span class=\"aha-testimonials__name\">Jo Patton</span><span class=\"aha-testimonials__role\">Remote Teacher for Church of England</span></span></figcaption></figure></li>\n      <li class=\"aha-testimonials__slide\"><figure class=\"aha-testimonials__card aha-testimonials__card--quote\"><blockquote class=\"aha-testimonials__quote aha-testimonials__quote--card\"><p>&ldquo;Instead of a passive audience, people become active participants in the discussion. This is especially valuable when discussing topics such as career paths, women in STEM, and academic experiences &mdash; where hearing many voices enriches the conversation.&rdquo;</p></blockquote><figcaption class=\"aha-testimonials__person\"><aha-avatar class=\"aha-testimonials__avatar\" src=\"{{images}}/avatar-quote-02.webp\" name=\"Ana Laura P&eacute;rez Mart&iacute;nez\" size=\"default\"></aha-avatar><span class=\"aha-testimonials__person-text\"><span class=\"aha-testimonials__name\">Ana Laura P&eacute;rez Mart&iacute;nez</span><span class=\"aha-testimonials__role\">Professor, Faculty of Engineering, UNAM</span></span></figcaption></figure></li>\n      <li class=\"aha-testimonials__slide\"><figure class=\"aha-testimonials__card aha-testimonials__card--quote\"><blockquote class=\"aha-testimonials__quote aha-testimonials__quote--card\"><p>&ldquo;My participants are always amazed. They&rsquo;ve never seen this kind of interaction before.&rdquo;</p></blockquote><figcaption class=\"aha-testimonials__person\"><aha-avatar class=\"aha-testimonials__avatar\" src=\"{{images}}/avatar-quote-03.webp\" name=\"Mandiaye Ndao\" size=\"default\"></aha-avatar><span class=\"aha-testimonials__person-text\"><span class=\"aha-testimonials__name\">Mandiaye Ndao</span><span class=\"aha-testimonials__role\">CEO of NeX AFRICA</span></span></figcaption></figure></li>\n    </ul>\n    <div class=\"aha-testimonials__cta\"><aha-button variant=\"secondary\" size=\"xl\" href=\"#case-studies\">Read customer stories</aha-button></div>\n  </div>\n</section>"
     }
   ],
@@ -114,13 +114,6 @@
       "use": "Simple left aligned photo, 240px stand-in (DSN-960)",
       "status": "missing",
       "ticket": "DSN-960"
-    },
-    {
-      "ref": "Testimonial card avatar size",
-      "as": "pattern",
-      "use": "Cards Testimonial card 44px avatar against aha-avatar 40/64 (DSN-963)",
-      "status": "missing",
-      "ticket": "DSN-963"
     }
   ],
   "stateClass": "aha-testimonials",

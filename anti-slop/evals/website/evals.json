@@ -744,6 +744,36 @@
         "authored": "ahaslides-design",
         "why": "DS-authored with the website surface; no plugin judge dataset exists"
       }
+    },
+    {
+      "id": 25,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w19-testimonial-initials/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W19: a reviewer with no photo gets an initials circle instead of a name and role only.",
+      "expected_output": "W19 FAILs: the quote cards show a hand-drawn initials circle where the reviewer has no photo. A reviewer with a photo shows <aha-avatar src>; with no photo the author row is the name and role only, with no avatar, no initials and no placeholder. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W19 is marked FAIL",
+        "Names the initials circle"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W19": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
     }
   ]
 }

@@ -1624,7 +1624,7 @@
         {
           "id": "W19",
           "title": "Testimonial authors and quotes are left aligned on one baseline",
-          "test": "In Testimonials the quote and the author block (avatar, name, role) are left aligned together, even in a centred section: avatar, name and role form one row with the name and role stacked and left aligned, and in a row of quote cards the author rows sit on one baseline across cards (the shipped grid subgrid). A centred name or role under a left aligned quote, an avatar on its own line, or author rows at different heights across cards fails. N/A when the page has no Testimonials section."
+          "test": "In Testimonials the quote and the author block (avatar, name, role) are left aligned together, even in a centred section: avatar, name and role form one row with the name and role stacked and left aligned, and in a row of quote cards the author rows sit on one baseline across cards (the shipped grid subgrid). A centred name or role under a left aligned quote, an avatar on its own line, or author rows at different heights across cards fails. A reviewer with a photo shows `<aha-avatar src>`; a reviewer with no photo has no avatar at all (name and role only): initials, a placeholder or a drawn circle in the avatar's place fails. N/A when the page has no Testimonials section."
         }
       ]
     }
