@@ -71,6 +71,27 @@ test('leaderboard: the own-row tag is drawn once on its own fill, and the empty 
   assert.ok(result.offset < 2, JSON.stringify(result));
 });
 
+test('leaderboard: on the phone the own-row tag is neutral, there is no outline and row text is the body default size', { skip }, async () => {
+  const file = join(mkdtempSync(join(tmpdir(), 'leaderboard-')), 'page.html');
+  const entries = [{ id: 'a', name: 'Linh', score: 1000, delta: 10 }, { id: 'b', name: 'Quynh', score: 300 }];
+  writeFileSync(file, `<!doctype html><body style="--aha-deck-accent:rgb(231,14,104)">
+<aha-leaderboard id="lb" size="phone" me="b" style="display:block;width:360px" entries='${JSON.stringify(entries)}'></aha-leaderboard>
+<script type="module">import '${lib}'; await customElements.whenDefined('aha-leaderboard'); await new Promise((r) => setTimeout(r, 400)); window.ready = true;</script>`);
+  const result = await evaluateInPage(pathToFileURL(file).href, `(() => {
+    const row = document.getElementById('lb').shadowRoot.querySelector('li.row[data-me]');
+    const [base, over] = [...row.querySelectorAll('.tag')].map((tag) => getComputedStyle(tag));
+    return { baseColor: base.color, baseBackground: base.backgroundColor, overVisibility: over.visibility,
+      shadow: getComputedStyle(row.querySelector('.track')).boxShadow,
+      name: getComputedStyle(row.querySelector('.name')).fontSize, score: getComputedStyle(row.querySelector('.score')).fontSize };
+  })()`, { readyExpr: '!!window.ready', timeout: 45000 });
+  assert.notEqual(result.baseColor, 'rgb(231, 14, 104)');
+  assert.notEqual(result.baseBackground, 'rgba(0, 0, 0, 0)');
+  assert.equal(result.overVisibility, 'visible');
+  assert.equal(result.shadow, 'none');
+  assert.equal(result.name, '14px');
+  assert.equal(result.score, '14px');
+});
+
 test('leaderboard: rows take palette colours in rank order, rank circles are neutral, a zero score keeps a stub and the gain column aligns', { skip }, async () => {
   const file = join(mkdtempSync(join(tmpdir(), 'leaderboard-')), 'page.html');
   const entries = [{ id: 'a', name: 'Maya', score: 92, delta: 92 }, { id: 'b', name: 'Priya', score: 88, delta: 88 }, { id: 'c', name: 'Leo', score: 0, delta: 0 }];

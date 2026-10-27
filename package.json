@@ -29,6 +29,7 @@
     "./lib/aha-question-nav.js",
     "./lib/aha-canvas-count.js",
     "./lib/aha-canvas-play.js",
+    "./lib/aha-leaderboard.js",
     "./lib/aha-canvas-status.js",
     "./lib/aha-loader.js",
     "./lib/icons.js",
@@ -135,6 +136,7 @@
   "browser": "./lib/all.js",
   "exports": {
     "./aha-canvas-play": "./lib/aha-canvas-play.js",
+    "./aha-leaderboard": "./lib/aha-leaderboard.js",
     "./aha-answer-mark": "./lib/aha-answer-mark.js",
     "./aha-answer-result": "./lib/aha-answer-result.js",
     "./aha-question-nav": "./lib/aha-question-nav.js",

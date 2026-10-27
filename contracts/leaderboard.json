@@ -21,7 +21,6 @@
   "tokensUsed": [
     "text-default",
     "color-primary",
-    "radius-pill",
     "radius-default",
     "radius-xs",
     "space-2",
@@ -66,7 +65,7 @@
     },
     {
       "label": "Own row",
-      "value": "the row for `me` carries a You tag and a stronger outline. Outside the shown rows it is pinned below the \"and N more\" line"
+      "value": "the row for `me` carries a You tag. On the stage the tag is the deck accent and the track has a stronger outline; on the phone the tag is quiet (the row ink on a 14% ink fill, no accent colour) and there is no outline, and all row text is the body default size (14px, --aha-size-default). Outside the shown rows it is pinned below the \"and N more\" line"
     },
     {
       "label": "Fit",
