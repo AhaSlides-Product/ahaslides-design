@@ -1,14 +1,14 @@
 /* Canvas Library area — scoped under .canvas-lib so nothing leaks into other DS pages. */
 .canvas-lib code.ic{font-family:var(--aha-font-mono);font-size:.86em;background:var(--aha-bg-accent);color:var(--aha-color-primary);padding:1px 5px;border-radius:var(--aha-radius-xs)}
 .canvas-lib .cl-head{margin:0 0 var(--aha-space-32)}
-.canvas-lib .cl-head h1{font-family:var(--aha-font-display);font-size:var(--aha-size-h3);line-height:var(--aha-line-height-heading);color:var(--aha-text-default);margin:0;font-weight:800;letter-spacing:var(--aha-letter-spacing-headlines)}
+.canvas-lib .cl-head h1{font-family:var(--aha-font-product);font-size:var(--aha-size-h3);line-height:var(--aha-line-height-heading);color:var(--aha-text-default);margin:0;font-weight:800;letter-spacing:var(--aha-letter-spacing-headlines)}
 .canvas-lib .cl-head .rule{margin:var(--aha-space-12) 0 0;max-width:720px;color:var(--aha-text-primary-ink);line-height:var(--aha-line-height-body)}
 .canvas-lib .cl-head .why{margin:var(--aha-space-12) 0 0;max-width:720px;font-size:var(--aha-size-sm);color:var(--aha-text-secondary);line-height:var(--aha-line-height-body)}
 .canvas-lib .cl-cards{display:flex;flex-direction:column;gap:var(--aha-space-32)}
 .canvas-lib .card{background:var(--aha-bg-container);border:1px solid var(--aha-border-secondary);border-radius:var(--aha-radius-lg);overflow:hidden;scroll-margin-top:80px;box-shadow:0 1px 2px rgba(0,0,0,.04);padding:0}
 .canvas-lib .card-h{padding:var(--aha-space-24)}
 .canvas-lib .card-title{display:flex;align-items:center;gap:var(--aha-space-12)}
-.canvas-lib .card-title h2{font-family:var(--aha-font-display);font-size:var(--aha-size-h4);line-height:var(--aha-line-height-heading);color:var(--aha-text-default);margin:0;font-weight:800}
+.canvas-lib .card-title h2{font-family:var(--aha-font-product);font-size:var(--aha-size-h4);line-height:var(--aha-line-height-heading);color:var(--aha-text-default);margin:0;font-weight:800}
 .canvas-lib .badge{color:var(--aha-white);background:var(--aha-black);font-size:var(--aha-size-sm);font-weight:var(--aha-weight-semibold);padding:2px var(--aha-space-8);border-radius:var(--aha-radius-xs);display:inline-block}
 .canvas-lib .what,.canvas-lib .element{margin:var(--aha-space-12) 0 0;color:var(--aha-text-primary-ink);line-height:var(--aha-line-height-body)}
 .canvas-lib .callout{display:grid;grid-template-columns:1fr 1fr;gap:var(--aha-space-16);margin:var(--aha-space-16) 0 0}
