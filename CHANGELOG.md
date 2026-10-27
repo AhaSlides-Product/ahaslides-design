@@ -22,6 +22,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.488.0 — 2026-10-27
+### Changed
+- Marketing → Navigation: the Solutions → Integrations logos are one colour at rest and show their own colours (`logo/original/`) on hover and keyboard focus, with a fade and none under reduced motion (colour rule 2.6). The logo box has no border. The Integration card is left to #353. (#349)
+- Marketing → Footer: the LinkedIn, YouTube, Facebook, Instagram and Reddit links use the Logo library files, one colour at rest and their own colours on hover and keyboard focus. (#349)
+- Website composition fixtures and docs prose follow the same logo treatment. (#349)
+
 ## 0.486.0 — 2026-10-27
 ### Added
 - Empty state guideline (`guidelines/empty-state.json`, Patterns badge): the full pattern (an `empty-*` spot illustration, a semibold title, one or two short sentences, at most one action, centred) at page scale (art 128, 16 px gaps, 18 px title) and panel scale (art 100, 144 px padding, 16 and 8 px gaps, 16 px title), when to use plain `<aha-empty>` instead (table bodies, lists, dropdowns, widgets; a card under 240 px takes the compact scale), copy rules, do and don't, and "no content is never an error". Built from the three approved Reports states; listed in `guidelines.llms.txt`, the guideline agent feed and the product route
