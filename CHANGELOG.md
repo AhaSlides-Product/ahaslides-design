@@ -24,8 +24,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.495.0 — 2026-10-27
 ### Added
-- Cards: a Card placeholder (`aha-marketing-card__placeholder`) holds free content at the bottom of a card body, such as a fill-in-the-blank example sentence. The Card owns its accent-tint background, radius, padding, minimum height and text size at every card width, identical at rest, hover and focus; you supply one `<p>`. An inline `aha-marketing-card__blank` marker (dashed Vivid Pink box, visually hidden "blank") shows each gap. New "Use-case row with a card placeholder" example, four photo cards in a 2 by 2 grid (#PRNUM)
-- Revert: revert the PR; the change is additive in `marketing/cards.json` (new classes and one new example), no existing card changes (#PRNUM)
+- Cards: a Card placeholder (`aha-marketing-card__placeholder`) holds free content at the bottom of a card body, such as a fill-in-the-blank example sentence. The Card owns its accent-tint background, radius, padding, minimum height and text size at every card width, identical at rest, hover and focus; you supply one `<p>`. An inline `aha-marketing-card__blank` marker (dashed Vivid Pink box, visually hidden "blank") shows each gap. New "Use-case row with a card placeholder" example, four photo cards in a 2 by 2 grid (#415)
+- Revert: revert the PR; the change is additive in `marketing/cards.json` (new classes and one new example), no existing card changes (#415)
 
 ## 0.491.0 — 2026-10-27
 ### Added
