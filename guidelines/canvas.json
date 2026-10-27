@@ -244,7 +244,7 @@
       ]
     },
     {
-      "rule": "Avoid the four 'AI-generated' tells: no pastel/tinted wash under same-hue icon+text (monotone, low-contrast); rectangular content containers stay on the DS radius scale — cards and panels 12px (--aha-radius-lg, as the DS card measures), option tiles, inputs and buttons 8px, nothing above 12px, and no pill shape (avatars/dots are 50% circles; chips, badges and bar tracks stay on the scale); display-text weight 400 or 600 only (no 700/800/900); no decorative brand watermark or meaningless chrome — every on-canvas element must carry a real datum.",
+      "rule": "Avoid the four 'AI-generated' tells: no pastel/tinted wash under same-hue icon+text (monotone, low-contrast); rectangular content containers stay on the DS radius scale — cards and panels 12px (--aha-radius-lg, as the DS card measures), option tiles, inputs and buttons 8px, nothing above 12px (pills/chips/badges/avatars/dots/bar tracks stay fully rounded); display-text weight 400 or 600 only (no 700/800/900); no decorative brand watermark or meaningless chrome — every on-canvas element must carry a real datum.",
       "ref": [
         "§2b",
         "C7",
@@ -269,7 +269,7 @@
       ]
     },
     {
-      "rule": "A slide-painted surface re-anchors the contrast check against that composited surface — but a translucent tint is NOT a contrast guarantee (only an opaque surface is), and any fixed-colour mark on it (a semantic ✓/✗ token, a palette-accent border) must clear the floor on BOTH a light and a dark deck. A dark semantic token on a dark deck fails — put it on a bounded light fill, or invert it to a white glyph on a black chip.",
+      "rule": "A slide-painted surface re-anchors the contrast check against that composited surface — but a translucent tint is NOT a contrast guarantee (only an opaque surface is), and any fixed-colour mark on it (a semantic ✓/✗ token, a palette-accent border) must clear the floor on BOTH a light and a dark deck. A dark semantic token on a dark deck fails — put it on a bounded light fill, or invert it to a white glyph on a black pill.",
       "ref": [
         "§3",
         "C10",

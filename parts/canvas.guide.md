@@ -157,8 +157,8 @@ cards already state.
 - **Corner radius follows the DS scale.** Cards and panels are **12px** (`--aha-radius-lg`,
   what the DS card measures); option tiles, answer boxes, inputs and buttons **8px**
   (`--aha-radius-default`); nothing rectangular goes above 12px — `rounded-2xl`/`3xl`/`20px`
-  reads toy-like. There is no pill shape (no `999px`): true circles (avatars, dots, radio marks,
-  slider thumbs) are round at `50%`, while chips, badges and progress tracks/fills stay on the radius scale.
+  reads toy-like. Intentionally circular elements (pills, chips, badges, avatars, dots,
+  progress tracks/fills) stay fully rounded (`999px`).
 - **No extra-bold weight.** Display text is **400 or 600 only**; 700/800/900 reads heavy and
   "AI" (a count number at 800 is the classic tell).
 - **No decorative brand watermark or meaningless chrome.** The host owns branding — never
