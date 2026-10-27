@@ -12,7 +12,7 @@ Illustration and Empty contracts. It ships no new element: the pattern is
 
 **Companion guides.** `ux-writing` for the words (UXW-6), `shared-components` for
 `<aha-error-page>` and `<aha-empty>`, and the Illustration contract for the
-art. (EMPTY-01 to EMPTY-11)
+art. (EMPTY-01 to EMPTY-13)
 
 ## Full pattern or plain `<aha-empty>`
 
@@ -20,10 +20,12 @@ art. (EMPTY-01 to EMPTY-11)
 | --- | --- | --- |
 | A whole page with no content | Full pattern, **page scale** | The page is the empty thing, so it needs a clear next step |
 | A tab panel or card that is the main content of its area, 240 px tall or more | Full pattern, **panel scale** | Enough room for the art; the tabs and card stay |
-| A table body, list, dropdown, widget or area under 240 px | Plain `<aha-empty>` (`image="simple"` when tight) | Grey line art stays out of the way of the rows |
+| A card or panel under 240 px whose content is the empty thing (Session detail Insights card) | Full pattern, **compact scale** | The card is the empty thing; small art, no action |
+| A table body, list, dropdown or widget | Plain `<aha-empty>` (`image="simple"` when tight) | Grey line art stays out of the way of the rows |
+| A small item repeated per slide or row (an answer card per skipped slide) | A plain one-line caption, `No answer`, no art | The same picture on every item is noise |
 | A failed request, a missing page, a denied page | `<aha-error-page>` or `<aha-result>` | Something went wrong: not an empty state |
 
-Never put the full pattern inside a table row, and never leave a whole page on a grey
+Never put the full pattern inside a table row or repeat it per item, and never leave a whole page on a grey
 `<aha-empty>` or a bare table placeholder. (EMPTY-01)
 
 ## Anatomy
@@ -58,26 +60,32 @@ Search the registry first. When no `empty-*` fits, add the missing one under
 `illustrations/svg/empty/` as the Illustration contract describes. Never borrow art that
 shows a different thing.
 
-## Two scales
+## Three scales
 
-| | Page scale | Panel scale |
-| --- | --- | --- |
-| Where | the whole content area (Session detail) | inside a card or tab panel (Participants, Feedback) |
-| Placement | centred both ways, fills the area height | centred, with `calc(var(--aha-space-80) + var(--aha-space-64))` (144 px) padding above and below |
-| Illustration | size 128 | size 100 |
-| Illustration to title | 16 px | 16 px |
-| Title to body | 16 px | 8 px |
-| Body to action | 16 px | 16 px |
-| Title | 18 px (`--aha-size-h6`), semibold | 16 px (`--aha-size-l`), semibold |
-| Body | 14 px (`--aha-size-default`), regular, centred, up to 480 px wide | the same |
-| Action | one secondary button | usually none |
+| | Page scale | Panel scale | Compact scale |
+| --- | --- | --- | --- |
+| Where | the whole content area (Session detail) | inside a card or tab panel (Participants, Feedback) | a card or panel under 240 px (Insights card) |
+| Placement | centred both ways, fills the area height | centred, with `calc(var(--aha-space-80) + var(--aha-space-64))` (144 px) padding above and below | `--aha-space-24` (24 px) on every side |
+| Illustration | size 128 | size 100 | size 64 |
+| Illustration to title | 16 px | 16 px | 16 px |
+| Title to body | 16 px | 8 px | 8 px |
+| Body to action | 16 px | 16 px | no action |
+| Title | 18 px (`--aha-size-h6`), semibold | 16 px (`--aha-size-l`), semibold | 14 px (`--aha-size-default`), semibold |
+| Body | 14 px (`--aha-size-default`), regular, centred, up to 480 px wide | the same | 12 px (`--aha-size-sm`), regular, centred |
+| Action | one secondary button | usually none | none |
 
-The columns are the values in EMPTY-04 and EMPTY-05.
+The columns are the values in EMPTY-04, EMPTY-05 and EMPTY-12.
+
+## A repeated small item
+
+An item repeated per slide or per row (an answer card for every skipped slide) shows a plain
+one-line caption such as "No answer", with no illustration, title or body. Never repeat the
+pattern: the same picture on every card is noise. (EMPTY-13)
 
 ## The title is semibold
 
 The report app renders the Session detail title bold and the Participants and Feedback
-titles regular. The rule is **semibold (600) at both scales**, so the three states match.
+titles regular. The rule is **semibold (600) at every scale**, so the three states match.
 The title is short and friendly, in sentence case, with at most one exclamation mark and no
 full stop. The approved title is "All quiet here!". (EMPTY-06)
 
@@ -116,7 +124,7 @@ it through the live region. (EMPTY-11)
 
 | # | Rule | Ref |
 | --- | --- | --- |
-| 1 | Full pattern for a page or a panel of 240 px or more; plain `<aha-empty>` below that | EMPTY-01 |
+| 1 | Full pattern for a page, a panel of 240 px or more, or a compact card; plain `<aha-empty>` in tables, lists, dropdowns and widgets | EMPTY-01 |
 | 2 | Illustration, title, body, at most one action, one centred column | EMPTY-02 |
 | 3 | An `empty-*` illustration by name, never inline SVG or PNG | EMPTY-03 |
 | 4 | Page scale: art 128, 16 px gaps, 18 px title | EMPTY-04 |
@@ -127,3 +135,5 @@ it through the live region. (EMPTY-11)
 | 9 | A failure is an error page or an alert with Retry, never an empty state | EMPTY-09 |
 | 10 | No tab, list or panel renders blank when empty | EMPTY-10 |
 | 11 | Decorative art; announce changes after a filter | EMPTY-11 |
+| 12 | Compact scale: art 64, 24 px padding, 14 px title, 12 px body, no action | EMPTY-12 |
+| 13 | A repeated small item shows a one-line caption, no art | EMPTY-13 |

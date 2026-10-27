@@ -2,24 +2,31 @@
   "name": "Empty state",
   "slug": "empty-state",
   "kind": "guideline",
-  "environment": ["product"],
+  "environment": [
+    "product"
+  ],
   "group": "Patterns",
   "patternsNav": true,
   "badge": "pattern — composition guide",
-  "summary": "How a surface looks when it has no content yet: a pink spot illustration that names what is missing, a bold title, one or two short sentences, at most one action, centred in its container. Two scales (page and panel), and when to use plain <aha-empty> instead.",
+  "summary": "How a surface looks when it has no content yet: a pink spot illustration that names what is missing, a bold title, one or two short sentences, at most one action, centred in its container. Three scales (page, panel and compact), a plain caption for repeated small items, and when to use plain <aha-empty> instead.",
   "highlights": [
     "Illustration, title, body, at most one action, centred",
-    "Two scales: a whole page, or a panel inside a card or tab",
-    "Plain <aha-empty> for small, tight surfaces",
-    "No content is never an error"
+    "Three scales: page, panel, and compact for a card under 240 px",
+    "A repeated small item gets a one-line caption, never the pattern",
+    "Plain <aha-empty> for tables, lists, dropdowns and widgets"
   ],
-  "lead": "An empty state is what a surface shows when nothing has gone wrong and there is simply nothing to show yet. The full pattern is built from parts the DS already ships: an empty-* spot illustration called by name through <aha-illustration>, a title, a body and, when one next step exists, one <aha-button>. It ships no new element. The rules come from three states the Reports team approved in the report app: Session detail with no data, the Participants tab and the Feedback tab. A small or tight surface (a table body, a list, a dropdown) keeps the plain grey <aha-empty> instead.",
+  "lead": "An empty state is what a surface shows when nothing has gone wrong and there is simply nothing to show yet. The full pattern is built from parts the DS already ships: an empty-* spot illustration called by name through <aha-illustration>, a title, a body and, when one next step exists, one <aha-button>. It ships no new element. The rules come from three states the Reports team approved in the report app: Session detail with no data, the Participants tab and the Feedback tab. A card or panel under 240 px whose content is the empty thing takes the compact scale; a table body, list, dropdown or widget keeps the plain grey <aha-empty>; a small item repeated many times shows a one-line caption.",
   "skillRef": {
     "build": "DS guideline — guidelines/empty-state.json",
     "judge": "DS anti-slop feed — anti-slop.md (no surface yet; the rules below are build checks)",
     "note": "The DS owns this ruleset. Illustrations come from contracts/illustration.json, the small placeholder from contracts/empty.json, the wording from guidelines/ux-writing.json (UXW-6) and the voice from brand/voice-rules.json."
   },
-  "surfaces": ["dashboard", "editor", "settings", "audience"],
+  "surfaces": [
+    "dashboard",
+    "editor",
+    "settings",
+    "audience"
+  ],
   "surfaceChoice": [
     {
       "surface": "A whole page or screen with no content",
@@ -32,9 +39,19 @@
       "example": "All quiet here! No feedback yet. Ask your audience to share their thoughts to see it here."
     },
     {
-      "surface": "A table body, list, dropdown, widget or any area under 240 px tall",
+      "surface": "A card or panel under 240 px whose content is the empty thing",
+      "useFor": "the Session detail Insights card. Full pattern, compact scale: small art, short title and body, no action",
+      "example": "All quiet here! No insights found yet."
+    },
+    {
+      "surface": "A table body, list, dropdown or widget",
       "useFor": "a small surface where a spot illustration would crowd the rows. Plain <aha-empty> (grey line art, one caption)",
       "example": "<aha-empty image=\"simple\" description=\"No responses yet\"></aha-empty>"
+    },
+    {
+      "surface": "A small item repeated once per slide or row",
+      "useFor": "an answer card for every skipped slide: a plain one-line caption, no illustration, never the pattern repeated",
+      "example": "No answer"
     },
     {
       "surface": "A request that failed, a missing page or a denied one",
@@ -43,86 +60,225 @@
     }
   ],
   "composedOf": [
-    { "ref": "illustration", "as": "component", "use": "the spot art, <aha-illustration name=\"empty-report|empty-participants|empty-feedback|…\">, always an empty-* name from the registry, never inline SVG or PNG", "status": "available" },
-    { "ref": "empty", "as": "component", "use": "the plain placeholder for small, tight surfaces (grey line art, one caption); the pattern replaces it only where the area is large enough", "status": "available" },
-    { "ref": "button", "as": "component", "use": "the one action: <aha-button variant=\"secondary\"> (primary only when it is the one primary action of the view)", "status": "available" },
-    { "ref": "error-page", "as": "component", "use": "the contrast: a whole-page failure, never drawn as an empty state", "status": "available" },
-    { "ref": "result", "as": "component", "use": "the contrast: the outcome of an action, never drawn as an empty state", "status": "available" },
-    { "ref": "--aha-space-16", "as": "token", "use": "the gap between illustration, title, body and action at page scale, and the gap above the title at panel scale", "status": "available" },
-    { "ref": "--aha-space-8", "as": "token", "use": "the gap between title and body at panel scale", "status": "available" },
-    { "ref": "--aha-space-80", "as": "token", "use": "the panel-scale padding above and below, added to --aha-space-64 (144 px)", "status": "available" },
-    { "ref": "--aha-space-64", "as": "token", "use": "the second half of the panel-scale padding above and below", "status": "available" },
-    { "ref": "--aha-text-default", "as": "token", "use": "title and body text", "status": "available" },
-    { "ref": "--aha-size-h6", "as": "token", "use": "the page-scale title, 18 px", "status": "available" },
-    { "ref": "--aha-size-l", "as": "token", "use": "the panel-scale title, 16 px", "status": "available" },
-    { "ref": "--aha-size-default", "as": "token", "use": "the body, 14 px", "status": "available" },
-    { "ref": "--aha-weight-semibold", "as": "token", "use": "the title weight, 600", "status": "available" }
+    {
+      "ref": "illustration",
+      "as": "component",
+      "use": "the spot art, <aha-illustration name=\"empty-report|empty-participants|empty-feedback|…\">, always an empty-* name from the registry, never inline SVG or PNG",
+      "status": "available"
+    },
+    {
+      "ref": "empty",
+      "as": "component",
+      "use": "the plain placeholder for table bodies, lists, dropdowns and widgets (grey line art, one caption); the pattern replaces it only where the area is large enough",
+      "status": "available"
+    },
+    {
+      "ref": "button",
+      "as": "component",
+      "use": "the one action: <aha-button variant=\"secondary\"> (primary only when it is the one primary action of the view)",
+      "status": "available"
+    },
+    {
+      "ref": "error-page",
+      "as": "component",
+      "use": "the contrast: a whole-page failure, never drawn as an empty state",
+      "status": "available"
+    },
+    {
+      "ref": "result",
+      "as": "component",
+      "use": "the contrast: the outcome of an action, never drawn as an empty state",
+      "status": "available"
+    },
+    {
+      "ref": "--aha-space-16",
+      "as": "token",
+      "use": "the gap between illustration, title, body and action at page scale, the gap above the title at panel scale, and the gap above the title at compact scale",
+      "status": "available"
+    },
+    {
+      "ref": "--aha-space-8",
+      "as": "token",
+      "use": "the gap between title and body at panel and compact scale",
+      "status": "available"
+    },
+    {
+      "ref": "--aha-space-80",
+      "as": "token",
+      "use": "the panel-scale padding above and below, added to --aha-space-64 (144 px)",
+      "status": "available"
+    },
+    {
+      "ref": "--aha-space-64",
+      "as": "token",
+      "use": "the second half of the panel-scale padding above and below",
+      "status": "available"
+    },
+    {
+      "ref": "--aha-text-default",
+      "as": "token",
+      "use": "title and body text",
+      "status": "available"
+    },
+    {
+      "ref": "--aha-size-h6",
+      "as": "token",
+      "use": "the page-scale title, 18 px",
+      "status": "available"
+    },
+    {
+      "ref": "--aha-size-l",
+      "as": "token",
+      "use": "the panel-scale title, 16 px",
+      "status": "available"
+    },
+    {
+      "ref": "--aha-size-default",
+      "as": "token",
+      "use": "the body, 14 px, and the compact-scale title, 14 px",
+      "status": "available"
+    },
+    {
+      "ref": "--aha-space-24",
+      "as": "token",
+      "use": "the compact-scale padding on every side",
+      "status": "available"
+    },
+    {
+      "ref": "--aha-size-sm",
+      "as": "token",
+      "use": "the compact-scale body, 12 px",
+      "status": "available"
+    },
+    {
+      "ref": "--aha-weight-semibold",
+      "as": "token",
+      "use": "the title weight, 600",
+      "status": "available"
+    }
   ],
   "rules": [
     {
       "id": "when-to-use",
-      "rule": "Use the full pattern (illustration, title, body, optional action) when the empty thing is a page or a panel that is the main content of its area and is at least 240 px tall. Use plain <aha-empty> in a table body, list, dropdown, widget or any area under 240 px, where its grey line art does not crowd the rows. Never put the full pattern inside a table row, and never leave a full page on a grey <aha-empty> or a bare table placeholder.",
-      "ref": ["EMPTY-01"]
+      "rule": "Use the full pattern (illustration, title, body, optional action) when the empty thing is a page or a panel that is the main content of its area: page or panel scale at 240 px tall or more, compact scale for a card or panel under 240 px whose content is the empty thing (the Session detail Insights card). Use plain <aha-empty> in a table body, list, dropdown or widget, where its grey line art does not crowd the rows. Never put the full pattern inside a table row, and never leave a full page on a grey <aha-empty> or a bare table placeholder.",
+      "ref": [
+        "EMPTY-01"
+      ]
     },
     {
       "id": "anatomy",
       "rule": "The full pattern has these parts, in this order, in one centred column: the spot illustration, a title, a body, and at most one action. Nothing else: no second paragraph, no link list, no second button.",
-      "ref": ["EMPTY-02"]
+      "ref": [
+        "EMPTY-02"
+      ]
     },
     {
       "id": "illustration",
       "rule": "The illustration is <aha-illustration name=\"empty-…\"> from the registry, sized by one edge, and it names what is missing: empty-report for a session or report with no data, empty-sessions, empty-slides, empty-insights, empty-leaderboard, empty-responses, empty-participants, empty-feedback, empty-presentation-list, empty-templates, empty-trash. It is never inline SVG or a PNG, and it keeps its fixed pink tints (never recoloured, never tinted by currentColor). Search the registry first; when no empty-* fits, add the missing one under illustrations/svg/empty/ as the Illustration contract describes, and never borrow an illustration for a different thing.",
-      "ref": ["EMPTY-03"]
+      "ref": [
+        "EMPTY-03"
+      ]
     },
     {
       "id": "page-scale",
       "rule": "Page scale (the whole content area): the column is centred horizontally and vertically in the content area and fills its height. Illustration size 128, then 16 px (--aha-space-16) to the title, 16 px to the body, 16 px to the action, all one gap. Title 18 px (--aha-size-h6) semibold. Body 14 px (--aha-size-default) regular, centred, at most 480 px wide.",
-      "ref": ["EMPTY-04"]
+      "ref": [
+        "EMPTY-04"
+      ]
     },
     {
       "id": "panel-scale",
       "rule": "Panel scale (inside a card or tab panel): the column is centred in the panel with padding above and below of calc(var(--aha-space-80) + var(--aha-space-64)) (144 px, built from two spacing tokens because the scale has no 144). Illustration size 100, then 16 px to the title, 8 px (--aha-space-8) to the body, 16 px to the optional action. Title 16 px (--aha-size-l) semibold. Body 14 px regular, centred, at most 480 px wide. The panel keeps its tabs and card border; only its body is replaced.",
-      "ref": ["EMPTY-05"]
+      "ref": [
+        "EMPTY-05"
+      ]
+    },
+    {
+      "id": "compact-scale",
+      "rule": "Compact scale (a card or panel under 240 px whose content is the empty thing): the column is centred with --aha-space-24 (24 px) padding on every side. Illustration size 64, then 16 px (--aha-space-16) to the title, 8 px (--aha-space-8) to the body. Title 14 px (--aha-size-default) semibold. Body 12 px (--aha-size-sm) regular, centred. No action: the body names the next step. Same illustration, wording and no-error rules as the other scales.",
+      "ref": [
+        "EMPTY-12"
+      ]
+    },
+    {
+      "id": "repeated-item",
+      "rule": "A small item repeated per slide or per row (an answer card for every skipped slide, a row per item) shows a plain one-line caption such as \"No answer\", with no illustration and no title and body. Never repeat the pattern: the same picture on every card is noise.",
+      "ref": [
+        "EMPTY-13"
+      ]
     },
     {
       "id": "title-weight",
-      "rule": "The title is semibold (600) at both scales, never regular. It is short and friendly, in sentence case, with at most one exclamation mark and no full stop. The report app's approved title is \"All quiet here!\".",
-      "ref": ["EMPTY-06"]
+      "rule": "The title is semibold (600) at every scale, never regular. It is short and friendly, in sentence case, with at most one exclamation mark and no full stop. The report app's approved title is \"All quiet here!\".",
+      "ref": [
+        "EMPTY-06"
+      ]
     },
     {
       "id": "body-copy",
       "rule": "The body is one or two short sentences in British English: first what is missing, then the step that fills it. \"No feedback yet. Ask your audience to share their thoughts to see it here.\" It names the thing, is encouraging, never apologises and never blames, and has no exclamation mark. Every string comes from i18n.",
-      "ref": ["EMPTY-07", "UXW-6"]
+      "ref": [
+        "EMPTY-07",
+        "UXW-6"
+      ]
     },
     {
       "id": "one-action",
       "rule": "At most one action, and only when the user can fill the empty state from here. Page scale: one <aha-button variant=\"secondary\"> with a sentence-case verb label (\"Open the presentation\"); primary only when it is the one primary action of the view. Panel scale: usually none, because the next step is on another screen and the body names it. Two buttons, a link beside a button, or a menu is not an empty state.",
-      "ref": ["EMPTY-08"]
+      "ref": [
+        "EMPTY-08"
+      ]
     },
     {
       "id": "not-an-error",
       "rule": "An absence of content is never an error, and an error is never drawn as an absence. A request that failed (a 500, a timeout, a blocked embed) takes <aha-error-page> or an inline alert that names the object and offers Retry (UXW-2, UXW-3); a list that errored must not fall back to \"No sessions\" because that hides the Retry the user needs. An empty state has no red, no warning icon and no error wording.",
-      "ref": ["EMPTY-09", "UXW-6"]
+      "ref": [
+        "EMPTY-09",
+        "UXW-6"
+      ]
     },
     {
       "id": "never-blank",
       "rule": "Every tab, list and panel that can be empty has a message. A tab that renders nothing (no copy, no art) when its data is empty is a defect, not a quiet state; use the pattern at panel scale, or <aha-empty> if the area is small.",
-      "ref": ["EMPTY-10"]
+      "ref": [
+        "EMPTY-10"
+      ]
     },
     {
       "id": "accessibility",
       "rule": "The illustration is decorative next to the title and body (the text says everything it says), so it carries decorative or an empty label. The title is a heading or strong text, not a clickable element. An empty state that replaces content after a user action (filtering, searching) is announced through the DS live region.",
-      "ref": ["EMPTY-11"]
+      "ref": [
+        "EMPTY-11"
+      ]
     }
   ],
   "reuse": null,
   "reuseNote": "Doc-only pattern. It is built from <aha-illustration>, <aha-button> and text, so it ships no wrapper; a host that repeats it three or more times may wrap it in its own component, with the values above.",
   "selfCheck": [
-    { "label": "an empty-* illustration by name through <aha-illustration>, no inline SVG or PNG", "verdict": "N/A — per surface" },
-    { "label": "centred column: illustration, title, body, at most one action, nothing else", "verdict": "N/A — per surface" },
-    { "label": "page scale 128 art, 16 px gaps, 18 px title; panel scale 100 art, padding of --aha-space-80 plus --aha-space-64, 16 and 8 px gaps, 16 px title; title semibold", "verdict": "N/A — per surface" },
-    { "label": "body says what is missing then the next step, British English, from i18n", "verdict": "N/A — per surface" },
-    { "label": "a failed request is an error page or an alert with Retry, never an empty state", "verdict": "N/A — per surface" }
+    {
+      "label": "an empty-* illustration by name through <aha-illustration>, no inline SVG or PNG",
+      "verdict": "N/A — per surface"
+    },
+    {
+      "label": "centred column: illustration, title, body, at most one action, nothing else",
+      "verdict": "N/A — per surface"
+    },
+    {
+      "label": "page scale 128 art, 16 px gaps, 18 px title; panel scale 100 art, padding of --aha-space-80 plus --aha-space-64, 16 and 8 px gaps, 16 px title; compact scale 64 art, --aha-space-24 padding, 14 px title, 12 px body, no action; title semibold",
+      "verdict": "N/A — per surface"
+    },
+    {
+      "label": "a repeated small item shows a one-line caption, no illustration",
+      "verdict": "N/A — per surface"
+    },
+    {
+      "label": "body says what is missing then the next step, British English, from i18n",
+      "verdict": "N/A — per surface"
+    },
+    {
+      "label": "a failed request is an error page or an alert with Retry, never an empty state",
+      "verdict": "N/A — per surface"
+    }
   ],
   "guide": "empty-state.guide.md"
 }
