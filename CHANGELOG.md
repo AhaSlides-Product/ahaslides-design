@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.458.0 — 2026-10-27
+### Added
+- Marketing → Cards: an Integration card with a wide logo (`aha-marketing-card__logo--wide`) for wordmarks such as Zapier and Cornerstone OnDemand: the tile stays 32px high and grows in width, the logo at most 80px wide and 20px high, so a wordmark reads as heavy as a square mark. Square marks and every other card are unchanged.
+- Logo library: `logo/manifest.json` records `"shape": "wide"` for Canva, Zapier, D2L Brightspace and Cornerstone OnDemand, and `standards.mjs` fails a brand logo at least twice as wide as tall that is not marked wide. (#353)
+
 ## 0.455.0 — 2026-10-27
 ### Changed
 - Marketing motion: parallax now moves the picture inside its frame instead of sliding the frame. The picture is drawn 112% of the frame, drifts at most 6% of the frame height (never more than 48 px) and is clipped by the frame, so the frame's box, radius and position stay still. A picture drifts only when it sits in an `aha-features__frame`, `aha-testimonials__frame` or `aha-numbers__frame`; screenshots get no frame wrapper and never drift. (#365)

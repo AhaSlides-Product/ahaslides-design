@@ -849,6 +849,14 @@ const repoChecks = [];
   ];
   rchk('every original-colour logo sits beside its one-colour file and is declared in logo/manifest.json', originalsUnpaired.length === 0,
     `logo/original/<file> holds the brand's own colours for rule 2.6 and shares the one-colour file's name: ${originalsUnpaired.join(', ')}`);
+  const wideShapeMismatches = logoEntries.filter(entry => entry.category !== 'AhaSlides').flatMap(entry => {
+    const viewBox = /viewBox="([^"]+)"/.exec(read(join(root, 'logo', entry.file)));
+    if (!viewBox) return [];
+    const [, , width, height] = viewBox[1].split(/[\s,]+/).map(Number);
+    return (width / height >= 2) === (entry.shape === 'wide') ? [] : [`${entry.id} (${(width / height).toFixed(2)}:1)`];
+  });
+  rchk('a brand logo at least twice as wide as tall is marked "shape": "wide" in logo/manifest.json, and no other is', wideShapeMismatches.length === 0,
+    `the Integration card gives a wide wordmark the aha-marketing-card__logo--wide tile: ${wideShapeMismatches.join(', ')}`);
 
   /* A demo teaches by example, so a placeholder cover or a sample deck accent is held to the list too.
      Each exemption names why the file has to spell out an off-list colour. */

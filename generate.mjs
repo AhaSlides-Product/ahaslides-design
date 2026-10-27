@@ -3135,7 +3135,7 @@ function renderLogoPage() {
     <li><b>At rest</b> a brand logo is one colour, the greyscale file (white on a Vivid Pink background).</li>
     <li><b>On hover and keyboard focus</b> it shows its own colours, the original file, with a short fade. There is no fade when reduced motion is on.</li>
     <li><b>The tool&rsquo;s name always sits beside the logo.</b> Touch has no hover, so the name carries recognition there.</li>
-    <li><b>A page that lists other products</b> (the Marketplace, an integrations directory) shows the logos as content: original colours at rest, each in the DS white tile with a grey border, 32px at most, the name beside it. A tool not available yet is greyscale with a Coming soon tag, <code>&lt;aha-tag color="primary" bordered&gt;</code>.</li>
+    <li><b>A page that lists other products</b> (the Marketplace, an integrations directory) shows the logos as content: original colours at rest, each in the DS white tile with a grey border, 32px at most, the name beside it. A wordmark (a logo marked <code>"shape": "wide"</code> in <code>logo/manifest.json</code>, any brand logo at least twice as wide as tall) takes the wide tile, <code>aha-marketing-card__logo--wide</code>: still 32px high, as wide as the wordmark needs, the logo at most 80px wide and 20px high, so it carries the same weight as a square mark. A tool not available yet is greyscale with a Coming soon tag, <code>&lt;aha-tag color="primary" bordered&gt;</code>.</li>
     <li><b>Brand colour never spreads beyond the logo:</b> no brand-coloured buttons, tags, backgrounds or text.</li>
     <li><b>Customer logos</b> in a Trusted by strip stay one colour, one treatment per row.</li>
   </ul>
