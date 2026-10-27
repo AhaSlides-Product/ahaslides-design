@@ -10,7 +10,7 @@
   "highlights": ["Short, transient hint", "Shown on mouse hover or keyboard focus of its trigger (not on click or tap)"],
   "lead": "ONE custom element — <aha-tooltip text=\"…\"> — wraps a trigger and shows the shared black bubble (with an arrow) on mouse hover or keyboard focus (not on click/tap). Defined once, imported unchanged by React and Vue; shadow-DOM CSS, themed only by --aha-* tokens. This is the single shared tooltip the settings pattern's ? help glyph references. Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["bg-dark", "color-primary", "text-inverse", "radius-sm", "font-product", "motion-mid", "ease-out", "icon-muted", "icon-default", "motion-fast", "tooltip-max-width", "radius-xs", "size-l", "size-default", "space-4", "space-6", "space-8", "space-12", "white"],
+  "tokensUsed": ["bg-dark", "color-primary", "text-inverse", "radius-sm", "font-product", "motion-mid", "ease-out", "icon-muted", "icon-default", "motion-fast", "radius-pill", "tooltip-max-width", "radius-xs", "size-l", "size-default", "space-4", "space-6", "space-8", "space-12", "white"],
   "spec": [
     { "label": "Bubble", "value": "black #1A1A1A (--aha-bg-dark; or brand #E70E68), white text, radius 6, padding 6 10, max-width 280 (--aha-tooltip-max-width) then wraps" },
     { "label": "Text", "value": "Plus Jakarta 12/18" },

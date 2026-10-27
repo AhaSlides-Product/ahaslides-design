@@ -102,7 +102,7 @@ Hierarchy comes from the gap size, on the `--aha-size*` scale — monotonic so w
 
 ## NumberedItem chip is never restyled
 
-The number chip on `NumberedItem` is stock: a muted-grey 22px circle. Never override it with `::part(chip)` or replace it with a custom badge. The settings number is a plain ordinal and never mirrors the canvas marker (for example a navy pin badge with a white ring). Configure the item only through `n`, `label`, `variant`, `deletable`, `candelete` and the default body slot.
+The number chip on `NumberedItem` is stock: a muted-grey 22px pill. Never override it with `::part(chip)` or replace it with a custom badge. The settings number is a plain ordinal and never mirrors the canvas marker (for example a navy pin badge with a white ring). Configure the item only through `n`, `label`, `variant`, `deletable`, `candelete` and the default body slot.
 
 ## Sub-settings
 
