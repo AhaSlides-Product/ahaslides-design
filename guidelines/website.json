@@ -154,7 +154,7 @@
         "W2"
       ],
       "source": [
-        "marketing/header.json — `__actions`, `__form`, the Hero Pink `__text` and the page Header `__body` gap",
+        "marketing/header.json — `__actions`, `__form`, the hero `__text` and the Page header `__body` gap",
         "marketing/footer-banner.json — `__text` margin",
         "marketing/features.json, marketing/numbers.json — `__actions` and `__cta`",
         "marketing/faq.json, marketing/testimonials.json — `__cta`"
@@ -183,7 +183,7 @@
       ]
     },
     {
-      "rule": "Lay out band backgrounds by colour rules 3.2 to 3.5, 3.8 and 3.10: open with a Vivid Pink hero (the Hero Pink header layout, whose Splash hooks are Darker Pink, rule 5.1; the hero is Vivid Pink `#E70E68`, never Darker Pink itself), then alternate full-width white and pale pink bands (a Features section with the `aha-features--accent` class, Vivid Pink at 5%; never an inline `background: var(--aha-bg-accent)` style on the section), starting with white right after the hero, so a full white band always sits between two coloured bands. The band directly after the hero's Logos strip (the customer logos band) is always full white, never the pale pink accent or any other tint. At most two Vivid Pink bands count, the hero being one (a closing Footer banner may be the second, with a white band before it). No black band, no gradient, and no light grey band: light grey belongs to cards inside a section (the Cards gray variant). A white hero is also allowed.",
+      "rule": "Lay out band backgrounds by colour rules 3.2 to 3.5, 3.8 and 3.10: open with a Vivid Pink hero (a Header hero on its Vivid Pink surface, whose Splash hooks are Darker Pink, rule 5.1; the hero is Vivid Pink `#E70E68`, never Darker Pink itself), then alternate full-width white and pale pink bands (a Features section with the `aha-features--accent` class, Vivid Pink at 5%; never an inline `background: var(--aha-bg-accent)` style on the section), starting with white right after the hero, so a full white band always sits between two coloured bands. The band directly after the hero's Logos strip (the customer logos band) is always full white, never the pale pink accent or any other tint. At most two Vivid Pink bands count, the hero being one (a closing Footer banner may be the second, with a white band before it). No black band, no gradient, and no light grey band: light grey belongs to cards inside a section (the Cards gray variant). A white hero is also allowed.",
       "ref": [
         "W5"
       ],

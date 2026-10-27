@@ -22,10 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.444.1 — 2026-10-27
+## 0.453.0 — 2026-10-27
 ### Changed
-- Website > Marketing > Header: eight duplicate layouts removed, 24 to 16. Hero Pale Pink and Hero Pale Pink Vertical were Hero Pink and Hero Pink Vertical with the Pale Pink state on, so the Pale Pink state of the Hero Pink pair now carries their guidance; Hero screen mockup 04 was Hero screen mockup 02 with the same markup and styles, 05 was 01 with the screenshot cropped by the section edge, 03 was 01 without the badge; Hero split image 05 was Hero split image 03 with a larger bleeding image; Header centered brand and Header left tabs brand were Header centered and Header left tabs with the Vivid Pink state on, which those layouts already switch to. The Choosing a header text, the layout counts and the G2 reviews list follow.
-- Revert: revert the PR; `marketing/header.json` (eight layouts, counts and guidance text) and one sentence in `generate.mjs`, no component or contract (#399)
+- Website > Marketing > Header: 24 layouts down to 5, one per structure: Hero split, Hero stacked, Hero card, Hero split form and Page header. Layouts that differed only by colour, alignment, picture or call to action are now switches on the one layout: every layout has a White / Accent / Vivid Pink surface switch; Hero split adds Image (Inset, Bleed), Call to action (Buttons, Email form) and Badge; Hero stacked adds Alignment (Centre, Left), Call to action and Badge; Page header adds Alignment (Left, Centre, Space between), Buttons and Tabs. Merged: Hero Pink, Hero Pale Pink, Hero split image 01, 03 and 05, Hero screen mockup 02 and 04, Hero iPhone mockup 03 and Hero card mockup 07 into Hero split; Hero Pink Vertical, Hero Pale Pink Vertical, Hero screen mockup 01, 03 and 05, Hero simple text 01 and Hero card mockup 08 into Hero stacked; Hero color card 04 is Hero card, Hero split form 01 is Hero split form; the six page headers are Page header. Class names change to `aha-header-section-<layout>`; pasted copies of the old classes keep working where they are. The Video slot moves to Hero stacked; the G2 reviews row stays on the three heroes. Choosing a header, the website guideline W2 and W5 sources follow.
+- The Header previews fit their section: the preview box is as tall as the section (up to the old 640px cap) instead of a fixed 640px, so short layouts no longer sit above a blank area (a page header preview drops from 630px to 227px).
+### Added
+- `generate.mjs`: an optional `options` list on a marketing layout (each choice either adds a `--<value>` modifier or keeps the elements marked `data-choice="<value>"`), rendered as switches beside the surface switch, with one code tab per choice and the choices in the `.md` and `.agent.json` feeds; and an optional page-level `previewFit`. Pages without them render byte-identically.
+- Revert: revert the PR; `marketing/header.json`, the `options` and `previewFit` branches in `generate.mjs` and two source lines in `guidelines/website.json` (#399)
 
 ## 0.444.0 — 2026-10-27
 ### Added
