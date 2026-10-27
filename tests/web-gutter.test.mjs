@@ -92,6 +92,7 @@ const withLayouts = (slug) => {
 
 for (const slug of ['features', 'numbers', 'pricing']) addSection(slug, withLayouts(slug), `.aha-${slug}__inner`);
 addSection('testimonials', withLayouts('testimonials'), '.aha-testimonials__inner');
+addSection('slider', withLayouts('slider'), '.aha-slider__inner');
 addSection('cards', [readSection('cards').baseCss], '.aha-marketing-cards__grid');
 addSection('faq', [readSection('faq').css], '.aha-faq__inner');
 const footerBanner = readSection('footer-banner').css;
@@ -105,7 +106,7 @@ addSection('navigation menu', [navigation], '.aha-header__menu', { gutterFrom: '
 for (const layout of readSection('header').layouts) addSection(layout.slug, [layout.css], `.${layout.class}__inner`);
 
 test('every Marketing section other than the edge to edge Logos marquee is checked against the gutter', () => {
-  const checked = new Set(['features', 'numbers', 'pricing', 'testimonials', 'cards', 'faq', 'footer-banner', 'footer', 'navigation', 'header']);
+  const checked = new Set(['features', 'numbers', 'pricing', 'testimonials', 'cards', 'faq', 'footer-banner', 'footer', 'navigation', 'header', 'slider']);
   const slugs = readdirSync(new URL('../marketing/', import.meta.url)).filter((file) => file.endsWith('.json')).map((file) => file.replace('.json', ''));
   assert.deepEqual(slugs.filter((slug) => !checked.has(slug)), ['logos']);
 });
