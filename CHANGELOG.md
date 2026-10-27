@@ -22,9 +22,18 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.480.0 — 2026-10-27
+## 0.481.0 — 2026-10-27
 ### Added
 - Docs site, Websites > Sections: the Header, Features, Pricing, Numbers, Testimonials and Cards pages open in a Grid view, a three-column gallery of live thumbnails (two columns on a tablet, one on a phone) captioned "layout name · page name", with a Grid / List switch and a search box that filters by layout name and "Use for" text. Clicking a card switches to List view at that layout's `#<slug>` anchor; a URL with a hash opens in List view, and the last choice is remembered per browser. List view is the previous page unchanged. Pages with fewer than two layouts are unchanged. Revert: revert the PR; the change is the `sectionGallery*` functions in `generate.mjs` plus one hook in each of the two marketing page renderers. (#409)
+
+## 0.479.0 — 2026-10-27
+### Changed
+- Website > Marketing > Header: 24 layouts down to 5, one per structure: Hero split, Hero stacked, Hero card, Hero split form and Page header. Layouts that differed only by colour, alignment, picture or call to action are now switches on the one layout: every layout has a White / Accent / Vivid Pink surface switch; Hero split adds Image (Inset, Bleed), Call to action (Buttons, Email form) and Badge; Hero stacked adds Alignment (Centre, Left), Call to action and Badge; Page header adds Alignment (Left, Centre, Space between), Buttons and Tabs. Merged: Hero Pink, Hero Pale Pink, Hero split image 01, 03 and 05, Hero screen mockup 02 and 04, Hero iPhone mockup 03 and Hero card mockup 07 into Hero split; Hero Pink Vertical, Hero Pale Pink Vertical, Hero screen mockup 01, 03 and 05, Hero simple text 01 and Hero card mockup 08 into Hero stacked; Hero color card 04 is Hero card, Hero split form 01 is Hero split form; the six page headers are Page header. Class names change to `aha-header-section-<layout>`; pasted copies of the old classes keep working where they are. The Video slot moves to Hero stacked; the G2 reviews row stays on the three heroes. Choosing a header, the website guideline W2 and W5 sources follow.
+- Website composition eval fixtures: the hero in every fixture page is now Hero split on its Vivid Pink surface (`aha-header-section-hero-split--brand`) instead of the removed Hero Pink, with `fixtures/sections.css` carrying the Hero split CSS; the good-control expected output names it.
+- The Header previews fit their section: the preview box is as tall as the section (up to the old 640px cap) instead of a fixed 640px, so short layouts no longer sit above a blank area (a page header preview drops from 630px to 227px).
+### Added
+- `generate.mjs`: an optional `options` list on a marketing layout (each choice either adds a `--<value>` modifier or keeps the elements marked `data-choice="<value>"`), rendered as switches beside the surface switch, with one code tab per choice and the choices in the `.md` and `.agent.json` feeds; and an optional page-level `previewFit`. Pages without them render byte-identically.
+- Revert: revert the PR; `marketing/header.json`, the `options` and `previewFit` branches in `generate.mjs` and two source lines in `guidelines/website.json`, the eval fixture heroes and `fixtures/sections.css` (#399)
 
 ## 0.472.0 — 2026-10-27
 ### Changed
