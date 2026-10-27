@@ -1224,7 +1224,7 @@ function renderChartsPage(c) {
     <div class="hub-body">${sections.map(x => x.html).join('\n\n  ')}</div>
   </div>
   ${hubAnchorScript(anchorItems)}`;
-  return docShell({ base: '../', active: 'charts', title: c.name, section: 'charts', main, extraCss: HUB_ANCHOR_CSS + '.hub-body h2,.hub-body .chart-type-title{scroll-margin-top:84px}', noSidebar: true });
+  return docShell({ base: '../', active: 'charts', title: c.name, section: 'charts', main, extraCss: HUB_ANCHOR_CSS + '.hub-body h2,.hub-body .chart-type-title{scroll-margin-top:84px}' + CHART_STAGE_CSS, noSidebar: true });
 }
 
 function mergedSections(host) {
@@ -2531,6 +2531,13 @@ function hubAnchorScript(items, mountId = 'hub-anchor-root') {
 
 // The shared two-column hub layout + sticky-anchor + fallback CSS. Included in each hub page's
 // extraCss. The body column's section anchors set their own scroll-margin-top (84px) to clear the header.
+const CHART_STAGE_CSS = `
+  .doc-main-inner{max-width:none}
+  @media (max-width:1799px){
+    .hub-layout{grid-template-columns:1fr}
+    .hub-anchor{position:static;max-height:none}
+  }`;
+
 const HUB_ANCHOR_CSS = `
   .hub-layout{display:grid;grid-template-columns:236px minmax(0,1fr);gap:32px;align-items:start;margin-top:26px}
   .hub-body{min-width:0}

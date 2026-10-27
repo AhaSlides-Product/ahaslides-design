@@ -22,6 +22,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.493.0 — 2026-10-27
+### Changed
+- `<aha-chart type="bar">`: when any option has an image, every row keeps the image column and an option without one shows a placeholder tile (`system-image-square` glyph on the track colour), so all bars start at the same x and stay comparable. Charts with no images are unchanged; column charts were already aligned (#NNN)
+- Charts docs page: every chart case sits in a 1280 × 720 stage frame at 1:1 (slide surface, 48px stage padding), scrolling inside its own container on a narrow viewport; new bar cases "Some without image" (#NNN)
+- Revert: revert the PR; the change sits in `BarRenderer.draw` and one `.bar-img.is-empty` rule in `lib/aha-chart.js`, plus `parts/chart.preview.html` (#NNN)
+
 ## 0.489.0 — 2026-10-27
 ### Added
 - `<aha-question-list>` host API, so a slide type's settings use the list instead of hand-building it: `notices` (InfoBoxes with links that open a question), `accordion`, a cancelable `question-toggle` event, `setQuestionOpen(id, open)`, a `question-leave` event, `change` `detail.edit` naming each edit, `singlecorrect`, `multiline` (a 1 to 3 row prompt), `promptmaxlength` / `optionmaxlength`, per-question `current` and `untitled`, the `markAsCorrect` and plural `countZero` / `countTwo` / `countFew` / `countMany` strings, `testid` hooks and `data-question-id` / `data-option-id`. Every one is opt-in; without them the list behaves as before (#397)

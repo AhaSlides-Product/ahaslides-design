@@ -141,6 +141,7 @@ chart.data = [
 
 - `label` (string), `value` (number), optional `image` (URL) and optional `correct` (boolean).
 - When `label` is omitted, screen readers and tooltips say "Option N".
+- On a `bar` chart, when any option has an `image`, options without one show a placeholder tile (image glyph on the track colour), so every bar starts at the same x.
 - A `column` chart turns into bars when its labels cannot fit.
 - With zero responses, every bar keeps its track and shows a short coloured stub at its start.
 
