@@ -94,7 +94,7 @@
       "files": [],
       "label": "bad-example",
       "notes": "Targets C5: hue for status and trend.",
-      "expected_output": "C5 FAILs: status and trend are shown in green, amber and red. Fix: the DS status badge (icon, wording, outline or black fill); a rise in plain black with an up arrow, a fall as white on a black chip with a down arrow. Overall: NEEDS FIX.",
+      "expected_output": "C5 FAILs: status and trend are shown in green, amber and red. Fix: the DS status badge (icon, wording, outline or black fill); a rise in plain black with an up arrow, a fall as white on a black pill with a down arrow. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX"
       ],

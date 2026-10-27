@@ -365,7 +365,7 @@
       "files": [],
       "label": "bad-example",
       "notes": "Rule 3 (AHAM-507) — over-rounded content containers (>8px) on the phone. Maps to new C10.",
-      "expected_output": "C10 (Visual restraint) FAILs on the corner-radius axis. Content containers (option tiles, submit button) use rounded-3xl / 20px, well above the 8px cap the submit-button spec already lands at — over-rounded reads toy-like and 'AI'. Fix: use ≤8px on rectangular containers. True circles (avatars, dots) may be 50%; there is no pill shape, so badges and progress bars take the radius scale too. Overall: NEEDS FIX",
+      "expected_output": "C10 (Visual restraint) FAILs on the corner-radius axis. Content containers (option tiles, submit button) use rounded-3xl / 20px, well above the 8px cap the submit-button spec already lands at — over-rounded reads toy-like and 'AI'. Fix: use ≤8px on rectangular containers. Intentionally circular elements — pills, badges, avatars, progress bars — may stay fully rounded; the cap is for boxes. Overall: NEEDS FIX",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C10 is marked FAIL",
@@ -386,14 +386,14 @@
     },
     {
       "id": 16,
-      "prompt": "Review this audience UI. The option tiles and submit button use `border-radius: 8px`, and the thin timer/progress bar uses `border-radius: 4px` (--aha-radius-xs). Is the corner radius right?",
+      "prompt": "Review this audience UI. The option tiles and submit button use `border-radius: 8px`, while the thin timer/progress bar keeps `border-radius: 999px` pill ends. Is the corner radius right?",
       "files": [],
       "label": "good-control",
-      "notes": "Rule 3 (AHAM-507) AFTER — 8px boxes; the bar on the radius scale (no pill shape). Focused good-control pinned to C10.",
-      "expected_output": "C10 (Visual restraint) PASSes on the corner-radius axis. Rectangular containers use 8px, the cap, and the progress bar takes 4px from the radius scale. AhaSlides has no pill shape, so a 999px bar would fail.",
+      "notes": "Rule 3 (AHAM-507) AFTER — 8px boxes; pills stay fully rounded (exempt). Focused good-control pinned to C10.",
+      "expected_output": "C10 (Visual restraint) PASSes on the corner-radius axis. Rectangular containers use 8px, the cap, and the fully-rounded 999px is on the progress bar — an intentionally-pill element that is exempt from the 8px cap.",
       "assertions": [
         "C10 is marked PASS",
-        "Recognises 8px boxes comply and the 4px bar is on the radius scale"
+        "Recognises 8px boxes comply and the 999px is an exempt pill/bar"
       ],
       "expected": {
         "overall": "OK_TO_SHIP",
@@ -763,7 +763,7 @@
       "files": [],
       "label": "bad-example",
       "notes": "C10.b (AHAM-649) — a REAL missed case: the this-or-that swipe card shipped `rounded-3xl` (24px) on the rectangular card and an audience-judge review PASSED it, because the reviewer eyeballed instead of enumerating every corner radius. Anchors the mandatory enumerate-every-radius step. Isolation: only C10 should FAIL; the `rounded-full` pip + badge are exempt, so the judge must NOT over-flag them.",
-      "expected_output": "C10 (Visual restraint) FAILs on the corner-radius axis. The swipe card container is a rectangular content container styled `rounded-3xl` (24px), well over the 8px cap — over-rounded reads toy-like/'AI'. The `rounded-full` VS pip and the circular confirmation badge are EXEMPT (true circles at 50%) and must NOT be flagged. Everything else (deck-tracking ink, palette fills, 14px/600 text) is clean. Fix: cap the swipe card at ≤8px (e.g. `rounded-lg`); leave the circular pips fully rounded. Overall: NEEDS FIX",
+      "expected_output": "C10 (Visual restraint) FAILs on the corner-radius axis. The swipe card container is a rectangular content container styled `rounded-3xl` (24px), well over the 8px cap — over-rounded reads toy-like/'AI'. The `rounded-full` VS pip and the circular confirmation badge are EXEMPT (intentionally circular pills/badges) and must NOT be flagged. Everything else (deck-tracking ink, palette fills, 14px/600 text) is clean. Fix: cap the swipe card at ≤8px (e.g. `rounded-lg`); leave the circular pips fully rounded. Overall: NEEDS FIX",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C10 is marked FAIL",
