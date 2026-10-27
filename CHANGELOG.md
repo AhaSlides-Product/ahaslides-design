@@ -27,6 +27,18 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - The pill is back on the presenting canvas too. The canvas kit badge (`.canvas-lib .badge` in `canvas/canvas.css`) is `var(--aha-radius-pill)` again instead of 4px, the Canvas guideline and guide say avatars, dots, chips, badges and bar tracks may be fully rounded again, the canvas anti-slop evals and fixtures read as before 0.441.0 (999px bars and badges, 50% marks), and the canvas-only pill check in `standards.mjs` and the canvas pill rule in screen-lint are removed. `--aha-radius-pill` (999px) stays the one token. (#410)
 - Marketing Header: the Hero split and Hero stacked badge is a pill again (`var(--aha-radius-pill)`), as every Header badge was before 0.441.0; it stayed at 6px when the Header layouts were merged into five. An audit of every radius against 0.440.0 found no other change: rounded rectangles keep their radius, and only what was fully round before is fully round again. Revert: revert the PR (#410)
 
+## 0.498.1 — 2026-10-27
+### Fixed
+- `aha-input` and `aha-button` keep their `ElementInternals` only when it has the form API (`setFormValue`); jsdom's partial internals is treated as none, so `form` and `labels` fall back and `aha-input` no longer throws "this._internals.setFormValue is not a function" in consumer unit tests. Browsers are unchanged. No API change. Revert: revert this PR. (#419)
+
+## 0.498.0 — 2026-10-27
+### Changed
+- `<aha-chart type="bar">`: new row layout. The label (one line, ellipsis, at least 16px clear of the value) and the value sit on one line above the bar, the track spans the row, and the image (or placeholder tile) moves to the end of the row. The label-to-bar gap goes from 4 to 8px (`--aha-space-8`) and the bar from 38 to 34px (28 in a dense chart), so the row and image tile stay 68px. In the Ranking variant (`sort="desc"`) the rank number takes the `<aha-leaderboard>` rank chip: a 32px neutral circle on the track colour with a 16px semibold tabular number, centred on the label line; the image tile grows with that line so it still lines up. Bar and column labels (stacked column too) go up one size, to `--aha-size-xl` (20px) (#412)
+- `<aha-chart type="bar">`: when any option has an image, every row keeps the image column and an option without one shows a placeholder tile (`system-image-square` glyph on the track colour), so all bars start at the same x and stay comparable. Charts with no images are unchanged; column charts were already aligned (#412)
+- `<aha-chart type="column">`: when the columns do not fill the width (two to four on a 16:9 stage), they sit together in the centre with the label-width slot between them, instead of spreading to the edges (two columns were 506px apart on a 1280 stage, now 172px); stacked columns keep their layout (#412)
+- Charts docs page: every chart case sits in a 1280 × 720 stage frame at 1:1 (slide surface, 48px stage padding), scrolling inside its own container on a narrow viewport; new column case "Two options", new bar cases "Some without image" (#412)
+- Revert: revert the PR; the change sits in `BarRenderer.draw` and the `.bar-*` and `.col-label` rules in `lib/aha-chart.js`, plus `parts/chart.preview.html` (#412)
+
 ## 0.497.2 — 2026-10-27
 ### Fixed
 - `aha-input`: the `labels` getter falls back to an empty list when the environment's `attachInternals()` has no `labels` (jsdom), so `_syncName` no longer throws "this.labels is not iterable" in consumer unit tests. No API change. Revert: revert this PR. (#418)
