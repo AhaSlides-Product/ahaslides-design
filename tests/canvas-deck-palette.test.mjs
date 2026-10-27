@@ -60,3 +60,10 @@ test('applyDeck writes the same palette pairs as applyCanvasDeck and removes the
   assert.equal(phone['--aha-deck-palette-4'], '#124345');
   assert.equal(deckVars({ ink: '#1A1A1A', accent: palette[0] })['--aha-deck-palette-1'], undefined);
 });
+
+test('a light palette colour gets dark ink and a dark one white ink even on a white-ink deck', () => {
+  const vars = canvasDeckVars({ accent: '#E70E68', ink: '#FFFFFF', background: '#1A1A1A', palette: ['#FF4081', '#20E8B5', '#1E2A5E'] });
+  assert.equal(vars['--aha-deck-palette-1-ink'], '#1A1A1A');
+  assert.equal(vars['--aha-deck-palette-2-ink'], '#1A1A1A');
+  assert.equal(vars['--aha-deck-palette-3-ink'], '#FFFFFF');
+});

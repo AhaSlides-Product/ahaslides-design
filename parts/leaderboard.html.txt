@@ -1,0 +1,10 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     One tag: lib/canvas.js (slide canvas) or lib/audience.js (phone) registers <aha-leaderboard> with the rest of the surface. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import { applyDeck } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/audience.js';
+  applyDeck(document.documentElement, xprops.slide);   // writes the deck palette pairs the bars read
+</script>
+
+<aha-leaderboard size="phone" me="u7" heading="Leaderboard" style="height:320px"
+  entries='[{"id":"u2","name":"Minh","score":900},{"id":"u7","name":"Linh","score":1200,"delta":300,"avatar":"🦊"},{"id":"u9","name":"An","score":900}]'></aha-leaderboard>

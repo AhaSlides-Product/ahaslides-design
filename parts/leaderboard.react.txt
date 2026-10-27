@@ -1,0 +1,6 @@
+import '@ahaslides-product/design/aha-leaderboard';   // registers <aha-leaderboard>
+
+// React 18 renders the custom element directly; pass data as a JSON attribute.
+export function Scores({ entries, meId }) {
+  return <aha-leaderboard size="phone" me={meId} entries={JSON.stringify(entries)} style={{ height: 320 }}></aha-leaderboard>;
+}
