@@ -27,6 +27,18 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `<aha-leaderboard>`, one ranked list for the slide canvas and the audience phone: neutral rank circle, a bar per row in the deck palette colours (row n takes colour n and its ink) inside a full-width track, the score with its unit and the points gained, an optional heading with a player count, a stub for a zero score, an opt-in trophy, ties ranked 1, 2, 2, 4, rows fitted to the element height with an "and N more" line, on the phone the participant's own row pinned with a quiet "You" tag (never on the canvas, which everyone sees); text meets WCAG AA 4.5:1 against its composited background, teams, empty and loading states, and a row slide with score count-up (none under reduced motion); the audience phone shows row text at the body default size and draws no outline round the own row; themed only by `--aha-deck-*` tokens (#390)
 - Revert: revert the PR; a new component, nothing else changes (#390)
 
+## 0.472.0 — 2026-10-27
+### Changed
+- Website > Marketing > Features: the Compact tabs layout puts the Create your quiz free button in the text column of each panel, under Learn more and left aligned, instead of centred under the whole section. Uses the `aha-features__column` and `aha-features__cta--start` classes. (#406)
+
+### Removed
+- Website > Marketing > Features: five near-duplicate layouts, 16 down to 11. Compact: accordion beside one image and Compact: pick from a list (use Tabs with screenshots or Compact tabs), Feature card row with 3 cards (use Icon cards), Icons around a results screenshot (use Icons around a phone screenshot), Alternating with portrait screenshots (use Alternating with mixed-size screenshots; the portrait framing rule is unchanged). Revert: restore the five layouts from `marketing/features.json`. (#406)
+
+## 0.455.1 — 2026-10-27
+### Fixed
+- `aha-checkbox`: with a multi-line label the box stays on the first line (centre of line 1) instead of floating to the middle of the label. Single-line rendering, and a checkbox with no label, are unchanged.
+- Revert: revert the PR; the change is confined to `lib/aha-checkbox.js` and `contracts/checkbox.json` (#403)
+
 ## 0.455.0 — 2026-10-27
 ### Changed
 - Marketing motion: parallax now moves the picture inside its frame instead of sliding the frame. The picture is drawn 112% of the frame, drifts at most 6% of the frame height (never more than 48 px) and is clipped by the frame, so the frame's box, radius and position stay still. A picture drifts only when it sits in an `aha-features__frame`, `aha-testimonials__frame` or `aha-numbers__frame`; screenshots get no frame wrapper and never drift. (#365)
