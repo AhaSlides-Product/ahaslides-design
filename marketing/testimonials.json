@@ -4,16 +4,17 @@
   "environment": [
     "web"
   ],
-  "summary": "The AhaSlides marketing site testimonial sections: Simple left aligned and Case study cards (layouts of the Untitled UI testimonial sections the marketing team picked; layout only, no Untitled UI photo or asset) and Quote cards (the \"What our users say\" section of the ahaslides.com slide-type pages). Every placeholder is a real image file; every value comes from a DS token, component or marketing section (Cards, Features, Logos), and what the DS does not yet define is listed under Composed of as missing. Framework-free and bound to the shared --aha-* tokens.",
+  "summary": "The AhaSlides marketing site testimonial sections: Simple left aligned and Case study cards (layouts of the Untitled UI testimonial sections the marketing team picked; layout only, no Untitled UI photo or asset), Quote cards (the \"What our users say\" section of the ahaslides.com slide-type pages) and Simple centred text, a band of three or four numbers to use as proof. Every placeholder is a real image file; every value comes from a DS token, component or marketing section (Cards and its feature sections, Logos), and what the DS does not yet define is listed under Composed of as missing. Framework-free and bound to the shared --aha-* tokens.",
   "highlights": [
-    "Three layouts, each with its own labelled preview and paste-and-run snippet",
+    "Four layouts: three testimonial sections and the Simple centred text numbers band, each with its own labelled preview and paste-and-run snippet",
     "Two backgrounds: White (the default) and Accent, the pale pink bgAccent surface laid over white by adding aha-testimonials--accent to the section; the cards stay white, so they read on both",
     "Every placeholder (customer photo, case study covers) is an <img> pointing at a real image file with alt text, and every avatar is <aha-avatar> with a photo src, never a drawn box or initials; the files and their sources are listed in marketing/images/testimonials/manifest.json",
-    "Rating is <aha-rate readonly size=\"sm\">, avatars are <aha-avatar> (default 40), arrows are <aha-button variant=\"secondary\" icon-only>; quote, name and role styles are the Testimonial card of the Cards page, the case study cards are its Case study card, and the section frame, header block and photo ratios are the Features section's",
+    "Rating is <aha-rate readonly size=\"sm\">, avatars are <aha-avatar> (default 40), arrows are <aha-button variant=\"secondary\" icon-only>; quote, name and role styles are the Testimonial card of the Cards page, the case study cards are its Case study card, and the section frame, header block and photo ratios are the feature sections' on the Cards page",
     "Case study cards are a native scroll-snap track with the DS secondary icon-only button for arrows; no autoplay, the track is focusable and scrolls with the arrow keys, and the small script only moves the track",
     "Quote cards are three equal white cards (on the pale pink Accent background when you switch it on) that keep the avatar, name and role on one baseline whatever the quote length, and stack to one column at 767px",
     "Company logos are trimmed copies of the Logos section data (marketing/data/logos-cms.json), kept in greyscale, all rendered at one fixed height with width auto, so every logo shares the same left edge and optical size",
-    "Each section is a container-query block stepping down at 991, 767 and 479px, with the Features section padding at each step"
+    "Each section is a container-query block stepping down at 991, 767 and 479px, with the feature sections' padding at each step",
+    "Simple centred text keeps its aha-numbers class names and base CSS, so a band already pasted on a live site still matches; a number looks the same as in the Statistic card on the Cards page"
   ],
   "imagePath": "images/testimonials",
   "layoutKind": "testimonial",
@@ -42,6 +43,28 @@
       "classes": "aha-testimonials aha-testimonials--quote-cards",
       "summary": "A centred heading and lead on a pale pink band, then three equal white cards. Each card holds the quote at the top and the customer avatar, name and role pinned to the bottom.",
       "html": "<section class=\"aha-testimonials aha-testimonials--quote-cards\" aria-label=\"Customer testimonials\">\n  <div class=\"aha-testimonials__inner\">\n    <header class=\"aha-testimonials__header aha-testimonials__header--centre\"><div class=\"aha-testimonials__heading\"><h2 class=\"aha-testimonials__title\">What our users say</h2><p class=\"aha-testimonials__lead\">Hear from the teachers, trainers and teams who use it every day.</p></div></header>\n    <ul class=\"aha-testimonials__grid\">\n      <li class=\"aha-testimonials__slide\"><figure class=\"aha-testimonials__card aha-testimonials__card--quote\"><blockquote class=\"aha-testimonials__quote aha-testimonials__quote--card\"><p>&ldquo;AhaSlides for me was a big win. Without a doubt it gives a voice to my students to speak and feel valued.&rdquo;</p></blockquote><figcaption class=\"aha-testimonials__person\"><aha-avatar class=\"aha-testimonials__avatar\" src=\"{{images}}/avatar-quote-01.webp\" name=\"Jo Patton\" size=\"default\"></aha-avatar><span class=\"aha-testimonials__person-text\"><span class=\"aha-testimonials__name\">Jo Patton</span><span class=\"aha-testimonials__role\">Remote Teacher for Church of England</span></span></figcaption></figure></li>\n      <li class=\"aha-testimonials__slide\"><figure class=\"aha-testimonials__card aha-testimonials__card--quote\"><blockquote class=\"aha-testimonials__quote aha-testimonials__quote--card\"><p>&ldquo;Instead of a passive audience, people become active participants in the discussion. This is especially valuable when discussing topics such as career paths, women in STEM, and academic experiences &mdash; where hearing many voices enriches the conversation.&rdquo;</p></blockquote><figcaption class=\"aha-testimonials__person\"><aha-avatar class=\"aha-testimonials__avatar\" src=\"{{images}}/avatar-quote-02.webp\" name=\"Ana Laura P&eacute;rez Mart&iacute;nez\" size=\"default\"></aha-avatar><span class=\"aha-testimonials__person-text\"><span class=\"aha-testimonials__name\">Ana Laura P&eacute;rez Mart&iacute;nez</span><span class=\"aha-testimonials__role\">Professor, Faculty of Engineering, UNAM</span></span></figcaption></figure></li>\n      <li class=\"aha-testimonials__slide\"><figure class=\"aha-testimonials__card aha-testimonials__card--quote\"><blockquote class=\"aha-testimonials__quote aha-testimonials__quote--card\"><p>&ldquo;My participants are always amazed. They&rsquo;ve never seen this kind of interaction before.&rdquo;</p></blockquote><figcaption class=\"aha-testimonials__person\"><aha-avatar class=\"aha-testimonials__avatar\" src=\"{{images}}/avatar-quote-03.webp\" name=\"Mandiaye Ndao\" size=\"default\"></aha-avatar><span class=\"aha-testimonials__person-text\"><span class=\"aha-testimonials__name\">Mandiaye Ndao</span><span class=\"aha-testimonials__role\">CEO of NeX AFRICA</span></span></figcaption></figure></li>\n    </ul>\n    <div class=\"aha-testimonials__cta\"><aha-button variant=\"secondary\" size=\"xl\" href=\"#case-studies\">Read customer stories</aha-button></div>\n  </div>\n</section>"
+    },
+    {
+      "slug": "centred",
+      "name": "Simple centred text",
+      "reference": "Simple centred text",
+      "class": "aha-numbers--centred",
+      "summary": "A centred icon, title and lead, then three numbers in a row split by thin dividers.",
+      "sharedCss": "aha-numbers",
+      "states": [
+        {
+          "label": "White",
+          "modifier": "",
+          "default": true
+        },
+        {
+          "label": "Accent",
+          "modifier": "accent"
+        }
+      ],
+      "css": ".aha-numbers--centred .aha-numbers__header{display:flex;flex-direction:column;align-items:center}\n.aha-numbers--centred .aha-numbers__icon{margin-bottom:var(--aha-space-20)}\n.aha-numbers--centred .aha-numbers__stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:0;max-width:960px;margin:0 auto}\n.aha-numbers--centred .aha-numbers__stat{align-items:center;text-align:center;padding:var(--aha-space-8) var(--aha-space-32)}\n.aha-numbers--centred .aha-numbers__stat + .aha-numbers__stat{border-left:1px solid var(--aha-numbers-divider)}\n@container aha-numbers (max-width:767px){\n  .aha-numbers--centred .aha-numbers__stats{grid-template-columns:minmax(0,1fr);gap:var(--aha-space-32)}\n  .aha-numbers--centred .aha-numbers__stat + .aha-numbers__stat{border-left:0;border-top:1px solid var(--aha-numbers-divider);padding-top:var(--aha-space-32)}\n}\n",
+      "html": "<section class=\"aha-numbers aha-numbers--centred\">\n  <div class=\"aha-numbers__inner\">\n    <header class=\"aha-numbers__header aha-numbers__header--center\">\n      <span class=\"aha-numbers__icon\" aria-hidden=\"true\"><aha-icon name=\"system-chart-line-up\" size=\"24\"></aha-icon></span>\n      <h2 class=\"aha-numbers__title\">Great products, faster than ever</h2>\n      <p class=\"aha-numbers__lead\">Everything you need to build modern slides and keep every room with you.</p>\n    </header>\n    <ul class=\"aha-numbers__stats\">\n      <li class=\"aha-numbers__stat\">\n        <p class=\"aha-numbers__value\">400+</p>\n        <h3 class=\"aha-numbers__stat-title\">Projects completed</h3>\n      </li>\n      <li class=\"aha-numbers__stat\">\n        <p class=\"aha-numbers__value\">600%</p>\n        <h3 class=\"aha-numbers__stat-title\">Return on investment</h3>\n      </li>\n      <li class=\"aha-numbers__stat\">\n        <p class=\"aha-numbers__value\">10k</p>\n        <h3 class=\"aha-numbers__stat-title\">Global downloads</h3>\n      </li>\n    </ul>\n    <div class=\"aha-numbers__cta\"><aha-button variant=\"primary\" size=\"xl\" href=\"#sign-up\">Sign up</aha-button></div>\n  </div>\n</section>",
+      "stateClass": "aha-numbers"
     }
   ],
   "composedOf": [
@@ -76,9 +99,9 @@
       "status": "available"
     },
     {
-      "ref": "marketing/features.json",
+      "ref": "marketing/data/shared-css.json",
       "as": "marketing section",
-      "use": "Section frame (1280 wide, padding 96/64, 48/24, 32/16), header block, split grid, photo ratios",
+      "use": "aha-features base CSS of the feature sections on the Cards page: Section frame (1280 wide, padding 96/64, 48/24, 32/16), header block, split grid, photo ratios",
       "status": "available"
     },
     {
@@ -145,7 +168,7 @@
       },
       {
         "title": "Accent",
-        "text": "Add aha-testimonials--accent to the section. It lays the pale pink Accent background (bgAccent) over white, so it looks the same wherever it sits. The cards stay white; photos and avatars are unchanged."
+        "text": "Add aha-testimonials--accent to the section. It lays the pale pink Accent background (bgAccent) over white, so it looks the same wherever it sits. The cards stay white; photos and avatars are unchanged. On the Simple centred text numbers band, add aha-numbers--accent instead."
       },
       {
         "title": "Neighbours",

@@ -1515,11 +1515,22 @@ const marketingFeatureCardCss = () => {
   const cards = JSON.parse(read(join(MDIR, 'cards.json')));
   return (cards.baseCss || '') + (cards.snippets.find(card => card.slug === 'feature')?.css || '');
 };
-const marketingLayoutSnippet = (b, layout) => withBuildSite(`<style>\n${b.baseCss || ''}${layout.cards ? marketingFeatureCardCss() : ''}${layout.css || ''}</style>\n${layout.html || ''}\n`);
+let marketingSharedCssCache = null;
+const marketingSharedCss = (key) => {
+  marketingSharedCssCache ??= JSON.parse(read(join(MDIR, 'data', 'shared-css.json')));
+  if (!(key in marketingSharedCssCache)) throw new Error(`marketing/data/shared-css.json has no "${key}"`);
+  return marketingSharedCssCache[key];
+};
+// Moved layouts keep their old section's base CSS so snippets already pasted on live sites keep matching.
+const marketingLayoutBaseCss = (b, layout) => layout.sharedCss ? marketingSharedCss(layout.sharedCss) : (b.baseCss || '');
+const marketingLayoutSnippet = (b, layout) => withBuildSite(`<style>\n${marketingLayoutBaseCss(b, layout)}${layout.cards ? marketingFeatureCardCss() : ''}${layout.css || ''}</style>\n${layout.html || ''}\n`);
 function composeMarketingLayouts(b) {
   if (!b.layouts) return b;
-  return { ...b, css: (b.baseCss || '') + (b.layouts.some(layout => layout.cards) ? marketingFeatureCardCss() : '') + b.layouts.map(layout => layout.css || '').join(''),
-    html: b.layouts.map(layout => resolveDefaultStateVariants(b, layout, layout.html)).join('\n') };
+  const sharedCss = [...new Set(b.layouts.map(layout => layout.sharedCss).filter(Boolean))].map(marketingSharedCss).join('');
+  const featureCardCss = !b.snippets && b.layouts.some(layout => layout.cards) ? marketingFeatureCardCss() : '';
+  const css = sharedCss + featureCardCss + b.layouts.map(layout => layout.css || '').join('');
+  const html = b.layouts.map(layout => resolveDefaultStateVariants(b, layout, layout.html)).join('\n');
+  return b.snippets ? { ...b, css: b.css + css, html: `${b.html}\n${html}` } : { ...b, css: (b.baseCss || '') + css, html };
 }
 /* ---- Audience Library — a first-class top-level area. ONE scroll
    page: the audience component gallery, DS-tokenised, rendered into docShell so it wears
@@ -2047,6 +2058,26 @@ function marketingLayoutIntroHtml(layout) {
   const paragraphs = `<p class="body">${esc(summary)}</p>${layout.useFor ? `\n  <p class="body"><b>Use for:</b> ${esc(layout.useFor)}</p>` : ''}`;
   return isLongProse(summary, layout.useFor || '') ? docFold('About this layout', paragraphs, '', true) : paragraphs;
 }
+const marketingWhichIsWhichHtml = (b) => docFold('Which is which', `<p class="body">${esc(b.layoutsIntro || `Each section copies the layout of one Untitled UI ${b.layoutKind || b.name.toLowerCase()} section, and nothing else of it. Class names carry the layout, not the Untitled UI number.`)}</p>
+  <ul class="highlights">${b.layouts.map(layout => `<li><b>${esc(layout.name)}</b>: ${layout.reference ? `Untitled UI ${esc(layout.reference)}, ` : ''}<code>${esc(layout.class || layout.classes || `aha-${b.slug}--${layout.slug}`)}</code>${layout.useFor ? `. Use for: ${esc(layout.useFor)}` : ''}</li>`).join('')}</ul>`);
+const marketingLayoutSectionsHtml = (b) => `${b.layouts.map(layout => `  <h2 id="${esc(layout.slug)}">${esc(layout.name)}</h2>
+  ${marketingLayoutIntroHtml(layout)}
+  <div class="marketing-stage">${marketingLayoutPreview(b, layout)}</div>
+  ${marketingCodeToggle(marketingHasStates(b, layout) ? marketingLayoutStates(b, layout).find(state => !state.modifier).label : `${layout.slug}.html`, resolveDefaultStateVariants(b, layout, marketingLayoutSnippet(b, layout)), '', marketingStatePanes(b, layout, marketingLayoutSnippet(b, layout)))}`).join('\n\n')}
+  ${MARKETING_LAYOUT_PREVIEW_SCRIPT}${b.layouts.some(layout => marketingHasStates(b, layout)) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}${b.layouts.some(layout => marketingHasStates(b, layout) && /\sdata-variant-[a-z0-9-]+=/.test(layout.html || '')) ? `\n  ${MARKETING_LAYOUT_VARIANT_SCRIPT}` : ''}${b.reviews ? `\n  ${MARKETING_LAYOUT_REVIEWS_SCRIPT}` : ''}`;
+function marketingCardsWithLayoutsHtml(b) {
+  const parts = b.snippets.map(card => `<h2>${esc(card.name)}</h2>
+  ${isLongProse(card.summary) ? docFold('About this card', `<p class="body">${esc(card.summary)}</p>`, '', true) : `<p class="body">${esc(card.summary)}</p>`}
+  ${marketingCardBreakpointPreview(b, card)}
+  ${marketingCodeToggle(`${card.slug}.html`, marketingCardSnippet(b, card))}`);
+  if (b.layouts) {
+    const after = b.snippets.findIndex(card => card.slug === b.layoutsAfterSnippet);
+    parts.splice(after < 0 ? parts.length : after + 1, 0, `${marketingGuidanceHtml(b).trim()}
+  ${marketingWhichIsWhichHtml(b)}
+${marketingLayoutSectionsHtml(b)}`);
+  }
+  return parts.join('\n  ') + '\n  ' + MARKETING_CARD_BREAKPOINT_SCRIPT;
+}
 function renderMarketingLayoutsHtml(b) {
   const [intro, ...details] = b.highlights?.length ? b.highlights : [b.summary];
   const main = `
@@ -2054,14 +2085,9 @@ function renderMarketingLayoutsHtml(b) {
   <p class="subtitle">${esc(intro)}</p>
   <p class="gen">◆ generated from marketing/${b.slug}.json — do not edit by hand</p>
 
-${marketingGuidanceHtml(b)}  ${docFold('Which is which', `<p class="body">${esc(b.layoutsIntro || `Each section copies the layout of one Untitled UI ${b.layoutKind || b.name.toLowerCase()} section, and nothing else of it. Class names carry the layout, not the Untitled UI number.`)}</p>
-  <ul class="highlights">${b.layouts.map(layout => `<li><b>${esc(layout.name)}</b>: ${layout.reference ? `Untitled UI ${esc(layout.reference)}, ` : ''}<code>${esc(layout.class || layout.classes || `aha-${b.slug}--${layout.slug}`)}</code>${layout.useFor ? `. Use for: ${esc(layout.useFor)}` : ''}</li>`).join('')}</ul>`)}
+${marketingGuidanceHtml(b)}  ${marketingWhichIsWhichHtml(b)}
 
-${b.layouts.map(layout => `  <h2 id="${esc(layout.slug)}">${esc(layout.name)}</h2>
-  ${marketingLayoutIntroHtml(layout)}
-  <div class="marketing-stage">${marketingLayoutPreview(b, layout)}</div>
-  ${marketingCodeToggle(marketingHasStates(b, layout) ? marketingLayoutStates(b, layout).find(state => !state.modifier).label : `${layout.slug}.html`, resolveDefaultStateVariants(b, layout, marketingLayoutSnippet(b, layout)), '', marketingStatePanes(b, layout, marketingLayoutSnippet(b, layout)))}`).join('\n\n')}
-  ${MARKETING_LAYOUT_PREVIEW_SCRIPT}${b.layouts.some(layout => marketingHasStates(b, layout)) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}${b.layouts.some(layout => marketingHasStates(b, layout) && /\sdata-variant-[a-z0-9-]+=/.test(layout.html || '')) ? `\n  ${MARKETING_LAYOUT_VARIANT_SCRIPT}` : ''}${b.reviews ? `\n  ${MARKETING_LAYOUT_REVIEWS_SCRIPT}` : ''}
+${marketingLayoutSectionsHtml(b)}
 
 ${b.video ? `  ${docFold(`${b.video.label} (optional, off by default)`, `<p class="body">${esc(b.video.howToTurnOn.replaceAll('{{c}}', '<layout class>'))} Layouts with the slot: ${b.layouts.filter(layout => b.video.layouts.includes(layout.slug)).map(layout => `${esc(layout.name)} (<code>${esc(layout.class)}</code>)`).join(', ')}.</p>
   ${marketingCodeToggle('video.html', b.video.html, 'Replaces the layout image.')}
@@ -2081,17 +2107,14 @@ ${b.composedOf ? `
   .demo-toolbar:has(.code-lead){justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--aha-space-20)}.code-lead{margin:0;flex:1 1 20rem;max-width:none}${MARKETING_BREAKPOINT_CSS}` });
 }
 function renderMarketingHtml(b) {
-  if (b.layouts) return renderMarketingLayoutsHtml(b);
+  if (b.layouts && !b.snippets) return renderMarketingLayoutsHtml(b);
   const [intro, ...details] = b.highlights?.length ? b.highlights : [b.summary];
   const main = `
   <h1>${esc(b.name)}</h1>
   <p class="subtitle">${esc(intro)}</p>
   <p class="gen">◆ generated from marketing/${b.slug}.json — do not edit by hand</p>
 
-${b.snippets ? b.snippets.map(card => `<h2>${esc(card.name)}</h2>
-  ${isLongProse(card.summary) ? docFold('About this card', `<p class="body">${esc(card.summary)}</p>`, '', true) : `<p class="body">${esc(card.summary)}</p>`}
-  ${marketingCardBreakpointPreview(b, card)}
-  ${marketingCodeToggle(`${card.slug}.html`, marketingCardSnippet(b, card))}`).join('\n  ') + '\n  ' + MARKETING_CARD_BREAKPOINT_SCRIPT : `<h2>Preview</h2>
+${b.snippets ? marketingCardsWithLayoutsHtml(b) : `<h2>Preview</h2>
   <div class="marketing-stage">${marketingBreakpointPreview(b)}</div>
 
   <h2>Paste-and-run HTML</h2>
@@ -2166,6 +2189,10 @@ const LANDING_REDIRECTS = {
   fonts: 'foundations/typography.html',
   spacing: 'foundations/spacing.html',
   grid: 'grid/index.html',
+};
+const MARKETING_REDIRECTS = {
+  features: '../cards/index.html',
+  numbers: '../header/index.html',
 };
 const redirectStub = (target) => `<!doctype html><html lang="en"><head><meta charset="utf-8"/>
 <title>${esc(documentTitle({ site: SITE_NAME, page: 'Page moved' }))}</title>
@@ -3579,6 +3606,10 @@ if (MARKETING.length) {
 for (const [slug, target] of Object.entries(LANDING_REDIRECTS)) {
   const d = join(OUT, 'landing', slug); mkdirSync(d, { recursive: true });
   writeFileSync(join(d, 'index.html'), redirectStub((slug ? '../../' : '../') + target));
+}
+for (const [slug, target] of Object.entries(MARKETING_REDIRECTS)) {
+  const d = join(OUT, 'marketing', slug); mkdirSync(d, { recursive: true });
+  writeFileSync(join(d, 'index.html'), redirectStub(target));
 }
 /* audience library — one first-class in-site page (audience/index.html) under the DS shell */
 if (AUDIENCE) {

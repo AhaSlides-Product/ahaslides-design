@@ -10,8 +10,10 @@ const criteria = readJson('anti-slop/criteria.json').surfaces.website.criteria;
 const agentCriteria = readJson('agent/anti-slop/criteria.json').surfaces.website.criteria;
 const evals = readJson('anti-slop/evals/website/evals.json').evals;
 const cardsCss = readJson('marketing/cards.json').baseCss;
-const numbersCss = readJson('marketing/numbers.json').baseCss;
-const features = readJson('marketing/features.json');
+const sharedCss = readJson('marketing/data/shared-css.json');
+const layoutsUsing = (key) => ['header', 'cards', 'testimonials'].flatMap((slug) => readJson(`marketing/${slug}.json`).layouts.filter((layout) => layout.sharedCss === key));
+const numbersCss = sharedCss['aha-numbers'];
+const features = { baseCss: sharedCss['aha-features'], layouts: layoutsUsing('aha-features') };
 const featuresCss = features.baseCss;
 const testimonialsCss = readJson('marketing/testimonials.json').baseCss;
 const pricingCss = readJson('marketing/pricing.json').baseCss;
@@ -63,7 +65,7 @@ test('templates are a 3 by n grid on desktop and skip count balancing', () => {
 
 test('W15: every content card link opens in a new tab with noopener and hidden text, calls to action do not', () => {
   const linkClasses = ['aha-marketing-card__link', 'aha-testimonials__link', 'aha-features__more'];
-  for (const slug of ['cards', 'testimonials', 'features']) {
+  for (const slug of ['cards', 'testimonials', 'header']) {
     const raw = readFileSync(new URL(`../marketing/${slug}.json`, import.meta.url), 'utf8');
     const links = linkClasses.flatMap((name) => [...raw.matchAll(new RegExp(`<a class=\\\\"${name}\\\\"[^>]*>`, 'g'))].map((match) => match[0]));
     for (const link of links) assert.match(link, /target=\\"_blank\\" rel=\\"noopener\\"/, link);
@@ -78,7 +80,7 @@ test('W15: every content card link opens in a new tab with noopener and hidden t
   assert.doesNotMatch(page, /target="_blank"/);
 });
 
-test('the Cards grid and the Features icon grid balance by item count', () => {
+test('the Cards grid and the feature icon grid balance by item count', () => {
   for (const css of [cardsCss, featuresCss]) {
     assert.match(css, /:has\(>:first-child:last-child\)\{grid-template-columns:minmax\(0,36rem\)/);
     assert.match(css, /:has\(>:nth-child\(2\):last-child\),[^{]*:has\(>:nth-child\(4\):last-child\)\{grid-template-columns:repeat\(2,/);
@@ -91,7 +93,7 @@ test('the Steps row and the image-led grid keep their own layout', () => {
   assert.match(cardsCss, /\.aha-marketing-cards__grid:not\(\.aha-marketing-cards__grid--image-led\):not\(\.aha-marketing-cards__grid--row\):has/);
 });
 
-test('the Numbers centred stats balance by item count', () => {
+test('the numbers centred stats balance by item count', () => {
   assert.match(numbersCss, /\.aha-numbers--centred \.aha-numbers__stats:has\(>:nth-child\(2\):last-child\)\{grid-template-columns:repeat\(2,/);
   assert.match(numbersCss, /\.aha-numbers--centred \.aha-numbers__stats:has\(>:nth-child\(4\):last-child\)\{grid-template-columns:repeat\(2,/);
   assert.match(numbersCss, /:nth-child\(3n\+2\):last-child:nth-child\(n\+5\)\)>:last-child\{grid-column:4 \/ span 2\}/);
@@ -188,7 +190,7 @@ test('W14: the alternating row title is h4 semibold on the product face', () => 
 });
 
 test('W14: no Marketing section sets the display face; every heading inherits Plus Jakarta Sans', () => {
-  const marketing = ['cards', 'features', 'numbers', 'pricing', 'testimonials', 'faq', 'footer-banner', 'header'];
+  const marketing = ['cards', 'data/shared-css', 'pricing', 'testimonials', 'faq', 'footer-banner', 'header'];
   for (const slug of marketing) {
     assert.doesNotMatch(readFileSync(new URL(`../marketing/${slug}.json`, import.meta.url), 'utf8'), /--aha-font-display/, slug);
   }
@@ -215,7 +217,7 @@ test('W18: every content section ships one call to action, aligned with its head
   assert.match(featuresCss, /\.aha-features__cta\{display:flex;flex-wrap:wrap;justify-content:center/);
   assert.match(numbersCss, /\.aha-numbers__cta\{display:flex;flex-wrap:wrap;justify-content:center/);
   assert.match(testimonialsCss, /\.aha-testimonials__cta--start\{justify-content:flex-start\}/);
-  for (const slug of ['faq', 'features', 'numbers', 'testimonials']) {
+  for (const slug of ['faq', 'cards', 'header', 'testimonials']) {
     assert.doesNotMatch(marketingFile(slug), /href=\\"#(sign-up|case-studies|docs)\\"[^>]*target=/, slug);
   }
   assert.doesNotMatch(sectionPage('fail-w18-missing-section-cta'), /aha-faq__cta/);

@@ -38,8 +38,8 @@
     },
     {
       "surface": "The body of the page",
-      "useFor": "Logos directly below the hero (when the page shows customer logos), then Features, Numbers, Testimonials, Pricing and FAQ sections in the order the story needs, each on its own band",
-      "example": "Logos directly below the hero, then Features alternating rows, then Testimonials, then FAQ"
+      "useFor": "Logos directly below the hero (when the page shows customer logos), then feature, numbers, Testimonials, Pricing and FAQ sections in the order the story needs, each on its own band",
+      "example": "Logos directly below the hero, then feature alternating rows, then Testimonials, then FAQ"
     },
     {
       "surface": "The end of the page",
@@ -129,7 +129,7 @@
   "componentBacklog": "No missing components. A band the Marketing library does not ship yet is a DSN ticket; add the section there before a page needs it.",
   "rules": [
     {
-      "rule": "Build every band of the page from a DS Marketing section: Navigation, Header, Features, Numbers, Logos, Testimonials, Pricing, FAQ, Footer banner and Footer (Cards inside a section). Paste the section's snippet and change its copy, images and layout choice, never its structure or values. The Logos strip (customer logos, Trusted by) is always the band directly below the hero, never later in the page. A band the library lacks is a DSN ticket, never a hand-rolled section on the page.",
+      "rule": "Build every band of the page from a DS Marketing section: Navigation, Header, Cards, Logos, Testimonials, Pricing, FAQ, Footer banner and Footer (feature sections are Cards layouts, numbers sections are Header and Testimonials layouts, and a single card sits inside a section). Paste the section's snippet and change its copy, images and layout choice, never its structure or values. The Logos strip (customer logos, Trusted by) is always the band directly below the hero, never later in the page. A band the library lacks is a DSN ticket, never a hand-rolled section on the page.",
       "ref": [
         "W1"
       ],
@@ -138,7 +138,7 @@
       ]
     },
     {
-      "rule": "Keep the padding each section ships and never override it. One page gutter: every section's side padding is `--aha-web-gutter`, `--aha-space-64` on desktop, `--aha-space-24` at 767 px and below and `--aha-space-16` at 479 px and below, so the logo, headings, text and buttons of every section sit on one vertical line on a phone. Features, Numbers, Pricing, Testimonials, FAQ and the Footer banner read it on desktop too. Heroes, page headers, the Footer and the Navigation keep their shipped 32 px side padding above 767 px and switch to the gutter at 767 px and below. Vertical padding stays per section: Features, Numbers, Pricing and Testimonials ship `--aha-space-96` on desktop, `--aha-space-48` at 767 px and `--aha-space-32` at 479 px; Logos ships a 32 px vertical. Only backgrounds, full-bleed images and the Logos marquee run edge to edge. A card inside a section (the Footer banner card, step cards) puts its outer edge on the gutter; the Footer banner card pads its own content `--aha-space-24` at 767 px and below and `--aha-space-16` at 479 px and below. Sections sit flush; add no margin, spacer or divider between them.",
+      "rule": "Keep the padding each section ships and never override it. One page gutter: every section's side padding is `--aha-web-gutter`, `--aha-space-64` on desktop, `--aha-space-24` at 767 px and below and `--aha-space-16` at 479 px and below, so the logo, headings, text and buttons of every section sit on one vertical line on a phone. Feature and numbers sections, Pricing, Testimonials, FAQ and the Footer banner read it on desktop too. Heroes, page headers, the Footer and the Navigation keep their shipped 32 px side padding above 767 px and switch to the gutter at 767 px and below. Vertical padding stays per section: feature and numbers sections, Pricing and Testimonials ship `--aha-space-96` on desktop, `--aha-space-48` at 767 px and `--aha-space-32` at 479 px; Logos ships a 32 px vertical. Only backgrounds, full-bleed images and the Logos marquee run edge to edge. A card inside a section (the Footer banner card, step cards) puts its outer edge on the gutter; the Footer banner card pads its own content `--aha-space-24` at 767 px and below and `--aha-space-16` at 479 px and below. Sections sit flush; add no margin, spacer or divider between them.",
       "ref": [
         "W2"
       ],
@@ -149,14 +149,14 @@
       ]
     },
     {
-      "rule": "Space content from its button by one of two steps, and never by a value of your own. A button directly under its own block's text (Hero, page Header, Footer banner, a Features or Numbers row's actions) sits `--aha-space-32` below it, `--aha-space-24` at 479 px and below. A section-closing call to action after a list or grid (FAQ, Features, Numbers and Testimonials `__cta`) sits `--aha-space-48` below it, `--aha-space-32` at 479 px and below. Buttons in one row keep `--aha-space-12` between them.",
+      "rule": "Space content from its button by one of two steps, and never by a value of your own. A button directly under its own block's text (Hero, page Header, Footer banner, a feature or numbers row's actions) sits `--aha-space-32` below it, `--aha-space-24` at 479 px and below. A section-closing call to action after a list or grid (FAQ, feature sections, numbers sections and Testimonials `__cta`) sits `--aha-space-48` below it, `--aha-space-32` at 479 px and below. Buttons in one row keep `--aha-space-12` between them.",
       "ref": [
         "W2"
       ],
       "source": [
         "marketing/header.json — `__actions`, `__form`, the Hero Pink `__text` and the page Header `__body` gap",
         "marketing/footer-banner.json — `__text` margin",
-        "marketing/features.json, marketing/numbers.json — `__actions` and `__cta`",
+        "marketing/cards.json, marketing/header.json, marketing/testimonials.json — the feature and numbers layouts' `__actions` and `__cta`",
         "marketing/faq.json, marketing/testimonials.json — `__cta`"
       ]
     },
@@ -166,7 +166,7 @@
         "W3"
       ],
       "source": [
-        "marketing/features.json",
+        "marketing/data/shared-css.json",
         "marketing/testimonials.json",
         "marketing/pricing.json — __inner max-width 1280px, __header 720px, __lead 44ch"
       ]
@@ -183,37 +183,36 @@
       ]
     },
     {
-      "rule": "Lay out band backgrounds by colour rules 3.2 to 3.5, 3.8 and 3.10: open with a Vivid Pink hero (the Hero Pink header layout, whose Splash hooks are Darker Pink, rule 5.1; the hero is Vivid Pink `#E70E68`, never Darker Pink itself), then alternate full-width white and pale pink bands (a Features section with the `aha-features--accent` class, Vivid Pink at 5%; never an inline `background: var(--aha-bg-accent)` style on the section), starting with white right after the hero, so a full white band always sits between two coloured bands. The band directly after the hero's Logos strip (the customer logos band) is always full white, never the pale pink accent or any other tint. At most two Vivid Pink bands count, the hero being one (a closing Footer banner may be the second, with a white band before it). No black band, no gradient, and no light grey band: light grey belongs to cards inside a section (the Cards gray variant). A white hero is also allowed.",
+      "rule": "Lay out band backgrounds by colour rules 3.2 to 3.5, 3.8 and 3.10: open with a Vivid Pink hero (the Hero Pink header layout, whose Splash hooks are Darker Pink, rule 5.1; the hero is Vivid Pink `#E70E68`, never Darker Pink itself), then alternate full-width white and pale pink bands (a feature section with the `aha-features--accent` class, Vivid Pink at 5%; never an inline `background: var(--aha-bg-accent)` style on the section), starting with white right after the hero, so a full white band always sits between two coloured bands. The band directly after the hero's Logos strip (the customer logos band) is always full white, never the pale pink accent or any other tint. At most two Vivid Pink bands count, the hero being one (a closing Footer banner may be the second, with a white band before it). No black band, no gradient, and no light grey band: light grey belongs to cards inside a section (the Cards gray variant). A white hero is also allowed.",
       "ref": [
         "W5"
       ],
       "source": [
         "brand/colour-rules.json 3.2, 3.3, 3.4, 3.5, 3.8, 3.10",
-        "marketing/features.json — the section ships a white band; a pale pink band is the `aha-features--accent` class, never an inline `background: var(--aha-bg-accent)` style",
+        "marketing/cards.json feature layouts — the section ships a white band; a pale pink band is the `aha-features--accent` class, never an inline `background: var(--aha-bg-accent)` style",
         "marketing/cards.json --gray"
       ]
     },
     {
-      "rule": "Use real `<img>` elements with alt text for pictures: a product screenshot, a committed photo with its licence in the manifest, or the DS placeholder `marketing-assets/image-placeholder.svg` until one exists. Never crop a screenshot. An image fills its container edge to edge at its own ratio (`aha-features__photo--fill`, `aha-marketing-card__media--fill`): no pink frame, no inset. That is the rule for a landscape or square image, alone or among others of the same size. Use the Vivid Pink frame (`aha-features__photo--pink-frame`, `aha-marketing-card__media--pink-frame`: `--aha-vivid-pink-100` with the centre Splash) for any portrait image (taller than wide, ratio under 1), even alone or when every image in the section is the same size, and when a section holds more than one image and those images differ in size or ratio: each sits contained with an even inset, and every frame in the section keeps one ratio (4:3 in a Features row, 3:2 on a card). No stock clip art, emoji used as icons, gradient blobs, glassmorphism or decorative 3D. Icons come from the registry by name with `<aha-icon>`.",
+      "rule": "Use real `<img>` elements with alt text for pictures: a product screenshot, a committed photo with its licence in the manifest, or the DS placeholder `marketing-assets/image-placeholder.svg` until one exists. Never crop a screenshot. An image fills its container edge to edge at its own ratio (`aha-features__photo--fill`, `aha-marketing-card__media--fill`): no pink frame, no inset. That is the rule for a landscape or square image, alone or among others of the same size. Use the Vivid Pink frame (`aha-features__photo--pink-frame`, `aha-marketing-card__media--pink-frame`: `--aha-vivid-pink-100` with the centre Splash) for any portrait image (taller than wide, ratio under 1), even alone or when every image in the section is the same size, and when a section holds more than one image and those images differ in size or ratio: each sits contained with an even inset, and every frame in the section keeps one ratio (4:3 in a feature row, 3:2 on a card). No stock clip art, emoji used as icons, gradient blobs, glassmorphism or decorative 3D. Icons come from the registry by name with `<aha-icon>`.",
       "ref": [
         "W6"
       ],
       "source": [
         "marketing-assets/image-placeholder.svg",
-        "marketing/features.json and marketing/cards.json — the Vivid Pink image frame",
-        "marketing/numbers.json and marketing/testimonials.json image slots",
+        "marketing/cards.json and marketing/data/shared-css.json — the Vivid Pink image frame",
+        "marketing/header.json numbers layouts and marketing/testimonials.json image slots",
         "icons/registry.json"
       ]
     },
     {
-      "rule": "Content card links open in a new tab: every Template, Testimonial or case-study, Integration, Article, Feature and Use-case card link, and a Features `Learn more` link, uses `target=\"_blank\"` and `rel=\"noopener\"` with a visually-hidden \"(opens in a new tab)\" inside the link (`aha-marketing-card__visually-hidden`, `aha-testimonials__visually-hidden`, `aha-features__visually-hidden`), so readers keep the page open and stay longer. Sign up and other primary or ghost call-to-action buttons (Header, Features, Pricing, Footer banner) and the Navigation and Footer site links stay in the same tab.",
+      "rule": "Content card links open in a new tab: every Template, Testimonial or case-study, Integration, Article, Feature and Use-case card link, and a feature section `Learn more` link, uses `target=\"_blank\"` and `rel=\"noopener\"` with a visually-hidden \"(opens in a new tab)\" inside the link (`aha-marketing-card__visually-hidden`, `aha-testimonials__visually-hidden`, `aha-features__visually-hidden`), so readers keep the page open and stay longer. Sign up and other primary or ghost call-to-action buttons (Header, feature sections, Pricing, Footer banner) and the Navigation and Footer site links stay in the same tab.",
       "ref": [
         "W15"
       ],
       "source": [
         "marketing/cards.json",
-        "marketing/testimonials.json",
-        "marketing/features.json"
+        "marketing/testimonials.json"
       ]
     },
     {
@@ -238,14 +237,14 @@
       ]
     },
     {
-      "rule": "Motion is staggered reveal, light image parallax and count-up numbers, all from one DS script, and nothing else. Load `lib/marketing-motion.js` once (`<script type=\"module\" src=\"…/lib/marketing-motion.js\">`; on by default, `data-aha-motion=\"off\"` opts a section or the page out). Elements fade in and slide up 24 px as they scroll into view, items that enter together 80 ms apart, timed with `--aha-motion-viz-enter` and `--aha-ease-out`; section photos drift at most 48 px against the scroll; a Numbers value counts up from 0 to its written value once, when it is half in view. Hover transitions use `--aha-motion-*` and `--aha-ease-*`. Under `prefers-reduced-motion: reduce` nothing moves and every final value shows at once. No scroll-jacking, no autoplaying carousel or video, no hand-written scroll or parallax script on the page; the Logos strip's shipped loop, which stops under reduced motion, is the one continuous motion allowed.",
+      "rule": "Motion is staggered reveal, light image parallax and count-up numbers, all from one DS script, and nothing else. Load `lib/marketing-motion.js` once (`<script type=\"module\" src=\"…/lib/marketing-motion.js\">`; on by default, `data-aha-motion=\"off\"` opts a section or the page out). Elements fade in and slide up 24 px as they scroll into view, items that enter together 80 ms apart, timed with `--aha-motion-viz-enter` and `--aha-ease-out`; section photos drift at most 48 px against the scroll; a numbers value counts up from 0 to its written value once, when it is half in view. Hover transitions use `--aha-motion-*` and `--aha-ease-*`. Under `prefers-reduced-motion: reduce` nothing moves and every final value shows at once. No scroll-jacking, no autoplaying carousel or video, no hand-written scroll or parallax script on the page; the Logos strip's shipped loop, which stops under reduced motion, is the one continuous motion allowed.",
       "ref": [
         "W9"
       ],
       "source": [
         "lib/marketing-motion.js — reveal, stagger, parallax and count-up",
         "every section's prefers-reduced-motion block",
-        "marketing/features.json — the video variant never autoplays",
+        "marketing/cards.json — the feature video variant never autoplays",
         "marketing/testimonials.json — carousels never autoplay",
         "marketing/logos.json — the loop and its reduced-motion stop",
         "marketing/footer-banner.json reveal"
@@ -258,18 +257,18 @@
       ],
       "source": [
         "marketing/cards.json — the image-led grid and the transparent cards band",
-        "marketing/features.json — `.aha-features .aha-marketing-cards__grid` drops the grid's padding and cap"
+        "marketing/data/shared-css.json — `.aha-features .aha-marketing-cards__grid` drops the grid's padding and cap"
       ]
     },
     {
-      "rule": "Balanced grids: a card or feature grid (not templates, which are always 3 by n on desktop, W10) never leaves an empty column slot or sits off-centre. The column count follows the item count: 1 item is one centred column, 2 items are 2 columns, 3 are 3, 4 are 2 by 2, and 5 or more are 3 columns with a short last row centred. The Cards grid, the Features icon grid and the Numbers stats do this by default at 992 px and wider, and centre a lone last card at 768 to 991 px; never override `grid-template-columns` to leave a gap.",
+      "rule": "Balanced grids: a card or feature grid (not templates, which are always 3 by n on desktop, W10) never leaves an empty column slot or sits off-centre. The column count follows the item count: 1 item is one centred column, 2 items are 2 columns, 3 are 3, 4 are 2 by 2, and 5 or more are 3 columns with a short last row centred. The Cards grid, the feature icon grid and the numbers stats do this by default at 992 px and wider, and centre a lone last card at 768 to 991 px; never override `grid-template-columns` to leave a gap.",
       "ref": [
         "W11"
       ],
       "source": [
         "marketing/cards.json — the balanced Cards grid",
-        "marketing/features.json — the balanced Features icon grid",
-        "marketing/numbers.json — the balanced Numbers stats"
+        "marketing/cards.json — the balanced feature icon grid",
+        "marketing/data/shared-css.json — the balanced numbers stats"
       ]
     },
     {
@@ -279,7 +278,7 @@
       ],
       "source": [
         "marketing/cards.json — the Steps row (`aha-marketing-cards__grid--row`)",
-        "marketing/features.json — the alternating, icon grid and Tabs layouts"
+        "marketing/cards.json — the feature alternating, icon grid and Tabs layouts"
       ]
     },
     {
@@ -293,33 +292,33 @@
       ]
     },
     {
-      "rule": "One type ramp per page: every text role uses exactly one DS type token across all Marketing sections on the page, so the same role has the same size, weight and family everywhere. Section heading (h2): `--aha-size-h2` 40 px, 32 px at 991 px and below, 24 px at 479 px and below, semibold, line-height `--aha-line-height-heading`. Section lead and quote text: `clamp(--aha-size-l, 1.4vw, --aha-size-xl)` 16 to 20 px, regular. Alternating row title: `--aha-size-h4` 24 px, 20 px at 479 px and below, semibold. Item or card title in any component (Cards, Features, Steps, image-led cards, Numbers stat title, Pricing benefit, FAQ question): `--aha-size-xl` 20 px, semibold. Body: `--aha-size-l` 16 px, regular. Meta or caption: `--aha-size-default` 14 px, regular. Eyebrow: `--aha-size-sm` 12 px, semibold, uppercase. Stat number: `clamp(--aha-size-h2, 5vw, --aha-size-h1)` 40 to 48 px, semibold. Every heading and number is Plus Jakarta Sans, the section's own `--aha-font-product`: never `--aha-font-display` (Nunito) or a page or Webflow font. The shipped sections already resolve to this ramp, so paste them unchanged and never restyle a text role on the page.",
+      "rule": "One type ramp per page: every text role uses exactly one DS type token across all Marketing sections on the page, so the same role has the same size, weight and family everywhere. Section heading (h2): `--aha-size-h2` 40 px, 32 px at 991 px and below, 24 px at 479 px and below, semibold, line-height `--aha-line-height-heading`. Section lead and quote text: `clamp(--aha-size-l, 1.4vw, --aha-size-xl)` 16 to 20 px, regular. Alternating row title: `--aha-size-h4` 24 px, 20 px at 479 px and below, semibold. Item or card title in any component (Cards, feature sections, Steps, image-led cards, numbers stat title, Pricing benefit, FAQ question): `--aha-size-xl` 20 px, semibold. Body: `--aha-size-l` 16 px, regular. Meta or caption: `--aha-size-default` 14 px, regular. Eyebrow: `--aha-size-sm` 12 px, semibold, uppercase. Stat number: `clamp(--aha-size-h2, 5vw, --aha-size-h1)` 40 to 48 px, semibold. Every heading and number is Plus Jakarta Sans, the section's own `--aha-font-product`: never `--aha-font-display` (Nunito) or a page or Webflow font. The shipped sections already resolve to this ramp, so paste them unchanged and never restyle a text role on the page.",
       "ref": [
         "W14"
       ],
       "source": [
-        "marketing/cards.json, features.json, numbers.json, pricing.json, testimonials.json, faq.json, footer-banner.json, header.json — the shared type tokens",
+        "marketing/cards.json, data/shared-css.json, pricing.json, testimonials.json, faq.json, footer-banner.json, header.json — the shared type tokens",
         "tokens.canonical.json — size, weight and lineHeight"
       ]
     },
     {
-      "rule": "Heading alignment is one rule for the whole page. A section heading block (eyebrow, h2, lead) is centred whenever it sits full width above the content: Features, Numbers, Pricing, Testimonials quote cards, Cards and FAQ in their symmetric layouts, with the `--center` header class or the section's own centring (the FAQ title centres itself with `text-align:center`, so a page or Webflow reset cannot pull it left). It is left aligned only where it shares a row or column with the content: the Features `icon-cards-side-header`, the Numbers `actions-icons` and `split-image*`, the Pricing `featured-cards-*` and the Testimonials `simple-left-aligned` and `case-study-cards` (arrows on the same row) layouts. Never a centred heading over a left-pinned body or the reverse, and never one section on the page centred while a symmetric neighbour is left aligned.",
+      "rule": "Heading alignment is one rule for the whole page. A section heading block (eyebrow, h2, lead) is centred whenever it sits full width above the content: feature and numbers sections, Pricing, Testimonials quote cards, Cards and FAQ in their symmetric layouts, with the `--center` header class or the section's own centring (the FAQ title centres itself with `text-align:center`, so a page or Webflow reset cannot pull it left). It is left aligned only where it shares a row or column with the content: the Cards `icon-cards-side-header`, the Header numbers `actions-icons` and `split-image*`, the Pricing `featured-cards-*` and the Testimonials `simple-left-aligned` and `case-study-cards` (arrows on the same row) layouts. Never a centred heading over a left-pinned body or the reverse, and never one section on the page centred while a symmetric neighbour is left aligned.",
       "ref": [
         "W17"
       ],
       "source": [
-        "marketing/features.json — header--center",
-        "marketing/numbers.json, pricing.json, testimonials.json — header--center",
+        "marketing/cards.json feature layouts — header--center",
+        "marketing/header.json numbers layouts, pricing.json, testimonials.json — header--center",
         "marketing/faq.json — the title's text-align:center"
       ]
     },
     {
-      "rule": "Every content section after the hero ends with one call to action, so the reader is never left at a dead end: the button row shipped in the section (`aha-features__cta`, `aha-numbers__cta`, `aha-testimonials__cta`, `aha-faq__cta`, or the section's `__actions` in a split header). Exempt: the Logos strip (it sits under the hero, which has the call to action), Pricing (the plan buttons are its call to action), the Footer banner (it is the primary call to action) and Navigation and Footer. The call to action follows its heading block: centred under the content when the heading is centred, left under the content (or inside the left header) when the heading is left aligned. Never a lone left button under a centred or symmetric grid, never a centred button under a left aligned section, never a button page-built beside the shipped one. Calls to action stay in the same tab (W15). Only four kinds of section send the reader to another page, and only when the page has them: Templates go to the template library (`Browse all templates`), Integrations to the integrations page (`See all integrations`), case studies, testimonials included, to the case studies (`Read customer stories`), and the FAQ to the AhaSlides docs (`Read the docs`); these are secondary buttons whose label names the destination, never a bare `View more`, `Learn more` or `Click here`. Every other content section, Features, Numbers, how-it-works steps and use cases among them, ends with the hero's primary call to action: the shipped button turned primary (drop the `--ghost` or `--secondary` modifier), with the hero's own label and link, the page-specific label W4 asks for (Sign up in the snippets is only the example). Never the hero's primary call to action on a Templates, Integrations, case-study or FAQ section, never a link to another page from any other section.",
+      "rule": "Every content section after the hero ends with one call to action, so the reader is never left at a dead end: the button row shipped in the section (`aha-features__cta`, `aha-numbers__cta`, `aha-testimonials__cta`, `aha-faq__cta`, or the section's `__actions` in a split header). Exempt: the Logos strip (it sits under the hero, which has the call to action), Pricing (the plan buttons are its call to action), the Footer banner (it is the primary call to action) and Navigation and Footer. The call to action follows its heading block: centred under the content when the heading is centred, left under the content (or inside the left header) when the heading is left aligned. Never a lone left button under a centred or symmetric grid, never a centred button under a left aligned section, never a button page-built beside the shipped one. Calls to action stay in the same tab (W15). Only four kinds of section send the reader to another page, and only when the page has them: Templates go to the template library (`Browse all templates`), Integrations to the integrations page (`See all integrations`), case studies, testimonials included, to the case studies (`Read customer stories`), and the FAQ to the AhaSlides docs (`Read the docs`); these are secondary buttons whose label names the destination, never a bare `View more`, `Learn more` or `Click here`. Every other content section, feature and numbers sections, how-it-works steps and use cases among them, ends with the hero's primary call to action: the shipped button turned primary (drop the `--ghost` or `--secondary` modifier), with the hero's own label and link, the page-specific label W4 asks for (Sign up in the snippets is only the example). Never the hero's primary call to action on a Templates, Integrations, case-study or FAQ section, never a link to another page from any other section.",
       "ref": [
         "W18"
       ],
       "source": [
-        "marketing/features.json, numbers.json, testimonials.json, faq.json — the __cta rows",
+        "marketing/cards.json, header.json, testimonials.json, faq.json — the __cta rows",
         "marketing/footer-banner.json",
         "marketing/pricing.json — plan buttons"
       ]

@@ -4,11 +4,12 @@
   "environment": [
     "web"
   ],
-  "summary": "Header sections for the AhaSlides marketing sites: four Hero Pink banners, fourteen heroes and six page headers, each layout with its own name, preview and paste-and-run code.",
+  "summary": "Header sections for the AhaSlides marketing sites: four Hero Pink banners, fourteen heroes, six page headers, four numbers sections (simple with actions, split image) and two feature sections built round one product screenshot, each layout with its own name, preview and paste-and-run code.",
   "highlights": [
-    "Twenty-four layouts on one page: the Hero Pink banners, the heroes and the page headers, each with its own labelled preview and code",
+    "Thirty layouts on one page: the Hero Pink banners, the heroes, the page headers, the numbers sections and the screenshot feature sections, each with its own labelled preview and code",
     "Most layouts add an Accent background, the pale pink bgAccent surface laid over white by the layout's own --accent class, beside White and Vivid Pink; the Hero Pink, Hero Pale Pink and brand layouts keep their own switches and have no Accent because they are already coloured",
-    "An optional G2 reviews row (the G2 logo in a white card, five stars, 4.8 and the review count), on by default, on the 17 layouts whose copy block holds the buttons; a G2 reviews switch next to the width and surface switches turns it off on the preview"
+    "An optional G2 reviews row (the G2 logo in a white card, five stars, 4.8 and the review count), on by default, on the 17 layouts whose copy block holds the buttons; a G2 reviews switch next to the width and surface switches turns it off on the preview",
+    "The numbers sections (Simple with actions 01 and 02, Split image 02 and its brand band) and the feature sections Icons around a phone screenshot and Icons around a results screenshot keep their aha-numbers and aha-features class names and base CSS, so a block already pasted on a live site still matches; a number looks the same as in the Statistic card on the Cards page"
   ],
   "layoutsIntro": "Each layout is its own block: the class names below are scoped per layout, so any number of them can sit in one page.",
   "guidance": {
@@ -45,7 +46,7 @@
       },
       {
         "title": "Background",
-        "text": "Most layouts have a White / Accent / Vivid Pink switch: add the layout's own --accent class (for example aha-header-section-hero-split-image-01--accent) to lay the pale pink Accent background (bgAccent) over white. Accent and Vivid Pink are alternatives, never combined. The Hero Pink, Hero Pale Pink and brand header layouts keep their own switches and have no Accent, because they are already coloured surfaces. Never place an Accent header next to another coloured section."
+        "text": "Most layouts have a White / Accent / Vivid Pink switch: add the layout's own --accent class (for example aha-header-section-hero-split-image-01--accent) to lay the pale pink Accent background (bgAccent) over white. Accent and Vivid Pink are alternatives, never combined. The Hero Pink, Hero Pale Pink and brand header layouts keep their own switches and have no Accent, because they are already coloured surfaces. Never place an Accent header next to another coloured section. The numbers and screenshot feature layouts have a White / Accent switch instead: add aha-numbers--accent or aha-features--accent to the section. Their icon squares and picture card turn white on Accent; the Split image 02 brand band is already Vivid Pink and has no switch."
       },
       {
         "title": "Hero video",
@@ -622,6 +623,127 @@
           "default": true
         }
       ]
+    },
+    {
+      "slug": "actions-row",
+      "name": "Simple with actions 01",
+      "reference": "Simple with actions 01",
+      "class": "aha-numbers--actions-row",
+      "summary": "A header on the left with its two buttons on the right, then four numbers in a row, each with a title and a line of text.",
+      "sharedCss": "aha-numbers",
+      "states": [
+        {
+          "label": "White",
+          "modifier": "",
+          "default": true
+        },
+        {
+          "label": "Accent",
+          "modifier": "accent"
+        }
+      ],
+      "css": ".aha-numbers--actions-row .aha-numbers__stats{grid-template-columns:repeat(4,minmax(0,1fr))}\n@container aha-numbers (max-width:991px){\n  .aha-numbers--actions-row .aha-numbers__stats{grid-template-columns:repeat(2,minmax(0,1fr))}\n}\n@container aha-numbers (max-width:767px){\n  .aha-numbers--actions-row .aha-numbers__top{flex-direction:column;align-items:flex-start;margin-bottom:var(--aha-space-48)}\n}\n@container aha-numbers (max-width:479px){\n  .aha-numbers--actions-row .aha-numbers__stats{grid-template-columns:minmax(0,1fr)}\n}\n",
+      "html": "<section class=\"aha-numbers aha-numbers--actions-row\">\n  <div class=\"aha-numbers__inner\">\n    <div class=\"aha-numbers__top\">\n      <header class=\"aha-numbers__header aha-numbers__header--center\">\n        <p class=\"aha-numbers__eyebrow\">By the numbers</p>\n        <h2 class=\"aha-numbers__title\">Great products, faster than ever</h2>\n        <p class=\"aha-numbers__lead\">Everything you need to build modern slides and keep every room with you.</p>\n      </header>\n    </div>\n    <ul class=\"aha-numbers__stats\">\n      <li class=\"aha-numbers__stat\">\n        <p class=\"aha-numbers__value\">400+</p>\n        <h3 class=\"aha-numbers__stat-title\">Projects completed</h3>\n        <p class=\"aha-numbers__stat-text\">We have helped build over 400 amazing projects.</p>\n      </li>\n      <li class=\"aha-numbers__stat\">\n        <p class=\"aha-numbers__value\">600%</p>\n        <h3 class=\"aha-numbers__stat-title\">Return on investment</h3>\n        <p class=\"aha-numbers__stat-text\">Our customers report an average of 600% return.</p>\n      </li>\n      <li class=\"aha-numbers__stat\">\n        <p class=\"aha-numbers__value\">10k</p>\n        <h3 class=\"aha-numbers__stat-title\">Global downloads</h3>\n        <p class=\"aha-numbers__stat-text\">Our free kit has been downloaded over 10k times.</p>\n      </li>\n      <li class=\"aha-numbers__stat\">\n        <p class=\"aha-numbers__value\">200+</p>\n        <h3 class=\"aha-numbers__stat-title\">5-star reviews</h3>\n        <p class=\"aha-numbers__stat-text\">We are proud of our 5-star rating from over 200 reviews.</p>\n      </li>\n    </ul>\n    <div class=\"aha-numbers__cta\">\n          <aha-button variant=\"secondary\" size=\"xl\" href=\"#demo\">Demo</aha-button>\n          <aha-button variant=\"primary\" size=\"xl\" href=\"#get-started\">Get started</aha-button>\n        </div>\n  </div>\n</section>",
+      "stateClass": "aha-numbers"
+    },
+    {
+      "slug": "actions-icons",
+      "name": "Simple with actions 02",
+      "reference": "Simple with actions 02",
+      "class": "aha-numbers--actions-icons",
+      "summary": "A header and two buttons on the left, a two-by-two grid on the right: a small icon, a number and a title.",
+      "sharedCss": "aha-numbers",
+      "states": [
+        {
+          "label": "White",
+          "modifier": "",
+          "default": true
+        },
+        {
+          "label": "Accent",
+          "modifier": "accent"
+        }
+      ],
+      "css": ".aha-numbers--actions-icons .aha-numbers__layout{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--aha-space-64);align-items:center}\n.aha-numbers--actions-icons .aha-numbers__header{margin:0}\n.aha-numbers--actions-icons .aha-numbers__stats{grid-template-columns:repeat(2,minmax(0,1fr))}\n@container aha-numbers (max-width:991px){\n  .aha-numbers--actions-icons .aha-numbers__layout{grid-template-columns:minmax(0,1fr);gap:var(--aha-space-48)}\n}\n@container aha-numbers (max-width:479px){\n  .aha-numbers--actions-icons .aha-numbers__stats{grid-template-columns:minmax(0,1fr)}\n}\n",
+      "html": "<section class=\"aha-numbers aha-numbers--actions-icons\">\n  <div class=\"aha-numbers__inner\">\n    <div class=\"aha-numbers__layout\">\n      <div>\n        <header class=\"aha-numbers__header\">\n          <p class=\"aha-numbers__eyebrow\">By the numbers</p>\n        <h2 class=\"aha-numbers__title\">Great products, faster than ever</h2>\n        <p class=\"aha-numbers__lead\">Everything you need to build modern slides and keep every room with you.</p>\n        </header>\n        <div class=\"aha-numbers__actions\">\n          <aha-button variant=\"secondary\" size=\"xl\" href=\"#demo\">Demo</aha-button>\n          <aha-button variant=\"primary\" size=\"xl\" href=\"#get-started\">Get started</aha-button>\n        </div>\n      </div>\n    <ul class=\"aha-numbers__stats\">\n      <li class=\"aha-numbers__stat\">\n        <span class=\"aha-numbers__icon\" aria-hidden=\"true\"><aha-icon name=\"system-folder\" size=\"24\"></aha-icon></span><p class=\"aha-numbers__value\">400+</p>\n        <h3 class=\"aha-numbers__stat-title\">Projects completed</h3>\n      </li>\n      <li class=\"aha-numbers__stat\">\n        <span class=\"aha-numbers__icon\" aria-hidden=\"true\"><aha-icon name=\"system-trend-up\" size=\"24\"></aha-icon></span><p class=\"aha-numbers__value\">600%</p>\n        <h3 class=\"aha-numbers__stat-title\">Return on investment</h3>\n      </li>\n      <li class=\"aha-numbers__stat\">\n        <span class=\"aha-numbers__icon\" aria-hidden=\"true\"><aha-icon name=\"system-download-simple\" size=\"24\"></aha-icon></span><p class=\"aha-numbers__value\">10k</p>\n        <h3 class=\"aha-numbers__stat-title\">Global downloads</h3>\n      </li>\n      <li class=\"aha-numbers__stat\">\n        <span class=\"aha-numbers__icon\" aria-hidden=\"true\"><aha-icon name=\"system-star\" size=\"24\"></aha-icon></span><p class=\"aha-numbers__value\">200+</p>\n        <h3 class=\"aha-numbers__stat-title\">5-star reviews</h3>\n      </li>\n    </ul>\n    </div>\n  </div>\n</section>",
+      "stateClass": "aha-numbers"
+    },
+    {
+      "slug": "split-image",
+      "name": "Split image 02",
+      "reference": "Split image 02",
+      "class": "aha-numbers--split-image",
+      "summary": "An image slot on the left, an eyebrow, a title and a two-by-two grid of numbers on the right. The picture is the DS placeholder image in a pale pink card, to swap for a real image.",
+      "sharedCss": "aha-numbers",
+      "states": [
+        {
+          "label": "White",
+          "modifier": "",
+          "default": true
+        },
+        {
+          "label": "Accent",
+          "modifier": "accent"
+        }
+      ],
+      "css": ".aha-numbers--split-image .aha-numbers__layout{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--aha-space-64);align-items:center}\n.aha-numbers--split-image .aha-numbers__header{margin:0 0 var(--aha-space-48)}\n.aha-numbers--split-image .aha-numbers__stats{grid-template-columns:repeat(2,minmax(0,1fr))}\n@container aha-numbers (max-width:991px){\n  .aha-numbers--split-image .aha-numbers__layout{grid-template-columns:minmax(0,1fr);gap:var(--aha-space-48)}\n}\n@container aha-numbers (max-width:479px){\n  .aha-numbers--split-image .aha-numbers__stats{grid-template-columns:minmax(0,1fr)}\n}\n",
+      "html": "<section class=\"aha-numbers aha-numbers--split-image\">\n  <div class=\"aha-numbers__inner\">\n    <div class=\"aha-numbers__layout\">\n      <div class=\"aha-numbers__visual\"><div class=\"aha-numbers__card\"><img class=\"aha-numbers__image\" src=\"https://design.ahaslides.io/marketing-assets/image-placeholder.svg\" alt=\"Placeholder image: replace with the page image\" width=\"800\" height=\"600\"></div></div>\n      <div>\n        <header class=\"aha-numbers__header\">\n          <p class=\"aha-numbers__eyebrow\">Build better, launch faster</p>\n          <h2 class=\"aha-numbers__title\">Build great products, faster than ever</h2>\n          <div class=\"aha-numbers__actions\"><aha-button variant=\"primary\" size=\"xl\" href=\"#sign-up\">Sign up</aha-button></div>\n      </header>\n        <ul class=\"aha-numbers__stats\">\n          <li class=\"aha-numbers__stat\">\n            <p class=\"aha-numbers__value\">400+</p>\n            <h3 class=\"aha-numbers__stat-title\">Projects completed</h3>\n          </li>\n          <li class=\"aha-numbers__stat\">\n            <p class=\"aha-numbers__value\">600%</p>\n            <h3 class=\"aha-numbers__stat-title\">Return on investment</h3>\n          </li>\n          <li class=\"aha-numbers__stat\">\n            <p class=\"aha-numbers__value\">10k</p>\n            <h3 class=\"aha-numbers__stat-title\">Global downloads</h3>\n          </li>\n          <li class=\"aha-numbers__stat\">\n            <p class=\"aha-numbers__value\">200+</p>\n            <h3 class=\"aha-numbers__stat-title\">5-star reviews</h3>\n          </li>\n        </ul>\n      </div>\n    </div>\n  </div>\n</section>",
+      "stateClass": "aha-numbers"
+    },
+    {
+      "slug": "split-image-brand",
+      "name": "Split image 02 brand",
+      "reference": "Split image 02 brand",
+      "class": "aha-numbers--split-image aha-numbers--brand",
+      "summary": "An image slot on the left, an eyebrow, a title and a two-by-two grid of numbers on the right. On the brand band: the Hero banner's solid pink with its white text, the picture in a white card (colour rule 4.7).",
+      "sharedCss": "aha-numbers",
+      "css": ".aha-numbers--split-image .aha-numbers__layout{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--aha-space-64);align-items:center}\n.aha-numbers--split-image .aha-numbers__header{margin:0 0 var(--aha-space-48)}\n.aha-numbers--split-image .aha-numbers__stats{grid-template-columns:repeat(2,minmax(0,1fr))}\n@container aha-numbers (max-width:991px){\n  .aha-numbers--split-image .aha-numbers__layout{grid-template-columns:minmax(0,1fr);gap:var(--aha-space-48)}\n}\n@container aha-numbers (max-width:479px){\n  .aha-numbers--split-image .aha-numbers__stats{grid-template-columns:minmax(0,1fr)}\n}\n",
+      "html": "<section class=\"aha-numbers aha-numbers--split-image aha-numbers--brand\">\n  <div class=\"aha-numbers__inner\">\n    <div class=\"aha-numbers__layout\">\n      <div class=\"aha-numbers__visual\"><div class=\"aha-numbers__card\"><img class=\"aha-numbers__image\" src=\"https://design.ahaslides.io/marketing-assets/image-placeholder.svg\" alt=\"Placeholder image: replace with the page image\" width=\"800\" height=\"600\"></div></div>\n      <div>\n        <header class=\"aha-numbers__header\">\n          <p class=\"aha-numbers__eyebrow\">Build better, launch faster</p>\n          <h2 class=\"aha-numbers__title\">Build great products, faster than ever</h2>\n          <div class=\"aha-numbers__actions\"><aha-button variant=\"primary\" size=\"xl\" href=\"#sign-up\">Sign up</aha-button></div>\n      </header>\n        <ul class=\"aha-numbers__stats\">\n          <li class=\"aha-numbers__stat\">\n            <p class=\"aha-numbers__value\">400+</p>\n            <h3 class=\"aha-numbers__stat-title\">Projects completed</h3>\n          </li>\n          <li class=\"aha-numbers__stat\">\n            <p class=\"aha-numbers__value\">600%</p>\n            <h3 class=\"aha-numbers__stat-title\">Return on investment</h3>\n          </li>\n          <li class=\"aha-numbers__stat\">\n            <p class=\"aha-numbers__value\">10k</p>\n            <h3 class=\"aha-numbers__stat-title\">Global downloads</h3>\n          </li>\n          <li class=\"aha-numbers__stat\">\n            <p class=\"aha-numbers__value\">200+</p>\n            <h3 class=\"aha-numbers__stat-title\">5-star reviews</h3>\n          </li>\n        </ul>\n      </div>\n    </div>\n  </div>\n</section>",
+      "states": []
+    },
+    {
+      "slug": "icons-phone-screenshot",
+      "name": "Icons around a phone screenshot",
+      "reference": "Icons and mockup 04",
+      "summary": "A centred header over three equal columns: two icon features on the left, a portrait 3:4 image slot in the middle for an audience-phone screenshot, two more features on the right. The slot is a neutral placeholder to swap for a real screenshot. Below 767 px the image moves above a single column of features.",
+      "classes": "aha-features aha-features--icons-phone-screenshot",
+      "sharedCss": "aha-features",
+      "stateClass": "aha-features",
+      "states": [
+        {
+          "label": "White",
+          "modifier": "",
+          "default": true
+        },
+        {
+          "label": "Accent",
+          "modifier": "accent"
+        }
+      ],
+      "css": ".aha-features--icons-phone-screenshot .aha-features__trio{display:grid;gap:var(--aha-space-32);align-items:center}\n.aha-features--icons-phone-screenshot .aha-features__trio-list{display:flex;flex-direction:column;gap:var(--aha-space-48)}\n.aha-features--icons-phone-screenshot .aha-features__trio{grid-template-columns:repeat(3,minmax(0,1fr))}\n@container aha-features (max-width:767px){\n  .aha-features--icons-phone-screenshot .aha-features__trio{grid-template-columns:minmax(0,1fr)}\n  .aha-features--icons-phone-screenshot .aha-features__trio-media{order:-1}\n}\n",
+      "html": "<section class=\"aha-features aha-features--icons-phone-screenshot\">\n  <div class=\"aha-features__inner\">\n    <header class=\"aha-features__header aha-features__header--center\">\n        <p class=\"aha-features__eyebrow\">Features</p>\n        <h2 class=\"aha-features__title\">Your audience only needs a phone</h2>\n        <p class=\"aha-features__lead\">They scan a code or type a join code. No app, no account, no waiting for the room to catch up.</p>\n      </header>\n    <div class=\"aha-features__trio\">\n      <ul class=\"aha-features__trio-list\">\n        <li class=\"aha-features__stack\">\n          <span class=\"aha-features__icon\" aria-hidden=\"true\"><aha-icon name=\"slidetype-poll\" size=\"24\"></aha-icon></span>\n          <h3 class=\"aha-features__item-title\">Live polls</h3>\n          <p class=\"aha-features__item-text\">Ask a question and see the answers as they arrive from every phone.</p>\n        </li>\n        <li class=\"aha-features__stack\">\n          <span class=\"aha-features__icon\" aria-hidden=\"true\"><aha-icon name=\"slidetype-leaderboard\" size=\"24\"></aha-icon></span>\n          <h3 class=\"aha-features__item-title\">Quizzes</h3>\n          <p class=\"aha-features__item-text\">Points for speed and accuracy, with a leaderboard after each question.</p>\n        </li>\n      </ul>\n      <div class=\"aha-features__trio-media\">\n        <div class=\"aha-features__photo aha-features__photo--3x4\" role=\"img\" aria-label=\"Screenshot placeholder: replace with an image\"><aha-icon name=\"system-image-square\" size=\"32\"></aha-icon></div>\n      </div>\n      <ul class=\"aha-features__trio-list\">\n        <li class=\"aha-features__stack\">\n          <span class=\"aha-features__icon\" aria-hidden=\"true\"><aha-icon name=\"system-chart-bar\" size=\"24\"></aha-icon></span>\n          <h3 class=\"aha-features__item-title\">Reports</h3>\n          <p class=\"aha-features__item-text\">Download who answered what, per question and per person.</p>\n        </li>\n        <li class=\"aha-features__stack\">\n          <span class=\"aha-features__icon\" aria-hidden=\"true\"><aha-icon name=\"slidetype-qa\" size=\"24\"></aha-icon></span>\n          <h3 class=\"aha-features__item-title\">Q&amp;A</h3>\n          <p class=\"aha-features__item-text\">Questions all session long, sorted by upvotes.</p>\n        </li>\n      </ul>\n    </div>\n    <div class=\"aha-features__cta\"><aha-button variant=\"primary\" size=\"xl\" href=\"#sign-up\">Sign up</aha-button></div>\n  </div>\n</section>"
+    },
+    {
+      "slug": "icons-results-screenshot",
+      "name": "Icons around a results screenshot",
+      "reference": "Icons and mockup 05",
+      "summary": "The same three-column layout with a wider 4:3 image slot in the middle for a results screenshot. The slot is a neutral placeholder to swap for a real image. At 991 px the image moves above two columns of features; at 767 px everything is one column.",
+      "classes": "aha-features aha-features--icons-results-screenshot",
+      "sharedCss": "aha-features",
+      "stateClass": "aha-features",
+      "states": [
+        {
+          "label": "White",
+          "modifier": "",
+          "default": true
+        },
+        {
+          "label": "Accent",
+          "modifier": "accent"
+        }
+      ],
+      "css": ".aha-features--icons-results-screenshot .aha-features__trio{display:grid;gap:var(--aha-space-32);align-items:center}\n.aha-features--icons-results-screenshot .aha-features__trio-list{display:flex;flex-direction:column;gap:var(--aha-space-48)}\n.aha-features--icons-results-screenshot .aha-features__trio{grid-template-columns:minmax(0,1fr) minmax(0,2fr) minmax(0,1fr)}\n@container aha-features (max-width:991px){\n  .aha-features--icons-results-screenshot .aha-features__trio{grid-template-columns:repeat(2,minmax(0,1fr))}\n  .aha-features--icons-results-screenshot .aha-features__trio-media{grid-column:1 / -1;order:-1}\n}\n@container aha-features (max-width:767px){\n  .aha-features--icons-results-screenshot .aha-features__trio{grid-template-columns:minmax(0,1fr)}\n}\n",
+      "html": "<section class=\"aha-features aha-features--icons-results-screenshot\">\n  <div class=\"aha-features__inner\">\n    <header class=\"aha-features__header aha-features__header--center\">\n        <p class=\"aha-features__eyebrow\">Features</p>\n        <h2 class=\"aha-features__title\">Results that update while you present</h2>\n        <p class=\"aha-features__lead\">Watch answers build on screen, then keep every response for the report.</p>\n      </header>\n    <div class=\"aha-features__trio\">\n      <ul class=\"aha-features__trio-list\">\n        <li class=\"aha-features__stack\">\n          <span class=\"aha-features__icon\" aria-hidden=\"true\"><aha-icon name=\"slidetype-poll\" size=\"24\"></aha-icon></span>\n          <h3 class=\"aha-features__item-title\">Live polls</h3>\n          <p class=\"aha-features__item-text\">Ask a question and see the answers as they arrive from every phone.</p>\n        </li>\n        <li class=\"aha-features__stack\">\n          <span class=\"aha-features__icon\" aria-hidden=\"true\"><aha-icon name=\"slidetype-leaderboard\" size=\"24\"></aha-icon></span>\n          <h3 class=\"aha-features__item-title\">Quizzes</h3>\n          <p class=\"aha-features__item-text\">Points for speed and accuracy, with a leaderboard after each question.</p>\n        </li>\n      </ul>\n      <div class=\"aha-features__trio-media\">\n        <div class=\"aha-features__photo aha-features__photo--4x3\" role=\"img\" aria-label=\"Screenshot placeholder: replace with an image\"><aha-icon name=\"system-image-square\" size=\"32\"></aha-icon></div>\n      </div>\n      <ul class=\"aha-features__trio-list\">\n        <li class=\"aha-features__stack\">\n          <span class=\"aha-features__icon\" aria-hidden=\"true\"><aha-icon name=\"system-chart-bar\" size=\"24\"></aha-icon></span>\n          <h3 class=\"aha-features__item-title\">Reports</h3>\n          <p class=\"aha-features__item-text\">Download who answered what, per question and per person.</p>\n        </li>\n        <li class=\"aha-features__stack\">\n          <span class=\"aha-features__icon\" aria-hidden=\"true\"><aha-icon name=\"slidetype-qa\" size=\"24\"></aha-icon></span>\n          <h3 class=\"aha-features__item-title\">Q&amp;A</h3>\n          <p class=\"aha-features__item-text\">Questions all session long, sorted by upvotes.</p>\n        </li>\n      </ul>\n    </div>\n    <div class=\"aha-features__cta\"><aha-button variant=\"primary\" size=\"xl\" href=\"#sign-up\">Sign up</aha-button></div>\n  </div>\n</section>"
     }
   ],
   "reviews": {

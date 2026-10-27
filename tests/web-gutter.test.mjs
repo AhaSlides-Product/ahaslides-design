@@ -85,12 +85,17 @@ const addSection = (name, cssList, selector, options = {}) => {
   for (const css of cssList) sections.push({ name, rules: parseRules(css), selector, ...options });
 };
 
+const sharedCss = JSON.parse(readFileSync(new URL('../marketing/data/shared-css.json', import.meta.url), 'utf8'));
+const ownLayouts = (slug) => readSection(slug).layouts.filter((layout) => !layout.sharedCss);
 const withLayouts = (slug) => {
   const section = readSection(slug);
-  return section.layouts.map((layout) => (section.baseCss ?? '') + (layout.css ?? ''));
+  return ownLayouts(slug).map((layout) => (section.baseCss ?? '') + (layout.css ?? ''));
 };
+const withSharedCss = (key) => ['header', 'cards', 'testimonials'].flatMap((slug) => readSection(slug).layouts)
+  .filter((layout) => layout.sharedCss === key).map((layout) => sharedCss[key] + (layout.css ?? ''));
+const sectionCss = (slug) => (slug === 'features' || slug === 'numbers' ? withSharedCss(`aha-${slug}`) : withLayouts(slug));
 
-for (const slug of ['features', 'numbers', 'pricing']) addSection(slug, withLayouts(slug), `.aha-${slug}__inner`);
+for (const slug of ['features', 'numbers', 'pricing']) addSection(slug, sectionCss(slug), `.aha-${slug}__inner`);
 addSection('testimonials', withLayouts('testimonials'), '.aha-testimonials__inner');
 addSection('cards', [readSection('cards').baseCss], '.aha-marketing-cards__grid');
 addSection('faq', [readSection('faq').css], '.aha-faq__inner');
@@ -102,10 +107,10 @@ for (const part of ['inner', 'band', 'copyright']) addSection(`footer ${part}`, 
 const navigation = readSection('navigation').layouts[0].css;
 addSection('navigation bar', [navigation], '.aha-header__nav');
 addSection('navigation menu', [navigation], '.aha-header__menu', { gutterFrom: '.aha-header__nav' });
-for (const layout of readSection('header').layouts) addSection(layout.slug, [layout.css], `.${layout.class}__inner`);
+for (const layout of ownLayouts('header')) addSection(layout.slug, [layout.css], `.${layout.class}__inner`);
 
 test('every Marketing section other than the edge to edge Logos marquee is checked against the gutter', () => {
-  const checked = new Set(['features', 'numbers', 'pricing', 'testimonials', 'cards', 'faq', 'footer-banner', 'footer', 'navigation', 'header']);
+  const checked = new Set(['pricing', 'testimonials', 'cards', 'faq', 'footer-banner', 'footer', 'navigation', 'header']);
   const slugs = readdirSync(new URL('../marketing/', import.meta.url)).filter((file) => file.endsWith('.json')).map((file) => file.replace('.json', ''));
   assert.deepEqual(slugs.filter((slug) => !checked.has(slug)), ['logos']);
 });
@@ -141,7 +146,7 @@ const valueAt = (css, selector, property, width) => {
 };
 
 const buttonSpacing = [];
-const closeCalls = (slug) => withLayouts(slug).map((css) => ({ css }));
+const closeCalls = (slug) => sectionCss(slug).map((css) => ({ css }));
 for (const slug of ['features', 'numbers']) {
   for (const { css } of closeCalls(slug)) {
     buttonSpacing.push([css, `.aha-${slug}__actions`, 'margin-top', 32, 24]);
@@ -151,7 +156,7 @@ for (const slug of ['features', 'numbers']) {
 for (const { css } of closeCalls('testimonials')) buttonSpacing.push([css, '.aha-testimonials__cta', 'margin-top', 48, 32]);
 buttonSpacing.push([readSection('faq').css, '.aha-faq__cta', 'margin-top', 48, 32]);
 buttonSpacing.push([footerBanner, '.aha-footer-banner__text', 'margin-bottom', 32, 24]);
-for (const layout of readSection('header').layouts) {
+for (const layout of ownLayouts('header')) {
   const { class: name, slug, css } = layout;
   if (/^hero-(pale-)?pink/.test(slug)) buttonSpacing.push([css, `.${name}__text`, 'margin-bottom', 32, 24]);
   else if (slug.startsWith('hero-')) {

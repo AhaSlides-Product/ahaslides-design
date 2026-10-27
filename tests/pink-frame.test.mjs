@@ -8,9 +8,11 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const readJson = (path) => JSON.parse(readFileSync(join(root, path), 'utf8'));
 const recipe = readJson('brand/colour-rules.json').splash.cssRecipe;
 const renamed = (selector) => recipe.map(line => line.replace('.splash', selector)).join('\n');
+const featuresCss = readJson('marketing/data/shared-css.json')['aha-features'];
+const featureLayouts = () => ['header', 'cards'].flatMap(slug => readJson(`marketing/${slug}.json`).layouts.filter(layout => layout.sharedCss === 'aha-features'));
 
-test('the Vivid Pink frame in Features uses the Background library Splash recipe verbatim', () => {
-  assert.ok(readJson('marketing/features.json').baseCss.includes(renamed('.aha-features__splash')));
+test('the Vivid Pink frame in the feature sections uses the Background library Splash recipe verbatim', () => {
+  assert.ok(featuresCss.includes(renamed('.aha-features__splash')));
 });
 
 test('the Vivid Pink frame in Cards uses the Background library Splash recipe verbatim', () => {
@@ -19,9 +21,8 @@ test('the Vivid Pink frame in Cards uses the Background library Splash recipe ve
 
 test('cards inside a section are transparent and keep no padding or cap of their own', () => {
   const cards = readJson('marketing/cards.json').baseCss;
-  const features = readJson('marketing/features.json').baseCss;
   assert.match(cards, /\.aha-marketing-cards\{[^}]*background:transparent/);
-  assert.ok(features.includes('.aha-features .aha-marketing-cards__grid{max-width:none;padding:0}'));
+  assert.ok(featuresCss.includes('.aha-features .aha-marketing-cards__grid{max-width:none;padding:0}'));
 });
 
 test('the image-led grid collapses to one column on the viewport, not the container', () => {
@@ -34,7 +35,7 @@ test('the feature card in the image-led grid is stretched, not centred, once it 
 });
 
 const imageMarkup = () => [
-  ...readJson('marketing/features.json').layouts.map(layout => [layout.slug, layout.html]),
+  ...featureLayouts().map(layout => [layout.slug, layout.html]),
   ...readJson('marketing/cards.json').snippets.map(snippet => [snippet.slug, snippet.html]),
 ];
 
@@ -48,7 +49,7 @@ test('a portrait placeholder is always inside a Vivid Pink frame, never a fill s
   }
 });
 
-test('the portrait examples exist in Features and Cards', () => {
-  assert.ok(readJson('marketing/features.json').layouts.some(layout => layout.slug === 'alternating-portrait-screenshots'));
+test('the portrait examples exist in the feature sections and Cards', () => {
+  assert.ok(featureLayouts().some(layout => layout.slug === 'alternating-portrait-screenshots'));
   assert.ok(readJson('marketing/cards.json').snippets.some(snippet => snippet.slug === 'portrait-row'));
 });
