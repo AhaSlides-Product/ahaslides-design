@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.446.0 — 2026-10-26
+## 0.451.0 — 2026-10-27
 ### Added
 - Empty state guideline (`guidelines/empty-state.json`, Patterns badge): the full pattern (an `empty-*` spot illustration, a semibold title, one or two short sentences, at most one action, centred) at page scale (art 128, 16 px gaps, 18 px title) and panel scale (art 100, 144 px padding, 16 and 8 px gaps, 16 px title), when to use plain `<aha-empty>` instead (tables, lists, areas under 240 px), copy rules, do and don't, and "no content is never an error". Built from the three approved Reports states; listed in `guidelines.llms.txt`, the guideline agent feed and the product route
 - Three illustrations in the `empty` family: `empty-report`, `empty-participants`, `empty-feedback` (28 in the registry, up from 25)
@@ -31,6 +31,16 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - UX writing UXW-6 now says an empty state has at most one next action, matching the Empty state guideline; its composed-of list points at `empty` instead of a missing empty-state component
 - A guideline can set `patternsNav` to list itself, and render, under the Patterns sidebar (group "Composition guides"); the Empty state guideline does, and its panel padding is `calc(var(--aha-space-80) + var(--aha-space-64))` so no value is off the token scale
 - Revert: revert the PR; a new doc page and three additive illustrations, no existing name or value changes (#388)
+
+## 0.444.0 — 2026-10-27
+### Added
+- Colour rules v24: rule 2.1 allows the black logo and the black Splash (both #1A1A1A) for one-colour print on white only; new rule 2.11 and a Logo library section for the AhaSlides × Partner co-brand lockup (order, ×, spacing, sizes, greyscale at rest, white on Vivid Pink); new rules 4.10 and 4.11 for photography (real moments and relaxed portraits; avoid staged shots and stiff portraits) (#404)
+- `aha-tag` `color="solid"`: a Vivid Pink fill with a white label (4.51:1), for a tag on white or on Vivid Pink at 5%. This is a visible addition to the Tag component (#404)
+### Changed
+- Rule 4.6 covers Vivid Pink at 5% surfaces and forbids Vivid Pink text on them (4.16:1); the Tag contract now states what `color="primary"` already renders, a black label on the 5% fill (#404)
+- The contrast table names the app's light grey as #F7F7F7 (4.21:1 with Vivid Pink), not #FAFAFA (#404)
+- `ahaslides-logo-black.svg` is #1A1A1A, the same black as `thesplash-black.svg` (was #000) (#404)
+- `--aha-font-display` and `--aha-font-secondary` are deprecated aliases of Plus Jakarta Sans (were Nunito and Nunito Sans, never loaded); the canvas and audience library headings use `--aha-font-product` (#404)
 
 ## 0.443.0 — 2026-10-26
 ### Added
