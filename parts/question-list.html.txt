@@ -4,7 +4,9 @@
      (prompt CountedInput + OptionRow choices + Add option), and the full-width Add question button.
      Header slots (start-, marker-, before-, after-, end-<id>) take any number of your own non-interactive
      elements, and body-<id> takes interactive ones (a time input, say) inside the open question above its "Question" row; a question's `status` adds a supporting line under its header, and a warning or error tone
-     also recolours its border. Theming comes only from the --aha-* tokens in tokens.css. Open a question with its caret. -->
+     also recolours its border. A host that owns the model (a slide's settings) adds accordion, multiline and
+     singlecorrect, sets `notices`, listens to question-toggle / question-leave and reads change's `detail.edit`;
+     writing `questions` back with the same ids updates in place and keeps focus. Theming comes only from the --aha-* tokens in tokens.css. Open a question with its caret. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-tag.js';
@@ -12,7 +14,7 @@
 </script>
 
 <div style="max-width:440px">
-  <aha-question-list id="quiz" label="Questions" help="Each question runs as its own round." min="1" max="10" minoptions="2" maxoptions="6" allowimage>
+  <aha-question-list id="quiz" label="Questions" help="Each question runs as its own round." min="1" max="10" minoptions="2" maxoptions="6" allowimage accordion multiline singlecorrect promptmaxlength="200">
     <aha-tag slot="before-q1">00:23</aha-tag>
     <aha-tag slot="before-q2">00:25</aha-tag>
     <aha-tag slot="end-q2" color="warning">Overlap</aha-tag>
@@ -27,5 +29,8 @@
     { id: 'q2', prompt: 'Largest ocean?', status: { message: 'Only 2s after Q1. Their markers overlap.', tone: 'warning' }, options: [
       { id: 'o3', text: 'Pacific', correct: true }, { id: 'o4', text: 'Atlantic' } ] },
   ];
-  el.addEventListener('change', (e) => console.log('questions:', e.detail.questions));
+  el.notices = [{ tone: 'warning', paragraphs: [['Question ', { question: 'q2', label: '2' }, ' starts only 2s after question 1.']] }];
+  el.addEventListener('change', (e) => console.log('edit:', e.detail.edit, 'questions:', e.detail.questions));
+  el.addEventListener('question-toggle', (e) => console.log('toggle:', e.detail));   // preventDefault() keeps it as it was
+  el.addEventListener('question-leave', (e) => console.log('left question', e.detail.id));   // save or validate here
 </script>
