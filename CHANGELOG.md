@@ -27,6 +27,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `<aha-leaderboard>`, one ranked list for the slide canvas and the audience phone: neutral rank circle, a bar per row in the deck palette colours (row n takes colour n and its ink) inside a full-width track, the score with its unit and the points gained, an optional heading with a player count, a stub for a zero score, an opt-in trophy, ties ranked 1, 2, 2, 4, every participant listed, the list scrolling inside the board with the heading fixed, on the phone the participant's own row marked with a plain "(you)" after the name and scrolled into view (never on the canvas, which everyone sees); text meets WCAG AA 4.5:1 against its composited background, teams, empty and loading states, and a row slide with score count-up (none under reduced motion); the audience phone shows row text at the body default size and draws no outline round the own row; a bar edge that falls mid-name splits the name between the palette ink and the deck ink; themed only by `--aha-deck-*` tokens (#390)
 - Revert: revert the PR; a new component, nothing else changes (#390)
 
+## 0.490.0 — 2026-10-27
+### Added
+- `applyDeck` (the audience phone) writes `--aha-deck-palette-<n>` and `--aha-deck-palette-<n>-ink` for each colour of `slide.presentationColorPalette`, the same pairs `applyCanvasDeck` writes (1-based, up to 24, the ink `#1A1A1A` or white by contrast); the pairs come from one shared `paletteVars` in `lib/deck.js`, so the canvas and the phone cannot drift. Without a palette nothing is written
+- Revert: revert the PR; additive, no existing token changes (#391)
+
 ## 0.486.0 — 2026-10-27
 ### Added
 - Empty state guideline (`guidelines/empty-state.json`, Patterns badge): the full pattern (an `empty-*` spot illustration, a semibold title, one or two short sentences, at most one action, centred) at page scale (art 128, 16 px gaps, 18 px title) and panel scale (art 100, 144 px padding, 16 and 8 px gaps, 16 px title), when to use plain `<aha-empty>` instead (table bodies, lists, dropdowns, widgets; a card under 240 px takes the compact scale), copy rules, do and don't, and "no content is never an error". Built from the three approved Reports states; listed in `guidelines.llms.txt`, the guideline agent feed and the product route
