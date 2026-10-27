@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.476.0 — 2026-10-27
+## 0.477.0 — 2026-10-27
 ### Added
 - `--aha-radius-pill` (999px) is back in the foundation tokens, and the pill shape is back outside the presenting canvas: the components, contracts, guidelines, audience kit, marketing sections and screen-lint scale that 0.441.0 moved off the pill use it again. The switch track is `var(--aha-radius-pill)` like the others. The deck tokens and the canvas kit stay pill-free, and `standards.mjs` still fails a pill radius in canvas sources. (#407)
 
