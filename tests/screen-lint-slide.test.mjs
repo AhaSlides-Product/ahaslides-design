@@ -56,6 +56,15 @@ test('the audience surface keeps the shared rules', () => {
   assert.deepEqual(rulesOf('<aha-button icon-only variant="tertiary-deck" size="touch"></aha-button>', 'audience'), ['icon-only-no-name']);
 });
 
+test('a pill radius fails only on the canvas surface', () => {
+  for (const source of ['<div style="border-radius: 999px"></div>', '<div style="border-radius: var(--aha-radius-pill, 999px)"></div>']) {
+    assert.deepEqual(rulesOf(source, 'canvas'), ['radius-off-scale'], source);
+    assert.deepEqual(rulesOf(source, 'audience'), [], source);
+    assert.deepEqual(rulesOf(source, 'product'), [], source);
+  }
+  assert.deepEqual(rulesOf('<div style="border-radius: 50%"></div>', 'canvas'), []);
+});
+
 test('the DS audience controls pass the audience surface', () => {
   const source = [
     '<aha-answer-list group-label="Pick one" lock-key="slide-42"></aha-answer-list>',

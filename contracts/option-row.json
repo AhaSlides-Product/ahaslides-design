@@ -22,7 +22,8 @@
     "icon-muted",
     "checkbox-border",
     "radius-default",
-    "radius-sm"
+    "radius-sm",
+    "radius-pill"
   ],
   "spec": [
     {

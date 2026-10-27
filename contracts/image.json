@@ -10,9 +10,9 @@
   "highlights": ["Framed image with rounded corners", "Hover preview mask and loading placeholder", "Broken-src fallback"],
   "lead": "ONE custom element — <aha-image> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; `src`/`alt` set the picture, `width`/`height` the frame, `radius` the corner. On hover the image scales while a mask fades in — both animate on a persistent node via the shared motion tokens — and a click opens a zoom preview. Turn the zoom off with `preview=\"false\"` (a plain framed picture); show a shimmer skeleton with `placeholder`; a broken/empty `src` swaps to a `fallback` glyph + label. Zero drift — the same element.",
   "codeNote": "The hover scale + mask fade live on a persistent node (only the :hover pseudo-class changes, never a subtree rebuild), so the transition always fires. Clicking (or Enter/Space on) the frame opens a modal preview overlay — a persistent node faded/scaled in on the shared tokens, never rebuilt on open. The load/error lifecycle toggles data-state on the persistent frame (loading→loaded→error) so the placeholder fades and the fallback reveals without a rebuild. Defined once in @ahaslides-product/design.",
-  "tokensUsed": ["bg-container-secondary", "bg-container", "bg-container-disabled", "bg-hover", "radius-xs", "radius-sm", "radius-default", "radius-lg", "radius-xl", "text-inverse", "text-tertiary", "icon-muted", "icon-strong", "bg-overlay", "color-primary", "font-product"],
+  "tokensUsed": ["bg-container-secondary", "bg-container", "bg-container-disabled", "bg-hover", "radius-xs", "radius-sm", "radius-default", "radius-lg", "radius-xl", "radius-pill", "text-inverse", "text-tertiary", "icon-muted", "icon-strong", "bg-overlay", "color-primary", "font-product"],
   "spec": [
-    { "label": "Frame", "value": "radius 8px (radius attr xs 4·sm 6·default 8·lg 12·xl 16) · bg #F7F7F7 · overflow hidden · role=button, keyboard-focusable" },
+    { "label": "Frame", "value": "radius 8px (radius attr xs 4·sm 6·default 8·lg 12·xl 16·pill) · bg #F7F7F7 · overflow hidden · role=button, keyboard-focusable" },
     { "label": "Image", "value": "object-fit cover · scale 1.06 on hover, motion-slow ease-out" },
     { "label": "Mask", "value": "overlay rgba(0,0,0,.4) · #FFFFFF 13/SemiBold · fade motion-mid" },
     { "label": "Preview", "value": "click/Enter opens a modal dialog (role=dialog, aria-modal); Esc / close button (the shared ✕ spec: 20 × 20 radius-6 square, white fill, 16px system-x #8A8A8A → #1A1A1A on bg-hover, 11px / 15px into the image's top-right corner; never a circle) / backdrop dismiss; focus moves in and is restored on close. preview=\"false\" → plain picture, no mask/click/dialog" },
@@ -26,7 +26,7 @@
     { "name": "width", "type": "number", "default": "—", "desc": "Frame width in px" },
     { "name": "height", "type": "number", "default": "—", "desc": "Frame height in px" },
     { "name": "preview", "type": "'true' | 'false'", "default": "true", "desc": "Click-to-zoom modal. `false` → a plain framed picture (no mask, no click, no dialog)" },
-    { "name": "radius", "type": "'xs'|'sm'|'default'|'lg'|'xl'", "default": "default", "desc": "Frame corner from the DS radius scale" },
+    { "name": "radius", "type": "'xs'|'sm'|'default'|'lg'|'xl'|'pill'", "default": "default", "desc": "Frame corner from the DS radius scale" },
     { "name": "placeholder", "type": "boolean", "default": "off", "desc": "Show a shimmer loading skeleton until the image loads" },
     { "name": "fallback", "type": "string", "default": "Image unavailable", "desc": "Label shown in the broken-src error state (its presence never forces the state — a broken/empty src does)" },
     { "name": "(default slot)", "type": "slot", "default": "Preview", "desc": "The label shown in the hover mask" }
@@ -57,7 +57,8 @@
       { "prop": "radius", "label": "Radius", "default": "default", "options": [
         { "label": "Default 8", "value": "default" },
         { "label": "Large 12", "value": "lg" },
-        { "label": "XL 16", "value": "xl" }
+        { "label": "XL 16", "value": "xl" },
+        { "label": "Pill", "value": "pill" }
       ] },
       { "prop": "src", "label": "Source", "default": "ok", "options": [
         { "label": "Loads", "value": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='150'%3E%3Crect width='240' height='150' fill='%238A8A8A'/%3E%3Ccircle cx='180' cy='40' r='60' fill='%23E70E68' opacity='0.7'/%3E%3C/svg%3E" },

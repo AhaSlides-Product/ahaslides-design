@@ -22,10 +22,41 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.475.0 — 2026-10-27
+## 0.491.0 — 2026-10-27
 ### Added
 - `<aha-leaderboard>`, one ranked list for the slide canvas and the audience phone: neutral rank circle, a bar per row in the deck palette colours (row n takes colour n and its ink) inside a full-width track, the score with its unit and the points gained, an optional heading with a player count, a stub for a zero score, an opt-in trophy, ties ranked 1, 2, 2, 4, every participant listed, the list scrolling inside the board with the heading fixed, on the phone the participant's own row marked with a plain "(you)" after the name and scrolled into view (never on the canvas, which everyone sees); text meets WCAG AA 4.5:1 against its composited background, teams, empty and loading states, and a row slide with score count-up (none under reduced motion); the audience phone shows row text at the body default size and draws no outline round the own row; a bar edge that falls mid-name splits the name between the palette ink and the deck ink; themed only by `--aha-deck-*` tokens (#390)
 - Revert: revert the PR; a new component, nothing else changes (#390)
+
+## 0.486.0 — 2026-10-27
+### Added
+- Empty state guideline (`guidelines/empty-state.json`, Patterns badge): the full pattern (an `empty-*` spot illustration, a semibold title, one or two short sentences, at most one action, centred) at page scale (art 128, 16 px gaps, 18 px title) and panel scale (art 100, 144 px padding, 16 and 8 px gaps, 16 px title), when to use plain `<aha-empty>` instead (table bodies, lists, dropdowns, widgets; a card under 240 px takes the compact scale), copy rules, do and don't, and "no content is never an error". Built from the three approved Reports states; listed in `guidelines.llms.txt`, the guideline agent feed and the product route
+- Eight illustrations in the `empty` family: `empty-report`, `empty-participants`, `empty-feedback` from the approved Reports states, and `empty-sessions`, `empty-slides`, `empty-insights`, `empty-leaderboard`, `empty-responses` drawn in the same flat pink-tint style for the other Report empty states (33 in the registry, up from 25)
+### Changed
+- Illustration, Empty, UX writing and Shared components prose point at the Empty state guideline; the Illustration contract counts say 33
+- UX writing UXW-6 now says an empty state has at most one next action, matching the Empty state guideline; its composed-of list points at `empty` instead of a missing empty-state component
+- A guideline can set `patternsNav` to list itself, and render, under the Patterns sidebar (group "Composition guides"); the Empty state guideline does, and its panel padding is `calc(var(--aha-space-80) + var(--aha-space-64))` so no value is off the token scale
+- Empty state guideline also has a compact scale (art 64, `--aha-space-24` padding, 14 px title, 12 px body, no action) for a card under 240 px whose content is the empty thing, and a repeated-item caption rule: a small item repeated per slide or row shows a plain one-line caption ("No answer"), never the pattern (EMPTY-12, EMPTY-13)
+- Revert: revert the PR; a new doc page and eight additive illustrations, no existing name or value changes (#388)
+
+## 0.484.0 — 2026-10-27
+### Added
+- Docs site, Websites > Sections: the Header, Features, Pricing, Numbers, Testimonials and Cards pages open in a Grid view, a three-column gallery of live thumbnails (two columns on a tablet, one on a phone) captioned "layout name · page name", with a Grid / List switch and a search box that filters by layout name and "Use for" text. Clicking a card switches to List view at that layout's `#<slug>` anchor; a URL with a hash opens in List view, and the last choice is remembered per browser. List view is the previous page unchanged. Pages with fewer than two layouts are unchanged. Revert: revert the PR; the change is the `sectionGallery*` functions in `generate.mjs` plus one hook in each of the two marketing page renderers. (#409)
+### Fixed
+- `aha-segmented`: the selected pill is re-measured when the segments or the track resize (a font that loads late no longer leaves it narrower than its label, which clipped Grid to Gri at 375px). Revert: revert the PR; the `_observeSizes` and `_placeThumb` methods in `lib/aha-segmented.js`.
+
+## 0.482.0 — 2026-10-27
+### Added
+- `--aha-radius-pill` (999px) is back in the foundation tokens, and the pill shape is back outside the presenting canvas: the components, contracts, guidelines, audience kit, marketing sections and screen-lint scale that 0.441.0 moved off the pill use it again. The switch track is `var(--aha-radius-pill)` like the others. The deck tokens and the canvas kit stay pill-free, and `standards.mjs` still fails a pill radius in canvas sources. (#407)
+
+## 0.479.0 — 2026-10-27
+### Changed
+- Website > Marketing > Header: 24 layouts down to 5, one per structure: Hero split, Hero stacked, Hero card, Hero split form and Page header. Layouts that differed only by colour, alignment, picture or call to action are now switches on the one layout: every layout has a White / Accent / Vivid Pink surface switch; Hero split adds Image (Inset, Bleed), Call to action (Buttons, Email form) and Badge; Hero stacked adds Alignment (Centre, Left), Call to action and Badge; Page header adds Alignment (Left, Centre, Space between), Buttons and Tabs. Merged: Hero Pink, Hero Pale Pink, Hero split image 01, 03 and 05, Hero screen mockup 02 and 04, Hero iPhone mockup 03 and Hero card mockup 07 into Hero split; Hero Pink Vertical, Hero Pale Pink Vertical, Hero screen mockup 01, 03 and 05, Hero simple text 01 and Hero card mockup 08 into Hero stacked; Hero color card 04 is Hero card, Hero split form 01 is Hero split form; the six page headers are Page header. Class names change to `aha-header-section-<layout>`; pasted copies of the old classes keep working where they are. The Video slot moves to Hero stacked; the G2 reviews row stays on the three heroes. Choosing a header, the website guideline W2 and W5 sources follow.
+- Website composition eval fixtures: the hero in every fixture page is now Hero split on its Vivid Pink surface (`aha-header-section-hero-split--brand`) instead of the removed Hero Pink, with `fixtures/sections.css` carrying the Hero split CSS; the good-control expected output names it.
+- The Header previews fit their section: the preview box is as tall as the section (up to the old 640px cap) instead of a fixed 640px, so short layouts no longer sit above a blank area (a page header preview drops from 630px to 227px).
+### Added
+- `generate.mjs`: an optional `options` list on a marketing layout (each choice either adds a `--<value>` modifier or keeps the elements marked `data-choice="<value>"`), rendered as switches beside the surface switch, with one code tab per choice and the choices in the `.md` and `.agent.json` feeds; and an optional page-level `previewFit`. Pages without them render byte-identically.
+- Revert: revert the PR; `marketing/header.json`, the `options` and `previewFit` branches in `generate.mjs` and two source lines in `guidelines/website.json`, the eval fixture heroes and `fixtures/sections.css` (#399)
+
 
 ## 0.472.0 — 2026-10-27
 ### Changed

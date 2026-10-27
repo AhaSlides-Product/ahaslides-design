@@ -2,7 +2,7 @@
      Toast is a COMPOSITE (antd's message API, no framework-free element), so its HTML form is a
      CDN-React page — React + antd load from a CDN (esm.sh) and mount on open. It consumes the
      SAME shared `toastTheme` the React/Vue wrappers use, so it renders the DS V3 look (white
-     surface, radius 8, ink text). Keeps antd's built-in enter/leave motion.
+     pill, radius 8, ink text). Keeps antd's built-in enter/leave motion.
      No JSX here (JSX needs a compiler) — we use React.createElement via the `h` alias. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <div id="root"></div>

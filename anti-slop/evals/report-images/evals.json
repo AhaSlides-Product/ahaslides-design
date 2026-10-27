@@ -6,7 +6,7 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Review this weekly report PNG. A 2,400 × 1,350 line chart exported at 2x on white with a 24 px margin, titled Weekly sign-ups, last 12 weeks. Two series in Vivid Pink and black, Plus Jakarta Sans 400 ticks and 600 end labels; the end labels 1,905 and 1,880 sit apart, joined to their lines by short leaders. Gridlines on 5 round steps from 0, x labels every other week ending on the latest, a gap in week 6 breaks the pink line. Below it, a second PNG with a row of three number plates: Vivid Pink at 5% cards with a pink top bar, black values, Up 1,460 (13%) in black with the up arrow from lib/static-icons/ink/16/system-arrow-up.svg, and a fall in a black chip with the white down arrow. File sizes 180 KB and 90 KB.",
+      "prompt": "Review this weekly report PNG. A 2,400 × 1,350 line chart exported at 2x on white with a 24 px margin, titled Weekly sign-ups, last 12 weeks. Two series in Vivid Pink and black, Plus Jakarta Sans 400 ticks and 600 end labels; the end labels 1,905 and 1,880 sit apart, joined to their lines by short leaders. Gridlines on 5 round steps from 0, x labels every other week ending on the latest, a gap in week 6 breaks the pink line. Below it, a second PNG with a row of three number plates: Vivid Pink at 5% cards with a pink top bar, black values, Up 1,460 (13%) in black with the up arrow from lib/static-icons/ink/16/system-arrow-up.svg, and a fall in a black pill with the white down arrow. File sizes 180 KB and 90 KB.",
       "files": [],
       "label": "good-control",
       "notes": "Targets all.",
@@ -293,7 +293,7 @@
       "files": [],
       "label": "bad-example",
       "notes": "Targets C12.",
-      "expected_output": "C12 FAILs: no brand colour, a shadow, status hues and no arrows. Fix: Vivid Pink at 5% card with a pink top bar, black rise with the up arrow, white on a black chip with the down arrow. Overall: NEEDS FIX.",
+      "expected_output": "C12 FAILs: no brand colour, a shadow, status hues and no arrows. Fix: Vivid Pink at 5% card with a pink top bar, black rise with the up arrow, white on a black pill with the down arrow. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX"
       ],
