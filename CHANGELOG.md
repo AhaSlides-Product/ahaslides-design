@@ -24,8 +24,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.489.1 — 2026-10-27
 ### Fixed
-- Marketing sections no longer depend on the host site's heading and quote styles: every section title (Features, Numbers, Pricing, Testimonials, Header, Footer banner, Card) is `display:block`, so a host `h2{display:flex;text-align:left}` (Webflow) cannot pull a centred title to the left; the Testimonials and Cards blockquote resets also zero `border`, so a host `blockquote{border-left:...}` draws no bar (#NNN)
-- Revert: revert the PR; the changes sit in `marketing/*.json` (title rules and blockquote resets) and the sections regenerated from them (#NNN)
+- Marketing sections no longer depend on the host site's heading and quote styles: every section title (Features, Numbers, Pricing, Testimonials, Header, Footer banner, Card) is `display:block`, so a host `h2{display:flex;text-align:left}` (Webflow) cannot pull a centred title to the left; the Testimonials and Cards blockquote resets also zero `border`, so a host `blockquote{border-left:...}` draws no bar (#413)
+- Revert: revert the PR; the changes sit in `marketing/*.json` (title rules and blockquote resets) and the sections regenerated from them (#413)
 
 ## 0.489.0 — 2026-10-27
 ### Added
