@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.473.0 — 2026-10-27
 ### Fixed
-- Switch: the track is a full pill again (radius 11px at 44x22, 8px at the small 28x16), reverting the 6px track from 0.441.0. The knob stays a 50% circle. The switch contract, spec and conformance check read the pill radius. (#PRNUM)
+- Switch: the track is a full pill again (radius 11px at 44x22, 8px at the small 28x16), reverting the 6px track from 0.441.0. The knob stays a 50% circle. The switch contract, spec and conformance check read the pill radius. (#407)
 
 ## 0.455.0 — 2026-10-27
 ### Changed
