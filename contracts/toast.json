@@ -10,7 +10,7 @@
   "lead": "Toast is antd's imperative `message` API — a transient confirmation that appears, then fades — and keeps antd's built-in motion, so it stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue), both themed once by the shared toastTheme. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
   "tokensUsed": ["colorPrimary", "borderRadius", "colorText", "Message.contentBg"],
   "spec": [
-    { "label": "Surface", "value": "white elevated surface · radius 8 · ink #1A1A1A text" },
+    { "label": "Surface", "value": "white elevated pill · radius 8 · ink #1A1A1A text" },
     { "label": "Position", "value": "top-centre, floating" },
     { "label": "Duration", "value": "3s default (0 = sticky)" },
     { "label": "Status", "value": "success / info / warning / error / loading; every status icon is the default ink #1A1A1A (the shared antd base theme pins colorSuccess, colorInfo, colorWarning and colorError), so the glyph and the wording carry the status, never green, blue, amber or red" },
@@ -30,7 +30,7 @@
       { "what": "Alert", "when": "a persistent, inline message tied to a region of the page" }
     ],
     "note": "One line, past tense, no title. Never put an action inside a toast that disappears — if the user must respond, use a Notification or a Modal.",
-    "dsv3": "COVERED — antd v6 message API, themed by the shared toastTheme (white surface · radius 8 · ink #1A1A1A text · top-centre). Matrix: type × { success, info, warning, error, loading } — each rendered via the message.useMessage() hook + contextHolder inside <ConfigProvider> (the DS forbids the static message.success(), which bypasses the theme). duration (3s default, 0 = sticky) is the second axis. Verified via Figma search_design_system against the DS V3 message set (Component/MD-Message text style — 'toast, alert, message')."
+    "dsv3": "COVERED — antd v6 message API, themed by the shared toastTheme (white pill · radius 8 · ink #1A1A1A text · top-centre). Matrix: type × { success, info, warning, error, loading } — each rendered via the message.useMessage() hook + contextHolder inside <ConfigProvider> (the DS forbids the static message.success(), which bypasses the theme). duration (3s default, 0 = sticky) is the second axis. Verified via Figma search_design_system against the DS V3 message set (Component/MD-Message text style — 'toast, alert, message')."
   },
   "surfaces": ["editor", "dashboard", "settings"],
   "reuse": { "entry": "./toast-theme", "exportsNamed": ["toastTheme", "dismissibleToast"] },
@@ -42,7 +42,7 @@
   "codeNote": "React and Vue are two real vendor libraries at two Ant generations — they can't share a primitive. They converge via the same toastTheme; residual drift is caught by visual regression.",
   "preview": "toast.preview.html",
   "selfCheck": [
-    { "label": "white surface · radius 8 · ink text", "verdict": "PASS" },
+    { "label": "white pill · radius 8 · ink text", "verdict": "PASS" },
     { "label": "top-centre floating", "verdict": "PASS" },
     { "label": "antd built-in enter/leave motion kept", "verdict": "PASS" },
     { "label": "status variants via api.success/info/…", "verdict": "PASS" }
