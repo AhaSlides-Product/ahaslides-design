@@ -116,3 +116,24 @@ test('the eval fixtures: both pass pages are clean, the eyebrow fixture and the 
   assert.ok(websiteRulesOf(fixture('fail-w14-eyebrow')).includes('section-eyebrow'));
   assert.ok(websiteRulesOf(fixture('fail-w2-section-gaps')).includes('section-spacing-override'));
 });
+
+test('the band after the Logos strip must be white', () => {
+  assert.deepEqual(websiteRulesOf(page(band('aha-header-section-hero-split'), band('aha-logos'), band('aha-features aha-features--accent'))), ['band-order']);
+  assert.deepEqual(websiteRulesOf(page(band('aha-logos'), band('aha-features'), band('aha-features aha-features--accent'))), []);
+});
+
+test('eyebrow and removed-layout classes are found in single-quoted and unquoted class attributes', () => {
+  assert.deepEqual(websiteRulesOf("<p class='aha-features__eyebrow'>Features</p>"), ['section-eyebrow']);
+  assert.deepEqual(websiteRulesOf('<p class=aha-features__eyebrow>Features</p>'), ['section-eyebrow']);
+  assert.deepEqual(websiteRulesOf("<section class='aha-features aha-features--compact-accordion'></section>"), ['removed-layout']);
+  assert.deepEqual(websiteRulesOf('<section class=aha-features--compact-accordion></section>'), ['removed-layout']);
+  assert.deepEqual(websiteRulesOf("<p class='aha-marketing-card__eyebrow'>Retros</p>"), []);
+});
+
+test('commented-out markup is ignored and a self-closing section opens no band', () => {
+  assert.deepEqual(websiteRulesOf('<!-- <p class="aha-features__eyebrow">x</p> -->'), []);
+  assert.deepEqual(websiteRulesOf(page('<section class="aha-features aha-features--accent"></section>', '<!-- <section class="aha-numbers aha-numbers--accent"> -->', '<section class="aha-faq"></section>')), []);
+  assert.deepEqual(websiteRulesOf(page('<section class="aha-features"/>', '<section class="aha-numbers"/>', '<section class="aha-faq"/>', '<section class="aha-testimonials"></section>')), []);
+  assert.deepEqual(websiteRulesOf(page('<section class="aha-features aha-features--accent"/>', '<section class="aha-numbers aha-numbers--accent"></section>')), []);
+  assert.deepEqual(websiteRulesOf(page('<section class="aha-features aha-features--accent"></section>', '<!-- gap -->', '<section class="aha-numbers aha-numbers--accent"></section>')), ['band-order']);
+});
