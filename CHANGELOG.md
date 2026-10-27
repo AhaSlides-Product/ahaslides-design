@@ -30,6 +30,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `generate.mjs`: an optional `options` list on a marketing layout (each choice either adds a `--<value>` modifier or keeps the elements marked `data-choice="<value>"`), rendered as switches beside the surface switch, with one code tab per choice and the choices in the `.md` and `.agent.json` feeds; and an optional page-level `previewFit`. Pages without them render byte-identically.
 - Revert: revert the PR; `marketing/header.json`, the `options` and `previewFit` branches in `generate.mjs` and two source lines in `guidelines/website.json` (#399)
 
+## 0.451.0 — 2026-10-27
+### Added
+- Icon library: `system-ai-credit`, a circle with a four-point spark, for AI credit usage and balances. Same stroke style as the other `system-*` glyphs; no existing icon changes
+- Revert: revert the PR; one new SVG and its meaning words, nothing else references it (#400)
+
 ## 0.444.0 — 2026-10-27
 ### Added
 - Colour rules v24: rule 2.1 allows the black logo and the black Splash (both #1A1A1A) for one-colour print on white only; new rule 2.11 and a Logo library section for the AhaSlides × Partner co-brand lockup (order, ×, spacing, sizes, greyscale at rest, white on Vivid Pink); new rules 4.10 and 4.11 for photography (real moments and relaxed portraits; avoid staged shots and stiff portraits) (#404)
