@@ -387,6 +387,7 @@
   },
   {
    "name": "Leaderboard",
+   "docs": { "href": "../leaderboard/index.html", "label": "Full Leaderboard docs: props, API and code" },
    "element": "<aha-leaderboard>",
    "kind": "Results",
    "what": "The ranked list on the phone: every participant, one row each, scrolling inside the board; the participant's own row carries \"(you)\" after the name and is scrolled into view.",

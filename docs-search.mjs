@@ -40,7 +40,7 @@ const AREAS = {
   marketing: { type: 'component', label: 'Websites' },
   settings: { type: 'component', label: 'Settings' },
   audience: { type: 'audience', label: 'Audience Library' },
-  canvas: { type: 'component', label: 'Components' },
+  canvas: { type: 'component', label: 'Canvas Library' },
   charts: { type: 'component', label: 'Chart' },
   guidelines: { type: 'guideline', label: 'Guidelines' },
   developers: { type: 'page', label: 'For developers' },

@@ -113,6 +113,7 @@
     },
     {
       "name": "Leaderboard",
+      "docs": { "href": "../leaderboard/index.html", "label": "Full Leaderboard docs: props, API and code" },
       "element": "<aha-leaderboard>",
       "kind": "In-canvas",
       "what": "The ranked list of names and scores drawn inside the slide canvas: a neutral rank circle, a bar per row in the deck palette colours, the score with its unit and points gained, and an optional heading, all in the deck colours.",
