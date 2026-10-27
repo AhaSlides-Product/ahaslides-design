@@ -71,7 +71,7 @@
     },
     {
       "id": "illustration",
-      "rule": "The illustration is <aha-illustration name=\"empty-…\"> from the registry, sized by one edge, and it names what is missing: empty-report for a session with no data, empty-participants, empty-feedback, empty-presentation-list, empty-templates, empty-trash. It is never inline SVG or a PNG, and it keeps its fixed pink tints (never recoloured, never tinted by currentColor). Search the registry first; when no empty-* fits, add the missing one under illustrations/svg/empty/ as the Illustration contract describes, and never borrow an illustration for a different thing.",
+      "rule": "The illustration is <aha-illustration name=\"empty-…\"> from the registry, sized by one edge, and it names what is missing: empty-report for a session or report with no data, empty-sessions, empty-slides, empty-insights, empty-leaderboard, empty-responses, empty-participants, empty-feedback, empty-presentation-list, empty-templates, empty-trash. It is never inline SVG or a PNG, and it keeps its fixed pink tints (never recoloured, never tinted by currentColor). Search the registry first; when no empty-* fits, add the missing one under illustrations/svg/empty/ as the Illustration contract describes, and never borrow an illustration for a different thing.",
       "ref": ["EMPTY-03"]
     },
     {

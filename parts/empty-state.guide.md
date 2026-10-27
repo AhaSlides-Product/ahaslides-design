@@ -43,6 +43,11 @@ and names what is missing. Never inline SVG, never a PNG, never recoloured. (EMP
 | Name | Use for |
 | --- | --- |
 | `empty-report` | a session or report with no data |
+| `empty-sessions` | no sessions hosted, or none in the chosen period |
+| `empty-slides` | no slide results, or no interactive slides |
+| `empty-insights` | no insights found |
+| `empty-leaderboard` | nobody on a leaderboard yet |
+| `empty-responses` | no responses or answers from a participant |
 | `empty-participants` | no participants yet |
 | `empty-feedback` | no feedback yet |
 | `empty-presentation-list` | no presentations |
