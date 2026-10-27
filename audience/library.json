@@ -384,6 +384,23 @@
     "react": "import { applyDeck, submissionLock } from '@ahaslides-product/design/audience-deck';\nimport { answerOptionState } from '@ahaslides-product/design/aha-answer-option';\n\napplyDeck(document.documentElement, slide);   // once, when the host's slide props arrive\nconst state = answerOptionState({ quizStatus, answered, revealed, selected, correct });\n// -> { visible, interactive, dimmed, tone, verdict, mine }\nconst lock = submissionLock(`slide-${slide.id}`);   // survives an iframe remount (sessionStorage)",
     "vue": "<script setup>\nimport { applyDeck, submissionLock } from '@ahaslides-product/design/audience-deck';\nimport { answerOptionState } from '@ahaslides-product/design/aha-answer-option';\n\napplyDeck(document.documentElement, slide);   // once, when the host's slide props arrive\nconst state = answerOptionState({ quizStatus, answered, revealed, selected, correct });\n// -> { visible, interactive, dimmed, tone, verdict, mine }\nconst lock = submissionLock(`slide-${slide.id}`);   // survives an iframe remount (sessionStorage)\n</script>"
    }
+  },
+  {
+   "name": "Leaderboard",
+   "element": "<aha-leaderboard>",
+   "kind": "Results",
+   "what": "The ranked list on the phone: every participant, one row each, scrolling inside the board; the participant's own row carries \"(you)\" after the name and is scrolled into view.",
+   "useWhen": "the participant should see where they stand after a scored round; pass `entries` and the participant's `me` id",
+   "notFor": "a list the participant orders themselves (use `<aha-rank-list>`) or a single result",
+   "replaces": "Replaces a hand-built score list — the shared list carries the same rows, palette bars and ties as the canvas, so the stage and the phone look alike",
+   "note": null,
+   "demoLight": "<div style=\"height:300px; max-width:360px\"><aha-leaderboard size=\"phone\" me=\"u7\" style=\"height:100%\" entries='[{\"id\":\"u1\",\"name\":\"Linh\",\"score\":1200,\"avatar\":\"🦊\"},{\"id\":\"u2\",\"name\":\"Minh\",\"score\":900},{\"id\":\"u3\",\"name\":\"An\",\"score\":900},{\"id\":\"u4\",\"name\":\"Bao\",\"score\":700},{\"id\":\"u5\",\"name\":\"Chi\",\"score\":500},{\"id\":\"u6\",\"name\":\"Dung\",\"score\":300},{\"id\":\"u7\",\"name\":\"Em\",\"score\":100}]'></aha-leaderboard></div>",
+   "demoDark": "<div style=\"height:300px; max-width:360px\"><aha-leaderboard size=\"phone\" me=\"u7\" style=\"height:100%\" entries='[{\"id\":\"u1\",\"name\":\"Linh\",\"score\":1200,\"avatar\":\"🦊\"},{\"id\":\"u2\",\"name\":\"Minh\",\"score\":900},{\"id\":\"u3\",\"name\":\"An\",\"score\":900},{\"id\":\"u4\",\"name\":\"Bao\",\"score\":700},{\"id\":\"u5\",\"name\":\"Chi\",\"score\":500},{\"id\":\"u6\",\"name\":\"Dung\",\"score\":300},{\"id\":\"u7\",\"name\":\"Em\",\"score\":100}]'></aha-leaderboard></div>",
+   "snippets": {
+    "html": "<!-- Paste-and-run: save as .html and open it. No build step.\n     applyDeck() gives the leaderboard the deck's ink, accent and font from the host's slide props. -->\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css\">\n<script type=\"module\">\n  import { applyDeck } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/audience.js';\n  applyDeck(document.documentElement, xprops.slide);\n</script>\n\n<aha-leaderboard size=\"phone\" me=\"u7\" style=\"height:320px\"\n  entries='[{\"id\":\"u1\",\"name\":\"Linh\",\"score\":1200},{\"id\":\"u7\",\"name\":\"Em\",\"score\":100}]'></aha-leaderboard>",
+    "react": "import '@ahaslides-product/design/aha-leaderboard';\n\nexport const Scores = ({ entries, meId }) => (\n  <aha-leaderboard size=\"phone\" me={meId} entries={JSON.stringify(entries)} style={{ height: 320 }} />\n);",
+    "vue": "<script setup>\nimport '@ahaslides-product/design/aha-leaderboard';\ndefineProps({ entries: Array, meId: String });\n</script>\n\n<template>\n  <aha-leaderboard size=\"phone\" :me=\"meId\" :entries=\"JSON.stringify(entries)\" style=\"height: 320px\" />\n</template>"
+   }
   }
  ]
 }
