@@ -1044,6 +1044,11 @@ function sidebarNav(base, active, section) {
       }).join('');
       return `<div class="nav-group"><div class="nav-cat">${esc(g.cat)}</div>${items}</div>`;
     }).join('');
+    if (section === 'patterns') {
+      const guides = GUIDELINES.filter(g => g.patternsNav);
+      if (guides.length) inner += `<div class="nav-group"><div class="nav-cat">Composition guides</div>` +
+        guides.map(g => `<a class="nav-item${active===('guideline:'+g.slug)?' active':''}" href="${base}guidelines/${g.slug}/index.html"><span>${esc(g.name)}</span><span class="nav-dot" title="live"></span></a>`).join('') + `</div>`;
+    }
   } else if (section === 'marketing') {
     const marketingNav = (items, cat) => items.length ? `<div class="nav-group"><div class="nav-cat">${cat}</div>` +
       items.map(b => `<a class="nav-item${active===('marketing:'+b.slug)?' active':''}" href="${base}marketing/${b.slug}/index.html"><span>${esc(b.name)}</span><span class="nav-dot" title="live"></span></a>`).join('') +
@@ -2428,7 +2433,7 @@ function renderGuidelineHtml(p) {
   .pat-h3{font-size:14px;font-weight:600;margin:16px 0 6px}
   .pat-hr{border:none;border-top:1px solid var(--aha-split);margin:22px 0}
   .pat-foot{font-size:13px;color:var(--aha-text-tertiary)}`;
-  return docShell({ base: '../../', active: 'guideline:' + p.slug, title: p.name, titleSection: 'Guidelines', section: 'guidelines', main, extraCss });
+  return docShell({ base: '../../', active: 'guideline:' + p.slug, title: p.name, titleSection: p.patternsNav ? 'Patterns' : 'Guidelines', section: p.patternsNav ? 'patterns' : 'guidelines', main, extraCss });
 }
 function renderGuidelineMd(p) {
   const skill = p.skillRef || {};
