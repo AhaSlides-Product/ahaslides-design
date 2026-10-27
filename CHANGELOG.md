@@ -22,10 +22,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.490.1 — 2026-10-27
+## 0.491.1 — 2026-10-27
 ### Fixed
 - Marketing sections no longer depend on the host site's heading and quote styles: every section title (Features, Numbers, Pricing, Testimonials, Header, Footer banner, Card) is `display:block`, so a host `h2{display:flex;text-align:left}` (Webflow) cannot pull a centred title to the left; the title inherits `text-align`, and the Testimonials and Cards quote classes (and their blockquote resets) zero `margin`, `padding` and `border`, so a host `blockquote{padding:10px 20px;border-left:...}` (Webflow default) changes neither indent nor bar (#413)
 - Revert: revert the PR; the changes sit in `marketing/*.json` (title rules and blockquote resets) and the sections regenerated from them (#413)
+
+## 0.491.0 — 2026-10-27
+### Added
+- `<aha-leaderboard>`, one ranked list for the slide canvas and the audience phone: neutral rank circle, a bar per row in the deck palette colours (row n takes colour n and its ink) inside a full-width track, the score with its unit and the points gained, an optional heading with a player count, a stub for a zero score, an opt-in trophy, ties ranked 1, 2, 2, 4, every participant listed, the list scrolling inside the board with the heading fixed, on the phone the participant's own row marked with a plain "(you)" after the name and scrolled into view (never on the canvas, which everyone sees); text meets WCAG AA 4.5:1 against its composited background, teams, empty and loading states, and a row slide with score count-up (none under reduced motion); the audience phone shows row text at the body default size and draws no outline round the own row; a bar edge that falls mid-name splits the name between the palette ink and the deck ink; themed only by `--aha-deck-*` tokens; the bars follow the deck palette on both surfaces (`applyCanvasDeck` with `palette: xprops.presentationColorPalette`, `applyDeck` from `slide.presentationColorPalette`), falling back to the accent only where a deck has no palette, and the element re-reads the palette when the host applies the deck after the tag has loaded; with `bar="false"` the name is drawn whole in the deck ink; the canvas library snippet passes the palette and the HTML snippet shows the one-tag `lib/canvas.js` / `lib/audience.js` import (#390)
+- Revert: revert the PR; a new component, nothing else changes (#390)
 
 ## 0.490.0 — 2026-10-27
 ### Added
@@ -72,6 +77,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - `generate.mjs`: an optional `options` list on a marketing layout (each choice either adds a `--<value>` modifier or keeps the elements marked `data-choice="<value>"`), rendered as switches beside the surface switch, with one code tab per choice and the choices in the `.md` and `.agent.json` feeds; and an optional page-level `previewFit`. Pages without them render byte-identically.
 - Revert: revert the PR; `marketing/header.json`, the `options` and `previewFit` branches in `generate.mjs` and two source lines in `guidelines/website.json`, the eval fixture heroes and `fixtures/sections.css` (#399)
+
 
 ## 0.472.0 — 2026-10-27
 ### Changed
