@@ -22,9 +22,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.473.0 — 2026-10-27
+## 0.476.0 — 2026-10-27
+### Added
+- `--aha-radius-pill` (999px) is back in the foundation tokens, and the pill shape is back outside the presenting canvas: the components, contracts, guidelines, audience kit, marketing sections and screen-lint scale that 0.441.0 moved off the pill use it again. The switch track is `var(--aha-radius-pill)` like the others. The deck tokens and the canvas kit stay pill-free, and `standards.mjs` still fails a pill radius in canvas sources. (#407)
+
+## 0.455.1 — 2026-10-27
 ### Fixed
-- Switch: the track is a full pill again (radius 11px at 44x22, 8px at the small 28x16), reverting the 6px track from 0.441.0. The knob stays a 50% circle. The switch contract, spec and conformance check read the pill radius. (#407)
+- `aha-checkbox`: with a multi-line label the box stays on the first line (centre of line 1) instead of floating to the middle of the label. Single-line rendering, and a checkbox with no label, are unchanged.
+- Revert: revert the PR; the change is confined to `lib/aha-checkbox.js` and `contracts/checkbox.json` (#403)
 
 ## 0.455.0 — 2026-10-27
 ### Changed
