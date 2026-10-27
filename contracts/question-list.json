@@ -8,14 +8,15 @@
   "tier": "leaf-lit",
   "badge": "shared Lit web component — composite",
   "element": "aha-question-list",
-  "summary": "An editable list of collapsible questions laid out as the settings lab's QuestionList — a SettingRow head with the question count, a Collapse per question (header slots, an interactive body slot, optional status line, prompt field plus OptionRow choices), and full-width secondary Add option / Add question buttons (SETTINGS-31/36).",
+  "summary": "An editable list of collapsible questions laid out as the settings lab's QuestionList — a SettingRow head with the question count, a Collapse per question (header slots, an interactive body slot, optional status line, prompt field plus OptionRow choices), and full-width secondary Add option / Add question buttons (SETTINGS-31/36), plus the host API a slide's settings need: notices, single-open accordion with a toggle intent, a leave event, named edits, single-correct, multi-line prompts, test ids and in-place updates that keep focus.",
   "highlights": [
     "Editable list of collapsible questions",
     "A Collapse per question: “N. prompt” header with before / after / marker slots and an optional status line, prompt field, OptionRow choices",
-    "Full-width secondary “Add option” and “Add question”"
+    "Full-width secondary “Add option” and “Add question”",
+    "Host API: notices, accordion + question-toggle, question-leave, named edits, in-place updates"
   ],
-  "lead": "ONE custom element — <aha-question-list> — the composite settings surface for an editable list of questions (SETTINGS-31/36), laid out as the settings lab's QuestionList and composed only from DS components. The head is a SettingRow: the list label (with an optional \"?\" help) LEFT and the \"N questions\" count RIGHT. Each question is a bordered DS Collapse whose header reads \"N. <prompt>\" (\"Untitled question\" while empty) wrapping to at most two lines (then an ellipsis), with header slots at five positions (`start-<id>` after the caret, `marker-<id>` in place of the number, `before-<id>` / `after-<id>` either side of the prompt, `end-<id>` at the trailing edge), a `body-<id>` slot for interactive content above the \"Question\" row of the open body, an optional status line under the header (a warning or error tone also recolours the card border), and a secondary small trash Button with a \"Delete question\" tooltip centred on the card's top-right corner, revealed on hover or keyboard focus and a Tab stop, exactly like OptionRow's delete; inside, a stacked SettingRow \"Question\" over a CountedInput, then a stacked SettingRow \"Options\" over the question's OptionRows (drag handle, correct toggle, optional image with `allowimage`) and a full-width \"Add option\" AddItemButton. A full-width \"Add question\" AddItemButton sits under the list. Limits: the add buttons disable at `max` / `maxoptions`, the deletes at `min` / `minoptions` (SETTINGS-36). Shadow-DOM CSS, themed only by --aha-* tokens. Emits composed `change` CustomEvent<{questions}> on every edit.",
-  "codeNote": "A composite element that COMPOSES DS components — SettingRow, Collapse, CountedInput, OptionRow, AddItemButton, FieldError, Button and Tooltip — never re-implementing them. Set the model as a property (`el.questions = [...]`) or a JSON attribute. React (< 19) via a thin ref wrapper; Vue binds natively. Header slots are light-DOM children keyed by question id (`<aha-tag slot=\"before-q1\">00:23</aha-tag>`); put only non-interactive content there, since the header is a button. Interactive content goes in the body slot `body-<id>` (open question body, above the \"Question\" row).",
+  "lead": "ONE custom element — <aha-question-list> — the composite settings surface for an editable list of questions (SETTINGS-31/36), laid out as the settings lab's QuestionList and composed only from DS components. The head is a SettingRow: the list label (with an optional \"?\" help) LEFT and the \"N questions\" count RIGHT. Each question is a bordered DS Collapse whose header reads \"N. <prompt>\" (\"Untitled question\" while empty) wrapping to at most two lines (then an ellipsis), with header slots at five positions (`start-<id>` after the caret, `marker-<id>` in place of the number, `before-<id>` / `after-<id>` either side of the prompt, `end-<id>` at the trailing edge), a `body-<id>` slot for interactive content above the \"Question\" row of the open body, an optional status line under the header (a warning or error tone also recolours the card border), and a secondary small trash Button with a \"Delete question\" tooltip centred on the card's top-right corner, revealed on hover or keyboard focus and a Tab stop, exactly like OptionRow's delete; inside, a stacked SettingRow \"Question\" over a CountedInput, then a stacked SettingRow \"Options\" over the question's OptionRows (drag handle, correct toggle, optional image with `allowimage`) and a full-width \"Add option\" AddItemButton. A full-width \"Add question\" AddItemButton sits under the list. Limits: the add buttons disable at `max` / `maxoptions`, the deletes at `min` / `minoptions` (SETTINGS-36). Shadow-DOM CSS, themed only by --aha-* tokens. Emits composed `change` CustomEvent<{questions, edit}> on every edit; `edit` is `{ type, questionId, optionId? }` (prompt | option-text | option-correct | option-add | option-delete | question-add | question-delete). For a host that owns the model (a slide type's settings): `notices` renders InfoBoxes between the head and the questions, with links that open a question; `accordion` keeps one question open; a header click or notice link fires a cancelable `question-toggle` first; `setQuestionOpen(id, open)` opens one from code; `question-leave` fires when focus or a press moves out of a question; `multiline` makes the prompt a 1 to 3 row CountedTextarea; `singlecorrect` keeps exactly one correct option; `testid` stamps data-testid hooks; and setting `questions` again with the same ids updates the fields in place, so the caret and focus survive a host that writes every edit back.",
+  "codeNote": "A composite element that COMPOSES DS components — SettingRow, Collapse, CountedInput, OptionRow, AddItemButton, FieldError, InfoBox, Button and Tooltip — never re-implementing them. Set the model as a property (`el.questions = [...]`) or a JSON attribute. React (< 19) via a thin ref wrapper; Vue binds natively. Header slots are light-DOM children keyed by question id (`<aha-tag slot=\"before-q1\">00:23</aha-tag>`); put only non-interactive content there, since the header is a button. Interactive content goes in the body slot `body-<id>` (open question body, above the \"Question\" row). A host that keeps its own model listens to `change` (read `e.detail.edit` to know what changed), `question-toggle` and `question-leave`, and writes `el.questions` back freely: the same ids in the same order patch in place, so focus and the caret stay put. Never hand-assemble this list from Collapse, InfoBox and FieldError in a slide: what it lacks is added here.",
   "tokensUsed": [
     "text-secondary"
   ],
@@ -23,6 +24,10 @@
     {
       "label": "Head",
       "value": "SettingRow: label 14/21 regular (+ optional \"?\" help) LEFT, \"N questions\" count 12/18 #4A4A4A RIGHT"
+    },
+    {
+      "label": "Notices",
+      "value": "`notices`: InfoBoxes (info, warning, error) 8px under the head and 8px apart, in a polite live region; each paragraph is text with optional inline links (a plain `<a href=\"#id\">` in the Alert link style: message size, the DS text-link: Vivid Pink, no underline at rest, underline on hover and focus) that open and reveal a question"
     },
     {
       "label": "Question",
@@ -46,7 +51,7 @@
     },
     {
       "label": "Body",
-      "value": "stacked SettingRow \"Question\" + CountedInput (120), then stacked SettingRow \"Options\" + OptionRows (orderable, correctable, image with allowimage) + full-width \"Add option\""
+      "value": "stacked SettingRow \"Question\" + CountedInput (`promptmaxlength`, default 120; with `multiline` a CountedTextarea of 1 to 3 rows), then stacked SettingRow \"Options\" + OptionRows (orderable, correctable, image with allowimage, `optionmaxlength` default 80) + full-width \"Add option\""
     },
     {
       "label": "Add question",
@@ -55,14 +60,22 @@
     {
       "label": "Limits",
       "value": "no \"X of Y\" counter — the add buttons disable at max / maxoptions, the deletes at min / minoptions (SETTINGS-36)"
+    },
+    {
+      "label": "Open state",
+      "value": "`accordion`: at most one question open. A header click or notice link fires cancelable `question-toggle` {id, index, open, source} first; `setQuestionOpen(id, open)` changes it from code with no event. Per-question `current: true` gives the header the Collapse's selected look"
+    },
+    {
+      "label": "Host updates",
+      "value": "setting `questions` with the same question and option ids in the same order patches the fields, title, open state, status and current in place (focus and caret kept); any other change rebuilds"
     }
   ],
   "props": [
     {
       "name": "questions",
-      "type": "Array<{id,prompt,open?,status?:{message,tone},options:[{id,text,correct}]}>",
+      "type": "Array<{id,prompt,open?,current?,untitled?,status?:{message,tone},options:[{id,text,correct}]}>",
       "default": "[]",
-      "desc": "The model; set as a property or a JSON attribute. `open` starts that question expanded; `status` adds the supporting line (tone info | warning | error, default info)"
+      "desc": "The model; set as a property or a JSON attribute. `open` starts that question expanded; `status` adds the supporting line (tone info | warning | error, default info). `current` gives the header the selected look (the question at the playhead, say); `untitled` replaces the \"Untitled question\" header text while the prompt is empty. Setting it again with the same question and option ids in the same order updates in place, keeping focus"
     },
     {
       "name": "slot=\"start-<id>\"",
@@ -149,10 +162,58 @@
       "desc": "Disable adding questions"
     },
     {
+      "name": "notices",
+      "type": "Array<{tone,paragraphs}>",
+      "default": "[]",
+      "desc": "InfoBoxes between the head and the questions (property only). tone info | warning | error; each paragraph is a string or an array of strings and `{ question: id, label }` links, which open that question (firing question-toggle with source \"notice\") and scroll it into view"
+    },
+    {
+      "name": "accordion",
+      "type": "boolean",
+      "default": "false",
+      "desc": "At most one question open: opening one closes the others"
+    },
+    {
+      "name": "multiline",
+      "type": "boolean",
+      "default": "false",
+      "desc": "The prompt field is a CountedTextarea that grows from 1 to 3 rows instead of a CountedInput"
+    },
+    {
+      "name": "promptmaxlength",
+      "type": "number",
+      "default": "120",
+      "desc": "Character limit of the prompt field"
+    },
+    {
+      "name": "optionmaxlength",
+      "type": "number",
+      "default": "80",
+      "desc": "Character limit of each option"
+    },
+    {
+      "name": "singlecorrect",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Exactly one correct option per question: marking one unmarks the others, and the marked one cannot be unmarked"
+    },
+    {
+      "name": "testid",
+      "type": "string",
+      "default": "—",
+      "desc": "Prefix for data-testid hooks: <prefix>-count, -notice-<tone>, -item-<id>, -title-<id>, -status-<id>, -delete-<id>, -prompt-<id>, -option-<optionId>, -add-option-<id>, -add-question. Cards always carry data-question-id and option rows data-option-id"
+    },
+    {
+      "name": "setQuestionOpen(id, open = true)",
+      "type": "method",
+      "default": "—",
+      "desc": "Opens or closes a question from code (honours accordion); fires no question-toggle"
+    },
+    {
       "name": "strings",
       "type": "object | JSON attribute",
       "default": "English",
-      "desc": "Translated copy for the list's and its option rows' built-in strings. Keys: countOne / countOther (\"{count} question(s)\"), addQuestion, question, options, addOption, deleteQuestion (tooltip), deleteQuestionN (\"Delete question {n}\"), questionN (\"Question {n}\"), untitledQuestion, questionPlaceholder, correctAnswer (the options' correct-toggle name), optionPlaceholder, deleteOption, deleteOptionHint, reorderOption, reorderOptionHint (the option rows' field, delete and drag-handle copy; the optional image control keeps its own copy). A missing key keeps its English default"
+      "desc": "Translated copy for the list's and its option rows' built-in strings. Keys: countOne / countOther (\"{count} question(s)\"), plus countZero / countTwo / countFew / countMany picked by Intl.PluralRules for the page language, addQuestion, question, options, addOption, deleteQuestion (tooltip), deleteQuestionN (\"Delete question {n}\"), questionN (\"Question {n}\"), untitledQuestion, questionPlaceholder, correctAnswer (the options' correct-toggle name), markAsCorrect (that name on an option not marked correct; defaults to correctAnswer), optionPlaceholder, deleteOption, deleteOptionHint, reorderOption, reorderOptionHint (the option rows' field, delete and drag-handle copy; the optional image control keeps its own copy). A missing key keeps its English default"
     },
     {
       "name": "question-add",
@@ -167,10 +228,22 @@
       "desc": "Cancelable, composed intent fired when a question's delete is activated, before the list changes; detail.question is the question about to be removed, so a host can offer Undo. preventDefault() makes the host handle removal; otherwise the list removes it and emits change"
     },
     {
-      "name": "change",
-      "type": "CustomEvent<{questions}>",
+      "name": "question-toggle",
+      "type": "CustomEvent<{id,index,open,source}>",
       "default": "—",
-      "desc": "Composed event on any edit; read e.detail.questions (the full model)"
+      "desc": "Cancelable, composed intent fired before a header click (source \"header\") or a notice link (source \"notice\") opens or closes a question; preventDefault() keeps it as it was"
+    },
+    {
+      "name": "question-leave",
+      "type": "CustomEvent<{id,index}>",
+      "default": "—",
+      "desc": "Composed, fired once each time focus or a pointer press moves out of a question it was in (its card and its slotted content count as inside), or that question closes; the moment to save or validate it"
+    },
+    {
+      "name": "change",
+      "type": "CustomEvent<{questions,edit}>",
+      "default": "—",
+      "desc": "Composed event on any edit; e.detail.questions is the full model and e.detail.edit names the edit: { type: prompt | option-text | option-correct | option-add | option-delete | question-add | question-delete, questionId, optionId? }"
     }
   ],
   "opinion": {
@@ -184,7 +257,7 @@
         "when": "a flat list of options for ONE question — compose OptionRow directly"
       }
     ],
-    "note": "The add buttons span the full panel width (SETTINGS-31) — never hugged to one side. The \"N questions\" count is a total, never an \"X of Y\" (SETTINGS-36): the add buttons disable at max and the deletes at min. Header slots take non-interactive content only (the header is a button; use `body-<id>` for interactive content), and the status line is for state, not validation of the prompt field. Composes SettingRow, Collapse, CountedInput, OptionRow, AddItemButton and FieldError; it does not re-implement any of them.",
+    "note": "The add buttons span the full panel width (SETTINGS-31) — never hugged to one side. The \"N questions\" count is a total, never an \"X of Y\" (SETTINGS-36): the add buttons disable at max and the deletes at min. Header slots take non-interactive content only (the header is a button; use `body-<id>` for interactive content), and the status line is for state, not validation of the prompt field. Composes SettingRow, Collapse, CountedInput, OptionRow, AddItemButton and FieldError; it does not re-implement any of them. A slide type's settings use this list with `notices`, `accordion`, `multiline`, `singlecorrect` and the toggle and leave events; a missing feature is added here, never hand-assembled from Collapse, InfoBox and FieldError.",
     "dsv3": "COVERED — the settings-lab QuestionList mapped into the DS: an Ant Collapse per question in the lab, the DS Collapse here; the lab's SettingRow + Input prompt, OptionRow answers and default-Button adds are the DS SettingRow, CountedInput, OptionRow and AddItemButton. The question header takes the lab's look through the Collapse's `head` part, scoped to this list (the Collapse itself is unchanged): 14/22 regular on --aha-gray-15 (the lab's 2% grey fill), 52px high, a hairline under it when open."
   },
   "surfaces": [
@@ -240,7 +313,11 @@
       "verdict": "PASS"
     },
     {
-      "label": "composes SettingRow, Collapse, CountedInput, OptionRow, AddItemButton, FieldError — no re-implementation",
+      "label": "composes SettingRow, Collapse, CountedInput, OptionRow, AddItemButton, FieldError, InfoBox — no re-implementation",
+      "verdict": "PASS"
+    },
+    {
+      "label": "host API: notices as InfoBoxes, accordion with a cancelable question-toggle, question-leave, change.edit, singlecorrect, multiline, testid hooks; same-id updates keep focus",
       "verdict": "PASS"
     }
   ],

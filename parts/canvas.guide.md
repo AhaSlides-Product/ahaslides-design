@@ -298,7 +298,7 @@ from the deck once with `applyCanvasDeck`:
   var(--aha-deck-palette-2-ink)`. Never hand-roll a "luminance > 0.6 → dark, else white" flip: it
   picks white on mid colours (`#4CAF50` white 2.78:1, ink 6.27:1) and fails AA. For a colour that is
   not in the palette, import `readableTextInk` from `lib/canvas.js` (also `lib/audience.js`).
-  Without `palette` nothing changes.
+  Without `palette` nothing changes; `<aha-leaderboard>` then draws its bars in the deck accent, the only fallback.
 - The variant hierarchy is the same as the host bar's: at most one `primary`, the rest
   `secondary-deck` (white on every deck), per-round steppers `secondary-deck`. `tertiary-deck`
   is never used on a photographic deck — a borderless button gets lost on a busy picture — so
