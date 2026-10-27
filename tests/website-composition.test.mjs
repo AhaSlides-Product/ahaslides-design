@@ -261,7 +261,9 @@ test('W9: parallax moves the image inside a clipping frame, never the frame, and
   const selector = script.match(/const PARALLAX_SELECTOR = '([^']+)'/)[1];
   assert.deepEqual(selector.split(', '), ['.aha-features__frame > img', '.aha-testimonials__frame > img', '.aha-numbers__frame > img']);
   const style = script.match(/const STYLE = `([\s\S]*?)`;/)[1];
-  assert.match(style, /\[data-aha-parallax\]\{transform:translate3d\(0,var\(--aha-parallax-y,0px\),0\) scale\(\$\{PARALLAX_OVERSCAN\}\)/);
+  assert.match(style, /\[data-aha-parallax\]\{transform:translate3d\(0,var\(--aha-parallax-y,0px\),0\) scale\(calc\(\$\{PARALLAX_OVERSCAN\} \* var\(--aha-picture-enter\)\)\)/);
+  assert.match(style, /\.aha-motion-picture\{opacity:0;--aha-picture-enter:\$\{PICTURE_ENTER_SCALE\}/);
+  assert.match(script, /PICTURE_ENTER_SCALE = 1\.08/);
   assert.match(script, /target\.parentElement\.getBoundingClientRect/);
   for (const [file, css] of [['features', featuresCss], ['testimonials', testimonialsCss], ['numbers', numbersCss]]) {
     const frameSelector = `.aha-${file}__frame`;
