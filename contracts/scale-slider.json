@@ -20,6 +20,7 @@
     "text-default",
     "white",
     "color-primary",
+    "radius-pill",
     "radius-default",
     "space-8",
     "space-12"
