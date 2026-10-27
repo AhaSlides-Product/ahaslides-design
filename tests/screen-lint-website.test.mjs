@@ -137,3 +137,9 @@ test('commented-out markup is ignored and a self-closing section opens no band',
   assert.deepEqual(websiteRulesOf(page('<section class="aha-features aha-features--accent"/>', '<section class="aha-numbers aha-numbers--accent"></section>')), []);
   assert.deepEqual(websiteRulesOf(page('<section class="aha-features aha-features--accent"></section>', '<!-- gap -->', '<section class="aha-numbers aha-numbers--accent"></section>')), ['band-order']);
 });
+
+test('unterminated comment openers in a long page are scanned in linear time', () => {
+  const started = Date.now();
+  assert.deepEqual(websiteRulesOf('<!--'.repeat(50000) + '<p class="aha-features__eyebrow">x</p>'), ['section-eyebrow']);
+  assert.ok(Date.now() - started < 2000);
+});

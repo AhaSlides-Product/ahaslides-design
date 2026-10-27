@@ -110,6 +110,34 @@
       ],
       "demo": "  <div class=\"canvas-decks\">\n    <div>\n      <div class=\"canvas-deck-name\">Light deck · black ink</div>\n      <div class=\"canvas-deck is-compact\" data-canvas-deck data-accent=\"--aha-vivid-pink-100\" data-ink=\"--aha-gray-100\" data-background=\"--aha-white\" style=\"background:var(--aha-white,#FFFFFF); color:var(--aha-text-default,#1A1A1A); border:1px solid var(--aha-border-default,#E3E3E3)\">\n        <aha-stepper size=\"lg\" navigable steps=\"Ideas|Group|Vote|Discuss\" current=\"2\" aria-label=\"Retro stages\" style=\"flex:1 1 auto\"></aha-stepper>\n      </div>\n    </div>\n    <div>\n      <div class=\"canvas-deck-name\">Dark deck · white ink</div>\n      <div class=\"canvas-deck is-compact\" data-canvas-deck data-accent=\"--aha-vivid-pink-100\" data-ink=\"--aha-white\" data-background=\"--aha-gray-100\" style=\"background:var(--aha-black,#1A1A1A); color:var(--aha-white,#FFFFFF)\">\n        <aha-stepper size=\"lg\" navigable steps=\"Ideas|Group|Vote|Discuss\" current=\"2\" aria-label=\"Retro stages\" style=\"flex:1 1 auto\"></aha-stepper>\n      </div>\n    </div>\n    <div>\n      <div class=\"canvas-deck-name\">Photo deck · black ink</div>\n      <div class=\"canvas-deck is-compact\" data-canvas-deck data-accent=\"--aha-vivid-pink-100\" data-ink=\"--aha-gray-100\" data-background=\"--aha-white\" data-image style=\"background:var(--aha-white,#FFFFFF) url(../backgrounds/splash-centre-white-16x9.svg) center / cover; color:var(--aha-text-default,#1A1A1A); border:1px solid var(--aha-border-default,#E3E3E3)\">\n        <aha-stepper size=\"lg\" navigable steps=\"Ideas|Group|Vote|Discuss\" current=\"2\" aria-label=\"Retro stages\" style=\"flex:1 1 auto\"></aha-stepper>\n      </div>\n    </div>\n    <div>\n      <div class=\"canvas-deck-name\">Photo deck · white ink</div>\n      <div class=\"canvas-deck is-compact\" data-canvas-deck data-accent=\"--aha-vivid-pink-100\" data-ink=\"--aha-white\" data-background=\"--aha-vivid-pink-100\" data-image style=\"background:var(--aha-vivid-pink-100,#E70E68) url(../backgrounds/splash-centre-pink-16x9.svg) center / cover; color:var(--aha-white,#FFFFFF)\">\n        <aha-stepper size=\"lg\" navigable steps=\"Ideas|Group|Vote|Discuss\" current=\"2\" aria-label=\"Retro stages\" style=\"flex:1 1 auto\"></aha-stepper>\n      </div>\n    </div>\n  </div>",
       "snippet": "<aha-stepper size=\"lg\" steps=\"Ideas|Group|Vote|Discuss\" current=\"1\" aria-label=\"Retro stages\"></aha-stepper>"
+    },
+    {
+      "name": "Leaderboard",
+      "element": "<aha-leaderboard>",
+      "kind": "In-canvas",
+      "what": "The ranked list of names and scores drawn inside the slide canvas: a neutral rank circle, a bar per row in the deck palette colours, the score with its unit and points gained, and an optional heading, all in the deck colours.",
+      "useWhen": "a slide shows who is ahead (quiz results, a game round, a team table): pass `entries`, set `size=\"stage\"` and give the element a height; every participant is listed and the list scrolls inside the height you give it",
+      "notFor": "a hand-built list of scores, a podium, or a ranking the participant sets (use rank-list)",
+      "rules": [
+        {
+          "label": "Row",
+          "value": "rank circle, a full-width track with the bar and the name, then the score, its unit and the points gained (`delta`); row n takes deck palette colour n and its matching ink, and a row with no score keeps a stub; the bar is sized to score over top score (`bar=\"false\"` turns it off); the name is drawn twice so the part over the bar reads on the fill"
+        },
+        {
+          "label": "Ranks",
+          "value": "every rank circle is the same neutral deck fill, with no podium treatment and no gold, silver or bronze; a trophy on first place is opt-in (`trophy`). Ties share a rank (1, 2, 2, 4)"
+        },
+        {
+          "label": "Deck",
+          "value": "themed only by `--aha-deck-*` tokens from applyCanvasDeck; pass `palette: xprops.presentationColorPalette` or no bar takes its palette colour. Row n takes `--aha-deck-palette-<n>` and its `-ink`; the bars fall back to the accent only where the deck has no palette; a team (an entry with `members`) adds a member count"
+        },
+        {
+          "label": "Motion",
+          "value": "rows slide to their new rank and scores count up with the DS motion tokens; none under prefers-reduced-motion"
+        }
+      ],
+      "demo": "  <div class=\"canvas-decks\">\n    <div>\n      <div class=\"canvas-deck-name\">Light deck · black ink</div>\n      <div class=\"canvas-deck\" data-canvas-deck data-accent=\"--aha-vivid-pink-100\" data-ink=\"--aha-gray-100\" data-background=\"--aha-white\" style=\"height:300px; padding:16px; background:var(--aha-white,#FFFFFF)\">\n        <aha-leaderboard size=\"stage\" me=\"u3\" style=\"height:100%\" entries='[{\"id\":\"u1\",\"name\":\"Linh\",\"score\":1200,\"avatar\":\"🦊\"},{\"id\":\"u2\",\"name\":\"Minh\",\"score\":900,\"avatar\":\"🐙\"},{\"id\":\"u3\",\"name\":\"An\",\"score\":900,\"avatar\":\"🐳\"},{\"id\":\"u4\",\"name\":\"Bao Tran Nguyen Van Anh\",\"score\":400},{\"id\":\"u5\",\"name\":\"Chi\",\"score\":150}]'></aha-leaderboard>\n      </div>\n    </div>\n    <div>\n      <div class=\"canvas-deck-name\">Dark deck · white ink</div>\n      <div class=\"canvas-deck\" data-canvas-deck data-accent=\"--aha-vivid-pink-100\" data-ink=\"--aha-white\" data-background=\"--aha-gray-100\" style=\"height:300px; padding:16px; background:var(--aha-gray-100,#FFFFFF)\">\n        <aha-leaderboard size=\"stage\" me=\"u3\" style=\"height:100%\" entries='[{\"id\":\"u1\",\"name\":\"Linh\",\"score\":1200,\"avatar\":\"🦊\"},{\"id\":\"u2\",\"name\":\"Minh\",\"score\":900,\"avatar\":\"🐙\"},{\"id\":\"u3\",\"name\":\"An\",\"score\":900,\"avatar\":\"🐳\"},{\"id\":\"u4\",\"name\":\"Bao Tran Nguyen Van Anh\",\"score\":400},{\"id\":\"u5\",\"name\":\"Chi\",\"score\":150}]'></aha-leaderboard>\n      </div>\n    </div>\n  </div>",
+      "snippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css\">\n<script type=\"module\">\n  import { applyCanvasDeck } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/canvas.js';\n  applyCanvasDeck(document.documentElement, {\n    accent: xprops.presentationColorPalette[0],\n    ink: xprops.slide.textColour,\n    image: Boolean(xprops.slide.backgroundImage),\n    palette: xprops.presentationColorPalette,\n  });\n</script>\n\n<aha-leaderboard size=\"stage\" style=\"height:100%\" entries='[{\"id\":\"u1\",\"name\":\"Linh\",\"score\":1200},{\"id\":\"u2\",\"name\":\"Minh\",\"score\":900}]'></aha-leaderboard>"
     }
   ]
 }
