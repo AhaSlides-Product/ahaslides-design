@@ -339,7 +339,7 @@
       ],
       "label": "bad-example",
       "notes": "Targets W9: a hand-written parallax of the whole hero, an autoplaying quote and a bare duration.",
-      "expected_output": "W9 FAILs: the hero image is moved by a hand-written scroll script (parallax is the DS script's light drift on section photos only, never a moving hero), the testimonial quote autoplays every 3 seconds, the transition uses a bare 600ms ease, and none of it stops under prefers-reduced-motion. Fix: remove the page scripts and the autoplay and load lib/marketing-motion.js for the reveal, photo parallax and count-up. Overall: NEEDS FIX.",
+      "expected_output": "W9 FAILs: the hero image is moved by a hand-written scroll script (parallax is the DS script's light drift of a picture inside its still frame only, never a moving hero), the testimonial quote autoplays every 3 seconds, the transition uses a bare 600ms ease, and none of it stops under prefers-reduced-motion. Fix: remove the page scripts and the autoplay and load lib/marketing-motion.js for the reveal, photo parallax and count-up. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "W9 is marked FAIL"
