@@ -22,6 +22,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.488.0 — 2026-10-27
+### Added
+- Guidelines can carry live examples: an optional `examples` array in a guideline JSON renders an Examples section on the guideline page (each example live, with a Show code toggle for its markup and CSS), and the same markup goes into the guideline's `.md` and agent feed. Guidelines without `examples` render unchanged.
+- Empty state guideline Examples: page scale (Session detail with no data), panel scale (Feedback tab), compact scale (Insights card under 240 px), plain `<aha-empty>` in a table body (do), the full pattern in a table row (don't), and the "No answer" caption on a repeated item (#PRNUM)
+- Revert: revert the PR; one new optional field and one render function in `generate.mjs`, no existing guideline, component or token changes (#PRNUM)
+
 ## 0.486.0 — 2026-10-27
 ### Added
 - Empty state guideline (`guidelines/empty-state.json`, Patterns badge): the full pattern (an `empty-*` spot illustration, a semibold title, one or two short sentences, at most one action, centred) at page scale (art 128, 16 px gaps, 18 px title) and panel scale (art 100, 144 px padding, 16 and 8 px gaps, 16 px title), when to use plain `<aha-empty>` instead (table bodies, lists, dropdowns, widgets; a card under 240 px takes the compact scale), copy rules, do and don't, and "no content is never an error". Built from the three approved Reports states; listed in `guidelines.llms.txt`, the guideline agent feed and the product route

@@ -2383,6 +2383,29 @@ const redirectStub = (target) => `<!doctype html><html lang="en"><head><meta cha
 </head><body><p>This page moved to <a href="${target}">${target}</a>.</p></body></html>
 `;
 
+const guidelineExampleCode = (ex) => `<style>\n${ex.css}\n</style>\n${ex.html}`;
+function renderGuidelineExamples(p) {
+  const registered = [...new Set([...p.examples.map(ex => ex.html).join('').matchAll(/<aha-([a-z-]+)/g)].map(m => m[1]))]
+    .filter(tag => !['icon', 'button'].includes(tag))
+    .map(tag => tag === 'illustration' ? 'illustrations' : `aha-${tag}`)
+    .filter(file => existsSync(join(root, 'lib', `${file}.js`)));
+  const cards = p.examples.map(ex => `<section class="gex${ex.verdict ? ' gex--' + ex.verdict : ''}" id="example-${esc(ex.id)}">
+    <h3 class="gex-title">${esc(ex.title)}</h3>
+    <p class="body">${esc(ex.summary)}${(ex.refs || []).length ? ` ${(ex.refs).map(r => `<span class="ref">${esc(r)}</span>`).join(' ')}` : ''}</p>
+    <div class="demo"><div class="demo-stage gex-stage"${ex.width ? ` style="max-width:${Number(ex.width)}px"` : ''}>${ex.html}</div>${marketingCodeToggle('html', guidelineExampleCode(ex))}</div>
+  </section>`).join('\n');
+  return `<h2>Examples</h2>
+  <p class="body">Live renders of the rules above, built only from design-system components and tokens. Each one has a Show code toggle with the markup and the CSS to copy.</p>
+  ${cards}
+  <script type="module">${registered.map(file => `import '../../lib/${file}.js';`).join('')}</script>`;
+}
+const guidelineExamplesCss = (p) => `
+  .gex{margin:0 0 28px}
+  .gex-title{font-size:var(--aha-size-l);margin:20px 0 6px}
+  .gex-stage{border:1px solid var(--aha-split);border-radius:var(--aha-radius-lg);overflow:hidden;background:var(--aha-white)}
+  .gex--dont .gex-stage{border-style:dashed}
+${[...new Set(p.examples.map(ex => ex.css))].join('\n')}`;
+
 function renderGuidelineHtml(p) {
   const missing = (p.composedOf || []).filter(x => x.status === 'missing');
   const skill = p.skillRef || {};
@@ -2406,7 +2429,7 @@ function renderGuidelineHtml(p) {
     ${antiSlop ? `<span class="skillref"><b>Anti-slop</b> <a href="../../feeds/anti-slop-md.html">${antiSlop.criteria.length} binary criteria · surface <code>${esc(p.slug)}</code></a></span>` : ''}
   </div>
 
-  ${p.surfaceChoice ? `<h2>Choose the surface</h2>${surfaceChoiceTable(p.surfaceChoice)}` : ''}
+  ${p.surfaceChoice ? `<h2>Choose the surface</h2>${surfaceChoiceTable(p.surfaceChoice)}` : ''}${p.examples ? renderGuidelineExamples(p) : ''}
 
   <h2>Composed of</h2>
   <p class="body">What a compliant ${esc(p.name.toLowerCase())} surface reuses from this design system — the pattern's link into the component graph.</p>
@@ -2432,7 +2455,7 @@ function renderGuidelineHtml(p) {
   .pat-guide h2{font-size:17px;line-height:24px;margin:28px 0 10px}
   .pat-h3{font-size:14px;font-weight:600;margin:16px 0 6px}
   .pat-hr{border:none;border-top:1px solid var(--aha-split);margin:22px 0}
-  .pat-foot{font-size:13px;color:var(--aha-text-tertiary)}`;
+  .pat-foot{font-size:13px;color:var(--aha-text-tertiary)}${p.examples ? guidelineExamplesCss(p) : ''}`;
   return docShell({ base: '../../', active: 'guideline:' + p.slug, title: p.name, titleSection: p.patternsNav ? 'Patterns' : 'Guidelines', section: p.patternsNav ? 'patterns' : 'guidelines', main, extraCss });
 }
 function renderGuidelineMd(p) {
@@ -2441,6 +2464,7 @@ function renderGuidelineMd(p) {
   const co = (p.composedOf || []).map(x => `- ${x.ref} (${x.as}) — ${x.use} [${x.status}]`).join('\n');
   const rules = (p.rules || []).map(r => `- ${r.rule} (${(r.ref||[]).join(', ')})`).join('\n');
   const surf = (p.surfaceChoice || []).map(s => `- **${s.surface}** — ${s.useFor} (e.g. ${s.example})`).join('\n');
+  const examplesMd = p.examples ? `## Examples\n${p.examples.map(ex => `\n### ${ex.title}\n${ex.summary}\n\n\`\`\`html\n${guidelineExampleCode(ex)}\n\`\`\`\n`).join('')}\n` : '';
   return `# ${p.name} — pattern
 > Generated from guidelines/${p.slug}.json — do not edit by hand. Composition guide, not a component.
 
@@ -2452,7 +2476,7 @@ Surfaces: ${(p.surfaces||[]).join(', ')}.
 ## Choose the surface
 ${surf}
 
-## Composed of
+${examplesMd}## Composed of
 ${co}
 ${p.componentBacklog ? `\n> Backlog: ${p.componentBacklog}` : ''}
 
@@ -2468,7 +2492,9 @@ function renderGuidelineAgent(p) {
   return JSON.stringify({
     generatedFrom: `guidelines/${p.slug}.json`, kind: 'guideline', pattern: p.name, slug: p.slug,
     summary: p.summary, skillRef: p.skillRef || null, surfaces: p.surfaces || null,
-    surfaceChoice: p.surfaceChoice || null, composedOf: p.composedOf || [],
+    surfaceChoice: p.surfaceChoice || null,
+    ...(p.examples ? { examples: p.examples.map(ex => ({ id: ex.id, title: ex.title, verdict: ex.verdict || null, rules: ex.refs || [], summary: ex.summary, html: ex.html, css: ex.css })) } : {}),
+    composedOf: p.composedOf || [],
     componentBacklog: p.componentBacklog || null, rules: p.rules || [],
     shipsCode: !!p.reuse, reuse: p.reuse || null,
     antiSlop: antiSlop ? { surface: p.slug, criteria: antiSlop.criteria.length, feed: `${SITE}/anti-slop.agent.json` } : null,

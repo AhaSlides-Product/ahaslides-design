@@ -280,5 +280,80 @@
       "verdict": "N/A — per surface"
     }
   ],
-  "guide": "empty-state.guide.md"
+  "guide": "empty-state.guide.md",
+  "examples": [
+    {
+      "id": "page-scale",
+      "title": "Page scale: Session detail with no data",
+      "scale": "Page scale",
+      "refs": [
+        "EMPTY-01",
+        "EMPTY-04",
+        "EMPTY-08"
+      ],
+      "summary": "The page is the empty thing, so it gets the full pattern with the one action that fills it. Art 128, one 16 px gap between art, title, body and action, title 18 px semibold, body 14 px at most 480 px wide.",
+      "css": ".es{display:flex;flex-direction:column;align-items:center;text-align:center;margin:0 auto}\n.es__title{margin:0;font-weight:var(--aha-weight-semibold);color:var(--aha-text-default)}\n.es__body{margin:0;max-width:480px;color:var(--aha-text-default);font-size:var(--aha-size-default)}\n.es--page{justify-content:center;min-height:420px;gap:var(--aha-space-16);padding:0 var(--aha-space-16)}\n.es--page .es__title{font-size:var(--aha-size-h6)}",
+      "html": "<div class=\"es es--page\">\n  <aha-illustration name=\"empty-report\" size=\"128\" decorative></aha-illustration>\n  <h2 class=\"es__title\">All quiet here!</h2>\n  <p class=\"es__body\">Create your first slide, then hit present. Your report will show up here.</p>\n  <aha-button variant=\"secondary\">Open the presentation</aha-button>\n</div>"
+    },
+    {
+      "id": "panel-scale",
+      "title": "Panel scale: Feedback tab with no rows",
+      "scale": "Panel scale",
+      "refs": [
+        "EMPTY-05",
+        "EMPTY-07",
+        "EMPTY-10"
+      ],
+      "summary": "A tab panel that is the main content of its area. The tabs and card border stay; only the body is replaced. Padding above and below 144 px (80 + 64), art 100, 16 px to the title, 8 px to the body, title 16 px semibold, no action because the body names the next step.",
+      "css": ".es{display:flex;flex-direction:column;align-items:center;text-align:center;margin:0 auto}\n.es__title{margin:0;font-weight:var(--aha-weight-semibold);color:var(--aha-text-default)}\n.es__body{margin:0;max-width:480px;color:var(--aha-text-default);font-size:var(--aha-size-default)}\n.es--panel{padding:calc(var(--aha-space-80) + var(--aha-space-64)) var(--aha-space-16)}\n.es--panel .es__title{margin-top:var(--aha-space-16);font-size:var(--aha-size-l)}\n.es--panel .es__body{margin-top:var(--aha-space-8)}",
+      "html": "<div class=\"es es--panel\">\n  <aha-illustration name=\"empty-feedback\" size=\"100\" decorative></aha-illustration>\n  <h3 class=\"es__title\">All quiet here!</h3>\n  <p class=\"es__body\">No feedback yet. Ask your audience to share their thoughts to see it here.</p>\n</div>"
+    },
+    {
+      "id": "compact-scale",
+      "title": "Compact scale: Insights card under 240 px",
+      "scale": "Compact scale",
+      "width": 320,
+      "refs": [
+        "EMPTY-12"
+      ],
+      "summary": "A card whose content is the empty thing but is too short for the panel scale. 24 px padding on every side, art 64, 16 px to the title, 8 px to the body, title 14 px, body 12 px, no action.",
+      "css": ".es{display:flex;flex-direction:column;align-items:center;text-align:center;margin:0 auto}\n.es__title{margin:0;font-weight:var(--aha-weight-semibold);color:var(--aha-text-default)}\n.es__body{margin:0;max-width:480px;color:var(--aha-text-default);font-size:var(--aha-size-default)}\n.es--compact{padding:var(--aha-space-24)}\n.es--compact .es__title{margin-top:var(--aha-space-16);font-size:var(--aha-size-default)}\n.es--compact .es__body{margin-top:var(--aha-space-8);font-size:var(--aha-size-sm)}",
+      "html": "<div class=\"es es--compact\">\n  <aha-illustration name=\"empty-insights\" size=\"64\" decorative></aha-illustration>\n  <h4 class=\"es__title\">All quiet here!</h4>\n  <p class=\"es__body\">No insights found yet.</p>\n</div>"
+    },
+    {
+      "id": "plain-empty-do",
+      "title": "Do: plain aha-empty in a table body",
+      "verdict": "do",
+      "scale": "Plain aha-empty",
+      "refs": [
+        "EMPTY-01"
+      ],
+      "summary": "A table body is a small surface, so the grey line art of aha-empty with one caption stays out of the way of the header and rows.",
+      "css": "table.rows{width:100%;border-collapse:collapse;font-size:var(--aha-size-default);color:var(--aha-text-default)}\ntable.rows th,table.rows td{padding:var(--aha-space-12) var(--aha-space-16);text-align:left;border-bottom:1px solid var(--aha-split)}\ntable.rows th{font-weight:var(--aha-weight-semibold);background:var(--aha-gray-20)}\ntable.rows tr:last-child td{border-bottom:none}\ntable.rows td[colspan]{text-align:center}",
+      "html": "<table class=\"rows\">\n  <thead><tr><th>Question</th><th>Responses</th></tr></thead>\n  <tbody>\n    <tr><td colspan=\"2\"><aha-empty image=\"simple\" description=\"No responses yet\"></aha-empty></td></tr>\n  </tbody>\n</table>"
+    },
+    {
+      "id": "full-pattern-in-row-dont",
+      "title": "Don't: the full pattern inside a table row",
+      "verdict": "dont",
+      "scale": "Full pattern in a row",
+      "refs": [
+        "EMPTY-01"
+      ],
+      "summary": "The pink spot art, title and body push the table apart and make the header look like the afterthought. A table body takes the plain aha-empty instead.",
+      "css": "table.rows{width:100%;border-collapse:collapse;font-size:var(--aha-size-default);color:var(--aha-text-default)}\ntable.rows th,table.rows td{padding:var(--aha-space-12) var(--aha-space-16);text-align:left;border-bottom:1px solid var(--aha-split)}\ntable.rows th{font-weight:var(--aha-weight-semibold);background:var(--aha-gray-20)}\ntable.rows tr:last-child td{border-bottom:none}\ntable.rows td[colspan]{text-align:center}\n.es{display:flex;flex-direction:column;align-items:center;text-align:center;margin:0 auto}\n.es__title{margin:0;font-weight:var(--aha-weight-semibold);color:var(--aha-text-default)}\n.es__body{margin:0;max-width:480px;color:var(--aha-text-default);font-size:var(--aha-size-default)}\n.es--compact{padding:var(--aha-space-24)}\n.es--compact .es__title{margin-top:var(--aha-space-16);font-size:var(--aha-size-default)}\n.es--compact .es__body{margin-top:var(--aha-space-8);font-size:var(--aha-size-sm)}",
+      "html": "<table class=\"rows\">\n  <thead><tr><th>Question</th><th>Responses</th></tr></thead>\n  <tbody>\n    <tr><td colspan=\"2\">\n      <div class=\"es es--compact\">\n        <aha-illustration name=\"empty-responses\" size=\"64\" decorative></aha-illustration>\n        <h4 class=\"es__title\">All quiet here!</h4>\n        <p class=\"es__body\">No responses yet.</p>\n      </div>\n    </td></tr>\n  </tbody>\n</table>"
+    },
+    {
+      "id": "repeated-caption",
+      "title": "A repeated item: the plain caption \"No answer\"",
+      "scale": "Caption only",
+      "refs": [
+        "EMPTY-13"
+      ],
+      "summary": "An answer card repeated for every skipped slide shows one plain line. No art, no title and body: the same picture on every card would be noise.",
+      "css": ".answers{display:grid;gap:var(--aha-space-12);max-width:360px}\n.answers__card{border:1px solid var(--aha-split);border-radius:var(--aha-radius-lg);padding:var(--aha-space-12) var(--aha-space-16);color:var(--aha-text-default);font-size:var(--aha-size-default)}\n.answers__card p{margin:0}\n.answers__card .no-answer{margin-top:var(--aha-space-4);font-size:var(--aha-size-sm);color:var(--aha-text-secondary)}",
+      "html": "<div class=\"answers\">\n  <div class=\"answers__card\"><p>Slide 2: What is your team called?</p><p class=\"no-answer\">No answer</p></div>\n  <div class=\"answers__card\"><p>Slide 3: Pick your favourite</p><p class=\"no-answer\">No answer</p></div>\n</div>"
+    }
+  ]
 }
