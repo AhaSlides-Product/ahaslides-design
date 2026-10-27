@@ -22,10 +22,34 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.492.0 — 2026-10-27
+## 0.501.0 — 2026-10-27
 ### Fixed
 - The pill is back on the presenting canvas too. The canvas kit badge (`.canvas-lib .badge` in `canvas/canvas.css`) is `var(--aha-radius-pill)` again instead of 4px, the Canvas guideline and guide say avatars, dots, chips, badges and bar tracks may be fully rounded again, the canvas anti-slop evals and fixtures read as before 0.441.0 (999px bars and badges, 50% marks), and the canvas-only pill check in `standards.mjs` and the canvas pill rule in screen-lint are removed. `--aha-radius-pill` (999px) stays the one token. (#410)
 - Marketing Header: the Hero split and Hero stacked badge is a pill again (`var(--aha-radius-pill)`), as every Header badge was before 0.441.0; it stayed at 6px when the Header layouts were merged into five. An audit of every radius against 0.440.0 found no other change: rounded rectangles keep their radius, and only what was fully round before is fully round again. Revert: revert the PR (#410)
+
+## 0.497.2 — 2026-10-27
+### Fixed
+- `aha-input`: the `labels` getter falls back to an empty list when the environment's `attachInternals()` has no `labels` (jsdom), so `_syncName` no longer throws "this.labels is not iterable" in consumer unit tests. No API change. Revert: revert this PR. (#418)
+
+## 0.497.1 — 2026-10-27
+### Changed
+- The Leaderboard docs page moves out of the global Components area into the Canvas Library: `contracts/leaderboard.json` gains `libraryArea: "canvas"`, so `/leaderboard/` opens with Canvas Library active and no Components sidebar, the docs search files it under Canvas Library, and `llms.txt` lists it under "Canvas and Audience Library components" instead of "Components" (it is also out of the `design.md` component list). The Canvas Library and Audience Library Leaderboard sections carry a "Full Leaderboard docs" link to `/leaderboard/`, which keeps its URL. The component and its API are unchanged. (#417)
+### Fixed
+- The Canvas Library Leaderboard demo fills the deck width; it had shrunk to its scores inside the wrapping deck row. (#417)
+
+## 0.497.0 — 2026-10-27
+### Changed
+- Websites → Features: in the split layouts (`icon-list-photo`, `tabs-screenshots`, and an alternating section with a single row) the section button sits in the text column under the text, left aligned with it (`aha-features__column` and `aha-features__cta--start`), even under a centred heading, instead of centred under the whole row. Rule W18 says so.
+- Websites → Testimonials: at most three testimonial or case cards per section, and quotes of similar length (the longest within about 1.5 times the shortest, none over 160 characters); the Quote cards sample's long middle quote is trimmed. Rule W19 and the Testimonials page carry both.
+- Websites → new tab: the section link-out buttons (Read customer stories, Read the docs, and Browse all templates, See all integrations) open in a new tab with `rel="noopener"` and visually-hidden "(opens in a new tab)" text, Sign up and the hero's primary call to action stay in the same tab (W15, W18). In the Footer every link that leaves AhaSlides (the three G2 badges that had no `target`, the Training Magazine Network and DMCA badges, System status, the social channels) opens in a new tab with `rel="noopener"` and a new-tab cue in its label. Revert: revert this PR; no API change. (#357)
+
+## 0.494.0 — 2026-10-27
+### Removed
+- No section on a website page carries an eyebrow (the small label above a heading, hero included): the Features, Numbers, Pricing and Header section layouts lose their `__eyebrow` element and CSS, and website rules W14 and W17 now say a heading block is the h2 and its lead. Card category labels (`aha-marketing-card__eyebrow`) stay. (#414)
+### Added
+- `screen-lint --surface=website` fails a page on four more checks: a section eyebrow (W14, W17), three white content bands in a row or two coloured bands touching (W5), page CSS that overrides a Marketing section's padding, margin or gap (W2), and a class of a layout the DS has removed (W1, list derived from release history in `marketing/data/removed-layouts.json`). (#414)
+- Website eval fixture `fail-w14-eyebrow`. (#414)
+- To revert: revert this commit; the removed eyebrow markup returns with it and the lint checks go away.
 
 ## 0.491.0 — 2026-10-27
 ### Added

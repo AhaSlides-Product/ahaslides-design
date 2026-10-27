@@ -3,6 +3,7 @@
   "slug": "leaderboard",
   "group": "General",
   "tier": "leaf",
+  "libraryArea": "canvas",
   "badge": "shared web component — canvas and audience",
   "element": "aha-leaderboard",
   "reuse": {

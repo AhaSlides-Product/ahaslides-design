@@ -1189,6 +1189,8 @@ function playgroundBar(c, group) {
 // A preview places a grouped toggle bar next to the badge it controls with a `<!--pg:GROUP-->` marker.
 const previewWithBars = (c) => part(c.preview).replace(/<!--pg:([\w-]+)-->/g, (_, group) => playgroundBar(c, group));
 
+const libraryDocsLink = (sec) => sec.docs ? `<p class="docs-link"><a href="${esc(sec.docs.href)}">${esc(sec.docs.label)}</a></p>` : '';
+
 const docPagePath = (c) => c.docPage || `${c.slug}/index.html`;
 
 /* Charts — its OWN top-level area, one self-contained page (charts/index.html), built like the Settings
@@ -1253,12 +1255,13 @@ function renderHtml(c) {
   const preview = previewWithBars(c);
   const isSettings = SETTINGS_SLUGS.has(c.slug);  // settings-panel family → its OWN Settings area
   const isPattern = !isSettings && PATTERN_SLUGS.has(c.slug);   // AhaSlides-composed → Patterns area
-  const area = isSettings ? 'settings' : isPattern ? 'patterns' : 'components';
+  const area = c.libraryArea || (isSettings ? 'settings' : isPattern ? 'patterns' : 'components');
   const main = `
   <h1>${esc(c.name)}</h1>
   ${headline(c.highlights, esc(c.summary))}
   <!-- generated from contracts/${c.slug}.json + tokens.canonical.json — do not edit by hand -->
   ${c.pageToggle ? playgroundBar({ playground: c.pageToggle }) : ''}
+  ${c.libraryArea ? `<p class="hub-back">Part of the <a href="../canvas/index.html#${esc(c.name)}">Canvas Library</a> and the <a href="../audience/index.html#${esc(c.name)}">Audience Library</a>: the full contract is here, the library pages show it on the canvas and on the phone.</p>` : ''}
   ${c.hubRef ? `<p class="hub-back">Also on the standalone <a href="../${esc(c.hubRef)}/index.html">Settings page</a> — the whole settings surface, including this component, inline on one page.</p>` : ''}
 
   <h2>Examples</h2>
@@ -1277,7 +1280,7 @@ function renderHtml(c) {
 
   <h2>Spec</h2>
   <div class="spec-line">${specList(c.spec)}</div>${mergedSections(c)}`;
-  return docShell({ base: '../', active: c.slug, title: c.name, section: area, main });
+  return docShell({ base: '../', active: c.slug, title: c.name, section: area, main, noSidebar: Boolean(c.libraryArea) });
 }
 
 // Hidden conformance harness (composites): mounts both framework tiers with the token layer,
@@ -1593,7 +1596,7 @@ function renderAudienceCard(sec) {
     <dl class="callout">
       <div class="use"><dt>Use when</dt><dd>${audMd(sec.useWhen)}</dd></div>
       <div class="not"><dt>Not for</dt><dd>${audMd(sec.notFor)}</dd></div>
-    </dl>${replaces}${note}
+    </dl>${replaces}${note}${libraryDocsLink(sec)}
   </header>
   <div class="decks">
     <div class="deck light"><span class="deck-lbl">Light deck</span><div class="deck-body">${sec.demoLight}</div></div>
@@ -1672,6 +1675,7 @@ function renderCanvasCard(sec) {
       <div class="use"><dt>Use when</dt><dd>${audMd(sec.useWhen)}</dd></div>
       <div class="not"><dt>Not for</dt><dd>${audMd(sec.notFor)}</dd></div>
     </dl>
+    ${libraryDocsLink(sec)}
   </header>
   <div class="cl-demo">${sec.demo}</div>
   ${rules ? `<div class="cl-rules"><h3>Rules</h3><dl>${rules}</dl></div>` : ''}
@@ -2712,7 +2716,7 @@ function renderDesignMd(t, cs) {
   const vizValue = (path, hex) => (aliasOf(path) ? `var(${aliasOf(path).cssVar}) = ${hex}` : hex);
   const viz    = [['viz-ink', vizValue('color.viz.ink', c.viz.ink)], ['viz-ink-inverse', vizValue('color.viz.inkInverse', c.viz.inkInverse)], ['viz-neutral', vizValue('color.viz.neutral', c.viz.neutral)],
     ...Object.keys(c.viz.series).map(k => [`viz-series-${k}`, vizValue(`color.viz.series.${k}`, c.viz.series[k])]), ...Object.keys(c.viz.tint).map(k => [`viz-tint-${k}`, vizValue(`color.viz.tint.${k}`, c.viz.tint[k])])];
-  const comps = cs.map(x => `- **${x.name}** (${x.tier}) — ${x.summary}`).join('\n');
+  const comps = cs.filter(x => !x.libraryArea).map(x => `- **${x.name}** (${x.tier}) — ${x.summary}`).join('\n');
   const answerTable = tbl(answerTokenEntries(c).map(([cssVar, value]) => [cssVar.replace(/^--aha-/, ''), value]));
   return `# AhaSlides Design System — design.md
 > Machine-readable visual language for AI design + code tools. Generated from tokens.canonical.json — do not edit by hand.
@@ -3053,7 +3057,7 @@ function renderIndex() {
 
 /* ===== For developers — install steps and agent feeds ===== */
 function renderGetStarted(cs) {
-  const live = cs.filter(c => !c.docPage).length;
+  const live = cs.filter(c => !c.docPage && !c.libraryArea).length;
   const planned = [...COMPONENTS_CATALOG, ...PATTERNS_CATALOG].reduce((n,g)=>n+g.items.length,0);
   const main = `
   <h1>For developers</h1>
@@ -3619,6 +3623,13 @@ writeFileSync(join(root, 'lib', 'marketing-breakpoints.js'),
   `export const MARKETING_MIN_WIDTHS = ${JSON.stringify([...marketingMinWidths].sort((a, b) => a - b))};\n`);
 console.log(`  ✓ lib/marketing-breakpoints.js — ${marketingMinWidths.size} marketing min-width breakpoints`);
 
+const removedMarketingClasses = JSON.parse(readFileSync(join(MDIR, 'data', 'removed-layouts.json'), 'utf8')).classes.slice().sort();
+writeFileSync(join(root, 'lib', 'marketing-removed-layouts.js'),
+  `// ${PKGNAME}/screen-lint — Marketing section and layout classes earlier releases shipped and the DS no longer has (generated by generate.mjs from marketing/data/removed-layouts.json; do not edit by hand).\n` +
+  `// screen-lint --surface=website fails a page that still uses one.\n` +
+  `export const MARKETING_REMOVED_CLASSES = ${JSON.stringify(removedMarketingClasses)};\n`);
+console.log(`  ✓ lib/marketing-removed-layouts.js — ${removedMarketingClasses.length} removed Marketing classes`);
+
 /* Ship the real component modules INTO the site (dist/lib) so a doc-page preview can
    ESM-import the SHIPPED element (../lib/<name>.js) — resolves both locally and on
    GitHub Pages under the project path. Without this, lib/ isn't deployed and every
@@ -3729,6 +3740,7 @@ const indexLines = [
   '',
 ];
 const fullDocs = [];
+const libraryIndexLines = [];
 for (const c of contracts) {
   const d = join(OUT, c.slug); mkdirSync(d, { recursive: true });
   if (c.docPage) {
@@ -3744,10 +3756,11 @@ for (const c of contracts) {
   writeFileSync(join(d, `${c.slug}.agent.json`), agentJson);       // alongside the doc page
   writeFileSync(join(OUT, `${c.slug}.agent.json`), agentJson);     // flat canonical URL agents fetch
   writeFileSync(join(OUT, `${c.slug}.llms.txt`), renderLlms(c));
-  indexLines.push(`- [${c.name}](${c.slug}/${c.slug}.md) — ${c.tier}${environmentTag(c)} — ${c.summary}${settingsHubPointer(c) ? ' (Settings pattern: read the Settings hub first)' : ''}`);
+  (c.libraryArea ? libraryIndexLines : indexLines).push(`- [${c.name}](${c.slug}/${c.slug}.md) — ${c.tier}${environmentTag(c)} — ${c.summary}${settingsHubPointer(c) ? ' (Settings pattern: read the Settings hub first)' : ''}`);
   fullDocs.push(md);
   console.log(`  ✓ ${c.slug}: index.html · ${c.slug}.md · ${c.slug}.agent.json · ${c.slug}.llms.txt`);
 }
+if (libraryIndexLines.length) indexLines.push('', '## Canvas and Audience Library components', '', ...libraryIndexLines);
 writeFileSync(join(OUT, 'llms.txt'), indexLines.join('\n') + '\n');
 // Full-context feed ends with the changelog, so an agent reading the whole thing knows what
 // changed per release (and which version these docs describe).
