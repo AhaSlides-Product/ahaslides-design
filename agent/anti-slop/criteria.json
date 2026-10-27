@@ -615,7 +615,7 @@
           "source": [
             "6.8"
           ],
-          "test": "Applies to product app screens only, not the website, the canvas or the audience screens. At rest, Vivid Pink is the fill of the primary button of each region (a page, panel, dialog or drawer) and nothing else: text, borders and icons are the default ink, and pink appears on hover, focus or selection. FAIL if a pink icon, pink border, pink heading or label, or a pink fill other than a primary button shows at rest. Rules that name their own pink pass: inline text links on white (6.6) or in an Alert or info box (6.7), tags (4.6), charts (section 8), the logo and illustrations, the focus ring, the chat launcher, and the selected or on state of a control."
+          "test": "Applies to product app screens only, not the website, the canvas or the audience screens. At rest, Vivid Pink is the fill of the primary button of each region (a page, panel, dialog or drawer) and nothing else: text, borders and icons are the default ink, and pink appears on hover, focus or selection. FAIL if a pink icon, pink border, pink heading or label, or a pink fill other than a primary button shows at rest. Rules that name their own pink pass: inline text links on white (6.6) or in an Alert or info box (6.7), tags (4.6), charts (section 8), the logo and illustrations, the focus ring, the chat launcher, the selected or on state of a control, the one Vivid Pink at 5% highlighted panel (3.7), and fills a DS component ships from its own contract (the Paywall upgrade mark, the Stat tile bar, group Avatar grounds, filled Rate stars, Badge primary count and ribbon)."
         }
       ]
     },
