@@ -24,6 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.484.0 — 2026-10-27
 ### Added
+<<<<<<< HEAD
 - Empty state guideline (`guidelines/empty-state.json`, Patterns badge): the full pattern (an `empty-*` spot illustration, a semibold title, one or two short sentences, at most one action, centred) at page scale (art 128, 16 px gaps, 18 px title) and panel scale (art 100, 144 px padding, 16 and 8 px gaps, 16 px title), when to use plain `<aha-empty>` instead (table bodies, lists, dropdowns, widgets; a card under 240 px takes the compact scale), copy rules, do and don't, and "no content is never an error". Built from the three approved Reports states; listed in `guidelines.llms.txt`, the guideline agent feed and the product route
 - Eight illustrations in the `empty` family: `empty-report`, `empty-participants`, `empty-feedback` from the approved Reports states, and `empty-sessions`, `empty-slides`, `empty-insights`, `empty-leaderboard`, `empty-responses` drawn in the same flat pink-tint style for the other Report empty states (33 in the registry, up from 25)
 ### Changed
@@ -32,6 +33,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - A guideline can set `patternsNav` to list itself, and render, under the Patterns sidebar (group "Composition guides"); the Empty state guideline does, and its panel padding is `calc(var(--aha-space-80) + var(--aha-space-64))` so no value is off the token scale
 - Empty state guideline also has a compact scale (art 64, `--aha-space-24` padding, 14 px title, 12 px body, no action) for a card under 240 px whose content is the empty thing, and a repeated-item caption rule: a small item repeated per slide or row shows a plain one-line caption ("No answer"), never the pattern (EMPTY-12, EMPTY-13)
 - Revert: revert the PR; a new doc page and eight additive illustrations, no existing name or value changes (#388)
+=======
+- Docs site, Websites > Sections: the Header, Features, Pricing, Numbers, Testimonials and Cards pages open in a Grid view, a three-column gallery of live thumbnails (two columns on a tablet, one on a phone) captioned "layout name · page name", with a Grid / List switch and a search box that filters by layout name and "Use for" text. Clicking a card switches to List view at that layout's `#<slug>` anchor; a URL with a hash opens in List view, and the last choice is remembered per browser. List view is the previous page unchanged. Pages with fewer than two layouts are unchanged. Revert: revert the PR; the change is the `sectionGallery*` functions in `generate.mjs` plus one hook in each of the two marketing page renderers. (#409)
+### Fixed
+- `aha-segmented`: the selected pill is re-measured when the segments or the track resize (a font that loads late no longer leaves it narrower than its label, which clipped Grid to Gri at 375px). Revert: revert the PR; the `_observeSizes` and `_placeThumb` methods in `lib/aha-segmented.js`.
+>>>>>>> origin/master
 
 ## 0.482.0 — 2026-10-27
 ### Added
