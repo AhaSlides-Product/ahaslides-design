@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.490.0 — 2026-10-27
+### Added
+- `applyDeck` (the audience phone) writes `--aha-deck-palette-<n>` and `--aha-deck-palette-<n>-ink` for each colour of `slide.presentationColorPalette`, the same pairs `applyCanvasDeck` writes (1-based, up to 24, the ink `#1A1A1A` or white by contrast); the pairs come from one shared `paletteVars` in `lib/deck.js`, so the canvas and the phone cannot drift. Without a palette nothing is written
+- Revert: revert the PR; additive, no existing token changes (#391)
+
 ## 0.489.0 — 2026-10-27
 ### Added
 - `<aha-question-list>` host API, so a slide type's settings use the list instead of hand-building it: `notices` (InfoBoxes with links that open a question), `accordion`, a cancelable `question-toggle` event, `setQuestionOpen(id, open)`, a `question-leave` event, `change` `detail.edit` naming each edit, `singlecorrect`, `multiline` (a 1 to 3 row prompt), `promptmaxlength` / `optionmaxlength`, per-question `current` and `untitled`, the `markAsCorrect` and plural `countZero` / `countTwo` / `countFew` / `countMany` strings, `testid` hooks and `data-question-id` / `data-option-id`. Every one is opt-in; without them the list behaves as before (#397)
