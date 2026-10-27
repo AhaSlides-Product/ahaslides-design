@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.498.1 — 2026-10-27
+### Fixed
+- `aha-input` and `aha-button` keep their `ElementInternals` only when it has the form API (`setFormValue`); jsdom's partial internals is treated as none, so `form` and `labels` fall back and `aha-input` no longer throws "this._internals.setFormValue is not a function" in consumer unit tests. Browsers are unchanged. No API change. Revert: revert this PR. (#NNN)
+
 ## 0.498.0 — 2026-10-27
 ### Changed
 - `<aha-chart type="bar">`: new row layout. The label (one line, ellipsis, at least 16px clear of the value) and the value sit on one line above the bar, the track spans the row, and the image (or placeholder tile) moves to the end of the row. The label-to-bar gap goes from 4 to 8px (`--aha-space-8`) and the bar from 38 to 34px (28 in a dense chart), so the row and image tile stay 68px. In the Ranking variant (`sort="desc"`) the rank number takes the `<aha-leaderboard>` rank chip: a 32px neutral circle on the track colour with a 16px semibold tabular number, centred on the label line; the image tile grows with that line so it still lines up. Bar and column labels (stacked column too) go up one size, to `--aha-size-xl` (20px) (#412)
