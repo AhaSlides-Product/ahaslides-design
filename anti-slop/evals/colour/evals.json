@@ -284,6 +284,27 @@
         "authored": "ahaslides-design",
         "why": "written with the criteria from brand/colour-rules.json; the plugin judge dataset predates the colour rules of 7 October 2026"
       }
+    },
+    {
+      "id": 14,
+      "prompt": "Review a Presenter home screen in the product app. The page has one primary 'New presentation' button in Vivid Pink. A paid-only 'Export' menu item carries the DS Paywall upgrade mark, a DS Progress bar shows storage used, the selected sidebar item has a Vivid Pink icon, and a DS Alert holds an inline text-link in Vivid Pink. All other text, borders and icons are ink on white.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Targets C9: pink the rules or a DS component contract name passes; guards against an over-broad C9.",
+      "expected_output": "C9 PASSes: the only pink fill is the primary button; the Paywall mark and Progress fill come from their DS contracts, the sidebar icon is a selected state and the alert link is rule 6.7. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C9": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; the plugin judge dataset predates the colour rules of 7 October 2026"
+      }
     }
   ]
 }
