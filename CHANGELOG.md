@@ -22,10 +22,18 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.491.1 — 2026-10-27
+## 0.494.1 — 2026-10-27
 ### Fixed
 - Marketing sections no longer depend on the host site's heading and quote styles: every section title (Features, Numbers, Pricing, Testimonials, Header, Footer banner, Card) is `display:block`, so a host `h2{display:flex;text-align:left}` (Webflow) cannot pull a centred title to the left; the title inherits `text-align`, and the Testimonials and Cards quote classes (and their blockquote resets) zero `margin`, `padding` and `border`, so a host `blockquote{padding:10px 20px;border-left:...}` (Webflow default) changes neither indent nor bar (#413)
 - Revert: revert the PR; the changes sit in `marketing/*.json` (title rules and blockquote resets) and the sections regenerated from them (#413)
+
+## 0.494.0 — 2026-10-27
+### Removed
+- No section on a website page carries an eyebrow (the small label above a heading, hero included): the Features, Numbers, Pricing and Header section layouts lose their `__eyebrow` element and CSS, and website rules W14 and W17 now say a heading block is the h2 and its lead. Card category labels (`aha-marketing-card__eyebrow`) stay. (#414)
+### Added
+- `screen-lint --surface=website` fails a page on four more checks: a section eyebrow (W14, W17), three white content bands in a row or two coloured bands touching (W5), page CSS that overrides a Marketing section's padding, margin or gap (W2), and a class of a layout the DS has removed (W1, list derived from release history in `marketing/data/removed-layouts.json`). (#414)
+- Website eval fixture `fail-w14-eyebrow`. (#414)
+- To revert: revert this commit; the removed eyebrow markup returns with it and the lint checks go away.
 
 ## 0.491.0 — 2026-10-27
 ### Added

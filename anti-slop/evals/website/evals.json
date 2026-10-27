@@ -744,6 +744,37 @@
         "authored": "ahaslides-design",
         "why": "DS-authored with the website surface; no plugin judge dataset exists"
       }
+    },
+    {
+      "id": 25,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w14-eyebrow/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W14 and W17: the Features section heading block opens with a small uppercase label (an eyebrow, class aha-features__eyebrow) above the h2. A section heading is h2 and lead; no section carries an eyebrow, the hero included.",
+      "expected_output": "W14 FAILs: the Features heading block has an eyebrow (\"Features\", small, uppercase, above the h2). The fix is to delete the eyebrow element and its CSS so the block is the h2 and the lead. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W14 is marked FAIL",
+        "Names the eyebrow above the section heading and says to remove it"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W1": "PASS",
+          "W14": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
     }
   ]
 }
