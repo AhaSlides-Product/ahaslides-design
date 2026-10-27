@@ -26,6 +26,13 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - `--aha-radius-pill` (999px) is back in the foundation tokens, and the pill shape is back outside the presenting canvas: the components, contracts, guidelines, audience kit, marketing sections and screen-lint scale that 0.441.0 moved off the pill use it again. The switch track is `var(--aha-radius-pill)` like the others. The deck tokens and the canvas kit stay pill-free, and `standards.mjs` still fails a pill radius in canvas sources. (#407)
 
+## 0.472.0 — 2026-10-27
+### Changed
+- Website > Marketing > Features: the Compact tabs layout puts the Create your quiz free button in the text column of each panel, under Learn more and left aligned, instead of centred under the whole section. Uses the `aha-features__column` and `aha-features__cta--start` classes. (#406)
+
+### Removed
+- Website > Marketing > Features: five near-duplicate layouts, 16 down to 11. Compact: accordion beside one image and Compact: pick from a list (use Tabs with screenshots or Compact tabs), Feature card row with 3 cards (use Icon cards), Icons around a results screenshot (use Icons around a phone screenshot), Alternating with portrait screenshots (use Alternating with mixed-size screenshots; the portrait framing rule is unchanged). Revert: restore the five layouts from `marketing/features.json`. (#406)
+
 ## 0.455.1 — 2026-10-27
 ### Fixed
 - `aha-checkbox`: with a multi-line label the box stays on the first line (centre of line 1) instead of floating to the middle of the label. Single-line rendering, and a checkbox with no label, are unchanged.
