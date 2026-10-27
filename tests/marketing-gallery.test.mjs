@@ -6,19 +6,40 @@ import { runInNewContext } from 'node:vm';
 const readSection = (slug) => JSON.parse(readFileSync(new URL(`../marketing/${slug}.json`, import.meta.url), 'utf8'));
 const script = readFileSync(new URL('../lib/marketing-motion.js', import.meta.url), 'utf8');
 const header = readSection('header');
-const gallery = readSection('gallery');
+const galleryLayouts = header.layouts.filter((layout) => layout.slug.startsWith('gallery-'));
+const features = readSection('features');
 const whiteHeroes = ['hero-photo-stack', 'hero-bento-collage', 'hero-image-marquee', 'hero-slideshow', 'hero-floating-images'];
 const pinkHeroes = whiteHeroes.map((slug) => slug.replace('hero-', 'hero-pink-'));
 const multiImageHeroes = [...whiteHeroes, ...pinkHeroes];
 const ownCss = (css) => css.slice(css.indexOf('\n', css.indexOf('__visually-hidden{')) + 1);
 const layouts = [
   ...header.layouts.filter((layout) => multiImageHeroes.includes(layout.slug)).map((layout) => ({ ...layout, css: ownCss(layout.css) })),
-  ...gallery.layouts.map((layout) => ({ ...layout, css: gallery.baseCss + layout.css })),
+  ...galleryLayouts,
 ];
 
-test('the five multi-image heroes, their Vivid Pink versions and six gallery layouts ship', () => {
-  assert.equal(layouts.length, 16);
-  assert.deepEqual(gallery.layouts.map((layout) => layout.slug), ['bento', 'masonry', 'carousel', 'stack', 'marquee', 'tabs']);
+test('the five multi-image heroes, their Vivid Pink versions and five Header gallery layouts ship, and the sticky stack is a Features layout', () => {
+  assert.equal(layouts.length, 15);
+  assert.deepEqual(galleryLayouts.map((layout) => layout.slug), ['gallery-bento', 'gallery-masonry', 'gallery-carousel', 'gallery-marquee-rows', 'gallery-tabs']);
+  assert.ok(features.layouts.some((layout) => layout.slug === 'sticky-stack'));
+  assert.equal(header.layouts.some((layout) => /gallery|stack/.test(layout.slug) && !layout.slug.startsWith('gallery-') && !layout.slug.includes('photo-stack')), false);
+});
+
+test('each Header gallery layout is scoped to its own class and has White and Accent states', () => {
+  for (const layout of galleryLayouts) {
+    assert.equal(layout.class, `aha-header-section-${layout.slug}`);
+    assert.deepEqual(layout.states.map((state) => state.modifier), ['', 'accent']);
+    assert.doesNotMatch(layout.css + layout.html, /(?<!data-)aha-gallery/, layout.slug);
+    assert.match(layout.html, new RegExp(`^<section class="${layout.class} `), layout.slug);
+    assert.equal((layout.html.match(/<h1\b/g) ?? []).length, 1, layout.slug);
+  }
+});
+
+test('the Features sticky stack is pure CSS: no script hook and no animation', () => {
+  const stack = features.layouts.find((layout) => layout.slug === 'sticky-stack');
+  assert.match(stack.css, /position:sticky/);
+  assert.doesNotMatch(stack.html, /data-aha-/);
+  assert.doesNotMatch(stack.css, /transition|animation/);
+  assert.doesNotMatch(stack.css + stack.html, /aha-gallery/);
 });
 
 test('each Vivid Pink hero opens on Vivid Pink with the Splash and keeps its white twin as a state', () => {
@@ -84,8 +105,8 @@ test('every resting and current dot clears 3:1 against its surface, White and Vi
       for (const role of ['dot', 'dot-current']) checks.push([`${slug} ${selector} ${role}`, block.match(new RegExp(`--${layout.class}-${role}:(var\\([^)]*\\))`))[1], surface]);
     }
   }
-  const carousel = gallery.baseCss + gallery.layouts.map((layout) => layout.css).join('');
-  for (const role of ['dot', 'dot-current']) checks.push([`gallery ${role}`, carousel.match(new RegExp(`--aha-gallery-${role}:(var\\([^)]*\\))`))[1], '#FFFFFF']);
+  const carousel = galleryLayouts.find((layout) => layout.slug === 'gallery-carousel');
+  for (const role of ['dot', 'dot-current']) checks.push([`gallery ${role}`, carousel.css.match(new RegExp(`--${carousel.class}-${role}:(var\\([^)]*\\))`))[1], '#FFFFFF']);
   for (const [label, tokenReference, surface] of checks) {
     assert.ok(contrastOnSurface(tokenReference, surface) >= 3, `${label} ${tokenReference} on ${surface} is ${contrastOnSurface(tokenReference, surface).toFixed(2)}:1`);
   }
@@ -175,8 +196,8 @@ test('carousel: with motion off the track jumps instead of smooth scrolling', ()
   const carousel = runCarousel({ slides: 6, perView: 1, motionOff: true });
   carousel.next.handlers.click();
   assert.deepEqual(carousel.scrolls, ['instant']);
-  const track = gallery.layouts.find((layout) => layout.slug === 'carousel').css;
-  assert.match(gallery.baseCss + track, /:where\(\[data-aha-motion="off"\]\) \.aha-gallery__track\{scroll-behavior:auto\}/);
+  const carouselLayout = galleryLayouts.find((layout) => layout.slug === 'gallery-carousel');
+  assert.ok(carouselLayout.css.includes(`:where([data-aha-motion="off"]) .${carouselLayout.class}__track{scroll-behavior:auto}`));
 });
 
 test('marquee: hovering or focusing the Play button does not hold the loop paused', () => {
@@ -186,15 +207,15 @@ test('marquee: hovering or focusing the Play button does not hold the loop pause
   }
 });
 
-test('W1, W6 and W9 allow the Gallery section, the multi-image photo treatments and the photo marquee loops', () => {
+test('W6 and W9 allow the multi-image photo treatments and the photo marquee loops, and W1 lists no Gallery section', () => {
   const guideline = JSON.parse(readFileSync(new URL('../guidelines/website.json', import.meta.url), 'utf8'));
   const criteria = JSON.parse(readFileSync(new URL('../anti-slop/criteria.json', import.meta.url), 'utf8')).surfaces.website.criteria;
   const rule = (id) => guideline.rules.find((candidate) => candidate.ref.includes(id)).rule;
   const criterion = (id) => criteria.find((candidate) => candidate.id === id).test;
-  assert.match(rule('W1'), /Pricing, Gallery, FAQ/);
-  assert.match(criterion('W1'), /Pricing, Gallery, FAQ/);
+  assert.doesNotMatch(rule('W1'), /Gallery/);
+  assert.doesNotMatch(criterion('W1'), /Gallery/i);
   assert.match(rule('W6'), /photo stack and floating images may tilt a photo/);
   assert.match(criterion('W6'), /cover-cropped photo cells of mixed size or ratio/);
-  assert.match(rule('W9'), /Hero image marquee and the Gallery Marquee rows/);
-  assert.match(criterion('W9'), /photo marquees \(the Header's Hero image marquee and the Gallery Marquee rows\)/);
+  assert.match(rule('W9'), /Hero image marquee and Gallery marquee rows/);
+  assert.match(criterion('W9'), /photo marquees \(the Header's Hero image marquee and Gallery marquee rows\)/);
 });

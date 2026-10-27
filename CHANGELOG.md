@@ -22,19 +22,42 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.444.0 — 2026-10-26
+## 0.474.0 — 2026-10-27
 ### Added
 - Website > Marketing > Header: five multi-image heroes — fanned photo stack (`aha-header-section-hero-photo-stack`), bento collage beside the copy (`aha-header-section-hero-bento-collage`), photo marquee under centred copy with a Pause button (`aha-header-section-hero-image-marquee`), crossfading slideshow with dot controls (`aha-header-section-hero-slideshow`) and floating framed photos either side of the copy (`aha-header-section-hero-floating-images`). Each ships White, Accent and Vivid Pink (#394)
 - Website > Marketing > Header: a Vivid Pink version of each of the five, paired the way `Header centered brand` pairs `Header centered` — Hero Pink photo stack, Hero Pink bento collage, Hero Pink image marquee, Hero Pink slideshow and Hero Pink floating images (`aha-header-section-hero-pink-*`). Each opens on Vivid Pink with the DS Splash background, a white headline and body and the Sign up button turned secondary, and keeps a White state; on pink the slideshow dots are white at 90% (3.83:1 on the pink) and the current one is solid white and wider, so it changes fill as well as width; on white the resting slideshow and Gallery carousel dots are `--aha-icon-muted` (3.45:1), so every dot clears the 3:1 non-text bar (#394)
-- Website > Marketing > Gallery: a new section page with six ways to show several photos across a page — bento grid, masonry, carousel with arrows and dots, sticky stack, marquee rows with a Pause button, and tabbed images (`aha-gallery`) (#394)
+- Website > Marketing > Header: five gallery layouts under a centred page header — Gallery bento grid (`aha-header-section-gallery-bento`), Gallery masonry (`aha-header-section-gallery-masonry`), Gallery carousel with arrows and dots (`aha-header-section-gallery-carousel`), Gallery marquee rows with a Pause button (`aha-header-section-gallery-marquee-rows`) and Gallery tabbed images (`aha-header-section-gallery-tabs`). Each has White and Accent backgrounds (#394)
+- Website > Marketing > Features: Sticky stack (`aha-features--sticky-stack`), four white step cards that stick near the top of the screen and slide over each other as the page scrolls; pure CSS, no script (#394)
 - `lib/marketing-motion.js` arms `data-aha-gallery` slideshows, carousels, tabs and marquees: keyboard-reachable controls, nothing autoplays unless `data-aha-autoplay` is set, and all motion stops under reduced motion, `data-aha-motion="off"` and print (#394)
 - A Marketing page may list `previewModules` to load extra scripts into its docs previews (#394)
 ### Changed
-- Website guideline and judge, W1: Gallery joins the list of DS Marketing sections a page band may be (#394)
-- Website guideline and judge, W6: one narrow exception for photos (never screenshots) in the Header's multi-image heroes and the Gallery page — the photo stack and floating images may tilt a photo in the photo frame (8 px white border and 1 px ring, no shadow), and bento, collage and masonry cells may differ in size or ratio and fill with `object-fit: cover` (#394)
-- Website guideline and judge, W9: the photo marquees (Hero image marquee, Gallery Marquee rows) may loop like the Logos strip, keeping their pause while hovered or focused, their Pause button and their stop under reduced motion, print and `data-aha-motion="off"`; at most one looping photo band per page, never next to the Logos strip (#394)
-- Header and Gallery guidance: a Photo frame point records the frame rule — 8 px white border, `--aha-radius-xl` corner and 1 px ring in the layout's frame colour, no drop shadow (#394)
-- Revert: revert the PR; the W1, W6 and W9 edits in `guidelines/website.json` and `anti-slop/criteria.json` (and its generated `agent/` copy) go with it; ten new layouts in `marketing/header.json`, the new `marketing/gallery.json`, and an appended block at the end of `lib/marketing-motion.js` — the 24 existing hero layouts are untouched (#394)
+- Website guideline and judge, W6: one narrow exception for photos (never screenshots) in the Header's multi-image heroes and Gallery layouts and the Features Sticky stack — the photo stack and floating images may tilt a photo in the photo frame (8 px white border and 1 px ring, no shadow), and bento, collage and masonry cells may differ in size or ratio and fill with `object-fit: cover` (#394)
+- Website guideline and judge, W9: the photo marquees (Hero image marquee, Gallery marquee rows) may loop like the Logos strip, keeping their pause while hovered or focused, their Pause button and their stop under reduced motion, print and `data-aha-motion="off"`; at most one looping photo band per page, never next to the Logos strip (#394)
+- Header guidance: a Photo frame point records the frame rule — 8 px white border, `--aha-radius-xl` corner and 1 px ring in the layout's frame colour, no drop shadow; Layout by page goal and One moving band per page cover the Gallery layouts (#394)
+- Revert: revert the PR; the W6 and W9 edits in `guidelines/website.json` and `anti-slop/criteria.json` (and its generated `agent/` copy), ten new multi-image layouts and five Gallery layouts in `marketing/header.json`, one new layout in `marketing/features.json`, and an appended block at the end of `lib/marketing-motion.js` — the 24 existing hero layouts are untouched (#394)
+
+## 0.455.0 — 2026-10-27
+### Changed
+- Marketing motion: parallax now moves the picture inside its frame instead of sliding the frame. The picture is drawn 112% of the frame, drifts at most 6% of the frame height (never more than 48 px) and is clipped by the frame, so the frame's box, radius and position stay still. A picture drifts only when it sits in an `aha-features__frame`, `aha-testimonials__frame` or `aha-numbers__frame`; screenshots get no frame wrapper and never drift. (#365)
+- Marketing motion: the same framed picture now has an entrance as it scrolls into view. It fades in and settles from 1.08x down to its parallax scale, a beat after its row's reveal, on `--aha-motion-viz-enter` and `--aha-ease-out`, composed with the parallax in one transform inside the still frame. Off under reduced motion, `data-aha-motion="off"` and print. (#365)
+- Features: new `aha-features__frame` clipping wrapper, used by Icon list with photo.
+- Testimonials: the Simple left aligned photo sits in an `aha-testimonials__frame` wrapper (was a bare `<img>`); Numbers split-image: the image sits in an `aha-numbers__frame` inside the card. A page with the old markup simply does not drift.
+Revert: restore `lib/marketing-motion.js`, `marketing/testimonials.json` and `marketing/numbers.json` and the wording in `guidelines/website.json` and `anti-slop/criteria.json`.
+
+## 0.451.0 — 2026-10-27
+### Added
+- Icon library: `system-ai-credit`, a circle with a four-point spark, for AI credit usage and balances. Same stroke style as the other `system-*` glyphs; no existing icon changes
+- Revert: revert the PR; one new SVG and its meaning words, nothing else references it (#400)
+
+## 0.444.0 — 2026-10-27
+### Added
+- Colour rules v24: rule 2.1 allows the black logo and the black Splash (both #1A1A1A) for one-colour print on white only; new rule 2.11 and a Logo library section for the AhaSlides × Partner co-brand lockup (order, ×, spacing, sizes, greyscale at rest, white on Vivid Pink); new rules 4.10 and 4.11 for photography (real moments and relaxed portraits; avoid staged shots and stiff portraits) (#404)
+- `aha-tag` `color="solid"`: a Vivid Pink fill with a white label (4.51:1), for a tag on white or on Vivid Pink at 5%. This is a visible addition to the Tag component (#404)
+### Changed
+- Rule 4.6 covers Vivid Pink at 5% surfaces and forbids Vivid Pink text on them (4.16:1); the Tag contract now states what `color="primary"` already renders, a black label on the 5% fill (#404)
+- The contrast table names the app's light grey as #F7F7F7 (4.21:1 with Vivid Pink), not #FAFAFA (#404)
+- `ahaslides-logo-black.svg` is #1A1A1A, the same black as `thesplash-black.svg` (was #000) (#404)
+- `--aha-font-display` and `--aha-font-secondary` are deprecated aliases of Plus Jakarta Sans (were Nunito and Nunito Sans, never loaded); the canvas and audience library headings use `--aha-font-product` (#404)
 
 ## 0.443.0 — 2026-10-26
 ### Added

@@ -27,7 +27,7 @@ Two "sources of truth" for AhaSlides tokens disagreed. This resolves them into *
 | 7 | **body text colour** | solid `#1A1A1A` (warm gray) | `rgba(26,26,46,.88)` (indigo-alpha) | **EXPORT** | `#1A1A1A` | Alpha text is the dark-surface-invisible trap aha-design-antd itself warns of |
 | 8 | **borders** | `#E3E3E3` / `#F1F1F1` (brand grays) | `#d9d9d9` / `#f0f0f0` (antd default) | **EXPORT** | `#E3E3E3` / `#F1F1F1` | Brand gray scale, not antd defaults |
 | 9 | **Tailwind neutrals** (`#6b7280`, `#111827`…) | — | present (bolt-on) | **EXPORT** | discard | Non-brand; not in the export palette |
-| 10 | **Display / Nunito** | Nunito (display), Nunito Sans (secondary) present | omitted | **EXPORT** | keep (marketing/display only) | Product UI = Plus Jakarta; display is branding territory |
+| 10 | **Display / Nunito** | Nunito (display), Nunito Sans (secondary) present | omitted | **EXPORT** | deprecated: `--aha-font-display` and `--aha-font-secondary` alias Plus Jakarta Sans | Plus Jakarta Sans only (colour rule 2.4); use `--aha-font-product` |
 | 11 | **h6 = 18 / tiny = 10 roles** | no 18; size-tiny 8 | h6 18, tiny 10 | **SKILL** | add 18 + 10 | Real roles the export omitted |
 | 12 | **colors primary/success/warning/error/info** | brand-60 steps | same hex | **AGREE** | as-is | ✓ |
 | 13 | **spacing scale** | full 4-based + 6/10/14 | (antd size) | **EXPORT** | export scale | Rich, matches README |
