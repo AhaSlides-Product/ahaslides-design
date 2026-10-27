@@ -1,5 +1,4 @@
 {
-  "environment": ["product"],
   "name": "Result",
   "slug": "result",
   "group": "Feedback",
@@ -12,7 +11,7 @@
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin attribute wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
   "tokensUsed": ["color-primary", "color-success", "color-error", "color-warning", "color-info", "text-default", "text-tertiary"],
   "spec": [
-    { "label": "Icon", "value": "32px DS glyph, coloured by status (error and 500: Vivid Pink #E70E68; or an `icon` override)" },
+    { "label": "Icon", "value": "32px DS glyph, coloured by status (or an `icon` override)" },
     { "label": "Success", "value": "check-circle · #1A1A1A" },
     { "label": "Error / 500", "value": "x-circle / cloud-disconnected · #1A1A1A" },
     { "label": "Warning / 403", "value": "warning-circle / lock · #1A1A1A" },
