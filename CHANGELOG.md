@@ -24,9 +24,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.493.0 — 2026-10-27
 ### Changed
-- `<aha-chart type="bar">`: when any option has an image, every row keeps the image column and an option without one shows a placeholder tile (`system-image-square` glyph on the track colour), so all bars start at the same x and stay comparable. Charts with no images are unchanged; column charts were already aligned (#NNN)
-- Charts docs page: every chart case sits in a 1280 × 720 stage frame at 1:1 (slide surface, 48px stage padding), scrolling inside its own container on a narrow viewport; new bar cases "Some without image" (#NNN)
-- Revert: revert the PR; the change sits in `BarRenderer.draw` and one `.bar-img.is-empty` rule in `lib/aha-chart.js`, plus `parts/chart.preview.html` (#NNN)
+- `<aha-chart type="bar">`: when any option has an image, every row keeps the image column and an option without one shows a placeholder tile (`system-image-square` glyph on the track colour), so all bars start at the same x and stay comparable. Charts with no images are unchanged; column charts were already aligned (#412)
+- Charts docs page: every chart case sits in a 1280 × 720 stage frame at 1:1 (slide surface, 48px stage padding), scrolling inside its own container on a narrow viewport; new bar cases "Some without image" (#412)
+- Revert: revert the PR; the change sits in `BarRenderer.draw` and one `.bar-img.is-empty` rule in `lib/aha-chart.js`, plus `parts/chart.preview.html` (#412)
 
 ## 0.489.0 — 2026-10-27
 ### Added
