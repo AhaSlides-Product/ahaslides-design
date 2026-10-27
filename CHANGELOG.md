@@ -27,6 +27,12 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Testimonials: a reviewer with a photo shows `<aha-avatar src>`; a reviewer with no photo (a G2 review, for one) has no avatar at all, the author row is the name and role only, with no initials, placeholder or drawn circle. The Testimonial card on the Cards page now uses `<aha-avatar>` instead of an initials circle, and gains a "Testimonial card, no photo" example. Website rule W19 and its criterion say so, with a new failing eval for an initials circle (#416)
 - Revert: revert the PR; the changes sit in `marketing/cards.json`, `marketing/testimonials.json`, the W19 rule and criterion, and one eval fixture (#416)
 
+## 0.497.1 — 2026-10-27
+### Changed
+- The Leaderboard docs page moves out of the global Components area into the Canvas Library: `contracts/leaderboard.json` gains `libraryArea: "canvas"`, so `/leaderboard/` opens with Canvas Library active and no Components sidebar, the docs search files it under Canvas Library, and `llms.txt` lists it under "Canvas and Audience Library components" instead of "Components" (it is also out of the `design.md` component list). The Canvas Library and Audience Library Leaderboard sections carry a "Full Leaderboard docs" link to `/leaderboard/`, which keeps its URL. The component and its API are unchanged. (#417)
+### Fixed
+- The Canvas Library Leaderboard demo fills the deck width; it had shrunk to its scores inside the wrapping deck row. (#417)
+
 ## 0.497.0 — 2026-10-27
 ### Changed
 - Websites → Features: in the split layouts (`icon-list-photo`, `tabs-screenshots`, and an alternating section with a single row) the section button sits in the text column under the text, left aligned with it (`aha-features__column` and `aha-features__cta--start`), even under a centred heading, instead of centred under the whole row. Rule W18 says so.
