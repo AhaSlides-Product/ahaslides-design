@@ -325,7 +325,7 @@
       ]
     },
     {
-      "rule": "A testimonial author block is one left aligned unit: avatar, name and role sit in one row, the name and role text stacked and left aligned, and the quote above it is left aligned too, even inside a centred section. In a row of quote cards the quote text takes the top track and the author row the bottom track of the same grid (CSS subgrid), so every author row sits on one baseline however long the quotes are. Never a centred name or role under a left aligned quote, an avatar floating on its own line, or author rows at different heights across cards. A Testimonials section shows at most three testimonial or case cards, and the quotes in a row are of similar length: the longest within about 1.5 times the characters of the shortest and none over 160 characters, so there is never one long quote beside short ones.",
+      "rule": "A testimonial author block is one left aligned unit: avatar, name and role sit in one row, the name and role text stacked and left aligned, and the quote above it is left aligned too, even inside a centred section. In a row of quote cards the quote text takes the top track and the author row the bottom track of the same grid (CSS subgrid), so every author row sits on one baseline however long the quotes are. Never a centred name or role under a left aligned quote, an avatar floating on its own line, or author rows at different heights across cards. A Testimonials section shows at most three testimonial or case cards, and the quotes in a row are of similar length: the longest within about 1.5 times the characters of the shortest and none over 160 characters, so there is never one long quote beside short ones. A reviewer with a photo shows it in `<aha-avatar src>`; a reviewer with no photo has no avatar at all: the author row is the name and role only, with no initials, no placeholder and no drawn circle.",
       "ref": [
         "W19"
       ],
@@ -407,7 +407,7 @@
       "verdict": "consumer self-judges (W18)"
     },
     {
-      "label": "testimonial avatar, name, role and quote left aligned; author rows on one baseline across cards",
+      "label": "testimonial photo avatar (none when the reviewer has no photo), name, role and quote left aligned; author rows on one baseline across cards",
       "verdict": "consumer self-judges (W19)"
     },
     { "label": "every button is <aha-button> with no colour, size or hover CSS of its own", "verdict": "screen-lint hand-rolled-button (W16)" }

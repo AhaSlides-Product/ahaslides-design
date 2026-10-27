@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.500.0 — 2026-10-27
+### Changed
+- Testimonials: a reviewer with a photo shows `<aha-avatar src>`; a reviewer with no photo (a G2 review, for one) has no avatar at all, the author row is the name and role only, with no initials, placeholder or drawn circle. The Testimonial card on the Cards page now uses `<aha-avatar>` instead of an initials circle, and gains a "Testimonial card, no photo" example. Website rule W19 and its criterion say so, with a new failing eval for an initials circle (#416)
+- Revert: revert the PR; the changes sit in `marketing/cards.json`, `marketing/testimonials.json`, the W19 rule and criterion, and one eval fixture (#416)
+
 ## 0.497.2 — 2026-10-27
 ### Fixed
 - `aha-input`: the `labels` getter falls back to an empty list when the environment's `attachInternals()` has no `labels` (jsdom), so `_syncName` no longer throws "this.labels is not iterable" in consumer unit tests. No API change. Revert: revert this PR. (#418)
