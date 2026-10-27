@@ -22,10 +22,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.495.0 — 2026-10-27
+## 0.499.0 — 2026-10-27
 ### Added
 - Cards: a Card placeholder (`aha-marketing-card__placeholder`) holds free content at the bottom of a card body, such as a fill-in-the-blank example sentence. The Card owns its accent-tint background, radius, padding, minimum height and text size at every card width, identical at rest, hover and focus; you supply one `<p>`. An inline `aha-marketing-card__blank` marker (dashed Vivid Pink box, visually hidden "blank") shows each gap. New "Use-case row with a card placeholder" example, four photo cards in a 2 by 2 grid (#415)
 - Revert: revert the PR; the change is additive in `marketing/cards.json` (new classes and one new example), no existing card changes (#415)
+
+## 0.497.0 — 2026-10-27
+### Changed
+- Websites → Features: in the split layouts (`icon-list-photo`, `tabs-screenshots`, and an alternating section with a single row) the section button sits in the text column under the text, left aligned with it (`aha-features__column` and `aha-features__cta--start`), even under a centred heading, instead of centred under the whole row. Rule W18 says so.
+- Websites → Testimonials: at most three testimonial or case cards per section, and quotes of similar length (the longest within about 1.5 times the shortest, none over 160 characters); the Quote cards sample's long middle quote is trimmed. Rule W19 and the Testimonials page carry both.
+- Websites → new tab: the section link-out buttons (Read customer stories, Read the docs, and Browse all templates, See all integrations) open in a new tab with `rel="noopener"` and visually-hidden "(opens in a new tab)" text, Sign up and the hero's primary call to action stay in the same tab (W15, W18). In the Footer every link that leaves AhaSlides (the three G2 badges that had no `target`, the Training Magazine Network and DMCA badges, System status, the social channels) opens in a new tab with `rel="noopener"` and a new-tab cue in its label. Revert: revert this PR; no API change. (#357)
 
 ## 0.494.0 — 2026-10-27
 ### Removed
