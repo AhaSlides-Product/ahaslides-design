@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { existsSync, mkdtempSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -51,45 +51,93 @@ test('leaderboard: renders ranks, trophy on first, pinned own row and the more l
   assert.equal(result.emptyShown, true);
 });
 
-test('leaderboard: the own-row tag is drawn once on its own fill, and the empty state is centred in the element', { skip }, async () => {
+test('leaderboard: the canvas never shows the You tag or any own-row marking, and the empty state is centred in the element', { skip }, async () => {
   const file = join(mkdtempSync(join(tmpdir(), 'leaderboard-')), 'page.html');
   const entries = [{ id: 'a', name: 'Linh', score: 1000 }, { id: 'b', name: 'Quynh', score: 300 }];
   writeFileSync(file, `<!doctype html><body>
 <aha-leaderboard id="lb" me="b" style="display:block;width:400px" entries='${JSON.stringify(entries)}'></aha-leaderboard>
+<aha-leaderboard id="stage" size="stage" me="b" style="display:block;width:400px" entries='${JSON.stringify(entries)}'></aha-leaderboard>
 <aha-leaderboard id="empty" style="display:block;height:200px" entries="[]"></aha-leaderboard>
 <script type="module">import '${lib}'; await customElements.whenDefined('aha-leaderboard'); await new Promise((r) => setTimeout(r, 400)); window.ready = true;</script>`);
   const result = await evaluateInPage(pathToFileURL(file).href, `(() => {
-    const row = document.getElementById('lb').shadowRoot.querySelector('li.row[data-me]');
-    const [base, over] = [...row.querySelectorAll('.tag')].map((tag) => getComputedStyle(tag));
+    const marked = (id) => { const root = document.getElementById(id).shadowRoot; return { rows: root.querySelectorAll('li.row[data-me]').length,
+      tags: [...root.querySelectorAll('.tag')].filter((tag) => !tag.hidden && tag.getClientRects().length).length,
+      shadow: [...root.querySelectorAll('.track')].map((track) => getComputedStyle(track).boxShadow).join('|') }; };
     const empty = document.getElementById('empty');
     const box = empty.shadowRoot.querySelector('li.empty').getBoundingClientRect();
     const host = empty.getBoundingClientRect();
-    return { baseBackground: base.backgroundColor, overVisibility: over.visibility, offset: Math.abs((box.top + box.height / 2) - (host.top + host.height / 2)) };
+    return { lb: marked('lb'), stage: marked('stage'), offset: Math.abs((box.top + box.height / 2) - (host.top + host.height / 2)) };
   })()`, { readyExpr: '!!window.ready', timeout: 45000 });
-  assert.notEqual(result.baseBackground, 'rgba(0, 0, 0, 0)');
-  assert.equal(result.overVisibility, 'hidden');
+  for (const key of ['lb', 'stage']) {
+    assert.equal(result[key].rows, 0, JSON.stringify(result));
+    assert.equal(result[key].tags, 0, JSON.stringify(result));
+    assert.ok(!result[key].shadow.split('|').some((shadow) => shadow !== 'none'), JSON.stringify(result));
+  }
   assert.ok(result.offset < 2, JSON.stringify(result));
 });
 
-test('leaderboard: on the phone the own-row tag is neutral, there is no outline and row text is the body default size', { skip }, async () => {
+test('leaderboard: on the phone the own-row tag is neutral, drawn once per layer, with no outline and body default row text', { skip }, async () => {
   const file = join(mkdtempSync(join(tmpdir(), 'leaderboard-')), 'page.html');
   const entries = [{ id: 'a', name: 'Linh', score: 1000, delta: 10 }, { id: 'b', name: 'Quynh', score: 300 }];
-  writeFileSync(file, `<!doctype html><body style="--aha-deck-accent:rgb(231,14,104)">
+  writeFileSync(file, `<!doctype html><body style="--aha-deck-accent:rgb(231,14,104);--aha-deck-palette-2:rgb(0,0,255);--aha-deck-palette-2-ink:rgb(255,255,255)">
 <aha-leaderboard id="lb" size="phone" me="b" style="display:block;width:360px" entries='${JSON.stringify(entries)}'></aha-leaderboard>
 <script type="module">import '${lib}'; await customElements.whenDefined('aha-leaderboard'); await new Promise((r) => setTimeout(r, 400)); window.ready = true;</script>`);
   const result = await evaluateInPage(pathToFileURL(file).href, `(() => {
     const row = document.getElementById('lb').shadowRoot.querySelector('li.row[data-me]');
     const [base, over] = [...row.querySelectorAll('.tag')].map((tag) => getComputedStyle(tag));
-    return { baseColor: base.color, baseBackground: base.backgroundColor, overVisibility: over.visibility,
+    return { baseColor: base.color, overColor: over.color, baseFill: base.backgroundColor, overFill: over.backgroundColor, overVisibility: over.visibility,
       shadow: getComputedStyle(row.querySelector('.track')).boxShadow,
       name: getComputedStyle(row.querySelector('.name')).fontSize, score: getComputedStyle(row.querySelector('.score')).fontSize };
   })()`, { readyExpr: '!!window.ready', timeout: 45000 });
   assert.notEqual(result.baseColor, 'rgb(231, 14, 104)');
-  assert.notEqual(result.baseBackground, 'rgba(0, 0, 0, 0)');
+  assert.equal(result.overColor, 'rgb(255, 255, 255)');
+  assert.equal(result.baseFill, 'rgba(0, 0, 0, 0)');
+  assert.equal(result.overFill, 'rgba(0, 0, 0, 0)');
   assert.equal(result.overVisibility, 'visible');
   assert.equal(result.shadow, 'none');
   assert.equal(result.name, '14px');
   assert.equal(result.score, '14px');
+});
+
+test('leaderboard: every text element reaches WCAG AA 4.5:1 against its composited background, canvas and audience, on light, dark and coloured decks', { skip }, async () => {
+  const probe = readFileSync(new URL('./leaderboard-contrast-probe.js', import.meta.url), 'utf8');
+  const decks = [
+    { name: 'light', bg: '#FFFFFF', ink: '#1A1A1A', palette: ['#E70E68', '#4DE8AB', '#F2643A', '#FFC933'] },
+    { name: 'dark', bg: '#161616', ink: '#FFFFFF', palette: ['#E70E68', '#4DE8AB', '#F2643A', '#FFC933'] },
+    { name: 'coloured', bg: '#1F46E8', ink: '#FFFFFF', palette: ['#FFE224', '#4DE8AB', '#FFFFFF', '#F2643A'] },
+  ];
+  const file = join(mkdtempSync(join(tmpdir(), 'leaderboard-')), 'page.html');
+  const entries = Array.from({ length: 6 }, (_, i) => ({ id: 'u' + i, name: 'Player ' + i, score: 1400 - i * 230, delta: i < 3 ? 100 : 0, avatar: 'A' }));
+  writeFileSync(file, `<!doctype html><body style="margin:0">
+<script type="module">
+import '${lib}';
+import { canvasDeckVars } from '${pathToFileURL(fileURLToPath(new URL('../lib/canvas-deck.js', import.meta.url))).href}';
+import { deckVars } from '${pathToFileURL(fileURLToPath(new URL('../lib/audience-deck.js', import.meta.url))).href}';
+await customElements.whenDefined('aha-leaderboard');
+const decks = ${JSON.stringify(decks)};
+window.panels = [];
+for (const deck of decks) for (const surface of ['canvas', 'audience']) {
+  const root = document.createElement('div');
+  root.style.cssText = 'padding:16px;width:' + (surface === 'canvas' ? 520 : 360) + 'px;background:' + deck.bg;
+  const vars = surface === 'canvas' ? canvasDeckVars({ accent: deck.palette[0], ink: deck.ink, background: deck.bg, palette: deck.palette }) : deckVars({ ink: deck.ink, accent: deck.palette[0], palette: deck.palette });
+  for (const [name, value] of Object.entries(vars)) root.style.setProperty(name, value);
+  const host = document.createElement('div');
+  host.style.height = surface === 'canvas' ? '360px' : '240px';
+  const element = document.createElement('aha-leaderboard');
+  element.setAttribute('size', surface === 'canvas' ? 'stage' : 'phone');
+  element.setAttribute('me', 'u2');
+  if (surface === 'canvas') element.setAttribute('heading', 'Leaderboard');
+  element.setAttribute('entries', JSON.stringify(${JSON.stringify(entries)}));
+  host.appendChild(element); root.appendChild(host); document.body.appendChild(root);
+  window.panels.push({ name: deck.name, surface, root, element, bg: [...deck.bg.slice(1).match(/../g)].map((hex) => parseInt(hex, 16)) });
+}
+await new Promise((r) => setTimeout(r, 900));
+window.ready = true;
+</script>`);
+  const result = await evaluateInPage(pathToFileURL(file).href, `(() => { ${probe}; return window.leaderboardContrast(window.panels); })()`, { readyExpr: '!!window.ready', timeout: 60000 });
+  assert.ok(result.length > 40, 'measured ' + result.length);
+  const failing = result.filter((entry) => entry.ratio < 4.5).map((entry) => entry.surface + ' ' + entry.deck + ' ' + entry.kind + ' ' + entry.ratio.toFixed(2));
+  assert.deepEqual(failing, []);
 });
 
 test('leaderboard: rows take palette colours in rank order, rank circles are neutral, a zero score keeps a stub and the gain column aligns', { skip }, async () => {

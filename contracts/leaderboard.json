@@ -15,7 +15,7 @@
       "fitRows"
     ]
   },
-  "summary": "The ranked score list for the slide canvas and the audience phone, one look after the presenter leaderboard: a neutral rank circle, a deck-palette bar per row inside a full-width track, the score with its unit and points gained, an optional heading, and the participant's own row pinned with a You tag.",
+  "summary": "The ranked score list for the slide canvas and the audience phone, one look after the presenter leaderboard: a neutral rank circle, a deck-palette bar per row inside a full-width track, the score with its unit and points gained, an optional heading, and, on the phone only, the participant's own row pinned with a You tag.",
   "lead": "ONE custom element — <aha-leaderboard> — for the presenter canvas and the audience phone alike. It draws the list only; place it in a deck container or modal. Themed from the deck: call applyCanvasDeck (canvas) or applyDeck (audience) once, and it reads --aha-deck-* tokens only. Rows are measured to the element's height, so give it a height and it shows as many rows as fit, then an \"and N more\" line.",
   "codeNote": "Same element, same shadow-DOM CSS, so the canvas and the phone render identically. Set `entries` as a JSON attribute or a property.",
   "tokensUsed": [
@@ -53,7 +53,7 @@
     },
     {
       "label": "Bar",
-      "value": "inside the track, width = score / top score, rounded like the track. Row n takes deck palette colour n (--aha-deck-palette-<n>, cycling) and its name takes the matching -ink; where the deck wrote no palette the bar is the deck accent. A row with no score keeps a stub of its colour (--aha-viz-stub-length). The name is drawn twice and the on-fill copy is clipped to the bar, so the ink flips exactly at the bar's edge. bar=\"false\" removes it"
+      "value": "inside the track, width = score / top score, rounded like the track. Row n takes deck palette colour n (--aha-deck-palette-<n>, cycling) and its name takes the matching -ink; where the deck wrote no palette the bar is the deck accent. A row with no score keeps a stub of its colour (--aha-viz-stub-length). The name and the tag are drawn twice, the deck-ink copy clipped to the track and the palette-ink copy to the bar, so each piece is drawn once and the ink flips exactly at the bar's edge. Every text reaches WCAG AA 4.5:1 on its own background as long as the palette colour does with its -ink (a palette colour that reaches 4.5:1 with neither ink cannot be fixed here). bar=\"false\" removes it"
     },
     {
       "label": "Avatar slot",
@@ -65,7 +65,7 @@
     },
     {
       "label": "Own row",
-      "value": "the row for `me` carries a You tag. On the stage the tag is the deck accent and the track has a stronger outline; on the phone the tag is quiet (the row ink on a 14% ink fill, no accent colour) and there is no outline, and all row text is the body default size (14px, --aha-size-default). Outside the shown rows it is pinned below the \"and N more\" line"
+      "value": "audience phone only: the row for `me` carries a quiet You tag, the text ink of whatever sits behind it (the palette ink on the bar, the deck ink on the track) with a hairline border and no fill, and no outline round the track. The canvas is seen by everyone: it never shows the tag or any own-row marking, whatever `me` is set to. All phone row text is the body default size (14px, --aha-size-default). Outside the shown rows it is pinned below the \"and N more\" line"
     },
     {
       "label": "Fit",
@@ -99,7 +99,7 @@
       "name": "me",
       "type": "string",
       "default": "—",
-      "desc": "The participant's entry id: its row gets the You tag and is pinned when it is outside the shown rows"
+      "desc": "The participant's entry id (phone only, ignored on the canvas): its row gets the You tag and is pinned when it is outside the shown rows"
     },
     {
       "name": "bar",
@@ -265,7 +265,7 @@
   "highlights": [
     "One rank circle, bar, score and gain row on the canvas and the phone",
     "Row n takes deck palette colour n, with its matching ink",
-    "Optional heading with a player count; ties share a rank, own row pinned with a You tag",
+    "Optional heading with a player count; ties share a rank, on the phone the own row is pinned with a You tag",
     "Rows fit the element's height; rank changes slide and scores count up"
   ],
   "composedOf": [
@@ -294,7 +294,7 @@
     }
   ],
   "a11y": {
-    "role": "an ordered list named by `label`; each row reads rank, name, score with its unit and gain, and the You tag; the clipped copy of the name is aria-hidden",
+    "role": "an ordered list named by `label`; each row reads rank, name, score with its unit and gain, and, on the phone, the You tag; the clipped copy of the name is aria-hidden",
     "keyboard": "not interactive",
     "note": "A polite live region announces the participant's own new rank. Motion is off under prefers-reduced-motion."
   }
