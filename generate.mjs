@@ -2137,6 +2137,12 @@ const SECTION_GALLERY_SCRIPT = `<script type="module">
         setTimeout(tick,100);
       })();
     }
+    function showLayout(id){
+      setView('list',false);
+      var heading=document.getElementById(id);
+      if(heading){heading.setAttribute('tabindex','-1');heading.focus({preventScroll:true});}
+      holdAnchor(id);
+    }
     function setView(view,remember){
       root.dataset.view=view;
       if(seg.getAttribute('value')!==view)seg.setAttribute('value',view);
@@ -2152,9 +2158,14 @@ const SECTION_GALLERY_SCRIPT = `<script type="module">
       if(!card||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||e.button)return;
       e.preventDefault();
       var id=card.getAttribute('href').slice(1);
-      setView('list',false);
       history.replaceState(null,'','#'+id);
-      holdAnchor(id);
+      showLayout(id);
+    });
+    addEventListener('hashchange',function(){
+      var id='';
+      try{id=decodeURIComponent(location.hash.slice(1))}catch(e){}
+      var target=id&&document.getElementById(id);
+      if(target&&root.dataset.view==='grid'&&root.querySelector('.sg-list').contains(target))showLayout(id);
     });
     search.addEventListener('input',function(e){
       var query=String(e.detail&&e.detail.value!==undefined?e.detail.value:search.value||'').trim().toLowerCase();
