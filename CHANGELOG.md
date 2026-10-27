@@ -25,6 +25,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.481.0 — 2026-10-27
 ### Added
 - Docs site, Websites > Sections: the Header, Features, Pricing, Numbers, Testimonials and Cards pages open in a Grid view, a three-column gallery of live thumbnails (two columns on a tablet, one on a phone) captioned "layout name · page name", with a Grid / List switch and a search box that filters by layout name and "Use for" text. Clicking a card switches to List view at that layout's `#<slug>` anchor; a URL with a hash opens in List view, and the last choice is remembered per browser. List view is the previous page unchanged. Pages with fewer than two layouts are unchanged. Revert: revert the PR; the change is the `sectionGallery*` functions in `generate.mjs` plus one hook in each of the two marketing page renderers. (#409)
+### Fixed
+- `aha-segmented`: the selected pill is re-measured when the segments or the track resize (a font that loads late no longer leaves it narrower than its label, which clipped Grid to Gri at 375px). Revert: revert the PR; the `_observeSizes` and `_placeThumb` methods in `lib/aha-segmented.js`.
 
 ## 0.479.0 — 2026-10-27
 ### Changed

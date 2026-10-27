@@ -2122,7 +2122,7 @@ const SECTION_GALLERY_CSS = `
 .sg-search{flex:0 1 20rem;min-width:0}
 .sg[data-view="list"] .sg-grid,.sg[data-view="list"] .sg-search,.sg[data-view="list"] .sg-empty,.sg[data-view="grid"] .sg-list{display:none}
 .sg-empty[hidden]{display:none}
-.sg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(18rem,1fr));gap:var(--aha-space-32) var(--aha-space-24);margin:0 0 var(--aha-space-48);padding:0;list-style:none}
+.sg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(17.5rem,100%),1fr));gap:var(--aha-space-32) var(--aha-space-24);margin:0 0 var(--aha-space-48);padding:0;list-style:none}
 .sg-card{display:flex;flex-direction:column;gap:var(--aha-space-12);color:inherit;text-decoration:none;border-radius:var(--aha-radius-default)}
 .sg-card:focus-visible{outline:2px solid var(--aha-color-primary);outline-offset:4px}
 .sg-thumb{position:relative;aspect-ratio:${SECTION_GALLERY_FRAME.width}/${SECTION_GALLERY_FRAME.height};overflow:hidden;border:1px solid var(--aha-split);border-radius:var(--aha-radius-default);background:var(--aha-white);transition:border-color var(--aha-motion-fast) var(--aha-ease-out)}
