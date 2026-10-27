@@ -118,7 +118,7 @@
     },
     {
       "label": "Column",
-      "value": "plot 260 (+100 with images) · column ≤96 wide · gap 28 (20 past 6, 8 under 480) · label --aha-size-xl, clamps to 5 lines · turns into bars when a label can't fit its slot in 4 lines · min height --aha-viz-column-min-height 16"
+      "value": "plot 260 (+100 with images) · column ≤96 wide in a slot ≤240 wide · gap 28 (20 past 6, 8 under 480) · label --aha-size-xl, clamps to 5 lines · turns into bars when a label can't fit its slot in 4 lines · min height --aha-viz-column-min-height 16 · columns that do not fill the width sit together in the centre"
     },
     {
       "label": "Column · negatives and reference",

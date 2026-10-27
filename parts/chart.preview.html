@@ -140,6 +140,7 @@
     <h3 class="chart-type-title" id="chart-type-column">Column</h3>
     <div class="aha-pg-seg chart-case-switch" role="radiogroup" aria-label="Column cases">
       <button type="button" class="aha-pg-opt active" role="radio" aria-checked="true" tabindex="0">Poll</button>
+      <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">Two options</button>
       <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">Correct · fill</button>
       <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">Correct · indicator</button>
       <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">Images</button>
@@ -159,6 +160,13 @@
       <div class="chart-frame" role="group" aria-label="Poll, 1280 by 720 stage"><div class="chart-stage">
       <aha-chart type="column" label="Column"
         data='[{"label":"Sydney","value":22},{"label":"Canberra","value":29},{"label":"Melbourne","value":9},{"label":"Perth","value":2}]'></aha-chart>
+      </div></div>
+    </div>
+    <div class="chart-case" hidden>
+      <div class="lbl">Two options</div>
+      <div class="chart-frame" role="group" aria-label="Two options, 1280 by 720 stage"><div class="chart-stage">
+      <aha-chart type="column" label="Column"
+        data='[{"label":"Yes","value":62},{"label":"No","value":38}]'></aha-chart>
       </div></div>
     </div>
     <div class="chart-case" hidden>
