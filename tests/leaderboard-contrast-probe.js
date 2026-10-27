@@ -47,7 +47,6 @@ window.leaderboardContrast = function (panels) {
     onPage('score', '.score-value');
     onPage('score unit', '.score-unit');
     onPage('gain', '.delta-value');
-    onPage('and N more', '.more');
     for (const row of shadow.querySelectorAll('li.row')) {
       if (!row.getClientRects().length) continue;
       const track = row.querySelector('.track');
@@ -58,11 +57,11 @@ window.leaderboardContrast = function (panels) {
       const edge = trackRect.left + row.querySelector('.fill').getBoundingClientRect().width;
       const chip = row.querySelector('.chip');
       record('rank number', chip, (x, y) => over(parse(getComputedStyle(chip).backgroundColor), pageAt(x, y)));
-      for (const [kind, selector] of [['name', '.name'], ['You tag', '.tag']]) {
+      for (const [kind, selector] of [['name', '.name'], ['(you)', '.you']]) {
         const base = row.querySelector('.base ' + selector);
         const layer = row.querySelector('.over ' + selector);
-        if (base.getClientRects().length && !base.closest('[hidden]') && base.getBoundingClientRect().right > edge + 1) record(kind + ' on track', base, onTrack);
-        if (layer.getClientRects().length && !layer.closest('[hidden]') && layer.getBoundingClientRect().left < edge - 1) record(kind + ' on bar', layer, () => barColour);
+        if (base.getClientRects().length && !base.closest('[hidden]') && base.getBoundingClientRect().right > edge + 1) record(kind + (base.getBoundingClientRect().left < edge - 1 ? ' split, track half' : ' on track'), base, onTrack);
+        if (layer.getClientRects().length && !layer.closest('[hidden]') && layer.getBoundingClientRect().left < edge - 1) record(kind + (layer.getBoundingClientRect().right > edge + 1 ? ' split, bar half' : ' on bar'), layer, () => barColour);
       }
     }
   }

@@ -9,7 +9,7 @@ import { evaluateInPage, resolveChrome } from '../cdp.mjs';
 const skip = existsSync(resolveChrome()) ? false : 'needs headless Chrome (set CHROME_BIN)';
 globalThis.HTMLElement ??= class {};
 globalThis.customElements ??= { define() {}, get() {} };
-const { rankEntries, fitRows } = await import('../lib/aha-leaderboard.js');
+const { rankEntries } = await import('../lib/aha-leaderboard.js');
 const lib = pathToFileURL(fileURLToPath(new URL('../lib/all.js', import.meta.url))).href;
 
 test('leaderboard: ties use competition ranking 1, 2, 2, 4 and keep input order', () => {
@@ -22,36 +22,36 @@ test('leaderboard: bad entries are dropped and scores coerced', () => {
   assert.deepEqual(rankEntries([{ name: 'no id' }, { id: 1, score: '7' }]).map((row) => [row.id, row.score]), [['1', 7]]);
 });
 
-test('leaderboard: fitRows shows all when they fit, else a line plus the pinned own row', () => {
-  const metrics = { row: 40, gap: 8, more: 24 };
-  assert.deepEqual(fitRows({ ...metrics, height: 400, count: 5, meIndex: 4 }), { shown: 5, pinned: false });
-  assert.deepEqual(fitRows({ ...metrics, height: 200, count: 20, meIndex: 1 }), { shown: 3, pinned: false });
-  assert.deepEqual(fitRows({ ...metrics, height: 200, count: 20, meIndex: 15 }), { shown: 2, pinned: true });
-});
-
-test('leaderboard: renders ranks, trophy on first, pinned own row and the more line in a fixed height', { skip }, async () => {
+test('leaderboard: lists every participant, scrolls inside the board with the heading fixed and brings the own row into view', { skip }, async () => {
   const file = join(mkdtempSync(join(tmpdir(), 'leaderboard-')), 'page.html');
-  const entries = Array.from({ length: 12 }, (_, i) => ({ id: 'u' + i, name: 'P' + i, score: 1000 - i * 10 }));
+  const entries = Array.from({ length: 50 }, (_, i) => ({ id: 'u' + i, name: 'P' + i, score: 1000 - i * 10 }));
   writeFileSync(file, `<!doctype html><body>
-<aha-leaderboard id="lb" size="phone" me="u10" style="display:block;height:240px" entries='${JSON.stringify(entries)}'></aha-leaderboard>
+<aha-leaderboard id="lb" size="phone" me="u40" heading="Leaderboard" style="display:block;height:300px" entries='${JSON.stringify(entries)}'></aha-leaderboard>
 <aha-leaderboard id="empty" entries="[]"></aha-leaderboard>
-<script type="module">import '${lib}'; await customElements.whenDefined('aha-leaderboard'); await new Promise((r) => setTimeout(r, 400)); window.ready = true;</script>`);
+<script type="module">import '${lib}'; await customElements.whenDefined('aha-leaderboard'); await new Promise((r) => setTimeout(r, 600)); window.ready = true;</script>`);
   const result = await evaluateInPage(pathToFileURL(file).href, `(() => {
-    const root = document.getElementById('lb').shadowRoot;
-    const visible = [...root.querySelectorAll('li.row')].filter((li) => !li.hidden);
-    const more = root.querySelector('li.more');
-    return { visible: visible.length, pinnedMe: visible.some((li) => li.hasAttribute('data-me')),
-      moreShown: !more.hidden, ordered: root.querySelector('ol') !== null,
-      emptyShown: !document.getElementById('empty').shadowRoot.querySelector('li.empty').hidden };
+    const host = document.getElementById('lb');
+    const root = host.shadowRoot;
+    const viewport = root.querySelector('.viewport');
+    const own = root.querySelector('li.row[data-me]').getBoundingClientRect();
+    const box = viewport.getBoundingClientRect();
+    host.entries = host.entries.map((entry) => entry.id === 'u40' ? { ...entry, score: 5000 } : entry);
+    return { rows: root.querySelectorAll('li.row').length, hidden: root.querySelectorAll('li.row[hidden]').length, more: !!root.querySelector('.more'),
+      scrolls: viewport.scrollHeight > viewport.clientHeight, headerTop: root.querySelector('.header').getBoundingClientRect().top,
+      ownInView: own.top >= box.top - 1 && own.bottom <= box.bottom + 1, hostHeight: host.getBoundingClientRect().height,
+      ordered: root.querySelector('ol') !== null, emptyShown: !document.getElementById('empty').shadowRoot.querySelector('li.empty').hidden };
   })()`, { readyExpr: '!!window.ready', timeout: 45000 });
-  assert.ok(result.visible >= 2 && result.visible < 12, JSON.stringify(result));
-  assert.equal(result.pinnedMe, true);
-  assert.equal(result.moreShown, true);
+  assert.equal(result.rows, 50, JSON.stringify(result));
+  assert.equal(result.hidden, 0);
+  assert.equal(result.more, false);
+  assert.equal(result.scrolls, true);
+  assert.equal(result.ownInView, true, JSON.stringify(result));
+  assert.equal(result.hostHeight, 300);
   assert.equal(result.ordered, true);
   assert.equal(result.emptyShown, true);
 });
 
-test('leaderboard: the canvas never shows the You tag or any own-row marking, and the empty state is centred in the element', { skip }, async () => {
+test('leaderboard: the canvas never shows (you) or any own-row marking, and the empty state is centred in the element', { skip }, async () => {
   const file = join(mkdtempSync(join(tmpdir(), 'leaderboard-')), 'page.html');
   const entries = [{ id: 'a', name: 'Linh', score: 1000 }, { id: 'b', name: 'Quynh', score: 300 }];
   writeFileSync(file, `<!doctype html><body>
@@ -61,7 +61,7 @@ test('leaderboard: the canvas never shows the You tag or any own-row marking, an
 <script type="module">import '${lib}'; await customElements.whenDefined('aha-leaderboard'); await new Promise((r) => setTimeout(r, 400)); window.ready = true;</script>`);
   const result = await evaluateInPage(pathToFileURL(file).href, `(() => {
     const marked = (id) => { const root = document.getElementById(id).shadowRoot; return { rows: root.querySelectorAll('li.row[data-me]').length,
-      tags: [...root.querySelectorAll('.tag')].filter((tag) => !tag.hidden && tag.getClientRects().length).length,
+      tags: [...root.querySelectorAll('.you')].filter((tag) => !tag.hidden && tag.getClientRects().length).length,
       shadow: [...root.querySelectorAll('.track')].map((track) => getComputedStyle(track).boxShadow).join('|') }; };
     const empty = document.getElementById('empty');
     const box = empty.shadowRoot.querySelector('li.empty').getBoundingClientRect();
@@ -76,27 +76,36 @@ test('leaderboard: the canvas never shows the You tag or any own-row marking, an
   assert.ok(result.offset < 2, JSON.stringify(result));
 });
 
-test('leaderboard: on the phone the own-row tag is neutral, drawn once per layer, with no outline and body default row text', { skip }, async () => {
+test('leaderboard: on the phone the own row is the name plus plain (you), no border or fill, ellipsising the name and keeping (you) visible', { skip }, async () => {
   const file = join(mkdtempSync(join(tmpdir(), 'leaderboard-')), 'page.html');
-  const entries = [{ id: 'a', name: 'Linh', score: 1000, delta: 10 }, { id: 'b', name: 'Quynh', score: 300 }];
+  const entries = [{ id: 'a', name: 'Linh', score: 1000, delta: 10 }, { id: 'b', name: 'Quynh Nguyen Thi Bao Tran Phuong Anh Long Name', score: 300 }];
   writeFileSync(file, `<!doctype html><body style="--aha-deck-accent:rgb(231,14,104);--aha-deck-palette-2:rgb(0,0,255);--aha-deck-palette-2-ink:rgb(255,255,255)">
-<aha-leaderboard id="lb" size="phone" me="b" style="display:block;width:360px" entries='${JSON.stringify(entries)}'></aha-leaderboard>
+<aha-leaderboard id="lb" size="phone" me="b" style="display:block;width:320px" entries='${JSON.stringify(entries)}'></aha-leaderboard>
 <script type="module">import '${lib}'; await customElements.whenDefined('aha-leaderboard'); await new Promise((r) => setTimeout(r, 400)); window.ready = true;</script>`);
   const result = await evaluateInPage(pathToFileURL(file).href, `(() => {
     const row = document.getElementById('lb').shadowRoot.querySelector('li.row[data-me]');
-    const [base, over] = [...row.querySelectorAll('.tag')].map((tag) => getComputedStyle(tag));
-    return { baseColor: base.color, overColor: over.color, baseFill: base.backgroundColor, overFill: over.backgroundColor, overVisibility: over.visibility,
-      shadow: getComputedStyle(row.querySelector('.track')).boxShadow,
-      name: getComputedStyle(row.querySelector('.name')).fontSize, score: getComputedStyle(row.querySelector('.score')).fontSize };
+    const [base, over] = [...row.querySelectorAll('.you')].map((you) => getComputedStyle(you));
+    const name = row.querySelector('.base .name');
+    const you = row.querySelector('.base .you').getBoundingClientRect();
+    const track = row.querySelector('.track').getBoundingClientRect();
+    return { text: row.querySelector('.base .you').textContent, border: base.borderTopWidth, fill: base.backgroundColor, overFill: over.backgroundColor,
+      overColor: over.color, weight: base.fontWeight, nameWeight: getComputedStyle(name).fontWeight,
+      clipped: name.scrollWidth > name.clientWidth, youInside: you.right <= track.right && you.width > 0,
+      shadow: getComputedStyle(row.querySelector('.track')).boxShadow, size: getComputedStyle(name).fontSize,
+      others: [...document.getElementById('lb').shadowRoot.querySelectorAll('li.row:not([data-me]) .you')].filter((el) => !el.hidden).length };
   })()`, { readyExpr: '!!window.ready', timeout: 45000 });
-  assert.notEqual(result.baseColor, 'rgb(231, 14, 104)');
-  assert.equal(result.overColor, 'rgb(255, 255, 255)');
-  assert.equal(result.baseFill, 'rgba(0, 0, 0, 0)');
+  assert.equal(result.text, ' (you)');
+  assert.equal(result.border, '0px');
+  assert.equal(result.fill, 'rgba(0, 0, 0, 0)');
   assert.equal(result.overFill, 'rgba(0, 0, 0, 0)');
-  assert.equal(result.overVisibility, 'visible');
+  assert.equal(result.overColor, 'rgb(255, 255, 255)');
+  assert.equal(result.weight, '400');
+  assert.equal(result.nameWeight, '600');
+  assert.equal(result.clipped, true);
+  assert.equal(result.youInside, true, JSON.stringify(result));
   assert.equal(result.shadow, 'none');
-  assert.equal(result.name, '14px');
-  assert.equal(result.score, '14px');
+  assert.equal(result.size, '14px');
+  assert.equal(result.others, 0);
 });
 
 test('leaderboard: every text element reaches WCAG AA 4.5:1 against its composited background, canvas and audience, on light, dark and coloured decks', { skip }, async () => {

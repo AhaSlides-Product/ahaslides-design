@@ -188,7 +188,7 @@
     {
       "ref": "leaderboard",
       "as": "component",
-      "use": "a ranked score list on the phone, the same look as the canvas \u2014 <aha-leaderboard size=\"phone\" me=\"\u2026\">, the bars take the deck palette (applyDeck writes it) and the participant's own row is pinned with a You tag when it is outside the shown rows (the canvas never shows it); never a hand-built leaderboard",
+      "use": "a ranked score list on the phone, the same look as the canvas \u2014 <aha-leaderboard size=\"phone\" me=\"\u2026\">, the bars take the deck palette (applyDeck writes it) and every participant is listed, the list scrolls inside the board and the participant's own row carries a plain \"(you)\" after the name and is scrolled into view (the canvas never shows it); never a hand-built leaderboard",
       "status": "available"
     },
     {
