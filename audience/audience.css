@@ -4,7 +4,7 @@
 
 /* area header (page content, below the DS top-nav) */
 .audience-lib .al-head{margin:0 0 var(--aha-space-32)}
-.audience-lib .al-head h1{font-family:var(--aha-font-display);font-size:var(--aha-size-h3);line-height:var(--aha-line-height-heading);color:var(--aha-text-default);margin:0;font-weight:800;letter-spacing:var(--aha-letter-spacing-headlines)}
+.audience-lib .al-head h1{font-family:var(--aha-font-product);font-size:var(--aha-size-h3);line-height:var(--aha-line-height-heading);color:var(--aha-text-default);margin:0;font-weight:800;letter-spacing:var(--aha-letter-spacing-headlines)}
 .audience-lib .al-head .rule{margin:var(--aha-space-12) 0 0;max-width:720px;color:var(--aha-text-primary-ink);line-height:var(--aha-line-height-body)}
 .audience-lib .al-head .why{margin:var(--aha-space-12) 0 0;max-width:720px;font-size:var(--aha-size-sm);color:var(--aha-text-secondary);line-height:var(--aha-line-height-body)}
 
@@ -14,7 +14,7 @@
 .audience-lib .card:hover{border-color:var(--aha-border-secondary);box-shadow:0 1px 2px rgba(0,0,0,.04)}
 .audience-lib .card-h{padding:var(--aha-space-24)}
 .audience-lib .card-title{display:flex;align-items:center;gap:var(--aha-space-12)}
-.audience-lib .card-title h2{font-family:var(--aha-font-display);font-size:var(--aha-size-h4);line-height:var(--aha-line-height-heading);color:var(--aha-text-default);margin:0;font-weight:800}
+.audience-lib .card-title h2{font-family:var(--aha-font-product);font-size:var(--aha-size-h4);line-height:var(--aha-line-height-heading);color:var(--aha-text-default);margin:0;font-weight:800}
 .audience-lib .badge{color:var(--aha-white);background:var(--aha-black);font-size:var(--aha-size-sm);font-weight:var(--aha-weight-semibold);padding:2px var(--aha-space-8);border-radius:var(--aha-radius-xs);display:inline-block;text-transform:none;letter-spacing:0;border:none}
 .audience-lib .what{margin:var(--aha-space-12) 0 0;color:var(--aha-text-primary-ink);line-height:var(--aha-line-height-body)}
 
