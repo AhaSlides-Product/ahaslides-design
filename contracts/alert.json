@@ -10,19 +10,19 @@
   "highlights": ["Inline, contextual feedback banner", "Info, success, warning, error or branding tone", "Regular or small, with optional banner mode and trailing action"],
   "lead": "ONE custom element — <aha-alert> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; tone is the `type` attribute (info · success · warning · error · branding), the status glyph is summoned BY NAME from the shared icon library. `size` compacts it (regular · small), `banner` makes it a full-width, square-cornered page notice, `hide-icon` drops the glyph, a slot=\"action\" carries a trailing button/link, and `closable` adds a dismiss control that animates the banner out on a persistent node and emits a composed `close`.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper for the composed `close` event; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
-  "tokensUsed": ["gray-25", "icon-default", "bg-accent", "color-primary", "text-default", "radius-default"],
+  "tokensUsed": ["gray-25", "icon-default", "icon-active", "bg-accent", "color-primary", "text-default", "radius-default"],
   "spec": [
     { "label": "Box", "value": "flex row, gap 10 · padding 10 14 · radius 8 · no border on any type" },
     { "label": "Text", "value": "Plus Jakarta 14/1.5; heading SemiBold 600" },
     { "label": "Info", "value": "bg gray-25 #F3F3F3, no border, icon-default #4A4A4A" },
     { "label": "Success", "value": "bg gray-25 #F3F3F3, no border, icon-default #4A4A4A" },
     { "label": "Warning", "value": "bg gray-25 #F3F3F3, no border, icon-default #4A4A4A" },
-    { "label": "Error", "value": "bg gray-25 #F3F3F3, no border, icon-default #4A4A4A" },
+    { "label": "Error", "value": "bg gray-25 #F3F3F3, no border, icon-active #E70E68 (Vivid Pink, calls for action; the message stays black)" },
     { "label": "Branding", "value": "bg-accent #E70E680D, no border, icon/text color-primary #E70E68" },
     { "label": "Small", "value": "padding 6 10 · gap 8 · 13px text · 16px glyph" },
     { "label": "Banner", "value": "full-width, square (radius 0), no border" },
     { "label": "Action", "value": "trailing slot=\"action\" for a button/link" },
-    { "label": "Icon", "value": "status glyph via <aha-icon> (system-info / system-check-circle / system-warning-circle / system-x-circle / system-sparkle), 16px in both sizes, icon-default #4A4A4A" },
+    { "label": "Icon", "value": "status glyph via <aha-icon> (system-info / system-check-circle / system-warning-circle / system-x-circle / system-sparkle), 16px in both sizes, icon-default #4A4A4A (error: icon-active #E70E68)" },
     { "label": "Close", "value": "closable → the shared ✕ (tertiary icon-only <aha-button>, size xs; 20 × 20, 16px system-x), top-pinned to the first line, 2px into the end padding" }
   ],
   "props": [

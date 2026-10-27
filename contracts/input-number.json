@@ -15,7 +15,7 @@
     { "label": "Hover", "value": "#E70E68 (color-primary) border" },
     { "label": "Focus", "value": "brand #E70E68 border" },
     { "label": "Status", "value": "error #1A1A1A (warning is a deprecated alias that renders as error)" },
-    { "label": "Error message", "value": "<aha-field-error icon> below the control, 4px gap · 12×12 system-warning-circle + text at --aha-size-sm 12/18 · #1A1A1A" },
+    { "label": "Error message", "value": "<aha-field-error icon> below the control, 4px gap · 12×12 system-warning-circle in icon-active Vivid Pink #E70E68 + text at --aha-size-sm 12/18 · #1A1A1A" },
     { "label": "Info message", "value": "<aha-field-error tone=\"info\"> below the control, 4px gap · text only at --aha-size-sm 12/18 · --aha-text-secondary; border unchanged, no aria-invalid; replaced by the error message while status is error" },
     { "label": "Steppers", "value": "tertiary ▲/▼ (system-caret-up/down) revealed on hover/focus, 6px after the digits; keyboard ↑ ↓; toggle via controls. Import input-number.css" },
     { "label": "Unit / prefix", "value": "addonAfter is the muted inline unit (14/21, 0.2px, --aha-text-placeholder) 4px after the stepper, inside the field; addonBefore is the same muted text leading. Same as Number with unit" },

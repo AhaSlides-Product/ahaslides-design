@@ -35,7 +35,7 @@ reading as one product.
 The **Design System V3 Alert** — an inline banner for feedback that stays in the layout (unlike a toast). Full spec, tokens, size metrics, and Figma node IDs live in the skill's `references/alert.md`.
 
 - **Do not ship a bare AntD `<Alert>`.** It cannot express the DS `branding` type, the `regular`/`small` sizes, the DS surface tokens, or the DS system glyphs. Build the thin `AhaAlert` wrapper the reference specifies.
-- **Five types**, each with its DS `bg-surface` / `icon` token (no border) **and a distinct glyph** — colour is never the only signal:
+- **Five types**, each with its DS `bg-surface` / `icon` token (no border) **and a distinct glyph** — colour is never the only signal. The `error` icon is Vivid Pink (`--aha-icon-active`, colour rule 7.6) so it calls for action; the message stays black and the other four icons stay ink:
 
 | Type | Glyph |
 | --- | --- |

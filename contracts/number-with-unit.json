@@ -32,7 +32,7 @@
     { "name": "max", "type": "number", "default": "—", "desc": "Upper clamp bound" },
     { "name": "step", "type": "number", "default": "1", "desc": "Stepper / arrow-key increment" },
     { "name": "maxdigits", "type": "number", "default": "4", "desc": "Hard digit cap — a keystroke past this many digits is ignored" },
-    { "name": "errormessage", "type": "string", "default": "—", "desc": "Presence draws the error border/ring and the field error below (error glyph + message)" },
+    { "name": "errormessage", "type": "string", "default": "—", "desc": "Presence draws the error border/ring and the field error below (Vivid Pink error glyph + message)" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Non-interactive; grey fill" },
     { "name": "change", "type": "CustomEvent<{value}>", "default": "—", "desc": "Composed event on commit / stepper / arrow; read e.detail.value (clamped number)" }
   ],

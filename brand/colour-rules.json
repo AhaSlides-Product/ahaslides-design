@@ -215,7 +215,8 @@
      { "id": "7.2", "text": "Show status with an icon, clear wording and an outline or a black fill." },
      { "id": "7.3", "text": "A rise is plain black with an up arrow. A fall is white on a black chip with a down arrow." },
      { "id": "7.4", "text": "File-type icons are one colour." },
-     { "id": "7.5", "text": "Borders and shadows use black, white or a palette colour at any transparency." }
+     { "id": "7.5", "text": "Borders and shadows use black, white or a palette colour at any transparency." },
+     { "id": "7.6", "text": "An icon that marks an error is Vivid Pink, the primary colour, the same pink as the status badge alert icon, so it calls for action. Its message stays black. Warning, information and success icons stay black." }
     ] }
    ]
   },
@@ -294,6 +295,7 @@
  ],
  "open": [],
  "changes": [
+  { "version": "v25", "date": "27 Oct", "text": "New rule 7.6: an icon that marks an error is Vivid Pink, the same pink as the status badge alert icon, and its message stays black; warning, information and success icons stay black. It applies to the Alert and Info box error type, the field error row, the form validation message, the toast and notification error icon, the uploader failed file, the danger confirmation modal and the Result error. Found in DESY-364. No rule id changed." },
   { "version": "v24", "date": "27 Oct", "text": "Rule 2.1 allows the black logo and the black Splash, both #1A1A1A, for one-colour print on white only. Rule 4.6 covers Vivid Pink at 5% surfaces and names the Vivid Pink text on 5% pair that fails. New rules 4.10 and 4.11 give the photography do and don't from brand guidelines v2.3 (real moments and relaxed portraits; avoid staged shots and stiff portraits). The contrast table names the app's light grey as #F7F7F7 (4.21 to 1), not #FAFAFA (4.32 to 1). Found in BRGO-2. No rule id changed." },
   { "version": "v23", "date": "24 Oct", "text": "The splash rules now apply to any splash background in any medium, with no exceptions: 5.1 to 5.5, 5.7 to 5.11, 5.14, 5.15, 5.17 to 5.19, the splash layouts table and the Splash in CSS block cover every environment, including report images, which draw a hero band splash with the Splash in CSS block on the band's own frame and never place it by hand. 5.6 (where a splash may be used), 5.12, 5.13 and 5.16 (export sizes) keep their scope. Found in DESY-331. No rule id changed." },
   { "version": "v22", "date": "23 Oct", "text": "Added the logo clear space (2.8) and the isotype sizes, favicon and avatar use (2.9, 2.10) from brand guidelines v2.2. Corrected two contrast figures: Vivid Pink text on Vivid Pink at 5% is 4.16 to 1, and 86% white on Vivid Pink is 3.58 to 1. No existing rule changed." },

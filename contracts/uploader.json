@@ -17,7 +17,7 @@
     { "label": "Hover / drag", "value": "border + accent tint color-primary / bg-accent (motion-mid, persistent zone)" },
     { "label": "File row", "value": "1px border #E3E3E3, radius 8, file icon + name + the shared remove ✕ (tertiary icon-only <aha-button> xs, 20 × 20, 16px system-x)" },
     { "label": "Uploading", "value": "4px progress track, radius 4 (split), color-primary fill, width animates (motion-slow)" },
-    { "label": "Error item", "value": "border + text color-error #1A1A1A on bg-negative, warning glyph" },
+    { "label": "Error item", "value": "border + text color-error #1A1A1A on bg-negative, warning glyph in icon-active Vivid Pink #E70E68" },
     { "label": "Done item", "value": "check-circle glyph color-success #1A1A1A" },
     { "label": "Picture-card", "value": "104px tiles + dashed add-box; add-box is the trigger" }
   ],

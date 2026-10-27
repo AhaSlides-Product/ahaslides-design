@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.453.0 — 2026-10-27
+### Changed
+- An icon that marks an error is Vivid Pink (`--aha-icon-active` #E70E68), the same pink as the status badge alert icon, so it calls for action; messages, borders and backgrounds are unchanged. Alert and Info box `error`, the field error row (Input, Select, Textarea, Counted textarea, Number with unit, form validation), toast and notification error, the uploader failed file, the danger confirmation modal and the Result error. Warning, information and success icons stay ink. New colour rule 7.6 (colour rules v25). (#PRNUM)
+
 ## 0.444.0 — 2026-10-27
 ### Added
 - Colour rules v24: rule 2.1 allows the black logo and the black Splash (both #1A1A1A) for one-colour print on white only; new rule 2.11 and a Logo library section for the AhaSlides × Partner co-brand lockup (order, ×, spacing, sizes, greyscale at rest, white on Vivid Pink); new rules 4.10 and 4.11 for photography (real moments and relaxed portraits; avoid staged shots and stiff portraits) (#404)

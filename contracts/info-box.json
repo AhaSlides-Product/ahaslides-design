@@ -14,7 +14,7 @@
     "Four tones: information, success, warning, error",
     "Optionally dismissible"
   ],
-  "lead": "ONE custom element — <aha-info-box> — the settings-panel callout, composed from the DS <aha-alert>. Its settings API maps onto the Alert: `variant` information / success / warning / error → the Alert `type` (info / success / warning / error), `icon` → the Alert `icon`, `dismissible` → the Alert `closable`. So it has the Alert's look (grey #F3F3F3 surface, no border, #4A4A4A status glyph), its roles (role=alert for warning and error, role=status otherwise) and its leave animation. Dismissing hides the info box (the same nodes stay in place, so un-hiding shows it again) and emits `dismiss`; the host owns any persisted \"don't show again\" state. New code can use <aha-alert> directly.",
+  "lead": "ONE custom element — <aha-info-box> — the settings-panel callout, composed from the DS <aha-alert>. Its settings API maps onto the Alert: `variant` information / success / warning / error → the Alert `type` (info / success / warning / error), `icon` → the Alert `icon`, `dismissible` → the Alert `closable`. So it has the Alert's look (grey #F3F3F3 surface, no border, #4A4A4A status glyph, Vivid Pink #E70E68 for error), its roles (role=alert for warning and error, role=status otherwise) and its leave animation. Dismissing hides the info box (the same nodes stay in place, so un-hiding shows it again) and emits `dismiss`; the host owns any persisted \"don't show again\" state. New code can use <aha-alert> directly.",
   "codeNote": "A thin wrapper over <aha-alert>: same element in React and Vue. React (< 19) via a thin ref wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
   "tokensUsed": [
     "gray-25",
@@ -33,7 +33,7 @@
     },
     {
       "label": "Glyph",
-      "value": "the Alert status glyph, 16px #4A4A4A: system-info · system-check-circle · system-warning-circle · system-x-circle; `icon` overrides it"
+      "value": "the Alert status glyph, 16px #4A4A4A (error: Vivid Pink #E70E68): system-info · system-check-circle · system-warning-circle · system-x-circle; `icon` overrides it"
     },
     {
       "label": "Dismiss",

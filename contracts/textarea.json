@@ -19,7 +19,7 @@
     { "label": "Size", "value": "small · default · large (control height 24/40/48)" },
     { "label": "Status", "value": "error #1A1A1A border (warning is a deprecated alias that renders as error)" },
     { "label": "Info message", "value": "<aha-field-error tone=\"info\"> below the control, 4px gap · text only at --aha-size-sm 12/18 · --aha-text-secondary, e.g. a row count (`3 of 10 rows`) the consumer writes; border unchanged, no aria-invalid; replaced by the error message while status is error" },
-    { "label": "Error message", "value": "<aha-field-error icon> below the control, 4px gap · 12×12 system-warning-circle + text at --aha-size-sm 12/18 · #1A1A1A" }
+    { "label": "Error message", "value": "<aha-field-error icon> below the control, 4px gap · 12×12 system-warning-circle in icon-active Vivid Pink #E70E68 + text at --aha-size-sm 12/18 · #1A1A1A" }
   ],
   "props": [
     { "name": "value", "type": "string", "default": "\"\"", "desc": "Controlled text value" },
