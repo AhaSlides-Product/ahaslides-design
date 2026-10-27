@@ -2051,15 +2051,11 @@ const SECTION_GALLERY_VIEW_KEY = 'aha-section-gallery-view';
 const SECTION_GALLERY_FRAME = { width: 1440, height: 900 };
 const SECTION_GALLERY_CARD_FRAME_WIDTH = 560;
 const SECTION_GALLERY_CSS = `
-.sg{container-type:inline-size}
 .sg-bar{display:flex;align-items:center;justify-content:space-between;gap:var(--aha-space-16);flex-wrap:wrap;margin:var(--aha-space-24) 0}
 .sg-search{flex:0 1 20rem;min-width:0}
 .sg[data-view="list"] .sg-grid,.sg[data-view="list"] .sg-search,.sg[data-view="list"] .sg-empty,.sg[data-view="grid"] .sg-list{display:none}
 .sg-empty[hidden]{display:none}
-.sg-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--aha-space-32) var(--aha-space-24);margin:0 0 var(--aha-space-48);padding:0;list-style:none}
-.sg-grid>li[hidden]{display:none}
-@container (min-width:520px){.sg-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@container (min-width:840px){.sg-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.sg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(15rem,1fr));gap:var(--aha-space-32) var(--aha-space-24);margin:0 0 var(--aha-space-48);padding:0;list-style:none}
 .sg-card{display:flex;flex-direction:column;gap:var(--aha-space-12);color:inherit;text-decoration:none;border-radius:var(--aha-radius-default)}
 .sg-card:focus-visible{outline:2px solid var(--aha-color-primary);outline-offset:4px}
 .sg-thumb{position:relative;aspect-ratio:${SECTION_GALLERY_FRAME.width}/${SECTION_GALLERY_FRAME.height};overflow:hidden;border:1px solid var(--aha-split);border-radius:var(--aha-radius-default);background:var(--aha-white);transition:border-color var(--aha-motion-fast) var(--aha-ease-out)}
@@ -2069,7 +2065,8 @@ const SECTION_GALLERY_CSS = `
 .sg-caption b{font-weight:var(--aha-weight-semibold);color:var(--aha-text-default)}
 @media (prefers-reduced-motion:reduce){.sg-thumb{transition:none}}`;
 function sectionGalleryCard(item, pageName) {
-  return `<li data-search="${esc(item.searchText.toLowerCase())}"><a class="sg-card" href="#${esc(item.slug)}"><div class="sg-thumb"><iframe class="sg-frame" title="${esc(item.name)} thumbnail" loading="lazy" data-frame-width="${item.frameWidth || SECTION_GALLERY_FRAME.width}" style="width:${item.frameWidth || SECTION_GALLERY_FRAME.width}px;height:${Math.round((item.frameWidth || SECTION_GALLERY_FRAME.width) * SECTION_GALLERY_FRAME.height / SECTION_GALLERY_FRAME.width)}px" tabindex="-1" aria-hidden="true" scrolling="no"></iframe></div><span class="sg-caption"><b>${esc(item.name)}</b> · ${esc(pageName)}</span></a></li>`;
+  const frameWidth = item.frameWidth || SECTION_GALLERY_FRAME.width;
+  return `<li data-search="${esc(item.searchText.toLowerCase())}"><a class="sg-card" href="#${esc(item.slug)}"><div class="sg-thumb"><iframe class="sg-frame" title="${esc(item.name)} thumbnail" data-frame-width="${frameWidth}" style="width:${frameWidth}px;height:${Math.round(frameWidth * SECTION_GALLERY_FRAME.height / SECTION_GALLERY_FRAME.width)}px" tabindex="-1" aria-hidden="true" scrolling="no"></iframe></div><span class="sg-caption"><b>${esc(item.name)}</b> · ${esc(pageName)}</span></a></li>`;
 }
 function sectionGallerySlots(b, items, noun) {
   const options = JSON.stringify([{ value: 'grid', label: 'Grid', icon: 'system-squares-four' }, { value: 'list', label: 'List', icon: 'system-rows' }]);
@@ -2082,7 +2079,7 @@ function sectionGallerySlots(b, items, noun) {
 `,
     close: `
   </div>
-  <script>(function(){var r=document.querySelector('.sg');if(!r)return;var v='grid';try{var s=localStorage.getItem('${SECTION_GALLERY_VIEW_KEY}');if(s==='list'||s==='grid')v=s}catch(e){}var id=decodeURIComponent(location.hash.slice(1));if(id){var t=document.getElementById(id);if(t&&r.querySelector('.sg-list').contains(t))v='list'}r.dataset.view=v;r.querySelector('.sg-seg').setAttribute('value',v)})();</script>
+  <script>(function(){var r=document.querySelector('.sg');if(!r)return;var v='grid';try{var s=localStorage.getItem('${SECTION_GALLERY_VIEW_KEY}');if(s==='list'||s==='grid')v=s}catch(e){}var id='';try{id=decodeURIComponent(location.hash.slice(1))}catch(e){}if(id){var t=document.getElementById(id);if(t&&r.querySelector('.sg-list').contains(t))v='list'}r.dataset.view=v;r.querySelector('.sg-seg').setAttribute('value',v)})();</script>
   </div>
   ${SECTION_GALLERY_SCRIPT}`,
   };
@@ -2169,7 +2166,7 @@ const SECTION_GALLERY_SCRIPT = `<script type="module">
       });
       empty.hidden=shown>0;
     });
-    if(root.dataset.view==='list'&&location.hash)holdAnchor(decodeURIComponent(location.hash.slice(1)));
+    if(root.dataset.view==='list'&&location.hash){var hashId='';try{hashId=decodeURIComponent(location.hash.slice(1))}catch(e){}if(hashId)holdAnchor(hashId);}
   })();
   </script>`;
 function renderMarketingLayoutsHtml(b) {
