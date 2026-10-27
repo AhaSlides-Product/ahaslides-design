@@ -8,14 +8,15 @@
   "element": "aha-tag",
   "summary": "A small label chip for a category, keyword, or state — filled or bordered, with an icon, a dismiss ×, or a checkable toggle.",
   "highlights": ["Small label chip for a category, keyword or state", "Filled or bordered", "Icon, dismiss button or checkable toggle"],
-  "lead": "ONE custom element — <aha-tag> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens. The DS V3 Tag is a family: a semantic `color` preset (neutral · primary · branding · success · processing · warning · error), a filled (default) or `bordered` outlined shape, a `size=\"large\"` (36px) for filter chips, an optional leading `icon` (by name from the DS icon library), a `closable` × that animates out then removes + emits a composed `close`, and a `checkable` toggle flavour carrying a selected state (aria-pressed) that emits `change` (it flips its own `checked` on click; add `controlled` when the host owns `checked`). Zero drift — the same element, not two look-alikes.",
+  "lead": "ONE custom element — <aha-tag> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens. The DS V3 Tag is a family: a semantic `color` preset (neutral · primary · solid · branding · success · processing · warning · error), a filled (default) or `bordered` outlined shape, a `size=\"large\"` (36px) for filter chips, an optional leading `icon` (by name from the DS icon library), a `closable` × that animates out then removes + emits a composed `close`, and a `checkable` toggle flavour carrying a selected state (aria-pressed) that emits `change` (it flips its own `checked` on click; add `controlled` when the host owns `checked`). Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper for the `close`/`change` events; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["gray-15", "border-input", "radius-default", "gray-30", "text-secondary", "bg-container", "border", "bg-accent", "color-primary", "text-default", "text-inverse", "bg-positive", "text-positive", "border-success", "bg-informative", "text-link", "border-info", "bg-warning", "text-warning", "border-warning", "bg-negative", "text-negative", "border-error", "border-focus", "radius-xs"],
   "spec": [
     { "label": "Box", "value": "height 20 · radius 4 · padding 0 6 · 4px gap to a 14px leading icon" },
     { "label": "Text", "value": "Plus Jakarta SemiBold 600, 12/18" },
     { "label": "Neutral", "value": "bg #F1F1F1, label #4A4A4A" },
-    { "label": "Primary", "value": "bg #E70E680D, label #E70E68" },
+    { "label": "Primary", "value": "bg #E70E680D, label #1A1A1A (black: Vivid Pink text on that fill is 4.16:1 and fails colour rule 4.6)" },
+    { "label": "Solid", "value": "bg #E70E68, label #FFFFFF (4.51:1); `bordered` leaves it unchanged" },
     { "label": "Branding", "value": "bg #E70E680D, label #1A1A1A, border Vivid Pink (the \"New\" label)" },
     { "label": "Large", "value": "size=\"large\": height 36 · radius 8 · padding 0 12 · 14/20 regular — the checkable filter-chip size" },
     { "label": "Success / Processing / Warning / Error", "value": "tinted bg + matching text token" },
@@ -24,7 +25,7 @@
     { "label": "Checkable", "value": "outlined toggle; checked → brand fill #E70E68 / white label; aria-pressed synced. size=\"large\" filter chip: rest gray-15 #FAFAFA fill, border-input #D4D4D4 border, text-default label; checked Vivid Pink at 5% #E70E680D fill with a Vivid Pink #E70E68 border and a text-link-hover #DB005B label (4.65:1; text-link #E70E68 is 4.16:1 on that fill), as the secondary button hover. Flips its own checked on click unless `controlled`" }
   ],
   "props": [
-    { "name": "color", "type": "neutral | primary | branding | success | processing | warning | error", "default": "neutral", "desc": "Semantic tone preset (alias: `variant`); branding is the pink \"New\" label" },
+    { "name": "color", "type": "neutral | primary | solid | branding | success | processing | warning | error", "default": "neutral", "desc": "Semantic tone preset (alias: `variant`); solid is a Vivid Pink fill with a white label; branding is the pink \"New\" label" },
     { "name": "size", "type": "default | large", "default": "default", "desc": "large = 36px filter chip (14px regular text, 12px padding, 8px radius); default = the 20px label" },
     { "name": "bordered", "type": "boolean", "default": "false", "desc": "Outlined shape — white surface + a coloured 1px hairline instead of the filled tint" },
     { "name": "icon", "type": "string", "default": "—", "desc": "Leading DS icon name, e.g. system-tag (resolved via <aha-icon>)" },
@@ -57,6 +58,7 @@
       { "prop": "color", "label": "Colour", "default": "primary", "options": [
         { "label": "Neutral", "value": null },
         { "label": "Primary", "value": "primary" },
+        { "label": "Solid", "value": "solid" },
         { "label": "Branding", "value": "branding" },
         { "label": "Success", "value": "success" },
         { "label": "Processing", "value": "processing" },
