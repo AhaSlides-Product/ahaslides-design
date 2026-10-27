@@ -22,10 +22,21 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.479.0 — 2026-10-27
+## 0.483.0 — 2026-10-27
 ### Added
-- Website > Marketing > Slider: two slider sections, Zoom (a full-width row of tall slide-type cards on the Vivid Pink frame, the current one centred and larger, looping) and Card (three captioned 4:3 photo cards with a meta line and linked title, arrows over the outer cards, dots per page). Arrows are `<aha-button variant="secondary" icon-only size="md">` with the caret icons; no autoplay, keyboard and drag support, reduced motion turns the zoom and smooth scroll off. Marketing pages may now set `titleSection` so a page sharing a component's name gets its own document title.
+- Website > Marketing > Slider: two slider sections, Zoom (a full-width row of slide-type cards, the current one centred and larger, looping) and Card (three captioned photo cards with a meta line and linked title, arrows over the outer cards, dots per page). Arrows are `<aha-button variant="secondary" icon-only size="md">` with the caret icons; no autoplay, keyboard and drag support, reduced motion turns the zoom and smooth scroll off. Marketing pages may now set `titleSection` so a page sharing a component's name gets its own document title.
+- Slider "Image ratio" switch on both layouts: 3:4, 1:1, 4:3 and 16:9 through the modifier classes `aha-slider--portrait`, `--square`, `--landscape` and `--wide` (`aspect-ratio` only, no new token). Zoom defaults to 3:4, Card to 4:3. The Zoom card widens with the ratio (28%, 28%, 40%, 56% of the stage at 992px and up, one step up at each smaller width, 68% at 479px).
+- Exception to website rule W6 for this page only, decided by the requester: the Zoom image is a plain DS media slot (marketing radius, no Vivid Pink frame, filled and cropped to the ratio). W6 and every other section are unchanged.
 - Revert: revert the PR; the change is confined to `marketing/slider.json`, the `titleSection` pass-through in `generate.mjs` and the Slider line in `tests/web-gutter.test.mjs` (#408)
+
+## 0.479.0 — 2026-10-27
+### Changed
+- Website > Marketing > Header: 24 layouts down to 5, one per structure: Hero split, Hero stacked, Hero card, Hero split form and Page header. Layouts that differed only by colour, alignment, picture or call to action are now switches on the one layout: every layout has a White / Accent / Vivid Pink surface switch; Hero split adds Image (Inset, Bleed), Call to action (Buttons, Email form) and Badge; Hero stacked adds Alignment (Centre, Left), Call to action and Badge; Page header adds Alignment (Left, Centre, Space between), Buttons and Tabs. Merged: Hero Pink, Hero Pale Pink, Hero split image 01, 03 and 05, Hero screen mockup 02 and 04, Hero iPhone mockup 03 and Hero card mockup 07 into Hero split; Hero Pink Vertical, Hero Pale Pink Vertical, Hero screen mockup 01, 03 and 05, Hero simple text 01 and Hero card mockup 08 into Hero stacked; Hero color card 04 is Hero card, Hero split form 01 is Hero split form; the six page headers are Page header. Class names change to `aha-header-section-<layout>`; pasted copies of the old classes keep working where they are. The Video slot moves to Hero stacked; the G2 reviews row stays on the three heroes. Choosing a header, the website guideline W2 and W5 sources follow.
+- Website composition eval fixtures: the hero in every fixture page is now Hero split on its Vivid Pink surface (`aha-header-section-hero-split--brand`) instead of the removed Hero Pink, with `fixtures/sections.css` carrying the Hero split CSS; the good-control expected output names it.
+- The Header previews fit their section: the preview box is as tall as the section (up to the old 640px cap) instead of a fixed 640px, so short layouts no longer sit above a blank area (a page header preview drops from 630px to 227px).
+### Added
+- `generate.mjs`: an optional `options` list on a marketing layout (each choice either adds a `--<value>` modifier or keeps the elements marked `data-choice="<value>"`), rendered as switches beside the surface switch, with one code tab per choice and the choices in the `.md` and `.agent.json` feeds; and an optional page-level `previewFit`. Pages without them render byte-identically.
+- Revert: revert the PR; `marketing/header.json`, the `options` and `previewFit` branches in `generate.mjs` and two source lines in `guidelines/website.json`, the eval fixture heroes and `fixtures/sections.css` (#399)
 
 ## 0.472.0 — 2026-10-27
 ### Changed
