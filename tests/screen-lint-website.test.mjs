@@ -154,6 +154,7 @@ test('every whole-document check finishes fast on adversarial input', () => {
     '<style>' + 'a{'.repeat(50000),
     '<style>' + '.aha-features{'.repeat(30000),
     '<style>' + ' '.repeat(100000),
+    '<style>'.repeat(20000),
     '</style  '.repeat(30000),
     '<!--'.repeat(30000),
     '/*'.repeat(30000),
