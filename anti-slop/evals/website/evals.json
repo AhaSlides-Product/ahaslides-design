@@ -775,6 +775,96 @@
         "authored": "ahaslides-design",
         "why": "DS-authored with the website surface; no plugin judge dataset exists"
       }
+    },
+    {
+      "id": 26,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w15-linkout-same-tab/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W15: the Read customer stories and Read the docs link-out buttons open in the same tab.",
+      "expected_output": "W15 FAILs: Read customer stories and Read the docs go to another page but carry no target=\"_blank\" rel=\"noopener\" and no visually-hidden new-tab text. Fix: open the section link-out buttons in a new tab with the shipped hidden text; Sign up stays in the same tab. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W15 is marked FAIL",
+        "Names the link-out buttons that open in the same tab"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W15": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 27,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w18-split-cta-centred/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W18: a split Features section (list beside a photo) whose call to action is centred under the whole row instead of in the text column.",
+      "expected_output": "W18 FAILs: the icon-list-photo section puts its button in a centred row under the whole split row, below the photo, instead of inside the text column under the list, left aligned with it. Fix: use the shipped markup with the button row (aha-features__cta--start) inside aha-features__column. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W18 is marked FAIL",
+        "Names the centred button under the split row"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W18": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 28,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w19-four-unbalanced-quotes/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W19: four quote cards, one long quote beside short ones.",
+      "expected_output": "W19 FAILs: the Testimonials section shows four cards, over the limit of three, and one quote is about 240 characters beside quotes of about 90, so the cards are uneven. Fix: keep three quotes of similar length. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W19 is marked FAIL",
+        "Names the fourth card and the long quote"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W19": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
     }
   ]
 }

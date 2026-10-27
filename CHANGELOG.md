@@ -22,13 +22,19 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.497.0 — 2026-10-27
+## 0.498.0 — 2026-10-27
 ### Changed
 - `<aha-chart type="bar">`: new row layout. The label (one line, ellipsis, at least 16px clear of the value) and the value sit on one line above the bar, the track spans the row, and the image (or placeholder tile) moves to the end of the row. The label-to-bar gap goes from 4 to 8px (`--aha-space-8`) and the bar from 38 to 34px (28 in a dense chart), so the row and image tile stay 68px. In the Ranking variant (`sort="desc"`) the rank number takes the `<aha-leaderboard>` rank chip: a 32px neutral circle on the track colour with a 16px semibold tabular number, centred on the label line; the image tile grows with that line so it still lines up. Bar and column labels go up one size, to `--aha-size-xl` (20px) (#412)
 - `<aha-chart type="bar">`: when any option has an image, every row keeps the image column and an option without one shows a placeholder tile (`system-image-square` glyph on the track colour), so all bars start at the same x and stay comparable. Charts with no images are unchanged; column charts were already aligned (#412)
 - `<aha-chart type="column">`: when the columns do not fill the width (two to four on a 16:9 stage), they sit together in the centre with the label-width slot between them, instead of spreading to the edges (two columns were 506px apart on a 1280 stage, now 172px) (#412)
 - Charts docs page: every chart case sits in a 1280 × 720 stage frame at 1:1 (slide surface, 48px stage padding), scrolling inside its own container on a narrow viewport; new column case "Two options", new bar cases "Some without image" (#412)
 - Revert: revert the PR; the change sits in `BarRenderer.draw` and the `.bar-*` and `.col-label` rules in `lib/aha-chart.js`, plus `parts/chart.preview.html` (#412)
+
+## 0.497.0 — 2026-10-27
+### Changed
+- Websites → Features: in the split layouts (`icon-list-photo`, `tabs-screenshots`, and an alternating section with a single row) the section button sits in the text column under the text, left aligned with it (`aha-features__column` and `aha-features__cta--start`), even under a centred heading, instead of centred under the whole row. Rule W18 says so.
+- Websites → Testimonials: at most three testimonial or case cards per section, and quotes of similar length (the longest within about 1.5 times the shortest, none over 160 characters); the Quote cards sample's long middle quote is trimmed. Rule W19 and the Testimonials page carry both.
+- Websites → new tab: the section link-out buttons (Read customer stories, Read the docs, and Browse all templates, See all integrations) open in a new tab with `rel="noopener"` and visually-hidden "(opens in a new tab)" text, Sign up and the hero's primary call to action stay in the same tab (W15, W18). In the Footer every link that leaves AhaSlides (the three G2 badges that had no `target`, the Training Magazine Network and DMCA badges, System status, the social channels) opens in a new tab with `rel="noopener"` and a new-tab cue in its label. Revert: revert this PR; no API change. (#357)
 
 ## 0.494.0 — 2026-10-27
 ### Removed
