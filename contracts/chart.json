@@ -208,7 +208,7 @@
       "name": "sort",
       "type": "'none' | 'desc' | 'asc'",
       "default": "none",
-      "desc": "Order; desc also shows rank numbers on a bar chart (the Ranking variant). Other always stays last"
+      "desc": "Order; desc also shows rank numbers on a bar chart (the Ranking variant), each in the Leaderboard rank chip (32px neutral circle on the track colour, 16px semibold tabular number) at the start of the label line. Other always stays last"
     },
     {
       "name": "highlight-top",
@@ -475,7 +475,7 @@
       "role": "figure",
       "ariaLabel": "Q4 priorities",
       "fillBg": "rgb(231, 14, 104)",
-      "trackHeight": "38px",
+      "trackHeight": "34px",
       "trackRadius": "8px",
       "valueSize": "20px",
       "valueWeight": "600",
