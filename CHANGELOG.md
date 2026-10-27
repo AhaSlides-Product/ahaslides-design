@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.489.1 — 2026-10-27
+### Fixed
+- Marketing sections no longer depend on the host site's heading and quote styles: every section title (Features, Numbers, Pricing, Testimonials, Header, Footer banner, Card) is `display:block`, so a host `h2{display:flex;text-align:left}` (Webflow) cannot pull a centred title to the left; the Testimonials and Cards blockquote resets also zero `border`, so a host `blockquote{border-left:...}` draws no bar (#NNN)
+- Revert: revert the PR; the changes sit in `marketing/*.json` (title rules and blockquote resets) and the sections regenerated from them (#NNN)
+
 ## 0.489.0 — 2026-10-27
 ### Added
 - `<aha-question-list>` host API, so a slide type's settings use the list instead of hand-building it: `notices` (InfoBoxes with links that open a question), `accordion`, a cancelable `question-toggle` event, `setQuestionOpen(id, open)`, a `question-leave` event, `change` `detail.edit` naming each edit, `singlecorrect`, `multiline` (a 1 to 3 row prompt), `promptmaxlength` / `optionmaxlength`, per-question `current` and `untitled`, the `markAsCorrect` and plural `countZero` / `countTwo` / `countFew` / `countMany` strings, `testid` hooks and `data-question-id` / `data-option-id`. Every one is opt-in; without them the list behaves as before (#397)
