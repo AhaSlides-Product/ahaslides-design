@@ -27,7 +27,7 @@
     },
     {
       "label": "Notices",
-      "value": "`notices`: InfoBoxes (info, warning, error) 8px under the head and 8px apart, in a polite live region; each paragraph is text with optional inline links (a plain `<a href=\"#id\">` in the Alert link style: message size, Darker Pink, underline) that open and reveal a question"
+      "value": "`notices`: InfoBoxes (info, warning, error) 8px under the head and 8px apart, in a polite live region; each paragraph is text with optional inline links (a plain `<a href=\"#id\">` in the Alert link style: message size, the DS text-link: Vivid Pink, no underline at rest, underline on hover and focus) that open and reveal a question"
     },
     {
       "label": "Question",

@@ -41,6 +41,17 @@ test('state-check flags a hover that hides its label, an off-list hover colour a
   assert.deepEqual(about('sound'), [], 'a compliant button has no finding');
 });
 
+test('Vivid Pink on the alert grey is waived for a link in an alert or info box and for nothing else', { skip }, async () => {
+  const file = join(mkdtempSync(join(tmpdir(), 'state-check-')), 'page.html');
+  writeFileSync(file, `<!doctype html><body style="margin:24px;background:#fff;font:14px sans-serif">
+<style>a{ color:#E70E68; text-decoration:none } a:hover{ text-decoration:underline } .grey{ display:block; background:#F3F3F3; padding:8px; margin-bottom:8px }</style>
+<aha-info-box class="grey">Question <a id="inside" href="#q1">1</a> has no prompt.</aha-info-box>
+<div class="grey">Question <a id="outside" href="#q2">2</a> has no prompt.</div>`);
+  const { findings } = await checkStates(pathToFileURL(file).href);
+  assert.deepEqual(findings.filter(f => f.who === 'a#inside' && f.kind === 'contrast'), []);
+  assert.ok(findings.some(f => f.who === 'a#outside' && f.kind === 'contrast' && /4\.06:1/.test(f.detail)));
+});
+
 test('a baseline entry covers one element in one state, and one the page no longer shows is reported as resolved', { skip }, async () => {
   const dist = mkdtempSync(join(tmpdir(), 'state-check-dist-'));
   mkdirSync(join(dist, 'demo'));

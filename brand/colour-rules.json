@@ -198,8 +198,9 @@
      { "id": "6.2", "text": "On Vivid Pink the button is the standard secondary Button; on Vivid Pink at 5% (light pink) and on white it is the primary Button." },
      { "id": "6.3", "text": "A destructive action (Delete, Remove) is never the primary button. The safe choice (Cancel, Undo) is." },
      { "id": "6.4", "text": "Text on Vivid Pink is solid white, never see-through white." },
-     { "id": "6.5", "text": "Text and links on Vivid Pink at 5% or on grey are black. Pink text there is too faint to pass accessibility." },
-     { "id": "6.6", "text": "Pink text is allowed on white only." }
+     { "id": "6.5", "text": "Text and links on Vivid Pink at 5% or on grey are black. Pink text there is too faint to pass accessibility. The one exception is rule 6.7." },
+     { "id": "6.6", "text": "Pink text is allowed on white only. The one exception is rule 6.7." },
+     { "id": "6.7", "origin": "Accepted by requester UKVEE87DY in DESY-281 on 2026-10-27", "environment": ["product"], "text": "An inline link in an Alert or info box message (including the notices in the question list) is the DS text-link exactly as on white: Vivid Pink `#E70E68`, no underline at rest, underline on hover and focus, the standard focus ring. On the alert grey `#F3F3F3` that is 4.06 to 1, below the 4.5 that AA asks for at 14px. This exception covers those links on that grey and nothing else: no other pink text on grey, on Vivid Pink at 5% or anywhere else." }
     ] },
     { "type": "heading", "anchor": "splash-css", "text": "Centre and right in CSS", "origin": "aha-marketing-backgrounds" },
     { "type": "paragraph", "origin": "aha-marketing-backgrounds", "text": "Copy this block to draw centre or right in a page instead of exporting a file. Any medium draws it the same way, on the frame it sits in; a splash is never placed with a chosen height and offset. It uses the full 802 by 788 icon, `backgrounds/splash-icon-pink.svg` or its white twin, never a cropped copy, and sits in a layer that fills the section. Set `--splash-across` to `.5` for centre or `.75` for right. Browsers without `sqrt()`, `tan()` and `atan2()` keep the base size of 4.5 times the shorter side, which is exact at 16:9 and 9:16." },
@@ -255,6 +256,7 @@
        ["Darker Pink on white", "5.04 to 1", "Passes"],
        ["Vivid Pink text on Vivid Pink at 5%", "4.16 to 1", "Fails, so text there is black"],
        ["Vivid Pink text on the app's light grey [[#F7F7F7]]", "4.21 to 1", "Fails, so text there is black"],
+       ["Vivid Pink inline link on the alert grey [[#F3F3F3]]", "4.06 to 1", "Fails, accepted for Alert and info box links only (rule 6.7)"],
        ["See-through white (86%) on Vivid Pink", "3.58 to 1", "Fails, so white text is solid"],
        ["Vivid Pink at 30% against white", "1.65 to 1", "Faint, so it always carries a written value"]
       ] },
