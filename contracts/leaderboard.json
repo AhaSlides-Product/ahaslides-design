@@ -272,7 +272,7 @@
     {
       "token": "--aha-deck-palette-<n>",
       "status": "shipped",
-      "note": "one per row, from applyCanvasDeck (canvas) and applyDeck (audience phone, the deck-palette PR); the matching -ink pair colours the name on the bar"
+      "note": "one per row, from applyCanvasDeck (canvas, `palette: xprops.presentationColorPalette`) and applyDeck (audience phone, from `slide.presentationColorPalette`); the matching -ink pair colours the name on the bar"
     },
     {
       "token": "--aha-viz-stub-length",

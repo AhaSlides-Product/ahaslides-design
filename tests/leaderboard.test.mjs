@@ -195,3 +195,34 @@ test('leaderboard: on a white-ink deck the name on a bar uses the palette ink, n
     assert.equal(row.base, 'rgb(255, 255, 255)');
   }
 });
+
+const slideProps = {
+  textColour: '#FFFFFF',
+  presentationColorPalette: ['#FF4181', '#1FE8B4', '#FF9068', '#3E3E5A', '#D92B6B'],
+};
+const bundles = { canvas: 'canvas.js', audience: 'audience.js' };
+
+for (const [surface, bundle] of Object.entries(bundles)) {
+  test(`leaderboard: the ${surface} one-tag bundle defines it and row n takes palette colour n from the host slide props`, { skip }, async () => {
+    const file = join(mkdtempSync(join(tmpdir(), 'leaderboard-')), 'page.html');
+    const entries = Array.from({ length: 5 }, (_, i) => ({ id: 'u' + i, name: 'P' + i, score: 500 - i * 50 }));
+    const apply = surface === 'canvas'
+      ? `import { applyCanvasDeck } from '${pathToFileURL(fileURLToPath(new URL('../lib/' + bundle, import.meta.url))).href}';
+         applyCanvasDeck(document.documentElement, { accent: slide.presentationColorPalette[0], ink: slide.textColour, palette: slide.presentationColorPalette });`
+      : `import { applyDeck } from '${pathToFileURL(fileURLToPath(new URL('../lib/' + bundle, import.meta.url))).href}';
+         applyDeck(document.documentElement, slide);`;
+    writeFileSync(file, `<!doctype html><body style="background:#161616">
+<aha-leaderboard id="lb" size="${surface === 'canvas' ? 'stage' : 'phone'}" style="display:block;width:600px" entries='${JSON.stringify(entries)}'></aha-leaderboard>
+<script type="module">const slide = ${JSON.stringify(slideProps)}; ${apply}
+await customElements.whenDefined('aha-leaderboard'); await new Promise((r) => setTimeout(r, 700)); window.ready = true;</script>`);
+    const result = await evaluateInPage(pathToFileURL(file).href, `(() => {
+      const rows = [...document.getElementById('lb').shadowRoot.querySelectorAll('li.row')].filter((row) => !row.hidden);
+      return { defined: !!customElements.get('aha-leaderboard'), fills: rows.map((row) => getComputedStyle(row.querySelector('.fill')).backgroundColor),
+        inks: rows.map((row) => getComputedStyle(row.querySelector('.over')).color) };
+    })()`, { readyExpr: '!!window.ready', timeout: 45000 });
+    const rgb = (hex) => { const n = parseInt(hex.slice(1), 16); return `rgb(${n >> 16}, ${(n >> 8) & 255}, ${n & 255})`; };
+    assert.equal(result.defined, true);
+    assert.deepEqual(result.fills, slideProps.presentationColorPalette.map(rgb), JSON.stringify(result));
+    assert.ok(result.inks.every((ink) => ink === 'rgb(26, 26, 26)' || ink === 'rgb(255, 255, 255)'), JSON.stringify(result));
+  });
+}
