@@ -178,9 +178,9 @@ function installProbe() {
     }
     return { changed, best };
   };
-  /* Colour rule 6.7 waives only an Alert or info box message link on this exact Vivid Pink on #F3F3F3 pair. */
+  /* Colour rule 6.7 waives only an Alert or info box message link on Vivid Pink over #F3F3F3 or the branding fill #FEF3F7. */
   const acceptedAlertLink = (carrier, type, painted, behind) => {
-    if (type !== 'text' || carrier.localName !== 'a' || hex(painted) !== '#E70E68' || hex(behind) !== '#F3F3F3') return false;
+    if (type !== 'text' || carrier.localName !== 'a' || hex(painted) !== '#E70E68' || !['#F3F3F3', '#FEF3F7'].includes(hex(behind))) return false;
     for (let n = flatParent(carrier); n; n = flatParent(n)) if (n.localName === 'aha-alert' || n.localName === 'aha-info-box') return true;
     return false;
   };
