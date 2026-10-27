@@ -196,6 +196,27 @@ test('leaderboard: on a white-ink deck the name on a bar uses the palette ink, n
   }
 });
 
+for (const size of ['stage', 'phone']) {
+  test(`leaderboard: with bar="false" the name is visible on the ${size}`, { skip }, async () => {
+    const file = join(mkdtempSync(join(tmpdir(), 'leaderboard-')), 'page.html');
+    const entries = [{ id: 'a', name: 'Linh', score: 1000 }, { id: 'b', name: 'Minh', score: 500 }];
+    writeFileSync(file, `<!doctype html><body style="color:rgb(26,26,26)">
+<aha-leaderboard id="lb" bar="false" size="${size}" style="display:block;width:500px" entries='${JSON.stringify(entries)}'></aha-leaderboard>
+<script type="module">import '${lib}'; await customElements.whenDefined('aha-leaderboard'); await new Promise((r) => setTimeout(r, 700)); window.ready = true;</script>`);
+    const result = await evaluateInPage(pathToFileURL(file).href, `(() => {
+      const rows = [...document.getElementById('lb').shadowRoot.querySelectorAll('li.row')].filter((row) => !row.hidden);
+      return rows.map((row) => ({ base: getComputedStyle(row.querySelector('.base')).clipPath, over: getComputedStyle(row.querySelector('.over')).display,
+        width: row.querySelector('.base .name').getBoundingClientRect().width }));
+    })()`, { readyExpr: '!!window.ready', timeout: 45000 });
+    assert.equal(result.length, 2);
+    for (const row of result) {
+      assert.equal(row.base, 'none', JSON.stringify(row));
+      assert.equal(row.over, 'none');
+      assert.ok(row.width > 0);
+    }
+  });
+}
+
 const slideProps = {
   textColour: '#FFFFFF',
   presentationColorPalette: ['#FF4181', '#1FE8B4', '#FF9068', '#3E3E5A', '#D92B6B'],
