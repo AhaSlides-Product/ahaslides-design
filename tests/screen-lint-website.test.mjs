@@ -143,3 +143,32 @@ test('unterminated comment openers in a long page are scanned in linear time', (
   assert.deepEqual(websiteRulesOf('<!--'.repeat(50000) + '<p class="aha-features__eyebrow">x</p>'), ['section-eyebrow']);
   assert.ok(Date.now() - started < 2000);
 });
+
+test('every whole-document check finishes fast on adversarial input', () => {
+  const inputs = [
+    '<a class=""'.repeat(30000),
+    '<a ' + ' class=""'.repeat(30000),
+    "<a class='".repeat(30000),
+    '<section z'.repeat(30000),
+    '<section'.repeat(30000),
+    '<style>' + 'a{'.repeat(50000),
+    '<style>' + '.aha-features{'.repeat(30000),
+    '<style>' + ' '.repeat(100000),
+    '</style  '.repeat(30000),
+    '<!--'.repeat(30000),
+    '/*'.repeat(30000),
+    '!'.repeat(100000),
+    'z'.repeat(100000),
+  ];
+  for (const input of inputs) {
+    const started = Date.now();
+    websiteRulesOf(input);
+    websiteRulesOf(`<style>${input}</style>`);
+    assert.ok(Date.now() - started < 2000, input.slice(0, 20));
+  }
+});
+
+test('tags with attributes spread over lines, extra attributes and upper-case names are read', () => {
+  assert.deepEqual(websiteRulesOf('<P\n  id="a"\n  CLASS = "aha-features__eyebrow"\n>x</P>'), ['section-eyebrow']);
+  assert.deepEqual(websiteRulesOf('<section data-x="a>b" class="aha-features aha-features--accent"></section><section class="aha-numbers aha-numbers--accent"></section>'), ['band-order']);
+});
