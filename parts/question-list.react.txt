@@ -2,16 +2,22 @@ import '@ahaslides-product/design/aha-question-list'; // registers <aha-question
 import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper; React 19 can use <aha-question-list> directly.
-// questions is a PROPERTY (the model); onChange gives the full edited model back.
-function AhaQuestionList({ questions, label, help, min, max, minOptions, maxOptions, allowImage, disabled, onChange, children }) {
+// questions and notices are PROPERTIES; onChange gives the full edited model back plus the edit that made it.
+// Writing questions back with the same ids updates in place, so the caret survives a controlled host.
+function AhaQuestionList({ questions, notices, label, help, min, max, minOptions, maxOptions, allowImage, disabled, accordion, multiline, singleCorrect, testId, onChange, onToggle, onLeave, children }) {
   const ref = useRef();
   useEffect(() => {
     const el = ref.current;
     el.questions = questions || [];
-    const h = (e) => onChange?.(e.detail.questions);   // composed CustomEvent
+    el.notices = notices || [];
+    const h = (e) => onChange?.(e.detail.questions, e.detail.edit);   // composed CustomEvent
+    const toggle = (e) => onToggle?.(e);   // cancelable: e.preventDefault() keeps the question as it was
+    const leave = (e) => onLeave?.(e.detail);
     el.addEventListener('change', h);
-    return () => el.removeEventListener('change', h);
-  }, [questions, onChange]);
+    el.addEventListener('question-toggle', toggle);
+    el.addEventListener('question-leave', leave);
+    return () => { el.removeEventListener('change', h); el.removeEventListener('question-toggle', toggle); el.removeEventListener('question-leave', leave); };
+  }, [questions, notices, onChange, onToggle, onLeave]);
   return (
     <aha-question-list
       ref={ref}
@@ -23,12 +29,18 @@ function AhaQuestionList({ questions, label, help, min, max, minOptions, maxOpti
       {...(maxOptions != null ? { maxoptions: String(maxOptions) } : {})}
       {...(allowImage ? { allowimage: '' } : {})}
       {...(disabled ? { disabled: '' } : {})}
+      {...(accordion ? { accordion: '' } : {})}
+      {...(multiline ? { multiline: '' } : {})}
+      {...(singleCorrect ? { singlecorrect: '' } : {})}
+      {...(testId ? { testid: testId } : {})}
     >{children}</aha-question-list>
   );
 }
 
 // usage
-<AhaQuestionList questions={quiz} label="Questions" min={1} max={10} minOptions={2} maxOptions={6} onChange={setQuiz}>
+<AhaQuestionList questions={quiz} label="Questions" min={1} max={10} minOptions={2} maxOptions={6} accordion multiline singleCorrect
+  notices={[{ tone: 'warning', paragraphs: [['Question ', { question: 'q2', label: '2' }, ' has no correct answer.']] }]}
+  onChange={setQuiz} onLeave={({ id }) => validate(id)}>
   {/* header slots: start-<id>, marker-<id> (replaces the number), before-<id>, after-<id> and end-<id>; any number of children each; body-<id> takes interactive children inside the open question */}
   <aha-tag slot="before-q1">00:23</aha-tag>
 </AhaQuestionList>
