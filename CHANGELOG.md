@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.458.0 — 2026-10-27
+## 0.470.0 — 2026-10-27
 ### Added
 - `<aha-question-list>` host API, so a slide type's settings use the list instead of hand-building it: `notices` (InfoBoxes with links that open a question), `accordion`, a cancelable `question-toggle` event, `setQuestionOpen(id, open)`, a `question-leave` event, `change` `detail.edit` naming each edit, `singlecorrect`, `multiline` (a 1 to 3 row prompt), `promptmaxlength` / `optionmaxlength`, per-question `current` and `untitled`, the `markAsCorrect` and plural `countZero` / `countTwo` / `countFew` / `countMany` strings, `testid` hooks and `data-question-id` / `data-option-id`. Every one is opt-in; without them the list behaves as before (#397)
 ### Changed
@@ -32,6 +32,14 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `<aha-question-list accordion>`: when a host writes back several open questions, only the first stays open, so at most one is open as the contract says
 - llms.txt: a DS gap is never a ds-lint-allow reason; check the component at the latest release, bump the pin, and add what is still missing to the DS (#397)
 - Revert: revert the PR; the changes sit in `lib/aha-question-list.js`, `lib/aha-alert.js`, `lib/aha-info-box.js`, their contracts, the feedback guideline and one llms.txt line in `generate.mjs` (#397)
+
+## 0.455.0 — 2026-10-27
+### Changed
+- Marketing motion: parallax now moves the picture inside its frame instead of sliding the frame. The picture is drawn 112% of the frame, drifts at most 6% of the frame height (never more than 48 px) and is clipped by the frame, so the frame's box, radius and position stay still. A picture drifts only when it sits in an `aha-features__frame`, `aha-testimonials__frame` or `aha-numbers__frame`; screenshots get no frame wrapper and never drift. (#365)
+- Marketing motion: the same framed picture now has an entrance as it scrolls into view. It fades in and settles from 1.08x down to its parallax scale, a beat after its row's reveal, on `--aha-motion-viz-enter` and `--aha-ease-out`, composed with the parallax in one transform inside the still frame. Off under reduced motion, `data-aha-motion="off"` and print. (#365)
+- Features: new `aha-features__frame` clipping wrapper, used by Icon list with photo.
+- Testimonials: the Simple left aligned photo sits in an `aha-testimonials__frame` wrapper (was a bare `<img>`); Numbers split-image: the image sits in an `aha-numbers__frame` inside the card. A page with the old markup simply does not drift.
+Revert: restore `lib/marketing-motion.js`, `marketing/testimonials.json` and `marketing/numbers.json` and the wording in `guidelines/website.json` and `anti-slop/criteria.json`.
 
 ## 0.451.0 — 2026-10-27
 ### Added
