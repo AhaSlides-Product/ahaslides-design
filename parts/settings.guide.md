@@ -102,7 +102,7 @@ Hierarchy comes from the gap size, on the `--aha-size*` scale — monotonic so w
 
 ## NumberedItem chip is never restyled
 
-The number chip on `NumberedItem` is stock: a muted-grey 22px pill. Never override it with `::part(chip)` or replace it with a custom badge. The settings number is a plain ordinal and never mirrors the canvas marker (for example a navy pin badge with a white ring). Configure the item only through `n`, `label`, `variant`, `deletable`, `candelete` and the default body slot.
+The number chip on `NumberedItem` is stock: a muted-grey 22px circle. Never override it with `::part(chip)` or replace it with a custom badge. The settings number is a plain ordinal and never mirrors the canvas marker (for example a navy pin badge with a white ring). Configure the item only through `n`, `label`, `variant`, `deletable`, `candelete` and the default body slot.
 
 ## Sub-settings
 
@@ -110,6 +110,7 @@ A setting that only applies when a parent is on is **hidden when the parent is o
 
 ## Plan-gated and dangerous settings
 
+- **New or Beta tag:** goes on the label side, never beside the control. Put a DS `<aha-badge kind="new">` or `kind="beta"` in the row's `badge` slot; it sits right after the "?" or the Paywall crown, inline or stacked, locked or not.
 - **Plan-gated:** stays **visible but locked** — never hidden. The row reads: the label, the Paywall crown badge in the place of the "?" (no "?" while locked), and the real control **disabled**. The label keeps its normal colour. The badge opens the shared Paywall popover (owned by the `paywall` guide). Set `locked` (with `plan`, `feature-key`, `upgrade-body`) on `<aha-setting-row>` or the list's row; never swap the control for the crown.
 - **Danger zone:** dangerous/irreversible settings sit **last**, set apart by the largest gap (48). CTA is the **danger Button** (`colorError`, no hardcoded hex); red never on the label. Any irreversible action **requires a confirmation modal** (per the `overlays` guide) — never a bare toggle flip.
 
