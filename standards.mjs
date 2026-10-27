@@ -53,7 +53,7 @@ const BASELINE_PATH = join(root, 'standards.baseline.json');
 const BASELINE_SPACING_PX = (existsSync(BASELINE_PATH) ? JSON.parse(readFileSync(BASELINE_PATH, 'utf8')).spacingPx : null) || {};
 const UPDATE_BASELINE = process.argv.includes('--update-baseline');
 const ACKNOWLEDGE_TOKENS = process.argv.includes('--acknowledge-tokens');
-const RADIUS_SCALE = new Set([0, 4, 6, 8, 12, 16]);   // --aha-radius-* ; no pill shape: a true circle is 50%
+const RADIUS_SCALE = new Set([0, 4, 6, 8, 12, 16, 999]);   // --aha-radius-* ; pill = 999
 const NEUTRALS = new Set(['#FFFFFF']);                     // universal; 'transparent' handled in inPalette
 const normHex = (h) => { h = h.toUpperCase(); return /^#[0-9A-F]{3}$/.test(h) ? '#' + [...h.slice(1)].map(c => c + c).join('') : h; };
 // every hex the canonical token set blesses — the palette an on-standard colour must land in
@@ -317,7 +317,7 @@ for (const ct of contracts) {
   //     every measured radius is on the 4/6/8/12/16 scale, every measured colour is on-palette,
   //     and every token the contract claims to use actually exists. These caught nothing before.
   for (const [k, v] of Object.entries(exp)) {
-    if (/radius/i.test(k) && isPx(v)) chk(`expect.${k} radius on the 4/6/8/12/16 scale`, RADIUS_SCALE.has(parseFloat(v)) || (ct.slug === 'switch' && parseFloat(v) === 11), `${v} is off the radius scale`);
+    if (/radius/i.test(k) && isPx(v)) chk(`expect.${k} radius on the 4/6/8/12/16 scale`, RADIUS_SCALE.has(parseFloat(v)), `${v} is off the radius scale`);
     if (isColour(v)) chk(`expect.${k} colour is on-palette`, inPalette(v), `${v} is not a canonical token value — bind to the palette`);
   }
   // tokensUsed must be VERIFIABLE against the real theming source — no drift between what a
@@ -387,7 +387,6 @@ for (const ct of contracts) {
         for (const m of bare.matchAll(/(?<![a-z-])(?:padding|margin|gap|row-gap|column-gap)(?:-(?:top|right|bottom|left|inline|block)(?:-(?:start|end))?)?\s*:\s*([^;}`"']+)/gi))
           if ((m[1].match(/-?\d*\.?\d+px/g) || []).some(px => Math.abs(parseFloat(px)) > 1)) spacingPxCount++;
       if (!allowRadius) for (const m of line.matchAll(/border-radius\s*:\s*([0-9.]+)px/gi)) if (!RADIUS_SCALE.has(parseFloat(m[1]))) hits.push(`L${i + 1}: border-radius ${m[1]}px off the 4/6/8/12/16 scale`);
-      if (!allowRadius && /--aha-radius-pill\b/.test(line)) hits.push(`L${i + 1}: --aha-radius-pill is removed — AhaSlides has no pill shape: a true circle is 50%, anything else takes a radius from the scale`);
       // a transition's timing must come from a motion token — a bare literal (.12s/150ms) is the drift (.1/.12/.15) we're killing
       if (!allowMotion && /transition/i.test(line))
         for (const m of bare.match(/(?:\d*\.\d+|\d+)\s*m?s\b/g) || []) motionFindings.push(['literal', `L${i + 1}: bare transition timing ${m.trim()} — bind to a motion token (var(--aha-motion-mid) var(--aha-ease-in-out))`]);
@@ -899,6 +898,15 @@ const repoChecks = [];
     if (/\.(json|md)$/.test(f) && /aha-design:aha-design-|`aha-design-[a-z-]+`\s+skill/.test(read(join(root, dir, f)))) retiredSkillRefs.push(`${dir}/${f}`);
   repoChecks.push(['guideline pages do not point at retired aha-design-* skills', retiredSkillRefs.length === 0,
     `the plugin ships one skill (aha-design); point at the DS guide / anti-slop feed instead: ${retiredSkillRefs.join(', ')}`]);
+}
+/* ===== presenting canvas — the deck tokens and the canvas kit have no pill shape, while the rest of the DS keeps --aha-radius-pill. */
+{
+  const rchk = (name, cond, note = '') => repoChecks.push([name, !!cond, cond ? '' : note]);
+  const canvasSources = ['canvas/deck-tokens.json', 'canvas/canvas.css', 'canvas/library.json'].filter(f => existsSync(join(root, f)));
+  const pillHits = canvasSources.flatMap(f => read(join(root, f)).split('\n').flatMap((line, i) =>
+    /--aha-radius-pill\b|border-radius\s*:\s*(?:999|9999)px/i.test(line) ? [`${f} L${i + 1}`] : []));
+  rchk('the deck tokens and canvas kit use no pill radius', pillHits.length === 0,
+    `the presenting canvas has no pill shape: a true circle is 50%, anything else takes a radius from the scale — ${pillHits.join(', ')}`);
 }
 /* ===== sideEffects — a bundler (webpack / vue-cli) drops an import whose module is not listed as a side
    effect, so `import '@ahaslides-product/design/tokens.css'` or a custom-element registration import

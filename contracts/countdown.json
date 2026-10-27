@@ -20,13 +20,13 @@
     "text-default",
     "color-primary",
     "color-error",
-    "radius-xs",
+    "radius-pill",
     "space-12"
   ],
   "spec": [
     {
       "label": "Track",
-      "value": "8px track, radius 4, --aha-deck-stroke (ink at 12%) over the frosted blur, 1px ink hairline"
+      "value": "8px pill, --aha-deck-stroke (ink at 12%) over the frosted blur, 1px ink hairline"
     },
     {
       "label": "Fill",

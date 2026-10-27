@@ -1650,7 +1650,7 @@
       "files": [],
       "label": "bad-example",
       "notes": "C13 chip override (AHAM-1725). Bad-example: ::part(chip) restyles the NumberedItem number chip to mirror the canvas marker.",
-      "expected_output": "FAILs C13. The NumberedItem number chip is restyled via ::part(chip) into a 28px navy badge with a white ring and shadow so it mirrors the canvas marker. The chip is the stock 22px muted-grey circle and is never restyled or replaced; the settings number never mirrors the canvas marker. Fix: delete the ::part(chip) override and keep the stock chip, driving the item only via n, label, variant, deletable and candelete. Overall: NEEDS FIX",
+      "expected_output": "FAILs C13. The NumberedItem number chip is restyled via ::part(chip) into a 28px navy badge with a white ring and shadow so it mirrors the canvas marker. The chip is the stock 22px muted-grey pill and is never restyled or replaced; the settings number never mirrors the canvas marker. Fix: delete the ::part(chip) override and keep the stock chip, driving the item only via n, label, variant, deletable and candelete. Overall: NEEDS FIX",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C13 is marked FAIL",
@@ -1670,7 +1670,7 @@
     },
     {
       "id": 72,
-      "prompt": "Review the same Pin on Image settings panel after the fix:\n\n```vue\n<!-- slide/pin-on-image/Settings.vue -->\n<aha-numbered-item v-for=\"(a, i) in config.answers\" :key=\"a.id\" :n=\"i + 1\" label=\"Answer\" @delete=\"remove(a.id)\">\n  <OptionRow v-model=\"a.text\" />\n</aha-numbered-item>\n```\nNo ::part(chip) override; the stock chip (22px grey circle) is untouched and the canvas marker stays on the canvas only.",
+      "prompt": "Review the same Pin on Image settings panel after the fix:\n\n```vue\n<!-- slide/pin-on-image/Settings.vue -->\n<aha-numbered-item v-for=\"(a, i) in config.answers\" :key=\"a.id\" :n=\"i + 1\" label=\"Answer\" @delete=\"remove(a.id)\">\n  <OptionRow v-model=\"a.text\" />\n</aha-numbered-item>\n```\nNo ::part(chip) override; the stock chip (22px grey pill) is untouched and the canvas marker stays on the canvas only.",
       "files": [],
       "label": "good-control",
       "notes": "C13 chip good-control (AHAM-1725), paired with id 71. Stock chip, no slot override.",

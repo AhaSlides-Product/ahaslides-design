@@ -277,15 +277,15 @@
   content:"";
   width:var(--aha-space-8);
   height:var(--aha-space-8);
-  border-radius:50%;
+  border-radius:var(--aha-radius-pill);
   background:var(--aha-color-primary);
 }
 .aha-hero__bar{margin:0 0 var(--aha-space-16)}
 .aha-hero__bar:last-child{margin-bottom:0}
 .aha-hero__bar-top{display:flex;justify-content:space-between;gap:var(--aha-space-12);margin:0 0 var(--aha-space-6);font-size:var(--aha-size-default);color:var(--aha-text-secondary)}
 .aha-hero__bar-top b{color:var(--aha-text-default);font-weight:var(--aha-weight-semibold)}
-.aha-hero__track{height:var(--aha-space-12);border-radius:var(--aha-radius-xs);background:var(--aha-bg-accent);overflow:hidden}
-.aha-hero__fill{height:100%;border-radius:var(--aha-radius-xs);background:var(--aha-color-primary)}
+.aha-hero__track{height:var(--aha-space-12);border-radius:var(--aha-radius-pill);background:var(--aha-bg-accent);overflow:hidden}
+.aha-hero__fill{height:100%;border-radius:var(--aha-radius-pill);background:var(--aha-color-primary)}
 .aha-hero__fill--soft{background:var(--aha-vivid-pink-30)}
 .aha-features{
   container:aha-features / inline-size;
@@ -586,8 +586,8 @@
 .aha-marketing-card--tint{border-color:transparent;background:var(--aha-bg-accent)}
 .aha-marketing-card--tint .aha-marketing-card__foot{border-top:0;background:transparent}
 .aha-marketing-card--accent-line::before{content:"";position:absolute;inset:0 0 auto 0;height:var(--aha-space-4);border-radius:var(--aha-radius-marketing) var(--aha-radius-marketing) 0 0;background:var(--aha-color-primary)}
-.aha-marketing-card--badge .aha-marketing-card__plan{display:inline-flex;align-items:center;gap:var(--aha-space-6);padding:var(--aha-space-2) var(--aha-space-12);border:1px solid var(--aha-border-default);border-radius:var(--aha-radius-sm);background:var(--aha-gray-30);font-size:var(--aha-size-default)}
-.aha-marketing-card--dot .aha-marketing-card__plan::before{content:"";width:var(--aha-space-6);height:var(--aha-space-6);border-radius:50%;background:var(--aha-color-primary)}
+.aha-marketing-card--badge .aha-marketing-card__plan{display:inline-flex;align-items:center;gap:var(--aha-space-6);padding:var(--aha-space-2) var(--aha-space-12);border:1px solid var(--aha-border-default);border-radius:var(--aha-radius-pill);background:var(--aha-gray-30);font-size:var(--aha-size-default)}
+.aha-marketing-card--dot .aha-marketing-card__plan::before{content:"";width:var(--aha-space-6);height:var(--aha-space-6);border-radius:var(--aha-radius-pill);background:var(--aha-color-primary)}
 .aha-marketing-card--icon-offset{margin-top:var(--aha-space-24)}
 .aha-marketing-card--icon-offset .aha-marketing-card__body{padding-top:var(--aha-space-48)}
 .aha-marketing-card--icon-offset .aha-marketing-card__plan-icon{position:absolute;top:0;left:50%;transform:translate(-50%,-50%);border:1px solid var(--aha-border-default);border-radius:var(--aha-radius-lg);background:var(--aha-white);color:var(--aha-icon-strong);box-shadow:0 var(--aha-space-2) var(--aha-space-4) var(--aha-ink-a10)}
@@ -671,11 +671,11 @@
 .aha-pricing__stack-table tbody th{font-weight:var(--aha-weight-semibold);color:var(--aha-text-default)}
 .aha-pricing__stack-table tbody td{text-align:right;color:var(--aha-text-secondary)}
 .aha-pricing__slider{position:relative;display:flex;justify-content:space-between;padding-top:var(--aha-space-32);margin:0 0 var(--aha-space-48)}
-.aha-pricing__slider-rail{position:absolute;top:var(--aha-space-8);left:0;right:0;height:var(--aha-space-4);border-radius:var(--aha-radius-xs);background:var(--aha-gray-30)}
-.aha-pricing__slider-fill{position:absolute;top:0;bottom:0;border-radius:var(--aha-radius-xs);background:var(--aha-color-primary)}
+.aha-pricing__slider-rail{position:absolute;top:var(--aha-space-8);left:0;right:0;height:var(--aha-space-4);border-radius:var(--aha-radius-pill);background:var(--aha-gray-30)}
+.aha-pricing__slider-fill{position:absolute;top:0;bottom:0;border-radius:var(--aha-radius-pill);background:var(--aha-color-primary)}
 .aha-pricing__slider-input{position:absolute;top:0;left:0;width:100%;height:var(--aha-space-16);margin:0;background:none;pointer-events:none;-webkit-appearance:none;appearance:none}
-.aha-pricing__slider-input::-webkit-slider-thumb{-webkit-appearance:none;pointer-events:auto;width:var(--aha-space-16);height:var(--aha-space-16);border:var(--aha-space-2) solid var(--aha-color-primary);border-radius:50%;background:var(--aha-white);cursor:pointer}
-.aha-pricing__slider-input::-moz-range-thumb{pointer-events:auto;box-sizing:border-box;width:var(--aha-space-16);height:var(--aha-space-16);border:var(--aha-space-2) solid var(--aha-color-primary);border-radius:50%;background:var(--aha-white);cursor:pointer}
+.aha-pricing__slider-input::-webkit-slider-thumb{-webkit-appearance:none;pointer-events:auto;width:var(--aha-space-16);height:var(--aha-space-16);border:var(--aha-space-2) solid var(--aha-color-primary);border-radius:var(--aha-radius-pill);background:var(--aha-white);cursor:pointer}
+.aha-pricing__slider-input::-moz-range-thumb{pointer-events:auto;box-sizing:border-box;width:var(--aha-space-16);height:var(--aha-space-16);border:var(--aha-space-2) solid var(--aha-color-primary);border-radius:var(--aha-radius-pill);background:var(--aha-white);cursor:pointer}
 .aha-pricing__slider-input:focus-visible::-webkit-slider-thumb{outline:var(--aha-space-2) solid var(--aha-focus);outline-offset:var(--aha-space-2)}
 .aha-pricing__slider-input:focus-visible::-moz-range-thumb{outline:var(--aha-space-2) solid var(--aha-focus);outline-offset:var(--aha-space-2)}
 .aha-pricing__slider-label{font-size:var(--aha-size-default);font-weight:var(--aha-weight-semibold);color:var(--aha-text-default)}
@@ -1081,7 +1081,7 @@ a.aha-footer__heading:hover{color:var(--aha-color-primary)}
   position:relative;flex:none;
   display:flex;align-items:center;justify-content:center;
   width:var(--aha-space-24);height:var(--aha-space-24);
-  border:var(--aha-space-2) solid var(--aha-icon-muted);border-radius:50%;
+  border:var(--aha-space-2) solid var(--aha-icon-muted);border-radius:var(--aha-radius-pill);
 }
 .aha-faq__line{position:absolute;border-radius:var(--aha-radius-xs);background:var(--aha-icon-muted)}
 .aha-faq__line--horizontal{width:var(--aha-space-12);height:var(--aha-space-2)}
