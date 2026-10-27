@@ -1913,12 +1913,56 @@ function marketingReviewsSwitch(b, layout) {
   const options = JSON.stringify([{ value: 'off', label: `${b.reviews.label}: Off` }, { value: 'on', label: `${b.reviews.label}: On` }]);
   return `<aha-segmented class="mbp-reviews" aria-label="${esc(layout.name)} ${esc(b.reviews.label)}" options="${esc(options)}" value="on" data-insert-into="${esc(reviews.insertInto)}" data-row="${esc(`.${layout.class}__reviews`)}" data-html="${esc(reviews.html)}"></aha-segmented>`;
 }
+const marketingDefaultChoices = (layout) => layout.options.map(option => option.choices.find(choice => choice.default) || option.choices[0]);
+function marketingChoiceHtml(layout, chosen) {
+  const keep = new Set(chosen.map(choice => choice.value));
+  let html = layout.choiceHtml;
+  for (let hook = html.match(/\sdata-choice="([^"]+)"/); hook; hook = html.match(/\sdata-choice="([^"]+)"/)) {
+    if (keep.has(hook[1])) { html = html.slice(0, hook.index) + html.slice(hook.index + hook[0].length); continue; }
+    const open = html.lastIndexOf('<', hook.index);
+    const tag = html.slice(open + 1).match(/^[a-z0-9-]+/)[0];
+    let depth = 0, end = -1;
+    for (const match of html.slice(open).matchAll(new RegExp(`<${tag}\\b|</${tag}>`, 'g'))) {
+      depth += match[0][1] === '/' ? -1 : 1;
+      if (depth === 0) { end = open + match.index + match[0].length; break; }
+    }
+    if (end < 0) throw new Error(`${layout.slug}: data-choice="${hook[1]}" element has no closing tag`);
+    const lineStart = html.slice(0, open).search(/\n[ ]*$/);
+    html = html.slice(0, lineStart < 0 ? open : lineStart) + html.slice(end);
+  }
+  const modifiers = chosen.filter(choice => choice.modifier).map(choice => ` ${layout.class}--${choice.value}`).join('');
+  return html.replace(new RegExp(`class="([^"]*\\b${layout.class}\\b[^"]*)"`), (match, classes) => `class="${classes}${modifiers}"`);
+}
+function bakeMarketingOptions(b) {
+  if (!b.layouts?.some(layout => layout.options)) return b;
+  return { ...b, layouts: b.layouts.map(layout => {
+    if (!layout.options) return layout;
+    const withChoices = { ...layout, choiceHtml: layout.html };
+    return { ...withChoices, html: marketingChoiceHtml(withChoices, marketingDefaultChoices(layout)) };
+  }) };
+}
+function marketingOptionSwitches(layout) {
+  if (!layout.options) return '';
+  return layout.options.map(option => {
+    const options = JSON.stringify(option.choices.map(choice => ({ value: choice.value, label: `${option.label}: ${choice.label}` })));
+    const choices = JSON.stringify(option.choices.map(choice => ({ value: choice.value, modifier: !!choice.modifier })));
+    return `<aha-segmented class="mbp-option" aria-label="${esc(layout.name)} ${esc(option.label)}" options="${esc(options)}" value="${esc((option.choices.find(choice => choice.default) || option.choices[0]).value)}" data-class="${esc(layout.class)}" data-choices="${esc(choices)}"></aha-segmented>`;
+  }).join('');
+}
+const marketingOptionChoiceHtml = (layout, option, choice) => marketingChoiceHtml(layout, marketingDefaultChoices(layout).map((current, index) => layout.options[index] === option ? choice : current));
+const marketingNonDefaultChoices = (layout) => layout.options.flatMap(option => option.choices.filter(choice => choice !== (option.choices.find(candidate => candidate.default) || option.choices[0])).map(choice => ({ option, choice })));
+const marketingOptionPanes = (b, layout) => layout.options ? marketingNonDefaultChoices(layout).map(({ option, choice }) => ({ key: `option-${choice.value}`, label: `${option.label}: ${choice.label}`,
+  code: resolveDefaultStateVariants(b, layout, marketingLayoutSnippet(b, { ...layout, html: marketingOptionChoiceHtml(layout, option, choice) })) })) : [];
+const marketingOptionsMd = (layout) => layout.options ? ` Switches: ${layout.options.map(option => `${option.label} (${option.choices.map(choice => `${choice.label}${choice.modifier ? ` \`${layout.class}--${choice.value}\`` : ''}`).join(', ')})`).join('; ')}.` : '';
+const marketingOptionsAgent = (b, layout) => layout.options ? { options: layout.options.map(option => ({ label: option.label, choices: option.choices.map(choice => ({ label: choice.label, value: choice.value, default: choice === (option.choices.find(candidate => candidate.default) || option.choices[0]),
+  modifierClass: choice.modifier ? `${layout.class}--${choice.value}` : null,
+  ...(choice === (option.choices.find(candidate => candidate.default) || option.choices[0]) ? {} : { html: resolveDefaultStateVariants(b, layout, marketingOptionChoiceHtml(layout, option, choice)) }) })) })) } : {};
 function marketingLayoutPreview(b, layout) {
   const options = JSON.stringify(MARKETING_WIDTHS.map(([label, width]) => ({ value: String(width), label: `${label} ${width}` })));
-  return `<div class="mfv" data-default="${MARKETING_DEFAULT_WIDTH}">
-    <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="${esc(layout.name)} preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented>${marketingStateSwitch(b, layout)}${marketingReviewsSwitch(b, layout)}<span class="mbp-label" aria-live="polite"></span></div>
+  return `<div class="mfv${b.previewFit ? ' mfv--fit' : ''}" data-default="${MARKETING_DEFAULT_WIDTH}">
+    <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="${esc(layout.name)} preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented>${marketingStateSwitch(b, layout)}${marketingReviewsSwitch(b, layout)}${marketingOptionSwitches(layout)}<span class="mbp-label" aria-live="polite"></span></div>
     <div class="mbp-viewport" role="region" tabindex="0" aria-label="${esc(layout.name)} preview, scrolls inside"><div class="mbp-sizer"><iframe class="mbp-frame" title="${esc(layout.name)} preview" scrolling="no"></iframe></div></div>
-    <template class="mbp-doc"><style>${tokenVars(TOK)}</style>${marketingPreviewAssets(b, marketingLayoutSnippet(b, layout))}</template>
+    <template class="mbp-doc"><style>${tokenVars(TOK)}</style>${marketingPreviewAssets(b, marketingLayoutSnippet(b, layout.choiceHtml ? { ...layout, html: layout.choiceHtml } : layout))}</template>
   </div>`;
 }
 const MARKETING_LAYOUT_PREVIEW_SCRIPT = `<script type="module">
@@ -2033,6 +2077,29 @@ const MARKETING_LAYOUT_REVIEWS_SCRIPT = `<script type="module">
     });
   })();
   </script>`;
+const MARKETING_LAYOUT_OPTION_SCRIPT = `<script type="module">
+  (function(){
+    document.querySelectorAll('.mfv').forEach(function(root){
+      var frame=root.querySelector('.mbp-frame');
+      root.querySelectorAll('.mbp-option').forEach(function(seg){
+        var prefix=seg.dataset.class,choices=JSON.parse(seg.dataset.choices),current=seg.getAttribute('value');
+        function apply(){
+          var doc=frame.contentDocument;
+          if(!doc||!doc.getElementById('mbp-content'))return;
+          if(!doc.getElementById('mbp-option-style')){var style=doc.createElement('style');style.id='mbp-option-style';style.textContent='[data-choice][hidden]{display:none!important}';doc.head.appendChild(style);}
+          var host=doc.querySelector('.'+prefix);
+          choices.forEach(function(choice){
+            doc.querySelectorAll('[data-choice="'+choice.value+'"]').forEach(function(node){node.hidden=choice.value!==current;});
+            if(choice.modifier&&host)host.classList.toggle(prefix+'--'+choice.value,choice.value===current);
+          });
+        }
+        frame.addEventListener('load',apply);
+        seg.addEventListener('change',function(e){current=e.detail.value;apply();});
+        apply();
+      });
+    });
+  })();
+  </script>`;
 const FOLD_LINE_LIMIT_CHARS = 140;
 const docFold = (title, body, id = '', small = false) => `<details class="doc-fold${small ? ' doc-fold--small' : ''}"${id ? ` id="${esc(id)}"` : ''}><summary><aha-icon name="system-caret-right" size="16" decorative></aha-icon>${small ? `<span>${esc(title)}</span>` : `<h2>${esc(title)}</h2>`}</summary><div class="doc-fold-body">${body}</div></details>`;
 const isLongProse = (...texts) => texts.join(' ').length > FOLD_LINE_LIMIT_CHARS;
@@ -2060,8 +2127,8 @@ ${marketingGuidanceHtml(b)}  ${docFold('Which is which', `<p class="body">${esc(
 ${b.layouts.map(layout => `  <h2 id="${esc(layout.slug)}">${esc(layout.name)}</h2>
   ${marketingLayoutIntroHtml(layout)}
   <div class="marketing-stage">${marketingLayoutPreview(b, layout)}</div>
-  ${marketingCodeToggle(marketingHasStates(b, layout) ? marketingLayoutStates(b, layout).find(state => !state.modifier).label : `${layout.slug}.html`, resolveDefaultStateVariants(b, layout, marketingLayoutSnippet(b, layout)), '', marketingStatePanes(b, layout, marketingLayoutSnippet(b, layout)))}`).join('\n\n')}
-  ${MARKETING_LAYOUT_PREVIEW_SCRIPT}${b.layouts.some(layout => marketingHasStates(b, layout)) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}${b.layouts.some(layout => marketingHasStates(b, layout) && /\sdata-variant-[a-z0-9-]+=/.test(layout.html || '')) ? `\n  ${MARKETING_LAYOUT_VARIANT_SCRIPT}` : ''}${b.reviews ? `\n  ${MARKETING_LAYOUT_REVIEWS_SCRIPT}` : ''}
+  ${marketingCodeToggle(marketingHasStates(b, layout) ? marketingLayoutStates(b, layout).find(state => !state.modifier).label : `${layout.slug}.html`, resolveDefaultStateVariants(b, layout, marketingLayoutSnippet(b, layout)), '', marketingStatePanes(b, layout, marketingLayoutSnippet(b, layout)).concat(marketingOptionPanes(b, layout)))}`).join('\n\n')}
+  ${MARKETING_LAYOUT_PREVIEW_SCRIPT}${b.layouts.some(layout => marketingHasStates(b, layout)) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}${b.layouts.some(layout => marketingHasStates(b, layout) && /\sdata-variant-[a-z0-9-]+=/.test(layout.html || '')) ? `\n  ${MARKETING_LAYOUT_VARIANT_SCRIPT}` : ''}${b.reviews ? `\n  ${MARKETING_LAYOUT_REVIEWS_SCRIPT}` : ''}${b.layouts.some(layout => layout.options) ? `\n  ${MARKETING_LAYOUT_OPTION_SCRIPT}` : ''}
 
 ${b.video ? `  ${docFold(`${b.video.label} (optional, off by default)`, `<p class="body">${esc(b.video.howToTurnOn.replaceAll('{{c}}', '<layout class>'))} Layouts with the slot: ${b.layouts.filter(layout => b.video.layouts.includes(layout.slug)).map(layout => `${esc(layout.name)} (<code>${esc(layout.class)}</code>)`).join(', ')}.</p>
   ${marketingCodeToggle('video.html', b.video.html, 'Replaces the layout image.')}
@@ -2078,7 +2145,7 @@ ${b.composedOf ? `
   ${docFold('Details', `<ul class="highlights">${details.map(d => `<li>${esc(d)}</li>`).join('')}</ul>`)}` : ''}`;
   return docShell({ base: '../../', active: 'marketing:' + b.slug, title: b.name, section: 'marketing', main, extraCss: `
   .marketing-stage{margin:0 0 var(--aha-space-12)}.code-panel pre{max-height:70vh}
-  .demo-toolbar:has(.code-lead){justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--aha-space-20)}.code-lead{margin:0;flex:1 1 20rem;max-width:none}${MARKETING_BREAKPOINT_CSS}` });
+  .demo-toolbar:has(.code-lead){justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--aha-space-20)}.code-lead{margin:0;flex:1 1 20rem;max-width:none}${MARKETING_BREAKPOINT_CSS}${b.previewFit ? '\n.mfv--fit .mbp-viewport{height:auto;max-height:min(640px,70vh)}' : ''}` });
 }
 function renderMarketingHtml(b) {
   if (b.layouts) return renderMarketingLayoutsHtml(b);
@@ -2113,14 +2180,14 @@ function marketingVideoMd(b) {
 function marketingReviewsMd(b) {
   if (!b.reviews) return '';
   const withRow = b.layouts.filter(layout => layout.reviews);
-  return `\n## ${b.reviews.label} row (on by default, removable)\nA ${b.reviews.source} rating row: the G2 logo in a white card, five stars filled to ${b.reviews.rating}, and "${b.reviews.rating} ${b.reviews.text}", with a visually hidden label ("${b.reviews.accessibleLabel}"). The paste-and-run code above already includes it as ${b.reviews.insertInto.replaceAll('{{c}}', '<layout class>')}. To remove it, delete the \`<layout class>__reviews\` element and its \`__reviews\` CSS. To add it to a copy that lacks it, append the row below there and add the CSS once, replacing \`{{c}}\` with the layout's class (the class shown under Layouts). Layouts with the row: ${withRow.map(layout => `${layout.name} (\`${layout.class}\`)`).join(', ')}. The other layouts have no button in their copy block, so the row does not apply.\n\n\`\`\`html\n${marketingReviewsFor(b, { ...withRow[0], class: '{{c}}', reviews: {} }).html}\n\`\`\`\n\n\`\`\`css\n${marketingReviewsFor(b, { ...withRow[0], class: '{{c}}', reviews: {} }).css}\n\`\`\`\n\nHero Pink, Hero Pink Vertical, Hero Pale Pink and Hero Pale Pink Vertical also need their own star colour rule (white on Vivid Pink, Vivid Pink on Pale Pink), listed per layout in the agent feed under \`reviews.layouts[].css\`.\n`;
+  return `\n## ${b.reviews.label} row (on by default, removable)\nA ${b.reviews.source} rating row: the G2 logo in a white card, five stars filled to ${b.reviews.rating}, and "${b.reviews.rating} ${b.reviews.text}", with a visually hidden label ("${b.reviews.accessibleLabel}"). The paste-and-run code above already includes it as ${b.reviews.insertInto.replaceAll('{{c}}', '<layout class>')}. To remove it, delete the \`<layout class>__reviews\` element and its \`__reviews\` CSS. To add it to a copy that lacks it, append the row below there and add the CSS once, replacing \`{{c}}\` with the layout's class (the class shown under Layouts). Layouts with the row: ${withRow.map(layout => `${layout.name} (\`${layout.class}\`)`).join(', ')}. The other layouts have no button in their copy block, so the row does not apply.\n\n\`\`\`html\n${marketingReviewsFor(b, { ...withRow[0], class: '{{c}}', reviews: {} }).html}\n\`\`\`\n\n\`\`\`css\n${marketingReviewsFor(b, { ...withRow[0], class: '{{c}}', reviews: {} }).css}\n\`\`\`\n`;
 }
 function renderMarketingMd(b) {
   return `# ${b.name} — marketing section
 > Generated from marketing/${b.slug}.json — do not edit by hand. Framework-free marketing section, not a product component.
 
 ${b.summary}
-${marketingGuidanceMd(b)}${marketingReviewsMd(b)}${marketingVideoMd(b)}${b.layouts?.some(layout => layout.useFor) ? `\n## Layouts\n${b.layouts.map(layout => `- ${layout.name}${layout.useFor ? `: ${layout.useFor}` : ''}`).join('\n')}\n` : ''}
+${marketingGuidanceMd(b)}${marketingReviewsMd(b)}${marketingVideoMd(b)}${b.layouts?.some(layout => layout.useFor) ? `\n## Layouts\n${b.layouts.map(layout => `- ${layout.name}${layout.useFor ? `: ${layout.useFor}` : ''}${marketingOptionsMd(layout)}`).join('\n')}\n` : ''}
 Bind the page to the shared token layer (${SITE}/variables.css), then paste the block.
 
 ## Paste-and-run HTML
@@ -2135,7 +2202,7 @@ function renderMarketingAgent(b) {
     consume: { framework: 'none (paste-and-run HTML+CSS)', tokens: `${SITE}/variables.css`,
       note: 'Load the token layer once on the page, then paste the html. Every colour/size/space/radius binds to an --aha-* token, so it inherits the AhaSlides brand.' },
     ...(b.guidance ? { guidance: b.guidance } : {}),
-    ...(b.layouts?.some(layout => layout.useFor) ? { layouts: b.layouts.map(layout => ({ slug: layout.slug, name: layout.name, useFor: layout.useFor || null })) } : {}),
+    ...(b.layouts?.some(layout => layout.useFor) ? { layouts: b.layouts.map(layout => ({ slug: layout.slug, name: layout.name, useFor: layout.useFor || null, ...marketingOptionsAgent(b, layout) })) } : {}),
     ...(b.reviews ? { reviews: {
       label: b.reviews.label, source: b.reviews.source, defaultState: 'on', rating: b.reviews.rating, text: b.reviews.text, accessibleLabel: b.reviews.accessibleLabel,
       howToRemove: `On by default: the layout html and css include the row. Delete the <layout class>__reviews element and its __reviews css to remove it, or append the html as ${b.reviews.insertInto} and add the css once, replacing {{c}} with the layout class, to add it elsewhere.`,
@@ -3259,7 +3326,7 @@ const expandMarketingAssets = (b) => {
 /* marketing sections — loaded before any page renders so the Websites tab lists them everywhere.
    Absent-safe: no marketing/ dir → no tab/pages/feed. */
 MARKETING = existsSync(MDIR)
-  ? readdirSync(MDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(MDIR, f)))).map(composeMarketingComponent).map(bakeMarketingReviews).map(composeMarketingLayouts).map(expandMarketingData).map(expandMarketingAssets).sort((a,b)=>a.name.localeCompare(b.name))
+  ? readdirSync(MDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(MDIR, f)))).map(composeMarketingComponent).map(bakeMarketingReviews).map(bakeMarketingOptions).map(composeMarketingLayouts).map(expandMarketingData).map(expandMarketingAssets).sort((a,b)=>a.name.localeCompare(b.name))
   : [];
 /* audience library — a single-page area loaded from its data file. Absent-safe: no
    audience/library.json → no Audience tab/page. */
