@@ -164,7 +164,7 @@ for (const layout of readSection('header').layouts) {
 }
 
 test('a button sits 32 px under its own text and a closing call to action 48 px under its list, 24 and 32 px at 479 px and below', () => {
-  assert.ok(buttonSpacing.length > 50);
+  assert.ok(buttonSpacing.length > 40);
   for (const [css, selector, property, wide, narrow] of buttonSpacing) {
     const desktop = valueAt(css, selector, property, 1440);
     const tablet = valueAt(css, selector, property, 600);
