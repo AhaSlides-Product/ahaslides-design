@@ -2114,7 +2114,142 @@ function marketingLayoutIntroHtml(layout) {
   const paragraphs = `<p class="body">${esc(summary)}</p>${layout.useFor ? `\n  <p class="body"><b>Use for:</b> ${esc(layout.useFor)}</p>` : ''}`;
   return isLongProse(summary, layout.useFor || '') ? docFold('About this layout', paragraphs, '', true) : paragraphs;
 }
+const SECTION_GALLERY_VIEW_KEY = 'aha-section-gallery-view';
+const SECTION_GALLERY_FRAME = { width: 1440, height: 900 };
+const SECTION_GALLERY_CARD_FRAME_WIDTH = 560;
+const SECTION_GALLERY_CSS = `
+.sg-bar{display:flex;align-items:center;justify-content:space-between;gap:var(--aha-space-16);flex-wrap:wrap;margin:var(--aha-space-24) 0}
+.sg-search{flex:0 1 20rem;min-width:0}
+.sg[data-view="list"] .sg-grid,.sg[data-view="list"] .sg-search,.sg[data-view="list"] .sg-empty,.sg[data-view="grid"] .sg-list{display:none}
+.sg-empty[hidden]{display:none}
+.sg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(17.5rem,100%),1fr));gap:var(--aha-space-32) var(--aha-space-24);margin:0 0 var(--aha-space-48);padding:0;list-style:none}
+.sg-card{display:flex;flex-direction:column;gap:var(--aha-space-12);color:inherit;text-decoration:none;border-radius:var(--aha-radius-default)}
+.sg-card:focus-visible{outline:2px solid var(--aha-color-primary);outline-offset:4px}
+.sg-thumb{position:relative;aspect-ratio:${SECTION_GALLERY_FRAME.width}/${SECTION_GALLERY_FRAME.height};overflow:hidden;border:1px solid var(--aha-split);border-radius:var(--aha-radius-default);background:var(--aha-white);transition:border-color var(--aha-motion-fast) var(--aha-ease-out)}
+.sg-card:hover .sg-thumb,.sg-card:focus-visible .sg-thumb{border-color:var(--aha-color-primary)}
+.sg-frame{position:absolute;top:0;left:0;border:0;background:var(--aha-white);transform-origin:0 0;pointer-events:none}
+.sg-caption{font-size:var(--aha-size-default);color:var(--aha-text-secondary)}
+.sg-caption b{font-weight:var(--aha-weight-semibold);color:var(--aha-text-default)}
+@media (prefers-reduced-motion:reduce){.sg-thumb{transition:none}}`;
+function sectionGalleryCard(item, pageName) {
+  const frameWidth = item.frameWidth || SECTION_GALLERY_FRAME.width;
+  return `<li data-search="${esc(item.searchText.toLowerCase())}"><a class="sg-card" href="#${esc(item.slug)}"><div class="sg-thumb"><iframe class="sg-frame" title="${esc(item.name)} thumbnail" data-frame-width="${frameWidth}" style="width:${frameWidth}px;height:${Math.round(frameWidth * SECTION_GALLERY_FRAME.height / SECTION_GALLERY_FRAME.width)}px" tabindex="-1" aria-hidden="true" scrolling="no"></iframe></div><span class="sg-caption"><b>${esc(item.name)}</b> · ${esc(pageName)}</span></a></li>`;
+}
+function sectionGallerySlots(b, items, noun) {
+  const options = JSON.stringify([{ value: 'grid', label: 'Grid', icon: 'system-squares-four' }, { value: 'list', label: 'List', icon: 'system-rows' }]);
+  return {
+    open: `<div class="sg" data-view="grid">
+  <div class="sg-bar"><aha-segmented class="sg-seg" aria-label="${esc(b.name)} view" options="${esc(options)}" value="grid"></aha-segmented><aha-input class="sg-search" type="search" size="default" placeholder="Search ${noun}" aria-label="Search ${noun}"></aha-input></div>
+  <ul class="sg-grid">${items.map(item => sectionGalleryCard(item, b.name)).join('\n  ')}</ul>
+  <aha-empty class="sg-empty" image="simple" description="No ${noun} match your search." hidden></aha-empty>
+  <div class="sg-list">
+`,
+    close: `
+  </div>
+  <script>(function(){var r=document.querySelector('.sg');if(!r)return;var v='grid';try{var s=localStorage.getItem('${SECTION_GALLERY_VIEW_KEY}');if(s==='list'||s==='grid')v=s}catch(e){}var id='';try{id=decodeURIComponent(location.hash.slice(1))}catch(e){}if(id){var t=document.getElementById(id);if(t&&r.querySelector('.sg-list').contains(t))v='list'}r.dataset.view=v;r.querySelector('.sg-seg').setAttribute('value',v)})();</script>
+  </div>
+  ${SECTION_GALLERY_SCRIPT}`,
+  };
+}
+const SECTION_GALLERY_SCRIPT = `<script type="module">
+  import '../../lib/aha-segmented.js';
+  import '../../lib/aha-input.js';
+  import '../../lib/aha-empty.js';
+  (function(){
+    var root=document.querySelector('.sg');
+    if(!root)return;
+    var KEY='${SECTION_GALLERY_VIEW_KEY}';
+    var seg=root.querySelector('.sg-seg'),search=root.querySelector('.sg-search'),empty=root.querySelector('.sg-empty'),grid=root.querySelector('.sg-grid');
+    var items=[].slice.call(grid.children);
+    var base=new URL('../../',location.href).href;
+    var fonts='@font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:400;font-display:swap;src:local("Plus Jakarta Sans"),url("'+base+'fonts/PlusJakartaSans-Regular.woff2") format("woff2")}'+
+      '@font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:600;font-display:swap;src:local("Plus Jakarta Sans"),url("'+base+'fonts/PlusJakartaSans-SemiBold.woff2") format("woff2")}';
+    var imports=${JSON.stringify(MARKETING_FRAME_MODULES)}.map(function(f){return "import '"+base+"lib/"+f+"';"}).join('');
+    function docFor(slug){
+      var el=document.getElementById(slug);
+      el=el&&el.nextElementSibling;
+      while(el&&el.tagName!=='H2'&&!el.querySelector('.mbp-doc'))el=el.nextElementSibling;
+      var template=el&&el.tagName!=='H2'&&el.querySelector('.mbp-doc');
+      return template?template.innerHTML:'';
+    }
+    function load(frame){
+      if(frame.dataset.loaded)return;
+      frame.dataset.loaded='1';
+      var slug=frame.closest('.sg-card').getAttribute('href').slice(1);
+      frame.srcdoc='<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width='+frame.dataset.frameWidth+'"><style>'+fonts+'html,body{margin:0;overflow:hidden}body{font-family:var(--aha-font-product)}</style></head><body>'+docFor(slug)+'<scr'+'ipt type="module">'+imports+'</scr'+'ipt></body></html>';
+    }
+    var seen=new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){if(entry.isIntersecting){load(entry.target);seen.unobserve(entry.target);}});
+    },{rootMargin:'200px'});
+    var sizes=new ResizeObserver(function(entries){
+      entries.forEach(function(entry){
+        var width=entry.contentRect.width;
+        var frame=entry.target.querySelector('.sg-frame');if(width)frame.style.transform='scale('+(width/+frame.dataset.frameWidth)+')';
+      });
+    });
+    items.forEach(function(li){
+      var thumb=li.querySelector('.sg-thumb');
+      sizes.observe(thumb);
+      seen.observe(thumb.querySelector('.sg-frame'));
+    });
+    function holdAnchor(id){
+      var target=document.getElementById(id);
+      if(!target)return;
+      var stopped=false,ticks=0;
+      function stop(){stopped=true;}
+      ['wheel','touchstart','keydown','mousedown'].forEach(function(type){addEventListener(type,stop,{once:true,passive:true});});
+      (function tick(){
+        if(stopped||ticks++>15)return;
+        target.scrollIntoView();
+        setTimeout(tick,100);
+      })();
+    }
+    function showLayout(id){
+      setView('list',false);
+      var heading=document.getElementById(id);
+      if(heading){heading.setAttribute('tabindex','-1');heading.focus({preventScroll:true});}
+      holdAnchor(id);
+    }
+    function setView(view,remember){
+      root.dataset.view=view;
+      if(seg.getAttribute('value')!==view)seg.setAttribute('value',view);
+      if(!remember)return;
+      try{localStorage.setItem(KEY,view);}catch(e){}
+    }
+    seg.addEventListener('change',function(e){
+      setView(e.detail.value,true);
+      if(e.detail.value==='grid'&&location.hash)history.replaceState(null,'',location.pathname+location.search);
+    });
+    grid.addEventListener('click',function(e){
+      var card=e.target.closest('.sg-card');
+      if(!card||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||e.button)return;
+      e.preventDefault();
+      var id=card.getAttribute('href').slice(1);
+      history.replaceState(null,'','#'+id);
+      showLayout(id);
+    });
+    addEventListener('hashchange',function(){
+      var id='';
+      try{id=decodeURIComponent(location.hash.slice(1))}catch(e){}
+      var target=id&&document.getElementById(id);
+      if(target&&root.dataset.view==='grid'&&root.querySelector('.sg-list').contains(target))showLayout(id);
+    });
+    search.addEventListener('input',function(e){
+      var query=String(e.detail&&e.detail.value!==undefined?e.detail.value:search.value||'').trim().toLowerCase();
+      var shown=0;
+      items.forEach(function(li){
+        var match=!query||li.dataset.search.indexOf(query)>=0;
+        li.hidden=!match;
+        if(match)shown++;
+      });
+      empty.hidden=shown>0;
+    });
+    if(root.dataset.view==='list'&&location.hash){var hashId='';try{hashId=decodeURIComponent(location.hash.slice(1))}catch(e){}if(hashId)holdAnchor(hashId);}
+  })();
+  </script>`;
 function renderMarketingLayoutsHtml(b) {
+  const gallery = b.layouts.length > 1 ? sectionGallerySlots(b, b.layouts.map(layout => ({ slug: layout.slug, name: layout.name, searchText: `${layout.name} ${layout.useFor || ''}` })), 'layouts') : { open: '', close: '' };
+  const galleryCss = b.layouts.length > 1 ? SECTION_GALLERY_CSS : '';
   const [intro, ...details] = b.highlights?.length ? b.highlights : [b.summary];
   const main = `
   <h1>${esc(b.name)}</h1>
@@ -2124,10 +2259,10 @@ function renderMarketingLayoutsHtml(b) {
 ${marketingGuidanceHtml(b)}  ${docFold('Which is which', `<p class="body">${esc(b.layoutsIntro || `Each section copies the layout of one Untitled UI ${b.layoutKind || b.name.toLowerCase()} section, and nothing else of it. Class names carry the layout, not the Untitled UI number.`)}</p>
   <ul class="highlights">${b.layouts.map(layout => `<li><b>${esc(layout.name)}</b>: ${layout.reference ? `Untitled UI ${esc(layout.reference)}, ` : ''}<code>${esc(layout.class || layout.classes || `aha-${b.slug}--${layout.slug}`)}</code>${layout.useFor ? `. Use for: ${esc(layout.useFor)}` : ''}</li>`).join('')}</ul>`)}
 
-${b.layouts.map(layout => `  <h2 id="${esc(layout.slug)}">${esc(layout.name)}</h2>
+${gallery.open}${b.layouts.map(layout => `  <h2 id="${esc(layout.slug)}">${esc(layout.name)}</h2>
   ${marketingLayoutIntroHtml(layout)}
   <div class="marketing-stage">${marketingLayoutPreview(b, layout)}</div>
-  ${marketingCodeToggle(marketingHasStates(b, layout) ? marketingLayoutStates(b, layout).find(state => !state.modifier).label : `${layout.slug}.html`, resolveDefaultStateVariants(b, layout, marketingLayoutSnippet(b, layout)), '', marketingStatePanes(b, layout, marketingLayoutSnippet(b, layout)).concat(marketingOptionPanes(b, layout)))}`).join('\n\n')}
+  ${marketingCodeToggle(marketingHasStates(b, layout) ? marketingLayoutStates(b, layout).find(state => !state.modifier).label : `${layout.slug}.html`, resolveDefaultStateVariants(b, layout, marketingLayoutSnippet(b, layout)), '', marketingStatePanes(b, layout, marketingLayoutSnippet(b, layout)).concat(marketingOptionPanes(b, layout)))}`).join('\n\n')}${gallery.close}
   ${MARKETING_LAYOUT_PREVIEW_SCRIPT}${b.layouts.some(layout => marketingHasStates(b, layout)) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}${b.layouts.some(layout => marketingHasStates(b, layout) && /\sdata-variant-[a-z0-9-]+=/.test(layout.html || '')) ? `\n  ${MARKETING_LAYOUT_VARIANT_SCRIPT}` : ''}${b.reviews ? `\n  ${MARKETING_LAYOUT_REVIEWS_SCRIPT}` : ''}${b.layouts.some(layout => layout.options) ? `\n  ${MARKETING_LAYOUT_OPTION_SCRIPT}` : ''}
 
 ${b.video ? `  ${docFold(`${b.video.label} (optional, off by default)`, `<p class="body">${esc(b.video.howToTurnOn.replaceAll('{{c}}', '<layout class>'))} Layouts with the slot: ${b.layouts.filter(layout => b.video.layouts.includes(layout.slug)).map(layout => `${esc(layout.name)} (<code>${esc(layout.class)}</code>)`).join(', ')}.</p>
@@ -2145,20 +2280,21 @@ ${b.composedOf ? `
   ${docFold('Details', `<ul class="highlights">${details.map(d => `<li>${esc(d)}</li>`).join('')}</ul>`)}` : ''}`;
   return docShell({ base: '../../', active: 'marketing:' + b.slug, title: b.name, titleSection: b.titleSection, section: 'marketing', main, extraCss: `
   .marketing-stage{margin:0 0 var(--aha-space-12)}.code-panel pre{max-height:70vh}
-  .demo-toolbar:has(.code-lead){justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--aha-space-20)}.code-lead{margin:0;flex:1 1 20rem;max-width:none}${MARKETING_BREAKPOINT_CSS}${b.previewFit ? '\n.mfv--fit .mbp-viewport{height:auto;max-height:min(640px,70vh)}' : ''}` });
+  .demo-toolbar:has(.code-lead){justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--aha-space-20)}.code-lead{margin:0;flex:1 1 20rem;max-width:none}${MARKETING_BREAKPOINT_CSS}${b.previewFit ? '\n.mfv--fit .mbp-viewport{height:auto;max-height:min(640px,70vh)}' : ''}${galleryCss}` });
 }
 function renderMarketingHtml(b) {
   if (b.layouts) return renderMarketingLayoutsHtml(b);
+  const cardsGallery = b.snippets?.length > 1 ? sectionGallerySlots(b, b.snippets.map(card => ({ slug: card.slug, name: card.name, searchText: `${card.name} ${card.summary}`, frameWidth: card.demo ? SECTION_GALLERY_FRAME.width : SECTION_GALLERY_CARD_FRAME_WIDTH })), 'cards') : { open: '', close: '' };
   const [intro, ...details] = b.highlights?.length ? b.highlights : [b.summary];
   const main = `
   <h1>${esc(b.name)}</h1>
   <p class="subtitle">${esc(intro)}</p>
   <p class="gen">◆ generated from marketing/${b.slug}.json — do not edit by hand</p>
 
-${b.snippets ? b.snippets.map(card => `<h2>${esc(card.name)}</h2>
+${b.snippets ? cardsGallery.open + b.snippets.map(card => `<h2${cardsGallery.open ? ` id="${esc(card.slug)}"` : ''}>${esc(card.name)}</h2>
   ${isLongProse(card.summary) ? docFold('About this card', `<p class="body">${esc(card.summary)}</p>`, '', true) : `<p class="body">${esc(card.summary)}</p>`}
   ${marketingCardBreakpointPreview(b, card)}
-  ${marketingCodeToggle(`${card.slug}.html`, marketingCardSnippet(b, card))}`).join('\n  ') + '\n  ' + MARKETING_CARD_BREAKPOINT_SCRIPT : `<h2>Preview</h2>
+  ${marketingCodeToggle(`${card.slug}.html`, marketingCardSnippet(b, card))}`).join('\n  ') + cardsGallery.close + '\n  ' + MARKETING_CARD_BREAKPOINT_SCRIPT : `<h2>Preview</h2>
   <div class="marketing-stage">${marketingBreakpointPreview(b)}</div>
 
   <h2>Paste-and-run HTML</h2>
@@ -2170,7 +2306,7 @@ ${b.snippets ? b.snippets.map(card => `<h2>${esc(card.name)}</h2>
   ${docFold('Details', `<ul class="highlights">${details.map(d => `<li>${esc(d)}</li>`).join('')}</ul>`)}` : ''}`;
   return docShell({ base: '../../', active: 'marketing:' + b.slug, title: b.name, titleSection: b.titleSection, section: 'marketing', main, extraCss: `
   .marketing-stage{margin:0 0 12px}.code-panel pre{max-height:70vh}
-  .demo-toolbar:has(.code-lead){justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--aha-space-20)}.code-lead{margin:0;flex:1 1 20rem;max-width:none}${MARKETING_BREAKPOINT_CSS}` });
+  .demo-toolbar:has(.code-lead){justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--aha-space-20)}.code-lead{margin:0;flex:1 1 20rem;max-width:none}${MARKETING_BREAKPOINT_CSS}${cardsGallery.open ? SECTION_GALLERY_CSS : ''}` });
 }
 function marketingVideoMd(b) {
   if (!b.video) return '';
