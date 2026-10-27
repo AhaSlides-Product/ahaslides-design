@@ -22,11 +22,19 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.457.0 — 2026-10-27
+## 0.459.0 — 2026-10-27
 ### Changed
 - Marketing → Navigation: the Solutions → Integrations logos are one colour at rest and show their own colours (`logo/original/`) on hover and keyboard focus, with a fade and none under reduced motion (colour rule 2.6). The logo box has no border. The Integration card is left to #353. (#349)
 - Marketing → Footer: the LinkedIn, YouTube, Facebook, Instagram and Reddit links use the Logo library files, one colour at rest and their own colours on hover and keyboard focus. (#349)
 - Website composition fixtures and docs prose follow the same logo treatment. (#349)
+
+## 0.455.0 — 2026-10-27
+### Changed
+- Marketing motion: parallax now moves the picture inside its frame instead of sliding the frame. The picture is drawn 112% of the frame, drifts at most 6% of the frame height (never more than 48 px) and is clipped by the frame, so the frame's box, radius and position stay still. A picture drifts only when it sits in an `aha-features__frame`, `aha-testimonials__frame` or `aha-numbers__frame`; screenshots get no frame wrapper and never drift. (#365)
+- Marketing motion: the same framed picture now has an entrance as it scrolls into view. It fades in and settles from 1.08x down to its parallax scale, a beat after its row's reveal, on `--aha-motion-viz-enter` and `--aha-ease-out`, composed with the parallax in one transform inside the still frame. Off under reduced motion, `data-aha-motion="off"` and print. (#365)
+- Features: new `aha-features__frame` clipping wrapper, used by Icon list with photo.
+- Testimonials: the Simple left aligned photo sits in an `aha-testimonials__frame` wrapper (was a bare `<img>`); Numbers split-image: the image sits in an `aha-numbers__frame` inside the card. A page with the old markup simply does not drift.
+Revert: restore `lib/marketing-motion.js`, `marketing/testimonials.json` and `marketing/numbers.json` and the wording in `guidelines/website.json` and `anti-slop/criteria.json`.
 
 ## 0.451.0 — 2026-10-27
 ### Added
