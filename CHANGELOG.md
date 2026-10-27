@@ -22,10 +22,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.489.1 — 2026-10-27
+## 0.490.1 — 2026-10-27
 ### Fixed
-- Marketing sections no longer depend on the host site's heading and quote styles: every section title (Features, Numbers, Pricing, Testimonials, Header, Footer banner, Card) is `display:block`, so a host `h2{display:flex;text-align:left}` (Webflow) cannot pull a centred title to the left; the title inherits `text-align`, and the Testimonials and Cards quote classes (and their blockquote resets) zero `border`, so a host `blockquote{border-left:...}` draws no bar (#413)
+- Marketing sections no longer depend on the host site's heading and quote styles: every section title (Features, Numbers, Pricing, Testimonials, Header, Footer banner, Card) is `display:block`, so a host `h2{display:flex;text-align:left}` (Webflow) cannot pull a centred title to the left; the title inherits `text-align`, and the Testimonials and Cards quote classes (and their blockquote resets) zero `margin`, `padding` and `border`, so a host `blockquote{padding:10px 20px;border-left:...}` (Webflow default) changes neither indent nor bar (#413)
 - Revert: revert the PR; the changes sit in `marketing/*.json` (title rules and blockquote resets) and the sections regenerated from them (#413)
+
+## 0.490.0 — 2026-10-27
+### Added
+- `applyDeck` (the audience phone) writes `--aha-deck-palette-<n>` and `--aha-deck-palette-<n>-ink` for each colour of `slide.presentationColorPalette`, the same pairs `applyCanvasDeck` writes (1-based, up to 24, the ink `#1A1A1A` or white by contrast); the pairs come from one shared `paletteVars` in `lib/deck.js`, so the canvas and the phone cannot drift. Without a palette nothing is written
+- Revert: revert the PR; additive, no existing token changes (#391)
 
 ## 0.489.0 — 2026-10-27
 ### Added
