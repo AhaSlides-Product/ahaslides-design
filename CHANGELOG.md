@@ -24,10 +24,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.494.0 — 2026-10-27
 ### Removed
-- No section on a website page carries an eyebrow (the small label above a heading, hero included): the Features, Numbers, Pricing and Header section layouts lose their `__eyebrow` element and CSS, and website rules W14 and W17 now say a heading block is the h2 and its lead. Card category labels (`aha-marketing-card__eyebrow`) stay. (#PRNUM)
+- No section on a website page carries an eyebrow (the small label above a heading, hero included): the Features, Numbers, Pricing and Header section layouts lose their `__eyebrow` element and CSS, and website rules W14 and W17 now say a heading block is the h2 and its lead. Card category labels (`aha-marketing-card__eyebrow`) stay. (#414)
 ### Added
-- `screen-lint --surface=website` fails a page on four more checks: a section eyebrow (W14, W17), three white content bands in a row or two coloured bands touching (W5), page CSS that overrides a Marketing section's padding, margin or gap (W2), and a class of a layout the DS has removed (W1, list derived from release history in `marketing/data/removed-layouts.json`). (#PRNUM)
-- Website eval fixture `fail-w14-eyebrow`. (#PRNUM)
+- `screen-lint --surface=website` fails a page on four more checks: a section eyebrow (W14, W17), three white content bands in a row or two coloured bands touching (W5), page CSS that overrides a Marketing section's padding, margin or gap (W2), and a class of a layout the DS has removed (W1, list derived from release history in `marketing/data/removed-layouts.json`). (#414)
+- Website eval fixture `fail-w14-eyebrow`. (#414)
 - To revert: revert this commit; the removed eyebrow markup returns with it and the lint checks go away.
 
 ## 0.490.0 — 2026-10-27
