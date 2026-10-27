@@ -23,10 +23,8 @@ an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix w
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
 ## 0.450.0 — 2026-10-27
-### Added
-- `aha-checkbox` `count` slot: trailing text at the end of the row (`<span slot="count">29</span>`) in secondary text, top-aligned with the first label line and never wrapping; the host then fills its container width so a filter list can show "Label ........ 29".
 ### Fixed
-- `aha-checkbox`: with a multi-line label the box stays on the first line (centre of line 1) instead of floating to the middle of the label. Single-line rendering is unchanged.
+- `aha-checkbox`: with a multi-line label the box stays on the first line (centre of line 1) instead of floating to the middle of the label. Single-line rendering, and a checkbox with no label, are unchanged.
 - Revert: revert the PR; the change is confined to `lib/aha-checkbox.js` and `contracts/checkbox.json` (#403)
 
 ## 0.443.0 — 2026-10-26
