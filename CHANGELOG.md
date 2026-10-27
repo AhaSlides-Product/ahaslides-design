@@ -25,6 +25,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.453.0 — 2026-10-27
 ### Changed
 - An icon that marks an error is Vivid Pink (`--aha-icon-active` #E70E68), the same pink as the status badge alert icon, so it calls for action; messages, borders and backgrounds are unchanged. Alert and Info box `error`, the field error row (Input, Select, Textarea, Counted textarea, Number with unit, form validation), toast error and the uploader failed file. The Result error, the notification error and the danger confirmation modal keep the black icon, as do warning, information and success icons. New colour rule 7.6 (colour rules v25). (#405)
+- `aha-field-error` takes `tone="warning"`: the glyph keeps the text colour, so only an error's icon is pink. `aha-question-list` sets it for a warning status (#405)
 
 ## 0.451.0 — 2026-10-27
 ### Added
