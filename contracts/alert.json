@@ -21,6 +21,7 @@
     { "label": "Branding", "value": "bg-accent #E70E680D, no border, icon/text color-primary #E70E68" },
     { "label": "Small", "value": "padding 6 10 · gap 8 · 13px text · 16px glyph" },
     { "label": "Banner", "value": "full-width, square (radius 0), no border" },
+    { "label": "Link", "value": "a plain `<a href>` written in the message is an inline text link: inherits the message size, weight 400 and line height, no padding, the DS text-link exactly: --aha-text-link Vivid Pink #E70E68, no underline at rest, underline and --aha-text-link-hover #DB005B on hover and focus, the Button focus ring. Vivid Pink on the #F3F3F3 fill is 4.06:1 and on the branding fill #FEF3F7 4.16:1, a recorded AA exception for these links only (colour rule 6.7). Never an <aha-button> inside the sentence" },
     { "label": "Action", "value": "trailing slot=\"action\" for a button/link" },
     { "label": "Icon", "value": "status glyph via <aha-icon> (system-info / system-check-circle / system-warning-circle / system-x-circle / system-sparkle), 16px in both sizes, icon-default #4A4A4A" },
     { "label": "Close", "value": "closable → the shared ✕ (tertiary icon-only <aha-button>, size xs; 20 × 20, 16px system-x), top-pinned to the first line, 2px into the end padding" }
