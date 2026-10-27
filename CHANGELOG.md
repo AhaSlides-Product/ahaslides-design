@@ -5,7 +5,7 @@ All notable changes to `@ahaslides-product/design`, **newest first**.
 **The rule:** every merge adds one entry here **and** bumps `version` in `package.json`.
 The top entry's version MUST equal `package.json` → `version` — `standards.mjs` enforces it, so a
 PR that forgets either goes red. The `v<version>` release tag (what `npm publish` ships) matches too.
-The gate also rejects an unfilled `(#408)` placeholder in the top entry: link the **real** PR number.
+The gate also rejects an unfilled `(#129)` placeholder in the top entry: link the **real** PR number.
 
 **Format** — one entry per version:
 
@@ -25,7 +25,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.476.0 — 2026-10-27
 ### Added
 - Website > Marketing > Slider: two slider sections, Zoom (a full-width row of tall slide-type cards on the Vivid Pink frame, the current one centred and larger, looping) and Card (three captioned 4:3 photo cards with a meta line and linked title, arrows over the outer cards, dots per page). Arrows are `<aha-button variant="secondary" icon-only size="md">` with the caret icons; no autoplay, keyboard and drag support, reduced motion turns the zoom and smooth scroll off. Marketing pages may now set `titleSection` so a page sharing a component's name gets its own document title.
-- Revert: revert the PR; the change is confined to `marketing/slider.json`, the `titleSection` pass-through in `generate.mjs` and the Slider line in `tests/web-gutter.test.mjs` (#129)
+- Revert: revert the PR; the change is confined to `marketing/slider.json`, the `titleSection` pass-through in `generate.mjs` and the Slider line in `tests/web-gutter.test.mjs` (#408)
 
 ## 0.455.1 — 2026-10-27
 ### Fixed
