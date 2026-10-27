@@ -27,6 +27,12 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Cards: a Card placeholder (`aha-marketing-card__placeholder`) holds free content at the bottom of a card body, such as a fill-in-the-blank example sentence. The Card owns its accent-tint background, radius, padding, minimum height and text size at every card width, identical at rest, hover and focus; you supply one `<p>`. An inline `aha-marketing-card__blank` marker (dashed Vivid Pink box, visually hidden "blank") shows each gap. New "Use-case row with a card placeholder" example, four photo cards in a 2 by 2 grid (#415)
 - Revert: revert the PR; the change is additive in `marketing/cards.json` (new classes and one new example), no existing card changes (#415)
 
+## 0.497.1 — 2026-10-27
+### Changed
+- The Leaderboard docs page moves out of the global Components area into the Canvas Library: `contracts/leaderboard.json` gains `libraryArea: "canvas"`, so `/leaderboard/` opens with Canvas Library active and no Components sidebar, the docs search files it under Canvas Library, and `llms.txt` lists it under "Canvas and Audience Library components" instead of "Components" (it is also out of the `design.md` component list). The Canvas Library and Audience Library Leaderboard sections carry a "Full Leaderboard docs" link to `/leaderboard/`, which keeps its URL. The component and its API are unchanged. (#417)
+### Fixed
+- The Canvas Library Leaderboard demo fills the deck width; it had shrunk to its scores inside the wrapping deck row. (#417)
+
 ## 0.497.0 — 2026-10-27
 ### Changed
 - Websites → Features: in the split layouts (`icon-list-photo`, `tabs-screenshots`, and an alternating section with a single row) the section button sits in the text column under the text, left aligned with it (`aha-features__column` and `aha-features__cta--start`), even under a centred heading, instead of centred under the whole row. Rule W18 says so.
