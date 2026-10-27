@@ -1675,8 +1675,8 @@ function renderCanvasCard(sec) {
       <div class="use"><dt>Use when</dt><dd>${audMd(sec.useWhen)}</dd></div>
       <div class="not"><dt>Not for</dt><dd>${audMd(sec.notFor)}</dd></div>
     </dl>
+    ${libraryDocsLink(sec)}
   </header>
-  ${libraryDocsLink(sec)}
   <div class="cl-demo">${sec.demo}</div>
   ${rules ? `<div class="cl-rules"><h3>Rules</h3><dl>${rules}</dl></div>` : ''}
   ${code}
