@@ -22,6 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.485.0 — 2026-10-27
+### Added
+- Website > Marketing > Slider: two slider sections, Zoom (a full-width row of slide-type cards, the current one centred and larger, looping) and Card (three captioned photo cards with a meta line and linked title, arrows over the outer cards, dots per page). Arrows are `<aha-button variant="secondary" icon-only size="md">` with the caret icons; no autoplay, keyboard and drag support, reduced motion turns the zoom and smooth scroll off. Marketing pages may now set `titleSection` so a page sharing a component's name gets its own document title.
+- Slider "Image ratio" switch on both layouts: 3:4, 1:1, 4:3 and 16:9 through the modifier classes `aha-slider--portrait`, `--square`, `--landscape` and `--wide` (`aspect-ratio` only, no new token). Zoom defaults to 3:4, Card to 4:3. The Zoom card widens with the ratio (28%, 28%, 40%, 56% of the stage at 992px and up, one step up at each smaller width, 68% at 479px).
+- Exception to website rule W6 for this page only, decided by the requester: the Zoom image is a plain DS media slot (marketing radius, no Vivid Pink frame, filled and cropped to the ratio). W6 and every other section are unchanged.
+- Revert: revert the PR; the change is confined to `marketing/slider.json`, the `titleSection` pass-through in `generate.mjs` and the Slider line in `tests/web-gutter.test.mjs` (#408)
+
 ## 0.484.0 — 2026-10-27
 ### Added
 - Docs site, Websites > Sections: the Header, Features, Pricing, Numbers, Testimonials and Cards pages open in a Grid view, a three-column gallery of live thumbnails (two columns on a tablet, one on a phone) captioned "layout name · page name", with a Grid / List switch and a search box that filters by layout name and "Use for" text. Clicking a card switches to List view at that layout's `#<slug>` anchor; a URL with a hash opens in List view, and the last choice is remembered per browser. List view is the previous page unchanged. Pages with fewer than two layouts are unchanged. Revert: revert the PR; the change is the `sectionGallery*` functions in `generate.mjs` plus one hook in each of the two marketing page renderers. (#409)

@@ -2278,7 +2278,7 @@ ${b.composedOf ? `
   ${marketingCodeToggle('head', `<link rel="stylesheet" href="${SITE}/variables.css">`, 'Add this to the page <code>&lt;head&gt;</code> before any section.')}${details.length ? `
 
   ${docFold('Details', `<ul class="highlights">${details.map(d => `<li>${esc(d)}</li>`).join('')}</ul>`)}` : ''}`;
-  return docShell({ base: '../../', active: 'marketing:' + b.slug, title: b.name, section: 'marketing', main, extraCss: `
+  return docShell({ base: '../../', active: 'marketing:' + b.slug, title: b.name, titleSection: b.titleSection, section: 'marketing', main, extraCss: `
   .marketing-stage{margin:0 0 var(--aha-space-12)}.code-panel pre{max-height:70vh}
   .demo-toolbar:has(.code-lead){justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--aha-space-20)}.code-lead{margin:0;flex:1 1 20rem;max-width:none}${MARKETING_BREAKPOINT_CSS}${b.previewFit ? '\n.mfv--fit .mbp-viewport{height:auto;max-height:min(640px,70vh)}' : ''}${galleryCss}` });
 }
@@ -2304,7 +2304,7 @@ ${b.snippets ? cardsGallery.open + b.snippets.map(card => `<h2${cardsGallery.ope
   ${marketingCodeToggle('head', `<link rel="stylesheet" href="${SITE}/variables.css">`, 'Add this to the page <code>&lt;head&gt;</code> before the block.')}${details.length ? `
 
   ${docFold('Details', `<ul class="highlights">${details.map(d => `<li>${esc(d)}</li>`).join('')}</ul>`)}` : ''}`;
-  return docShell({ base: '../../', active: 'marketing:' + b.slug, title: b.name, section: 'marketing', main, extraCss: `
+  return docShell({ base: '../../', active: 'marketing:' + b.slug, title: b.name, titleSection: b.titleSection, section: 'marketing', main, extraCss: `
   .marketing-stage{margin:0 0 12px}.code-panel pre{max-height:70vh}
   .demo-toolbar:has(.code-lead){justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--aha-space-20)}.code-lead{margin:0;flex:1 1 20rem;max-width:none}${MARKETING_BREAKPOINT_CSS}${cardsGallery.open ? SECTION_GALLERY_CSS : ''}` });
 }
