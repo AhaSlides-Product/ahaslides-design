@@ -24,8 +24,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.502.0 — 2026-10-27
 ### Added
-- Colour rule 6.8 (product app only): at rest, Vivid Pink fills only the primary button of each region; text, borders and icons stay ink, and pink appears on hover, focus or selection. Rules that name their own pink (text links 6.6 and 6.7, tags, charts, logo, illustrations, focus ring, chat launcher, selected or on states) are listed as exceptions. Colour anti-slop criterion C9 and eval 13 added to match (#NNN)
-- Revert: revert the PR; the change is one rule in `brand/colour-rules.json`, one criterion in `anti-slop/criteria.json` and one eval (#NNN)
+- Colour rule 6.8 (product app only): at rest, Vivid Pink fills only the primary button of each region; text, borders and icons stay ink, and pink appears on hover, focus or selection. Rules that name their own pink (text links 6.6 and 6.7, tags, charts, logo, illustrations, focus ring, chat launcher, selected or on states) are listed as exceptions. Colour anti-slop criterion C9 and eval 13 added to match (#420)
+- Revert: revert the PR; the change is one rule in `brand/colour-rules.json`, one criterion in `anti-slop/criteria.json` and one eval (#420)
 
 ## 0.501.0 — 2026-10-27
 ### Fixed
