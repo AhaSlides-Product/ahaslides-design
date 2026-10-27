@@ -1,4 +1,5 @@
 {
+  "environment": ["product"],
   "name": "Toast",
   "slug": "toast",
   "group": "Feedback",

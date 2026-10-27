@@ -1,4 +1,5 @@
 {
+  "environment": ["audience"],
   "name": "Countdown",
   "slug": "countdown",
   "group": "Audience",

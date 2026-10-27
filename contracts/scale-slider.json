@@ -1,4 +1,5 @@
 {
+  "environment": ["audience"],
   "name": "Scale slider",
   "slug": "scale-slider",
   "group": "Audience",

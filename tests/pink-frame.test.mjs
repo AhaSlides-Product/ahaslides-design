@@ -49,6 +49,6 @@ test('a portrait placeholder is always inside a Vivid Pink frame, never a fill s
 });
 
 test('the portrait examples exist in Features and Cards', () => {
-  assert.ok(readJson('marketing/features.json').layouts.some(layout => layout.slug === 'alternating-portrait-screenshots'));
+  assert.ok(readJson('marketing/features.json').layouts.some(layout => layout.slug === 'alternating-mixed-screenshots'));
   assert.ok(readJson('marketing/cards.json').snippets.some(snippet => snippet.slug === 'portrait-row'));
 });

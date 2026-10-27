@@ -1,4 +1,5 @@
 {
+  "environment": ["product"],
   "name": "Paywall",
   "slug": "paywall",
   "environment": ["product"],

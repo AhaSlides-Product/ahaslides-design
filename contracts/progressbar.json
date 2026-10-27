@@ -1,4 +1,5 @@
 {
+  "environment": ["product"],
   "name": "Progressbar",
   "slug": "progressbar",
   "group": "Feedback",

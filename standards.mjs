@@ -899,6 +899,15 @@ const repoChecks = [];
   repoChecks.push(['guideline pages do not point at retired aha-design-* skills', retiredSkillRefs.length === 0,
     `the plugin ships one skill (aha-design); point at the DS guide / anti-slop feed instead: ${retiredSkillRefs.join(', ')}`]);
 }
+/* ===== presenting canvas — the deck tokens and the canvas kit have no pill shape, while the rest of the DS keeps --aha-radius-pill. */
+{
+  const rchk = (name, cond, note = '') => repoChecks.push([name, !!cond, cond ? '' : note]);
+  const canvasSources = ['canvas/deck-tokens.json', 'canvas/canvas.css', 'canvas/library.json'].filter(f => existsSync(join(root, f)));
+  const pillHits = canvasSources.flatMap(f => read(join(root, f)).split('\n').flatMap((line, i) =>
+    /--aha-radius-pill\b|border-radius\s*:\s*(?:999|9999)px/i.test(line) ? [`${f} L${i + 1}`] : []));
+  rchk('the deck tokens and canvas kit use no pill radius', pillHits.length === 0,
+    `the presenting canvas has no pill shape: a true circle is 50%, anything else takes a radius from the scale — ${pillHits.join(', ')}`);
+}
 /* ===== sideEffects — a bundler (webpack / vue-cli) drops an import whose module is not listed as a side
    effect, so `import '@ahaslides-product/design/tokens.css'` or a custom-element registration import
    would silently vanish from a consumer build. A pattern without a slash matches the basename, as in webpack. */

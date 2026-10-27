@@ -1,4 +1,5 @@
 {
+  "environment": ["product"],
   "name": "Upload",
   "slug": "uploader",
   "group": "Data entry",

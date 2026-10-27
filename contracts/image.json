@@ -1,4 +1,5 @@
 {
+  "environment": ["product"],
   "name": "Image",
   "slug": "image",
   "group": "Data display",
