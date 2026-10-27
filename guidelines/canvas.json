@@ -78,6 +78,12 @@
       "status": "available"
     },
     {
+      "ref": "leaderboard",
+      "as": "component",
+      "use": "a ranked score list on the canvas, the same look as the phone \u2014 <aha-leaderboard size=\"stage\">, neutral rank circle, a deck-palette bar per row, the score with its unit and gain, and an optional heading, placed in a deck container or modal; never a hand-built leaderboard",
+      "status": "available"
+    },
+    {
       "ref": "canvas-status",
       "as": "component",
       "use": "the status line (Waiting for answers…) — <aha-canvas-status>, free-floating deck text with no fill on any deck",
