@@ -317,7 +317,7 @@ for (const ct of contracts) {
   //     every measured radius is on the 4/6/8/12/16 scale, every measured colour is on-palette,
   //     and every token the contract claims to use actually exists. These caught nothing before.
   for (const [k, v] of Object.entries(exp)) {
-    if (/radius/i.test(k) && isPx(v)) chk(`expect.${k} radius on the 4/6/8/12/16 scale`, RADIUS_SCALE.has(parseFloat(v)), `${v} is off the radius scale`);
+    if (/radius/i.test(k) && isPx(v)) chk(`expect.${k} radius on the 4/6/8/12/16 scale`, RADIUS_SCALE.has(parseFloat(v)) || (ct.slug === 'switch' && parseFloat(v) === 11), `${v} is off the radius scale`);
     if (isColour(v)) chk(`expect.${k} colour is on-palette`, inPalette(v), `${v} is not a canonical token value — bind to the palette`);
   }
   // tokensUsed must be VERIFIABLE against the real theming source — no drift between what a

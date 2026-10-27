@@ -10,9 +10,9 @@
   "highlights": ["Single setting that takes effect immediately", "On or off"],
   "lead": "ONE custom element — <aha-switch> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; the track fills brand when checked and the knob slides. Emits a composed `change` CustomEvent<{checked}>. Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["gray-20", "gray-50", "color-primary", "white", "text-tertiary", "radius-sm", "motion-slow"],
+  "tokensUsed": ["gray-20", "gray-50", "color-primary", "white", "text-tertiary", "motion-slow"],
   "spec": [
-    { "label": "Track", "value": "44×22 (small 28×16) · radius 6 · 1px #D4D4D4 border" },
+    { "label": "Track", "value": "44×22 (small 28×16) · radius pill (half the height: 11, small 8) · 1px #D4D4D4 border" },
     { "label": "Knob", "value": "18×18 white circle, slides 20px (small 12×12, slides 12px)" },
     { "label": "Off", "value": "track #F7F7F7 (gray-20)" },
     { "label": "On", "value": "track #E70E68 (primary)" },
@@ -38,7 +38,7 @@
       { "what": "Radio", "when": "exactly one from a small mutually-exclusive set" }
     ],
     "note": "Never mix switches and checkboxes in one group. The label names what the setting controls as a noun phrase; the switch communicates the action — don't prefix the label with Enable/Turn on. Reach for `loading` on an async setting that may fail, `size=small` in a dense list, and checked/unchecked children only when the on/off meaning isn't obvious from context.",
-    "dsv3": "COVERED — enumerated from the DS V3 Switch component-set + AntD matrix: size (default | small), disabled, loading (spinner in the knob), and checkedChildren/unCheckedChildren (text or icon inside the track). The default-size look is matched to the measured DS V3 `toggle` cell: track 44×22, radius 6, 1px #D4D4D4 border, off #F7F7F7 (gray-20), on #E70E68, disabled 40% opacity (small = 28×16 knob-12, from the AntD scale). All bound to canonical gray/primary/text-tertiary tokens; the knob slide + track fill + spinner animate on persistent nodes via the shared motion tokens (checked/loading toggle a host attr, never a rebuild — the Switch-click trap)."
+    "dsv3": "COVERED — enumerated from the DS V3 Switch component-set + AntD matrix: size (default | small), disabled, loading (spinner in the knob), and checkedChildren/unCheckedChildren (text or icon inside the track). The default-size look is matched to the measured DS V3 `toggle` cell: track 44×22, radius pill (half the height: 11, small 8), 1px #D4D4D4 border, off #F7F7F7 (gray-20), on #E70E68, disabled 40% opacity (small = 28×16 knob-12, from the AntD scale). All bound to canonical gray/primary/text-tertiary tokens; the knob slide + track fill + spinner animate on persistent nodes via the shared motion tokens (checked/loading toggle a host attr, never a rebuild — the Switch-click trap)."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "reuse": { "entry": "./aha-switch", "registers": "aha-switch", "exportsNamed": ["AhaSwitch", "defineAhaSwitch"] },
@@ -69,7 +69,7 @@
     ]
   },
   "selfCheck": [
-    { "label": "track 44×22 radius 6 · 1px border (small 28×16)", "verdict": "PASS" },
+    { "label": "track 44×22 radius pill (half the height: 11, small 8) · 1px border (small 28×16)", "verdict": "PASS" },
     { "label": "on #E70E68 · off #F7F7F7", "verdict": "PASS" },
     { "label": "knob 18 white, slides 20 (small 12, slides 12)", "verdict": "PASS" },
     { "label": "loading spinner (system-circle-notch) in knob; toggle blocked", "verdict": "PASS" },
@@ -81,6 +81,6 @@
     "ready": "!!(document.querySelector('aha-switch[data-probe]') && document.querySelector('aha-switch[data-probe]').shadowRoot && document.querySelector('aha-switch[data-probe]').shadowRoot.querySelector('.track'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-switch[data-probe]');var t=el&&el.shadowRoot&&el.shadowRoot.querySelector('.track');var s=t?getComputedStyle(t):null;var sm=document.querySelector('aha-switch[size=\"small\"]');var st=sm&&sm.shadowRoot&&sm.shadowRoot.querySelector('.track');var ss=st?getComputedStyle(st):null;return{bg:s?s.backgroundColor:null,width:s?s.width:null,height:s?s.height:null,radius:s?s.borderTopLeftRadius:null,smallWidth:ss?ss.width:null};})()",
-    "expect": { "bg": "rgb(231, 14, 104)", "width": "44px", "height": "22px", "radius": "6px", "smallWidth": "28px" }
+    "expect": { "bg": "rgb(231, 14, 104)", "width": "44px", "height": "22px", "radius": "11px", "smallWidth": "28px" }
   }
 }
