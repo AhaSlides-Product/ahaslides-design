@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.499.0 — 2026-10-27
+### Added
+- Cards: a Card placeholder (`aha-marketing-card__placeholder`) holds free content at the bottom of a card body, such as a fill-in-the-blank example sentence. The Card owns its accent-tint background, radius, padding, minimum height and text size at every card width, identical at rest, hover and focus; you supply one `<p>`. An inline `aha-marketing-card__blank` marker (dashed Vivid Pink box, visually hidden "blank") shows each gap. New "Use-case row with a card placeholder" example, four photo cards in a 2 by 2 grid (#415)
+- Revert: revert the PR; the change is additive in `marketing/cards.json` (new classes and one new example), no existing card changes (#415)
+
 ## 0.497.2 — 2026-10-27
 ### Fixed
 - `aha-input`: the `labels` getter falls back to an empty list when the environment's `attachInternals()` has no `labels` (jsdom), so `_syncName` no longer throws "this.labels is not iterable" in consumer unit tests. No API change. Revert: revert this PR. (#418)
