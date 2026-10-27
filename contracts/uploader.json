@@ -10,13 +10,13 @@
   "highlights": ["Select files by clicking or dragging onto a drop zone", "Manage them as rows or picture tiles", "Per-item state"],
   "lead": "ONE custom element — <aha-uploader> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens. The DS V3 Upload is a FAMILY: `listtype` picks between a drop zone with file rows (`text`) and a grid of thumbnail tiles with a dashed add-box (`picture-card`); feed it `items` and each file renders with its status — normal, uploading (a progress bar driven by `percent`), error, or done — and a remove ✕. Hover, drag-over and the progress fill animate on the persistent zone/track (no subtree rebuild). Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper (listens for `change`/`remove`, JSON-stringifies `items`); Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["bg-container", "bg-container-secondary", "bg-hover", "bg-accent", "bg-negative", "border", "border-strong", "color-primary", "color-error", "color-success", "text-default", "text-secondary", "text-tertiary", "split", "radius-default", "radius-sm", "radius-xs", "font-product", "motion-fast", "motion-mid", "motion-slow", "ease-in-out", "ease-out"],
+  "tokensUsed": ["bg-container", "bg-container-secondary", "bg-hover", "bg-accent", "bg-negative", "border", "border-strong", "color-primary", "color-error", "color-success", "text-default", "text-secondary", "text-tertiary", "split", "radius-default", "radius-sm", "radius-pill", "font-product", "motion-fast", "motion-mid", "motion-slow", "ease-in-out", "ease-out"],
   "spec": [
     { "label": "Zone", "value": "1px dashed border-strong #D4D4D4, radius 8, pad 24 16" },
     { "label": "Rest text", "value": "text-tertiary #8A8A8A, 14/21" },
     { "label": "Hover / drag", "value": "border + accent tint color-primary / bg-accent (motion-mid, persistent zone)" },
     { "label": "File row", "value": "1px border #E3E3E3, radius 8, file icon + name + the shared remove ✕ (tertiary icon-only <aha-button> xs, 20 × 20, 16px system-x)" },
-    { "label": "Uploading", "value": "4px progress track, radius 4 (split), color-primary fill, width animates (motion-slow)" },
+    { "label": "Uploading", "value": "4px pill progress track (split), color-primary fill, width animates (motion-slow)" },
     { "label": "Error item", "value": "border + text color-error #1A1A1A on bg-negative, warning glyph" },
     { "label": "Done item", "value": "check-circle glyph color-success #1A1A1A" },
     { "label": "Picture-card", "value": "104px tiles + dashed add-box; add-box is the trigger" }

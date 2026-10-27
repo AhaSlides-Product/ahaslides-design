@@ -233,7 +233,7 @@ export const SEARCH_CSS = `
 .ds-search-spin{animation:ds-search-spin calc(var(--aha-motion-slow) * 3) linear infinite}
 @keyframes ds-search-spin{to{transform:rotate(360deg)}}
 .ds-search-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:var(--aha-space-6)}
-.ds-search-chip{height:var(--aha-control-height-sm);padding:0 var(--aha-space-10);border:1px solid var(--aha-border-secondary);border-radius:var(--aha-radius-sm);background:var(--aha-bg-container);color:var(--aha-text-secondary);font-family:var(--aha-font-product);font-size:var(--aha-size-sm);cursor:pointer;transition:border-color var(--aha-motion-fast) var(--aha-ease-out),color var(--aha-motion-fast) var(--aha-ease-out)}
+.ds-search-chip{height:var(--aha-control-height-sm);padding:0 var(--aha-space-10);border:1px solid var(--aha-border-secondary);border-radius:var(--aha-radius-pill);background:var(--aha-bg-container);color:var(--aha-text-secondary);font-family:var(--aha-font-product);font-size:var(--aha-size-sm);cursor:pointer;transition:border-color var(--aha-motion-fast) var(--aha-ease-out),color var(--aha-motion-fast) var(--aha-ease-out)}
 .ds-search-chip:hover{border-color:var(--aha-color-primary);color:var(--aha-color-primary)}
 .ds-search-foot{display:flex;flex-wrap:wrap;gap:var(--aha-space-16);padding:var(--aha-space-8) var(--aha-space-16);border-top:1px solid var(--aha-border-secondary);background:var(--aha-bg-container-secondary);font-size:var(--aha-size-sm);color:var(--aha-text-tertiary)}
 .ds-search-foot span{display:inline-flex;align-items:center;gap:var(--aha-space-4)}

@@ -26,7 +26,7 @@ const FAIL = {
   'a cta class with a fill and a height': style('.hero__cta{background:var(--aha-white);height:52px}'),
   'a raw button element painted as a button': style('button.join{background:var(--aha-gray-90);padding:0 12px}'),
   'a role=button div': style('[role="button"]{background:var(--aha-white);border:1px solid var(--aha-border-strong)}'),
-  'a link drawn as a rounded button': style('.nav a.signup{background:var(--aha-color-primary);border-radius:16px}'),
+  'a link drawn as a pill': style('.nav a.pill{background:var(--aha-color-primary);border-radius:999px}'),
   'aha-button re-coloured': style('aha-button{background:var(--aha-gray-10)}'),
   'aha-button given its own hover': style('aha-button:hover{opacity:.9}'),
   'aha-button resized': style('.toolbar aha-button{height:44px}'),

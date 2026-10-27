@@ -8,10 +8,10 @@
   "summary": "A KPI stat tile: one headline figure, its change against the previous period as an absolute number and a percent, and a comparison caption, on a flat Vivid Pink at 5% card with a Vivid Pink top bar.",
   "highlights": [
     "Large semibold value, change as absolute and percent",
-    "Rise in black with an up arrow, fall in a black chip with a down arrow",
+    "Rise in black with an up arrow, fall in a black pill with a down arrow",
     "1 to 6 tiles per row, wrapping on narrow screens"
   ],
-  "lead": "ONE custom element — <aha-stat-tile> — defined once, imported unchanged by React and Vue. Give it `value` and `previous` and it works out the change: the absolute difference and a whole percent of the previous value (<1% for a tiny change, never a misleading 0%) (whole percentage points for `format=\"percent\"`: 3 pts, 1 pt, <1 pt for a non-zero change under one point), followed by the `caption` that names the comparison. A rise is plain black with an up arrow; a fall is white on a black chip with a down arrow (colour rule 7.3), so direction never depends on a status hue. The card is flat with a 4px Vivid Pink top bar and black text: white with a border by default (`look=\"plain\"`), or Vivid Pink at 5% (`look=\"accent\"`). On an app screen the accent look is only for the one highlighted panel colour rule 3.7 allows; in a report (a static report image, or a read-only report page a report routine publishes) it is the number plate colour rule 3.11 gives, on every tile. Lay 1 to 6 tiles in a row with <aha-grid min=\"160px\" gap=\"middle\">, which wraps them to fewer columns as the row narrows. See the Report images guideline for the static form.",
+  "lead": "ONE custom element — <aha-stat-tile> — defined once, imported unchanged by React and Vue. Give it `value` and `previous` and it works out the change: the absolute difference and a whole percent of the previous value (<1% for a tiny change, never a misleading 0%) (whole percentage points for `format=\"percent\"`: 3 pts, 1 pt, <1 pt for a non-zero change under one point), followed by the `caption` that names the comparison. A rise is plain black with an up arrow; a fall is white on a black pill with a down arrow (colour rule 7.3), so direction never depends on a status hue. The card is flat with a 4px Vivid Pink top bar and black text: white with a border by default (`look=\"plain\"`), or Vivid Pink at 5% (`look=\"accent\"`). On an app screen the accent look is only for the one highlighted panel colour rule 3.7 allows; in a report (a static report image, or a read-only report page a report routine publishes) it is the number plate colour rule 3.11 gives, on every tile. Lay 1 to 6 tiles in a row with <aha-grid min=\"160px\" gap=\"middle\">, which wraps them to fewer columns as the row narrows. See the Report images guideline for the static form.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render across frameworks. The change is computed in the element, so every consumer rounds and words it the same way.",
   "tokensUsed": [
     "bg-accent",
@@ -23,7 +23,7 @@
     "text-secondary",
     "text-inverse",
     "radius-default",
-    "radius-xs",
+    "radius-pill",
     "size-default",
     "size-h3",
     "weight-regular",
@@ -194,7 +194,7 @@
       "verdict": "PASS"
     },
     {
-      "label": "rise black + up arrow, fall white on a black chip + down arrow, no status hue",
+      "label": "rise black + up arrow, fall white on a black pill + down arrow, no status hue",
       "verdict": "PASS"
     },
     {
