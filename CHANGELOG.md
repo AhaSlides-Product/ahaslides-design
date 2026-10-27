@@ -25,8 +25,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.488.0 — 2026-10-27
 ### Added
 - Guidelines can carry live examples: an optional `examples` array in a guideline JSON renders an Examples section on the guideline page (each example live, with a Show code toggle for its markup and CSS), and the same markup goes into the guideline's `.md` and agent feed. Guidelines without `examples` render unchanged.
-- Empty state guideline Examples: page scale (Session detail with no data), panel scale (Feedback tab), compact scale (Insights card under 240 px), plain `<aha-empty>` in a table body (do), the full pattern in a table row (don't), and the "No answer" caption on a repeated item (#PRNUM)
-- Revert: revert the PR; one new optional field and one render function in `generate.mjs`, no existing guideline, component or token changes (#PRNUM)
+- Empty state guideline Examples: page scale (Session detail with no data), panel scale (Feedback tab), compact scale (Insights card under 240 px), plain `<aha-empty>` in a table body (do), the full pattern in a table row (don't), and the "No answer" caption on a repeated item (#411)
+- Revert: revert the PR; one new optional field and one render function in `generate.mjs`, no existing guideline, component or token changes (#411)
 
 ## 0.486.0 — 2026-10-27
 ### Added
