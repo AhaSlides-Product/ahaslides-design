@@ -30,6 +30,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - A node test fails when a marketing blockquote reset leaves the border, when a section title rule has no `display`, or when the Step number rule leaves the Cards base CSS.
 - Supersedes the earlier 0.497.1 attempt. Revert: revert the PR; the sections go back to relying on the host CSS (#438)
 
+## 0.534.1 — 2026-10-28
+### Fixed
+- `aha-chart`: moving the pointer between bars or columns hands the highlight straight from one to the next; the other bars no longer dim, reappear and dim again as the pointer crosses the gap. The highlight clears only when the pointer leaves the plot. (#443)
+- `<aha-chart type="bar">`: the other rows now fade in and out over the same 0.2s transition as columns (`--aha-motion-mid`) when the highlight moves, instead of switching at once; the image, label and fill each carry the transition, and reduced motion still turns it off. (#443)
+
 ## 0.534.0 — 2026-10-28
 ### Added
 - CSAT: an optional `feedback-hint="<text>"` shows a helper line under the feedback text box, beside the counter, reusing the text box's `info-message`; for example `What you write goes to the developer`. Not set, nothing changes. Changing or removing it updates the open popover (#446)
