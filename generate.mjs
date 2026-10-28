@@ -1753,9 +1753,9 @@ const MARKETING_BREAKPOINT_CSS = `
 function marketingBreakpointPreview(b) {
   const options = JSON.stringify(MARKETING_WIDTHS.map(([label, width]) => ({ value: String(width), label: `${label} ${width}` })));
   return `<div class="mbp" data-default="${MARKETING_DEFAULT_WIDTH}">
-    <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="Preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented>${marketingStateSwitch(b, b)}<span class="mbp-label" aria-live="polite"></span></div>
+    <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="Preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented>${marketingStateSwitch(b, b)}${b.options ? marketingOptionSwitches(b) : ''}<span class="mbp-label" aria-live="polite"></span></div>
     <div class="mbp-viewport" role="region" tabindex="0" aria-label="${esc(b.name)} preview, scrolls inside"><div class="mbp-sizer"><iframe class="mbp-frame" title="${esc(b.name)} preview" scrolling="no"></iframe></div></div>
-    <template class="mbp-doc"><style>${tokenVars(TOK)}</style>${marketingSnippet(b)}</template>
+    <template class="mbp-doc"><style>${tokenVars(TOK)}</style>${marketingSnippet(b.choiceHtml ? { ...b, html: b.choiceHtml } : b)}</template>
   </div>
   <script type="module">
   import '../../lib/aha-segmented.js';
@@ -1946,6 +1946,7 @@ function marketingChoiceHtml(layout, chosen) {
   return html.replace(new RegExp(`class="([^"]*\\b${layout.class}\\b[^"]*)"`), (match, classes) => `class="${classes}${modifiers}"`);
 }
 function bakeMarketingOptions(b) {
+  if (b.options && !b.layouts) return { ...b, choiceHtml: b.html, html: marketingChoiceHtml({ ...b, choiceHtml: b.html }, marketingDefaultChoices(b)) };
   if (!b.layouts?.some(layout => layout.options)) return b;
   return { ...b, layouts: b.layouts.map(layout => {
     if (!layout.options) return layout;
@@ -2315,7 +2316,7 @@ ${b.snippets ? cardsGallery.open + b.snippets.map(card => `<h2${cardsGallery.ope
   <div class="marketing-stage">${marketingBreakpointPreview(b)}</div>
 
   <h2>Paste-and-run HTML</h2>
-  ${marketingCodeToggle(marketingHasStates(b, b) ? b.states.find(state => !state.modifier).label : `${b.slug}.html`, marketingSnippet(b), 'Paste into any page. It reads only the shared <code>--aha-*</code> tokens.', marketingStatePanes(b, b, marketingSnippet(b)))}${marketingHasStates(b, b) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}`}
+  ${marketingCodeToggle(marketingHasStates(b, b) ? b.states.find(state => !state.modifier).label : `${b.slug}.html`, marketingSnippet(b), 'Paste into any page. It reads only the shared <code>--aha-*</code> tokens.', [...marketingStatePanes(b, b, marketingSnippet(b)), ...(b.options ? marketingOptionPanes(b, b) : [])])}${marketingHasStates(b, b) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}${b.options ? `\n  ${MARKETING_LAYOUT_OPTION_SCRIPT.replace(".querySelectorAll('.mfv')", ".querySelectorAll('.mbp')")}` : ''}`}
 
   <h2>Load the tokens once</h2>
   ${marketingCodeToggle('head', `<link rel="stylesheet" href="${SITE}/variables.css">`, 'Add this to the page <code>&lt;head&gt;</code> before the block.')}${details.length ? `
@@ -2346,7 +2347,7 @@ Bind the page to the shared token layer (${SITE}/variables.css), then paste the 
 ## Paste-and-run HTML
 \`\`\`html
 ${marketingSnippet(b)}\`\`\`
-`;
+${b.options && !b.layouts ? marketingOptionPanes(b, b).map(pane => `\n## ${pane.label}\n\`\`\`html\n${pane.code}\`\`\`\n`).join('') : ''}`;
 }
 function renderMarketingAgent(b) {
   return JSON.stringify({
@@ -2368,6 +2369,7 @@ function renderMarketingAgent(b) {
       html: b.video.html, css: b.video.css,
       layouts: b.layouts.filter(layout => b.video.layouts.includes(layout.slug)).map(layout => ({ slug: layout.slug, class: layout.class })),
     } } : {}),
+    ...(b.options && !b.layouts ? marketingOptionsAgent(b, b) : {}),
     html: b.html || '', css: b.css || '',
   }, null, 2) + '\n';
 }
@@ -3480,7 +3482,7 @@ function expandMarketingData(rawSection) {
   if (!b.dataFile) return b;
   const data = JSON.parse(read(join(MDIR, b.dataFile)));
   const items = data.items.map(item => b.itemHtml.replace(/\{\{(\w+)\}\}/g, (_, key) => esc(item[key]))).join('');
-  return { ...b, html: b.html.replaceAll('{{items}}', items) };
+  return { ...b, html: b.html.replaceAll('{{items}}', items), ...(b.choiceHtml ? { choiceHtml: b.choiceHtml.replaceAll('{{items}}', items) } : {}) };
 }
 const expandMarketingAssets = (b) => {
   if (!b.imagePath) return b;
