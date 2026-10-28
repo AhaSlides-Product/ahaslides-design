@@ -22,10 +22,26 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.514.0 — 2026-10-28
+## 0.518.0 — 2026-10-28
 ### Added
 - Cards: an optional New badge for the Template card (new snippet "Template card, New badge"). It sits in the cover's top-left corner and carries the DS Tag solid values (`--aha-color-primary` fill, `--aha-text-inverse` label at 4.51:1, 20px high, 12px semibold, `--aha-radius-xs`), bound to the same tokens because `<aha-tag>` is not a website component. Off by default: the Template card and the templates grid are unchanged. Website rule W14 names the badge label in the type ramp (#431)
 - Revert: revert the PR; it removes one snippet and one highlight from `marketing/cards.json` and one sentence from the W14 type-ramp copies (`guidelines/website.json`, `anti-slop/criteria.json`, `agent/anti-slop/criteria.json`) (#431)
+
+## 0.517.2 — 2026-10-28
+### Fixed
+- Marketing Header: the hero video slot no longer shows dark side bars on wide screens. The frame is 16:9 and narrows to fit the height cap, centred, instead of a full-width box letterboxing the clip (#442)
+
+## 0.517.1 — 2026-10-28
+### Fixed
+- `aha-drawer` `placement="bottom"`: a tap on a header button (close, actions) on a touch screen no longer starts a swipe and is no longer swallowed; Esc and Tab only defer to a real popup (`aria-haspopup` or a combobox), so an open accordion inside the sheet no longer blocks them (#441)
+
+## 0.517.0 — 2026-10-28
+### Added
+- Drawer (web component): `placement="bottom"` is a bottom sheet for a surface launched from a list of objects. Full width, a 48px gap above it (`--aha-drawer-top-gap`) that closes on click, 16px top corners, a 40 × 4 grab handle (`part="handle"`), slide-up with an upward shadow, and a full page with no gap or radius under 768px. Swipe down on the handle or header (touch and pen) closes it past 25% of its height or faster than 0.5 px/ms, otherwise it snaps back; `close` has a new `detail.source` of `"swipe"`. New `slot="subtitle"` under the title and `slot="actions"` between the title and the ✕, both hidden when empty and usable by side drawers too. `width` and `size` are ignored for bottom; an unknown placement keeps the right-side look.
+- Drawer docs, OVERLAY-05 and its anti-slop criterion: side drawers stay `placement="right"`; a list-launched surface is the bottom sheet, never a fixed `div`. New pass and fail eval cases. workspace-app joins the consumer bump list (#436)
+### Changed
+- Drawer (web component): Esc and Tab now leave an open popup inside the drawer (an `aria-expanded="true"` trigger, or an open `aha-select`, `aha-dropdown`, `aha-menu` or `aha-popover`) and a key pressed in an overlay portalled outside it (an antd Modal or DatePicker) to handle their own keys, so Esc closes the menu, not the drawer behind it. This also applies to right and left drawers (#436)
+- Revert: revert the PR; nothing renders `placement="bottom"` until an app asks for it, and an unknown placement falls back to the right-side drawer. The keyboard change is the only shared behaviour; reverting it restores Esc closing the drawer first (#436)
 
 ## 0.509.1 — 2026-10-28
 ### Fixed
