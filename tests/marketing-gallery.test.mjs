@@ -118,10 +118,12 @@ test('W9: every gallery transition and loop is token-timed and stops under reduc
   }
 });
 
-test('W9: no shipped layout autoplays; a loop always has a Pause button', () => {
+test('W9: no shipped layout autoplays; a loop has no Pause button and stops under reduced motion', () => {
   for (const layout of layouts) {
     assert.doesNotMatch(layout.html, /data-aha-autoplay/, layout.slug);
-    if (layout.css.includes('@keyframes')) assert.match(layout.html, /<aha-button[^>]*data-aha-gallery-pause/, layout.slug);
+    if (!layout.css.includes('@keyframes')) continue;
+    assert.doesNotMatch(layout.html, /data-aha-gallery-pause/, layout.slug);
+    assert.match(layout.css, /prefers-reduced-motion:reduce\)\{[^]*animation:none/, layout.slug);
   }
 });
 
@@ -155,12 +157,10 @@ const runCarousel = ({ slides, perView, motionOff = false }) => {
     scrollLeft: 0, scrollWidth: slides * slideWidth, clientWidth: perView * slideWidth,
     scrollTo({ left, behavior }) { this.scrollLeft = Math.min(left, this.scrollWidth - this.clientWidth); scrolls.push(behavior); this.handlers.scroll(); },
   });
-  const prev = listeners({});
-  const next = listeners({});
   const gallery = {
     getAttribute: () => 'carousel', hasAttribute: () => false, setAttribute() {},
     closest: () => (motionOff ? {} : null),
-    querySelector: (selector) => ({ '[data-aha-gallery-track]': track, '[data-aha-gallery-prev]': prev, '[data-aha-gallery-next]': next })[selector],
+    querySelector: (selector) => ({ '[data-aha-gallery-track]': track })[selector],
     querySelectorAll: (selector) => ({ '[data-aha-gallery-item]': items, '[data-aha-gallery-dot]': dots })[selector],
   };
   const context = {
@@ -169,33 +169,28 @@ const runCarousel = ({ slides, perView, motionOff = false }) => {
   };
   runInNewContext(script, context);
   const current = () => dots.findIndex((dot) => dot.attributes['aria-current'] === 'true');
-  return { track, prev, next, dots, scrolls, current };
+  return { track, dots, scrolls, current };
 };
 
-test('carousel: Prev and Next step through every reachable position and wrap, and unreachable dots are hidden', () => {
+test('carousel: the dots step through every reachable position, and unreachable dots are hidden', () => {
   const carousel = runCarousel({ slides: 6, perView: 3 });
   assert.deepEqual(carousel.dots.map((dot) => dot.hidden), [false, false, false, false, true, true]);
   const visited = [];
-  for (let step = 0; step < 4; step += 1) { carousel.next.handlers.click(); visited.push(carousel.track.scrollLeft); }
+  for (const position of [1, 2, 3, 0]) { carousel.dots[position].handlers.click(); visited.push(carousel.track.scrollLeft); }
   assert.deepEqual(visited, [100, 200, 300, 0]);
-  carousel.prev.handlers.click();
-  assert.equal(carousel.track.scrollLeft, 300);
-  assert.equal(carousel.current(), 3);
-  carousel.prev.handlers.click();
-  assert.equal(carousel.track.scrollLeft, 200);
   carousel.dots[3].handlers.click();
   assert.equal(carousel.current(), 3);
 });
 
 test('carousel: with motion off the track jumps instead of smooth scrolling', () => {
   const carousel = runCarousel({ slides: 6, perView: 1, motionOff: true });
-  carousel.next.handlers.click();
+  carousel.dots[1].handlers.click();
   assert.deepEqual(carousel.scrolls, ['instant']);
   const carouselLayout = galleryLayouts.find((layout) => layout.slug === 'gallery-carousel');
   assert.ok(carouselLayout.css.includes(`:where([data-aha-motion="off"]) .${carouselLayout.class}__track{scroll-behavior:auto}`));
 });
 
-test('marquee: hovering or focusing the Play button does not hold the loop paused', () => {
+test('marquee: the loop pauses while its photos are hovered or focused', () => {
   for (const layout of layouts.filter((item) => item.css.includes('@keyframes'))) {
     assert.doesNotMatch(layout.css, /__marquee:(?:hover|focus-within) /, layout.slug);
     assert.match(layout.css, /__marquee-(?:row|track):hover/, layout.slug);
