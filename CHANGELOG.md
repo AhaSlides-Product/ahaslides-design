@@ -24,12 +24,12 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.520.0 — 2026-10-28
 ### Added
-- Tokens: four website section spacing levels, `--aha-section-space-block` (Section, 96 px), `--aha-section-space-header` (Header, 64), `--aha-section-space-group` (Group, 48) and `--aha-section-space-item` (Item, 32). Each level is one step below the one above on the ladder 96, 64, 48, 32, 24, 16, and each steps one down when the section's own container is 767 px or narrower and again at 479 px, so a section never switches them itself (#PR)
+- Tokens: four website section spacing levels, `--aha-section-space-block` (Section, 96 px), `--aha-section-space-header` (Header, 64), `--aha-section-space-group` (Group, 48) and `--aha-section-space-item` (Item, 32). Each level is one step below the one above on the ladder 96, 64, 48, 32, 24, 16, and each steps one down when the section's own container is 767 px or narrower and again at 479 px, so a section never switches them itself (#439)
 ### Changed
-- Marketing sections (Header, Logos, Numbers, Features, Testimonials, FAQ, Footer banner, Footer, Pricing, Comparison table): section padding, heading spacing, group spacing and item gaps now use the four levels in place of per-section values and breakpoint overrides. Visible changes: Hero layouts and the Page header step their spacing at 767 px, not 991 px; the Page header pads 96 px like every section; compact Features pads 96 px; alternating Features rows sit 48 px apart (was 96); the Footer keeps the Section padding on a phone; spacing inside a component (card padding, title to text, a button under its text) is unchanged (#PR)
-- Logos: the strip is the last group of the section above it, sitting one Group below that section's content, and pads one Section below; adjacent sections keep both Section paddings, never collapsed (#PR)
-- Website guideline W2 and its anti-slop criterion: rewritten around the four levels, the adjacent-section rule and the Logos rule (#PR)
-- Revert: revert the PR; the sections go back to their own padding values and breakpoints, and the four tokens are removed (#PR)
+- Marketing sections (Header, Logos, Numbers, Features, Testimonials, FAQ, Footer banner, Footer, Pricing, Comparison table): section padding, heading spacing, group spacing and item gaps now use the four levels in place of per-section values and breakpoint overrides. Visible changes: Hero layouts and the Page header step their spacing at 767 px, not 991 px; the Page header pads 96 px like every section; compact Features pads 96 px; alternating Features rows sit 48 px apart (was 96); the Footer keeps the Section padding on a phone; spacing inside a component (card padding, title to text, a button under its text) is unchanged (#439)
+- Logos: the strip is the last group of the section above it, sitting one Group below that section's content, and pads one Section below; adjacent sections keep both Section paddings, never collapsed (#439)
+- Website guideline W2 and its anti-slop criterion: rewritten around the four levels, the adjacent-section rule and the Logos rule (#439)
+- Revert: revert the PR; the sections go back to their own padding values and breakpoints, and the four tokens are removed (#439)
 
 ## 0.509.1 — 2026-10-28
 ### Fixed
