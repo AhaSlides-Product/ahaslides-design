@@ -27,6 +27,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - CSAT: the chosen thumb is now drawn in the Button's Tertiary active ink (`--aha-text-link-hover`, #DB005B, 4.66:1 on white) on the accent fill, with or without `confirmation`; before, only a CSAT with `confirmation` showed a coloured thumb (colour-primary #E70E68, now aligned to the same token) and every other CSAT kept it dark. Hover on the chosen thumb keeps the same ink; focus ring, rest and disabled are unchanged (#447)
 - Revert: revert the PR; it restores the dark chosen thumb and the colour-primary ink with `confirmation` (#447)
 
+## 0.534.1 — 2026-10-28
+### Fixed
+- `aha-chart`: moving the pointer between bars or columns hands the highlight straight from one to the next; the other bars no longer dim, reappear and dim again as the pointer crosses the gap. The highlight clears only when the pointer leaves the plot. (#443)
+- `<aha-chart type="bar">`: the other rows now fade in and out over the same 0.2s transition as columns (`--aha-motion-mid`) when the highlight moves, instead of switching at once; the image, label and fill each carry the transition, and reduced motion still turns it off. (#443)
+
 ## 0.534.0 — 2026-10-28
 ### Added
 - CSAT: an optional `feedback-hint="<text>"` shows a helper line under the feedback text box, beside the counter, reusing the text box's `info-message`; for example `What you write goes to the developer`. Not set, nothing changes. Changing or removing it updates the open popover (#446)
