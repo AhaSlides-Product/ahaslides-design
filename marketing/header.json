@@ -50,7 +50,7 @@
       },
       {
         "title": "Background",
-        "text": "Every layout has a White / Accent / Vivid Pink switch: add the layout's own --accent class (for example aha-header-section-hero-split--accent) to lay the pale pink Accent background (bgAccent) over white, or its --brand class for Vivid Pink. On Hero card the switch colours the panel, not the page. Accent and Vivid Pink are alternatives, never combined. Never place an Accent or Vivid Pink header next to another coloured section."
+        "text": "Every hero and the page header has a White / Accent / Vivid Pink switch: add the layout's own --accent class (for example aha-header-section-hero-split--accent) to lay the pale pink Accent background (bgAccent) over white, or its --brand class for Vivid Pink. The five Gallery layouts have White and Accent only. On Hero card the switch colours the panel, not the page. Accent and Vivid Pink are alternatives, never combined. Never place an Accent or Vivid Pink header next to another coloured section."
       },
       {
         "title": "Hero video",
