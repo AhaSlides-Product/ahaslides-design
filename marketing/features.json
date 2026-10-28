@@ -140,7 +140,7 @@
       },
       {
         "title": "Fill the slot, or frame mixed sizes",
-        "text": "Never crop a screenshot. When the section holds one landscape or square image, or several of the same size, add aha-features__photo--fill to the photo slot: the image fills the slot edge to edge at its own ratio, with no frame and no inset. When an image is portrait (taller than wide), or the section holds more than one image and the images differ in size or ratio, add aha-features__photo--pink-frame to the photo slot, put the Splash icon in an aha-features__splash element behind it and give the picture the class aha-features__shot: each image is contained with an even inset on Vivid Pink (--aha-vivid-pink-100) with the centre Splash, and the frame keeps one ratio (4:3) for every row of the section."
+        "text": "Never crop a screenshot. Size and ratio are those of the visible UI, not the file: a screenshot padded onto a plain canvas counts at its own size, so export each one tight to its UI. When the section holds one landscape or square image, or several of the same size, add aha-features__photo--fill to the photo slot: the image fills the slot edge to edge at its own ratio, with no frame and no inset. When an image is portrait (taller than wide), or the section holds more than one image and the images differ in size or ratio, add aha-features__photo--pink-frame to the photo slot, put the Splash icon in an aha-features__splash element behind it and give the picture the class aha-features__shot: each image is contained with an even inset on Vivid Pink (--aha-vivid-pink-100) with the centre Splash, and the frame keeps one ratio (4:3) for every row of the section."
       }
     ]
   }

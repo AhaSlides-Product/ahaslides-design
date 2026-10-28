@@ -879,7 +879,7 @@
       ],
       "label": "bad-example",
       "notes": "Targets W6: tab screenshots of different sizes padded onto one canvas size and filled without the pink frame.",
-      "expected_output": "W6 FAILs: every tab image is a 1600x1200 file filling its container, but each is a different-size UI screenshot (landscape, wide, portrait phone) padded onto the same plain grey canvas, so the sizes are judged by the visible UI, not the file. Fix: export each screenshot tight to its UI and wrap each in the Vivid Pink frame (aha-features__photo--pink-frame). Overall: NEEDS FIX.",
+      "expected_output": "W6 FAILs: every tab image is a 1600x1200 file filling its container, but each is a different-size UI screenshot (three landscape UIs of different sizes) padded onto the same plain grey canvas, so the sizes are judged by the visible UI, not the file. Fix: export each screenshot tight to its UI and wrap each in the Vivid Pink frame (aha-features__photo--pink-frame). Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "W6 is marked FAIL",

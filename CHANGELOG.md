@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.503.2 — 2026-10-28
 ### Changed
-- Website rule W6 and its anti-slop criterion judge image size and ratio by the visible UI, not the file: a screenshot padded, letterboxed or placed on a plain canvas to match other files counts at its own size and ratio, so mixed-size screenshots padded to one file size need the Vivid Pink frame. An image never carries its own background margin; export each screenshot tight to its UI. Website eval 29 (fail) added for tab screenshots padded to one canvas (#423)
+- Website rule W6 and its anti-slop criterion judge image size and ratio by the visible UI, not the file: a screenshot padded, letterboxed or placed on a plain canvas to match other files counts at its own size and ratio, so mixed-size screenshots padded to one file size need the Vivid Pink frame. An image never carries its own background margin; export each screenshot tight to its UI. The Features "Fill the slot, or frame mixed sizes" note says the same. Website eval 29 (fail) added for landscape tab screenshots of different sizes padded to one canvas (#423)
 - Revert: restore the previous W6 text in `guidelines/website.json` and `anti-slop/criteria.json`, and remove eval 29 and `fixtures/fail-w6-padded-screenshots` (#423)
 
 ## 0.502.0 — 2026-10-27
