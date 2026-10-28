@@ -22,13 +22,23 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.522.0 — 2026-10-28
+## 0.523.0 — 2026-10-28
 ### Changed
 - Colour rule 3.5, anti-slop W5 and the website guideline: a landing page's Hero must open in its Vivid Pink state (`--brand`), not the White default of the snippet; the "a white hero is also allowed" line is gone and a white hero is only for a Page header page or a hero the requester names. The Header guidance carries a "Surface" point saying so.
 - Anti-slop W12, the website guideline, the Features guidance and the Cards Steps note: a numbered how-to or how it works is Step cards (Steps row, a Cards grid for four or more), never Features Tabs; a tab description is one short sentence of 90 characters or fewer. Rebuilding a section keeps every point, step and image: five steps become five Step cards with their images, never fewer.
 ### Added
 - `screen-lint --surface=website` rules `hero-not-brand` (the first band is a Hero not in the Vivid Pink state), `steps-as-tabs` (a Features Tabs section whose heading, eyebrow or tablist label says how it works or steps, or with numbered tab titles) and `tabs-description-long` (a tab description over 90 characters); escape `ds-lint-allow: page (why)`.
-- Revert: revert the PR; the rules go back to "may be Vivid Pink" and the lint drops the three rules (#440)
+- Features: new layout Compact: swipeable card scroller with images (`compact-scroller-images`), the scroller with a numbered Step card and a screenshot at the foot of each card (optional image slot, `aha-marketing-card__media--scroller`, ordered-list track); the Features, Steps and W12 guidance now say a how it works with images may use it as well as the Step grid.
+- Revert: revert the PR; the rules go back to "may be Vivid Pink" and the lint drops the three rules (#440); the scroller-with-images layout is removed
+
+## 0.522.0 — 2026-10-28
+### Changed
+- Numbers: three layouts instead of five, each with one button. Simple centred now carries three switches (Number style: Divided or Left aligned; Icon; Description) and replaces Simple with actions 01 (`actions-row`), which is Simple centred with Left aligned, Icon Off and Description On. Split image 02 gains a Vivid Pink background (`aha-numbers--brand`) and replaces Split image 02 brand (`split-image-brand`); its button turns secondary with `surface="brand"`, so it no longer disappears into the pink. The old layout links still land on the merged layouts.
+- Numbers → Simple with actions 02: the secondary Demo button is gone; Get started stays.
+- Numbers: the button comes after the numbers. Split image 02 now reads title, numbers, button in all three backgrounds (48 px above the button, 32 px on a phone). On Simple with actions 02 the button stays under the header beside the grid on wide screens, and follows the numbers once the columns stack (grid areas instead of a wrapper `div`). Simple centred already ended on its button.
+- Numbers → Split image 02: the image sits edge to edge in its slot with no pale pink or white card around it; the `aha-numbers__card` rules are removed.
+- Marketing pages: a layout can list `formerSlugs`; each renders an anchor before the layout heading so an old link keeps working after a merge.
+- Revert: revert the PR; the five Numbers layouts, both buttons, the picture card and the button above the numbers come back (#428)
 
 ## 0.521.0 — 2026-10-28
 ### Changed
