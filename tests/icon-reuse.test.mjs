@@ -69,8 +69,8 @@ test('an intentional pair is exempt only when listed with a reason and still nea
   assert.match(evaluateDuplicateGate({ pairs: [], baseline: [], intentional }).failures[0], /no longer near-identical/);
 });
 
-test('the committed intentional pairs list is empty', () => {
-  assert.deepEqual(readIntentionalPairs(root), []);
+test('the committed intentional pairs list names only the YouTube pair', () => {
+  assert.deepEqual(readIntentionalPairs(root).map(({ first, second }) => [first, second]), [['slidetype-youtube', 'system-youtube-logo']]);
 });
 
 test('the Icon search: line must name every close match of an added glyph', () => {
