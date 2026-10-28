@@ -22,10 +22,23 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.506.1 — 2026-10-28
+## 0.507.1 — 2026-10-28
 ### Fixed
 - CSAT: with `feedback-on="any"` and `feedback-button`, a thumbs-up after using the Feedback button now shows `feedback-placeholder` in the popover instead of `feedback-button-placeholder`; the React, Vue and preview snippets now show `feedback-on` and `confirmation` (#425)
 - Revert: revert the PR; no contract or API change (#425)
+
+## 0.507.0 — 2026-10-28
+### Added
+- Website > Marketing > Header: five multi-image heroes — fanned photo stack (`aha-header-section-hero-photo-stack`), bento collage beside the copy (`aha-header-section-hero-bento-collage`), photo marquee under centred copy with a Pause button (`aha-header-section-hero-image-marquee`), crossfading slideshow with dot controls (`aha-header-section-hero-slideshow`) and floating framed photos either side of the copy (`aha-header-section-hero-floating-images`). Each ships White, Accent and Vivid Pink states (#394)
+- Website > Marketing > Header: five gallery layouts under a centred page header — Gallery bento grid (`aha-header-section-gallery-bento`), Gallery masonry (`aha-header-section-gallery-masonry`), Gallery carousel with arrows and dots (`aha-header-section-gallery-carousel`), Gallery marquee rows with a Pause button (`aha-header-section-gallery-marquee-rows`) and Gallery tabbed images (`aha-header-section-gallery-tabs`). Each has White and Accent backgrounds (#394)
+- Website > Marketing > Features: Sticky stack (`aha-features--sticky-stack`), four white step cards that stick near the top of the screen and slide over each other as the page scrolls; pure CSS, no script (#394)
+- `lib/marketing-motion.js` arms `data-aha-gallery` slideshows, carousels, tabs and marquees: keyboard-reachable controls, nothing autoplays unless `data-aha-autoplay` is set, and all motion stops under reduced motion, `data-aha-motion="off"` and print (#394)
+- A Marketing page may list `previewModules` to load extra scripts into its docs previews (#394)
+### Changed
+- Website guideline and judge, W6: one narrow exception for photos (never screenshots) in the Header's multi-image heroes and Gallery layouts and the Features Sticky stack — the photo stack and floating images may tilt a photo in the photo frame (8 px white border and 1 px ring, no shadow), and bento, collage and masonry cells may differ in size or ratio and fill with `object-fit: cover` (#394)
+- Website guideline and judge, W9: the photo marquees (Hero image marquee, Gallery marquee rows) may loop like the Logos strip, keeping their pause while hovered or focused, their Pause button and their stop under reduced motion, print and `data-aha-motion="off"`; at most one looping photo band per page, never next to the Logos strip (#394)
+- Header guidance: a Photo frame point records the frame rule — 8 px white border, `--aha-radius-xl` corner and 1 px ring in the layout's frame colour, no drop shadow; Layout by page goal and One moving band per page cover the Gallery layouts (#394)
+- Revert: revert the PR; the W6 and W9 edits in `guidelines/website.json` and `anti-slop/criteria.json` (and its generated `agent/` copy), the five multi-image heroes and five Gallery layouts in `marketing/header.json`, one new layout in `marketing/features.json`, and an appended block at the end of `lib/marketing-motion.js` — the existing Header layouts are untouched (#394)
 
 ## 0.506.0 — 2026-10-28
 ### Added

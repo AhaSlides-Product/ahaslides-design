@@ -156,7 +156,8 @@ buttonSpacing.push([footerBanner, '.aha-footer-banner__text', 'margin-bottom', 3
 for (const layout of readSection('header').layouts) {
   const { class: name, slug, css } = layout;
   if (slug === 'hero-split-form') continue;
-  if (slug.startsWith('hero-')) {
+  if (slug.startsWith('gallery-')) buttonSpacing.push([css, `.${name}__cta`, 'margin-top', 48, 32]);
+  else if (slug.startsWith('hero-')) {
     buttonSpacing.push([css, `.${name}__actions`, 'margin-top', 32, 24]);
     buttonSpacing.push([css, `.${name}__form`, 'margin-top', 32, 24]);
   } else {
