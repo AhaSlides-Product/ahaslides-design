@@ -25,6 +25,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.525.1 — 2026-10-28
 ### Fixed
 - `aha-chart`: moving the pointer between bars or columns hands the highlight straight from one to the next; the other bars no longer dim, reappear and dim again as the pointer crosses the gap. The highlight clears only when the pointer leaves the plot. (#443)
+- `<aha-chart type="bar">`: the other rows now fade in and out over the same 0.2s transition as columns (`--aha-motion-mid`) when the highlight moves, instead of switching at once; the image, label and fill each carry the transition, and reduced motion still turns it off. (#443)
 
 ## 0.522.0 — 2026-10-28
 ### Changed
