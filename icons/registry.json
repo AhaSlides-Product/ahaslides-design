@@ -222,7 +222,7 @@
     "slidetype-drag-and-drop": {
       "family": "slidetype",
       "viewBox": "0 0 24 24",
-      "body": "<path d=\"M3 3H10V10H3V3ZM14 14H21V21H14V14ZM10 10L14 14M10.5 14V10.5\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "body": "<path d=\"M3 3H10V10H3V3ZM14 14H21V21H14V14ZM10 10L14 14M14 10.5V14H10.5\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
       "recolorable": true,
       "meaning": [
         "drag and drop",
