@@ -608,6 +608,14 @@
             "7.5"
           ],
           "test": "Every border, divider, outline, shadow and glow is black, white or a palette colour at any transparency. A shadow or border in another hue (a blue focus glow, a purple card shadow) fails."
+        },
+        {
+          "id": "C9",
+          "title": "In the product app, Vivid Pink at rest fills only each region's primary button",
+          "source": [
+            "6.8"
+          ],
+          "test": "Applies to product app screens only, not the website, the canvas or the audience screens. At rest, Vivid Pink is the fill of the primary button of each region (a page, panel, dialog or drawer) and nothing else: text, borders and icons are the default ink, and pink appears on hover, focus or selection. FAIL if a pink icon, pink border, pink heading or label, or a pink fill other than a primary button shows at rest. Rules that name their own pink pass: inline text links on white (6.6) or in an Alert or info box (6.7), tags (4.6), charts (section 8), the logo and illustrations, the focus ring, the chat launcher, the selected or on state of a control, the one Vivid Pink at 5% highlighted panel (3.7), and fills and marks a DS component ships at rest from its own contract, such as the Paywall upgrade mark, the Stat tile bar, group Avatar grounds, filled Rate stars, Badge primary count, ribbon and active dot, progress and loader fills, the current and finished Steps icons, the Upgrade (positive) and primary-alt buttons, and the highlighted name in a Screen heading greeting."
         }
       ]
     },

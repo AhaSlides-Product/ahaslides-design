@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.502.0 — 2026-10-27
+### Added
+- Colour rule 6.8 (product app only): at rest, Vivid Pink fills only the primary button of each region; text, borders and icons stay ink, and pink appears on hover, focus or selection. Rules that name their own pink (text links 6.6 and 6.7, tags, charts, logo, illustrations, focus ring, chat launcher, selected or on states, the one 5% highlighted panel of rule 3.7, and fills and marks a DS component ships at rest from its own contract) are listed as exceptions. Colour anti-slop criterion C9 and evals 13 (fail) and 14 (pass) added to match (#420)
+- Revert: revert the PR; the change is one rule in `brand/colour-rules.json`, one criterion in `anti-slop/criteria.json` and two evals (#420)
+
 ## 0.501.0 — 2026-10-27
 ### Fixed
 - The pill is back on the presenting canvas too. The canvas kit badge (`.canvas-lib .badge` in `canvas/canvas.css`) is `var(--aha-radius-pill)` again instead of 4px, the Canvas guideline and guide say avatars, dots, chips, badges and bar tracks may be fully rounded again, the canvas anti-slop evals and fixtures read as before 0.441.0 (999px bars and badges, 50% marks), and the canvas-only pill check in `standards.mjs` and the canvas pill rule in screen-lint are removed. `--aha-radius-pill` (999px) stays the one token. (#410)
