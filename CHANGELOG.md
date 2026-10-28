@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.539.0 — 2026-10-28
+## 0.540.0 — 2026-10-28
 ### Changed
 - Colour rule 3.5, anti-slop W5 and the website guideline: a landing page's Hero must open in its Vivid Pink state (`--brand`), not the White default of the snippet; the "a white hero is also allowed" line is gone and a white hero is only for a Page header page or a hero the requester names. The Header guidance carries a "Surface" point saying so.
 - Anti-slop W12, the website guideline, the Features guidance and the Cards Steps note: a numbered how-to or how it works is Step cards (Steps row, a Cards grid for four or more), never Features Tabs; a tab description is one short sentence of 90 characters or fewer. Rebuilding a section keeps every point, step and image: five steps become five Step cards with their images, never fewer.
@@ -30,6 +30,13 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `screen-lint --surface=website` rules `hero-not-brand` (the first band is a Hero not in the Vivid Pink state), `steps-as-tabs` (a Features Tabs section whose heading, eyebrow or tablist label says how it works or steps, or with numbered tab titles) and `tabs-description-long` (a tab description over 90 characters); escape `ds-lint-allow: page (why)`.
 - Features: new layout Compact: swipeable card scroller with images (`compact-scroller-images`), the scroller with a numbered Step card and a screenshot at the foot of each card (optional image slot, `aha-marketing-card__media--scroller`, ordered-list track); the Features, Steps and W12 guidance now say a how it works with images may use it as well as the Step grid.
 - Revert: revert the PR; the rules go back to "may be Vivid Pink" and the lint drops the three rules (#440); the scroller-with-images layout is removed
+
+## 0.539.0 — 2026-10-28
+### Added
+- `<aha-number-with-unit>`: `increase-label` and `decrease-label` set the stepper buttons' accessible names (defaults `Increase` and `Decrease`); `aria-label`, `aria-labelledby` or `label` now name the inner input. When a name is given the inner input is the one `spinbutton` and the host drops its role, so a screen reader announces it once; with no name the host stays the spinbutton as before. (#448)
+### Fixed
+- `<aha-number-with-unit>` unit text and `<aha-counted-textarea>` counter now use `--aha-text-secondary` (#4A4A4A, 8.9:1 on white, 8.3:1 on the read-only fill); before they used `--aha-text-placeholder` (2.84:1) and `--aha-text-tertiary` (3.45:1), below the 4.5:1 AA minimum. Token values are unchanged. The antd `textarea-counted.css` counter is not part of this change. (#448)
+- Revert: revert the PR; it restores the grey unit and counter and the fixed English stepper labels (#448)
 
 ## 0.538.1 — 2026-10-28
 ### Changed
