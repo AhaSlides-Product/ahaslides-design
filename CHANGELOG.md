@@ -32,6 +32,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Hero → Hero card (`aha-header-section-hero-card`): the layout is gone, with its Vivid Pink panel and email field. Its classes join the removed-layout list that screen-lint W1 checks. Hero split and Hero stacked still offer the Email form call to action.
 - Revert: revert the PR; Hero card, the Header page name, the Learn more links and the 112 px Testimonials gap come back (#445)
 
+## 0.526.0 — 2026-10-28
+### Added
+- Cards: an optional New badge for the Template card (new snippet "Template card, New badge"). It sits in the cover's top-left corner and carries the DS Tag solid values (`--aha-color-primary` fill, `--aha-text-inverse` label at 4.51:1, 20px high, 12px semibold, `--aha-radius-xs`), bound to the same tokens because `<aha-tag>` is not a website component. Off by default: the Template card and the templates grid are unchanged. Website rule W14 names the badge label in the type ramp (#431)
+- Revert: revert the PR; it removes one snippet and one highlight from `marketing/cards.json` and one sentence from the W14 type-ramp copies (`guidelines/website.json`, `anti-slop/criteria.json`, `agent/anti-slop/criteria.json`) (#431)
+
 ## 0.524.0 — 2026-10-28
 ### Changed
 - Features: Alternating with screenshots and Alternating with mixed-size screenshots were the same layout, so they are now one, Alternating with screenshots, with an Image switch: Fill (the default; the screenshot fills its slot, `aha-features__photo--fill`) or Pink frame (every screenshot whole in a 4:3 Vivid Pink frame with the Splash, `aha-features__photo--pink-frame`). The "Fill the slot, or frame mixed sizes" rule is unchanged; the switch applies it to the whole section. Eleven layouts instead of twelve; the old `#alternating-mixed-screenshots` link lands on the merged layout.
