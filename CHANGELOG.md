@@ -25,6 +25,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.512.0 — 2026-10-28
 ### Changed
 - Header: every layout has one button, the primary call to action. The white Learn more buttons and the Sign up with Google button on Split with form are gone.
+- Header → Page header: its Get started button is always there; the Buttons switch is removed, so every Header layout has exactly one call to action (a button, or the email form on Hero split, Hero stacked, Hero card and Hero split form). On Hero split and Hero stacked the Call to action choice is now named Button.
 - Header: no small label above any headline. The badge pill and the Badge switch on Split and Stacked are removed, with their `__badge` rules.
 - Header → Hero image marquee and Gallery marquee rows: the Pause button is gone, like the Logos strip. The rows still pause while hovered or focused and stand still under reduced motion, in print and under `data-aha-motion="off"`. W9 and its criterion now say photo marquees carry no Pause button.
 - Header → Gallery carousel: the Previous and Next buttons are gone, so every slider uses the same Carousel dots as Hero slideshow; swipe, scroll and arrow keys still move it.
