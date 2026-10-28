@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.517.2 — 2026-10-28
 ### Fixed
-- `aha-chart`: moving the pointer between bars or columns hands the highlight straight from one to the next; the other bars no longer dim, reappear and dim again as the pointer crosses the gap. The highlight clears only when the pointer leaves the plot. (#129)
+- `aha-chart`: moving the pointer between bars or columns hands the highlight straight from one to the next; the other bars no longer dim, reappear and dim again as the pointer crosses the gap. The highlight clears only when the pointer leaves the plot. (#443)
 
 ## 0.517.0 — 2026-10-28
 ### Added
