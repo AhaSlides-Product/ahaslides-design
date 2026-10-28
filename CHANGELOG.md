@@ -22,6 +22,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.511.0 — 2026-10-28
+### Changed
+- Numbers: three layouts instead of five, each with one button. Simple centred now carries three switches (Number style: Divided or Left aligned; Icon; Description) and replaces Simple with actions 01 (`actions-row`), which is Simple centred with Left aligned, Icon Off and Description On. Split image 02 gains a Vivid Pink background (`aha-numbers--brand`) and replaces Split image 02 brand (`split-image-brand`); its button turns secondary with `surface="brand"`, so it no longer disappears into the pink. The old layout links still land on the merged layouts.
+- Numbers → Simple with actions 02: the secondary Demo button is gone; Get started stays.
+- Numbers → Split image 02: the image sits edge to edge in its slot with no pale pink or white card around it; the `aha-numbers__card` rules are removed.
+- Marketing pages: a layout can list `formerSlugs`; each renders an anchor before the layout heading so an old link keeps working after a merge.
+- Revert: revert the PR; the five Numbers layouts, both buttons and the picture card come back (#NNN)
+
 ## 0.509.1 — 2026-10-28
 ### Fixed
 - Header and Footer banner: every Button on a Vivid Pink surface (the Vivid Pink state of the nine Hero layouts and Page header, and the Footer banner) now carries `surface="brand"`, so its keyboard focus ring is white and reads on the pink. The Header code panes show `surface="brand"` in the Vivid Pink state only; the live preview sets it when the state is switched. State hooks `data-surface-<state>` sit next to `data-variant-<state>`.
