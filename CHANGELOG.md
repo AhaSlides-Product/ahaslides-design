@@ -27,6 +27,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Cards: an optional New badge for the Template card (new snippet "Template card, New badge"). It sits in the cover's top-left corner and carries the DS Tag solid values (`--aha-color-primary` fill, `--aha-text-inverse` label at 4.51:1, 20px high, 12px semibold, `--aha-radius-xs`), bound to the same tokens because `<aha-tag>` is not a website component. Off by default: the Template card and the templates grid are unchanged. Website rule W14 names the badge label in the type ramp (#431)
 - Revert: revert the PR; it removes one snippet and one highlight from `marketing/cards.json` and one sentence from the W14 type-ramp copies (`guidelines/website.json`, `anti-slop/criteria.json`, `agent/anti-slop/criteria.json`) (#431)
 
+## 0.521.0 — 2026-10-28
+### Changed
+- Testimonials → Simple left aligned: the section has no button any more; it ends on the quote, name and role. Rule and criterion W18 list it as exempt from the one-call-to-action rule, beside the Logos strip. The unused `aha-testimonials__actions` rule is removed from the section CSS and from the website eval fixture `sections.css`.
+- Revert: revert the PR; the Read customer stories button comes back under the quote (#427)
+
 ## 0.517.2 — 2026-10-28
 ### Fixed
 - Marketing Header: the hero video slot no longer shows dark side bars on wide screens. The frame is 16:9 and narrows to fit the height cap, centred, instead of a full-width box letterboxing the clip (#442)
