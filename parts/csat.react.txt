@@ -18,7 +18,7 @@ function AhaCsat({ prompt, source, tooltipPlacement, layout, feedbackPlacement, 
   return <aha-csat ref={ref} prompt={prompt} source={source} feedback-button tooltip-placement={tooltipPlacement} layout={layout} feedback-placement={feedbackPlacement} feedback-on={feedbackOn} confirmation={confirmation} />;
 }
 
-// usage — thumbs-up rates instantly; thumbs-down opens the free-text feedback popover
+// usage — thumbs-up rates instantly; thumbs-down opens the free-text feedback popover (feedbackOn="any" opens it after a thumbs-up too)
 <AhaCsat
   prompt="How did this import go?"
   source="editor_help"
