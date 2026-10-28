@@ -24,10 +24,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.518.0 — 2026-10-28
 ### Added
-- Header > Hero image marquee: an Image fit switch with Fit media (`aha-header-section-hero-image-marquee--fit-media`) for product screenshots. Every tile is 272 px tall on desktop and tablet and 200 px tall at 479 px and below, and its width follows the screenshot's own ratio: no 4:3 crop, no padding, no letterbox. Radius, gap, motion and the Pause button are unchanged; the default 4:3 photo tile is untouched (#NNN)
+- Header > Hero image marquee: an Image fit switch with Fit media (`aha-header-section-hero-image-marquee--fit-media`) for product screenshots. Every tile is 272 px tall on desktop and tablet and 200 px tall at 479 px and below, and its width follows the screenshot's own ratio: no 4:3 crop, no padding, no letterbox. Radius, gap, motion and the Pause button are unchanged; the default 4:3 photo tile is untouched (#437)
 ### Changed
-- Website rule W6 (guidelines, criterion, plugin copy): a Hero image marquee of screenshots with Fit media passes even when the ratios differ, and a cover-cropped screenshot marquee still fails. Two eval fixtures (pass and fail) and the marquee CSS in `sections.css` back it (#NNN)
-- Revert: revert the PR; `marketing/header.json` loses the Fit media option and CSS, the W6 clause leaves `guidelines/website.json` and both `criteria.json` copies, and the two eval fixtures go (#NNN)
+- Website rule W6 (guidelines, criterion, plugin copy): a Hero image marquee of screenshots with Fit media passes even when the ratios differ, and a cover-cropped screenshot marquee still fails. Two eval fixtures (pass and fail) and the marquee CSS in `sections.css` back it (#437)
+- Revert: revert the PR; `marketing/header.json` loses the Fit media option and CSS, the W6 clause leaves `guidelines/website.json` and both `criteria.json` copies, and the two eval fixtures go (#437)
 
 ## 0.509.1 — 2026-10-28
 ### Fixed
