@@ -3,6 +3,7 @@
   "slug": "overlays",
   "kind": "guideline",
   "group": "Patterns",
+  "environment": ["product"],
   "badge": "pattern — composition guide",
   "summary": "How to build a modal, drawer, or popover — surface choice, safety-critical dismiss behaviour, state reset, drawer placement/width, the async-confirm pattern, inline error surfacing, and danger-styled confirms — built from existing components.",
   "highlights": ["How to build a modal, drawer or popover", "Surface choice, safety-critical dismiss, state reset, drawer placement and width", "Async confirm, inline errors, danger-styled confirms"],
@@ -36,6 +37,12 @@
   ],
   "composedOf": [
     {
+      "ref": "aha-drawer",
+      "as": "component",
+      "use": "the bottom sheet a list click launches — <aha-drawer placement=\"bottom\"> in React, Vue 2 and Vue 3; its Esc and Tab leave popups open inside it",
+      "status": "available"
+    },
+    {
       "ref": "button",
       "as": "component",
       "use": "the confirm/cancel CTAs; destructive confirm is the danger Button (okButtonProps danger + loading), danger on the button never the title/body",
@@ -62,7 +69,7 @@
     {
       "ref": "drawer",
       "as": "component",
-      "use": "the detail/panel surface — AntD v6 Drawer with placement=right, responsive width, footer actions, destroyOnClose",
+      "use": "the detail/panel surface — AntD v6 Drawer with placement=right, responsive width, footer actions, destroyOnClose; the list-launched bottom sheet is <aha-drawer placement=\"bottom\">",
       "status": "missing"
     },
     {
@@ -110,7 +117,7 @@
     },
     {
       "id": "drawer-placement-width",
-      "rule": "Drawers default to placement=\"right\" with responsive width width={isMobile ? '100%' : 720} via useIsMobile() — full-bleed on mobile, fixed panel on desktop. The width is a prop, not gated through CSS.",
+      "rule": "Side drawers default to placement=\"right\" with responsive width width={isMobile ? '100%' : 720} via useIsMobile(). A launch surface opened from a list of objects (one click on a deck) is a bottom sheet: <aha-drawer placement=\"bottom\"> in every framework, full width, 48px top gap that closes on click, 16px top corners, grab handle, Esc, ✕ and swipe down close it, full page under 768px. Never hand-build a sheet from a fixed div.",
       "ref": [
         "OVERLAY-05"
       ]
@@ -163,7 +170,7 @@
       "verdict": "N/A — per-surface"
     },
     {
-      "label": "destroyOnHidden/destroyOnClose set; drawer placement=right + responsive width",
+      "label": "destroyOnHidden/destroyOnClose set; side drawer placement=right + responsive width; list-launched surface is aha-drawer placement=bottom",
       "verdict": "N/A — per-surface"
     },
     {
