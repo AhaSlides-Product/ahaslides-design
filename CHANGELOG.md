@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.503.2 — 2026-10-28
+### Changed
+- Website rule W6 and its anti-slop criterion judge image size and ratio by the visible UI, not the file: a screenshot padded, letterboxed or placed on a plain canvas to match other files counts at its own size and ratio, so mixed-size screenshots padded to one file size need the Vivid Pink frame. An image never carries its own background margin; export each screenshot tight to its UI. Website eval 29 (fail) added for tab screenshots padded to one canvas (#PRNUM)
+- Revert: restore the previous W6 text in `guidelines/website.json` and `anti-slop/criteria.json`, and remove eval 29 and `fixtures/fail-w6-padded-screenshots` (#PRNUM)
+
 ## 0.502.0 — 2026-10-27
 ### Added
 - Colour rule 6.8 (product app only): at rest, Vivid Pink fills only the primary button of each region; text, borders and icons stay ink, and pink appears on hover, focus or selection. Rules that name their own pink (text links 6.6 and 6.7, tags, charts, logo, illustrations, focus ring, chat launcher, selected or on states, the one 5% highlighted panel of rule 3.7, and fills and marks a DS component ships at rest from its own contract) are listed as exceptions. Colour anti-slop criterion C9 and evals 13 (fail) and 14 (pass) added to match (#420)
