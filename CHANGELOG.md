@@ -22,12 +22,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.518.0 — 2026-10-28
+## 0.525.0 — 2026-10-28
 ### Added
 - Header > Hero image marquee: an Image fit switch with Fit media (`aha-header-section-hero-image-marquee--fit-media`) for product screenshots. Every tile is 272 px tall on desktop and tablet and 200 px tall at 479 px and below, and its width follows the screenshot's own ratio: no 4:3 crop, no padding, no letterbox. Radius, gap, motion and the Pause button are unchanged; the default 4:3 photo tile is untouched (#437)
 ### Changed
 - Website rule W6 (guidelines, criterion, plugin copy): a Hero image marquee of screenshots with Fit media passes even when the ratios differ, and a cover-cropped screenshot marquee still fails. Two eval fixtures (pass and fail) and the marquee CSS in `sections.css` back it (#437)
 - Revert: revert the PR; `marketing/header.json` loses the Fit media option and CSS, the W6 clause leaves `guidelines/website.json` and both `criteria.json` copies, and the two eval fixtures go (#437)
+## 0.517.1 — 2026-10-28
+### Fixed
+- `aha-drawer` `placement="bottom"`: a tap on a header button (close, actions) on a touch screen no longer starts a swipe and is no longer swallowed; Esc and Tab only defer to a real popup (`aria-haspopup` or a combobox), so an open accordion inside the sheet no longer blocks them (#441)
+
 ## 0.517.0 — 2026-10-28
 ### Added
 - Drawer (web component): `placement="bottom"` is a bottom sheet for a surface launched from a list of objects. Full width, a 48px gap above it (`--aha-drawer-top-gap`) that closes on click, 16px top corners, a 40 × 4 grab handle (`part="handle"`), slide-up with an upward shadow, and a full page with no gap or radius under 768px. Swipe down on the handle or header (touch and pen) closes it past 25% of its height or faster than 0.5 px/ms, otherwise it snaps back; `close` has a new `detail.source` of `"swipe"`. New `slot="subtitle"` under the title and `slot="actions"` between the title and the ✕, both hidden when empty and usable by side drawers too. `width` and `size` are ignored for bottom; an unknown placement keeps the right-side look.

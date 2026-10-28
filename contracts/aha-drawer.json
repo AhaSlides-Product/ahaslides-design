@@ -79,7 +79,7 @@
     },
     {
       "label": "Behaviour",
-      "value": "role dialog, aria-modal, named by the title; traps Tab, locks page scroll, returns focus to whatever opened it; Esc, mask and ✕ emit a cancelable `close`; Esc and Tab leave an open popup inside the drawer (aria-expanded menus, aha-select, aha-dropdown, aha-menu, aha-popover) and an overlay portalled outside it to handle their own keys"
+      "value": "role dialog, aria-modal, named by the title; traps Tab, locks page scroll, returns focus to whatever opened it; Esc, mask and ✕ emit a cancelable `close`; Esc and Tab leave an open popup inside the drawer (an expanded control with aria-haspopup or role combobox, aha-select, aha-dropdown, aha-menu, aha-popover) and an overlay portalled outside it to handle their own keys"
     }
   ],
   "props": [
