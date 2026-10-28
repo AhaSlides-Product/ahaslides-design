@@ -22,10 +22,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.527.1 — 2026-10-28
+## 0.530.1 — 2026-10-28
 ### Fixed
 - `aha-chart`: moving the pointer between bars or columns hands the highlight straight from one to the next; the other bars no longer dim, reappear and dim again as the pointer crosses the gap. The highlight clears only when the pointer leaves the plot. (#443)
 - `<aha-chart type="bar">`: the other rows now fade in and out over the same 0.2s transition as columns (`--aha-motion-mid`) when the highlight moves, instead of switching at once; the image, label and fill each carry the transition, and reduced motion still turns it off. (#443)
+
+## 0.530.0 — 2026-10-28
+### Added
+- Logos: an optional "Trusted by teams at" label centred above the strip (new Label switch, `aha-logos__label`): the meta role of the type ramp (`--aha-size-default`, regular) in `--aha-text-secondary`, 32px above and 24px below. Off by default: the strip, its snippet and its tests are unchanged until the paragraph is added. `generate.mjs` takes a section-level `options` key (the same `data-choice` switches the layouts use) for single-block sections; the other Marketing pages' output is byte-identical (#432)
+- Revert: revert the PR; it removes the `options`, `class` and label keys from `marketing/logos.json` and four small hooks from `generate.mjs` (`bakeMarketingOptions`, `expandMarketingData`, the preview bar and the code panes) (#432)
 
 ## 0.527.0 — 2026-10-28
 ### Added
