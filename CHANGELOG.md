@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.517.2 — 2026-10-28
+### Fixed
+- `aha-chart`: moving the pointer between bars or columns hands the highlight straight from one to the next; the other bars no longer dim, reappear and dim again as the pointer crosses the gap. The highlight clears only when the pointer leaves the plot. (#129)
+
 ## 0.517.0 — 2026-10-28
 ### Added
 - Drawer (web component): `placement="bottom"` is a bottom sheet for a surface launched from a list of objects. Full width, a 48px gap above it (`--aha-drawer-top-gap`) that closes on click, 16px top corners, a 40 × 4 grab handle (`part="handle"`), slide-up with an upward shadow, and a full page with no gap or radius under 768px. Swipe down on the handle or header (touch and pen) closes it past 25% of its height or faster than 0.5 px/ms, otherwise it snaps back; `close` has a new `detail.source` of `"swipe"`. New `slot="subtitle"` under the title and `slot="actions"` between the title and the ✕, both hidden when empty and usable by side drawers too. `width` and `size` are ignored for bottom; an unknown placement keeps the right-side look.

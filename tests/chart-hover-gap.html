@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chart hover across the gap between bars</title>
+</head>
+<body>
+  <div style="width:600px"><aha-chart id="chart" label="Hover" data='[{"label":"Mon","value":10},{"label":"Tue","value":20},{"label":"Wed","value":30}]'></aha-chart></div>
+  <script type="module">
+    document.getElementById('chart').setAttribute('type', new URLSearchParams(location.search).get('type') || 'column');
+    await import('../lib/aha-chart.js');
+    window.hoverFixtureReady = true;
+  </script>
+</body>
+</html>
