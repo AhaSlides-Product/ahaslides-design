@@ -24,8 +24,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.529.0 — 2026-10-28
 ### Added
-- CSAT: an optional `feedback-hint="<text>"` shows a helper line under the feedback text box, beside the counter, reusing the text box's `info-message`; for example `What you write goes to the developer`. Not set, nothing changes. Changing or removing it updates the open popover (#NNN)
-- Revert: revert the PR; it removes one attribute from `aha-csat` and its contract, snippets and test (#NNN)
+- CSAT: an optional `feedback-hint="<text>"` shows a helper line under the feedback text box, beside the counter, reusing the text box's `info-message`; for example `What you write goes to the developer`. Not set, nothing changes. Changing or removing it updates the open popover (#446)
+- Revert: revert the PR; it removes one attribute from `aha-csat` and its contract, snippets and test (#446)
 
 ## 0.526.0 — 2026-10-28
 ### Added
