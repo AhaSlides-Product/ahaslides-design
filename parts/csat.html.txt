@@ -19,6 +19,9 @@
      extends to the right of the thumbs instead of off the left edge. -->
 <aha-csat prompt="How did this import go?" source="docs_panel" feedback-button layout="stacked" feedback-placement="start"></aha-csat>
 
+<!-- Opt-ins for more feedback: a like also opens the feedback popover, and a "received" line shows once rated. -->
+<aha-csat prompt="How did this import go?" source="docs_more_feedback" feedback-on="any" confirmation="Thanks, feedback received"></aha-csat>
+
 <script>
   const csat = document.querySelector('aha-csat');
   csat.addEventListener('rate', (e) => {
