@@ -28,6 +28,41 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Marketing pages: a layout can list `formerSlugs`; each renders an anchor before the layout heading so an old link keeps working after a merge.
 - Revert: revert the PR; Alternating with mixed-size screenshots comes back as its own layout (#430)
 
+## 0.523.0 — 2026-10-28
+### Changed
+- Header: every layout has one button, the primary call to action. The white Learn more buttons and the Sign up with Google button on Split with form are gone.
+- Header → Page header: its Get started button is always there; the Buttons switch is removed, so every Header layout has exactly one call to action (a button, or the email form on Hero split, Hero stacked, Hero card and Hero split form). On Hero split and Hero stacked the Call to action choice is now named Button.
+- Header: no small label above any headline. The badge pill and the Badge switch on Split and Stacked are removed, with their `__badge` rules.
+- Header → Hero image marquee and Gallery marquee rows: the Pause button is gone, like the Logos strip. The rows still pause while hovered or focused and stand still under reduced motion, in print and under `data-aha-motion="off"`. W9 and its criterion now say photo marquees carry no Pause button.
+- Header → Gallery carousel: the Previous and Next buttons are gone, so every slider uses the same Carousel dots as Hero slideshow; swipe, scroll and arrow keys still move it.
+- Header: on centred layouts the G2 stars and score line up on the left of the G2 block instead of each being centred.
+- Header → Hero stacked, Gallery bento grid and Gallery tabs: the picture under the copy sizes to the window, so the section no longer needs a long scroll at 1440 × 900. Hero stacked's screenshot is never cropped: its width is `min(100%, clamp(300px, 100svh − 576px, 400px) × 16/9)`, all from `--aha-space-100` and `--aha-space-96`. The bento's height is `clamp(300px, 100svh − 384px, 500px)` and the tab photo's `clamp(300px, 100svh − 480px, 500px)`, both photos with object-fit cover. Phones are unchanged (full width). Other Header layouts already fit one window or, like Gallery masonry, must not crop.
+- `lib/marketing-motion.js`: the carousel's `[data-aha-gallery-prev]` and `[data-aha-gallery-next]` handlers and the `data-aha-gallery="marquee"` Pause handler are removed, as no layout uses them any more; the marquee rows drop that attribute. A page that still has those buttons keeps them on screen, but they do nothing.
+- Header → Hero card: it opens on Vivid Pink, so its Get started button now starts as the secondary Button with `surface="brand"` (white, readable on the pink) instead of a pink primary that vanished into the card. The White and Accent states still switch it back to the primary.
+- Revert: revert the PR; the second buttons, badge, Pause buttons, carousel arrows, their script handlers and centred stars come back (#429)
+
+## 0.522.0 — 2026-10-28
+### Changed
+- Numbers: three layouts instead of five, each with one button. Simple centred now carries three switches (Number style: Divided or Left aligned; Icon; Description) and replaces Simple with actions 01 (`actions-row`), which is Simple centred with Left aligned, Icon Off and Description On. Split image 02 gains a Vivid Pink background (`aha-numbers--brand`) and replaces Split image 02 brand (`split-image-brand`); its button turns secondary with `surface="brand"`, so it no longer disappears into the pink. The old layout links still land on the merged layouts.
+- Numbers → Simple with actions 02: the secondary Demo button is gone; Get started stays.
+- Numbers: the button comes after the numbers. Split image 02 now reads title, numbers, button in all three backgrounds (48 px above the button, 32 px on a phone). On Simple with actions 02 the button stays under the header beside the grid on wide screens, and follows the numbers once the columns stack (grid areas instead of a wrapper `div`). Simple centred already ended on its button.
+- Numbers → Split image 02: the image sits edge to edge in its slot with no pale pink or white card around it; the `aha-numbers__card` rules are removed.
+- Marketing pages: a layout can list `formerSlugs`; each renders an anchor before the layout heading so an old link keeps working after a merge.
+- Revert: revert the PR; the five Numbers layouts, both buttons, the picture card and the button above the numbers come back (#428)
+
+## 0.521.0 — 2026-10-28
+### Changed
+- Testimonials → Simple left aligned: the section has no button any more; it ends on the quote, name and role. Rule and criterion W18 list it as exempt from the one-call-to-action rule, beside the Logos strip. The unused `aha-testimonials__actions` rule is removed from the section CSS and from the website eval fixture `sections.css`.
+- Revert: revert the PR; the Read customer stories button comes back under the quote (#427)
+
+## 0.517.2 — 2026-10-28
+### Fixed
+- Marketing Header: the hero video slot no longer shows dark side bars on wide screens. The frame is 16:9 and narrows to fit the height cap, centred, instead of a full-width box letterboxing the clip (#442)
+
+## 0.517.1 — 2026-10-28
+### Fixed
+- `aha-drawer` `placement="bottom"`: a tap on a header button (close, actions) on a touch screen no longer starts a swipe and is no longer swallowed; Esc and Tab only defer to a real popup (`aria-haspopup` or a combobox), so an open accordion inside the sheet no longer blocks them (#441)
+
 ## 0.517.0 — 2026-10-28
 ### Added
 - Drawer (web component): `placement="bottom"` is a bottom sheet for a surface launched from a list of objects. Full width, a 48px gap above it (`--aha-drawer-top-gap`) that closes on click, 16px top corners, a 40 × 4 grab handle (`part="handle"`), slide-up with an upward shadow, and a full page with no gap or radius under 768px. Swipe down on the handle or header (touch and pen) closes it past 25% of its height or faster than 0.5 px/ms, otherwise it snaps back; `close` has a new `detail.source` of `"swipe"`. New `slot="subtitle"` under the title and `slot="actions"` between the title and the ✕, both hidden when empty and usable by side drawers too. `width` and `size` are ignored for bottom; an unknown placement keeps the right-side look.
