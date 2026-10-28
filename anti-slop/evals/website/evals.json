@@ -865,6 +865,36 @@
         "authored": "ahaslides-design",
         "why": "DS-authored with the website surface; no plugin judge dataset exists"
       }
+    },
+    {
+      "id": 29,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w6-padded-screenshots/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W6: tab screenshots of different sizes padded onto one canvas size and filled without the pink frame.",
+      "expected_output": "W6 FAILs: every tab image is a 1600x1200 file filling its container, but each is a different-size UI screenshot (three landscape UIs of different sizes) padded onto the same plain grey canvas, so the sizes are judged by the visible UI, not the file. Fix: export each screenshot tight to its UI and wrap each in the Vivid Pink frame (aha-features__photo--pink-frame). Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W6 is marked FAIL",
+        "Says the images differ in size once the padding is ignored and need the pink frame"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W6": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
     }
   ]
 }
