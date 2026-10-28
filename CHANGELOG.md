@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.540.1 — 2026-10-29
 ### Fixed
-- `icon-dots.mjs`: a comment on `parseSubpaths` saying how relative commands resolve; no behaviour change (#PRNUM)
+- `icon-dots.mjs`: a comment on `parseSubpaths` saying how relative commands resolve; no behaviour change (#449)
 
 ## 0.540.0 — 2026-10-28
 ### Changed
