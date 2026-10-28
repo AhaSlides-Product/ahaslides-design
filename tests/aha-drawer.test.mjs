@@ -275,6 +275,8 @@ const sheetScenarios = String.raw`(async () => {
 
   const portal = document.createElement('div');
   portal.tabIndex = 0;
+  portal.setAttribute('role', 'dialog');
+  portal.setAttribute('aria-modal', 'true');
   document.body.append(portal);
   out.portalTabPrevented = key('Tab', portal);
   key('Escape', portal); await frame();
