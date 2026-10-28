@@ -22,10 +22,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.508.0 — 2026-10-26
+## 0.509.0 — 2026-10-28
 ### Added
 - Button: `surface="brand"` for a Button on a Vivid Pink band (marketing hero, footer banner). Keyboard focus draws a white ring (`--aha-white`) outside a Vivid Pink gap (`--aha-vivid-pink-100`), 4.51:1 against the pink, in place of the Vivid Pink ring that vanished there. It sets `--aha-button-focus-ring` and `--aha-button-focus-gap` on the host, so a page rule on the element still wins; fill, border and label are unchanged (#398)
 - Revert: revert the PR; it removes one CSS line in `lib/aha-button.js`, the `surface` row and Focus sentence in the Button contract, and the test (#398)
+
+## 0.508.0 — 2026-10-28
+### Added
+- Icon `system-youtube-logo`, the one-colour Phosphor bold glyph that completes the social set (`system-instagram-logo`, `-linkedin-logo`, `-facebook-logo`, `-reddit-logo`, `-whatsapp-logo`).
+- Colour rule 2.6a: social-media links (follow us and join us rows, footers, share links) use the one-colour `system-<brand>-logo` glyph at currentColor, never a greyscale or filtered copy of the colour brand logo, and no brand colour on hover. Rule 2.6 stays for third-party tool logos. Also in `AGENTS.md`.
+- Revert: revert the PR; one icon file and meaning entry, one rule in `brand/colour-rules.json` and one line in `AGENTS.md` (#421)
 
 ## 0.507.0 — 2026-10-28
 ### Added
