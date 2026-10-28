@@ -191,3 +191,10 @@ test('Features Tabs hold parallel choices with short descriptions', () => {
   assert.deepEqual(websiteRulesOf(tabsSection('How it works', ['Polls', 'Short.'])), ['steps-as-tabs']);
   assert.deepEqual(websiteRulesOf(tabsSection('Get going', ['1. Create', 'Short.'], ['2. Share', 'Short.'])), ['steps-as-tabs']);
 });
+
+test('a steps section is caught by its eyebrow or tablist label even with unnumbered titles', () => {
+  const shape = (eyebrow, label) => `<section class="aha-features aha-features--tabs-screenshots"><header><p class="aha-features__eyebrow">${eyebrow}</p><h2>Set up a vote in seconds</h2></header><div class="aha-features__tablist" role="tablist" aria-label="${label}"><button class="aha-features__tab"><span class="aha-features__item-title">Write your question</span><span class="aha-features__item-text">Short.</span></button><button class="aha-features__tab"><span class="aha-features__item-title">Present</span><span class="aha-features__item-text">Short.</span></button></div></section>`;
+  assert.ok(rulesOf(shape('How it works', 'Formats')).includes('steps-as-tabs'));
+  assert.ok(rulesOf(shape('Formats', 'Set-up steps')).includes('steps-as-tabs'));
+  assert.ok(!rulesOf(shape('Formats', 'Question formats')).includes('steps-as-tabs'));
+});
