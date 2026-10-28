@@ -24,8 +24,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.503.1 — 2026-10-28
 ### Changed
-- File-type icons `filetype-presentation`, `filetype-survey` and `filetype-course` now use the stroke glyphs of `system-presentation-chart`, `system-form` and `system-book`; the solid blobs are gone and names and meaning are unchanged (#NNN)
-- Revert: revert the PR; three SVGs under `icons/svg/filetype/`, regenerated registry and six pairs in `icon-duplicates.intentional.json` (#NNN)
+- File-type icons `filetype-presentation`, `filetype-survey` and `filetype-course` now use the stroke glyphs of `system-presentation-chart`, `system-form` and `system-book`; the solid blobs are gone and names and meaning are unchanged (#422)
+- Revert: revert the PR; three SVGs under `icons/svg/filetype/`, regenerated registry and six pairs in `icon-duplicates.intentional.json` (#422)
 
 ## 0.502.0 — 2026-10-27
 ### Added
