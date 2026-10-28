@@ -34,7 +34,8 @@ built on AntD v6 `Modal` / `Drawer` / `Popover`.
 
 ## Drawer conventions
 
-- Default `placement="right"`.
+- Side drawers default to `placement="right"`.
+- **List-launched surface = bottom sheet.** A surface opened by one click on an object in a list (a deck, a file) is `<aha-drawer placement="bottom">`, in React, Vue 2 and Vue 3 alike: full width, a 48px top gap that closes on click, 16px top corners, a grab handle, Esc, ✕ and swipe down to close, a full page under 768px. Never hand-build a sheet from a fixed `div`; the trap, scroll lock and focus return come with the element.
 - **Responsive width:** `width={isMobile ? '100%' : 720}` via `useIsMobile()` — full-bleed on mobile, fixed panel on desktop. Do not gate this through CSS; the width is a prop.
 - Put navigation/actions (prev/next, retry, position indicator) in the drawer `footer`.
 - Use `styles={{ body: { padding: 0 } }}` when the body renders its own padded content.

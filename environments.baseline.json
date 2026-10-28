@@ -37,7 +37,6 @@
   "contract:user-info",
   "contract:viewport-switch",
   "guideline:app-shell",
-  "guideline:overlays",
   "guideline:shared-components",
   "guideline:vue2",
   "logo:ahaslides-logo",
