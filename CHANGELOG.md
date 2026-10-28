@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.535.0 — 2026-10-28
+## 0.540.0 — 2026-10-28
 ### Changed
 - Marketing: the Header page is now Hero (`marketing/hero/`, `marketing/hero.json`). `marketing/header/` stays as a redirect to it, and `marketing/hero.md` and `hero.agent.json` replace the `header` feed files. The Navigation site header and the Page header layout keep their names.
 - Hero: every layout that has a Vivid Pink state opens on Vivid Pink in the preview (the three heroes, the five multi-image heroes and Page header). The five Gallery layouts have White and Accent only, so they still open on White. The pasted code of the first tab stays the White version, so the HTML shown always matches its tab.
@@ -32,6 +32,28 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Removed
 - Hero → Hero card (`aha-header-section-hero-card`): the layout is gone, with its Vivid Pink panel and email field. Its classes join the removed-layout list that screen-lint W1 checks. Hero split and Hero stacked still offer the Email form call to action.
 - Revert: revert the PR; Hero card, the Header page name, the Learn more links and the 112 px Testimonials gap come back (#445)
+
+## 0.539.0 — 2026-10-28
+### Added
+- `<aha-number-with-unit>`: `increase-label` and `decrease-label` set the stepper buttons' accessible names (defaults `Increase` and `Decrease`); `aria-label`, `aria-labelledby` or `label` now name the inner input. When a name is given the inner input is the one `spinbutton` and the host drops its role, so a screen reader announces it once; with no name the host stays the spinbutton as before. (#448)
+### Fixed
+- `<aha-number-with-unit>` unit text and `<aha-counted-textarea>` counter now use `--aha-text-secondary` (#4A4A4A, 8.9:1 on white, 8.3:1 on the read-only fill); before they used `--aha-text-placeholder` (2.84:1) and `--aha-text-tertiary` (3.45:1), below the 4.5:1 AA minimum. Token values are unchanged. The antd `textarea-counted.css` counter is not part of this change. (#448)
+- Revert: revert the PR; it restores the grey unit and counter and the fixed English stepper labels (#448)
+
+## 0.538.1 — 2026-10-28
+### Changed
+- CSAT: the chosen thumb is now drawn in the Button's Tertiary active ink (`--aha-text-link-hover`, #DB005B, 4.66:1 on white) on the accent fill, with or without `confirmation`; before, only a CSAT with `confirmation` showed a coloured thumb (colour-primary #E70E68, now aligned to the same token) and every other CSAT kept it dark. Hover on the chosen thumb keeps the same ink; focus ring, rest and disabled are unchanged (#447)
+- Revert: revert the PR; it restores the dark chosen thumb and the colour-primary ink with `confirmation` (#447)
+
+## 0.538.0 — 2026-10-28
+### Added
+- Eight plugin slide-type icons in the `slidetype` family: `slidetype-fill-in-the-blanks`, `slidetype-split-the-points`, `slidetype-drag-and-drop`, `slidetype-bubble-rush`, `slidetype-tournament-bracket`, `slidetype-radar`, `slidetype-calm` and `slidetype-push-race`. 24 px grid, 2 px round stroke, DS ink, registered through `node build-icons.mjs` (registry, `meaning.json` words, `lib/icon-names.js`, `lib/icons-registry.js`), so every flavour of the icon feed carries them (#435)
+- Revert: revert the PR; it removes the eight SVGs, their `meaning.json` lines and the regenerated registry entries (#435)
+
+## 0.534.1 — 2026-10-28
+### Fixed
+- `aha-chart`: moving the pointer between bars or columns hands the highlight straight from one to the next; the other bars no longer dim, reappear and dim again as the pointer crosses the gap. The highlight clears only when the pointer leaves the plot. (#443)
+- `<aha-chart type="bar">`: the other rows now fade in and out over the same 0.2s transition as columns (`--aha-motion-mid`) when the highlight moves, instead of switching at once; the image, label and fill each carry the transition, and reduced motion still turns it off. (#443)
 
 ## 0.534.0 — 2026-10-28
 ### Added
