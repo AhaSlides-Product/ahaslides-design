@@ -31,6 +31,19 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Marketing pages: a layout can list `formerSlugs`; each renders an anchor before the layout heading so an old link keeps working after a merge.
 - Revert: revert the PR; the five Numbers layouts, both buttons, the picture card and the button above the numbers come back (#428)
 
+## 0.521.0 — 2026-10-28
+### Changed
+- Testimonials → Simple left aligned: the section has no button any more; it ends on the quote, name and role. Rule and criterion W18 list it as exempt from the one-call-to-action rule, beside the Logos strip. The unused `aha-testimonials__actions` rule is removed from the section CSS and from the website eval fixture `sections.css`.
+- Revert: revert the PR; the Read customer stories button comes back under the quote (#427)
+
+## 0.517.2 — 2026-10-28
+### Fixed
+- Marketing Header: the hero video slot no longer shows dark side bars on wide screens. The frame is 16:9 and narrows to fit the height cap, centred, instead of a full-width box letterboxing the clip (#442)
+
+## 0.517.1 — 2026-10-28
+### Fixed
+- `aha-drawer` `placement="bottom"`: a tap on a header button (close, actions) on a touch screen no longer starts a swipe and is no longer swallowed; Esc and Tab only defer to a real popup (`aria-haspopup` or a combobox), so an open accordion inside the sheet no longer blocks them (#441)
+
 ## 0.517.0 — 2026-10-28
 ### Added
 - Drawer (web component): `placement="bottom"` is a bottom sheet for a surface launched from a list of objects. Full width, a 48px gap above it (`--aha-drawer-top-gap`) that closes on click, 16px top corners, a 40 × 4 grab handle (`part="handle"`), slide-up with an upward shadow, and a full page with no gap or radius under 768px. Swipe down on the handle or header (touch and pen) closes it past 25% of its height or faster than 0.5 px/ms, otherwise it snaps back; `close` has a new `detail.source` of `"swipe"`. New `slot="subtitle"` under the title and `slot="actions"` between the title and the ✕, both hidden when empty and usable by side drawers too. `width` and `size` are ignored for bottom; an unknown placement keeps the right-side look.
