@@ -20,4 +20,7 @@ function onFeedback(e) {
   <!-- In a narrow side panel: layout="stacked" puts the prompt above the buttons; feedback-placement="start"
        opens the feedback popover start-aligned (extending right of the thumbs). -->
   <aha-csat prompt="How did this import go?" source="side_panel" feedback-button layout="stacked" feedback-placement="start" @rate="onRate" @feedback="onFeedback" />
+  <!-- feedback-on="any" also opens the popover after a thumbs-up (default: thumbs-down only); confirmation="..." shows
+       that text beside the thumbs once rated and again after Send (under them with layout="stacked"). -->
+  <aha-csat prompt="How did this import go?" source="more_feedback" feedback-on="any" confirmation="Thanks, feedback received" @rate="onRate" @feedback="onFeedback" />
 </template>

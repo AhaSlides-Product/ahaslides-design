@@ -52,6 +52,13 @@ const scenarios = String.raw`(async () => {
   anyRoot.querySelector('.down').click(); await wait(400);
   out.anySwitchToDownStaysOpen = pop('any').open && any.getAttribute('value') === 'down';
 
+  const mixed = root('mixed');
+  mixed.querySelector('.fb-open').click(); await wait(400);
+  out.mixedButtonPlaceholder = mixed.querySelector('.fb-text').getAttribute('placeholder');
+  mixed.querySelector('.up').click(); await wait(400);
+  out.mixedUpPlaceholder = mixed.querySelector('.fb-text').getAttribute('placeholder');
+  out.mixedUpOpens = pop('mixed').open;
+
   const stacked = root('stacked');
   document.getElementById('stacked').setAttribute('value', 'up'); await wait(100);
   const rating = stacked.querySelector('.rating').getBoundingClientRect();
@@ -89,6 +96,9 @@ test('csat opt-ins: default unchanged, feedback-on="any" opens after a like, con
   assert.equal(r.anyUnrateClears, true);
   assert.equal(r.anyReratedReopens, true);
   assert.equal(r.anySwitchToDownStaysOpen, true);
+  assert.equal(r.mixedButtonPlaceholder, 'Share your thoughts');
+  assert.equal(r.mixedUpPlaceholder, 'Tell us more');
+  assert.equal(r.mixedUpOpens, true);
   assert.equal(r.stackedUnderThumbs, true);
   assert.equal(r.stackedStaysInside, true);
   assert.equal(r.rowBesideThumbs, true);

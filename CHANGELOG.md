@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.506.1 — 2026-10-28
+### Fixed
+- CSAT: with `feedback-on="any"` and `feedback-button`, a thumbs-up after using the Feedback button now shows `feedback-placeholder` in the popover instead of `feedback-button-placeholder`; the React, Vue and preview snippets now show `feedback-on` and `confirmation` (#NEW)
+- Revert: revert the PR; no contract or API change (#NEW)
+
 ## 0.506.0 — 2026-10-28
 ### Added
 - CSAT: two opt-in attributes so the presenter can collect more slide-type feedback. `feedback-on="any"` (default `down`) also opens the feedback popover after a thumbs-up, once per rating, and the `feedback` event then carries rating `up`. `confirmation="<text>"` shows a "received" line inline beside the thumbs (under them with `layout="stacked"`) once rated and again after a feedback Send, in a `role=status` live region, and draws the chosen thumb in colour-primary ink (#424)
