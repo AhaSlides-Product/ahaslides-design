@@ -880,12 +880,6 @@ a.aha-footer__heading:hover{color:var(--aha-color-primary)}
 .aha-header-section-hero-split__inner{max-width:1280px;margin:0 auto;padding:var(--aha-space-96) var(--aha-space-32)}
 .aha-header-section-hero-split__split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--aha-space-64);align-items:center}
 .aha-header-section-hero-split__copy{display:flex;flex-direction:column;align-items:flex-start;max-width:640px}
-.aha-header-section-hero-split__badge{
-  display:inline-flex;align-items:center;margin-bottom:var(--aha-space-24);padding:var(--aha-space-4) var(--aha-space-12);
-  border:1px solid var(--aha-header-section-hero-split-frame);border-radius:var(--aha-radius-pill);
-  font-size:var(--aha-size-sm);font-weight:var(--aha-weight-semibold);line-height:var(--aha-line-height-heading);
-  color:var(--aha-header-section-hero-split-ink);
-}
 .aha-header-section-hero-split__title{
   font-size:var(--aha-size-h1);font-weight:var(--aha-weight-semibold);line-height:var(--aha-line-height-heading);
   letter-spacing:var(--aha-letter-spacing-headlines);
@@ -1021,7 +1015,6 @@ a.aha-footer__heading:hover{color:var(--aha-color-primary)}
 .aha-testimonials__card:has(.aha-testimonials__link:focus-visible){outline:var(--aha-space-2) solid var(--aha-focus);outline-offset:var(--aha-space-2)}
 .aha-testimonials__cta{display:flex;flex-wrap:wrap;justify-content:center;gap:var(--aha-space-12);margin-top:var(--aha-space-48)}
 .aha-testimonials__cta--start{justify-content:flex-start}
-.aha-testimonials__actions{display:flex;flex-wrap:wrap;gap:var(--aha-space-12)}
 .aha-testimonials__more{display:inline-flex;align-items:center;gap:var(--aha-space-8);margin-top:auto;font-size:var(--aha-size-default);font-weight:var(--aha-weight-semibold);color:var(--aha-text-default)}
 .aha-testimonials__card--linked{transition:transform var(--aha-motion-mid) var(--aha-ease-out),box-shadow var(--aha-motion-mid) var(--aha-ease-out),border-color var(--aha-motion-mid) var(--aha-ease-out)}
 .aha-testimonials__card--linked:hover{transform:translateY(calc(-1 * var(--aha-space-4)));border-color:var(--aha-border-hover);box-shadow:0 var(--aha-space-12) var(--aha-space-24) var(--aha-ink-a10)}
