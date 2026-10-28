@@ -62,7 +62,7 @@
       ],
       "label": "good-control",
       "notes": "Good control at the W5 boundary: a Vivid Pink hero plus a Vivid Pink footer banner is the allowed maximum of two; must not be flagged as too many.",
-      "expected_output": "A Vivid Pink hero, then white Pricing, a pale pink icon-grid band, white Testimonials and FAQ, and a closing Vivid Pink Footer banner after a white band: two Vivid Pink bands in all (colour rule 3.4) and a full white section between every pair of coloured bands (rule 3.3). The hero is Vivid Pink as rule 3.5 allows on a web page. Each banner has one call to action, and the closing banner repeats the hero's label (Start free, written for the pricing page). Headings are centred over every full-width section and each content section ends with its shipped centred call to action row: Read customer stories under Testimonials, Read the docs under the FAQ and the hero's Start free everywhere else; testimonial authors are left aligned. Overall: OK TO SHIP.",
+      "expected_output": "A Vivid Pink hero, then white Pricing, a pale pink icon-grid band, white Testimonials and FAQ, and a closing Vivid Pink Footer banner after a white band: two Vivid Pink bands in all (colour rule 3.4) and a full white section between every pair of coloured bands (rule 3.3). The hero is Vivid Pink as rule 3.5 requires on a web page. Each banner has one call to action, and the closing banner repeats the hero's label (Start free, written for the pricing page). Headings are centred over every full-width section and each content section ends with its shipped centred call to action row: Read customer stories under Testimonials, Read the docs under the FAQ and the hero's Start free everywhere else; testimonial authors are left aligned. Overall: OK TO SHIP.",
       "assertions": [
         "Overall verdict is OK TO SHIP",
         "W5 is not FAIL for two separated Vivid Pink bands"
@@ -368,7 +368,7 @@
       ],
       "label": "bad-example",
       "notes": "Targets W5: a Darker Pink hero background, with the body otherwise correct.",
-      "expected_output": "W5 FAILs: the hero surface is overridden to Darker Pink #DB005B. The hero may be Vivid Pink #E70E68 (rule 3.5); Darker Pink is only the Splash hooks on it (rule 5.1). Fix: remove the surface override so the hero is Vivid Pink. Overall: NEEDS FIX.",
+      "expected_output": "W5 FAILs: the hero surface is overridden to Darker Pink #DB005B. The hero must be Vivid Pink #E70E68 (rule 3.5); Darker Pink is only the Splash hooks on it (rule 5.1). Fix: remove the surface override so the hero is Vivid Pink. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "W5 is marked FAIL",

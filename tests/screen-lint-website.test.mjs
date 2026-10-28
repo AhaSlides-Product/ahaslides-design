@@ -198,3 +198,12 @@ test('a steps section is caught by its eyebrow or tablist label even with unnumb
   assert.ok(rulesOf(shape('Formats', 'Set-up steps')).includes('steps-as-tabs'));
   assert.ok(!rulesOf(shape('Formats', 'Question formats')).includes('steps-as-tabs'));
 });
+
+test('a parallel Tabs heading containing "how to" is not steps, inline markup does not cut text short', () => {
+  const tabs = (heading, text) => `<section class="aha-features aha-features--tabs-screenshots"><h2>${heading}</h2><button class="aha-features__tab"><span class="aha-features__item-title">Polls</span><span class="aha-features__item-text">${text}</span></button></section>`;
+  assert.ok(!rulesOf(tabs('Know how to pick the right format', 'Short.')).includes('steps-as-tabs'));
+  assert.ok(rulesOf(tabs('How to run a vote', 'Short.')).includes('steps-as-tabs'));
+  assert.ok(rulesOf(tabs('<span>How</span> it works', 'Short.')).includes('steps-as-tabs'));
+  const long = `<strong>Ask</strong> a question and ${'see the answers arrive from every phone '.repeat(3)}`;
+  assert.ok(rulesOf(tabs('One deck', long)).includes('tabs-description-long'));
+});

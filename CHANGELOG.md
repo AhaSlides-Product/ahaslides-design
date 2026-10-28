@@ -30,6 +30,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `screen-lint --surface=website` rules `hero-not-brand` (the first band is a Hero not in the Vivid Pink state), `steps-as-tabs` (a Features Tabs section whose heading, eyebrow or tablist label says how it works or steps, or with numbered tab titles) and `tabs-description-long` (a tab description over 90 characters); escape `ds-lint-allow: page (why)`.
 - Revert: revert the PR; the rules go back to "may be Vivid Pink" and the lint drops the three rules (#440)
 
+## 0.517.2 — 2026-10-28
+### Fixed
+- Marketing Header: the hero video slot no longer shows dark side bars on wide screens. The frame is 16:9 and narrows to fit the height cap, centred, instead of a full-width box letterboxing the clip (#442)
+
 ## 0.517.1 — 2026-10-28
 ### Fixed
 - `aha-drawer` `placement="bottom"`: a tap on a header button (close, actions) on a touch screen no longer starts a swipe and is no longer swallowed; Esc and Tab only defer to a real popup (`aria-haspopup` or a combobox), so an open accordion inside the sheet no longer blocks them (#441)
