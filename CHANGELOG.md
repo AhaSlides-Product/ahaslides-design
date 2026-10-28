@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.514.0 — 2026-10-28
+### Added
+- Cards: an optional New badge for the Template card (new snippet "Template card, New badge"). It sits in the cover's top-left corner and carries the DS Badge New values (`--aha-bg-accent` fill over `--aha-bg-container`, `--aha-text-link-hover` label, 20px high, 12px regular, `--aha-radius-xs`), bound to the same tokens because `<aha-badge>` is not a website component. Off by default: the Template card and the templates grid are unchanged. Website rule W14 names the badge label in the type ramp (#NNN)
+- Revert: revert the PR; it removes one snippet and one highlight from `marketing/cards.json` and one sentence from the W14 type-ramp copies (`guidelines/website.json`, `anti-slop/criteria.json`, `agent/anti-slop/criteria.json`) (#NNN)
+
 ## 0.509.1 — 2026-10-28
 ### Fixed
 - Header and Footer banner: every Button on a Vivid Pink surface (the Vivid Pink state of the nine Hero layouts and Page header, and the Footer banner) now carries `surface="brand"`, so its keyboard focus ring is white and reads on the pink. The Header code panes show `surface="brand"` in the Vivid Pink state only; the live preview sets it when the state is switched. State hooks `data-surface-<state>` sit next to `data-variant-<state>`.
