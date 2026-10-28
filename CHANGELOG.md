@@ -22,6 +22,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.508.0 — 2026-10-28
+### Added
+- Icon `system-youtube-logo`, the one-colour Phosphor bold glyph that completes the social set (`system-instagram-logo`, `-linkedin-logo`, `-facebook-logo`, `-reddit-logo`, `-whatsapp-logo`).
+- Colour rule 2.6a: social-media links (follow us and join us rows, footers, share links) use the one-colour `system-<brand>-logo` glyph at currentColor, never a greyscale or filtered copy of the colour brand logo, and no brand colour on hover. Rule 2.6 stays for third-party tool logos. Also in `AGENTS.md`.
+- Revert: revert the PR; one icon file and meaning entry, one rule in `brand/colour-rules.json` and one line in `AGENTS.md` (#421)
+
 ## 0.507.0 — 2026-10-28
 ### Added
 - Website > Marketing > Header: five multi-image heroes — fanned photo stack (`aha-header-section-hero-photo-stack`), bento collage beside the copy (`aha-header-section-hero-bento-collage`), photo marquee under centred copy with a Pause button (`aha-header-section-hero-image-marquee`), crossfading slideshow with dot controls (`aha-header-section-hero-slideshow`) and floating framed photos either side of the copy (`aha-header-section-hero-floating-images`). Each ships White, Accent and Vivid Pink states (#394)

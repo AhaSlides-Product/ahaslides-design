@@ -309,6 +309,7 @@
   "system-user": ["user", "person", "profile", "account", "member", "participant"],
   "system-users-three": ["team", "group", "audience", "participants", "people", "community"],
   "system-users": ["users", "people", "members", "team", "participants", "group"],
+  "system-youtube-logo": ["youtube", "social", "video channel", "brand", "follow us", "subscribe"],
   "system-video": ["video", "play video", "media", "film", "watch", "youtube"],
   "system-vote": ["vote", "ballot", "poll", "voted", "choose", "election"],
   "system-wallet": ["wallet", "payment", "balance", "money", "billing", "credits"],
