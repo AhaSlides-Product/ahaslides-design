@@ -22,13 +22,18 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.528.0 — 2026-10-28
+## 0.533.0 — 2026-10-28
 ### Fixed
 - Marketing sections no longer pick up the Webflow site's base CSS. Testimonials and Cards clear the quote border (a grey stripe on the left of every quote from `blockquote{border-left:5px solid #e2e2e2}`), and every section title rule (Header, Features, Numbers, Pricing, Testimonials, FAQ, Comparison, Footer banner) sets `display:block`, so a host `h2{display:flex;text-align:left}` can no longer pull a centred title off-centre.
 - Step card: the pink number badge rule (`.aha-marketing-card__number`) now ships in the Cards base CSS, so every section that embeds Cards carries it and a pasted Steps row keeps its badge.
 ### Added
 - A node test fails when a marketing blockquote reset leaves the border, when a section title rule has no `display`, or when the Step number rule leaves the Cards base CSS.
 - Supersedes the earlier 0.497.1 attempt. Revert: revert the PR; the sections go back to relying on the host CSS (#438)
+
+## 0.530.0 — 2026-10-28
+### Added
+- Logos: an optional "Trusted by teams at" label centred above the strip (new Label switch, `aha-logos__label`): the meta role of the type ramp (`--aha-size-default`, regular) in `--aha-text-secondary`, 32px above and 24px below. Off by default: the strip, its snippet and its tests are unchanged until the paragraph is added. `generate.mjs` takes a section-level `options` key (the same `data-choice` switches the layouts use) for single-block sections; the other Marketing pages' output is byte-identical (#432)
+- Revert: revert the PR; it removes the `options`, `class` and label keys from `marketing/logos.json` and four small hooks from `generate.mjs` (`bakeMarketingOptions`, `expandMarketingData`, the preview bar and the code panes) (#432)
 
 ## 0.527.0 — 2026-10-28
 ### Added
