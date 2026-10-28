@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.534.1 — 2026-10-28
+### Fixed
+- `aha-chart`: moving the pointer between bars or columns hands the highlight straight from one to the next; the other bars no longer dim, reappear and dim again as the pointer crosses the gap. The highlight clears only when the pointer leaves the plot. (#443)
+- `<aha-chart type="bar">`: the other rows now fade in and out over the same 0.2s transition as columns (`--aha-motion-mid`) when the highlight moves, instead of switching at once; the image, label and fill each carry the transition, and reduced motion still turns it off. (#443)
+
 ## 0.534.0 — 2026-10-28
 ### Added
 - CSAT: an optional `feedback-hint="<text>"` shows a helper line under the feedback text box, beside the counter, reusing the text box's `info-message`; for example `What you write goes to the developer`. Not set, nothing changes. Changing or removing it updates the open popover (#446)
