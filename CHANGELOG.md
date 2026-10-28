@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.538.0 — 2026-10-28
+### Added
+- Eight plugin slide-type icons in the `slidetype` family: `slidetype-fill-in-the-blanks`, `slidetype-split-the-points`, `slidetype-drag-and-drop`, `slidetype-bubble-rush`, `slidetype-tournament-bracket`, `slidetype-radar`, `slidetype-calm` and `slidetype-push-race`. 24 px grid, 2 px round stroke, DS ink, registered through `node build-icons.mjs` (registry, `meaning.json` words, `lib/icon-names.js`, `lib/icons-registry.js`), so every flavour of the icon feed carries them (#435)
+- Revert: revert the PR; it removes the eight SVGs, their `meaning.json` lines and the regenerated registry entries (#435)
+
 ## 0.534.1 — 2026-10-28
 ### Fixed
 - `aha-chart`: moving the pointer between bars or columns hands the highlight straight from one to the next; the other bars no longer dim, reappear and dim again as the pointer crosses the gap. The highlight clears only when the pointer leaves the plot. (#443)
