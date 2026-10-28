@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.524.0 — 2026-10-28
+## 0.525.0 — 2026-10-28
 ### Changed
 - Colour rule 3.5, anti-slop W5 and the website guideline: a landing page's Hero must open in its Vivid Pink state (`--brand`), not the White default of the snippet; the "a white hero is also allowed" line is gone and a white hero is only for a Page header page or a hero the requester names. The Header guidance carries a "Surface" point saying so.
 - Anti-slop W12, the website guideline, the Features guidance and the Cards Steps note: a numbered how-to or how it works is Step cards (Steps row, a Cards grid for four or more), never Features Tabs; a tab description is one short sentence of 90 characters or fewer. Rebuilding a section keeps every point, step and image: five steps become five Step cards with their images, never fewer.
@@ -30,6 +30,12 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `screen-lint --surface=website` rules `hero-not-brand` (the first band is a Hero not in the Vivid Pink state), `steps-as-tabs` (a Features Tabs section whose heading, eyebrow or tablist label says how it works or steps, or with numbered tab titles) and `tabs-description-long` (a tab description over 90 characters); escape `ds-lint-allow: page (why)`.
 - Features: new layout Compact: swipeable card scroller with images (`compact-scroller-images`), the scroller with a numbered Step card and a screenshot at the foot of each card (optional image slot, `aha-marketing-card__media--scroller`, ordered-list track); the Features, Steps and W12 guidance now say a how it works with images may use it as well as the Step grid.
 - Revert: revert the PR; the rules go back to "may be Vivid Pink" and the lint drops the three rules (#440); the scroller-with-images layout is removed
+
+## 0.524.0 — 2026-10-28
+### Changed
+- Features: Alternating with screenshots and Alternating with mixed-size screenshots were the same layout, so they are now one, Alternating with screenshots, with an Image switch: Fill (the default; the screenshot fills its slot, `aha-features__photo--fill`) or Pink frame (every screenshot whole in a 4:3 Vivid Pink frame with the Splash, `aha-features__photo--pink-frame`). The "Fill the slot, or frame mixed sizes" rule is unchanged; the switch applies it to the whole section. Eleven layouts instead of twelve; the old `#alternating-mixed-screenshots` link lands on the merged layout.
+- Marketing pages: a layout can list `formerSlugs`; each renders an anchor before the layout heading so an old link keeps working after a merge.
+- Revert: revert the PR; Alternating with mixed-size screenshots comes back as its own layout (#430)
 
 ## 0.523.0 — 2026-10-28
 ### Changed
