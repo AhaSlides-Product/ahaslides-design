@@ -2347,7 +2347,7 @@ Bind the page to the shared token layer (${SITE}/variables.css), then paste the 
 ## Paste-and-run HTML
 \`\`\`html
 ${marketingSnippet(b)}\`\`\`
-`;
+${b.options && !b.layouts ? marketingOptionPanes(b, b).map(pane => `\n## ${pane.label}\n\`\`\`html\n${pane.code}\`\`\`\n`).join('') : ''}`;
 }
 function renderMarketingAgent(b) {
   return JSON.stringify({
@@ -2369,6 +2369,7 @@ function renderMarketingAgent(b) {
       html: b.video.html, css: b.video.css,
       layouts: b.layouts.filter(layout => b.video.layouts.includes(layout.slug)).map(layout => ({ slug: layout.slug, class: layout.class })),
     } } : {}),
+    ...(b.options && !b.layouts ? marketingOptionsAgent(b, b) : {}),
     html: b.html || '', css: b.css || '',
   }, null, 2) + '\n';
 }
