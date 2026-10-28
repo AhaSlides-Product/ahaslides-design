@@ -118,10 +118,12 @@ test('W9: every gallery transition and loop is token-timed and stops under reduc
   }
 });
 
-test('W9: no shipped layout autoplays; a loop always has a Pause button', () => {
+test('W9: no shipped layout autoplays; a loop has no Pause button and stops under reduced motion', () => {
   for (const layout of layouts) {
     assert.doesNotMatch(layout.html, /data-aha-autoplay/, layout.slug);
-    if (layout.css.includes('@keyframes')) assert.match(layout.html, /<aha-button[^>]*data-aha-gallery-pause/, layout.slug);
+    if (!layout.css.includes('@keyframes')) continue;
+    assert.doesNotMatch(layout.html, /data-aha-gallery-pause/, layout.slug);
+    assert.match(layout.css, /prefers-reduced-motion:reduce\)\{[^]*animation:none/, layout.slug);
   }
 });
 
