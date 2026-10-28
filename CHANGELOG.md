@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.517.0 — 2026-10-28
+### Added
+- Header: an optional reassurance line ("Free forever. No credit card needed.") under the call to action on the eight heroes that hold the button in their copy block (Hero split, stacked, card and the five multi-image heroes), above the G2 row. New Reassurance line switch (Off / On), off by default; it reuses each layout's existing muted `__hint` style (meta role, secondary ink), so no new CSS or type-ramp line. Default snippets and every other marketing page are unchanged (#NNN)
+- Revert: revert the PR; it removes the `data-choice="reassurance"` paragraph and the Reassurance line option from the eight layouts in `marketing/header.json` and two prose sentences (#NNN)
+
 ## 0.512.0 — 2026-10-28
 ### Changed
 - Header: every layout has one button, the primary call to action. The white Learn more buttons and the Sign up with Google button on Split with form are gone.
