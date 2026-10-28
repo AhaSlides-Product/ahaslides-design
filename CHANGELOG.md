@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.540.1 — 2026-10-29
+### Fixed
+- `icon-dots.mjs`: a comment on `parseSubpaths` saying how relative commands resolve; no behaviour change (#PRNUM)
+
 ## 0.540.0 — 2026-10-28
 ### Changed
 - Marketing: the Header page is now Hero (`marketing/hero/`, `marketing/hero.json`). `marketing/header/` stays as a redirect to it, and `marketing/hero.md` and `hero.agent.json` replace the `header` feed files. The Navigation site header and the Page header layout keep their names.

@@ -1,5 +1,6 @@
 const COMMAND_ARITY = { M: 2, L: 2, H: 1, V: 1, C: 6, S: 4, Q: 4, T: 2, A: 7, Z: 0 };
 
+// Splits an SVG path `d` into subpaths of absolute points; relative commands resolve against the pen.
 export function parseSubpaths(d) {
   const tokens = d.match(/[a-zA-Z]|-?(?:\d+\.?\d*|\.\d+)(?:e[-+]?\d+)?/g) || [];
   const subpaths = [];
