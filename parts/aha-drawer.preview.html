@@ -23,10 +23,24 @@
       <p>placement="left" mirrors the panel and its shadow. size="large" is 736 wide and never wider than its container.</p>
     </aha-drawer>
   </div>
+  <div class="lbl">Bottom sheet, open: 48 gap, 16 corners, handle, subtitle, actions, Previous / Next footer</div>
+  <div class="drawer-stage">
+    <aha-drawer inline open placement="bottom" heading="Fire safety refresher">
+      <span slot="subtitle">10 slides · Updated 2 days ago · Private</span>
+      <div slot="actions"><aha-button variant="secondary" size="sm">Edit</aha-button></div>
+      <p>Slides and the Start list go here; the layout is the app's.</p>
+      <div slot="footer" class="drawer-actions" style="justify-content:space-between;align-items:center"><aha-button variant="tertiary" size="sm">Previous</aha-button><span>3 of 24</span><aha-button variant="tertiary" size="sm">Next</aha-button></div>
+    </aha-drawer>
+  </div>
   <div class="lbl">Live: opens over the page, Esc, the mask and the close button close it, focus returns here</div>
   <div class="row">
     <aha-button id="drawer-open" variant="secondary">Open drawer</aha-button>
+    <aha-button id="sheet-open" variant="secondary">Open bottom sheet</aha-button>
   </div>
+  <aha-drawer id="sheet-live" placement="bottom" heading="Fire safety refresher">
+    <span slot="subtitle">10 slides · Updated 2 days ago · Private</span>
+    <p>Esc, the ✕, a click on the gap above, or a swipe down on a touch screen close it.</p>
+  </aha-drawer>
   <aha-drawer id="drawer-live" heading="Participant report">
     <p>Press Tab: focus stays inside the drawer. Press Escape or click the dimmed area to close it.</p>
     <div slot="footer" class="drawer-actions"><aha-button id="drawer-done" variant="secondary" size="sm">Done</aha-button></div>
@@ -39,5 +53,7 @@
   import '../lib/aha-button.js';
   const live = document.getElementById('drawer-live');
   document.getElementById('drawer-open').addEventListener('click', () => live.show());
+  const sheetLive = document.getElementById('sheet-live');
+  document.getElementById('sheet-open').addEventListener('click', () => sheetLive.show());
   document.getElementById('drawer-done').addEventListener('click', () => live.close());
 </script>
