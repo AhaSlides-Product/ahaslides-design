@@ -22,6 +22,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.520.0 — 2026-10-28
+### Added
+- Tokens: four website section spacing levels, `--aha-section-space-block` (Section, 96 px), `--aha-section-space-header` (Header, 64), `--aha-section-space-group` (Group, 48) and `--aha-section-space-item` (Item, 32). Each level is one step below the one above on the ladder 96, 64, 48, 32, 24, 16, and each steps one down when the section's own container is 767 px or narrower and again at 479 px, so a section never switches them itself (#PR)
+### Changed
+- Marketing sections (Header, Logos, Numbers, Features, Testimonials, FAQ, Footer banner, Footer, Pricing, Comparison table): section padding, heading spacing, group spacing and item gaps now use the four levels in place of per-section values and breakpoint overrides. Visible changes: Hero layouts and the Page header step their spacing at 767 px, not 991 px; the Page header pads 96 px like every section; compact Features pads 96 px; alternating Features rows sit 48 px apart (was 96); the Footer keeps the Section padding on a phone; spacing inside a component (card padding, title to text, a button under its text) is unchanged (#PR)
+- Logos: the strip is the last group of the section above it, sitting one Group below that section's content, and pads one Section below; adjacent sections keep both Section paddings, never collapsed (#PR)
+- Website guideline W2 and its anti-slop criterion: rewritten around the four levels, the adjacent-section rule and the Logos rule (#PR)
+- Revert: revert the PR; the sections go back to their own padding values and breakpoints, and the four tokens are removed (#PR)
+
 ## 0.509.1 — 2026-10-28
 ### Fixed
 - Header and Footer banner: every Button on a Vivid Pink surface (the Vivid Pink state of the nine Hero layouts and Page header, and the Footer banner) now carries `surface="brand"`, so its keyboard focus ring is white and reads on the pink. The Header code panes show `surface="brand"` in the Vivid Pink state only; the live preview sets it when the state is switched. State hooks `data-surface-<state>` sit next to `data-variant-<state>`.

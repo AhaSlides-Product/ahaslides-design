@@ -370,7 +370,12 @@ function tokenVars(t) {
   /* chart motion: slower than UI state changes because the eye has to follow data moving. */
   L.push(Object.entries(t.effect.blur).filter(([k]) => !k.startsWith('$')).map(([k, value]) => `--aha-blur-${k}:${value}px;`).join(' '));
   L.push(`--aha-motion-viz-enter:.6s; --aha-motion-viz-update:.4s; --aha-motion-viz-reorder:.35s; --aha-motion-viz-stagger:40ms; --aha-ease-viz:cubic-bezier(0.2,0.7,0.4,1);`);
-  return `:root{\n  ${L.join('\n  ')}\n}`;
+  const sectionLevels = Object.entries(t.sectionSpace).filter(([k]) => !k.startsWith('$'));
+  const sectionVars = (step) => sectionLevels.map(([level, steps]) => `--aha-section-space-${level}:${cssValue(`sectionSpace.${level}.${step}`, `${steps[step]}px`)};`).join(' ');
+  L.push(sectionVars('desktop'));
+  /* unnamed @container: every element steps the levels by its nearest container's width, so no section switches them itself */
+  const sectionSteps = [['tablet', 767], ['phone', 479]].map(([step, width]) => `@container (max-width:${width}px){:where(*){${sectionVars(step)}}}`).join('\n');
+  return `:root{\n  ${L.join('\n  ')}\n}\n${sectionSteps}`;
 }
 
 /* ===== structural shell styles — AntD docs IA (sticky header + left nav + main),

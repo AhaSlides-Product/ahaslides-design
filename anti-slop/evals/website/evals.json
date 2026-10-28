@@ -134,7 +134,7 @@
       ],
       "label": "bad-example",
       "notes": "Targets W2: added inter-section margin and an overridden section padding.",
-      "expected_output": "W2 FAILs: the page adds a 64 px margin between every section and overrides the Features padding to 40/16 on desktop, breaking the shipped 96/64 rhythm. Fix: delete both rules so sections sit flush with their own padding. Overall: NEEDS FIX.",
+      "expected_output": "W2 FAILs: the page adds a 64 px margin between every section and overrides the Features padding to 40/16 on desktop in place of the Section level. Fix: delete both rules so sections sit flush with their own padding. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "W2 is marked FAIL"
