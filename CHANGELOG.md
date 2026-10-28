@@ -24,8 +24,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.506.0 — 2026-10-28
 ### Added
-- CSAT: two opt-in attributes so the presenter can collect more slide-type feedback. `feedback-on="any"` (default `down`) also opens the feedback popover after a thumbs-up, once per rating, and the `feedback` event then carries rating `up`. `confirmation="<text>"` shows a "received" line inline beside the thumbs (under them with `layout="stacked"`) once rated and again after a feedback Send, in a `role=status` live region, and draws the chosen thumb in colour-primary ink (#PRNUM)
-- Revert: revert the PR; both attributes are opt-in, so a CSAT that sets neither renders and behaves as before (#PRNUM)
+- CSAT: two opt-in attributes so the presenter can collect more slide-type feedback. `feedback-on="any"` (default `down`) also opens the feedback popover after a thumbs-up, once per rating, and the `feedback` event then carries rating `up`. `confirmation="<text>"` shows a "received" line inline beside the thumbs (under them with `layout="stacked"`) once rated and again after a feedback Send, in a `role=status` live region, and draws the chosen thumb in colour-primary ink (#424)
+- Revert: revert the PR; both attributes are opt-in, so a CSAT that sets neither renders and behaves as before (#424)
 
 ## 0.505.0 — 2026-10-28
 ### Added
