@@ -1,25 +1,25 @@
 {
-  "slug": "header",
-  "name": "Header",
+  "slug": "hero",
+  "name": "Hero",
   "environment": [
     "web"
   ],
   "previewModules": [
     "marketing-motion.js"
   ],
-  "summary": "Header sections for the AhaSlides marketing sites: four heroes, five multi-image heroes, five photo galleries and one page header, each with its own preview, switches and paste-and-run code.",
+  "summary": "Hero sections for the AhaSlides marketing sites: three heroes, five multi-image heroes, five photo galleries and one page header, each with its own preview, switches and paste-and-run code.",
   "highlights": [
-    "Fifteen layouts on one page: Hero split, Hero stacked, Hero card, Hero split form, five multi-image heroes, five Gallery layouts and Page header. Colour, alignment, picture and call-to-action differences are switches on the layout, not separate layouts",
+    "Fourteen layouts on one page: Hero split, Hero stacked, Hero split form, five multi-image heroes, five Gallery layouts and Page header. Colour, alignment, picture and call-to-action differences are switches on the layout, not separate layouts",
     "Every hero and the page header has a White / Accent / Vivid Pink surface switch: add the layout's own --accent class (the pale pink bgAccent surface over white) or --brand class (Vivid Pink on the DS Splash background). The five Gallery layouts have White and Accent only",
-    "An optional G2 reviews row (the G2 logo in a white card, five stars, 4.8 and the review count), on by default, on the three heroes whose copy block holds the call to action; a G2 reviews switch next to the other switches turns it off on the preview",
+    "An optional G2 reviews row (the G2 logo in a white card, five stars, 4.8 and the review count), on by default, on the heroes whose copy block holds the call to action; a G2 reviews switch next to the other switches turns it off on the preview",
     "Five multi-image heroes show several photos at once, each a different arrangement and transition: Hero photo stack (fanned cards that spread on hover), Hero bento collage (a square bento of four), Hero image marquee (a full-width row that loops like the Logos strip, with no Pause button, as the Logos strip has none), Hero slideshow (crossfading photos picked with Carousel dots) and Hero floating images (tilted pairs around centred copy). The slideshow dots come from lib/marketing-motion.js, and every movement stops under reduced motion, print and data-aha-motion=\"off\"",
     "Five gallery layouts show a set of photos under a centred page header: Gallery bento grid (a square bento), Gallery masonry (a wall that never crops), Gallery carousel (snapping photos picked with Carousel dots, the same dots as Hero slideshow), Gallery marquee rows (two looping rows, no Pause button) and Gallery tabbed images (tabs that crossfade between photos). Each has White and Accent backgrounds, and the carousel dots and the tabs come from lib/marketing-motion.js",
     "One button per layout: the primary call to action (Get started or Sign up), never a second white secondary beside it. No small label or badge above any headline. Every slider uses one style, the DS Carousel dots (16 × 4 px bars, the current one 28 px wide in Vivid Pink, in 24 × 24 px buttons) centred under the photos, with no arrow buttons"
   ],
   "layoutsIntro": "Each layout is its own block: the class names below are scoped per layout, so any number of them can sit in one page.",
   "guidance": {
-    "title": "Choosing a header",
-    "intro": "Pick the header from the goal of the page, then check the points below. The layouts further down carry a \"Use for\" line.",
+    "title": "Choosing a hero",
+    "intro": "Pick the hero from the goal of the page, then check the points below. The layouts further down carry a \"Use for\" line.",
     "points": [
       {
         "title": "One goal, one primary button",
@@ -27,7 +27,7 @@
       },
       {
         "title": "Layout by page goal",
-        "text": "Sign-ups (home, campaign, landing): Hero split or Hero stacked with the Email form call to action, or Hero card. Use Hero split form only when you need more than an email. Feature pages: Hero split with the Bleed picture for a wide screenshot, or Hero stacked when the product screen is the proof. Content and listing pages (blog, templates, help): Page header, with its one Get started button. Brand or campaign banners: any hero on the Vivid Pink surface. Event, community, brand and culture pages with several real photos: the multi-image heroes (Hero photo stack, Hero bento collage, Hero image marquee, Hero slideshow, Hero floating images). Several photos shown as a set, without hero copy beside them: the Gallery layouts. Photos of one shape: Gallery bento grid (square) or Gallery carousel (4:3). Photos of mixed shapes: Gallery masonry, which never crops. One photo per audience or setting: Gallery tabbed images. A big set of mood photos: Gallery marquee rows."
+        "text": "Sign-ups (home, campaign, landing): Hero split or Hero stacked with the Email form call to action. Use Hero split form only when you need more than an email. Feature pages: Hero split with the Bleed picture for a wide screenshot, or Hero stacked when the product screen is the proof. Content and listing pages (blog, templates, help): Page header, with its one Get started button. Brand or campaign banners: any hero on the Vivid Pink surface. Event, community, brand and culture pages with several real photos: the multi-image heroes (Hero photo stack, Hero bento collage, Hero image marquee, Hero slideshow, Hero floating images). Several photos shown as a set, without hero copy beside them: the Gallery layouts. Photos of one shape: Gallery bento grid (square) or Gallery carousel (4:3). Photos of mixed shapes: Gallery masonry, which never crops. One photo per audience or setting: Gallery tabbed images. A big set of mood photos: Gallery marquee rows."
       },
       {
         "title": "Copy",
@@ -35,11 +35,11 @@
       },
       {
         "title": "Above the fold",
-        "text": "The headline, the button and the visual are visible without scrolling at 1280 by 720 and on mobile. Use a real AhaSlides screenshot, not a stock photo. No small label or badge sits above the headline. For proof, keep the G2 reviews row (the G2 logo, stars and the 4.8 rating), which sits under the call to action on the three heroes and is on by default. In Hero stacked the picture is shown whole at its own ratio at every width, never cropped with object-fit cover (rule W6): supply the screenshot at the ratio you want shown."
+        "text": "The headline, the button and the visual are visible without scrolling at 1280 by 720 and on mobile. Use a real AhaSlides screenshot, not a stock photo. No small label or badge sits above the headline. For proof, keep the G2 reviews row (the G2 logo, stars and the 4.8 rating), which sits under the call to action on the heroes and is on by default. In Hero stacked the picture is shown whole at its own ratio at every width, never cropped with object-fit cover (rule W6): supply the screenshot at the ratio you want shown."
       },
       {
         "title": "Colour",
-        "text": "Colour rule 3.5 keeps the first screen of a product-app screen white, but a web page built from full-width sections may open with a Vivid Pink header (it is one of the two Vivid Pink sections of rule 3.4). Follow it with a full white section, never another coloured one. A Vivid Pink header always carries the DS Splash background (right when the copy is beside a picture or left-aligned with no picture, centre when the copy is centred or a picture fills the width), never a flat pink fill or hand-drawn hooks."
+        "text": "Colour rule 3.5 keeps the first screen of a product-app screen white, but a web page built from full-width sections may open with a Vivid Pink hero (it is one of the two Vivid Pink sections of rule 3.4). Follow it with a full white section, never another coloured one. A Vivid Pink hero always carries the DS Splash background (right when the copy is beside a picture or left-aligned with no picture, centre when the copy is centred or a picture fills the width), never a flat pink fill or hand-drawn hooks."
       },
       {
         "title": "One H1 per page",
@@ -51,7 +51,7 @@
       },
       {
         "title": "Background",
-        "text": "Every hero and the page header has a White / Accent / Vivid Pink switch: add the layout's own --accent class (for example aha-header-section-hero-split--accent) to lay the pale pink Accent background (bgAccent) over white, or its --brand class for Vivid Pink. The five Gallery layouts have White and Accent only. On Hero card the switch colours the panel, not the page. Accent and Vivid Pink are alternatives, never combined. Never place an Accent or Vivid Pink header next to another coloured section."
+        "text": "Every hero and the page header has a White / Accent / Vivid Pink switch: add the layout's own --accent class (for example aha-header-section-hero-split--accent) to lay the pale pink Accent background (bgAccent) over white, or its --brand class for Vivid Pink. The five Gallery layouts have White and Accent only. Accent and Vivid Pink are alternatives, never combined. Never place an Accent or Vivid Pink hero next to another coloured section."
       },
       {
         "title": "Hero video",
@@ -71,8 +71,7 @@
       "states": [
         {
           "label": "White",
-          "modifier": "",
-          "default": true
+          "modifier": ""
         },
         {
           "label": "Accent",
@@ -80,7 +79,8 @@
         },
         {
           "label": "Vivid Pink",
-          "modifier": "brand"
+          "modifier": "brand",
+          "default": true
         }
       ],
       "options": [
@@ -127,8 +127,7 @@
       "states": [
         {
           "label": "White",
-          "modifier": "",
-          "default": true
+          "modifier": ""
         },
         {
           "label": "Accent",
@@ -136,7 +135,8 @@
         },
         {
           "label": "Vivid Pink",
-          "modifier": "brand"
+          "modifier": "brand",
+          "default": true
         }
       ],
       "options": [
@@ -173,13 +173,35 @@
       "reviews": {}
     },
     {
-      "slug": "hero-card",
-      "name": "Hero card",
-      "class": "aha-header-section-hero-card",
-      "summary": "A coloured panel inside a white page: copy and an email sign-up on the left, a screenshot flush to the panel's bottom-right corner. Rebuilt in our own HTML and CSS from DS tokens and the DS input styles, every button an <aha-button>; every picture is a real <img> of the DS placeholder image. No third-party code, text or assets.",
-      "useFor": "Sign-up pages with an email field where the first screen should stay white around the panel. Its Vivid Pink state carries the DS Splash background.",
-      "css": ".aha-header-section-hero-card{\n  --aha-header-section-hero-card-surface:var(--aha-white);\n  --aha-header-section-hero-card-ink:var(--aha-text-default);\n  --aha-header-section-hero-card-ink-secondary:var(--aha-text-secondary);\n  --aha-header-section-hero-card-star:var(--aha-color-primary);\n  --aha-header-section-hero-card-frame:var(--aha-border-default);\n  --aha-header-section-hero-card-media-bg:var(--aha-bg-container-secondary);\n  --aha-header-section-hero-card-focus:var(--aha-focus);\n  container:aha-header-section-hero-card / inline-size;\n  position:relative;overflow:hidden;\n  font-family:var(--aha-font-product);\n  background:var(--aha-header-section-hero-card-surface);\n  color:var(--aha-header-section-hero-card-ink);\n}\n.aha-header-section-hero-card--brand,.aha-header-section-hero-card__panel--brand{\n  --aha-header-section-hero-card-surface:var(--aha-vivid-pink-100);\n  --aha-header-section-hero-card-ink:var(--aha-text-inverse);\n  --aha-header-section-hero-card-ink-secondary:var(--aha-text-inverse);\n  --aha-header-section-hero-card-star:var(--aha-text-inverse);\n  --aha-header-section-hero-card-frame:var(--aha-vivid-pink-dark);\n  --aha-header-section-hero-card-focus:var(--aha-white);\n}\n.aha-header-section-hero-card *{box-sizing:border-box}\n:where(.aha-header-section-hero-card) :is(h1,h2,p,ul,form,figure){margin:0;padding:0}\n:where(.aha-header-section-hero-card) ul{list-style:none}\n.aha-header-section-hero-card__inner{max-width:1280px;margin:0 auto;padding:var(--aha-space-96) var(--aha-space-32)}\n.aha-header-section-hero-card__split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--aha-space-64);align-items:center}\n.aha-header-section-hero-card__copy{display:flex;flex-direction:column;align-items:flex-start;max-width:640px}\n.aha-header-section-hero-card__title{\n  font-size:var(--aha-size-h1);font-weight:var(--aha-weight-semibold);line-height:var(--aha-line-height-heading);\n  letter-spacing:var(--aha-letter-spacing-headlines);\n  color:var(--aha-header-section-hero-card-ink);\n}\n.aha-header-section-hero-card__text{\n  margin-top:var(--aha-space-24);\n  font-size:var(--aha-size-xl);font-weight:var(--aha-weight-regular);line-height:var(--aha-line-height-body);\n  letter-spacing:var(--aha-letter-spacing-paragraph);\n  color:var(--aha-header-section-hero-card-ink-secondary);\n}\n.aha-header-section-hero-card__actions{display:flex;flex-wrap:wrap;gap:var(--aha-space-12);margin-top:var(--aha-space-32)}\n.aha-header-section-hero-card__form{display:flex;flex-wrap:wrap;gap:var(--aha-space-12);width:100%;max-width:480px;margin-top:var(--aha-space-32)}\n.aha-header-section-hero-card__field{display:flex;flex:1 1 240px;min-width:0}\n.aha-header-section-hero-card__input{\n  width:100%;height:var(--aha-control-height-button-xl);padding:0 var(--aha-space-16);\n  border:1px solid var(--aha-border-input);border-radius:var(--aha-radius-default);\n  background:var(--aha-white);color:var(--aha-text-default);\n  font-family:inherit;font-size:var(--aha-size-l);\n  transition:border-color var(--aha-motion-mid) var(--aha-ease-in-out);\n}\n.aha-header-section-hero-card__input::placeholder{color:var(--aha-text-placeholder);opacity:1}\n.aha-header-section-hero-card__input:hover{border-color:var(--aha-border-hover)}\n.aha-header-section-hero-card__input:focus{outline:none;border-color:var(--aha-border-focus)}\n.aha-header-section-hero-card__input:focus-visible{outline:var(--aha-space-2) solid var(--aha-header-section-hero-card-focus);outline-offset:var(--aha-space-2)}\n.aha-header-section-hero-card__hint{margin-top:var(--aha-space-12);font-size:var(--aha-size-default);line-height:var(--aha-line-height-body);color:var(--aha-header-section-hero-card-ink-secondary)}\n.aha-header-section-hero-card__media{display:block;min-width:0}\n.aha-header-section-hero-card__image{\n  display:block;width:100%;height:auto;object-fit:cover;\n  border-radius:var(--aha-radius-xl);background:var(--aha-header-section-hero-card-media-bg);\n}\n@container aha-header-section-hero-card (max-width:991px){\n  .aha-header-section-hero-card__inner{padding:var(--aha-space-64) var(--aha-space-32)}\n  .aha-header-section-hero-card__split{grid-template-columns:minmax(0,1fr);gap:var(--aha-space-48)}\n  .aha-header-section-hero-card__title{font-size:var(--aha-size-h3)}\n  .aha-header-section-hero-card__text{font-size:var(--aha-size-l)}\n}\n@container aha-header-section-hero-card (max-width:767px){\n  .aha-header-section-hero-card__inner{--aha-web-gutter:var(--aha-space-24);padding-inline:var(--aha-web-gutter)}\n}\n@container aha-header-section-hero-card (max-width:479px){\n  .aha-header-section-hero-card__inner{--aha-web-gutter:var(--aha-space-16);padding:var(--aha-space-48) var(--aha-web-gutter)}\n  .aha-header-section-hero-card__actions,.aha-header-section-hero-card__form{margin-top:var(--aha-space-24)}\n  .aha-header-section-hero-card__title{font-size:var(--aha-size-h4)}\n  .aha-header-section-hero-card__actions{width:100%}\n  .aha-header-section-hero-card__actions aha-button,.aha-header-section-hero-card__form aha-button{flex:1 1 100%}\n}\n.aha-header-section-hero-card__visually-hidden{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n.aha-header-section-hero-card__panel{overflow:hidden;border-radius:var(--aha-radius-xl);background:var(--aha-header-section-hero-card-surface);color:var(--aha-header-section-hero-card-ink)}\n.aha-header-section-hero-card__split{align-items:end;gap:var(--aha-space-48);padding:var(--aha-space-64) 0 0 var(--aha-space-64)}\n.aha-header-section-hero-card__copy{align-self:center;padding-bottom:var(--aha-space-64)}\n.aha-header-section-hero-card__image{aspect-ratio:5 / 4;border-radius:var(--aha-radius-xl) 0 0 0}\n@container aha-header-section-hero-card (max-width:991px){.aha-header-section-hero-card__split{padding:var(--aha-space-48) 0 0 var(--aha-space-48)}.aha-header-section-hero-card__copy{padding-right:var(--aha-space-48);padding-bottom:0}}\n@container aha-header-section-hero-card (max-width:479px){.aha-header-section-hero-card__split{padding:var(--aha-space-32) 0 0 var(--aha-space-24)}.aha-header-section-hero-card__copy{padding-right:var(--aha-space-24)}}\n.aha-header-section-hero-card--brand,.aha-header-section-hero-card__panel--brand{position:relative;isolation:isolate}\n.aha-header-section-hero-card__splash{display:none}\n.aha-header-section-hero-card--brand>.aha-header-section-hero-card__splash,.aha-header-section-hero-card__panel--brand>.aha-header-section-hero-card__splash{display:block;position:absolute;inset:0;z-index:-1;overflow:hidden;container-type:size;pointer-events:none;border-radius:inherit;--aha-header-section-hero-card-splash-width:calc(4.5*min(100cqw,100cqh)*sqrt(max(1,tan(atan2(100cqw,100cqh))*9/16,9/16/tan(atan2(100cqw,100cqh)))))}\n.aha-header-section-hero-card__splash-icon{position:absolute;display:block;max-width:none;height:auto;width:var(--aha-header-section-hero-card-splash-width);left:calc(var(--aha-header-section-hero-card-splash-across)*100cqw - var(--aha-header-section-hero-card-splash-width)*0.516209);top:calc(55cqh - var(--aha-header-section-hero-card-splash-width)*0.418953)}\n.aha-header-section-hero-card__splash{--aha-header-section-hero-card-splash-across:.75}\n.aha-header-section-hero-card--accent{box-shadow:inset 0 0 0 100vmax var(--aha-bg-accent)}\n",
-      "html": "<section class=\"aha-header-section-hero-card\"><div class=\"aha-header-section-hero-card__splash\" aria-hidden=\"true\"><img class=\"aha-header-section-hero-card__splash-icon\" src=\"https://design.ahaslides.io/backgrounds/splash-icon-pink.svg\" alt=\"\" width=\"802\" height=\"788\"></div>\n  <div class=\"aha-header-section-hero-card__inner\">\n    <div class=\"aha-header-section-hero-card__panel aha-header-section-hero-card__panel--brand\"><div class=\"aha-header-section-hero-card__splash\" aria-hidden=\"true\"><img class=\"aha-header-section-hero-card__splash-icon\" src=\"https://design.ahaslides.io/backgrounds/splash-icon-pink.svg\" alt=\"\" width=\"802\" height=\"788\"></div>\n      <div class=\"aha-header-section-hero-card__split\">\n        <div class=\"aha-header-section-hero-card__copy\">\n        <h1 class=\"aha-header-section-hero-card__title\">Lorem ipsum dolor sit amet</h1>\n        <p class=\"aha-header-section-hero-card__text\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\n        <form class=\"aha-header-section-hero-card__form\" action=\"#\">\n          <label class=\"aha-header-section-hero-card__field\"><span class=\"aha-header-section-hero-card__visually-hidden\">Enter your email</span><input class=\"aha-header-section-hero-card__input\" type=\"email\" placeholder=\"Enter your email\"></label>\n          <aha-button variant=\"primary\" data-variant-brand=\"secondary\" size=\"xl\" type=\"submit\" data-surface-brand=\"brand\">Get started</aha-button>\n        </form>\n        <p class=\"aha-header-section-hero-card__hint\">We care about your data in our privacy policy.</p>\n      </div>\n        <div class=\"aha-header-section-hero-card__media\">\n          <img class=\"aha-header-section-hero-card__image\" src=\"https://design.ahaslides.io/marketing-assets/image-placeholder.svg\" alt=\"Placeholder screenshot: replace with the page screenshot\" width=\"800\" height=\"640\">\n        </div>\n      </div>\n    </div>\n  </div>\n</section>",
+      "slug": "hero-split-form",
+      "name": "Hero split form",
+      "class": "aha-header-section-hero-split-form",
+      "summary": "Hero with the copy and a short checklist on the left, a sign-up form card on the right. Rebuilt in our own HTML and CSS from DS tokens and the DS input styles, every button an <aha-button>; every picture is a real <img> of the DS placeholder image. No third-party code, text or assets.",
+      "useFor": "Sign-up pages that need more than an email (name, role, company). Otherwise use Hero split with the Email form call to action.",
+      "css": ".aha-header-section-hero-split-form{\n  --aha-header-section-hero-split-form-surface:var(--aha-white);\n  --aha-header-section-hero-split-form-ink:var(--aha-text-default);\n  --aha-header-section-hero-split-form-ink-secondary:var(--aha-text-secondary);\n  --aha-header-section-hero-split-form-star:var(--aha-color-primary);\n  --aha-header-section-hero-split-form-frame:var(--aha-border-default);\n  --aha-header-section-hero-split-form-media-bg:var(--aha-bg-container-secondary);\n  --aha-header-section-hero-split-form-focus:var(--aha-focus);\n  container:aha-header-section-hero-split-form / inline-size;\n  position:relative;overflow:hidden;\n  font-family:var(--aha-font-product);\n  background:var(--aha-header-section-hero-split-form-surface);\n  color:var(--aha-header-section-hero-split-form-ink);\n}\n.aha-header-section-hero-split-form--brand{\n  --aha-header-section-hero-split-form-surface:var(--aha-vivid-pink-100);\n  --aha-header-section-hero-split-form-ink:var(--aha-text-inverse);\n  --aha-header-section-hero-split-form-ink-secondary:var(--aha-text-inverse);\n  --aha-header-section-hero-split-form-star:var(--aha-text-inverse);\n  --aha-header-section-hero-split-form-frame:var(--aha-vivid-pink-dark);\n  --aha-header-section-hero-split-form-focus:var(--aha-white);\n}\n.aha-header-section-hero-split-form *{box-sizing:border-box}\n:where(.aha-header-section-hero-split-form) :is(h1,h2,p,ul,form,figure){margin:0;padding:0}\n:where(.aha-header-section-hero-split-form) ul{list-style:none}\n.aha-header-section-hero-split-form__inner{max-width:1280px;margin:0 auto;padding:var(--aha-space-96) var(--aha-space-32)}\n.aha-header-section-hero-split-form__split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--aha-space-64);align-items:center}\n.aha-header-section-hero-split-form__copy{display:flex;flex-direction:column;align-items:flex-start;max-width:640px}\n.aha-header-section-hero-split-form__title{\n  font-size:var(--aha-size-h1);font-weight:var(--aha-weight-semibold);line-height:var(--aha-line-height-heading);\n  letter-spacing:var(--aha-letter-spacing-headlines);\n  color:var(--aha-header-section-hero-split-form-ink);\n}\n.aha-header-section-hero-split-form__text{\n  margin-top:var(--aha-space-24);\n  font-size:var(--aha-size-xl);font-weight:var(--aha-weight-regular);line-height:var(--aha-line-height-body);\n  letter-spacing:var(--aha-letter-spacing-paragraph);\n  color:var(--aha-header-section-hero-split-form-ink-secondary);\n}\n.aha-header-section-hero-split-form__input{\n  width:100%;height:var(--aha-control-height-button-xl);padding:0 var(--aha-space-16);\n  border:1px solid var(--aha-border-input);border-radius:var(--aha-radius-default);\n  background:var(--aha-white);color:var(--aha-text-default);\n  font-family:inherit;font-size:var(--aha-size-l);\n  transition:border-color var(--aha-motion-mid) var(--aha-ease-in-out);\n}\n.aha-header-section-hero-split-form__input::placeholder{color:var(--aha-text-placeholder);opacity:1}\n.aha-header-section-hero-split-form__input:hover{border-color:var(--aha-border-hover)}\n.aha-header-section-hero-split-form__input:focus{outline:none;border-color:var(--aha-border-focus)}\n.aha-header-section-hero-split-form__input:focus-visible{outline:var(--aha-space-2) solid var(--aha-header-section-hero-split-form-focus);outline-offset:var(--aha-space-2)}\n.aha-header-section-hero-split-form__checks{display:flex;flex-direction:column;gap:var(--aha-space-12);margin-top:var(--aha-space-32)}\n.aha-header-section-hero-split-form__check{display:flex;align-items:center;gap:var(--aha-space-12);font-size:var(--aha-size-l);line-height:var(--aha-line-height-body);color:var(--aha-header-section-hero-split-form-ink)}\n.aha-header-section-hero-split-form__check aha-icon{flex:none;color:var(--aha-color-primary)}\n.aha-header-section-hero-split-form--brand .aha-header-section-hero-split-form__check aha-icon{color:var(--aha-white)}\n.aha-header-section-hero-split-form__media{display:block;min-width:0}\n.aha-header-section-hero-split-form__image{\n  display:block;width:100%;height:auto;object-fit:cover;\n  border-radius:var(--aha-radius-xl);background:var(--aha-header-section-hero-split-form-media-bg);\n}\n.aha-header-section-hero-split-form__card{\n  width:100%;padding:var(--aha-space-32);\n  border:1px solid var(--aha-header-section-hero-split-form-frame);border-radius:var(--aha-radius-xl);background:var(--aha-white);\n}\n.aha-header-section-hero-split-form__card-title{font-size:var(--aha-size-h4);font-weight:var(--aha-weight-semibold);line-height:var(--aha-line-height-heading);color:var(--aha-text-default)}\n.aha-header-section-hero-split-form__card-text{margin-top:var(--aha-space-8);font-size:var(--aha-size-l);line-height:var(--aha-line-height-body);color:var(--aha-text-secondary)}\n.aha-header-section-hero-split-form__card-form{display:flex;flex-direction:column;gap:var(--aha-space-16);margin-top:var(--aha-space-24)}\n.aha-header-section-hero-split-form__label{display:flex;flex-direction:column;gap:var(--aha-space-6);font-size:var(--aha-size-default);font-weight:var(--aha-weight-semibold);color:var(--aha-text-default)}\n.aha-header-section-hero-split-form__card-form aha-button{width:100%}\n.aha-header-section-hero-split-form__card-note{margin-top:var(--aha-space-16);font-size:var(--aha-size-default);text-align:center;color:var(--aha-text-secondary)}\n.aha-header-section-hero-split-form__card-note a{color:var(--aha-color-primary);text-decoration:none}\n.aha-header-section-hero-split-form__card-note a:hover{text-decoration:underline}\n@container aha-header-section-hero-split-form (max-width:991px){\n  .aha-header-section-hero-split-form__inner{padding:var(--aha-space-64) var(--aha-space-32)}\n  .aha-header-section-hero-split-form__split{grid-template-columns:minmax(0,1fr);gap:var(--aha-space-48)}\n  .aha-header-section-hero-split-form__title{font-size:var(--aha-size-h3)}\n  .aha-header-section-hero-split-form__text{font-size:var(--aha-size-l)}\n}\n@container aha-header-section-hero-split-form (max-width:767px){\n  .aha-header-section-hero-split-form__inner{--aha-web-gutter:var(--aha-space-24);padding-inline:var(--aha-web-gutter)}\n}\n@container aha-header-section-hero-split-form (max-width:479px){\n  .aha-header-section-hero-split-form__inner{--aha-web-gutter:var(--aha-space-16);padding:var(--aha-space-48) var(--aha-web-gutter)}\n  .aha-header-section-hero-split-form__title{font-size:var(--aha-size-h4)}\n  .aha-header-section-hero-split-form__card{padding:var(--aha-space-24)}\n}\n.aha-header-section-hero-split-form__media{justify-self:end;width:100%;max-width:480px}\n.aha-header-section-hero-split-form--brand{position:relative;isolation:isolate}\n.aha-header-section-hero-split-form__splash{display:none}\n.aha-header-section-hero-split-form--brand>.aha-header-section-hero-split-form__splash{display:block;position:absolute;inset:0;z-index:-1;overflow:hidden;container-type:size;pointer-events:none;border-radius:inherit;--aha-header-section-hero-split-form-splash-width:calc(4.5*min(100cqw,100cqh)*sqrt(max(1,tan(atan2(100cqw,100cqh))*9/16,9/16/tan(atan2(100cqw,100cqh)))))}\n.aha-header-section-hero-split-form__splash-icon{position:absolute;display:block;max-width:none;height:auto;width:var(--aha-header-section-hero-split-form-splash-width);left:calc(var(--aha-header-section-hero-split-form-splash-across)*100cqw - var(--aha-header-section-hero-split-form-splash-width)*0.516209);top:calc(55cqh - var(--aha-header-section-hero-split-form-splash-width)*0.418953)}\n.aha-header-section-hero-split-form__splash{--aha-header-section-hero-split-form-splash-across:.75}\n.aha-header-section-hero-split-form--accent{box-shadow:inset 0 0 0 100vmax var(--aha-bg-accent)}\n",
+      "html": "<section class=\"aha-header-section-hero-split-form\"><div class=\"aha-header-section-hero-split-form__splash\" aria-hidden=\"true\"><img class=\"aha-header-section-hero-split-form__splash-icon\" src=\"https://design.ahaslides.io/backgrounds/splash-icon-pink.svg\" alt=\"\" width=\"802\" height=\"788\"></div>\n  <div class=\"aha-header-section-hero-split-form__inner\">\n    <div class=\"aha-header-section-hero-split-form__split\">\n      <div class=\"aha-header-section-hero-split-form__copy\">\n        <h1 class=\"aha-header-section-hero-split-form__title\">Lorem ipsum dolor sit amet</h1>\n        <p class=\"aha-header-section-hero-split-form__text\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\n        <ul class=\"aha-header-section-hero-split-form__checks\">\n          <li class=\"aha-header-section-hero-split-form__check\"><aha-icon name=\"system-check\" size=\"16\"></aha-icon>Lorem ipsum dolor sit amet</li>\n          <li class=\"aha-header-section-hero-split-form__check\"><aha-icon name=\"system-check\" size=\"16\"></aha-icon>Consectetur adipiscing elit sed do</li>\n          <li class=\"aha-header-section-hero-split-form__check\"><aha-icon name=\"system-check\" size=\"16\"></aha-icon>Eiusmod tempor incididunt ut labore</li>\n        </ul>\n      </div>\n      <div class=\"aha-header-section-hero-split-form__media\">\n        <div class=\"aha-header-section-hero-split-form__card\">\n          <h2 class=\"aha-header-section-hero-split-form__card-title\">Create an account</h2>\n          <p class=\"aha-header-section-hero-split-form__card-text\">Start your 30-day free trial.</p>\n          <form class=\"aha-header-section-hero-split-form__card-form\" action=\"#\">\n            <label class=\"aha-header-section-hero-split-form__label\">Name<input class=\"aha-header-section-hero-split-form__input\" type=\"text\" placeholder=\"Enter your name\"></label>\n            <label class=\"aha-header-section-hero-split-form__label\">Email<input class=\"aha-header-section-hero-split-form__input\" type=\"email\" placeholder=\"Enter your email\"></label>\n            <aha-button variant=\"primary\" data-variant-brand=\"secondary\" size=\"xl\" type=\"submit\" data-surface-brand=\"brand\">Get started</aha-button>\n          </form>\n          <p class=\"aha-header-section-hero-split-form__card-note\">Already have an account? <a href=\"#\">Log in</a></p>\n        </div>\n      </div>\n    </div>\n  </div>\n</section>",
+      "states": [
+        {
+          "label": "White",
+          "modifier": ""
+        },
+        {
+          "label": "Accent",
+          "modifier": "accent"
+        },
+        {
+          "label": "Vivid Pink",
+          "modifier": "brand",
+          "default": true
+        }
+      ]
+    },
+    {
+      "slug": "hero-photo-stack",
+      "name": "Hero photo stack",
+      "class": "aha-header-section-hero-photo-stack",
+      "summary": "Copy on the left, three portrait photos on the right fanned like a hand of cards: two tilted behind, one upright in front, each in a white frame. Hovering the stack fans it wider with a hover transition timed by --aha-motion-slow and --aha-ease-out; under reduced motion it stays still. Every picture is a real <img> of the DS tall placeholder; export each photo at 3:4.",
+      "useFor": "Event, community and customer-story pages where several real moments say more than one screenshot.",
       "states": [
         {
           "label": "White",
@@ -195,53 +217,6 @@
           "default": true
         }
       ],
-      "reviews": {}
-    },
-    {
-      "slug": "hero-split-form",
-      "name": "Hero split form",
-      "class": "aha-header-section-hero-split-form",
-      "summary": "Hero with the copy and a short checklist on the left, a sign-up form card on the right. Rebuilt in our own HTML and CSS from DS tokens and the DS input styles, every button an <aha-button>; every picture is a real <img> of the DS placeholder image. No third-party code, text or assets.",
-      "useFor": "Sign-up pages that need more than an email (name, role, company). Otherwise use Hero split with the Email form call to action.",
-      "css": ".aha-header-section-hero-split-form{\n  --aha-header-section-hero-split-form-surface:var(--aha-white);\n  --aha-header-section-hero-split-form-ink:var(--aha-text-default);\n  --aha-header-section-hero-split-form-ink-secondary:var(--aha-text-secondary);\n  --aha-header-section-hero-split-form-star:var(--aha-color-primary);\n  --aha-header-section-hero-split-form-frame:var(--aha-border-default);\n  --aha-header-section-hero-split-form-media-bg:var(--aha-bg-container-secondary);\n  --aha-header-section-hero-split-form-focus:var(--aha-focus);\n  container:aha-header-section-hero-split-form / inline-size;\n  position:relative;overflow:hidden;\n  font-family:var(--aha-font-product);\n  background:var(--aha-header-section-hero-split-form-surface);\n  color:var(--aha-header-section-hero-split-form-ink);\n}\n.aha-header-section-hero-split-form--brand{\n  --aha-header-section-hero-split-form-surface:var(--aha-vivid-pink-100);\n  --aha-header-section-hero-split-form-ink:var(--aha-text-inverse);\n  --aha-header-section-hero-split-form-ink-secondary:var(--aha-text-inverse);\n  --aha-header-section-hero-split-form-star:var(--aha-text-inverse);\n  --aha-header-section-hero-split-form-frame:var(--aha-vivid-pink-dark);\n  --aha-header-section-hero-split-form-focus:var(--aha-white);\n}\n.aha-header-section-hero-split-form *{box-sizing:border-box}\n:where(.aha-header-section-hero-split-form) :is(h1,h2,p,ul,form,figure){margin:0;padding:0}\n:where(.aha-header-section-hero-split-form) ul{list-style:none}\n.aha-header-section-hero-split-form__inner{max-width:1280px;margin:0 auto;padding:var(--aha-space-96) var(--aha-space-32)}\n.aha-header-section-hero-split-form__split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--aha-space-64);align-items:center}\n.aha-header-section-hero-split-form__copy{display:flex;flex-direction:column;align-items:flex-start;max-width:640px}\n.aha-header-section-hero-split-form__title{\n  font-size:var(--aha-size-h1);font-weight:var(--aha-weight-semibold);line-height:var(--aha-line-height-heading);\n  letter-spacing:var(--aha-letter-spacing-headlines);\n  color:var(--aha-header-section-hero-split-form-ink);\n}\n.aha-header-section-hero-split-form__text{\n  margin-top:var(--aha-space-24);\n  font-size:var(--aha-size-xl);font-weight:var(--aha-weight-regular);line-height:var(--aha-line-height-body);\n  letter-spacing:var(--aha-letter-spacing-paragraph);\n  color:var(--aha-header-section-hero-split-form-ink-secondary);\n}\n.aha-header-section-hero-split-form__input{\n  width:100%;height:var(--aha-control-height-button-xl);padding:0 var(--aha-space-16);\n  border:1px solid var(--aha-border-input);border-radius:var(--aha-radius-default);\n  background:var(--aha-white);color:var(--aha-text-default);\n  font-family:inherit;font-size:var(--aha-size-l);\n  transition:border-color var(--aha-motion-mid) var(--aha-ease-in-out);\n}\n.aha-header-section-hero-split-form__input::placeholder{color:var(--aha-text-placeholder);opacity:1}\n.aha-header-section-hero-split-form__input:hover{border-color:var(--aha-border-hover)}\n.aha-header-section-hero-split-form__input:focus{outline:none;border-color:var(--aha-border-focus)}\n.aha-header-section-hero-split-form__input:focus-visible{outline:var(--aha-space-2) solid var(--aha-header-section-hero-split-form-focus);outline-offset:var(--aha-space-2)}\n.aha-header-section-hero-split-form__checks{display:flex;flex-direction:column;gap:var(--aha-space-12);margin-top:var(--aha-space-32)}\n.aha-header-section-hero-split-form__check{display:flex;align-items:center;gap:var(--aha-space-12);font-size:var(--aha-size-l);line-height:var(--aha-line-height-body);color:var(--aha-header-section-hero-split-form-ink)}\n.aha-header-section-hero-split-form__check aha-icon{flex:none;color:var(--aha-color-primary)}\n.aha-header-section-hero-split-form--brand .aha-header-section-hero-split-form__check aha-icon{color:var(--aha-white)}\n.aha-header-section-hero-split-form__media{display:block;min-width:0}\n.aha-header-section-hero-split-form__image{\n  display:block;width:100%;height:auto;object-fit:cover;\n  border-radius:var(--aha-radius-xl);background:var(--aha-header-section-hero-split-form-media-bg);\n}\n.aha-header-section-hero-split-form__card{\n  width:100%;padding:var(--aha-space-32);\n  border:1px solid var(--aha-header-section-hero-split-form-frame);border-radius:var(--aha-radius-xl);background:var(--aha-white);\n}\n.aha-header-section-hero-split-form__card-title{font-size:var(--aha-size-h4);font-weight:var(--aha-weight-semibold);line-height:var(--aha-line-height-heading);color:var(--aha-text-default)}\n.aha-header-section-hero-split-form__card-text{margin-top:var(--aha-space-8);font-size:var(--aha-size-l);line-height:var(--aha-line-height-body);color:var(--aha-text-secondary)}\n.aha-header-section-hero-split-form__card-form{display:flex;flex-direction:column;gap:var(--aha-space-16);margin-top:var(--aha-space-24)}\n.aha-header-section-hero-split-form__label{display:flex;flex-direction:column;gap:var(--aha-space-6);font-size:var(--aha-size-default);font-weight:var(--aha-weight-semibold);color:var(--aha-text-default)}\n.aha-header-section-hero-split-form__card-form aha-button{width:100%}\n.aha-header-section-hero-split-form__card-note{margin-top:var(--aha-space-16);font-size:var(--aha-size-default);text-align:center;color:var(--aha-text-secondary)}\n.aha-header-section-hero-split-form__card-note a{color:var(--aha-color-primary);text-decoration:none}\n.aha-header-section-hero-split-form__card-note a:hover{text-decoration:underline}\n@container aha-header-section-hero-split-form (max-width:991px){\n  .aha-header-section-hero-split-form__inner{padding:var(--aha-space-64) var(--aha-space-32)}\n  .aha-header-section-hero-split-form__split{grid-template-columns:minmax(0,1fr);gap:var(--aha-space-48)}\n  .aha-header-section-hero-split-form__title{font-size:var(--aha-size-h3)}\n  .aha-header-section-hero-split-form__text{font-size:var(--aha-size-l)}\n}\n@container aha-header-section-hero-split-form (max-width:767px){\n  .aha-header-section-hero-split-form__inner{--aha-web-gutter:var(--aha-space-24);padding-inline:var(--aha-web-gutter)}\n}\n@container aha-header-section-hero-split-form (max-width:479px){\n  .aha-header-section-hero-split-form__inner{--aha-web-gutter:var(--aha-space-16);padding:var(--aha-space-48) var(--aha-web-gutter)}\n  .aha-header-section-hero-split-form__title{font-size:var(--aha-size-h4)}\n  .aha-header-section-hero-split-form__card{padding:var(--aha-space-24)}\n}\n.aha-header-section-hero-split-form__media{justify-self:end;width:100%;max-width:480px}\n.aha-header-section-hero-split-form--brand{position:relative;isolation:isolate}\n.aha-header-section-hero-split-form__splash{display:none}\n.aha-header-section-hero-split-form--brand>.aha-header-section-hero-split-form__splash{display:block;position:absolute;inset:0;z-index:-1;overflow:hidden;container-type:size;pointer-events:none;border-radius:inherit;--aha-header-section-hero-split-form-splash-width:calc(4.5*min(100cqw,100cqh)*sqrt(max(1,tan(atan2(100cqw,100cqh))*9/16,9/16/tan(atan2(100cqw,100cqh)))))}\n.aha-header-section-hero-split-form__splash-icon{position:absolute;display:block;max-width:none;height:auto;width:var(--aha-header-section-hero-split-form-splash-width);left:calc(var(--aha-header-section-hero-split-form-splash-across)*100cqw - var(--aha-header-section-hero-split-form-splash-width)*0.516209);top:calc(55cqh - var(--aha-header-section-hero-split-form-splash-width)*0.418953)}\n.aha-header-section-hero-split-form__splash{--aha-header-section-hero-split-form-splash-across:.75}\n.aha-header-section-hero-split-form--accent{box-shadow:inset 0 0 0 100vmax var(--aha-bg-accent)}\n",
-      "html": "<section class=\"aha-header-section-hero-split-form\"><div class=\"aha-header-section-hero-split-form__splash\" aria-hidden=\"true\"><img class=\"aha-header-section-hero-split-form__splash-icon\" src=\"https://design.ahaslides.io/backgrounds/splash-icon-pink.svg\" alt=\"\" width=\"802\" height=\"788\"></div>\n  <div class=\"aha-header-section-hero-split-form__inner\">\n    <div class=\"aha-header-section-hero-split-form__split\">\n      <div class=\"aha-header-section-hero-split-form__copy\">\n        <h1 class=\"aha-header-section-hero-split-form__title\">Lorem ipsum dolor sit amet</h1>\n        <p class=\"aha-header-section-hero-split-form__text\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\n        <ul class=\"aha-header-section-hero-split-form__checks\">\n          <li class=\"aha-header-section-hero-split-form__check\"><aha-icon name=\"system-check\" size=\"16\"></aha-icon>Lorem ipsum dolor sit amet</li>\n          <li class=\"aha-header-section-hero-split-form__check\"><aha-icon name=\"system-check\" size=\"16\"></aha-icon>Consectetur adipiscing elit sed do</li>\n          <li class=\"aha-header-section-hero-split-form__check\"><aha-icon name=\"system-check\" size=\"16\"></aha-icon>Eiusmod tempor incididunt ut labore</li>\n        </ul>\n      </div>\n      <div class=\"aha-header-section-hero-split-form__media\">\n        <div class=\"aha-header-section-hero-split-form__card\">\n          <h2 class=\"aha-header-section-hero-split-form__card-title\">Create an account</h2>\n          <p class=\"aha-header-section-hero-split-form__card-text\">Start your 30-day free trial.</p>\n          <form class=\"aha-header-section-hero-split-form__card-form\" action=\"#\">\n            <label class=\"aha-header-section-hero-split-form__label\">Name<input class=\"aha-header-section-hero-split-form__input\" type=\"text\" placeholder=\"Enter your name\"></label>\n            <label class=\"aha-header-section-hero-split-form__label\">Email<input class=\"aha-header-section-hero-split-form__input\" type=\"email\" placeholder=\"Enter your email\"></label>\n            <aha-button variant=\"primary\" data-variant-brand=\"secondary\" size=\"xl\" type=\"submit\" data-surface-brand=\"brand\">Get started</aha-button>\n          </form>\n          <p class=\"aha-header-section-hero-split-form__card-note\">Already have an account? <a href=\"#\">Log in</a></p>\n        </div>\n      </div>\n    </div>\n  </div>\n</section>",
-      "states": [
-        {
-          "label": "White",
-          "modifier": "",
-          "default": true
-        },
-        {
-          "label": "Accent",
-          "modifier": "accent"
-        },
-        {
-          "label": "Vivid Pink",
-          "modifier": "brand"
-        }
-      ]
-    },
-    {
-      "slug": "hero-photo-stack",
-      "name": "Hero photo stack",
-      "class": "aha-header-section-hero-photo-stack",
-      "summary": "Copy on the left, three portrait photos on the right fanned like a hand of cards: two tilted behind, one upright in front, each in a white frame. Hovering the stack fans it wider with a hover transition timed by --aha-motion-slow and --aha-ease-out; under reduced motion it stays still. Every picture is a real <img> of the DS tall placeholder; export each photo at 3:4.",
-      "useFor": "Event, community and customer-story pages where several real moments say more than one screenshot.",
-      "states": [
-        {
-          "label": "White",
-          "modifier": "",
-          "default": true
-        },
-        {
-          "label": "Accent",
-          "modifier": "accent"
-        },
-        {
-          "label": "Vivid Pink",
-          "modifier": "brand"
-        }
-      ],
       "reviews": {},
       "css": ".aha-header-section-hero-photo-stack{\n  --aha-header-section-hero-photo-stack-surface:var(--aha-white);\n  --aha-header-section-hero-photo-stack-ink:var(--aha-text-default);\n  --aha-header-section-hero-photo-stack-ink-secondary:var(--aha-text-secondary);\n  --aha-header-section-hero-photo-stack-frame:var(--aha-border-default);\n  --aha-header-section-hero-photo-stack-media-bg:var(--aha-bg-container-secondary);\n  --aha-header-section-hero-photo-stack-focus:var(--aha-focus);\n  container:aha-header-section-hero-photo-stack / inline-size;\n  position:relative;overflow:hidden;\n  font-family:var(--aha-font-product);\n  background:var(--aha-header-section-hero-photo-stack-surface);\n  color:var(--aha-header-section-hero-photo-stack-ink);\n}\n.aha-header-section-hero-photo-stack--brand,.aha-header-section-hero-photo-stack__panel--brand{\n  --aha-header-section-hero-photo-stack-surface:var(--aha-vivid-pink-100);\n  --aha-header-section-hero-photo-stack-ink:var(--aha-text-inverse);\n  --aha-header-section-hero-photo-stack-ink-secondary:var(--aha-text-inverse);\n  --aha-header-section-hero-photo-stack-frame:var(--aha-vivid-pink-dark);\n  --aha-header-section-hero-photo-stack-focus:var(--aha-white);\n}\n.aha-header-section-hero-photo-stack *{box-sizing:border-box}\n:where(.aha-header-section-hero-photo-stack) :is(h1,h2,p,ul,form,figure){margin:0;padding:0}\n:where(.aha-header-section-hero-photo-stack) ul{list-style:none}\n.aha-header-section-hero-photo-stack__inner{max-width:1280px;margin:0 auto;padding:var(--aha-space-96) var(--aha-space-32)}\n.aha-header-section-hero-photo-stack__split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--aha-space-64);align-items:center}\n.aha-header-section-hero-photo-stack__copy{display:flex;flex-direction:column;align-items:flex-start;max-width:640px}\n.aha-header-section-hero-photo-stack__title{\n  font-size:var(--aha-size-h1);font-weight:var(--aha-weight-semibold);line-height:var(--aha-line-height-heading);\n  letter-spacing:var(--aha-letter-spacing-headlines);\n  color:var(--aha-header-section-hero-photo-stack-ink);\n}\n.aha-header-section-hero-photo-stack__text{\n  margin-top:var(--aha-space-24);\n  font-size:var(--aha-size-xl);font-weight:var(--aha-weight-regular);line-height:var(--aha-line-height-body);\n  letter-spacing:var(--aha-letter-spacing-paragraph);\n  color:var(--aha-header-section-hero-photo-stack-ink-secondary);\n}\n.aha-header-section-hero-photo-stack__actions{display:flex;flex-wrap:wrap;gap:var(--aha-space-12);margin-top:var(--aha-space-32)}\n.aha-header-section-hero-photo-stack__form{display:flex;flex-wrap:wrap;gap:var(--aha-space-12);width:100%;max-width:480px;margin-top:var(--aha-space-32)}\n.aha-header-section-hero-photo-stack__field{display:flex;flex:1 1 240px;min-width:0}\n.aha-header-section-hero-photo-stack__input{\n  width:100%;height:var(--aha-control-height-button-xl);padding:0 var(--aha-space-16);\n  border:1px solid var(--aha-border-input);border-radius:var(--aha-radius-default);\n  background:var(--aha-white);color:var(--aha-text-default);\n  font-family:inherit;font-size:var(--aha-size-l);\n  transition:border-color var(--aha-motion-mid) var(--aha-ease-in-out);\n}\n.aha-header-section-hero-photo-stack__input::placeholder{color:var(--aha-text-placeholder);opacity:1}\n.aha-header-section-hero-photo-stack__input:hover{border-color:var(--aha-border-hover)}\n.aha-header-section-hero-photo-stack__input:focus{outline:none;border-color:var(--aha-border-focus)}\n.aha-header-section-hero-photo-stack__input:focus-visible{outline:var(--aha-space-2) solid var(--aha-header-section-hero-photo-stack-focus);outline-offset:var(--aha-space-2)}\n.aha-header-section-hero-photo-stack__hint{margin-top:var(--aha-space-12);font-size:var(--aha-size-default);line-height:var(--aha-line-height-body);color:var(--aha-header-section-hero-photo-stack-ink-secondary)}\n.aha-header-section-hero-photo-stack__checks{display:flex;flex-direction:column;gap:var(--aha-space-12);margin-top:var(--aha-space-32)}\n.aha-header-section-hero-photo-stack__check{display:flex;align-items:center;gap:var(--aha-space-12);font-size:var(--aha-size-l);line-height:var(--aha-line-height-body);color:var(--aha-header-section-hero-photo-stack-ink)}\n.aha-header-section-hero-photo-stack__check aha-icon{flex:none;color:var(--aha-color-primary)}\n:is(.aha-header-section-hero-photo-stack--brand,.aha-header-section-hero-photo-stack__panel--brand) .aha-header-section-hero-photo-stack__check aha-icon{color:var(--aha-white)}\n.aha-header-section-hero-photo-stack__media{display:block;min-width:0}\n.aha-header-section-hero-photo-stack__image{\n  display:block;width:100%;height:auto;object-fit:cover;\n  border-radius:var(--aha-radius-xl);background:var(--aha-header-section-hero-photo-stack-media-bg);\n}\n.aha-header-section-hero-photo-stack__centred{display:flex;flex-direction:column;align-items:center}\n.aha-header-section-hero-photo-stack__centred .aha-header-section-hero-photo-stack__copy{align-items:center;max-width:768px;text-align:center}\n.aha-header-section-hero-photo-stack__centred .aha-header-section-hero-photo-stack__actions{justify-content:center}\n.aha-header-section-hero-photo-stack__centred .aha-header-section-hero-photo-stack__media{width:100%;margin-top:var(--aha-space-64)}\n.aha-header-section-hero-photo-stack__label{display:flex;flex-direction:column;gap:var(--aha-space-6);font-size:var(--aha-size-default);font-weight:var(--aha-weight-semibold);color:var(--aha-text-default)}\n@container aha-header-section-hero-photo-stack (max-width:991px){\n  .aha-header-section-hero-photo-stack__inner{padding:var(--aha-space-64) var(--aha-space-32)}\n  .aha-header-section-hero-photo-stack__split{grid-template-columns:minmax(0,1fr);gap:var(--aha-space-48)}\n  .aha-header-section-hero-photo-stack__title{font-size:var(--aha-size-h3)}\n  .aha-header-section-hero-photo-stack__text{font-size:var(--aha-size-l)}\n}\n@container aha-header-section-hero-photo-stack (max-width:767px){\n  .aha-header-section-hero-photo-stack__inner{--aha-web-gutter:var(--aha-space-24);padding-inline:var(--aha-web-gutter)}\n}\n@container aha-header-section-hero-photo-stack (max-width:479px){\n  .aha-header-section-hero-photo-stack__inner{--aha-web-gutter:var(--aha-space-16);padding:var(--aha-space-48) var(--aha-web-gutter)}\n  .aha-header-section-hero-photo-stack__actions,.aha-header-section-hero-photo-stack__form{margin-top:var(--aha-space-24)}\n  .aha-header-section-hero-photo-stack__title{font-size:var(--aha-size-h4)}\n  .aha-header-section-hero-photo-stack__actions{width:100%}\n  .aha-header-section-hero-photo-stack__actions aha-button,.aha-header-section-hero-photo-stack__form aha-button{flex:1 1 100%}\n}\n.aha-header-section-hero-photo-stack__visually-hidden{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n.aha-header-section-hero-photo-stack__stack{display:grid;place-items:center;width:100%;max-width:560px;aspect-ratio:1 / 1;margin-inline:auto}\n.aha-header-section-hero-photo-stack__stack-image{grid-area:1 / 1;display:block;width:56%;height:auto;aspect-ratio:3 / 4;object-fit:cover;border:var(--aha-space-8) solid var(--aha-white);border-radius:var(--aha-radius-xl);box-shadow:0 0 0 1px var(--aha-header-section-hero-photo-stack-frame);background:var(--aha-header-section-hero-photo-stack-media-bg);transition:transform var(--aha-motion-slow) var(--aha-ease-out)}\n.aha-header-section-hero-photo-stack__stack-image--start{transform:translateX(-34%) rotate(-8deg)}\n.aha-header-section-hero-photo-stack__stack-image--end{transform:translateX(34%) rotate(8deg)}\n.aha-header-section-hero-photo-stack__stack-image--front{position:relative;z-index:1}\n.aha-header-section-hero-photo-stack__stack:hover .aha-header-section-hero-photo-stack__stack-image--start{transform:translateX(-42%) rotate(-12deg)}\n.aha-header-section-hero-photo-stack__stack:hover .aha-header-section-hero-photo-stack__stack-image--end{transform:translateX(42%) rotate(12deg)}\n.aha-header-section-hero-photo-stack__stack:hover .aha-header-section-hero-photo-stack__stack-image--front{transform:translateY(calc(-1 * var(--aha-space-8)))}\n@media (prefers-reduced-motion:reduce){\n  .aha-header-section-hero-photo-stack__stack-image{transition:none}\n}\n@container aha-header-section-hero-photo-stack (max-width:479px){\n  .aha-header-section-hero-photo-stack__stack-image{border-width:var(--aha-space-4)}\n}\n.aha-header-section-hero-photo-stack--brand{position:relative;isolation:isolate}\n.aha-header-section-hero-photo-stack__splash{display:none}\n.aha-header-section-hero-photo-stack--brand>.aha-header-section-hero-photo-stack__splash{display:block;position:absolute;inset:0;z-index:-1;overflow:hidden;container-type:size;pointer-events:none;border-radius:inherit;--aha-header-section-hero-photo-stack-splash-width:calc(4.5*min(100cqw,100cqh)*sqrt(max(1,tan(atan2(100cqw,100cqh))*9/16,9/16/tan(atan2(100cqw,100cqh)))))}\n.aha-header-section-hero-photo-stack__splash-icon{position:absolute;display:block;max-width:none;height:auto;width:var(--aha-header-section-hero-photo-stack-splash-width);left:calc(var(--aha-header-section-hero-photo-stack-splash-across)*100cqw - var(--aha-header-section-hero-photo-stack-splash-width)*0.516209);top:calc(55cqh - var(--aha-header-section-hero-photo-stack-splash-width)*0.418953)}\n.aha-header-section-hero-photo-stack__splash{--aha-header-section-hero-photo-stack-splash-across:.75}\n.aha-header-section-hero-photo-stack--accent{box-shadow:inset 0 0 0 100vmax var(--aha-bg-accent)}\n",
       "html": "<section class=\"aha-header-section-hero-photo-stack\"><div class=\"aha-header-section-hero-photo-stack__splash\" aria-hidden=\"true\"><img class=\"aha-header-section-hero-photo-stack__splash-icon\" src=\"https://design.ahaslides.io/backgrounds/splash-icon-pink.svg\" alt=\"\" width=\"802\" height=\"788\"></div>\n  <div class=\"aha-header-section-hero-photo-stack__inner\">\n    <div class=\"aha-header-section-hero-photo-stack__split\">\n      <div class=\"aha-header-section-hero-photo-stack__copy\">\n        <h1 class=\"aha-header-section-hero-photo-stack__title\">Lorem ipsum dolor sit amet consectetur</h1>\n        <p class=\"aha-header-section-hero-photo-stack__text\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\n        <div class=\"aha-header-section-hero-photo-stack__actions\">\n          <aha-button variant=\"primary\" data-variant-brand=\"secondary\" size=\"xl\" href=\"#\" data-surface-brand=\"brand\">Sign up</aha-button>\n        </div>\n      </div>\n      <div class=\"aha-header-section-hero-photo-stack__media\">\n        <div class=\"aha-header-section-hero-photo-stack__stack\">\n          <img class=\"aha-header-section-hero-photo-stack__stack-image aha-header-section-hero-photo-stack__stack-image--start\" src=\"https://design.ahaslides.io/marketing-assets/image-placeholder-tall.svg\" alt=\"Placeholder image 1 of 3: replace with a photo\" width=\"600\" height=\"800\">\n          <img class=\"aha-header-section-hero-photo-stack__stack-image aha-header-section-hero-photo-stack__stack-image--end\" src=\"https://design.ahaslides.io/marketing-assets/image-placeholder-tall.svg\" alt=\"Placeholder image 2 of 3: replace with a photo\" width=\"600\" height=\"800\">\n          <img class=\"aha-header-section-hero-photo-stack__stack-image aha-header-section-hero-photo-stack__stack-image--front\" src=\"https://design.ahaslides.io/marketing-assets/image-placeholder-tall.svg\" alt=\"Placeholder image 3 of 3: replace with a photo\" width=\"600\" height=\"800\">\n        </div>\n      </div>\n    </div>\n  </div>\n</section>"
@@ -255,8 +230,7 @@
       "states": [
         {
           "label": "White",
-          "modifier": "",
-          "default": true
+          "modifier": ""
         },
         {
           "label": "Accent",
@@ -264,7 +238,8 @@
         },
         {
           "label": "Vivid Pink",
-          "modifier": "brand"
+          "modifier": "brand",
+          "default": true
         }
       ],
       "reviews": {},
@@ -280,8 +255,7 @@
       "states": [
         {
           "label": "White",
-          "modifier": "",
-          "default": true
+          "modifier": ""
         },
         {
           "label": "Accent",
@@ -289,7 +263,8 @@
         },
         {
           "label": "Vivid Pink",
-          "modifier": "brand"
+          "modifier": "brand",
+          "default": true
         }
       ],
       "reviews": {},
@@ -305,8 +280,7 @@
       "states": [
         {
           "label": "White",
-          "modifier": "",
-          "default": true
+          "modifier": ""
         },
         {
           "label": "Accent",
@@ -314,7 +288,8 @@
         },
         {
           "label": "Vivid Pink",
-          "modifier": "brand"
+          "modifier": "brand",
+          "default": true
         }
       ],
       "reviews": {},
@@ -330,8 +305,7 @@
       "states": [
         {
           "label": "White",
-          "modifier": "",
-          "default": true
+          "modifier": ""
         },
         {
           "label": "Accent",
@@ -339,7 +313,8 @@
         },
         {
           "label": "Vivid Pink",
-          "modifier": "brand"
+          "modifier": "brand",
+          "default": true
         }
       ],
       "reviews": {},
@@ -462,8 +437,7 @@
       "states": [
         {
           "label": "White",
-          "modifier": "",
-          "default": true
+          "modifier": ""
         },
         {
           "label": "Accent",
@@ -471,7 +445,8 @@
         },
         {
           "label": "Vivid Pink",
-          "modifier": "brand"
+          "modifier": "brand",
+          "default": true
         }
       ],
       "options": [

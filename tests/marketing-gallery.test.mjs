@@ -5,7 +5,7 @@ import { runInNewContext } from 'node:vm';
 
 const readSection = (slug) => JSON.parse(readFileSync(new URL(`../marketing/${slug}.json`, import.meta.url), 'utf8'));
 const script = readFileSync(new URL('../lib/marketing-motion.js', import.meta.url), 'utf8');
-const header = readSection('header');
+const header = readSection('hero');
 const galleryLayouts = header.layouts.filter((layout) => layout.slug.startsWith('gallery-'));
 const features = readSection('features');
 const multiImageHeroes = ['hero-photo-stack', 'hero-bento-collage', 'hero-image-marquee', 'hero-slideshow', 'hero-floating-images'];
@@ -207,5 +207,5 @@ test('W6 and W9 allow the multi-image photo treatments and the photo marquee loo
   assert.match(rule('W6'), /photo stack and floating images may tilt a photo/);
   assert.match(criterion('W6'), /cover-cropped photo cells of mixed size or ratio/);
   assert.match(rule('W9'), /Hero image marquee and Gallery marquee rows/);
-  assert.match(criterion('W9'), /photo marquees \(the Header's Hero image marquee and Gallery marquee rows\)/);
+  assert.match(criterion('W9'), /photo marquees \(the Hero image marquee and Gallery marquee rows\)/);
 });
