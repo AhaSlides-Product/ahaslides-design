@@ -214,3 +214,20 @@ test('W6 and W9 allow the multi-image photo treatments and the photo marquee loo
   assert.match(rule('W9'), /Hero image marquee and Gallery marquee rows/);
   assert.match(criterion('W9'), /photo marquees \(the Header's Hero image marquee and Gallery marquee rows\)/);
 });
+
+test('Hero image marquee Fit media switch: fixed tile height, own ratio, no crop, and W6 allows it', () => {
+  const hero = header.layouts.find((layout) => layout.slug === 'hero-image-marquee');
+  const modifier = `${hero.class}--fit-media`;
+  const choice = hero.options.flatMap((option) => option.choices).find((candidate) => candidate.value === 'fit-media');
+  assert.equal(choice.modifier, true);
+  assert.match(hero.css, new RegExp(`\\.${modifier} \\.${hero.class}__marquee\\{--${hero.class}-tile-height:calc\\(var\\(--aha-space-68\\) \\* 4\\)\\}`));
+  assert.match(hero.css, new RegExp(`\\.${modifier} \\.${hero.class}__marquee-image\\{width:auto;height:var\\(--${hero.class}-tile-height\\);aspect-ratio:auto;object-fit:contain\\}`));
+  assert.match(hero.css, new RegExp(`max-width:479px\\)\\{\\s*\\.${modifier} \\.${hero.class}__marquee\\{--${hero.class}-tile-height:calc\\(var\\(--aha-space-100\\) \\* 2\\)\\}`));
+  assert.doesNotMatch(hero.html, new RegExp(modifier));
+  const guideline = JSON.parse(readFileSync(new URL('../guidelines/website.json', import.meta.url), 'utf8'));
+  const criteria = JSON.parse(readFileSync(new URL('../anti-slop/criteria.json', import.meta.url), 'utf8')).surfaces.website.criteria;
+  const agentCriteria = JSON.parse(readFileSync(new URL('../agent/anti-slop/criteria.json', import.meta.url), 'utf8'));
+  assert.match(guideline.rules.find((candidate) => candidate.ref.includes('W6')).rule, /Hero image marquee only: with its Fit media switch/);
+  assert.match(criteria.find((candidate) => candidate.id === 'W6').test, /aha-header-section-hero-image-marquee--fit-media/);
+  assert.deepEqual(agentCriteria, JSON.parse(readFileSync(new URL('../anti-slop/criteria.json', import.meta.url), 'utf8')));
+});

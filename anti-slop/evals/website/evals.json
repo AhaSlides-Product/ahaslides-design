@@ -895,6 +895,82 @@
         "authored": "ahaslides-design",
         "why": "DS-authored with the website surface; no plugin judge dataset exists"
       }
+    },
+    {
+      "id": 30,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w6-cropped-screenshot-marquee/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W6: a Hero image marquee of product screenshots of different ratios in the default 4:3 object-fit: cover tile.",
+      "expected_output": "W6 FAILs: the Hero image marquee shows six product screenshots of landscape, wide and portrait ratios in the default 4:3 tile, so each is cropped by object-fit: cover. Fix: add the Fit media switch (aha-header-section-hero-image-marquee--fit-media) so every tile has one fixed height and a width that follows the screenshot's own ratio, uncropped. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W6 is marked FAIL",
+        "Says the screenshots are cropped by object-fit: cover and the fix is the Hero image marquee's Fit media switch"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W6": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 31,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/pass-w6-fit-media-marquee/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "good-control",
+      "notes": "Good control for the Hero image marquee Fit media switch: a white Hero image marquee of screenshots of different ratios, uncropped at their own ratio, then the usual body with no Logos strip. Guards W6 against over-firing.",
+      "expected_output": "W6 PASSes: the Hero image marquee carries aha-header-section-hero-image-marquee--fit-media, so every screenshot sits uncropped, unpadded and unletterboxed at its own ratio in a tile of one fixed height with width and height equal to the file's size; the different ratios need no pink frame. The page has no Logos strip, so the looping photo band is not next to one (W9). Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "No criterion is marked FAIL",
+        "Does not ask for the pink frame or for the screenshots to share one ratio"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "W1": "PASS",
+          "W2": "PASS",
+          "W3": "PASS",
+          "W4": "PASS",
+          "W5": "PASS",
+          "W6": "PASS",
+          "W7": "PASS",
+          "W9": "PASS",
+          "W11": "PASS",
+          "W12": "PASS",
+          "W13": "PASS",
+          "W14": "PASS",
+          "W15": "PASS",
+          "W16": "PASS",
+          "W17": "PASS",
+          "W18": "PASS",
+          "W19": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
     }
   ]
 }
