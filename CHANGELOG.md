@@ -22,9 +22,17 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.517.2 — 2026-10-28
+## 0.525.1 — 2026-10-28
 ### Fixed
 - `aha-chart`: moving the pointer between bars or columns hands the highlight straight from one to the next; the other bars no longer dim, reappear and dim again as the pointer crosses the gap. The highlight clears only when the pointer leaves the plot. (#443)
+
+## 0.517.2 — 2026-10-28
+### Fixed
+- Marketing Header: the hero video slot no longer shows dark side bars on wide screens. The frame is 16:9 and narrows to fit the height cap, centred, instead of a full-width box letterboxing the clip (#442)
+
+## 0.517.1 — 2026-10-28
+### Fixed
+- `aha-drawer` `placement="bottom"`: a tap on a header button (close, actions) on a touch screen no longer starts a swipe and is no longer swallowed; Esc and Tab only defer to a real popup (`aria-haspopup` or a combobox), so an open accordion inside the sheet no longer blocks them (#441)
 
 ## 0.517.0 — 2026-10-28
 ### Added

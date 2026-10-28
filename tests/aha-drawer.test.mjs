@@ -283,6 +283,20 @@ const sheetScenarios = String.raw`(async () => {
   out.stillOpenAfterPortalEscape = sheet.hasAttribute('open');
   portal.remove();
 
+  const closeButton = sheet.shadowRoot.querySelector('.close');
+  pointer('pointerdown', closeButton, 100);
+  pointer('pointermove', closeButton, 300);
+  out.tapOnCloseNoSwipe = panel.style.transform === '';
+  pointer('pointerup', closeButton, 300);
+  closeButton.click(); await frame();
+  out.tapOnCloseClosed = !sheet.hasAttribute('open');
+  await settle();
+
+  sheet.show(); await frame(); await settle();
+  out.escapeOnOpenAccordionCloses = key('Escape', sheet.querySelector('#accordion')) && !(await frame(), sheet.hasAttribute('open'));
+  await settle();
+
+  sheet.show(); await frame(); await settle();
   out.escapeClosesSheet = key('Escape', sheet.querySelector('#sheet-next')) && !(await frame(), sheet.hasAttribute('open'));
   out.sources = sources;
   await settle();
@@ -333,7 +347,10 @@ test('aha-drawer placement=bottom is a bottom sheet with a handle, swipe to clos
   assert.equal(result.stillOpenAfterMenuEscape, true);
   assert.equal(result.portalTabPrevented, false);
   assert.equal(result.stillOpenAfterPortalEscape, true);
+  assert.equal(result.tapOnCloseNoSwipe, true);
+  assert.equal(result.tapOnCloseClosed, true);
+  assert.equal(result.escapeOnOpenAccordionCloses, true);
   assert.equal(result.escapeClosesSheet, true);
-  assert.deepEqual(result.sources, ['mask', 'swipe', 'swipe', 'swipe', 'escape']);
+  assert.deepEqual(result.sources, ['mask', 'swipe', 'swipe', 'swipe', 'close-button', 'escape', 'escape']);
   assert.deepEqual(result.phone, [0, 375, '0px', 'block']);
 });
