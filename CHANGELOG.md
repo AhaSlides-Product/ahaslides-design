@@ -22,6 +22,17 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.540.0 — 2026-10-28
+### Changed
+- Marketing: the Header page is now Hero (`marketing/hero/`, `marketing/hero.json`). `marketing/header/` stays as a redirect to it, and `marketing/hero.md` and `hero.agent.json` replace the `header` feed files. The Navigation site header and the Page header layout keep their names.
+- Hero: every layout that has a Vivid Pink state opens on Vivid Pink in the preview (the three heroes, the five multi-image heroes and Page header). The five Gallery layouts have White and Accent only, so they still open on White. The pasted code of the first tab stays the White version, so the HTML shown always matches its tab.
+- Testimonials → Case study cards and Quote cards: the gap between the cards and the call to action is `--aha-space-48` (`--aha-space-32` on a phone), the same as Numbers, Features and FAQ. It was 112 px because the section's 64 px flex gap was added to the button's 48 px margin; the header now carries its own `--aha-space-64` bottom margin instead of the flex gap.
+- Features: no layout has a Learn more link or button any more, including the three buttons under each item in Alternating with screenshots (kept: its Demo button) (Icon grid, Icon list with photo, Icon cards, Icon cards with side header, Tabs with screenshots, Compact tabs, Compact swipeable card scroller, Compact top three and See all features). The `aha-features__more` rules are gone, and the Feature card snippet in Cards loses its Learn more line too. Rule W15 no longer mentions a Features Learn more link.
+- Hero: the Reassurance line switch from 0.527.0 now sits on seven heroes (Hero split, Hero stacked and the five multi-image heroes), as Hero card is removed.
+### Removed
+- Hero → Hero card (`aha-header-section-hero-card`): the layout is gone, with its Vivid Pink panel and email field. Its classes join the removed-layout list that screen-lint W1 checks. Hero split and Hero stacked still offer the Email form call to action.
+- Revert: revert the PR; Hero card, the Header page name, the Learn more links and the 112 px Testimonials gap come back (#445)
+
 ## 0.539.0 — 2026-10-28
 ### Added
 - `<aha-number-with-unit>`: `increase-label` and `decrease-label` set the stepper buttons' accessible names (defaults `Increase` and `Decrease`); `aria-label`, `aria-labelledby` or `label` now name the inner input. When a name is given the inner input is the one `spinbutton` and the host drops its role, so a screen reader announces it once; with no name the host stays the spinbutton as before. (#448)

@@ -62,7 +62,7 @@ test('templates are a 3 by n grid on desktop and skip count balancing', () => {
 });
 
 test('W15: every content card link opens in a new tab with noopener and hidden text, calls to action do not', () => {
-  const linkClasses = ['aha-marketing-card__link', 'aha-testimonials__link', 'aha-features__more'];
+  const linkClasses = ['aha-marketing-card__link', 'aha-testimonials__link'];
   for (const slug of ['cards', 'testimonials', 'features']) {
     const raw = readFileSync(new URL(`../marketing/${slug}.json`, import.meta.url), 'utf8');
     const links = linkClasses.flatMap((name) => [...raw.matchAll(new RegExp(`<a class=\\\\"${name}\\\\"[^>]*>`, 'g'))].map((match) => match[0]));
@@ -214,7 +214,7 @@ test('W14: the alternating row title is h4 semibold on the product face', () => 
 });
 
 test('W14: no Marketing section sets the display face; every heading inherits Plus Jakarta Sans', () => {
-  const marketing = ['cards', 'features', 'numbers', 'pricing', 'testimonials', 'faq', 'footer-banner', 'header'];
+  const marketing = ['cards', 'features', 'numbers', 'pricing', 'testimonials', 'faq', 'footer-banner', 'hero'];
   for (const slug of marketing) {
     assert.doesNotMatch(readFileSync(new URL(`../marketing/${slug}.json`, import.meta.url), 'utf8'), /--aha-font-display/, slug);
   }
