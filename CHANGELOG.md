@@ -24,8 +24,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.503.1 — 2026-10-28
 ### Changed
-- All six file-type icons now use stroke glyphs: `filetype-presentation`, `filetype-survey`, `filetype-course`, `filetype-knowledge-base`, `filetype-lesson` and `filetype-report` reuse `system-presentation-chart`, `system-form`, `system-book`, `system-files`, `system-file-text` and `system-chart-bar`; the solid blobs are gone and names and meaning are unchanged (#422)
-- Revert: revert the PR; six SVGs under `icons/svg/filetype/`, regenerated registry and thirteen pairs in `icon-duplicates.intentional.json` (#422)
+- All six file-type icons now use stroke glyphs: `filetype-presentation`, `filetype-survey`, `filetype-course`, `filetype-lesson` and `filetype-report` reuse `system-presentation-chart`, `system-form`, `system-book`, `system-file-text` and `system-chart-bar`, and `filetype-knowledge-base` is a new stroke bookshelf (narrow book, banded book, leaning book) drawn as the stroke version of the original solid glyph; the solid blobs are gone and names and meaning are unchanged (#422)
+- Revert: revert the PR; six SVGs under `icons/svg/filetype/`, regenerated registry and the pairs in `icon-duplicates.intentional.json` (#422)
 
 ## 0.502.0 — 2026-10-27
 ### Added

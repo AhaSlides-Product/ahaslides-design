@@ -32,11 +32,6 @@
    "reason": "Near-identical because filetype-survey reuses the system-form glyph (DESY-378); the system variant already differs from it by a small mark."
   },
   {
-   "first": "filetype-knowledge-base",
-   "second": "system-files",
-   "reason": "The file-type icon deliberately reuses the system glyph, as requested by design in DESY-378 (clearer than the old solid glyph)."
-  },
-  {
    "first": "filetype-lesson",
    "second": "system-file-text",
    "reason": "The file-type icon deliberately reuses the system glyph, as requested by design in DESY-378 (clearer than the old solid glyph)."
