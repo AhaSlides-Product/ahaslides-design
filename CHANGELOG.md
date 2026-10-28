@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.508.1 — 2026-10-28
+### Fixed
+- CSAT: with `feedback-on="any"` and `feedback-button`, a thumbs-up after using the Feedback button now shows `feedback-placeholder` in the popover instead of `feedback-button-placeholder`; the React, Vue and preview snippets now show `feedback-on` and `confirmation` (#425)
+- Revert: revert the PR; no contract or API change (#425)
+
 ## 0.508.0 — 2026-10-28
 ### Added
 - Icon `system-youtube-logo`, the one-colour Phosphor bold glyph that completes the social set (`system-instagram-logo`, `-linkedin-logo`, `-facebook-logo`, `-reddit-logo`, `-whatsapp-logo`).

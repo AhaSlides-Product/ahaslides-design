@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import '@ahaslides-product/design/aha-csat';   // registers <aha-csat> (+ <aha-icon>, <aha-popover>, <aha-counted-textarea>, <aha-button>)
 
 // The element emits composed `rate` and `feedback` events — attach ref listeners (React <19 pattern).
-function AhaCsat({ prompt, source, tooltipPlacement, layout, feedbackPlacement, onRate, onFeedback }) {
+function AhaCsat({ prompt, source, tooltipPlacement, layout, feedbackPlacement, feedbackOn, confirmation, onRate, onFeedback }) {
   const ref = useRef(null);
   useEffect(() => {
     const el = ref.current;
@@ -14,16 +14,19 @@ function AhaCsat({ prompt, source, tooltipPlacement, layout, feedbackPlacement, 
   }, [onRate, onFeedback]);
   // tooltipPlacement: 'top' (default) | 'bottom' — open the tooltips below inside a titled card
   // layout: 'row' (default) | 'stacked' — prompt above the buttons; feedbackPlacement: 'end' (default) | 'start' — open the popover start-aligned
-  return <aha-csat ref={ref} prompt={prompt} source={source} feedback-button tooltip-placement={tooltipPlacement} layout={layout} feedback-placement={feedbackPlacement} />;
+  // feedbackOn: 'down' (default) | 'any' — 'any' also opens the popover after a thumbs-up; confirmation: text shown beside the thumbs once rated and after Send
+  return <aha-csat ref={ref} prompt={prompt} source={source} feedback-button tooltip-placement={tooltipPlacement} layout={layout} feedback-placement={feedbackPlacement} feedback-on={feedbackOn} confirmation={confirmation} />;
 }
 
-// usage — thumbs-up rates instantly; thumbs-down opens the free-text feedback popover
+// usage — thumbs-up rates instantly; thumbs-down opens the free-text feedback popover (feedbackOn="any" opens it after a thumbs-up too)
 <AhaCsat
   prompt="How did this import go?"
   source="editor_help"
   tooltipPlacement="bottom"
   layout="stacked"
   feedbackPlacement="start"
+  feedbackOn="any"
+  confirmation="Thanks, feedback received"
   onRate={(d) => track('CSAT_RATED', d)}
   onFeedback={(d) => track('CSAT_FEEDBACK_SUBMITTED', d)}
 />
