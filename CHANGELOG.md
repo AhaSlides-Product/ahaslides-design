@@ -22,14 +22,25 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.540.0 — 2026-10-28
+## 0.541.0 — 2026-10-28
 ### Changed
-- Colour rule 3.5, anti-slop W5 and the website guideline: a landing page's Hero must open in its Vivid Pink state (`--brand`), not the White default of the snippet; the "a white hero is also allowed" line is gone and a white hero is only for a Page header page or a hero the requester names. The Header guidance carries a "Surface" point saying so.
+- Colour rule 3.5, anti-slop W5 and the website guideline: a landing page's Hero must open in its Vivid Pink state (`--brand`), not the White default of the snippet; the "a white hero is also allowed" line is gone and a white hero is only for a Page header page or a hero the requester names. The Hero guidance carries a "Surface" point saying so.
 - Anti-slop W12, the website guideline, the Features guidance and the Cards Steps note: a numbered how-to or how it works is Step cards (Steps row, a Cards grid for four or more), never Features Tabs; a tab description is one short sentence of 90 characters or fewer. Rebuilding a section keeps every point, step and image: five steps become five Step cards with their images, never fewer.
 ### Added
 - `screen-lint --surface=website` rules `hero-not-brand` (the first band is a Hero not in the Vivid Pink state), `steps-as-tabs` (a Features Tabs section whose heading, eyebrow or tablist label says how it works or steps, or with numbered tab titles) and `tabs-description-long` (a tab description over 90 characters); escape `ds-lint-allow: page (why)`.
 - Features: new layout Compact: swipeable card scroller with images (`compact-scroller-images`), the scroller with a numbered Step card and a screenshot at the foot of each card (optional image slot, `aha-marketing-card__media--scroller`, ordered-list track); the Features, Steps and W12 guidance now say a how it works with images may use it as well as the Step grid.
 - Revert: revert the PR; the rules go back to "may be Vivid Pink" and the lint drops the three rules (#440); the scroller-with-images layout is removed
+
+## 0.540.0 — 2026-10-28
+### Changed
+- Marketing: the Header page is now Hero (`marketing/hero/`, `marketing/hero.json`). `marketing/header/` stays as a redirect to it, and `marketing/hero.md` and `hero.agent.json` replace the `header` feed files. The Navigation site header and the Page header layout keep their names.
+- Hero: every layout that has a Vivid Pink state opens on Vivid Pink in the preview (the three heroes, the five multi-image heroes and Page header). The five Gallery layouts have White and Accent only, so they still open on White. The pasted code of the first tab stays the White version, so the HTML shown always matches its tab.
+- Testimonials → Case study cards and Quote cards: the gap between the cards and the call to action is `--aha-space-48` (`--aha-space-32` on a phone), the same as Numbers, Features and FAQ. It was 112 px because the section's 64 px flex gap was added to the button's 48 px margin; the header now carries its own `--aha-space-64` bottom margin instead of the flex gap.
+- Features: no layout has a Learn more link or button any more, including the three buttons under each item in Alternating with screenshots (kept: its Demo button) (Icon grid, Icon list with photo, Icon cards, Icon cards with side header, Tabs with screenshots, Compact tabs, Compact swipeable card scroller, Compact top three and See all features). The `aha-features__more` rules are gone, and the Feature card snippet in Cards loses its Learn more line too. Rule W15 no longer mentions a Features Learn more link.
+- Hero: the Reassurance line switch from 0.527.0 now sits on seven heroes (Hero split, Hero stacked and the five multi-image heroes), as Hero card is removed.
+### Removed
+- Hero → Hero card (`aha-header-section-hero-card`): the layout is gone, with its Vivid Pink panel and email field. Its classes join the removed-layout list that screen-lint W1 checks. Hero split and Hero stacked still offer the Email form call to action.
+- Revert: revert the PR; Hero card, the Header page name, the Learn more links and the 112 px Testimonials gap come back (#445)
 
 ## 0.539.0 — 2026-10-28
 ### Added

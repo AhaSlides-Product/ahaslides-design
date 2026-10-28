@@ -103,10 +103,10 @@ for (const part of ['inner', 'band', 'copyright']) addSection(`footer ${part}`, 
 const navigation = readSection('navigation').layouts[0].css;
 addSection('navigation bar', [navigation], '.aha-header__nav');
 addSection('navigation menu', [navigation], '.aha-header__menu', { gutterFrom: '.aha-header__nav' });
-for (const layout of readSection('header').layouts) addSection(layout.slug, [layout.css], `.${layout.class}__inner`);
+for (const layout of readSection('hero').layouts) addSection(layout.slug, [layout.css], `.${layout.class}__inner`);
 
 test('every Marketing section other than the edge to edge Logos marquee is checked against the gutter', () => {
-  const checked = new Set(['features', 'numbers', 'pricing', 'testimonials', 'cards', 'faq', 'footer-banner', 'footer', 'navigation', 'header', 'comparison']);
+  const checked = new Set(['features', 'numbers', 'pricing', 'testimonials', 'cards', 'faq', 'footer-banner', 'footer', 'navigation', 'hero', 'comparison']);
   const slugs = readdirSync(new URL('../marketing/', import.meta.url)).filter((file) => file.endsWith('.json')).map((file) => file.replace('.json', ''));
   assert.deepEqual(slugs.filter((slug) => !checked.has(slug)), ['logos']);
 });
@@ -153,7 +153,7 @@ for (const { css } of closeCalls('testimonials')) buttonSpacing.push([css, '.aha
 for (const { css } of closeCalls('comparison')) buttonSpacing.push([css, '.aha-comparison__cta', 'margin-top', 48, 32]);
 buttonSpacing.push([readSection('faq').css, '.aha-faq__cta', 'margin-top', 48, 32]);
 buttonSpacing.push([footerBanner, '.aha-footer-banner__text', 'margin-bottom', 32, 24]);
-for (const layout of readSection('header').layouts) {
+for (const layout of readSection('hero').layouts) {
   const { class: name, slug, css } = layout;
   if (slug === 'hero-split-form') continue;
   if (slug.startsWith('gallery-')) buttonSpacing.push([css, `.${name}__cta`, 'margin-top', 48, 32]);
