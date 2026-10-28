@@ -25,7 +25,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.529.0 — 2026-10-28
 ### Added
 - CSAT: an optional `feedback-hint="<text>"` shows a helper line under the feedback text box, beside the counter, reusing the text box's `info-message`; for example `What you write goes to the developer`. Not set, nothing changes. Changing or removing it updates the open popover (#446)
-- Revert: revert the PR; it removes one attribute from `aha-csat` and its contract, snippets and test (#446)
+### Changed
+- CSAT: the feedback popover now anchors to the whole thumbs group (Good, Not good and the Feedback button), so `feedback-placement="start"` and `"end"` line up with the group's edge instead of the Not good button's. The Good thumb joins the popover's trigger; the popover still opens only after the ratings that ask for feedback (#446)
+- CSAT: while the feedback popover is open the thumbs' hover tooltips are hidden, so the Good tooltip no longer renders under the popover (#446)
+- Revert: revert the PR; it removes the `feedback-hint` attribute and restores the popover's old anchor and the tooltips' behaviour while open (#446)
 
 ## 0.527.0 — 2026-10-28
 ### Added
