@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.510.0 — 2026-10-28
+### Changed
+- Testimonials → Simple left aligned: the section has no button any more; it ends on the quote, name and role. Rule and criterion W18 list it as exempt from the one-call-to-action rule, beside the Logos strip. The unused `aha-testimonials__actions` rule is removed from the section CSS.
+- Revert: revert the PR; the Read customer stories button comes back under the quote (#NNN)
+
 ## 0.509.1 — 2026-10-28
 ### Fixed
 - Header and Footer banner: every Button on a Vivid Pink surface (the Vivid Pink state of the nine Hero layouts and Page header, and the Footer banner) now carries `surface="brand"`, so its keyboard focus ring is white and reads on the pink. The Header code panes show `surface="brand"` in the Vivid Pink state only; the live preview sets it when the state is switched. State hooks `data-surface-<state>` sit next to `data-variant-<state>`.
