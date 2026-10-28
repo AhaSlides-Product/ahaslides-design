@@ -22,6 +22,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.505.0 — 2026-10-28
+### Added
+- Website > Marketing > Comparison table: a new section page with one comparison table in five forms — two, three (with or without a highlighted column), four and five compared columns beside a feature column (`aha-comparison`). Grouped rows under a group heading, tick, cross or short text cells, and the Pricing Large table's highlighted-column outline with a Recommended tag. On a phone two and three columns stay a table; four and five scroll sideways with the feature column held in place (#395)
+### Changed
+- Website guideline and judge, W1: Comparison table joins the list of DS Marketing sections a page band may be (#395)
+- Website guideline and judge, W8: one exception to no horizontal scroll — a Comparison table with four or five compared columns scrolls sideways inside its own table frame on a phone, feature column sticky, while the page never scrolls; the table's `ds-lint-allow` now cites W8 (#395)
+- Revert: revert the PR; it adds `marketing/comparison.json`, its test and a gutter test entry, and the W1 and W8 edits in `guidelines/website.json` and `anti-slop/criteria.json` (with its generated `agent/` copy) (#395)
+
 ## 0.503.3 — 2026-10-28
 ### Changed
 - All six file-type icons now use stroke glyphs: `filetype-presentation`, `filetype-survey`, `filetype-course`, `filetype-lesson` and `filetype-report` reuse `system-presentation-chart`, `system-form`, `system-book`, `system-file-text` and `system-chart-bar`, and `filetype-knowledge-base` is a new stroke bookshelf (narrow book, banded book, leaning book) drawn as the stroke version of the original solid glyph; the solid blobs are gone and names and meaning are unchanged (#422)

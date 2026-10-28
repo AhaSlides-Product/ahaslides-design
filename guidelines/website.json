@@ -129,7 +129,7 @@
   "componentBacklog": "No missing components. A band the Marketing library does not ship yet is a DSN ticket; add the section there before a page needs it.",
   "rules": [
     {
-      "rule": "Build every band of the page from a DS Marketing section: Navigation, Header, Features, Numbers, Logos, Testimonials, Pricing, FAQ, Footer banner and Footer (Cards inside a section). Paste the section's snippet and change its copy, images and layout choice, never its structure or values. The Logos strip (customer logos, Trusted by) is always the band directly below the hero, never later in the page. A band the library lacks is a DSN ticket, never a hand-rolled section on the page.",
+      "rule": "Build every band of the page from a DS Marketing section: Navigation, Header, Features, Numbers, Logos, Testimonials, Pricing, Comparison table, FAQ, Footer banner and Footer (Cards inside a section). Paste the section's snippet and change its copy, images and layout choice, never its structure or values. The Logos strip (customer logos, Trusted by) is always the band directly below the hero, never later in the page. A band the library lacks is a DSN ticket, never a hand-rolled section on the page.",
       "ref": [
         "W1"
       ],
@@ -227,14 +227,15 @@
       ]
     },
     {
-      "rule": "Check the page at 1440, 768 and 375 px: no horizontal scroll at any width, multi-column sections stack to one column, and a stacked image sits on the same side of its text (above or below) in every section of the page. Calls to action keep the xl button height the sections ship; nothing you can tap is smaller than 24 by 24 px.",
+      "rule": "Check the page at 1440, 768 and 375 px: no horizontal scroll at any width, multi-column sections stack to one column (one exception: a Comparison table with four or five compared columns keeps its columns on a phone and scrolls sideways inside its own table frame, with the feature column held in place by `position: sticky`; the page itself never scrolls sideways), and a stacked image sits on the same side of its text (above or below) in every section of the page. Calls to action keep the xl button height the sections ship; nothing you can tap is smaller than 24 by 24 px.",
       "ref": [
         "W8"
       ],
       "source": [
         "the sections' 991, 767 and 479 px container rules",
         "--aha-control-height-button-xl",
-        "AGENTS.md responsive rule (24 px target)"
+        "AGENTS.md responsive rule (24 px target)",
+        "marketing/comparison.json — the four and five column tables scroll inside their frame on a phone, feature column sticky"
       ]
     },
     {
