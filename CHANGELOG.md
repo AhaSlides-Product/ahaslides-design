@@ -22,6 +22,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.524.0 — 2026-10-28
+### Changed
+- Features: Alternating with screenshots and Alternating with mixed-size screenshots were the same layout, so they are now one, Alternating with screenshots, with an Image switch: Fill (the default; the screenshot fills its slot, `aha-features__photo--fill`) or Pink frame (every screenshot whole in a 4:3 Vivid Pink frame with the Splash, `aha-features__photo--pink-frame`). The "Fill the slot, or frame mixed sizes" rule is unchanged; the switch applies it to the whole section. Eleven layouts instead of twelve; the old `#alternating-mixed-screenshots` link lands on the merged layout.
+- Marketing pages: a layout can list `formerSlugs`; each renders an anchor before the layout heading so an old link keeps working after a merge.
+- Revert: revert the PR; Alternating with mixed-size screenshots comes back as its own layout (#430)
+
 ## 0.523.0 — 2026-10-28
 ### Changed
 - Header: every layout has one button, the primary call to action. The white Learn more buttons and the Sign up with Google button on Split with form are gone.
