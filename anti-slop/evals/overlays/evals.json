@@ -206,6 +206,55 @@
         "id": 8,
         "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
       }
+    },
+    {
+      "id": 9,
+      "prompt": "Review this deck launch surface that opens when a deck row is clicked in My Files: `<aha-drawer placement=\"bottom\" open heading=\"Fire safety refresher\"><span slot=\"subtitle\">10 slides · Updated 2 days ago</span><div slot=\"actions\">…</div>…<div slot=\"footer\">‹ Previous · 3 of 24 · Next ›</div></aha-drawer>`.",
+      "files": [],
+      "label": "good-control",
+      "notes": "C4 — a list-launched surface is a bottom sheet, aha-drawer placement=bottom, not a side drawer",
+      "expected_output": "C4 PASSes. The surface opened from a list of objects is the DS bottom sheet, <aha-drawer placement=\"bottom\">, which brings the grab handle, the 48px closing gap, Esc, ✕ and swipe to close, and the full page under 768px; the Previous / Next navigation sits in the footer. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C4 is marked PASS",
+        "Cites aha-drawer placement=bottom as the list-launched surface"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C4": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-overlays-judge",
+        "id": 9,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 10,
+      "prompt": "Review this deck launch surface opened from a deck row: `<div style={{ position: 'fixed', left: 0, right: 0, bottom: 0, top: 48, background: '#fff', borderRadius: '16px 16px 0 0' }}><div className=\"grab\" />…</div>` with its own backdrop and a click handler for Esc.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C4 — a hand-built fixed div bottom sheet instead of aha-drawer placement=bottom",
+      "expected_output": "C4 FAILs. The sheet is hand-built from a fixed div, so it has no focus trap, scroll lock, focus return, swipe to close or phone full page. Fix: use <aha-drawer placement=\"bottom\"> with the title, subtitle, actions and footer slots. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C4 is marked FAIL",
+        "Cites the hand-built fixed div bottom sheet",
+        "Names <aha-drawer placement=\"bottom\"> as the fix"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C4": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-overlays-judge",
+        "id": 10,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
     }
   ]
 }
