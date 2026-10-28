@@ -2007,6 +2007,9 @@ const MARKETING_LAYOUT_PREVIEW_SCRIPT = `<script type="module">
     });
   })();
   </script>`;
+const marketingLayoutPreviewScript = (b) => b.previewModules?.length
+  ? MARKETING_LAYOUT_PREVIEW_SCRIPT.replace(JSON.stringify(MARKETING_FRAME_MODULES), JSON.stringify([...MARKETING_FRAME_MODULES, ...b.previewModules]))
+  : MARKETING_LAYOUT_PREVIEW_SCRIPT;
 const MARKETING_LAYOUT_STATE_SCRIPT = `<script type="module">
   (function(){
     function carriers(doc,prefix,modifiers){
@@ -2272,7 +2275,7 @@ ${gallery.open}${b.layouts.map(layout => `  <h2 id="${esc(layout.slug)}">${esc(l
   ${marketingLayoutIntroHtml(layout)}
   <div class="marketing-stage">${marketingLayoutPreview(b, layout)}</div>
   ${marketingCodeToggle(marketingHasStates(b, layout) ? marketingLayoutStates(b, layout).find(state => !state.modifier).label : `${layout.slug}.html`, resolveDefaultStateVariants(b, layout, marketingLayoutSnippet(b, layout)), '', marketingStatePanes(b, layout, marketingLayoutSnippet(b, layout)).concat(marketingOptionPanes(b, layout)))}`).join('\n\n')}${gallery.close}
-  ${MARKETING_LAYOUT_PREVIEW_SCRIPT}${b.layouts.some(layout => marketingHasStates(b, layout)) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}${b.layouts.some(layout => marketingHasStates(b, layout) && /\sdata-variant-[a-z0-9-]+=/.test(layout.html || '')) ? `\n  ${MARKETING_LAYOUT_VARIANT_SCRIPT}` : ''}${b.reviews ? `\n  ${MARKETING_LAYOUT_REVIEWS_SCRIPT}` : ''}${b.layouts.some(layout => layout.options) ? `\n  ${MARKETING_LAYOUT_OPTION_SCRIPT}` : ''}
+  ${marketingLayoutPreviewScript(b)}${b.layouts.some(layout => marketingHasStates(b, layout)) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}${b.layouts.some(layout => marketingHasStates(b, layout) && /\sdata-variant-[a-z0-9-]+=/.test(layout.html || '')) ? `\n  ${MARKETING_LAYOUT_VARIANT_SCRIPT}` : ''}${b.reviews ? `\n  ${MARKETING_LAYOUT_REVIEWS_SCRIPT}` : ''}${b.layouts.some(layout => layout.options) ? `\n  ${MARKETING_LAYOUT_OPTION_SCRIPT}` : ''}
 
 ${b.video ? `  ${docFold(`${b.video.label} (optional, off by default)`, `<p class="body">${esc(b.video.howToTurnOn.replaceAll('{{c}}', '<layout class>'))} Layouts with the slot: ${b.layouts.filter(layout => b.video.layouts.includes(layout.slug)).map(layout => `${esc(layout.name)} (<code>${esc(layout.class)}</code>)`).join(', ')}.</p>
   ${marketingCodeToggle('video.html', b.video.html, 'Replaces the layout image.')}
