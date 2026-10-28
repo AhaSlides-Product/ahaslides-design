@@ -148,7 +148,7 @@
       },
       {
         "title": "Tabs are for parallel choices, never a sequence",
-        "text": "Use the Tabs layouts when the visitor picks one of several equal alternatives (formats, slide types, use cases). A numbered how-to, a how it works or any set of steps is a sequence, so it is Step cards, never tabs: three steps are the Steps row (Cards aha-marketing-cards__grid--row), four or more are a Cards grid of Step cards that follows the balanced-grid rule (5 is 3 plus 2, centred). Keep every tab description to one short sentence of 90 characters or fewer, because a long description turns the tab list into a wall of text; screen-lint --surface=website fails `tabs-description-long` and `steps-as-tabs`."
+        "text": "Use the Tabs layouts when the visitor picks one of several equal alternatives (formats, slide types, use cases). A numbered how-to, a how it works or any set of steps is a sequence, so it is Step cards, never tabs: three steps are the Steps row (Cards aha-marketing-cards__grid--row), four or more are a Cards grid of Step cards that follows the balanced-grid rule (5 is 3 plus 2, centred). Moving steps out of Tabs keeps every step and its screenshot: five tabs become five Step cards with their images, never fewer. Keep every tab description to one short sentence of 90 characters or fewer, because a long description turns the tab list into a wall of text; screen-lint --surface=website fails `tabs-description-long` and `steps-as-tabs`."
       },
       {
         "title": "Fill the slot, or frame mixed sizes",

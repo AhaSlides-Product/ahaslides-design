@@ -22,13 +22,18 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.518.0 — 2026-10-28
+## 0.522.0 — 2026-10-28
 ### Changed
 - Colour rule 3.5, anti-slop W5 and the website guideline: a landing page's Hero must open in its Vivid Pink state (`--brand`), not the White default of the snippet; the "a white hero is also allowed" line is gone and a white hero is only for a Page header page or a hero the requester names. The Header guidance carries a "Surface" point saying so.
-- Anti-slop W12, the website guideline, the Features guidance and the Cards Steps note: a numbered how-to or how it works is Step cards (Steps row, a Cards grid for four or more), never Features Tabs; a tab description is one short sentence of 90 characters or fewer.
+- Anti-slop W12, the website guideline, the Features guidance and the Cards Steps note: a numbered how-to or how it works is Step cards (Steps row, a Cards grid for four or more), never Features Tabs; a tab description is one short sentence of 90 characters or fewer. Rebuilding a section keeps every point, step and image: five steps become five Step cards with their images, never fewer.
 ### Added
 - `screen-lint --surface=website` rules `hero-not-brand` (the first band is a Hero not in the Vivid Pink state), `steps-as-tabs` (a Features Tabs section whose heading, eyebrow or tablist label says how it works or steps, or with numbered tab titles) and `tabs-description-long` (a tab description over 90 characters); escape `ds-lint-allow: page (why)`.
 - Revert: revert the PR; the rules go back to "may be Vivid Pink" and the lint drops the three rules (#440)
+
+## 0.521.0 — 2026-10-28
+### Changed
+- Testimonials → Simple left aligned: the section has no button any more; it ends on the quote, name and role. Rule and criterion W18 list it as exempt from the one-call-to-action rule, beside the Logos strip. The unused `aha-testimonials__actions` rule is removed from the section CSS and from the website eval fixture `sections.css`.
+- Revert: revert the PR; the Read customer stories button comes back under the quote (#427)
 
 ## 0.517.2 — 2026-10-28
 ### Fixed
