@@ -7,6 +7,10 @@
   const drawer = document.getElementById('report');
   document.getElementById('open-report').addEventListener('click', () => drawer.show());
   document.getElementById('save-report').addEventListener('click', () => drawer.close());
+
+  const sheet = document.getElementById('deck');
+  document.getElementById('open-deck').addEventListener('click', () => sheet.show());
+  sheet.addEventListener('close', (event) => console.log('closing from', event.detail.source));   // escape, mask, close-button, swipe, method
 </script>
 
 <aha-button id="open-report" variant="secondary">Participant report</aha-button>
@@ -15,5 +19,19 @@
   <p>Minh Anh answered 4 of 5 questions correctly.</p>
   <div slot="footer" style="display:flex;justify-content:flex-end">
     <aha-button id="save-report" variant="primary">Done</aha-button>
+  </div>
+</aha-drawer>
+
+<!-- Bottom sheet: a launch surface opened from a list. Handle, 48px gap that closes on click, swipe down to close, full page under 768px. -->
+<aha-button id="open-deck" variant="secondary">Open deck</aha-button>
+
+<aha-drawer id="deck" placement="bottom" heading="Fire safety refresher">
+  <span slot="subtitle">10 slides · Updated 2 days ago · Private</span>
+  <div slot="actions"><aha-button variant="secondary" size="sm">Edit</aha-button></div>
+  <p>Slides and the Start list go here; the layout is yours.</p>
+  <div slot="footer" style="display:flex;justify-content:space-between;align-items:center">
+    <aha-button variant="tertiary" size="sm">Previous</aha-button>
+    <span>3 of 24</span>
+    <aha-button variant="tertiary" size="sm">Next</aha-button>
   </div>
 </aha-drawer>
