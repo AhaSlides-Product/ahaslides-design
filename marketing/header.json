@@ -54,7 +54,7 @@
       },
       {
         "title": "Hero video",
-        "text": "A hero can carry a video instead of the image (the optional Video slot below, off by default): a real <video> with controls, a poster that is a real screenshot, an English captions track and a download link as fallback. It never autoplays, never loops and never starts with sound, so it is safe under prefers-reduced-motion; the native controls are keyboard reachable. The video box takes the clip's own aspect ratio from the width and height attributes (set them to the clip's real pixel size), so a wide 2.12:1 demo and a 16:9 clip both fill the box with no dark bands and no crop; a height cap keeps a tall clip from taking over the hero."
+        "text": "A hero can carry a video instead of the image (the optional Video slot below, off by default): a real <video> with controls, a poster that is a real screenshot, an English captions track and a download link as fallback. It never autoplays, never loops and never starts with sound, so it is safe under prefers-reduced-motion; the native controls are keyboard reachable. The video box takes the clip's own aspect ratio from the width and height attributes (set them to the clip's real pixel size), so the video is 16:9 and the frame is 16:9 too: it fills the box with no side bars at any screen width, and a height cap keeps it from taking over the hero (the frame narrows and centres instead of letterboxing)."
       }
     ]
   },
@@ -572,7 +572,7 @@
     "replaces": "the <img class=\"{{c}}__image\"> inside .{{c}}__media",
     "howToTurnOn": "Replace the layout's <img> with the video html and add the css once, replacing {{c}} with the layout class. Set the width and height attributes to the clip's real pixel size: the slot takes that ratio. Off by default: the layout html and css leave it out. Never add autoplay, muted autoplay or loop.",
     "html": "<video class=\"{{c}}__video\" controls playsinline preload=\"none\" width=\"1280\" height=\"720\" poster=\"https://example.com/video-poster.jpg\" aria-label=\"Short description of what the video shows\">\n  <source src=\"https://example.com/video.mp4\" type=\"video/mp4\">\n  <track kind=\"captions\" src=\"https://example.com/video-captions.vtt\" srclang=\"en\" label=\"English\">\n  <a href=\"https://example.com/video.mp4\">Watch the video</a>\n</video>",
-    "css": ".{{c}}__video{display:block;width:100%;height:auto;max-height:min(80vh,40rem);object-fit:contain;border-radius:var(--aha-radius-xl);background:var(--aha-bg-dark)}\n.{{c}}__video:focus-visible{outline:none;box-shadow:0 0 0 var(--aha-space-2) var(--{{c}}-focus-gap),0 0 0 var(--aha-space-4) var(--{{c}}-focus)}"
+    "css": ".{{c}}__video{display:block;width:100%;max-width:calc(min(80vh,40rem) * 16 / 9);height:auto;aspect-ratio:16/9;margin-inline:auto;object-fit:cover;border-radius:var(--aha-radius-xl);background:var(--aha-bg-dark)}\n.{{c}}__video:focus-visible{outline:none;box-shadow:0 0 0 var(--aha-space-2) var(--{{c}}-focus-gap),0 0 0 var(--aha-space-4) var(--{{c}}-focus)}"
   },
   "previewFit": true
 }
