@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.503.1 — 2026-10-28
+### Changed
+- File-type icons `filetype-presentation`, `filetype-survey` and `filetype-course` now use the stroke glyphs of `system-presentation-chart`, `system-form` and `system-book`; the solid blobs are gone and names and meaning are unchanged (#NNN)
+- Revert: revert the PR; three SVGs under `icons/svg/filetype/`, regenerated registry and six pairs in `icon-duplicates.intentional.json` (#NNN)
+
 ## 0.502.0 — 2026-10-27
 ### Added
 - Colour rule 6.8 (product app only): at rest, Vivid Pink fills only the primary button of each region; text, borders and icons stay ink, and pink appears on hover, focus or selection. Rules that name their own pink (text links 6.6 and 6.7, tags, charts, logo, illustrations, focus ring, chat launcher, selected or on states, the one 5% highlighted panel of rule 3.7, and fills and marks a DS component ships at rest from its own contract) are listed as exceptions. Colour anti-slop criterion C9 and evals 13 (fail) and 14 (pass) added to match (#420)

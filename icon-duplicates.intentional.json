@@ -1,4 +1,35 @@
 {
  "$about": "Near-identical icon pairs that are deliberately kept, each with the written reason. Only an exact listed pair is exempt from the near-duplicate gate; standards.mjs fails an entry with no reason, or whose pair is no longer near-identical or no longer exists. Unlike icon-duplicates.baseline.json this list is not a shrink-only backlog: adding a pair needs a reviewer to accept the reason.",
- "pairs": []
+ "pairs": [
+  {
+   "first": "filetype-presentation",
+   "second": "system-presentation-chart",
+   "reason": "The file-type icon deliberately reuses the system glyph, as requested by design in DESY-378 (clearer than the old solid glyph)."
+  },
+  {
+   "first": "filetype-survey",
+   "second": "system-form",
+   "reason": "The file-type icon deliberately reuses the system glyph, as requested by design in DESY-378 (clearer than the old solid glyph)."
+  },
+  {
+   "first": "filetype-course",
+   "second": "system-book",
+   "reason": "The file-type icon deliberately reuses the system glyph, as requested by design in DESY-378 (clearer than the old solid glyph)."
+  },
+  {
+   "first": "filetype-presentation",
+   "second": "system-presentation-connect",
+   "reason": "Near-identical because filetype-presentation reuses the system-presentation-chart glyph (DESY-378); the system variant already differs from it by a small mark."
+  },
+  {
+   "first": "filetype-presentation",
+   "second": "system-presentation-disconnect",
+   "reason": "Near-identical because filetype-presentation reuses the system-presentation-chart glyph (DESY-378); the system variant already differs from it by a small mark."
+  },
+  {
+   "first": "filetype-survey",
+   "second": "system-form-plus",
+   "reason": "Near-identical because filetype-survey reuses the system-form glyph (DESY-378); the system variant already differs from it by a small mark."
+  }
+ ]
 }
