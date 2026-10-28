@@ -79,7 +79,7 @@ test('csat opt-ins: default unchanged, feedback-on="any" opens after a like, con
   assert.equal(r.plainUpHasPopupAttr, false);
   assert.equal(r.plainConfirmEmpty, '');
   assert.equal(r.plainConfirmHidden, 'none');
-  assert.equal(r.plainSelectedColour, 'rgb(26, 26, 26)');
+  assert.equal(r.plainSelectedColour, 'rgb(219, 0, 91)');
   assert.equal(r.plainDownOpens, true);
   assert.equal(r.anyRestStatus, 'status');
   assert.equal(r.anyRestText, '');
@@ -87,7 +87,7 @@ test('csat opt-ins: default unchanged, feedback-on="any" opens after a like, con
   assert.equal(r.anyUpExpanded, 'true');
   assert.equal(r.anyUpHaspopup, 'dialog');
   assert.equal(r.anyConfirm, 'Thanks, feedback received');
-  assert.equal(r.anySelectedColour, 'rgb(231, 14, 104)');
+  assert.equal(r.anySelectedColour, 'rgb(219, 0, 91)');
   assert.equal(r.anyClosedWithoutText, true);
   assert.equal(r.anyValueKept, 'up');
   assert.deepEqual(r.anyEvent, ['any', 'up', 'nice']);

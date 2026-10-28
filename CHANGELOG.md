@@ -31,6 +31,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Features: new layout Compact: swipeable card scroller with images (`compact-scroller-images`), the scroller with a numbered Step card and a screenshot at the foot of each card (optional image slot, `aha-marketing-card__media--scroller`, ordered-list track); the Features, Steps and W12 guidance now say a how it works with images may use it as well as the Step grid.
 - Revert: revert the PR; the rules go back to "may be Vivid Pink" and the lint drops the three rules (#440); the scroller-with-images layout is removed
 
+## 0.538.1 — 2026-10-28
+### Changed
+- CSAT: the chosen thumb is now drawn in the Button's Tertiary active ink (`--aha-text-link-hover`, #DB005B, 4.66:1 on white) on the accent fill, with or without `confirmation`; before, only a CSAT with `confirmation` showed a coloured thumb (colour-primary #E70E68, now aligned to the same token) and every other CSAT kept it dark. Hover on the chosen thumb keeps the same ink; focus ring, rest and disabled are unchanged (#447)
+- Revert: revert the PR; it restores the dark chosen thumb and the colour-primary ink with `confirmation` (#447)
+
 ## 0.538.0 — 2026-10-28
 ### Added
 - Eight plugin slide-type icons in the `slidetype` family: `slidetype-fill-in-the-blanks`, `slidetype-split-the-points`, `slidetype-drag-and-drop`, `slidetype-bubble-rush`, `slidetype-tournament-bracket`, `slidetype-radar`, `slidetype-calm` and `slidetype-push-race`. 24 px grid, 2 px round stroke, DS ink, registered through `node build-icons.mjs` (registry, `meaning.json` words, `lib/icon-names.js`, `lib/icons-registry.js`), so every flavour of the icon feed carries them (#435)
