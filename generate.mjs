@@ -1871,15 +1871,18 @@ function marketingStateSwitch(b, layout) {
   const initial = (states.find(state => state.default) || states[0]).modifier;
   return `<aha-segmented class="mbp-state" aria-label="${esc(layout.name)} surface" options="${esc(options)}" value="${esc(initial)}" data-class="${esc(marketingLayoutStateClass(b, layout))}" data-modifiers="${esc(JSON.stringify(states.map(state => state.modifier).filter(Boolean)))}"></aha-segmented>`;
 }
-const stripStateVariantHooks = (code) => code.replace(/(<aha-button\b[^>]*?)\sdata-variant-[a-z0-9-]+="[^"]*"/g, '$1');
+const STATE_HOOK = /\sdata-(?:variant|surface)-[a-z0-9-]+="[^"]*"/g;
+const stripStateVariantHooks = (code) => code.replace(/<aha-button\b[^>]*>/g, (tag) => tag.replace(STATE_HOOK, ''));
 const resolveDefaultStateVariants = (b, layout, code) => {
   const defaultState = marketingLayoutStates(b, layout)?.find(state => state.default);
   return defaultState?.modifier ? marketingStateVariants(code, defaultState.modifier) : stripStateVariantHooks(code);
 };
 const marketingStateVariants = (code, modifier) => code.replace(/<aha-button\b[^>]*>/g, (tag) => {
   const variant = tag.match(new RegExp(`\\sdata-variant-${modifier}="([^"]+)"`));
-  const stripped = tag.replace(/\sdata-variant-[a-z0-9-]+="[^"]*"/g, '');
-  return variant ? stripped.replace(/\svariant="[^"]*"/, ` variant="${variant[1]}"`) : stripped;
+  const surface = tag.match(new RegExp(`\\sdata-surface-${modifier}="([^"]+)"`));
+  let resolved = tag.replace(STATE_HOOK, '');
+  if (variant) resolved = resolved.replace(/\svariant="[^"]*"/, ` variant="${variant[1]}"`);
+  return surface ? resolved.replace(/\s*>$/, ` surface="${surface[1]}">`) : resolved;
 });
 const marketingStatePanes = (b, layout, snippet) => {
   const states = marketingLayoutStates(b, layout);
@@ -2057,6 +2060,8 @@ const MARKETING_LAYOUT_VARIANT_SCRIPT = `<script type="module">
           if(!button.hasAttribute('data-base-variant'))button.setAttribute('data-base-variant',button.getAttribute('variant')||'');
           var next=button.getAttribute('data-variant-'+(current||'default'));
           button.setAttribute('variant',next||button.getAttribute('data-base-variant'));
+          var surface=button.getAttribute('data-surface-'+(current||'default'));
+          if(surface)button.setAttribute('surface',surface);else button.removeAttribute('surface');
         });
       }
       frame.addEventListener('load',apply);
@@ -2275,7 +2280,7 @@ ${gallery.open}${b.layouts.map(layout => `  <h2 id="${esc(layout.slug)}">${esc(l
   ${marketingLayoutIntroHtml(layout)}
   <div class="marketing-stage">${marketingLayoutPreview(b, layout)}</div>
   ${marketingCodeToggle(marketingHasStates(b, layout) ? marketingLayoutStates(b, layout).find(state => !state.modifier).label : `${layout.slug}.html`, resolveDefaultStateVariants(b, layout, marketingLayoutSnippet(b, layout)), '', marketingStatePanes(b, layout, marketingLayoutSnippet(b, layout)).concat(marketingOptionPanes(b, layout)))}`).join('\n\n')}${gallery.close}
-  ${marketingLayoutPreviewScript(b)}${b.layouts.some(layout => marketingHasStates(b, layout)) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}${b.layouts.some(layout => marketingHasStates(b, layout) && /\sdata-variant-[a-z0-9-]+=/.test(layout.html || '')) ? `\n  ${MARKETING_LAYOUT_VARIANT_SCRIPT}` : ''}${b.reviews ? `\n  ${MARKETING_LAYOUT_REVIEWS_SCRIPT}` : ''}${b.layouts.some(layout => layout.options) ? `\n  ${MARKETING_LAYOUT_OPTION_SCRIPT}` : ''}
+  ${marketingLayoutPreviewScript(b)}${b.layouts.some(layout => marketingHasStates(b, layout)) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}${b.layouts.some(layout => marketingHasStates(b, layout) && /\sdata-(?:variant|surface)-[a-z0-9-]+=/.test(layout.html || '')) ? `\n  ${MARKETING_LAYOUT_VARIANT_SCRIPT}` : ''}${b.reviews ? `\n  ${MARKETING_LAYOUT_REVIEWS_SCRIPT}` : ''}${b.layouts.some(layout => layout.options) ? `\n  ${MARKETING_LAYOUT_OPTION_SCRIPT}` : ''}
 
 ${b.video ? `  ${docFold(`${b.video.label} (optional, off by default)`, `<p class="body">${esc(b.video.howToTurnOn.replaceAll('{{c}}', '<layout class>'))} Layouts with the slot: ${b.layouts.filter(layout => b.video.layouts.includes(layout.slug)).map(layout => `${esc(layout.name)} (<code>${esc(layout.class)}</code>)`).join(', ')}.</p>
   ${marketingCodeToggle('video.html', b.video.html, 'Replaces the layout image.')}

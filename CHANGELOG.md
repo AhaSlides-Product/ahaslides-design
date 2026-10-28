@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.509.1 — 2026-10-28
+### Fixed
+- Header and Footer banner: every Button on a Vivid Pink surface (the Vivid Pink state of the nine Hero layouts and Page header, and the Footer banner) now carries `surface="brand"`, so its keyboard focus ring is white and reads on the pink. The Header code panes show `surface="brand"` in the Vivid Pink state only; the live preview sets it when the state is switched. State hooks `data-surface-<state>` sit next to `data-variant-<state>`.
+- Revert: revert the PR; the Buttons go back to the Vivid Pink focus ring, which disappears on pink (#PRNUM)
+
 ## 0.509.0 — 2026-10-28
 ### Added
 - Button: `surface="brand"` for a Button on a Vivid Pink band (marketing hero, footer banner). Keyboard focus draws a white ring (`--aha-white`) outside a Vivid Pink gap (`--aha-vivid-pink-100`), 4.51:1 against the pink, in place of the Vivid Pink ring that vanished there. It sets `--aha-button-focus-ring` and `--aha-button-focus-gap` on the host, so a page rule on the element still wins; fill, border and label are unchanged (#398)
