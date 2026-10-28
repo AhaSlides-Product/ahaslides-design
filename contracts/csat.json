@@ -22,6 +22,7 @@
     { "label": "Feedback button", "value": "opt-in `feedback-button` — a chat icon immediately right of the thumbs (tooltip Feedback), visible whether or not rated, that opens the same popover without changing the rating; submitting clears the field so feedback can be sent again" },
     { "label": "Feedback after a like", "value": "opt-in `feedback-on=\"any\"` (default `down`) — a thumbs-up also opens the same feedback popover (same once-per-rating rule, closable with no text, `feedback` carries rating 'up'); the up thumb then carries aria-haspopup=dialog · aria-expanded. Unset, only thumbs-down opens it" },
     { "label": "Received state", "value": "opt-in `confirmation=\"<text>\"` — once rated, and again after a feedback Send, the text shows inline after the thumbs (under them with `layout=\"stacked\"`) in a 12px #616161 role=status live region (re-announced after Send); the chosen thumb is then drawn in colour-primary ink on the accent fill so it reads as selected. Unset, nothing is added" },
+    { "label": "Feedback hint", "value": "opt-in `feedback-hint=\"<text>\"` — a helper line under the feedback text box, beside the character counter (the shared <aha-counted-textarea> info-message), for example to say who reads the feedback; an error message on the field replaces it while it shows. Unset, no hint" },
     { "label": "Events", "value": "`rate` → { rating: 'up' | 'down' | null, source } (null when un-rated) · `feedback` → { rating: 'up' | 'down' | null, source, feedback } (null when unrated — the Feedback button needs no rating)" }
   ],
   "props": [
@@ -36,6 +37,7 @@
     { "name": "layout", "type": "row | stacked", "default": "row", "desc": "row keeps the prompt and buttons on one line; stacked puts the prompt on the top line and the buttons on the line below, both left-aligned. Any other value falls back to row" },
     { "name": "feedback-on", "type": "down | any", "default": "down", "desc": "down opens the feedback popover only after a thumbs-down; any also opens it after a thumbs-up (once per rating, closable with no text; the feedback event carries rating up). Any other value falls back to down" },
     { "name": "confirmation", "type": "string", "default": "—", "desc": "Opt-in received text, for example Thanks, feedback received: shown inline beside the thumbs (under them with layout stacked) once rated and again after a feedback Send, in a role=status live region; the chosen thumb turns colour-primary. Not set, no text and the thumb look is unchanged" },
+    { "name": "feedback-hint", "type": "string", "default": "—", "desc": "Opt-in helper line under the feedback text box, for example What you write goes to the developer. Not set, no hint. Changing or removing it updates the open popover" },
     { "name": "like-label", "type": "string", "default": "Good", "desc": "Tooltip and accessible name of the thumbs-up" },
     { "name": "dislike-label", "type": "string", "default": "Not good", "desc": "Tooltip and accessible name of the thumbs-down" },
     { "name": "feedback-label", "type": "string", "default": "Feedback", "desc": "Tooltip on the Feedback button" },
