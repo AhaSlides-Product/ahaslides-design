@@ -24,8 +24,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.516.0 — 2026-10-28
 ### Added
-- Features: an optional list of slide-type links in each tab panel of Tabs with screenshots and Compact tabs (new Type links switch). Two columns, at most six links, each a registry slide-type icon (`slidetype-*`, 16) beside a text link in the Button link variant values (`--aha-text-link`, regular, underlined, hover `--aha-text-link-hover`; the default ink on the Accent background, as the Button contract asks off white), then a "See all slide types" link. Links open in a new tab, so W15 names them. Off by default: the default snippets and every other Features layout are unchanged (#NNN)
-- Revert: revert the PR; it removes the `options`, list markup and `aha-features__types*` CSS from the two layouts in `marketing/features.json` and one phrase from W15 (`guidelines/website.json`, `anti-slop/criteria.json`, `agent/anti-slop/criteria.json`) (#NNN)
+- Features: an optional list of slide-type links in each tab panel of Tabs with screenshots and Compact tabs (new Type links switch). Two columns, at most six links, each a registry slide-type icon (`slidetype-*`, 16) beside a text link in the Button link variant values (`--aha-text-link`, regular, underlined, hover `--aha-text-link-hover`; the default ink on the Accent background, as the Button contract asks off white), then a "See all slide types" link. Links open in a new tab, so W15 names them. Off by default: the default snippets and every other Features layout are unchanged (#433)
+- Revert: revert the PR; it removes the `options`, list markup and `aha-features__types*` CSS from the two layouts in `marketing/features.json` and one phrase from W15 (`guidelines/website.json`, `anti-slop/criteria.json`, `agent/anti-slop/criteria.json`) (#433)
 
 ## 0.513.0 — 2026-10-28
 ### Changed
