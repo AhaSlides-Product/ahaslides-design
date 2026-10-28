@@ -22,10 +22,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.531.0 — 2026-10-28
+## 0.532.0 — 2026-10-28
 ### Added
 - Eight plugin slide-type icons in the `slidetype` family: `slidetype-fill-in-the-blanks`, `slidetype-split-the-points`, `slidetype-drag-and-drop`, `slidetype-bubble-rush`, `slidetype-tournament-bracket`, `slidetype-radar`, `slidetype-calm` and `slidetype-push-race`. 24 px grid, 2 px round stroke, DS ink, registered through `node build-icons.mjs` (registry, `meaning.json` words, `lib/icon-names.js`, `lib/icons-registry.js`), so every flavour of the icon feed carries them (#435)
 - Revert: revert the PR; it removes the eight SVGs, their `meaning.json` lines and the regenerated registry entries (#435)
+
+## 0.530.0 — 2026-10-28
+### Added
+- Logos: an optional "Trusted by teams at" label centred above the strip (new Label switch, `aha-logos__label`): the meta role of the type ramp (`--aha-size-default`, regular) in `--aha-text-secondary`, 32px above and 24px below. Off by default: the strip, its snippet and its tests are unchanged until the paragraph is added. `generate.mjs` takes a section-level `options` key (the same `data-choice` switches the layouts use) for single-block sections; the other Marketing pages' output is byte-identical (#432)
+- Revert: revert the PR; it removes the `options`, `class` and label keys from `marketing/logos.json` and four small hooks from `generate.mjs` (`bakeMarketingOptions`, `expandMarketingData`, the preview bar and the code panes) (#432)
 
 ## 0.527.0 — 2026-10-28
 ### Added
