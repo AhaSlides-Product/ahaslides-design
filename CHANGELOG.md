@@ -25,7 +25,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.509.1 — 2026-10-28
 ### Fixed
 - Header and Footer banner: every Button on a Vivid Pink surface (the Vivid Pink state of the nine Hero layouts and Page header, and the Footer banner) now carries `surface="brand"`, so its keyboard focus ring is white and reads on the pink. The Header code panes show `surface="brand"` in the Vivid Pink state only; the live preview sets it when the state is switched. State hooks `data-surface-<state>` sit next to `data-variant-<state>`.
-- Revert: revert the PR; the Buttons go back to the Vivid Pink focus ring, which disappears on pink (#PRNUM)
+- Revert: revert the PR; the Buttons go back to the Vivid Pink focus ring, which disappears on pink (#426)
 
 ## 0.509.0 — 2026-10-28
 ### Added
