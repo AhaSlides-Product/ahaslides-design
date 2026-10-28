@@ -183,3 +183,155 @@ test('nested aha-drawer handles keys on top and the scroll lock is shared with a
   assert.equal(result.earlyModalOverLateDrawer, true);
   assert.equal(result.lateDrawerOverEarlyModal, true);
 });
+
+const sheetScenarios = String.raw`(async () => {
+  const frame = () => new Promise((done) => requestAnimationFrame(() => requestAnimationFrame(done)));
+  const settle = () => new Promise((done) => setTimeout(done, 450));
+  const wait = (ms) => new Promise((done) => setTimeout(done, ms));
+  const sheet = document.querySelector('#sheet');
+  const side = document.querySelector('#drawer');
+  const panel = sheet.shadowRoot.querySelector('.panel');
+  const handle = sheet.shadowRoot.querySelector('.handle');
+  const mask = sheet.shadowRoot.querySelector('.mask');
+  const out = {};
+  const key = (name, target = document, init = {}) => {
+    const event = new KeyboardEvent('keydown', { key: name, bubbles: true, composed: true, cancelable: true, ...init });
+    target.dispatchEvent(event);
+    return event.defaultPrevented;
+  };
+  const pointer = (type, target, y, pointerType = 'touch') => target.dispatchEvent(new PointerEvent(type, { pointerId: 7, pointerType, isPrimary: true, clientX: 300, clientY: y, bubbles: true, composed: true }));
+  const sources = [];
+  sheet.addEventListener('close', (event) => sources.push(event.detail.source));
+  const swipe = async (steps, target = handle, pointerType = 'touch') => {
+    pointer('pointerdown', target, 100, pointerType);
+    for (const [offset, delay] of steps) { await wait(delay); pointer('pointermove', target, 100 + offset, pointerType); }
+    const during = panel.style.transform;
+    pointer('pointerup', target, 100 + steps[steps.length - 1][0], pointerType);
+    await frame();
+    return during;
+  };
+
+  out.handleHiddenForSide = getComputedStyle(side.shadowRoot.querySelector('.handle')).display;
+  out.subtitleHiddenWhenEmpty = getComputedStyle(side.shadowRoot.querySelector('.subtitle')).display;
+  out.actionsHiddenWhenEmpty = getComputedStyle(side.shadowRoot.querySelector('.actions')).display;
+
+  sheet.show(); await frame(); await settle();
+  const rect = panel.getBoundingClientRect();
+  const style = getComputedStyle(panel);
+  out.top = rect.top; out.width = rect.width; out.viewport = innerWidth; out.bottom = rect.bottom; out.viewportHeight = innerHeight;
+  out.radius = [style.borderTopLeftRadius, style.borderTopRightRadius, style.borderBottomLeftRadius];
+  const handleRect = handle.getBoundingClientRect();
+  out.handle = [handleRect.width, handleRect.height, getComputedStyle(handle).display, handle.getAttribute('aria-hidden'), handle.getAttribute('part')];
+  out.subtitleShown = getComputedStyle(sheet.shadowRoot.querySelector('.subtitle')).display;
+  out.actionsShown = getComputedStyle(sheet.shadowRoot.querySelector('.actions')).display;
+  out.subtitleOutsideHeading = !sheet.shadowRoot.querySelector('h2').contains(sheet.shadowRoot.querySelector('slot[name=subtitle]'));
+  out.panelNodeKept = sheet.shadowRoot.querySelector('.panel') === panel;
+
+  out.gapIsMask = sheet.shadowRoot.elementFromPoint(innerWidth / 2, 20) === mask;
+  mask.click(); await frame();
+  out.gapClosed = !sheet.hasAttribute('open');
+  await settle();
+
+  sheet.show(); await frame(); await settle();
+  const height = panel.getBoundingClientRect().height;
+  out.longSwipeDuring = await swipe([[200, 120], [height * 0.3, 120]]);
+  out.longSwipeClosed = !sheet.hasAttribute('open');
+  out.transformCleared = panel.style.transform === '';
+  await settle();
+
+  sheet.show(); await frame(); await settle();
+  out.shortSwipeDuring = await swipe([[60, 200], [100, 200]], sheet.shadowRoot.querySelector('.header'));
+  out.shortSwipeOpen = sheet.hasAttribute('open');
+  out.shortSwipeSnapped = panel.style.transform === '' && panel.style.transition === '';
+
+  await swipe([[40, 60], [80, 5]]);
+  out.fastFlickClosed = !sheet.hasAttribute('open');
+  await settle();
+
+  sheet.show(); await frame(); await settle();
+  await swipe([[300, 50], [500, 50]], handle, 'mouse');
+  out.mouseDragOpen = sheet.hasAttribute('open');
+  await swipe([[-80, 100]]);
+  out.upwardDragOpen = sheet.hasAttribute('open');
+
+  const veto = (event) => event.preventDefault();
+  sheet.addEventListener('close', veto);
+  await swipe([[height * 0.6, 100]]);
+  out.cancelledStaysOpen = sheet.hasAttribute('open');
+  out.cancelledSnapped = panel.style.transform === '';
+  sheet.removeEventListener('close', veto);
+
+  const more = sheet.querySelector('#more');
+  more.setAttribute('aria-expanded', 'true');
+  out.escapeInOpenPopupPrevented = key('Escape', more);
+  await frame();
+  out.stillOpenAfterPopupEscape = sheet.hasAttribute('open');
+  more.setAttribute('aria-expanded', 'false');
+  const menu = sheet.querySelector('#menu');
+  menu.setAttribute('open', '');
+  key('Escape', menu); await frame();
+  out.stillOpenAfterMenuEscape = sheet.hasAttribute('open');
+  menu.removeAttribute('open');
+
+  const portal = document.createElement('div');
+  portal.tabIndex = 0;
+  document.body.append(portal);
+  out.portalTabPrevented = key('Tab', portal);
+  key('Escape', portal); await frame();
+  out.stillOpenAfterPortalEscape = sheet.hasAttribute('open');
+  portal.remove();
+
+  out.escapeClosesSheet = key('Escape', sheet.querySelector('#sheet-next')) && !(await frame(), sheet.hasAttribute('open'));
+  out.sources = sources;
+  await settle();
+
+  const phone = document.createElement('iframe');
+  phone.style.cssText = 'position:fixed;left:0;top:0;width:375px;height:700px;border:0;z-index:5';
+  phone.src = location.href;
+  document.body.append(phone);
+  while (!phone.contentWindow.drawerFixtureReady) await wait(50);
+  const phoneSheet = phone.contentDocument.querySelector('#sheet');
+  phoneSheet.show(); await wait(600);
+  const phonePanel = phoneSheet.shadowRoot.querySelector('.panel');
+  const phoneRect = phonePanel.getBoundingClientRect();
+  const phoneStyle = phone.contentWindow.getComputedStyle(phonePanel);
+  out.phone = [phoneRect.top, phoneRect.width, phoneStyle.borderTopLeftRadius, phone.contentWindow.getComputedStyle(phoneSheet.shadowRoot.querySelector('.handle')).display];
+  return out;
+})()`;
+
+test('aha-drawer placement=bottom is a bottom sheet with a handle, swipe to close and popup-aware keys', { skip }, async () => {
+  const result = await evaluateInPage(fixture, sheetScenarios, { readyExpr: '!!window.drawerFixtureReady', timeout: 60000 });
+  assert.equal(result.handleHiddenForSide, 'none');
+  assert.equal(result.subtitleHiddenWhenEmpty, 'none');
+  assert.equal(result.actionsHiddenWhenEmpty, 'none');
+  assert.equal(result.top, 48);
+  assert.equal(result.width, result.viewport);
+  assert.equal(result.bottom, result.viewportHeight);
+  assert.deepEqual(result.radius, ['16px', '16px', '0px']);
+  assert.deepEqual(result.handle, [40, 4, 'block', 'true', 'handle']);
+  assert.equal(result.subtitleShown, 'block');
+  assert.equal(result.actionsShown, 'flex');
+  assert.equal(result.subtitleOutsideHeading, true);
+  assert.equal(result.panelNodeKept, true);
+  assert.equal(result.gapIsMask, true);
+  assert.equal(result.gapClosed, true);
+  assert.match(result.longSwipeDuring, /^translateY\(\d+(\.\d+)?px\)$/);
+  assert.equal(result.longSwipeClosed, true);
+  assert.equal(result.transformCleared, true);
+  assert.match(result.shortSwipeDuring, /^translateY\(100px\)$/);
+  assert.equal(result.shortSwipeOpen, true);
+  assert.equal(result.shortSwipeSnapped, true);
+  assert.equal(result.fastFlickClosed, true);
+  assert.equal(result.mouseDragOpen, true);
+  assert.equal(result.upwardDragOpen, true);
+  assert.equal(result.cancelledStaysOpen, true);
+  assert.equal(result.cancelledSnapped, true);
+  assert.equal(result.escapeInOpenPopupPrevented, false);
+  assert.equal(result.stillOpenAfterPopupEscape, true);
+  assert.equal(result.stillOpenAfterMenuEscape, true);
+  assert.equal(result.portalTabPrevented, false);
+  assert.equal(result.stillOpenAfterPortalEscape, true);
+  assert.equal(result.escapeClosesSheet, true);
+  assert.deepEqual(result.sources, ['mask', 'swipe', 'swipe', 'swipe', 'escape']);
+  assert.deepEqual(result.phone, [0, 375, '0px', 'block']);
+});

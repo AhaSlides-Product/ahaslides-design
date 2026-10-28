@@ -8,14 +8,14 @@
   "environment": [
     "product"
   ],
-  "summary": "The side drawer as a framework-free element, for pages that cannot load antd: a white panel that slides in from the right with a title, a scrolling body, an optional footer and a dimmed mask.",
+  "summary": "The drawer as a framework-free element, for pages that cannot load antd: a white panel that slides in from the right or left, or a full-width bottom sheet, with a title, a scrolling body, an optional footer and a dimmed mask.",
   "highlights": [
     "Same look as the antd Drawer, no antd needed",
     "Esc, mask and ✕ close it; focus trapped and returned",
-    "Title, body and footer slots; right or left"
+    "Right, left or bottom sheet with swipe to close"
   ],
-  "lead": "ONE custom element, <aha-drawer>, that reproduces the antd Drawer as themed by drawerTheme value for value: the 378 wide white panel, the 16/24 header with a 16px SemiBold ink title and the shared dismiss ✕, the 24 padded scrolling body, the 8/16 footer, the dimmed mask and the 0.3s slide. It exists for pages that cannot take the antd Drawer: Vue 2 apps that only take <aha-*> elements, plain HTML pages and standalone demos, which used to draw the panel by hand. The antd Drawer stays the choice in React and Vue 3 apps that already load antd, and the only one with top and bottom placements.",
-  "codeNote": "Same element, same shadow-DOM CSS, so the render is identical in React, Vue and plain HTML. React (< 19) binds the `close` and `closed` events through a ref; Vue binds them natively. The element does not own its state: set or remove `open`, and call preventDefault() on `close` to keep it open.",
+  "lead": "ONE custom element, <aha-drawer>, that reproduces the antd Drawer as themed by drawerTheme value for value: the 378 wide white panel, the 16/24 header with a 16px SemiBold ink title and the shared dismiss ✕, the 24 padded scrolling body, the 8/16 footer, the dimmed mask and the 0.3s slide. It exists for pages that cannot take the antd Drawer: Vue 2 apps that only take <aha-*> elements, plain HTML pages and standalone demos, which used to draw the panel by hand. The antd Drawer stays the choice in React and Vue 3 apps that already load antd, and the choice for a plain top or bottom panel. A list-launched surface (one click on a deck or a file) is the bottom sheet, <aha-drawer placement=\"bottom\">, in every framework: a grab handle, a 48px gap above it that closes on click, 16px top corners, swipe down to close, and a full page under 768px.",
+  "codeNote": "Same element, same shadow-DOM CSS, so the render is identical in React, Vue and plain HTML. React (< 19) binds the `close` and `closed` events through a ref; Vue binds them natively. The element does not own its state: set or remove `open`, and call preventDefault() on `close` to keep it open. The bottom sheet has `slot=\"subtitle\"` under the title and `slot=\"actions\"` between the title and the ✕; the app owns the body layout and Previous / Next.",
   "tokensUsed": [
     "bg-elevated",
     "text-default",
@@ -28,16 +28,34 @@
     "space-16",
     "space-24",
     "motion-slow",
-    "font-product"
+    "font-product",
+    "radius-xl",
+    "radius-pill",
+    "border-default",
+    "text-secondary",
+    "size-default",
+    "space-4"
   ],
   "spec": [
     {
       "label": "Panel",
-      "value": "white (bg-elevated), 378 wide (size=\"large\" 736, or width), full height, no radius, max 100% of its container; right edge by default, placement=\"left\" mirrors it"
+      "value": "white (bg-elevated), 378 wide (size=\"large\" 736, or width), full height, no radius, max 100% of its container; right edge by default, placement=\"left\" mirrors it, placement=\"bottom\" is the sheet below"
+    },
+    {
+      "label": "Bottom sheet",
+      "value": "placement=\"bottom\": full width, top edge 48 below the viewport top (--aha-drawer-top-gap), top corners 16 (radius-xl), shadow mirrored upward, slides up over 0.3s; the gap is the mask, so a click on it closes unless `static`; under 768px it is a full page with no gap and no radius"
+    },
+    {
+      "label": "Handle",
+      "value": "bottom only: 40 × 4 pill (radius-pill) in the default border colour, centred 12 below the panel top, decorative (aria-hidden); kept at phone width"
+    },
+    {
+      "label": "Swipe",
+      "value": "bottom only, touch and pen: drag the handle or header down and the panel follows; release past 25% of its height or faster than 0.5 px/ms closes it (`close` source \"swipe\"), otherwise it snaps back, also when `close` is cancelled; the body scroll never starts it"
     },
     {
       "label": "Header",
-      "value": "padding 16 24, 1px bottom rule in the split colour; title 16/1.5 SemiBold ink; the shared dismiss ✕ (tertiary icon-only xs aha-button, system-x 16) pinned to the title's first line, 8 from the title"
+      "value": "padding 16 24, 1px bottom rule in the split colour; title 16/1.5 SemiBold ink; the shared dismiss ✕ (tertiary icon-only xs aha-button, system-x 16) pinned to the title's first line, 8 from the title; optional slot=\"subtitle\" under the title (14px secondary, outside the heading) and slot=\"actions\" between the title and the ✕, both hidden when empty"
     },
     {
       "label": "Body",
@@ -61,7 +79,7 @@
     },
     {
       "label": "Behaviour",
-      "value": "role dialog, aria-modal, named by the title; traps Tab, locks page scroll, returns focus to whatever opened it; Esc, mask and ✕ emit a cancelable `close`"
+      "value": "role dialog, aria-modal, named by the title; traps Tab, locks page scroll, returns focus to whatever opened it; Esc, mask and ✕ emit a cancelable `close`; Esc and Tab leave an open popup inside the drawer (aria-expanded menus, aha-select, aha-dropdown, aha-menu, aha-popover) and an overlay portalled outside it to handle their own keys"
     }
   ],
   "props": [
@@ -91,9 +109,9 @@
     },
     {
       "name": "placement",
-      "type": "right | left",
+      "type": "right | left | bottom",
       "default": "right",
-      "desc": "The edge it slides from. Top and bottom are antd Drawer only"
+      "desc": "The edge it slides from; bottom is the full-width sheet (width and size are ignored). Top is antd Drawer only. An unknown value falls back to right"
     },
     {
       "name": "size",
@@ -126,6 +144,24 @@
       "desc": "Static display inside a positioned ancestor: no trap, no scroll lock, no keys. For docs and previews"
     },
     {
+      "name": "slot=\"subtitle\"",
+      "type": "slot",
+      "default": "—",
+      "desc": "A line under the title, outside the heading (\"10 slides · Updated 2 days ago\"). Hidden when empty"
+    },
+    {
+      "name": "slot=\"actions\"",
+      "type": "slot",
+      "default": "—",
+      "desc": "Buttons between the title and the ✕ (Edit, Edit with AI, More). Hidden when empty"
+    },
+    {
+      "name": "--aha-drawer-top-gap",
+      "type": "CSS length",
+      "default": "48px",
+      "desc": "Bottom sheet only: the gap above the panel. Forced to 0 under 768px"
+    },
+    {
       "name": "close()",
       "type": "method",
       "default": "—",
@@ -135,7 +171,7 @@
       "name": "close",
       "type": "event",
       "default": "—",
-      "desc": "Cancelable, composed. detail.source is escape, mask, close-button or method"
+      "desc": "Cancelable, composed. detail.source is escape, mask, close-button, swipe or method"
     },
     {
       "name": "closed",
@@ -148,11 +184,11 @@
     "whenToUse": [
       {
         "what": "Drawer (web component)",
-        "when": "a longer edit form or detail panel where page context matters, on a page that does not load antd: Vue 2 apps taking <aha-*>, plain HTML, standalone pages such as a report demo"
+        "when": "a longer edit form or detail panel where page context matters, on a page that does not load antd: Vue 2 apps taking <aha-*>, plain HTML, standalone pages such as a report demo; also the bottom sheet that a click on an object in a list launches, in React, Vue 2 and Vue 3 alike"
       },
       {
         "what": "Drawer (antd)",
-        "when": "a React or Vue 3 app that already loads antd, or a panel from the top or bottom edge"
+        "when": "a React or Vue 3 app that already loads antd and wants a plain panel from the top or bottom edge (a list-launched sheet is <aha-drawer placement=\"bottom\"> instead)"
       },
       {
         "what": "Modal",
@@ -163,7 +199,7 @@
         "when": "the task is large enough to deserve its own route"
       }
     ],
-    "note": "Give it a heading and keep the primary action in the footer slot. Never hand-draw a drawer with a fixed div: the trap, the scroll lock and the focus return come with the element. It is not a modal for audience phones; use <aha-audience-modal> there."
+    "note": "Give it a heading and keep the primary action in the footer slot. Never hand-draw a drawer or a sheet with a fixed div: the trap, the scroll lock and the focus return come with the element. It is not a modal for audience phones; use <aha-audience-modal> there."
   },
   "surfaces": [
     "editor",
