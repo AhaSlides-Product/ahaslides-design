@@ -10,6 +10,7 @@
 <div style="display:flex; flex-direction:column; gap:8px; max-width:420px">
   <aha-info-box variant="information">Points are awarded for correct answers only.</aha-info-box>
   <aha-info-box variant="success">Your changes are saved.</aha-info-box>
+  <aha-info-box variant="warning">Question <a href="#q2">2</a> has no prompt yet.</aha-info-box>   <!-- a link is a plain <a href>, never an <aha-button> -->
   <aha-info-box variant="warning" id="warn" dismissible>Turning this off clears saved responses.</aha-info-box>
   <aha-info-box variant="error">This slide type needs at least two options.</aha-info-box>
 </div>

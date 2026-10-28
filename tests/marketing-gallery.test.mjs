@@ -8,20 +8,18 @@ const script = readFileSync(new URL('../lib/marketing-motion.js', import.meta.ur
 const header = readSection('header');
 const galleryLayouts = header.layouts.filter((layout) => layout.slug.startsWith('gallery-'));
 const features = readSection('features');
-const whiteHeroes = ['hero-photo-stack', 'hero-bento-collage', 'hero-image-marquee', 'hero-slideshow', 'hero-floating-images'];
-const pinkHeroes = whiteHeroes.map((slug) => slug.replace('hero-', 'hero-pink-'));
-const multiImageHeroes = [...whiteHeroes, ...pinkHeroes];
+const multiImageHeroes = ['hero-photo-stack', 'hero-bento-collage', 'hero-image-marquee', 'hero-slideshow', 'hero-floating-images'];
 const ownCss = (css) => css.slice(css.indexOf('\n', css.indexOf('__visually-hidden{')) + 1);
 const layouts = [
   ...header.layouts.filter((layout) => multiImageHeroes.includes(layout.slug)).map((layout) => ({ ...layout, css: ownCss(layout.css) })),
   ...galleryLayouts,
 ];
 
-test('the five multi-image heroes, their Vivid Pink versions and five Header gallery layouts ship, and the sticky stack is a Features layout', () => {
-  assert.equal(layouts.length, 15);
+test('the five multi-image heroes and five Header gallery layouts ship, and the sticky stack is a Features layout', () => {
+  assert.equal(layouts.length, 10);
   assert.deepEqual(galleryLayouts.map((layout) => layout.slug), ['gallery-bento', 'gallery-masonry', 'gallery-carousel', 'gallery-marquee-rows', 'gallery-tabs']);
   assert.ok(features.layouts.some((layout) => layout.slug === 'sticky-stack'));
-  assert.equal(header.layouts.some((layout) => /gallery|stack/.test(layout.slug) && !layout.slug.startsWith('gallery-') && !layout.slug.includes('photo-stack')), false);
+  assert.equal(header.layouts.some((layout) => layout.slug.includes('sticky')), false);
 });
 
 test('each Header gallery layout is scoped to its own class and has White and Accent states', () => {
@@ -42,20 +40,17 @@ test('the Features sticky stack is pure CSS: no script hook and no animation', (
   assert.doesNotMatch(stack.css + stack.html, /aha-gallery/);
 });
 
-test('each Vivid Pink hero opens on Vivid Pink with the Splash and keeps its white twin as a state', () => {
-  const bySlug = Object.fromEntries(header.layouts.map((layout) => [layout.slug, layout]));
-  for (const [index, slug] of pinkHeroes.entries()) {
-    const pink = bySlug[slug];
-    const white = bySlug[whiteHeroes[index]];
-    assert.deepEqual(pink.states, [{ label: 'White', modifier: '' }, { label: 'Vivid Pink', modifier: 'brand', default: true }], slug);
-    assert.match(pink.html, new RegExp(`^<section class="${pink.class} ${pink.class}--brand[ "]`), slug);
-    assert.match(pink.html, /splash-icon-pink\.svg/, slug);
-    assert.equal(pink.html.replaceAll(pink.class, white.class).replace(` ${white.class}--brand`, ''), white.html, slug);
+test('each multi-image hero has White, Accent and Vivid Pink states, the Vivid Pink one with the Splash', () => {
+  for (const slug of multiImageHeroes) {
+    const hero = header.layouts.find((layout) => layout.slug === slug);
+    assert.deepEqual(hero.states.map((state) => state.modifier), ['', 'accent', 'brand'], slug);
+    assert.match(hero.html, /splash-icon-pink\.svg/, slug);
+    assert.match(hero.css, new RegExp(`\\.${hero.class}--brand>\\.${hero.class}__splash\\{display:block`), slug);
   }
 });
 
 test('the current slideshow dot changes fill as well as width, on White and on Vivid Pink', () => {
-  for (const slug of ['hero-slideshow', 'hero-pink-slideshow']) {
+  for (const slug of ['hero-slideshow']) {
     const layout = header.layouts.find((candidate) => candidate.slug === slug);
     const dotTokens = (selector) => {
       const block = layout.css.match(new RegExp(`${selector}\\{(--${layout.class}-dot[^}]*)\\}`))[1];
@@ -98,7 +93,7 @@ const contrastOnSurface = (tokenReference, surfaceHex) => {
 
 test('every resting and current dot clears 3:1 against its surface, White and Vivid Pink (WCAG 1.4.11)', () => {
   const checks = [];
-  for (const slug of ['hero-slideshow', 'hero-pink-slideshow']) {
+  for (const slug of ['hero-slideshow']) {
     const layout = header.layouts.find((candidate) => candidate.slug === slug);
     for (const [selector, surface] of [[`.${layout.class}{`, '#FFFFFF'], [`.${layout.class}--brand{`, '#E70E68']]) {
       const block = layout.css.slice(layout.css.indexOf(selector + `--${layout.class}-dot:`));

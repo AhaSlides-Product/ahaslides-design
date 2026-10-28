@@ -157,8 +157,8 @@ cards already state.
 - **Corner radius follows the DS scale.** Cards and panels are **12px** (`--aha-radius-lg`,
   what the DS card measures); option tiles, answer boxes, inputs and buttons **8px**
   (`--aha-radius-default`); nothing rectangular goes above 12px — `rounded-2xl`/`3xl`/`20px`
-  reads toy-like. There is no pill shape (no `999px`): true circles (avatars, dots, radio marks,
-  slider thumbs) are round at `50%`, while chips, badges and progress tracks/fills stay on the radius scale.
+  reads toy-like. Intentionally circular elements (pills, chips, badges, avatars, dots,
+  progress tracks/fills) stay fully rounded (`999px`).
 - **No extra-bold weight.** Display text is **400 or 600 only**; 700/800/900 reads heavy and
   "AI" (a count number at 800 is the classic tell).
 - **No decorative brand watermark or meaningless chrome.** The host owns branding — never
@@ -298,7 +298,7 @@ from the deck once with `applyCanvasDeck`:
   var(--aha-deck-palette-2-ink)`. Never hand-roll a "luminance > 0.6 → dark, else white" flip: it
   picks white on mid colours (`#4CAF50` white 2.78:1, ink 6.27:1) and fails AA. For a colour that is
   not in the palette, import `readableTextInk` from `lib/canvas.js` (also `lib/audience.js`).
-  Without `palette` nothing changes.
+  Without `palette` nothing changes; `<aha-leaderboard>` then draws its bars in the deck accent, the only fallback.
 - The variant hierarchy is the same as the host bar's: at most one `primary`, the rest
   `secondary-deck` (white on every deck), per-round steppers `secondary-deck`. `tertiary-deck`
   is never used on a photographic deck — a borderless button gets lost on a busy picture — so

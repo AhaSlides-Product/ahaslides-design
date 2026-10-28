@@ -17,7 +17,7 @@
       ],
       "label": "good-control",
       "notes": "Good control: the reference page, a Vivid Pink hero then a white and pale pink body. Guards against over-firing on a page assembled exactly from the sections.",
-      "expected_output": "Every band is a DS Marketing section with shipped spacing and widths; the hero is the Hero Pink header (Vivid Pink with the Darker Pink Splash, white heading, white button) with one H1 and a context-specific call to action (Create a live poll free) that the Footer banner repeats; after it the body alternates white (Logos), pale pink (Features), white (Testimonials), pale pink (icon grid), white (FAQ), so no two coloured bands touch, and the only other Vivid Pink band is the footer banner, after a white FAQ (two Vivid Pink bands in all); placeholder images with alt text and registry icons; Navigation with <aha-product-lockup>; motion only from the DS motion script. Headings are centred over every full-width section and each content section ends with its shipped centred call to action row: Read customer stories under Testimonials, Read the docs under the FAQ and the hero's Create a live poll free everywhere else; testimonial authors are left aligned. Overall: OK TO SHIP.",
+      "expected_output": "Every band is a DS Marketing section with shipped spacing and widths; the hero is the Hero split header on its Vivid Pink surface (Darker Pink Splash, white heading, white button) with one H1 and a context-specific call to action (Create a live poll free) that the Footer banner repeats; after it the body alternates white (Logos), pale pink (Features), white (Testimonials), pale pink (icon grid), white (FAQ), so no two coloured bands touch, and the only other Vivid Pink band is the footer banner, after a white FAQ (two Vivid Pink bands in all); placeholder images with alt text and registry icons; Navigation with <aha-product-lockup>; motion only from the DS motion script. Headings are centred over every full-width section and each content section ends with its shipped centred call to action row: Read customer stories under Testimonials, Read the docs under the FAQ and the hero's Create a live poll free everywhere else; testimonial authors are left aligned. Overall: OK TO SHIP.",
       "assertions": [
         "Overall verdict is OK TO SHIP",
         "No criterion is marked FAIL"
@@ -738,6 +738,157 @@
         "overall": "NEEDS_FIX",
         "criteria": {
           "W16": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 25,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w14-eyebrow/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W14 and W17: the Features section heading block opens with a small uppercase label (an eyebrow, class aha-features__eyebrow) above the h2. A section heading is h2 and lead; no section carries an eyebrow, the hero included.",
+      "expected_output": "W14 FAILs: the Features heading block has an eyebrow (\"Features\", small, uppercase, above the h2). The fix is to delete the eyebrow element and its CSS so the block is the h2 and the lead. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W14 is marked FAIL",
+        "Names the eyebrow above the section heading and says to remove it"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W1": "PASS",
+          "W14": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 26,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w15-linkout-same-tab/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W15: the Read customer stories and Read the docs link-out buttons open in the same tab.",
+      "expected_output": "W15 FAILs: Read customer stories and Read the docs go to another page but carry no target=\"_blank\" rel=\"noopener\" and no visually-hidden new-tab text. Fix: open the section link-out buttons in a new tab with the shipped hidden text; Sign up stays in the same tab. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W15 is marked FAIL",
+        "Names the link-out buttons that open in the same tab"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W15": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 27,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w18-split-cta-centred/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W18: a split Features section (list beside a photo) whose call to action is centred under the whole row instead of in the text column.",
+      "expected_output": "W18 FAILs: the icon-list-photo section puts its button in a centred row under the whole split row, below the photo, instead of inside the text column under the list, left aligned with it. Fix: use the shipped markup with the button row (aha-features__cta--start) inside aha-features__column. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W18 is marked FAIL",
+        "Names the centred button under the split row"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W18": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 28,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w19-four-unbalanced-quotes/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W19: four quote cards, one long quote beside short ones.",
+      "expected_output": "W19 FAILs: the Testimonials section shows four cards, over the limit of three, and one quote is about 240 characters beside quotes of about 90, so the cards are uneven. Fix: keep three quotes of similar length. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W19 is marked FAIL",
+        "Names the fourth card and the long quote"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W19": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 29,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w6-padded-screenshots/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W6: tab screenshots of different sizes padded onto one canvas size and filled without the pink frame.",
+      "expected_output": "W6 FAILs: every tab image is a 1600x1200 file filling its container, but each is a different-size UI screenshot (three landscape UIs of different sizes) padded onto the same plain grey canvas, so the sizes are judged by the visible UI, not the file. Fix: export each screenshot tight to its UI and wrap each in the Vivid Pink frame (aha-features__photo--pink-frame). Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W6 is marked FAIL",
+        "Says the images differ in size once the padding is ignored and need the pink frame"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W6": "FAIL"
         }
       },
       "source": {
