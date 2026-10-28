@@ -94,7 +94,7 @@
       "files": [],
       "label": "bad-example",
       "notes": "Targets C5: hue for status and trend.",
-      "expected_output": "C5 FAILs: status and trend are shown in green, amber and red. Fix: the DS status badge (icon, wording, outline or black fill); a rise in plain black with an up arrow, a fall as white on a black chip with a down arrow. Overall: NEEDS FIX.",
+      "expected_output": "C5 FAILs: status and trend are shown in green, amber and red. Fix: the DS status badge (icon, wording, outline or black fill); a rise in plain black with an up arrow, a fall as white on a black pill with a down arrow. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX"
       ],
@@ -257,6 +257,48 @@
         "overall": "NEEDS_FIX",
         "criteria": {
           "C7": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; the plugin judge dataset predates the colour rules of 7 October 2026"
+      }
+    },
+    {
+      "id": 13,
+      "prompt": "Review a Presenter home screen in the product app. The page has a primary 'New presentation' button in Vivid Pink, a Vivid Pink 'Import' icon and label on a secondary button, Vivid Pink borders on three recent-presentation cards, and Vivid Pink icons on each sidebar item at rest. Everything else is DS components on white.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C9: Vivid Pink at rest outside the region's primary button.",
+      "expected_output": "C9 FAILs: the pink icon and label on the secondary button, the pink card borders and the pink sidebar icons are pink at rest; only the primary button may be. Fix: ink for text, borders and icons, pink on hover, focus or selection. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C9": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; the plugin judge dataset predates the colour rules of 7 October 2026"
+      }
+    },
+    {
+      "id": 14,
+      "prompt": "Review a Presenter home screen in the product app. The page has one primary 'New presentation' button in Vivid Pink. A paid-only 'Export' menu item carries the DS Paywall upgrade mark, a DS Progress bar shows storage used, the selected sidebar item has a Vivid Pink icon, and a DS Alert holds an inline text-link in Vivid Pink. All other text, borders and icons are ink on white.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Targets C9: pink the rules or a DS component contract name passes; guards against an over-broad C9.",
+      "expected_output": "C9 PASSes: the only pink fill is the primary button; the Paywall mark and Progress fill come from their DS contracts, the sidebar icon is a selected state and the alert link is rule 6.7. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C9": "PASS"
         }
       },
       "source": {

@@ -67,10 +67,11 @@
   },
   "font": {
     "product": "\"Plus Jakarta Sans\", -apple-system, \"Segoe UI\", Roboto, sans-serif",
-    "display": "\"Nunito\", sans-serif",
-    "secondary": "\"Nunito Sans\", sans-serif",
+    "display": "\"Plus Jakarta Sans\", -apple-system, \"Segoe UI\", Roboto, sans-serif",
+    "secondary": "\"Plus Jakarta Sans\", -apple-system, \"Segoe UI\", Roboto, sans-serif",
     "mono": "Menlo, Monaco, monospace",
     "stylized": null,
+    "$deprecated": "--aha-font-display and --aha-font-secondary are deprecated aliases of --aha-font-product: the font is Plus Jakarta Sans only (colour rule 2.4), and Nunito and Nunito Sans are no longer used. Use --aha-font-product.",
     "$note": "NO Inter. The export (SoT) declares Inter a Figma-local system face, 'not a brand face, not loaded'. The skill's Inter label rule is from a different Figma frame and is overruled. Load product self-hosted (aha-design-antd)."
   },
   "weight": { "regular": 400, "semibold": 600, "$note": "400/600 ONLY (design-owner decision 2026-09-14: 700 dropped from the product type scale — Display uses 600, not Bold). Export's unused 500 also removed. The sole remaining literal font-weight:700 is the MEASURED aha-tabs primary-tab active label (lib/aha-tabs.js) — a component-standard exception pending re-measure, not part of the scale." },
@@ -79,7 +80,7 @@
   "lineHeight": { "tight": 1.2, "heading": 1.3, "body": 1.5, "normal": "normal",
     "$note": "Unitless RATIOS, not px. body 1.5 → 21px at 14 — matches the MEASURED shipped components (checkbox 21px). The export token file's px line-heights (22/28) are drift from what ships; export's --aha-lh-tight:8px is a bug, discarded." },
   "letterSpacing": { "headlines": "0px", "subheadings": "0.2px", "paragraph": "0.2px", "subtext": "0.3px" },
-  "radius": { "xs": 4, "sm": 6, "default": 8, "lg": 12, "xl": 16, "marketing": 20,
+  "radius": { "xs": 4, "sm": 6, "default": 8, "lg": 12, "xl": 16, "pill": 999, "marketing": 20,
     "$note": "MEASURED wins: default=8 (button md / input / modal), card=12. Export MISLABELS default as 6 and lg as 8 — corrected. Export's radius-64 is off-scale (audit: likely 80) — see open items." },
   "controlHeight": { "root": 32, "sm": 24, "lg": 40, "button": { "sm": 28, "md": 36, "lg": 40, "xl": 52 },
     "$note": "MEASURED wins: fields (Input/Select/DatePicker) inherit root 32 (sm 24 / lg 40); Button carries 28/36/40/52 via components.Button. Export specimen field heights (32/36/40) are drift." },

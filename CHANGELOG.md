@@ -22,13 +22,156 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.445.0 — 2026-10-26
+## 0.505.0 — 2026-10-28
 ### Added
 - Website > Marketing > Comparison table: a new section page with one comparison table in five forms — two, three (with or without a highlighted column), four and five compared columns beside a feature column (`aha-comparison`). Grouped rows under a group heading, tick, cross or short text cells, and the Pricing Large table's highlighted-column outline with a Recommended tag. On a phone two and three columns stay a table; four and five scroll sideways with the feature column held in place (#395)
 ### Changed
 - Website guideline and judge, W1: Comparison table joins the list of DS Marketing sections a page band may be (#395)
 - Website guideline and judge, W8: one exception to no horizontal scroll — a Comparison table with four or five compared columns scrolls sideways inside its own table frame on a phone, feature column sticky, while the page never scrolls; the table's `ds-lint-allow` now cites W8 (#395)
 - Revert: revert the PR; it adds `marketing/comparison.json`, its test and a gutter test entry, and the W1 and W8 edits in `guidelines/website.json` and `anti-slop/criteria.json` (with its generated `agent/` copy) (#395)
+
+## 0.503.3 — 2026-10-28
+### Changed
+- All six file-type icons now use stroke glyphs: `filetype-presentation`, `filetype-survey`, `filetype-course`, `filetype-lesson` and `filetype-report` reuse `system-presentation-chart`, `system-form`, `system-book`, `system-file-text` and `system-chart-bar`, and `filetype-knowledge-base` is a new stroke bookshelf (narrow book, banded book, leaning book) drawn as the stroke version of the original solid glyph; the solid blobs are gone and names and meaning are unchanged (#422)
+- Revert: revert the PR; six SVGs under `icons/svg/filetype/`, regenerated registry and the pairs in `icon-duplicates.intentional.json` (#422)
+
+## 0.503.2 — 2026-10-28
+### Changed
+- Website rule W6 and its anti-slop criterion judge image size and ratio by the visible UI, not the file: a screenshot padded, letterboxed or placed on a plain canvas to match other files counts at its own size and ratio, so mixed-size screenshots padded to one file size need the Vivid Pink frame. An image never carries its own background margin; export each screenshot tight to its UI. The Features "Fill the slot, or frame mixed sizes" note says the same. Website eval 29 (fail) added for landscape tab screenshots of different sizes padded to one canvas (#423)
+- Revert: restore the previous W6 text in `guidelines/website.json` and `anti-slop/criteria.json`, and remove eval 29 and `fixtures/fail-w6-padded-screenshots` (#423)
+
+## 0.502.0 — 2026-10-27
+### Added
+- Colour rule 6.8 (product app only): at rest, Vivid Pink fills only the primary button of each region; text, borders and icons stay ink, and pink appears on hover, focus or selection. Rules that name their own pink (text links 6.6 and 6.7, tags, charts, logo, illustrations, focus ring, chat launcher, selected or on states, the one 5% highlighted panel of rule 3.7, and fills and marks a DS component ships at rest from its own contract) are listed as exceptions. Colour anti-slop criterion C9 and evals 13 (fail) and 14 (pass) added to match (#420)
+- Revert: revert the PR; the change is one rule in `brand/colour-rules.json`, one criterion in `anti-slop/criteria.json` and two evals (#420)
+
+## 0.501.0 — 2026-10-27
+### Fixed
+- The pill is back on the presenting canvas too. The canvas kit badge (`.canvas-lib .badge` in `canvas/canvas.css`) is `var(--aha-radius-pill)` again instead of 4px, the Canvas guideline and guide say avatars, dots, chips, badges and bar tracks may be fully rounded again, the canvas anti-slop evals and fixtures read as before 0.441.0 (999px bars and badges, 50% marks), and the canvas-only pill check in `standards.mjs` and the canvas pill rule in screen-lint are removed. `--aha-radius-pill` (999px) stays the one token. (#410)
+- Marketing Header: the Hero split and Hero stacked badge is a pill again (`var(--aha-radius-pill)`), as every Header badge was before 0.441.0; it stayed at 6px when the Header layouts were merged into five. An audit of every radius against 0.440.0 found no other change: rounded rectangles keep their radius, and only what was fully round before is fully round again. Revert: revert the PR (#410)
+
+## 0.498.1 — 2026-10-27
+### Fixed
+- `aha-input` and `aha-button` keep their `ElementInternals` only when it has the form API (`setFormValue`); jsdom's partial internals is treated as none, so `form` and `labels` fall back and `aha-input` no longer throws "this._internals.setFormValue is not a function" in consumer unit tests. Browsers are unchanged. No API change. Revert: revert this PR. (#419)
+
+## 0.498.0 — 2026-10-27
+### Changed
+- `<aha-chart type="bar">`: new row layout. The label (one line, ellipsis, at least 16px clear of the value) and the value sit on one line above the bar, the track spans the row, and the image (or placeholder tile) moves to the end of the row. The label-to-bar gap goes from 4 to 8px (`--aha-space-8`) and the bar from 38 to 34px (28 in a dense chart), so the row and image tile stay 68px. In the Ranking variant (`sort="desc"`) the rank number takes the `<aha-leaderboard>` rank chip: a 32px neutral circle on the track colour with a 16px semibold tabular number, centred on the label line; the image tile grows with that line so it still lines up. Bar and column labels (stacked column too) go up one size, to `--aha-size-xl` (20px) (#412)
+- `<aha-chart type="bar">`: when any option has an image, every row keeps the image column and an option without one shows a placeholder tile (`system-image-square` glyph on the track colour), so all bars start at the same x and stay comparable. Charts with no images are unchanged; column charts were already aligned (#412)
+- `<aha-chart type="column">`: when the columns do not fill the width (two to four on a 16:9 stage), they sit together in the centre with the label-width slot between them, instead of spreading to the edges (two columns were 506px apart on a 1280 stage, now 172px); stacked columns keep their layout (#412)
+- Charts docs page: every chart case sits in a 1280 × 720 stage frame at 1:1 (slide surface, 48px stage padding), scrolling inside its own container on a narrow viewport; new column case "Two options", new bar cases "Some without image" (#412)
+- Revert: revert the PR; the change sits in `BarRenderer.draw` and the `.bar-*` and `.col-label` rules in `lib/aha-chart.js`, plus `parts/chart.preview.html` (#412)
+
+## 0.497.2 — 2026-10-27
+### Fixed
+- `aha-input`: the `labels` getter falls back to an empty list when the environment's `attachInternals()` has no `labels` (jsdom), so `_syncName` no longer throws "this.labels is not iterable" in consumer unit tests. No API change. Revert: revert this PR. (#418)
+
+## 0.497.1 — 2026-10-27
+### Changed
+- The Leaderboard docs page moves out of the global Components area into the Canvas Library: `contracts/leaderboard.json` gains `libraryArea: "canvas"`, so `/leaderboard/` opens with Canvas Library active and no Components sidebar, the docs search files it under Canvas Library, and `llms.txt` lists it under "Canvas and Audience Library components" instead of "Components" (it is also out of the `design.md` component list). The Canvas Library and Audience Library Leaderboard sections carry a "Full Leaderboard docs" link to `/leaderboard/`, which keeps its URL. The component and its API are unchanged. (#417)
+### Fixed
+- The Canvas Library Leaderboard demo fills the deck width; it had shrunk to its scores inside the wrapping deck row. (#417)
+
+## 0.497.0 — 2026-10-27
+### Changed
+- Websites → Features: in the split layouts (`icon-list-photo`, `tabs-screenshots`, and an alternating section with a single row) the section button sits in the text column under the text, left aligned with it (`aha-features__column` and `aha-features__cta--start`), even under a centred heading, instead of centred under the whole row. Rule W18 says so.
+- Websites → Testimonials: at most three testimonial or case cards per section, and quotes of similar length (the longest within about 1.5 times the shortest, none over 160 characters); the Quote cards sample's long middle quote is trimmed. Rule W19 and the Testimonials page carry both.
+- Websites → new tab: the section link-out buttons (Read customer stories, Read the docs, and Browse all templates, See all integrations) open in a new tab with `rel="noopener"` and visually-hidden "(opens in a new tab)" text, Sign up and the hero's primary call to action stay in the same tab (W15, W18). In the Footer every link that leaves AhaSlides (the three G2 badges that had no `target`, the Training Magazine Network and DMCA badges, System status, the social channels) opens in a new tab with `rel="noopener"` and a new-tab cue in its label. Revert: revert this PR; no API change. (#357)
+
+## 0.494.0 — 2026-10-27
+### Removed
+- No section on a website page carries an eyebrow (the small label above a heading, hero included): the Features, Numbers, Pricing and Header section layouts lose their `__eyebrow` element and CSS, and website rules W14 and W17 now say a heading block is the h2 and its lead. Card category labels (`aha-marketing-card__eyebrow`) stay. (#414)
+### Added
+- `screen-lint --surface=website` fails a page on four more checks: a section eyebrow (W14, W17), three white content bands in a row or two coloured bands touching (W5), page CSS that overrides a Marketing section's padding, margin or gap (W2), and a class of a layout the DS has removed (W1, list derived from release history in `marketing/data/removed-layouts.json`). (#414)
+- Website eval fixture `fail-w14-eyebrow`. (#414)
+- To revert: revert this commit; the removed eyebrow markup returns with it and the lint checks go away.
+
+## 0.491.0 — 2026-10-27
+### Added
+- `<aha-leaderboard>`, one ranked list for the slide canvas and the audience phone: neutral rank circle, a bar per row in the deck palette colours (row n takes colour n and its ink) inside a full-width track, the score with its unit and the points gained, an optional heading with a player count, a stub for a zero score, an opt-in trophy, ties ranked 1, 2, 2, 4, every participant listed, the list scrolling inside the board with the heading fixed, on the phone the participant's own row marked with a plain "(you)" after the name and scrolled into view (never on the canvas, which everyone sees); text meets WCAG AA 4.5:1 against its composited background, teams, empty and loading states, and a row slide with score count-up (none under reduced motion); the audience phone shows row text at the body default size and draws no outline round the own row; a bar edge that falls mid-name splits the name between the palette ink and the deck ink; themed only by `--aha-deck-*` tokens; the bars follow the deck palette on both surfaces (`applyCanvasDeck` with `palette: xprops.presentationColorPalette`, `applyDeck` from `slide.presentationColorPalette`), falling back to the accent only where a deck has no palette, and the element re-reads the palette when the host applies the deck after the tag has loaded; with `bar="false"` the name is drawn whole in the deck ink; the canvas library snippet passes the palette and the HTML snippet shows the one-tag `lib/canvas.js` / `lib/audience.js` import (#390)
+- Revert: revert the PR; a new component, nothing else changes (#390)
+
+## 0.490.0 — 2026-10-27
+### Added
+- `applyDeck` (the audience phone) writes `--aha-deck-palette-<n>` and `--aha-deck-palette-<n>-ink` for each colour of `slide.presentationColorPalette`, the same pairs `applyCanvasDeck` writes (1-based, up to 24, the ink `#1A1A1A` or white by contrast); the pairs come from one shared `paletteVars` in `lib/deck.js`, so the canvas and the phone cannot drift. Without a palette nothing is written
+- Revert: revert the PR; additive, no existing token changes (#391)
+
+## 0.489.0 — 2026-10-27
+### Added
+- `<aha-question-list>` host API, so a slide type's settings use the list instead of hand-building it: `notices` (InfoBoxes with links that open a question), `accordion`, a cancelable `question-toggle` event, `setQuestionOpen(id, open)`, a `question-leave` event, `change` `detail.edit` naming each edit, `singlecorrect`, `multiline` (a 1 to 3 row prompt), `promptmaxlength` / `optionmaxlength`, per-question `current` and `untitled`, the `markAsCorrect` and plural `countZero` / `countTwo` / `countFew` / `countMany` strings, `testid` hooks and `data-question-id` / `data-option-id`. Every one is opt-in; without them the list behaves as before (#397)
+### Changed
+- `<aha-alert>` and `<aha-info-box>`: a plain `<a href>` written in the message is an inline text link: inherits the message size, weight 400 and line height, no padding, the DS text-link exactly as on white (Vivid Pink `--aha-text-link`, no underline at rest, underline and `--aha-text-link-hover` on hover and focus, the Button focus ring). Vivid Pink on the alert grey is 4.06:1 and on the branding fill 4.16:1: a recorded AA exception for these links only, colour rule 6.7 (#397) Hosts never put an `aha-button` in the sentence. `inlineLinkCss(selector)` is exported from `aha-alert.js` for hosts that wrap the message in their own element (#397)
+- `<aha-question-list>` `notices`: the question links are now that inline `<a href="#<question id>">` (still open and announce the question, keyboard reachable) instead of `aha-button variant="link"`, so they no longer enlarge the first line or render black (#397)
+- Setting `questions` again with the same question and option ids in the same order now updates the list in place, so focus and the caret survive a host that writes every edit back (#397)
+- `<aha-question-list accordion>`: when a host writes back several open questions, only the first stays open, so at most one is open as the contract says
+- llms.txt: a DS gap is never a ds-lint-allow reason; check the component at the latest release, bump the pin, and add what is still missing to the DS (#397)
+- Revert: revert the PR; the changes sit in `lib/aha-question-list.js`, `lib/aha-alert.js`, `lib/aha-info-box.js`, their contracts, the feedback guideline and one llms.txt line in `generate.mjs` (#397)
+
+## 0.486.0 — 2026-10-27
+### Added
+- Empty state guideline (`guidelines/empty-state.json`, Patterns badge): the full pattern (an `empty-*` spot illustration, a semibold title, one or two short sentences, at most one action, centred) at page scale (art 128, 16 px gaps, 18 px title) and panel scale (art 100, 144 px padding, 16 and 8 px gaps, 16 px title), when to use plain `<aha-empty>` instead (table bodies, lists, dropdowns, widgets; a card under 240 px takes the compact scale), copy rules, do and don't, and "no content is never an error". Built from the three approved Reports states; listed in `guidelines.llms.txt`, the guideline agent feed and the product route
+- Eight illustrations in the `empty` family: `empty-report`, `empty-participants`, `empty-feedback` from the approved Reports states, and `empty-sessions`, `empty-slides`, `empty-insights`, `empty-leaderboard`, `empty-responses` drawn in the same flat pink-tint style for the other Report empty states (33 in the registry, up from 25)
+### Changed
+- Illustration, Empty, UX writing and Shared components prose point at the Empty state guideline; the Illustration contract counts say 33
+- UX writing UXW-6 now says an empty state has at most one next action, matching the Empty state guideline; its composed-of list points at `empty` instead of a missing empty-state component
+- A guideline can set `patternsNav` to list itself, and render, under the Patterns sidebar (group "Composition guides"); the Empty state guideline does, and its panel padding is `calc(var(--aha-space-80) + var(--aha-space-64))` so no value is off the token scale
+- Empty state guideline also has a compact scale (art 64, `--aha-space-24` padding, 14 px title, 12 px body, no action) for a card under 240 px whose content is the empty thing, and a repeated-item caption rule: a small item repeated per slide or row shows a plain one-line caption ("No answer"), never the pattern (EMPTY-12, EMPTY-13)
+- Revert: revert the PR; a new doc page and eight additive illustrations, no existing name or value changes (#388)
+
+## 0.484.0 — 2026-10-27
+### Added
+- Docs site, Websites > Sections: the Header, Features, Pricing, Numbers, Testimonials and Cards pages open in a Grid view, a three-column gallery of live thumbnails (two columns on a tablet, one on a phone) captioned "layout name · page name", with a Grid / List switch and a search box that filters by layout name and "Use for" text. Clicking a card switches to List view at that layout's `#<slug>` anchor; a URL with a hash opens in List view, and the last choice is remembered per browser. List view is the previous page unchanged. Pages with fewer than two layouts are unchanged. Revert: revert the PR; the change is the `sectionGallery*` functions in `generate.mjs` plus one hook in each of the two marketing page renderers. (#409)
+### Fixed
+- `aha-segmented`: the selected pill is re-measured when the segments or the track resize (a font that loads late no longer leaves it narrower than its label, which clipped Grid to Gri at 375px). Revert: revert the PR; the `_observeSizes` and `_placeThumb` methods in `lib/aha-segmented.js`.
+
+## 0.482.0 — 2026-10-27
+### Added
+- `--aha-radius-pill` (999px) is back in the foundation tokens, and the pill shape is back outside the presenting canvas: the components, contracts, guidelines, audience kit, marketing sections and screen-lint scale that 0.441.0 moved off the pill use it again. The switch track is `var(--aha-radius-pill)` like the others. The deck tokens and the canvas kit stay pill-free, and `standards.mjs` still fails a pill radius in canvas sources. (#407)
+
+## 0.479.0 — 2026-10-27
+### Changed
+- Website > Marketing > Header: 24 layouts down to 5, one per structure: Hero split, Hero stacked, Hero card, Hero split form and Page header. Layouts that differed only by colour, alignment, picture or call to action are now switches on the one layout: every layout has a White / Accent / Vivid Pink surface switch; Hero split adds Image (Inset, Bleed), Call to action (Buttons, Email form) and Badge; Hero stacked adds Alignment (Centre, Left), Call to action and Badge; Page header adds Alignment (Left, Centre, Space between), Buttons and Tabs. Merged: Hero Pink, Hero Pale Pink, Hero split image 01, 03 and 05, Hero screen mockup 02 and 04, Hero iPhone mockup 03 and Hero card mockup 07 into Hero split; Hero Pink Vertical, Hero Pale Pink Vertical, Hero screen mockup 01, 03 and 05, Hero simple text 01 and Hero card mockup 08 into Hero stacked; Hero color card 04 is Hero card, Hero split form 01 is Hero split form; the six page headers are Page header. Class names change to `aha-header-section-<layout>`; pasted copies of the old classes keep working where they are. The Video slot moves to Hero stacked; the G2 reviews row stays on the three heroes. Choosing a header, the website guideline W2 and W5 sources follow.
+- Website composition eval fixtures: the hero in every fixture page is now Hero split on its Vivid Pink surface (`aha-header-section-hero-split--brand`) instead of the removed Hero Pink, with `fixtures/sections.css` carrying the Hero split CSS; the good-control expected output names it.
+- The Header previews fit their section: the preview box is as tall as the section (up to the old 640px cap) instead of a fixed 640px, so short layouts no longer sit above a blank area (a page header preview drops from 630px to 227px).
+### Added
+- `generate.mjs`: an optional `options` list on a marketing layout (each choice either adds a `--<value>` modifier or keeps the elements marked `data-choice="<value>"`), rendered as switches beside the surface switch, with one code tab per choice and the choices in the `.md` and `.agent.json` feeds; and an optional page-level `previewFit`. Pages without them render byte-identically.
+- Revert: revert the PR; `marketing/header.json`, the `options` and `previewFit` branches in `generate.mjs` and two source lines in `guidelines/website.json`, the eval fixture heroes and `fixtures/sections.css` (#399)
+
+
+## 0.472.0 — 2026-10-27
+### Changed
+- Website > Marketing > Features: the Compact tabs layout puts the Create your quiz free button in the text column of each panel, under Learn more and left aligned, instead of centred under the whole section. Uses the `aha-features__column` and `aha-features__cta--start` classes. (#406)
+
+### Removed
+- Website > Marketing > Features: five near-duplicate layouts, 16 down to 11. Compact: accordion beside one image and Compact: pick from a list (use Tabs with screenshots or Compact tabs), Feature card row with 3 cards (use Icon cards), Icons around a results screenshot (use Icons around a phone screenshot), Alternating with portrait screenshots (use Alternating with mixed-size screenshots; the portrait framing rule is unchanged). Revert: restore the five layouts from `marketing/features.json`. (#406)
+
+## 0.455.1 — 2026-10-27
+### Fixed
+- `aha-checkbox`: with a multi-line label the box stays on the first line (centre of line 1) instead of floating to the middle of the label. Single-line rendering, and a checkbox with no label, are unchanged.
+- Revert: revert the PR; the change is confined to `lib/aha-checkbox.js` and `contracts/checkbox.json` (#403)
+
+## 0.455.0 — 2026-10-27
+### Changed
+- Marketing motion: parallax now moves the picture inside its frame instead of sliding the frame. The picture is drawn 112% of the frame, drifts at most 6% of the frame height (never more than 48 px) and is clipped by the frame, so the frame's box, radius and position stay still. A picture drifts only when it sits in an `aha-features__frame`, `aha-testimonials__frame` or `aha-numbers__frame`; screenshots get no frame wrapper and never drift. (#365)
+- Marketing motion: the same framed picture now has an entrance as it scrolls into view. It fades in and settles from 1.08x down to its parallax scale, a beat after its row's reveal, on `--aha-motion-viz-enter` and `--aha-ease-out`, composed with the parallax in one transform inside the still frame. Off under reduced motion, `data-aha-motion="off"` and print. (#365)
+- Features: new `aha-features__frame` clipping wrapper, used by Icon list with photo.
+- Testimonials: the Simple left aligned photo sits in an `aha-testimonials__frame` wrapper (was a bare `<img>`); Numbers split-image: the image sits in an `aha-numbers__frame` inside the card. A page with the old markup simply does not drift.
+Revert: restore `lib/marketing-motion.js`, `marketing/testimonials.json` and `marketing/numbers.json` and the wording in `guidelines/website.json` and `anti-slop/criteria.json`.
+
+## 0.451.0 — 2026-10-27
+### Added
+- Icon library: `system-ai-credit`, a circle with a four-point spark, for AI credit usage and balances. Same stroke style as the other `system-*` glyphs; no existing icon changes
+- Revert: revert the PR; one new SVG and its meaning words, nothing else references it (#400)
+
+## 0.444.0 — 2026-10-27
+### Added
+- Colour rules v24: rule 2.1 allows the black logo and the black Splash (both #1A1A1A) for one-colour print on white only; new rule 2.11 and a Logo library section for the AhaSlides × Partner co-brand lockup (order, ×, spacing, sizes, greyscale at rest, white on Vivid Pink); new rules 4.10 and 4.11 for photography (real moments and relaxed portraits; avoid staged shots and stiff portraits) (#404)
+- `aha-tag` `color="solid"`: a Vivid Pink fill with a white label (4.51:1), for a tag on white or on Vivid Pink at 5%. This is a visible addition to the Tag component (#404)
+### Changed
+- Rule 4.6 covers Vivid Pink at 5% surfaces and forbids Vivid Pink text on them (4.16:1); the Tag contract now states what `color="primary"` already renders, a black label on the 5% fill (#404)
+- The contrast table names the app's light grey as #F7F7F7 (4.21:1 with Vivid Pink), not #FAFAFA (#404)
+- `ahaslides-logo-black.svg` is #1A1A1A, the same black as `thesplash-black.svg` (was #000) (#404)
+- `--aha-font-display` and `--aha-font-secondary` are deprecated aliases of Plus Jakarta Sans (were Nunito and Nunito Sans, never loaded); the canvas and audience library headings use `--aha-font-product` (#404)
 
 ## 0.443.0 — 2026-10-26
 ### Added

@@ -3,7 +3,7 @@
  "id": "colour-rules",
  "title": "AhaSlides visual identity: colour rules",
  "lede": "These rules replace the colour section of the current brand guidelines. Everything not mentioned here (the font, spacing, components, icons) stays as it is in the design system.",
- "updated": "2026-10-24",
+ "updated": "2026-10-27",
  "environment": ["product", "audience", "web", "video", "social-ads", "report-image"],
  "glance": [
   "Vivid Pink (`#E70E68`) is the one primary colour. Purple is the logo only, plus one small playful touch on white.",
@@ -82,7 +82,7 @@
    "id": "s2", "key": "logo-and-font", "title": "Logo and font",
    "blocks": [
     { "type": "rules", "rules": [
-     { "id": "2.1", "text": "Two versions of the full logo are allowed: the colour logo on white, and the white logo on Vivid Pink." },
+     { "id": "2.1", "text": "Two versions of the full logo are allowed: the colour logo on white, and the white logo on Vivid Pink. One exception, for one-colour print only: the black logo or the black Splash (both [[#1A1A1A]]) on white, when the job is printed in a single ink. It is never used on screen, on Vivid Pink, or on any other ground." },
      { "id": "2.2", "text": "The logo and its splash icon are unchanged except for one thing: the two hooks that were Radical Pink are now Vivid Pink. The purple hooks and the wordmark stay as they are." },
      { "id": "2.3", "text": "An all-pink logo on a white background is not allowed." },
      { "id": "2.4", "text": "The font is Plus Jakarta Sans, unchanged." },
@@ -91,7 +91,8 @@
      { "id": "2.7", "text": "Purple appears in the logo. Outside it, purple may be used very sparingly for a dramatic or playful touch: one small decorative element per page, post or slide at most, on white only. It is never used for text people need to read, buttons, links, states, charts or backgrounds, and never in the product app. If unsure, leave it out." },
      { "id": "2.8", "text": "Clear space: keep the height of the \"A\" in AhaSlides clear on every side of the logo. Nothing else (text, edges, other logos, images) enters that space." },
      { "id": "2.9", "text": "The isotype is The Splash on its own, used where the full logo is too small or is not wanted: a favicon, an avatar or a small secondary graphic. Its sizes are 256, 180, 152, 60 and 16 px." },
-     { "id": "2.10", "text": "As a favicon or an avatar the isotype is either transparent, or white on Vivid Pink in a circle or a square. White on Vivid Pink is the only colour pairing." }
+     { "id": "2.10", "text": "As a favicon or an avatar the isotype is either transparent, or white on Vivid Pink in a circle or a square. White on Vivid Pink is the only colour pairing." },
+     { "id": "2.11", "text": "Co-brand lockup: AhaSlides, a multiplication sign ×, then the partner logo, on one line. Each logo keeps one clear space (rule 2.8) from the ×, and both share one optical height. On white the AhaSlides logo is in colour and the partner logo is greyscale; on Vivid Pink both logos and the × are white. In an interface the partner logo shows its own colours on hover and keyboard focus (rule 2.6). The measures are on the Logo library page." }
     ] }
    ]
   },
@@ -139,10 +140,12 @@
        ["Logo", "Colour logo", "White logo"]
       ] },
     { "type": "rules", "start": 6, "origin": "aha-marketing-colors", "environment": ["web", "video", "social-ads"], "rules": [
-     { "id": "4.6", "text": "A tag or label is Vivid Pink with white text on a white surface, and white with Vivid Pink text on a Vivid Pink surface." },
+     { "id": "4.6", "text": "A tag or label is Vivid Pink with white text on a white surface or on a Vivid Pink at 5% surface, and white with Vivid Pink text on a Vivid Pink surface. Never Vivid Pink text on Vivid Pink at 5%: it is 4.16 to 1 and fails. A tag that keeps a pale fill on 5% has black text (`<aha-tag color=\"primary\">`)." },
      { "id": "4.7", "text": "The key visual image sits directly on the surface with no white card, border or frame around it." },
      { "id": "4.8", "text": "A photo of a person sits inside a solid Vivid Pink disc or over the Splash hooks." },
-     { "id": "4.9", "origin": "aha-marketing-backgrounds", "text": "Vary a deck by alternating white and Vivid Pink surfaces, never by adding a colour." }
+     { "id": "4.9", "origin": "aha-marketing-backgrounds", "text": "Vary a deck by alternating white and Vivid Pink surfaces, never by adding a colour." },
+     { "id": "4.10", "origin": "brand guidelines v2.3", "text": "Photography uses real moments (candid, natural shots, no forced smiles or staged poses) and relaxed portraits (confident and approachable, never stiff)." },
+     { "id": "4.11", "origin": "brand guidelines v2.3", "text": "Photography avoids staged shots (polished, exaggerated or generic corporate photos) and stiff portraits (rigid, overly formal head shots)." }
     ] }
    ]
   },
@@ -195,8 +198,10 @@
      { "id": "6.2", "text": "On Vivid Pink the button is the standard secondary Button; on Vivid Pink at 5% (light pink) and on white it is the primary Button." },
      { "id": "6.3", "text": "A destructive action (Delete, Remove) is never the primary button. The safe choice (Cancel, Undo) is." },
      { "id": "6.4", "text": "Text on Vivid Pink is solid white, never see-through white." },
-     { "id": "6.5", "text": "Text and links on Vivid Pink at 5% or on grey are black. Pink text there is too faint to pass accessibility." },
-     { "id": "6.6", "text": "Pink text is allowed on white only." }
+     { "id": "6.5", "text": "Text and links on Vivid Pink at 5% or on grey are black. Pink text there is too faint to pass accessibility. The one exception is rule 6.7." },
+     { "id": "6.6", "text": "Pink text is allowed on white only. The one exception is rule 6.7." },
+     { "id": "6.7", "origin": "Accepted by requester UKVEE87DY in DESY-281 on 2026-10-27", "environment": ["product"], "text": "An inline link in an Alert or info box message (including the notices in the question list) is the DS text-link exactly as on white: Vivid Pink `#E70E68`, no underline at rest, underline on hover and focus, the standard focus ring. On the alert grey `#F3F3F3` that is 4.06 to 1, and on the branding fill (Vivid Pink at 5%, `#FEF3F7`) it is 4.16 to 1, both below the 4.5 that AA asks for at 14px. This exception covers those links on those two fills and nothing else: no other pink text on grey or on Vivid Pink at 5%, and no other link anywhere else." },
+     { "id": "6.8", "origin": "Chosen by requester Dave in DESY-369; 6.7 was taken, so this is 6.8", "environment": ["product"], "text": "In the product app (not the website, the canvas or the audience screens), at rest, Vivid Pink fills only the primary button of each region (a page, panel, dialog or drawer). Text, borders and icons stay ink; pink appears on hover, focus or selection. Rules that name their own pink stay as they are: inline text links on white (rule 6.6) and in an Alert or info box (rule 6.7), tags (rule 4.6), charts (section 8), the logo and illustrations (sections 2 and 5), the focus ring, the chat launcher, the selected or on state of a control, the one Vivid Pink at 5% highlighted panel (rule 3.7), and fills and marks a DS component ships at rest from its own contract, such as the Paywall upgrade mark, the Stat tile bar, group Avatar grounds, filled Rate stars, Badge primary count, ribbon and active dot, progress and loader fills, the current and finished Steps icons, the Upgrade (positive) and primary-alt buttons, and the highlighted name in a Screen heading greeting." }
     ] },
     { "type": "heading", "anchor": "splash-css", "text": "Centre and right in CSS", "origin": "aha-marketing-backgrounds" },
     { "type": "paragraph", "origin": "aha-marketing-backgrounds", "text": "Copy this block to draw centre or right in a page instead of exporting a file. Any medium draws it the same way, on the frame it sits in; a splash is never placed with a chosen height and offset. It uses the full 802 by 788 icon, `backgrounds/splash-icon-pink.svg` or its white twin, never a cropped copy, and sits in a layer that fills the section. Set `--splash-across` to `.5` for centre or `.75` for right. Browsers without `sqrt()`, `tan()` and `atan2()` keep the base size of 4.5 times the shorter side, which is exact at 16:9 and 9:16." },
@@ -210,7 +215,7 @@
     { "type": "rules", "rules": [
      { "id": "7.1", "text": "Red, yellow, green and blue are no longer used for danger, warning, success or information. The correct green and wrong red of section 11 are not status colours: they mark a correct or wrong answer, and nothing else." },
      { "id": "7.2", "text": "Show status with an icon, clear wording and an outline or a black fill." },
-     { "id": "7.3", "text": "A rise is plain black with an up arrow. A fall is white on a black chip with a down arrow." },
+     { "id": "7.3", "text": "A rise is plain black with an up arrow. A fall is white on a black pill with a down arrow." },
      { "id": "7.4", "text": "File-type icons are one colour." },
      { "id": "7.5", "text": "Borders and shadows use black, white or a palette colour at any transparency." }
     ] }
@@ -251,7 +256,9 @@
        ["Purple on Vivid Pink", "1.85 to 1", "Fails, so purple sits on white only"],
        ["Darker Pink on white", "5.04 to 1", "Passes"],
        ["Vivid Pink text on Vivid Pink at 5%", "4.16 to 1", "Fails, so text there is black"],
-       ["Vivid Pink text on light grey [[#FAFAFA]]", "4.32 to 1", "Fails, so text there is black"],
+       ["Vivid Pink text on the app's light grey [[#F7F7F7]]", "4.21 to 1", "Fails, so text there is black"],
+       ["Vivid Pink inline link on the alert grey [[#F3F3F3]]", "4.06 to 1", "Fails, accepted for Alert and info box links only (rule 6.7)"],
+       ["Vivid Pink inline link on the branding alert fill [[#FEF3F7]]", "4.16 to 1", "Fails, accepted for Alert and info box links only (rule 6.7)"],
        ["See-through white (86%) on Vivid Pink", "3.58 to 1", "Fails, so white text is solid"],
        ["Vivid Pink at 30% against white", "1.65 to 1", "Faint, so it always carries a written value"]
       ] },
@@ -291,6 +298,7 @@
  ],
  "open": [],
  "changes": [
+  { "version": "v24", "date": "27 Oct", "text": "Rule 2.1 allows the black logo and the black Splash, both #1A1A1A, for one-colour print on white only. Rule 4.6 covers Vivid Pink at 5% surfaces and names the Vivid Pink text on 5% pair that fails. New rules 4.10 and 4.11 give the photography do and don't from brand guidelines v2.3 (real moments and relaxed portraits; avoid staged shots and stiff portraits). The contrast table names the app's light grey as #F7F7F7 (4.21 to 1), not #FAFAFA (4.32 to 1). Found in BRGO-2. No rule id changed." },
   { "version": "v23", "date": "24 Oct", "text": "The splash rules now apply to any splash background in any medium, with no exceptions: 5.1 to 5.5, 5.7 to 5.11, 5.14, 5.15, 5.17 to 5.19, the splash layouts table and the Splash in CSS block cover every environment, including report images, which draw a hero band splash with the Splash in CSS block on the band's own frame and never place it by hand. 5.6 (where a splash may be used), 5.12, 5.13 and 5.16 (export sizes) keep their scope. Found in DESY-331. No rule id changed." },
   { "version": "v22", "date": "23 Oct", "text": "Added the logo clear space (2.8) and the isotype sizes, favicon and avatar use (2.9, 2.10) from brand guidelines v2.2. Corrected two contrast figures: Vivid Pink text on Vivid Pink at 5% is 4.16 to 1, and 86% white on Vivid Pink is 3.58 to 1. No existing rule changed." },
   { "version": "v21", "date": "23 Oct", "text": "New rule 11.5, weight: right and wrong carry equal weight, and on answer reveal and review screens a wrong answer may add a 2px red ring outside its edge. The answer key stays plain. Requested in DESY-166. No existing rule id changed." },

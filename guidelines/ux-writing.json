@@ -79,10 +79,10 @@
       "status": "missing"
     },
     {
-      "ref": "empty-state",
+      "ref": "empty",
       "as": "component",
-      "use": "the success-no-data shell whose copy is encouraging + a primary create action, kept distinct from a failure",
-      "status": "missing"
+      "use": "the plain success-no-data placeholder; the full pattern is the empty-state guideline, whose copy is encouraging with at most one action, kept distinct from a failure",
+      "status": "available"
     },
     {
       "ref": "error-page",
@@ -91,7 +91,7 @@
       "status": "available"
     }
   ],
-  "componentBacklog": "composedOf marks 4 components this pattern's copy lives inside that the DS does not yet ship (alert, toast, empty-state, error-page). Per the charter, a pattern that leans on a missing component is a signal to add it HERE — this is the pattern surfacing the component roadmap for the surfaces that host product copy.",
+  "componentBacklog": "composedOf marks 3 components this pattern's copy lives inside that the DS does not yet ship (alert, toast, error-page). Per the charter, a pattern that leans on a missing component is a signal to add it HERE — this is the pattern surfacing the component roadmap for the surfaces that host product copy.",
   "rules": [
     {
       "id": "sentence-case-default",
@@ -153,7 +153,7 @@
     },
     {
       "id": "empty-is-not-error",
-      "rule": "An empty state (success, no data) is encouraging with a primary next action ('No presentations yet. Create your first one.') — never an apology or a red alarm. A load failure follows be-specific + never-dead-end (name it, offer Retry) and is never disguised as emptiness, which would hide the Retry the user needs.",
+      "rule": "An empty state (success, no data) is encouraging, with at most one next action where the user can fill it from here (EMPTY-08) ('No presentations yet. Create your first one.') — never an apology or a red alarm. A load failure follows be-specific + never-dead-end (name it, offer Retry) and is never disguised as emptiness, which would hide the Retry the user needs.",
       "ref": [
         "UXW-6"
       ]
