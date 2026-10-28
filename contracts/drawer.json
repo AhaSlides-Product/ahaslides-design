@@ -6,7 +6,7 @@
   "badge": "composite — antd wrappers",
   "summary": "A side panel that slides in for a longer edit or detail view — rendered through the shared Drawer.",
   "highlights": ["Side panel that slides in", "For longer edits and detail views", "Rendered through the shared Drawer"],
-  "lead": "Drawer carries a mask, focus-trapping, scroll-locking and a slide-in from an edge — too much to rebuild as a web component for React and Vue 3 — so there it stays on real Ant (<aha-drawer> covers pages without antd): antd v6 (React) and ant-design-vue v4 (Vue), both themed once by the shared drawerTheme, keeping antd's built-in motion. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
+  "lead": "Drawer carries a mask, focus-trapping, scroll-locking and a slide-in from an edge — too much to rebuild as a web component for React and Vue 3 — so there it stays on real Ant (<aha-drawer> covers pages without antd, and is the bottom sheet for a launch surface): antd v6 (React) and ant-design-vue v4 (Vue), both themed once by the shared drawerTheme, keeping antd's built-in motion. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
   "tokensUsed": ["colorPrimary", "borderRadius", "colorText", "Drawer.colorBgElevated"],
   "spec": [
     { "label": "Panel", "value": "white surface, slides from the right (or any edge)" },
@@ -30,8 +30,8 @@
   "opinion": {
     "dsv3": "COVERED — antd v6 Drawer themed by the shared drawerTheme; matrix: placement (top·right·bottom·left) × size (default 378 · large 736 for left/right; 300/480 height for top/bottom), + title, footer, mask, closable. Right is the DS default for settings/edit, bottom for mobile-style sheets. Verified via Figma search_design_system against the DS V3 Drawer set (component_set componentKey 8c242d8ea431dcfc885d7b0a8c9611704b1039e5, 'A panel which slides in from the edge of the screen').",
     "whenToUse": [
-      { "what": "Drawer", "when": "a longer edit form or detail panel where keeping page context matters, in a React or Vue 3 app that already loads antd (also the only one with top and bottom edges)" },
-      { "what": "Drawer (web component)", "when": "the same panel on a page that does not load antd: Vue 2 apps taking <aha-*>, plain HTML, standalone pages; <aha-drawer> reproduces this theme, right and left edges only" },
+      { "what": "Drawer", "when": "a longer edit form or detail panel where keeping page context matters, in a React or Vue 3 app that already loads antd (a plain panel from the top or bottom edge; the bottom sheet that a list click launches is <aha-drawer placement=bottom> in every framework)" },
+      { "what": "Drawer (web component)", "when": "the same panel on a page that does not load antd: Vue 2 apps taking <aha-*>, plain HTML, standalone pages; <aha-drawer> reproduces this theme on the right and left edges and adds the bottom sheet (placement=bottom)" },
       { "what": "Modal", "when": "a short, blocking decision the user must complete first" },
       { "what": "a page", "when": "the task is large enough to deserve its own route" }
     ],
