@@ -22,11 +22,24 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.504.0 — 2026-10-28
+## 0.507.0 — 2026-10-28
 ### Added
 - Icon `system-youtube-logo`, the one-colour Phosphor bold glyph that completes the social set (`system-instagram-logo`, `-linkedin-logo`, `-facebook-logo`, `-reddit-logo`, `-whatsapp-logo`).
 - Colour rule 2.6a: social-media links (follow us and join us rows, footers, share links) use the one-colour `system-<brand>-logo` glyph at currentColor, never a greyscale or filtered copy of the colour brand logo, and no brand colour on hover. Rule 2.6 stays for third-party tool logos. Also in `AGENTS.md`.
 - Revert: revert the PR; one icon file and meaning entry, one rule in `brand/colour-rules.json` and one line in `AGENTS.md` (#421)
+
+## 0.506.0 — 2026-10-28
+### Added
+- CSAT: two opt-in attributes so the presenter can collect more slide-type feedback. `feedback-on="any"` (default `down`) also opens the feedback popover after a thumbs-up, once per rating, and the `feedback` event then carries rating `up`. `confirmation="<text>"` shows a "received" line inline beside the thumbs (under them with `layout="stacked"`) once rated and again after a feedback Send, in a `role=status` live region, and draws the chosen thumb in colour-primary ink (#424)
+- Revert: revert the PR; both attributes are opt-in, so a CSAT that sets neither renders and behaves as before (#424)
+
+## 0.505.0 — 2026-10-28
+### Added
+- Website > Marketing > Comparison table: a new section page with one comparison table in five forms — two, three (with or without a highlighted column), four and five compared columns beside a feature column (`aha-comparison`). Grouped rows under a group heading, tick, cross or short text cells, and the Pricing Large table's highlighted-column outline with a Recommended tag. On a phone two and three columns stay a table; four and five scroll sideways with the feature column held in place (#395)
+### Changed
+- Website guideline and judge, W1: Comparison table joins the list of DS Marketing sections a page band may be (#395)
+- Website guideline and judge, W8: one exception to no horizontal scroll — a Comparison table with four or five compared columns scrolls sideways inside its own table frame on a phone, feature column sticky, while the page never scrolls; the table's `ds-lint-allow` now cites W8 (#395)
+- Revert: revert the PR; it adds `marketing/comparison.json`, its test and a gutter test entry, and the W1 and W8 edits in `guidelines/website.json` and `anti-slop/criteria.json` (with its generated `agent/` copy) (#395)
 
 ## 0.503.3 — 2026-10-28
 ### Changed
