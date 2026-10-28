@@ -60,6 +60,11 @@
    "first": "filetype-lesson",
    "second": "system-file-minus",
    "reason": "Near-identical because filetype-lesson reuses the system-file-text glyph (DESY-378); the system variant already differs from it by a small mark."
+  },
+  {
+   "first": "slidetype-youtube",
+   "second": "system-youtube-logo",
+   "reason": "Same YouTube mark in two families: slidetype-youtube is the 24px stroke slide-type glyph, system-youtube-logo is the Phosphor bold fill that matches the other system-*-logo social glyphs. Social-media rows use the system family (colour rule 2.6a)."
   }
  ]
 }
