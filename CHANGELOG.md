@@ -24,8 +24,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.517.0 — 2026-10-28
 ### Added
-- Header: an optional reassurance line ("Free forever. No credit card needed.") under the call to action on the eight heroes that hold the button in their copy block (Hero split, stacked, card and the five multi-image heroes), above the G2 row. New Reassurance line switch (Off / On), off by default; it reuses each layout's existing muted `__hint` style (meta role, secondary ink), so no new CSS or type-ramp line. Default snippets and every other marketing page are unchanged (#NNN)
-- Revert: revert the PR; it removes the `data-choice="reassurance"` paragraph and the Reassurance line option from the eight layouts in `marketing/header.json` and two prose sentences (#NNN)
+- Header: an optional reassurance line ("Free forever. No credit card needed.") under the call to action on the eight heroes that hold the button in their copy block (Hero split, stacked, card and the five multi-image heroes), above the G2 row. New Reassurance line switch (Off / On), off by default; it reuses each layout's existing muted `__hint` style (meta role, secondary ink), so no new CSS or type-ramp line. Default snippets and every other marketing page are unchanged (#434)
+- Revert: revert the PR; it removes the `data-choice="reassurance"` paragraph and the Reassurance line option from the eight layouts in `marketing/header.json` and two prose sentences (#434)
 
 ## 0.512.0 — 2026-10-28
 ### Changed
