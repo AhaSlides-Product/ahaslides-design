@@ -277,7 +277,7 @@
       ]
     },
     {
-      "rule": "No layout fatigue: a section shows at most 3 alternating image/text rows, and two alternating-row sections never sit back to back (a fourth row or a second alternating section becomes Cards, an icon grid or Tabs). Numbered steps use the Steps row (Cards `aha-marketing-cards__grid--row`; four or more steps are a Cards grid of Step cards), never alternating rows and never Features Tabs. Tabs hold parallel choices, each description one short sentence of at most 90 characters. Consecutive sections change layout: no two neighbouring sections share the same layout.",
+      "rule": "No layout fatigue: a section shows at most 3 alternating image/text rows, and two alternating-row sections never sit back to back (a fourth row or a second alternating section becomes Cards, an icon grid or Tabs). Numbered steps use the Steps row (Cards `aha-marketing-cards__grid--row`; four or more steps are a Cards grid of Step cards), never alternating rows and never Features Tabs. Tabs hold parallel choices, each description one short sentence of at most 90 characters. Moving a section to another layout keeps every point, step and image: five steps become five Step cards with their images, never fewer and never without the pictures; find a better way to show the content, never delete it. Consecutive sections change layout: no two neighbouring sections share the same layout.",
       "ref": [
         "W12"
       ],
