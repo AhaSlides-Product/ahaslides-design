@@ -22,13 +22,21 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.533.0 — 2026-10-28
+## 0.537.0 — 2026-10-28
 ### Fixed
 - Marketing sections no longer pick up the Webflow site's base CSS. Testimonials and Cards clear the quote border (a grey stripe on the left of every quote from `blockquote{border-left:5px solid #e2e2e2}`), and every section title rule (Header, Features, Numbers, Pricing, Testimonials, FAQ, Comparison, Footer banner) sets `display:block`, so a host `h2{display:flex;text-align:left}` can no longer pull a centred title off-centre.
 - Step card: the pink number badge rule (`.aha-marketing-card__number`) now ships in the Cards base CSS, so every section that embeds Cards carries it and a pasted Steps row keeps its badge.
 ### Added
 - A node test fails when a marketing blockquote reset leaves the border, when a section title rule has no `display`, or when the Step number rule leaves the Cards base CSS.
 - Supersedes the earlier 0.497.1 attempt. Revert: revert the PR; the sections go back to relying on the host CSS (#438)
+
+## 0.534.0 — 2026-10-28
+### Added
+- CSAT: an optional `feedback-hint="<text>"` shows a helper line under the feedback text box, beside the counter, reusing the text box's `info-message`; for example `What you write goes to the developer`. Not set, nothing changes. Changing or removing it updates the open popover (#446)
+### Changed
+- CSAT: the feedback popover now anchors to the whole thumbs group (Good, Not good and the Feedback button), so `feedback-placement="start"` and `"end"` line up with the group's edge instead of the Not good button's. The Good thumb joins the popover's trigger; the popover still opens only after the ratings that ask for feedback (#446)
+- CSAT: while the feedback popover is open the thumbs' hover tooltips are hidden, so the Good tooltip no longer renders under the popover (#446)
+- Revert: revert the PR; it removes the `feedback-hint` attribute and restores the popover's old anchor and the tooltips' behaviour while open (#446)
 
 ## 0.530.0 — 2026-10-28
 ### Added
