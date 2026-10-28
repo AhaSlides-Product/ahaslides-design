@@ -22,12 +22,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.517.0 — 2026-10-28
+## 0.527.0 — 2026-10-28
 ### Added
 - Header: an optional reassurance line ("Free forever. No credit card needed.") under the call to action on the eight heroes that hold the button in their copy block (Hero split, stacked, card and the five multi-image heroes), above the G2 row. New Reassurance line switch (Off / On), off by default; it reuses each layout's existing muted `__hint` style (meta role, secondary ink), so no new CSS or type-ramp line. Default snippets and every other marketing page are unchanged (#434)
 - Revert: revert the PR; it removes the `data-choice="reassurance"` paragraph and the Reassurance line option from the eight layouts in `marketing/header.json` and two prose sentences (#434)
 
-## 0.512.0 — 2026-10-28
+## 0.523.0 — 2026-10-28
 ### Changed
 - Header: every layout has one button, the primary call to action. The white Learn more buttons and the Sign up with Google button on Split with form are gone.
 - Header → Page header: its Get started button is always there; the Buttons switch is removed, so every Header layout has exactly one call to action (a button, or the email form on Hero split, Hero stacked, Hero card and Hero split form). On Hero split and Hero stacked the Call to action choice is now named Button.
@@ -37,7 +37,38 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Header: on centred layouts the G2 stars and score line up on the left of the G2 block instead of each being centred.
 - Header → Hero stacked, Gallery bento grid and Gallery tabs: the picture under the copy sizes to the window, so the section no longer needs a long scroll at 1440 × 900. Hero stacked's screenshot is never cropped: its width is `min(100%, clamp(300px, 100svh − 576px, 400px) × 16/9)`, all from `--aha-space-100` and `--aha-space-96`. The bento's height is `clamp(300px, 100svh − 384px, 500px)` and the tab photo's `clamp(300px, 100svh − 480px, 500px)`, both photos with object-fit cover. Phones are unchanged (full width). Other Header layouts already fit one window or, like Gallery masonry, must not crop.
 - `lib/marketing-motion.js`: the carousel's `[data-aha-gallery-prev]` and `[data-aha-gallery-next]` handlers and the `data-aha-gallery="marquee"` Pause handler are removed, as no layout uses them any more; the marquee rows drop that attribute. A page that still has those buttons keeps them on screen, but they do nothing.
+- Header → Hero card: it opens on Vivid Pink, so its Get started button now starts as the secondary Button with `surface="brand"` (white, readable on the pink) instead of a pink primary that vanished into the card. The White and Accent states still switch it back to the primary.
 - Revert: revert the PR; the second buttons, badge, Pause buttons, carousel arrows, their script handlers and centred stars come back (#429)
+
+## 0.522.0 — 2026-10-28
+### Changed
+- Numbers: three layouts instead of five, each with one button. Simple centred now carries three switches (Number style: Divided or Left aligned; Icon; Description) and replaces Simple with actions 01 (`actions-row`), which is Simple centred with Left aligned, Icon Off and Description On. Split image 02 gains a Vivid Pink background (`aha-numbers--brand`) and replaces Split image 02 brand (`split-image-brand`); its button turns secondary with `surface="brand"`, so it no longer disappears into the pink. The old layout links still land on the merged layouts.
+- Numbers → Simple with actions 02: the secondary Demo button is gone; Get started stays.
+- Numbers: the button comes after the numbers. Split image 02 now reads title, numbers, button in all three backgrounds (48 px above the button, 32 px on a phone). On Simple with actions 02 the button stays under the header beside the grid on wide screens, and follows the numbers once the columns stack (grid areas instead of a wrapper `div`). Simple centred already ended on its button.
+- Numbers → Split image 02: the image sits edge to edge in its slot with no pale pink or white card around it; the `aha-numbers__card` rules are removed.
+- Marketing pages: a layout can list `formerSlugs`; each renders an anchor before the layout heading so an old link keeps working after a merge.
+- Revert: revert the PR; the five Numbers layouts, both buttons, the picture card and the button above the numbers come back (#428)
+
+## 0.521.0 — 2026-10-28
+### Changed
+- Testimonials → Simple left aligned: the section has no button any more; it ends on the quote, name and role. Rule and criterion W18 list it as exempt from the one-call-to-action rule, beside the Logos strip. The unused `aha-testimonials__actions` rule is removed from the section CSS and from the website eval fixture `sections.css`.
+- Revert: revert the PR; the Read customer stories button comes back under the quote (#427)
+
+## 0.517.2 — 2026-10-28
+### Fixed
+- Marketing Header: the hero video slot no longer shows dark side bars on wide screens. The frame is 16:9 and narrows to fit the height cap, centred, instead of a full-width box letterboxing the clip (#442)
+
+## 0.517.1 — 2026-10-28
+### Fixed
+- `aha-drawer` `placement="bottom"`: a tap on a header button (close, actions) on a touch screen no longer starts a swipe and is no longer swallowed; Esc and Tab only defer to a real popup (`aria-haspopup` or a combobox), so an open accordion inside the sheet no longer blocks them (#441)
+
+## 0.517.0 — 2026-10-28
+### Added
+- Drawer (web component): `placement="bottom"` is a bottom sheet for a surface launched from a list of objects. Full width, a 48px gap above it (`--aha-drawer-top-gap`) that closes on click, 16px top corners, a 40 × 4 grab handle (`part="handle"`), slide-up with an upward shadow, and a full page with no gap or radius under 768px. Swipe down on the handle or header (touch and pen) closes it past 25% of its height or faster than 0.5 px/ms, otherwise it snaps back; `close` has a new `detail.source` of `"swipe"`. New `slot="subtitle"` under the title and `slot="actions"` between the title and the ✕, both hidden when empty and usable by side drawers too. `width` and `size` are ignored for bottom; an unknown placement keeps the right-side look.
+- Drawer docs, OVERLAY-05 and its anti-slop criterion: side drawers stay `placement="right"`; a list-launched surface is the bottom sheet, never a fixed `div`. New pass and fail eval cases. workspace-app joins the consumer bump list (#436)
+### Changed
+- Drawer (web component): Esc and Tab now leave an open popup inside the drawer (an `aria-expanded="true"` trigger, or an open `aha-select`, `aha-dropdown`, `aha-menu` or `aha-popover`) and a key pressed in an overlay portalled outside it (an antd Modal or DatePicker) to handle their own keys, so Esc closes the menu, not the drawer behind it. This also applies to right and left drawers (#436)
+- Revert: revert the PR; nothing renders `placement="bottom"` until an app asks for it, and an unknown placement falls back to the right-side drawer. The keyboard change is the only shared behaviour; reverting it restores Esc closing the drawer first (#436)
 
 ## 0.509.1 — 2026-10-28
 ### Fixed
