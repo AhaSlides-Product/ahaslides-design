@@ -35,6 +35,24 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Header → Hero card: it opens on Vivid Pink, so its Get started button now starts as the secondary Button with `surface="brand"` (white, readable on the pink) instead of a pink primary that vanished into the card. The White and Accent states still switch it back to the primary.
 - Revert: revert the PR; the second buttons, badge, Pause buttons, carousel arrows, their script handlers and centred stars come back (#429)
 
+## 0.522.0 — 2026-10-28
+### Changed
+- Numbers: three layouts instead of five, each with one button. Simple centred now carries three switches (Number style: Divided or Left aligned; Icon; Description) and replaces Simple with actions 01 (`actions-row`), which is Simple centred with Left aligned, Icon Off and Description On. Split image 02 gains a Vivid Pink background (`aha-numbers--brand`) and replaces Split image 02 brand (`split-image-brand`); its button turns secondary with `surface="brand"`, so it no longer disappears into the pink. The old layout links still land on the merged layouts.
+- Numbers → Simple with actions 02: the secondary Demo button is gone; Get started stays.
+- Numbers: the button comes after the numbers. Split image 02 now reads title, numbers, button in all three backgrounds (48 px above the button, 32 px on a phone). On Simple with actions 02 the button stays under the header beside the grid on wide screens, and follows the numbers once the columns stack (grid areas instead of a wrapper `div`). Simple centred already ended on its button.
+- Numbers → Split image 02: the image sits edge to edge in its slot with no pale pink or white card around it; the `aha-numbers__card` rules are removed.
+- Marketing pages: a layout can list `formerSlugs`; each renders an anchor before the layout heading so an old link keeps working after a merge.
+- Revert: revert the PR; the five Numbers layouts, both buttons, the picture card and the button above the numbers come back (#428)
+
+## 0.521.0 — 2026-10-28
+### Changed
+- Testimonials → Simple left aligned: the section has no button any more; it ends on the quote, name and role. Rule and criterion W18 list it as exempt from the one-call-to-action rule, beside the Logos strip. The unused `aha-testimonials__actions` rule is removed from the section CSS and from the website eval fixture `sections.css`.
+- Revert: revert the PR; the Read customer stories button comes back under the quote (#427)
+
+## 0.517.2 — 2026-10-28
+### Fixed
+- Marketing Header: the hero video slot no longer shows dark side bars on wide screens. The frame is 16:9 and narrows to fit the height cap, centred, instead of a full-width box letterboxing the clip (#442)
+
 ## 0.517.1 — 2026-10-28
 ### Fixed
 - `aha-drawer` `placement="bottom"`: a tap on a header button (close, actions) on a touch screen no longer starts a swipe and is no longer swallowed; Esc and Tab only defer to a real popup (`aria-haspopup` or a combobox), so an open accordion inside the sheet no longer blocks them (#441)
