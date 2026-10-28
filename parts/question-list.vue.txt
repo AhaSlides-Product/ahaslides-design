@@ -8,18 +8,24 @@ import { ref } from 'vue';
 const quiz = ref([
   { id: 'q1', prompt: 'Capital of France?', status: { message: 'Only 2s after Q1.', tone: 'warning' }, options: [{ id: 'o1', text: 'Paris', correct: true }, { id: 'o2', text: 'London' }] },
 ]);
+const notices = ref([{ tone: 'info', paragraphs: [['Question ', { question: 'q1', label: '1' }, ' plays at 00:23.']] }]);
 </script>
 
 <template>
-  <!-- questions bound as a PROPERTY; @change returns the full edited model -->
+  <!-- questions and notices bound as PROPERTIES; @change returns the full edited model and $event.detail.edit -->
   <aha-question-list
     label="Questions"
     min="1"
     max="10"
     minoptions="2"
     maxoptions="6"
+    accordion
+    multiline
+    singlecorrect
     :questions.prop="quiz"
+    :notices.prop="notices"
     @change="quiz = $event.detail.questions"
+    @question-leave="validate($event.detail.id)"
   >
     <!-- header slots: start-<id>, marker-<id> (replaces the number), before-<id>, after-<id> and end-<id>; any number of children each; body-<id> takes interactive children inside the open question -->
     <aha-tag slot="before-q1">00:23</aha-tag>

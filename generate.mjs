@@ -349,7 +349,7 @@ function tokenVars(t) {
     drop(vz.mix).map(([k, value]) => `--aha-viz-mix-${kebab(k)}:${value}%;`).join(' '));
   /* type + shape */
   L.push(`--aha-font-product:${f.product}; --aha-font-display:${f.display}; --aha-font-secondary:${f.secondary}; --aha-font-mono:${f.mono};`);
-  L.push(`--aha-radius-xs:${r.xs}px; --aha-radius-sm:${r.sm}px; --aha-radius-default:${r.default}px; --aha-radius-lg:${r.lg}px; --aha-radius-xl:${r.xl}px; --aha-radius-marketing:${r.marketing}px;`);
+  L.push(`--aha-radius-xs:${r.xs}px; --aha-radius-sm:${r.sm}px; --aha-radius-default:${r.default}px; --aha-radius-lg:${r.lg}px; --aha-radius-xl:${r.xl}px; --aha-radius-marketing:${r.marketing}px; --aha-radius-pill:${r.pill}px;`);
   /* layout — default max-width for centred app content (page/screen container) */
   L.push(`--aha-content-max-width:${t.layout.contentMaxWidth}px; --aha-tooltip-max-width:${t.layout.tooltipMaxWidth}px;`);
   /* type scale + spacing + weight + line-height + tracking — the canonical size/space/weight/lineHeight/
@@ -536,7 +536,7 @@ table.api td,table.api th{text-align:left;padding:10px 14px;border-bottom:1px so
 table.api tr:last-child td{border-bottom:none}
 table.api th{color:var(--aha-text-secondary);font-weight:var(--aha-weight-semibold);font-size:13px;background:var(--aha-gray-20)}
 ul{margin:0;padding-left:18px}li{margin:5px 0;line-height:1.6}
-.pill{display:inline-block;padding:2px 9px;border-radius:var(--aha-radius-xs);font-size:12px;font-weight:600;background:var(--aha-gray-20);color:var(--aha-text-default);margin:2px 4px 2px 0}
+.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;background:var(--aha-gray-20);color:var(--aha-text-default);margin:2px 4px 2px 0}
 .pill.na{background:var(--aha-gray-20);color:var(--aha-text-tertiary)}
 .spec-line{margin-bottom:12px;color:var(--aha-text-secondary);font-size:13px;line-height:1.7}
 
@@ -1044,6 +1044,11 @@ function sidebarNav(base, active, section) {
       }).join('');
       return `<div class="nav-group"><div class="nav-cat">${esc(g.cat)}</div>${items}</div>`;
     }).join('');
+    if (section === 'patterns') {
+      const guides = GUIDELINES.filter(g => g.patternsNav);
+      if (guides.length) inner += `<div class="nav-group"><div class="nav-cat">Composition guides</div>` +
+        guides.map(g => `<a class="nav-item${active===('guideline:'+g.slug)?' active':''}" href="${base}guidelines/${g.slug}/index.html"><span>${esc(g.name)}</span><span class="nav-dot" title="live"></span></a>`).join('') + `</div>`;
+    }
   } else if (section === 'marketing') {
     const marketingNav = (items, cat) => items.length ? `<div class="nav-group"><div class="nav-cat">${cat}</div>` +
       items.map(b => `<a class="nav-item${active===('marketing:'+b.slug)?' active':''}" href="${base}marketing/${b.slug}/index.html"><span>${esc(b.name)}</span><span class="nav-dot" title="live"></span></a>`).join('') +
@@ -1184,6 +1189,8 @@ function playgroundBar(c, group) {
 // A preview places a grouped toggle bar next to the badge it controls with a `<!--pg:GROUP-->` marker.
 const previewWithBars = (c) => part(c.preview).replace(/<!--pg:([\w-]+)-->/g, (_, group) => playgroundBar(c, group));
 
+const libraryDocsLink = (sec) => sec.docs ? `<p class="docs-link"><a href="${esc(sec.docs.href)}">${esc(sec.docs.label)}</a></p>` : '';
+
 const docPagePath = (c) => c.docPage || `${c.slug}/index.html`;
 
 /* Charts — its OWN top-level area, one self-contained page (charts/index.html), built like the Settings
@@ -1219,7 +1226,7 @@ function renderChartsPage(c) {
     <div class="hub-body">${sections.map(x => x.html).join('\n\n  ')}</div>
   </div>
   ${hubAnchorScript(anchorItems)}`;
-  return docShell({ base: '../', active: 'charts', title: c.name, section: 'charts', main, extraCss: HUB_ANCHOR_CSS + '.hub-body h2,.hub-body .chart-type-title{scroll-margin-top:84px}', noSidebar: true });
+  return docShell({ base: '../', active: 'charts', title: c.name, section: 'charts', main, extraCss: HUB_ANCHOR_CSS + '.hub-body h2,.hub-body .chart-type-title{scroll-margin-top:84px}' + CHART_STAGE_CSS, noSidebar: true });
 }
 
 function mergedSections(host) {
@@ -1248,12 +1255,13 @@ function renderHtml(c) {
   const preview = previewWithBars(c);
   const isSettings = SETTINGS_SLUGS.has(c.slug);  // settings-panel family → its OWN Settings area
   const isPattern = !isSettings && PATTERN_SLUGS.has(c.slug);   // AhaSlides-composed → Patterns area
-  const area = isSettings ? 'settings' : isPattern ? 'patterns' : 'components';
+  const area = c.libraryArea || (isSettings ? 'settings' : isPattern ? 'patterns' : 'components');
   const main = `
   <h1>${esc(c.name)}</h1>
   ${headline(c.highlights, esc(c.summary))}
   <!-- generated from contracts/${c.slug}.json + tokens.canonical.json — do not edit by hand -->
   ${c.pageToggle ? playgroundBar({ playground: c.pageToggle }) : ''}
+  ${c.libraryArea ? `<p class="hub-back">Part of the <a href="../canvas/index.html#${esc(c.name)}">Canvas Library</a> and the <a href="../audience/index.html#${esc(c.name)}">Audience Library</a>: the full contract is here, the library pages show it on the canvas and on the phone.</p>` : ''}
   ${c.hubRef ? `<p class="hub-back">Also on the standalone <a href="../${esc(c.hubRef)}/index.html">Settings page</a> — the whole settings surface, including this component, inline on one page.</p>` : ''}
 
   <h2>Examples</h2>
@@ -1272,7 +1280,7 @@ function renderHtml(c) {
 
   <h2>Spec</h2>
   <div class="spec-line">${specList(c.spec)}</div>${mergedSections(c)}`;
-  return docShell({ base: '../', active: c.slug, title: c.name, section: area, main });
+  return docShell({ base: '../', active: c.slug, title: c.name, section: area, main, noSidebar: Boolean(c.libraryArea) });
 }
 
 // Hidden conformance harness (composites): mounts both framework tiers with the token layer,
@@ -1588,7 +1596,7 @@ function renderAudienceCard(sec) {
     <dl class="callout">
       <div class="use"><dt>Use when</dt><dd>${audMd(sec.useWhen)}</dd></div>
       <div class="not"><dt>Not for</dt><dd>${audMd(sec.notFor)}</dd></div>
-    </dl>${replaces}${note}
+    </dl>${replaces}${note}${libraryDocsLink(sec)}
   </header>
   <div class="decks">
     <div class="deck light"><span class="deck-lbl">Light deck</span><div class="deck-body">${sec.demoLight}</div></div>
@@ -1667,6 +1675,7 @@ function renderCanvasCard(sec) {
       <div class="use"><dt>Use when</dt><dd>${audMd(sec.useWhen)}</dd></div>
       <div class="not"><dt>Not for</dt><dd>${audMd(sec.notFor)}</dd></div>
     </dl>
+    ${libraryDocsLink(sec)}
   </header>
   <div class="cl-demo">${sec.demo}</div>
   ${rules ? `<div class="cl-rules"><h3>Rules</h3><dl>${rules}</dl></div>` : ''}
@@ -1913,12 +1922,56 @@ function marketingReviewsSwitch(b, layout) {
   const options = JSON.stringify([{ value: 'off', label: `${b.reviews.label}: Off` }, { value: 'on', label: `${b.reviews.label}: On` }]);
   return `<aha-segmented class="mbp-reviews" aria-label="${esc(layout.name)} ${esc(b.reviews.label)}" options="${esc(options)}" value="on" data-insert-into="${esc(reviews.insertInto)}" data-row="${esc(`.${layout.class}__reviews`)}" data-html="${esc(reviews.html)}"></aha-segmented>`;
 }
+const marketingDefaultChoices = (layout) => layout.options.map(option => option.choices.find(choice => choice.default) || option.choices[0]);
+function marketingChoiceHtml(layout, chosen) {
+  const keep = new Set(chosen.map(choice => choice.value));
+  let html = layout.choiceHtml;
+  for (let hook = html.match(/\sdata-choice="([^"]+)"/); hook; hook = html.match(/\sdata-choice="([^"]+)"/)) {
+    if (keep.has(hook[1])) { html = html.slice(0, hook.index) + html.slice(hook.index + hook[0].length); continue; }
+    const open = html.lastIndexOf('<', hook.index);
+    const tag = html.slice(open + 1).match(/^[a-z0-9-]+/)[0];
+    let depth = 0, end = -1;
+    for (const match of html.slice(open).matchAll(new RegExp(`<${tag}\\b|</${tag}>`, 'g'))) {
+      depth += match[0][1] === '/' ? -1 : 1;
+      if (depth === 0) { end = open + match.index + match[0].length; break; }
+    }
+    if (end < 0) throw new Error(`${layout.slug}: data-choice="${hook[1]}" element has no closing tag`);
+    const lineStart = html.slice(0, open).search(/\n[ ]*$/);
+    html = html.slice(0, lineStart < 0 ? open : lineStart) + html.slice(end);
+  }
+  const modifiers = chosen.filter(choice => choice.modifier).map(choice => ` ${layout.class}--${choice.value}`).join('');
+  return html.replace(new RegExp(`class="([^"]*\\b${layout.class}\\b[^"]*)"`), (match, classes) => `class="${classes}${modifiers}"`);
+}
+function bakeMarketingOptions(b) {
+  if (!b.layouts?.some(layout => layout.options)) return b;
+  return { ...b, layouts: b.layouts.map(layout => {
+    if (!layout.options) return layout;
+    const withChoices = { ...layout, choiceHtml: layout.html };
+    return { ...withChoices, html: marketingChoiceHtml(withChoices, marketingDefaultChoices(layout)) };
+  }) };
+}
+function marketingOptionSwitches(layout) {
+  if (!layout.options) return '';
+  return layout.options.map(option => {
+    const options = JSON.stringify(option.choices.map(choice => ({ value: choice.value, label: `${option.label}: ${choice.label}` })));
+    const choices = JSON.stringify(option.choices.map(choice => ({ value: choice.value, modifier: !!choice.modifier })));
+    return `<aha-segmented class="mbp-option" aria-label="${esc(layout.name)} ${esc(option.label)}" options="${esc(options)}" value="${esc((option.choices.find(choice => choice.default) || option.choices[0]).value)}" data-class="${esc(layout.class)}" data-choices="${esc(choices)}"></aha-segmented>`;
+  }).join('');
+}
+const marketingOptionChoiceHtml = (layout, option, choice) => marketingChoiceHtml(layout, marketingDefaultChoices(layout).map((current, index) => layout.options[index] === option ? choice : current));
+const marketingNonDefaultChoices = (layout) => layout.options.flatMap(option => option.choices.filter(choice => choice !== (option.choices.find(candidate => candidate.default) || option.choices[0])).map(choice => ({ option, choice })));
+const marketingOptionPanes = (b, layout) => layout.options ? marketingNonDefaultChoices(layout).map(({ option, choice }) => ({ key: `option-${choice.value}`, label: `${option.label}: ${choice.label}`,
+  code: resolveDefaultStateVariants(b, layout, marketingLayoutSnippet(b, { ...layout, html: marketingOptionChoiceHtml(layout, option, choice) })) })) : [];
+const marketingOptionsMd = (layout) => layout.options ? ` Switches: ${layout.options.map(option => `${option.label} (${option.choices.map(choice => `${choice.label}${choice.modifier ? ` \`${layout.class}--${choice.value}\`` : ''}`).join(', ')})`).join('; ')}.` : '';
+const marketingOptionsAgent = (b, layout) => layout.options ? { options: layout.options.map(option => ({ label: option.label, choices: option.choices.map(choice => ({ label: choice.label, value: choice.value, default: choice === (option.choices.find(candidate => candidate.default) || option.choices[0]),
+  modifierClass: choice.modifier ? `${layout.class}--${choice.value}` : null,
+  ...(choice === (option.choices.find(candidate => candidate.default) || option.choices[0]) ? {} : { html: resolveDefaultStateVariants(b, layout, marketingOptionChoiceHtml(layout, option, choice)) }) })) })) } : {};
 function marketingLayoutPreview(b, layout) {
   const options = JSON.stringify(MARKETING_WIDTHS.map(([label, width]) => ({ value: String(width), label: `${label} ${width}` })));
-  return `<div class="mfv" data-default="${MARKETING_DEFAULT_WIDTH}">
-    <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="${esc(layout.name)} preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented>${marketingStateSwitch(b, layout)}${marketingReviewsSwitch(b, layout)}<span class="mbp-label" aria-live="polite"></span></div>
+  return `<div class="mfv${b.previewFit ? ' mfv--fit' : ''}" data-default="${MARKETING_DEFAULT_WIDTH}">
+    <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="${esc(layout.name)} preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented>${marketingStateSwitch(b, layout)}${marketingReviewsSwitch(b, layout)}${marketingOptionSwitches(layout)}<span class="mbp-label" aria-live="polite"></span></div>
     <div class="mbp-viewport" role="region" tabindex="0" aria-label="${esc(layout.name)} preview, scrolls inside"><div class="mbp-sizer"><iframe class="mbp-frame" title="${esc(layout.name)} preview" scrolling="no"></iframe></div></div>
-    <template class="mbp-doc"><style>${tokenVars(TOK)}</style>${marketingPreviewAssets(b, marketingLayoutSnippet(b, layout))}</template>
+    <template class="mbp-doc"><style>${tokenVars(TOK)}</style>${marketingPreviewAssets(b, marketingLayoutSnippet(b, layout.choiceHtml ? { ...layout, html: layout.choiceHtml } : layout))}</template>
   </div>`;
 }
 const MARKETING_LAYOUT_PREVIEW_SCRIPT = `<script type="module">
@@ -1954,6 +2007,9 @@ const MARKETING_LAYOUT_PREVIEW_SCRIPT = `<script type="module">
     });
   })();
   </script>`;
+const marketingLayoutPreviewScript = (b) => b.previewModules?.length
+  ? MARKETING_LAYOUT_PREVIEW_SCRIPT.replace(JSON.stringify(MARKETING_FRAME_MODULES), JSON.stringify([...MARKETING_FRAME_MODULES, ...b.previewModules]))
+  : MARKETING_LAYOUT_PREVIEW_SCRIPT;
 const MARKETING_LAYOUT_STATE_SCRIPT = `<script type="module">
   (function(){
     function carriers(doc,prefix,modifiers){
@@ -2033,6 +2089,29 @@ const MARKETING_LAYOUT_REVIEWS_SCRIPT = `<script type="module">
     });
   })();
   </script>`;
+const MARKETING_LAYOUT_OPTION_SCRIPT = `<script type="module">
+  (function(){
+    document.querySelectorAll('.mfv').forEach(function(root){
+      var frame=root.querySelector('.mbp-frame');
+      root.querySelectorAll('.mbp-option').forEach(function(seg){
+        var prefix=seg.dataset.class,choices=JSON.parse(seg.dataset.choices),current=seg.getAttribute('value');
+        function apply(){
+          var doc=frame.contentDocument;
+          if(!doc||!doc.getElementById('mbp-content'))return;
+          if(!doc.getElementById('mbp-option-style')){var style=doc.createElement('style');style.id='mbp-option-style';style.textContent='[data-choice][hidden]{display:none!important}';doc.head.appendChild(style);}
+          var host=doc.querySelector('.'+prefix);
+          choices.forEach(function(choice){
+            doc.querySelectorAll('[data-choice="'+choice.value+'"]').forEach(function(node){node.hidden=choice.value!==current;});
+            if(choice.modifier&&host)host.classList.toggle(prefix+'--'+choice.value,choice.value===current);
+          });
+        }
+        frame.addEventListener('load',apply);
+        seg.addEventListener('change',function(e){current=e.detail.value;apply();});
+        apply();
+      });
+    });
+  })();
+  </script>`;
 const FOLD_LINE_LIMIT_CHARS = 140;
 const docFold = (title, body, id = '', small = false) => `<details class="doc-fold${small ? ' doc-fold--small' : ''}"${id ? ` id="${esc(id)}"` : ''}><summary><aha-icon name="system-caret-right" size="16" decorative></aha-icon>${small ? `<span>${esc(title)}</span>` : `<h2>${esc(title)}</h2>`}</summary><div class="doc-fold-body">${body}</div></details>`;
 const isLongProse = (...texts) => texts.join(' ').length > FOLD_LINE_LIMIT_CHARS;
@@ -2047,7 +2126,142 @@ function marketingLayoutIntroHtml(layout) {
   const paragraphs = `<p class="body">${esc(summary)}</p>${layout.useFor ? `\n  <p class="body"><b>Use for:</b> ${esc(layout.useFor)}</p>` : ''}`;
   return isLongProse(summary, layout.useFor || '') ? docFold('About this layout', paragraphs, '', true) : paragraphs;
 }
+const SECTION_GALLERY_VIEW_KEY = 'aha-section-gallery-view';
+const SECTION_GALLERY_FRAME = { width: 1440, height: 900 };
+const SECTION_GALLERY_CARD_FRAME_WIDTH = 560;
+const SECTION_GALLERY_CSS = `
+.sg-bar{display:flex;align-items:center;justify-content:space-between;gap:var(--aha-space-16);flex-wrap:wrap;margin:var(--aha-space-24) 0}
+.sg-search{flex:0 1 20rem;min-width:0}
+.sg[data-view="list"] .sg-grid,.sg[data-view="list"] .sg-search,.sg[data-view="list"] .sg-empty,.sg[data-view="grid"] .sg-list{display:none}
+.sg-empty[hidden]{display:none}
+.sg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(17.5rem,100%),1fr));gap:var(--aha-space-32) var(--aha-space-24);margin:0 0 var(--aha-space-48);padding:0;list-style:none}
+.sg-card{display:flex;flex-direction:column;gap:var(--aha-space-12);color:inherit;text-decoration:none;border-radius:var(--aha-radius-default)}
+.sg-card:focus-visible{outline:2px solid var(--aha-color-primary);outline-offset:4px}
+.sg-thumb{position:relative;aspect-ratio:${SECTION_GALLERY_FRAME.width}/${SECTION_GALLERY_FRAME.height};overflow:hidden;border:1px solid var(--aha-split);border-radius:var(--aha-radius-default);background:var(--aha-white);transition:border-color var(--aha-motion-fast) var(--aha-ease-out)}
+.sg-card:hover .sg-thumb,.sg-card:focus-visible .sg-thumb{border-color:var(--aha-color-primary)}
+.sg-frame{position:absolute;top:0;left:0;border:0;background:var(--aha-white);transform-origin:0 0;pointer-events:none}
+.sg-caption{font-size:var(--aha-size-default);color:var(--aha-text-secondary)}
+.sg-caption b{font-weight:var(--aha-weight-semibold);color:var(--aha-text-default)}
+@media (prefers-reduced-motion:reduce){.sg-thumb{transition:none}}`;
+function sectionGalleryCard(item, pageName) {
+  const frameWidth = item.frameWidth || SECTION_GALLERY_FRAME.width;
+  return `<li data-search="${esc(item.searchText.toLowerCase())}"><a class="sg-card" href="#${esc(item.slug)}"><div class="sg-thumb"><iframe class="sg-frame" title="${esc(item.name)} thumbnail" data-frame-width="${frameWidth}" style="width:${frameWidth}px;height:${Math.round(frameWidth * SECTION_GALLERY_FRAME.height / SECTION_GALLERY_FRAME.width)}px" tabindex="-1" aria-hidden="true" scrolling="no"></iframe></div><span class="sg-caption"><b>${esc(item.name)}</b> · ${esc(pageName)}</span></a></li>`;
+}
+function sectionGallerySlots(b, items, noun) {
+  const options = JSON.stringify([{ value: 'grid', label: 'Grid', icon: 'system-squares-four' }, { value: 'list', label: 'List', icon: 'system-rows' }]);
+  return {
+    open: `<div class="sg" data-view="grid">
+  <div class="sg-bar"><aha-segmented class="sg-seg" aria-label="${esc(b.name)} view" options="${esc(options)}" value="grid"></aha-segmented><aha-input class="sg-search" type="search" size="default" placeholder="Search ${noun}" aria-label="Search ${noun}"></aha-input></div>
+  <ul class="sg-grid">${items.map(item => sectionGalleryCard(item, b.name)).join('\n  ')}</ul>
+  <aha-empty class="sg-empty" image="simple" description="No ${noun} match your search." hidden></aha-empty>
+  <div class="sg-list">
+`,
+    close: `
+  </div>
+  <script>(function(){var r=document.querySelector('.sg');if(!r)return;var v='grid';try{var s=localStorage.getItem('${SECTION_GALLERY_VIEW_KEY}');if(s==='list'||s==='grid')v=s}catch(e){}var id='';try{id=decodeURIComponent(location.hash.slice(1))}catch(e){}if(id){var t=document.getElementById(id);if(t&&r.querySelector('.sg-list').contains(t))v='list'}r.dataset.view=v;r.querySelector('.sg-seg').setAttribute('value',v)})();</script>
+  </div>
+  ${SECTION_GALLERY_SCRIPT}`,
+  };
+}
+const SECTION_GALLERY_SCRIPT = `<script type="module">
+  import '../../lib/aha-segmented.js';
+  import '../../lib/aha-input.js';
+  import '../../lib/aha-empty.js';
+  (function(){
+    var root=document.querySelector('.sg');
+    if(!root)return;
+    var KEY='${SECTION_GALLERY_VIEW_KEY}';
+    var seg=root.querySelector('.sg-seg'),search=root.querySelector('.sg-search'),empty=root.querySelector('.sg-empty'),grid=root.querySelector('.sg-grid');
+    var items=[].slice.call(grid.children);
+    var base=new URL('../../',location.href).href;
+    var fonts='@font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:400;font-display:swap;src:local("Plus Jakarta Sans"),url("'+base+'fonts/PlusJakartaSans-Regular.woff2") format("woff2")}'+
+      '@font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:600;font-display:swap;src:local("Plus Jakarta Sans"),url("'+base+'fonts/PlusJakartaSans-SemiBold.woff2") format("woff2")}';
+    var imports=${JSON.stringify(MARKETING_FRAME_MODULES)}.map(function(f){return "import '"+base+"lib/"+f+"';"}).join('');
+    function docFor(slug){
+      var el=document.getElementById(slug);
+      el=el&&el.nextElementSibling;
+      while(el&&el.tagName!=='H2'&&!el.querySelector('.mbp-doc'))el=el.nextElementSibling;
+      var template=el&&el.tagName!=='H2'&&el.querySelector('.mbp-doc');
+      return template?template.innerHTML:'';
+    }
+    function load(frame){
+      if(frame.dataset.loaded)return;
+      frame.dataset.loaded='1';
+      var slug=frame.closest('.sg-card').getAttribute('href').slice(1);
+      frame.srcdoc='<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width='+frame.dataset.frameWidth+'"><style>'+fonts+'html,body{margin:0;overflow:hidden}body{font-family:var(--aha-font-product)}</style></head><body>'+docFor(slug)+'<scr'+'ipt type="module">'+imports+'</scr'+'ipt></body></html>';
+    }
+    var seen=new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){if(entry.isIntersecting){load(entry.target);seen.unobserve(entry.target);}});
+    },{rootMargin:'200px'});
+    var sizes=new ResizeObserver(function(entries){
+      entries.forEach(function(entry){
+        var width=entry.contentRect.width;
+        var frame=entry.target.querySelector('.sg-frame');if(width)frame.style.transform='scale('+(width/+frame.dataset.frameWidth)+')';
+      });
+    });
+    items.forEach(function(li){
+      var thumb=li.querySelector('.sg-thumb');
+      sizes.observe(thumb);
+      seen.observe(thumb.querySelector('.sg-frame'));
+    });
+    function holdAnchor(id){
+      var target=document.getElementById(id);
+      if(!target)return;
+      var stopped=false,ticks=0;
+      function stop(){stopped=true;}
+      ['wheel','touchstart','keydown','mousedown'].forEach(function(type){addEventListener(type,stop,{once:true,passive:true});});
+      (function tick(){
+        if(stopped||ticks++>15)return;
+        target.scrollIntoView();
+        setTimeout(tick,100);
+      })();
+    }
+    function showLayout(id){
+      setView('list',false);
+      var heading=document.getElementById(id);
+      if(heading){heading.setAttribute('tabindex','-1');heading.focus({preventScroll:true});}
+      holdAnchor(id);
+    }
+    function setView(view,remember){
+      root.dataset.view=view;
+      if(seg.getAttribute('value')!==view)seg.setAttribute('value',view);
+      if(!remember)return;
+      try{localStorage.setItem(KEY,view);}catch(e){}
+    }
+    seg.addEventListener('change',function(e){
+      setView(e.detail.value,true);
+      if(e.detail.value==='grid'&&location.hash)history.replaceState(null,'',location.pathname+location.search);
+    });
+    grid.addEventListener('click',function(e){
+      var card=e.target.closest('.sg-card');
+      if(!card||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||e.button)return;
+      e.preventDefault();
+      var id=card.getAttribute('href').slice(1);
+      history.replaceState(null,'','#'+id);
+      showLayout(id);
+    });
+    addEventListener('hashchange',function(){
+      var id='';
+      try{id=decodeURIComponent(location.hash.slice(1))}catch(e){}
+      var target=id&&document.getElementById(id);
+      if(target&&root.dataset.view==='grid'&&root.querySelector('.sg-list').contains(target))showLayout(id);
+    });
+    search.addEventListener('input',function(e){
+      var query=String(e.detail&&e.detail.value!==undefined?e.detail.value:search.value||'').trim().toLowerCase();
+      var shown=0;
+      items.forEach(function(li){
+        var match=!query||li.dataset.search.indexOf(query)>=0;
+        li.hidden=!match;
+        if(match)shown++;
+      });
+      empty.hidden=shown>0;
+    });
+    if(root.dataset.view==='list'&&location.hash){var hashId='';try{hashId=decodeURIComponent(location.hash.slice(1))}catch(e){}if(hashId)holdAnchor(hashId);}
+  })();
+  </script>`;
 function renderMarketingLayoutsHtml(b) {
+  const gallery = b.layouts.length > 1 ? sectionGallerySlots(b, b.layouts.map(layout => ({ slug: layout.slug, name: layout.name, searchText: `${layout.name} ${layout.useFor || ''}` })), 'layouts') : { open: '', close: '' };
+  const galleryCss = b.layouts.length > 1 ? SECTION_GALLERY_CSS : '';
   const [intro, ...details] = b.highlights?.length ? b.highlights : [b.summary];
   const main = `
   <h1>${esc(b.name)}</h1>
@@ -2057,11 +2271,11 @@ function renderMarketingLayoutsHtml(b) {
 ${marketingGuidanceHtml(b)}  ${docFold('Which is which', `<p class="body">${esc(b.layoutsIntro || `Each section copies the layout of one Untitled UI ${b.layoutKind || b.name.toLowerCase()} section, and nothing else of it. Class names carry the layout, not the Untitled UI number.`)}</p>
   <ul class="highlights">${b.layouts.map(layout => `<li><b>${esc(layout.name)}</b>: ${layout.reference ? `Untitled UI ${esc(layout.reference)}, ` : ''}<code>${esc(layout.class || layout.classes || `aha-${b.slug}--${layout.slug}`)}</code>${layout.useFor ? `. Use for: ${esc(layout.useFor)}` : ''}</li>`).join('')}</ul>`)}
 
-${b.layouts.map(layout => `  <h2 id="${esc(layout.slug)}">${esc(layout.name)}</h2>
+${gallery.open}${b.layouts.map(layout => `  <h2 id="${esc(layout.slug)}">${esc(layout.name)}</h2>
   ${marketingLayoutIntroHtml(layout)}
   <div class="marketing-stage">${marketingLayoutPreview(b, layout)}</div>
-  ${marketingCodeToggle(marketingHasStates(b, layout) ? marketingLayoutStates(b, layout).find(state => !state.modifier).label : `${layout.slug}.html`, resolveDefaultStateVariants(b, layout, marketingLayoutSnippet(b, layout)), '', marketingStatePanes(b, layout, marketingLayoutSnippet(b, layout)))}`).join('\n\n')}
-  ${MARKETING_LAYOUT_PREVIEW_SCRIPT}${b.layouts.some(layout => marketingHasStates(b, layout)) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}${b.layouts.some(layout => marketingHasStates(b, layout) && /\sdata-variant-[a-z0-9-]+=/.test(layout.html || '')) ? `\n  ${MARKETING_LAYOUT_VARIANT_SCRIPT}` : ''}${b.reviews ? `\n  ${MARKETING_LAYOUT_REVIEWS_SCRIPT}` : ''}
+  ${marketingCodeToggle(marketingHasStates(b, layout) ? marketingLayoutStates(b, layout).find(state => !state.modifier).label : `${layout.slug}.html`, resolveDefaultStateVariants(b, layout, marketingLayoutSnippet(b, layout)), '', marketingStatePanes(b, layout, marketingLayoutSnippet(b, layout)).concat(marketingOptionPanes(b, layout)))}`).join('\n\n')}${gallery.close}
+  ${marketingLayoutPreviewScript(b)}${b.layouts.some(layout => marketingHasStates(b, layout)) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}${b.layouts.some(layout => marketingHasStates(b, layout) && /\sdata-variant-[a-z0-9-]+=/.test(layout.html || '')) ? `\n  ${MARKETING_LAYOUT_VARIANT_SCRIPT}` : ''}${b.reviews ? `\n  ${MARKETING_LAYOUT_REVIEWS_SCRIPT}` : ''}${b.layouts.some(layout => layout.options) ? `\n  ${MARKETING_LAYOUT_OPTION_SCRIPT}` : ''}
 
 ${b.video ? `  ${docFold(`${b.video.label} (optional, off by default)`, `<p class="body">${esc(b.video.howToTurnOn.replaceAll('{{c}}', '<layout class>'))} Layouts with the slot: ${b.layouts.filter(layout => b.video.layouts.includes(layout.slug)).map(layout => `${esc(layout.name)} (<code>${esc(layout.class)}</code>)`).join(', ')}.</p>
   ${marketingCodeToggle('video.html', b.video.html, 'Replaces the layout image.')}
@@ -2078,20 +2292,21 @@ ${b.composedOf ? `
   ${docFold('Details', `<ul class="highlights">${details.map(d => `<li>${esc(d)}</li>`).join('')}</ul>`)}` : ''}`;
   return docShell({ base: '../../', active: 'marketing:' + b.slug, title: b.name, section: 'marketing', main, extraCss: `
   .marketing-stage{margin:0 0 var(--aha-space-12)}.code-panel pre{max-height:70vh}
-  .demo-toolbar:has(.code-lead){justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--aha-space-20)}.code-lead{margin:0;flex:1 1 20rem;max-width:none}${MARKETING_BREAKPOINT_CSS}` });
+  .demo-toolbar:has(.code-lead){justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--aha-space-20)}.code-lead{margin:0;flex:1 1 20rem;max-width:none}${MARKETING_BREAKPOINT_CSS}${b.previewFit ? '\n.mfv--fit .mbp-viewport{height:auto;max-height:min(640px,70vh)}' : ''}${galleryCss}` });
 }
 function renderMarketingHtml(b) {
   if (b.layouts) return renderMarketingLayoutsHtml(b);
+  const cardsGallery = b.snippets?.length > 1 ? sectionGallerySlots(b, b.snippets.map(card => ({ slug: card.slug, name: card.name, searchText: `${card.name} ${card.summary}`, frameWidth: card.demo ? SECTION_GALLERY_FRAME.width : SECTION_GALLERY_CARD_FRAME_WIDTH })), 'cards') : { open: '', close: '' };
   const [intro, ...details] = b.highlights?.length ? b.highlights : [b.summary];
   const main = `
   <h1>${esc(b.name)}</h1>
   <p class="subtitle">${esc(intro)}</p>
   <p class="gen">◆ generated from marketing/${b.slug}.json — do not edit by hand</p>
 
-${b.snippets ? b.snippets.map(card => `<h2>${esc(card.name)}</h2>
+${b.snippets ? cardsGallery.open + b.snippets.map(card => `<h2${cardsGallery.open ? ` id="${esc(card.slug)}"` : ''}>${esc(card.name)}</h2>
   ${isLongProse(card.summary) ? docFold('About this card', `<p class="body">${esc(card.summary)}</p>`, '', true) : `<p class="body">${esc(card.summary)}</p>`}
   ${marketingCardBreakpointPreview(b, card)}
-  ${marketingCodeToggle(`${card.slug}.html`, marketingCardSnippet(b, card))}`).join('\n  ') + '\n  ' + MARKETING_CARD_BREAKPOINT_SCRIPT : `<h2>Preview</h2>
+  ${marketingCodeToggle(`${card.slug}.html`, marketingCardSnippet(b, card))}`).join('\n  ') + cardsGallery.close + '\n  ' + MARKETING_CARD_BREAKPOINT_SCRIPT : `<h2>Preview</h2>
   <div class="marketing-stage">${marketingBreakpointPreview(b)}</div>
 
   <h2>Paste-and-run HTML</h2>
@@ -2103,7 +2318,7 @@ ${b.snippets ? b.snippets.map(card => `<h2>${esc(card.name)}</h2>
   ${docFold('Details', `<ul class="highlights">${details.map(d => `<li>${esc(d)}</li>`).join('')}</ul>`)}` : ''}`;
   return docShell({ base: '../../', active: 'marketing:' + b.slug, title: b.name, section: 'marketing', main, extraCss: `
   .marketing-stage{margin:0 0 12px}.code-panel pre{max-height:70vh}
-  .demo-toolbar:has(.code-lead){justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--aha-space-20)}.code-lead{margin:0;flex:1 1 20rem;max-width:none}${MARKETING_BREAKPOINT_CSS}` });
+  .demo-toolbar:has(.code-lead){justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--aha-space-20)}.code-lead{margin:0;flex:1 1 20rem;max-width:none}${MARKETING_BREAKPOINT_CSS}${cardsGallery.open ? SECTION_GALLERY_CSS : ''}` });
 }
 function marketingVideoMd(b) {
   if (!b.video) return '';
@@ -2113,14 +2328,14 @@ function marketingVideoMd(b) {
 function marketingReviewsMd(b) {
   if (!b.reviews) return '';
   const withRow = b.layouts.filter(layout => layout.reviews);
-  return `\n## ${b.reviews.label} row (on by default, removable)\nA ${b.reviews.source} rating row: the G2 logo in a white card, five stars filled to ${b.reviews.rating}, and "${b.reviews.rating} ${b.reviews.text}", with a visually hidden label ("${b.reviews.accessibleLabel}"). The paste-and-run code above already includes it as ${b.reviews.insertInto.replaceAll('{{c}}', '<layout class>')}. To remove it, delete the \`<layout class>__reviews\` element and its \`__reviews\` CSS. To add it to a copy that lacks it, append the row below there and add the CSS once, replacing \`{{c}}\` with the layout's class (the class shown under Layouts). Layouts with the row: ${withRow.map(layout => `${layout.name} (\`${layout.class}\`)`).join(', ')}. The other layouts have no button in their copy block, so the row does not apply.\n\n\`\`\`html\n${marketingReviewsFor(b, { ...withRow[0], class: '{{c}}', reviews: {} }).html}\n\`\`\`\n\n\`\`\`css\n${marketingReviewsFor(b, { ...withRow[0], class: '{{c}}', reviews: {} }).css}\n\`\`\`\n\nHero Pink, Hero Pink Vertical, Hero Pale Pink and Hero Pale Pink Vertical also need their own star colour rule (white on Vivid Pink, Vivid Pink on Pale Pink), listed per layout in the agent feed under \`reviews.layouts[].css\`.\n`;
+  return `\n## ${b.reviews.label} row (on by default, removable)\nA ${b.reviews.source} rating row: the G2 logo in a white card, five stars filled to ${b.reviews.rating}, and "${b.reviews.rating} ${b.reviews.text}", with a visually hidden label ("${b.reviews.accessibleLabel}"). The paste-and-run code above already includes it as ${b.reviews.insertInto.replaceAll('{{c}}', '<layout class>')}. To remove it, delete the \`<layout class>__reviews\` element and its \`__reviews\` CSS. To add it to a copy that lacks it, append the row below there and add the CSS once, replacing \`{{c}}\` with the layout's class (the class shown under Layouts). Layouts with the row: ${withRow.map(layout => `${layout.name} (\`${layout.class}\`)`).join(', ')}. The other layouts have no button in their copy block, so the row does not apply.\n\n\`\`\`html\n${marketingReviewsFor(b, { ...withRow[0], class: '{{c}}', reviews: {} }).html}\n\`\`\`\n\n\`\`\`css\n${marketingReviewsFor(b, { ...withRow[0], class: '{{c}}', reviews: {} }).css}\n\`\`\`\n`;
 }
 function renderMarketingMd(b) {
   return `# ${b.name} — marketing section
 > Generated from marketing/${b.slug}.json — do not edit by hand. Framework-free marketing section, not a product component.
 
 ${b.summary}
-${marketingGuidanceMd(b)}${marketingReviewsMd(b)}${marketingVideoMd(b)}${b.layouts?.some(layout => layout.useFor) ? `\n## Layouts\n${b.layouts.map(layout => `- ${layout.name}${layout.useFor ? `: ${layout.useFor}` : ''}`).join('\n')}\n` : ''}
+${marketingGuidanceMd(b)}${marketingReviewsMd(b)}${marketingVideoMd(b)}${b.layouts?.some(layout => layout.useFor) ? `\n## Layouts\n${b.layouts.map(layout => `- ${layout.name}${layout.useFor ? `: ${layout.useFor}` : ''}${marketingOptionsMd(layout)}`).join('\n')}\n` : ''}
 Bind the page to the shared token layer (${SITE}/variables.css), then paste the block.
 
 ## Paste-and-run HTML
@@ -2135,7 +2350,7 @@ function renderMarketingAgent(b) {
     consume: { framework: 'none (paste-and-run HTML+CSS)', tokens: `${SITE}/variables.css`,
       note: 'Load the token layer once on the page, then paste the html. Every colour/size/space/radius binds to an --aha-* token, so it inherits the AhaSlides brand.' },
     ...(b.guidance ? { guidance: b.guidance } : {}),
-    ...(b.layouts?.some(layout => layout.useFor) ? { layouts: b.layouts.map(layout => ({ slug: layout.slug, name: layout.name, useFor: layout.useFor || null })) } : {}),
+    ...(b.layouts?.some(layout => layout.useFor) ? { layouts: b.layouts.map(layout => ({ slug: layout.slug, name: layout.name, useFor: layout.useFor || null, ...marketingOptionsAgent(b, layout) })) } : {}),
     ...(b.reviews ? { reviews: {
       label: b.reviews.label, source: b.reviews.source, defaultState: 'on', rating: b.reviews.rating, text: b.reviews.text, accessibleLabel: b.reviews.accessibleLabel,
       howToRemove: `On by default: the layout html and css include the row. Delete the <layout class>__reviews element and its __reviews css to remove it, or append the html as ${b.reviews.insertInto} and add the css once, replacing {{c}} with the layout class, to add it elsewhere.`,
@@ -2225,7 +2440,7 @@ function renderGuidelineHtml(p) {
   .pat-h3{font-size:14px;font-weight:600;margin:16px 0 6px}
   .pat-hr{border:none;border-top:1px solid var(--aha-split);margin:22px 0}
   .pat-foot{font-size:13px;color:var(--aha-text-tertiary)}`;
-  return docShell({ base: '../../', active: 'guideline:' + p.slug, title: p.name, titleSection: 'Guidelines', section: 'guidelines', main, extraCss });
+  return docShell({ base: '../../', active: 'guideline:' + p.slug, title: p.name, titleSection: p.patternsNav ? 'Patterns' : 'Guidelines', section: p.patternsNav ? 'patterns' : 'guidelines', main, extraCss });
 }
 function renderGuidelineMd(p) {
   const skill = p.skillRef || {};
@@ -2341,6 +2556,13 @@ const HUB_ANCHOR_CSS = `
   @media (max-width:900px){
     .hub-layout{grid-template-columns:1fr}
     .hub-anchor{display:none}
+  }`;
+
+const CHART_STAGE_CSS = `
+  .doc-main-inner{max-width:none}
+  @media (max-width:1799px){
+    .hub-layout{grid-template-columns:1fr}
+    .hub-anchor{position:static;max-height:none}
   }`;
 
 /* ===== Settings — its OWN standalone area, and ONE self-contained page (settings/index.html).
@@ -2504,7 +2726,7 @@ function renderDesignMd(t, cs) {
   const vizValue = (path, hex) => (aliasOf(path) ? `var(${aliasOf(path).cssVar}) = ${hex}` : hex);
   const viz    = [['viz-ink', vizValue('color.viz.ink', c.viz.ink)], ['viz-ink-inverse', vizValue('color.viz.inkInverse', c.viz.inkInverse)], ['viz-neutral', vizValue('color.viz.neutral', c.viz.neutral)],
     ...Object.keys(c.viz.series).map(k => [`viz-series-${k}`, vizValue(`color.viz.series.${k}`, c.viz.series[k])]), ...Object.keys(c.viz.tint).map(k => [`viz-tint-${k}`, vizValue(`color.viz.tint.${k}`, c.viz.tint[k])])];
-  const comps = cs.map(x => `- **${x.name}** (${x.tier}) — ${x.summary}`).join('\n');
+  const comps = cs.filter(x => !x.libraryArea).map(x => `- **${x.name}** (${x.tier}) — ${x.summary}`).join('\n');
   const answerTable = tbl(answerTokenEntries(c).map(([cssVar, value]) => [cssVar.replace(/^--aha-/, ''), value]));
   return `# AhaSlides Design System — design.md
 > Machine-readable visual language for AI design + code tools. Generated from tokens.canonical.json — do not edit by hand.
@@ -2513,7 +2735,7 @@ function renderDesignMd(t, cs) {
 ## Brand
 Vivid Pink \`${c.primary}\` is the one primary colour (buttons, links, focus, the main chart series); Darker Pink \`${c.primaryHover}\` is hover and press; ink is warm gray \`${c.textDefault}\`.
 The page background is **white**; light grey is for surfaces inside or beside the white page (cards, sidebars, input fields, table headers, the editor workspace), never a whole page or a full-width section; Vivid Pink at 5% \`${c.bgAccent}\` is for hover and selected states plus at most one highlighted panel per screen; black backgrounds are for full-screen presenting and video or image viewers only, and there is no dark mode; no gradients on fills (AI-affordance border-only exception). Every colour and background rule, tagged by environment: ${SITE}/colour-rules.md.
-Pink text, links included, sits on white only (4.51:1); the secondary and tertiary Button label on its pale pink hover and active fill is Darker Pink (4.66:1): a component cannot see the surface it sits on, so on Vivid Pink at 5% or on grey the screen sets \`--aha-text-link\` and \`--aha-text-link-hover\` to the default ink \`${c.textDefault}\` on that container (both tokens cascade into Button \`link\`) and the link stays underlined (a Button \`text-link\` has no underline at rest, so that screen also sets \`--aha-text-link-decoration: underline\`); on a dark surface it sets them to white; on Vivid Pink, text is solid white. Links are Vivid Pink \`${c.textLink}\`, underlined at rest (Button \`text-link\` has no underline at rest and is underlined on hover, press and keyboard focus), Darker Pink \`${c.textLinkHover}\` on hover.
+Pink text, links included, sits on white only (4.51:1); the secondary and tertiary Button label on its pale pink hover and active fill is Darker Pink (4.66:1): a component cannot see the surface it sits on, so on Vivid Pink at 5% or on grey the screen sets \`--aha-text-link\` and \`--aha-text-link-hover\` to the default ink \`${c.textDefault}\` on that container (both tokens cascade into Button \`link\`) and the link stays underlined (a Button \`text-link\` has no underline at rest, so that screen also sets \`--aha-text-link-decoration: underline\`); on a dark surface it sets them to white; on Vivid Pink, text is solid white. The one exception is an inline link in an Alert or info box message: the DS text-link in Vivid Pink on the alert grey (4.06:1 on the alert grey, 4.16:1 on the branding fill, recorded exception, colour rule 6.7). Links are Vivid Pink \`${c.textLink}\`, underlined at rest (Button \`text-link\` has no underline at rest and is underlined on hover, press and keyboard focus), Darker Pink \`${c.textLinkHover}\` on hover.
 Status carries no colour: success \`${c.success}\` · warning \`${c.warning}\` · error \`${c.error}\` · info \`${c.info}\` are the default ink (the same \`${c.textDefault}\` as body text), shown with an icon, clear wording and an outline or a dark fill. Never red, amber, green or blue. The one green and one red in the token set (\`--aha-answer-*\`, below) mark a correct or wrong answer and nothing else: never a status, an alert, validation, a rise or a fall.
 Purple \`${P.logoPurple}\` (\`--aha-logo-purple\`) is the logo only: never text, buttons, links, states, charts or backgrounds in the product.
 The correct and wrong answer pair (\`--aha-answer-*\`) is the only other colour, for marking an answer correct or wrong and nothing else; text stays the default ink (${SITE}/colour-rules.md, section 11). No other colour exists in the token set. Photos and customer or presenter content (deck themes, deck-palette charts) are exempt. Black is \`${P.black}\`, the same value as grey 100 and the default ink (\`--aha-black\` aliases \`--aha-gray-100\`); a pure, zero-value black is never painted solid, only as a transparency for a shadow, a scrim or an ink alpha. The dark surface \`--aha-bg-dark\` is black and \`--aha-bg-dark-raised\` is grey 95 \`${c.bgDarkRaised}\`, one step above it.
@@ -2555,7 +2777,7 @@ Font **Plus Jakarta Sans** (self-hosted), weights **400 / 600** only. Base body 
 Size scale: 12 · 14 · 16 · 18 · 20 · 24 · 32 · 40 · 48 · 56 · 64. Letter-spacing: headings 0, body 0.2px, subtext 0.3px. No Inter.
 
 ## Shape & density
-Radius scale: ${t.radius.xs} · ${t.radius.sm} · **${t.radius.default}** (default) · ${t.radius.lg} · ${t.radius.xl}; no pill shape — a true circle is \`border-radius: 50%\`.
+Radius scale: ${t.radius.xs} · ${t.radius.sm} · **${t.radius.default}** (default) · ${t.radius.lg} · ${t.radius.xl}; pills ${t.radius.pill}.
 Control height: root **${t.controlHeight.root}** (Input/Select inherit); Button ${t.controlHeight.button.sm}/${t.controlHeight.button.md}/${t.controlHeight.button.lg}/${t.controlHeight.button.xl}.
 Spacing: 4-based — ${t.space.slice(0,12).join(' · ')} …
 Layout: app content max-width **${t.layout.contentMaxWidth}** (centred; bind to \`--aha-content-max-width\`).
@@ -2668,7 +2890,7 @@ function renderTokenPage(pageSlug) {
       title: 'Radius', highlights: ["The corner-radius scale: 4, 6, 8, 12, 16", "Anything off the scale is drift"], lead: 'The corner-radius scale. Anything off <code>4 · 6 · 8 · 12 · 16</code> is drift.',
       body: `
   <div class="scale-row">${radChips}</div>
-  <p class="body">No pill shape: chips, badges, tags and bar tracks take a radius from the scale, and only a true circle (avatar, dot, radio mark, slider thumb) uses <code>50%</code>. <code>${r.marketing}px</code> reserved for marketing surfaces. Anything off the 4·6·8·12·16 scale is drift.</p>`,
+  <p class="body">Pill <code>${r.pill}px</code> for capsules; <code>${r.marketing}px</code> reserved for marketing surfaces. Anything off the 4·6·8·12·16 scale is drift.</p>`,
     },
     sizing: {
       title: 'Sizing', highlights: ["Control heights: root field height and the Button size ramp", "Plus the app-content max-width"], lead: 'Control heights — the root field height and the Button size ramp — plus the app-content max-width.',
@@ -2845,7 +3067,7 @@ function renderIndex() {
 
 /* ===== For developers — install steps and agent feeds ===== */
 function renderGetStarted(cs) {
-  const live = cs.filter(c => !c.docPage).length;
+  const live = cs.filter(c => !c.docPage && !c.libraryArea).length;
   const planned = [...COMPONENTS_CATALOG, ...PATTERNS_CATALOG].reduce((n,g)=>n+g.items.length,0);
   const main = `
   <h1>For developers</h1>
@@ -2938,7 +3160,7 @@ function renderIconGallery() {
   #icon-search{flex:1 1 320px;min-width:240px;height:38px;padding:0 14px;font-family:var(--aha-font-product);font-size:14px;border:1px solid var(--aha-border-default,#D4D4D4);border-radius:8px;outline:none}
   #icon-search:focus{border-color:var(--aha-color-primary);box-shadow:0 0 0 3px var(--aha-focus-ring-soft)}
   .fam-chips{display:flex;gap:6px}
-  .fam-chip{font-family:var(--aha-font-product);font-size:13px;color:var(--aha-text-secondary);background:var(--aha-gray-20);border:1px solid transparent;border-radius:var(--aha-radius-default);padding:6px 12px;cursor:pointer;text-transform:capitalize}
+  .fam-chip{font-family:var(--aha-font-product);font-size:13px;color:var(--aha-text-secondary);background:var(--aha-gray-20);border:1px solid transparent;border-radius:999px;padding:6px 12px;cursor:pointer;text-transform:capitalize}
   .fam-chip b{opacity:.6;font-weight:600}
   .fam-chip.on{background:var(--aha-bg-accent);border-color:var(--aha-border-hover);color:var(--aha-text-default)}
   .gal-count{font-size:12px;color:var(--aha-text-tertiary);font-family:Menlo,monospace;margin-left:auto}
@@ -2982,6 +3204,16 @@ const LOCKUP_SPEC = [
   ['No approved product name', 'The Splash and AhaSlides only; never invent a name'],
 ];
 const LOCKUP_DONTS = ['Hand-set the lockup from the logo file and a text span: use <aha-product-lockup>', 'Put a divider or a bar between The Splash and the words', 'Scale The Splash and the text separately: one size drives both', 'Use a product name nobody approved'];
+const COBRAND_SPEC = [
+  ['Order', 'AhaSlides first, the multiplication sign, then the partner'],
+  ['The ×', 'The multiplication sign ×, not the letter x, in text-secondary #4A4A4A (white on Vivid Pink), centred on the capitals'],
+  ['Spacing', 'One clear space (the height of the "A" in AhaSlides, rule 2.8) between each logo and the ×'],
+  ['Sizes', 'Both logos share one optical height (the height of the AhaSlides wordmark capitals); the AhaSlides logo is never below its 154 × 35 px minimum on screen or 175 × 40 mm in print'],
+  ['On white', 'The AhaSlides colour logo and the partner logo in greyscale, from the one-colour file in logo/'],
+  ['On Vivid Pink', 'The white AhaSlides logo, a white ×, and the partner logo in white'],
+  ['Hover and focus', 'In an interface the partner logo shows its own colours on hover and keyboard focus (rule 2.6); a printed or exported lockup stays greyscale'],
+];
+const COBRAND_DONTS = ['Set the partner logo larger than the AhaSlides logo', 'Use the letter x, a plus sign, a slash or a divider bar instead of ×', 'Put the partner logo in full colour at rest', 'Place the lockup on any ground other than white or Vivid Pink'];
 const BRAND_LOGO_HOVER_HTML = `<a class="brand-entry" href="/integrations/zoom">
   <span class="brand-logo">
     <img class="brand-logo-rest" src="${LIVE_SITE}/logo/zoom.svg" alt="">
@@ -3104,6 +3336,15 @@ function renderLogoPage() {
   <ul class="lg-donts">${LOCKUP_DONTS.map(d => `<li>${esc(d)}</li>`).join('')}</ul>
   <h3 class="tok-h3" id="clear-space">Clear space and isotype (rules 2.8 to 2.10)</h3>
   <p class="body">Keep the height of the &ldquo;A&rdquo; in AhaSlides clear on every side of the logo. The isotype is The Splash on its own, for a favicon, an avatar or a small secondary graphic, at 256, 180, 152, 60 and 16 px: transparent, or white on Vivid Pink in a circle or a square.</p>
+  <h3 class="tok-h3" id="co-brand">Co-brand lockup: AhaSlides &times; Partner</h3>
+  <p class="body">Use the lockup when AhaSlides appears next to a partner: a joint webinar, an integration launch, a co-marketing page. It is the AhaSlides logo, a &times;, and the partner logo, on one line.</p>
+  <div class="cobrand-demo">
+    <div class="cobrand-tile"><div class="cobrand-row"><img class="cobrand-logo" src="../logo/ahaslides-logo.svg" alt="AhaSlides"><span class="cobrand-x" aria-hidden="true">&times;</span><span class="cobrand-partner">Partner</span></div><p>On white: partner in greyscale, at rest</p></div>
+    <div class="cobrand-tile cobrand-tile--pink"><div class="cobrand-row"><img class="cobrand-logo" src="../logo/ahaslides-logo-white.svg" alt="AhaSlides"><span class="cobrand-x" aria-hidden="true">&times;</span><span class="cobrand-partner">Partner</span></div><p>On Vivid Pink: both logos in white</p></div>
+  </div>
+  ${docTable('<th>Measure</th><th>Value</th>', COBRAND_SPEC.map(([k, v]) => `<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>`).join(''))}
+  <p class="body">Don&rsquo;t:</p>
+  <ul class="lg-donts">${COBRAND_DONTS.map(d => `<li>${esc(d)}</li>`).join('')}</ul>
   <h3 class="tok-h3" id="favicon">Favicon</h3>
   <p class="body">The four files in <code>logo/favicon/</code> are The Splash in its own colours, centred with even padding: <code>favicon.ico</code>, <code>favicon-32.png</code>, <code>favicon-180.png</code> (white ground) and <code>favicon-512.png</code>. Rebuild them with <code>node favicons.mjs</code>. Which tag uses which file, and where <code>/favicon.ico</code> must answer, is in the <a href="../guidelines/page-title-favicon/index.html">Page title and favicon</a> guideline.</p>
   <h3 class="tok-h3">Don&rsquo;t</h3>
@@ -3158,6 +3399,16 @@ function renderLogoPage() {
   .lg-donts{margin:0;padding-left:20px;font-size:14px;line-height:1.8;color:var(--aha-text-default)}
   .lockup-demo{display:flex;flex-wrap:wrap;align-items:center;gap:24px 40px;padding:24px;margin:12px 0;border:1px solid var(--aha-border);border-radius:8px}
   .lockup-demo--dark{background:var(--aha-bg-dark);border-color:var(--aha-bg-dark)}
+  .cobrand-demo{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin:12px 0}
+  .cobrand-tile{padding:32px 24px 16px;border:1px solid var(--aha-border);border-radius:8px;background:#fff}
+  .cobrand-tile p{margin:20px 0 0;font-size:13px;color:var(--aha-text-secondary)}
+  .cobrand-tile--pink{background:var(--aha-color-primary);border-color:var(--aha-color-primary)}
+  .cobrand-tile--pink p{color:var(--aha-text-inverse)}
+  .cobrand-row{display:flex;align-items:center;justify-content:center;gap:28px}
+  .cobrand-logo{height:32px;width:auto}
+  .cobrand-x{font-size:24px;line-height:1;color:var(--aha-text-secondary)}
+  .cobrand-partner{font-size:32px;line-height:1;font-weight:600;color:var(--aha-text-secondary)}
+  .cobrand-tile--pink .cobrand-x,.cobrand-tile--pink .cobrand-partner{color:var(--aha-text-inverse)}
   .lg-pair{gap:12px}
   .lg-pair figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:6px}
   .lg-pair img{width:40px;height:40px}
@@ -3230,7 +3481,7 @@ const expandMarketingAssets = (b) => {
 /* marketing sections — loaded before any page renders so the Websites tab lists them everywhere.
    Absent-safe: no marketing/ dir → no tab/pages/feed. */
 MARKETING = existsSync(MDIR)
-  ? readdirSync(MDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(MDIR, f)))).map(composeMarketingComponent).map(bakeMarketingReviews).map(composeMarketingLayouts).map(expandMarketingData).map(expandMarketingAssets).sort((a,b)=>a.name.localeCompare(b.name))
+  ? readdirSync(MDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(MDIR, f)))).map(composeMarketingComponent).map(bakeMarketingReviews).map(bakeMarketingOptions).map(composeMarketingLayouts).map(expandMarketingData).map(expandMarketingAssets).sort((a,b)=>a.name.localeCompare(b.name))
   : [];
 /* audience library — a single-page area loaded from its data file. Absent-safe: no
    audience/library.json → no Audience tab/page. */
@@ -3382,6 +3633,13 @@ writeFileSync(join(root, 'lib', 'marketing-breakpoints.js'),
   `export const MARKETING_MIN_WIDTHS = ${JSON.stringify([...marketingMinWidths].sort((a, b) => a - b))};\n`);
 console.log(`  ✓ lib/marketing-breakpoints.js — ${marketingMinWidths.size} marketing min-width breakpoints`);
 
+const removedMarketingClasses = JSON.parse(readFileSync(join(MDIR, 'data', 'removed-layouts.json'), 'utf8')).classes.slice().sort();
+writeFileSync(join(root, 'lib', 'marketing-removed-layouts.js'),
+  `// ${PKGNAME}/screen-lint — Marketing section and layout classes earlier releases shipped and the DS no longer has (generated by generate.mjs from marketing/data/removed-layouts.json; do not edit by hand).\n` +
+  `// screen-lint --surface=website fails a page that still uses one.\n` +
+  `export const MARKETING_REMOVED_CLASSES = ${JSON.stringify(removedMarketingClasses)};\n`);
+console.log(`  ✓ lib/marketing-removed-layouts.js — ${removedMarketingClasses.length} removed Marketing classes`);
+
 /* Ship the real component modules INTO the site (dist/lib) so a doc-page preview can
    ESM-import the SHIPPED element (../lib/<name>.js) — resolves both locally and on
    GitHub Pages under the project path. Without this, lib/ isn't deployed and every
@@ -3484,6 +3742,7 @@ const indexLines = [
   `>   import { lintHtml } from '@ahaslides-product/design/screen-lint';`,
   `>   lintHtml(html, { surface: 'product' | 'canvas' }) → { findings: [{ rule, line, message, severity }] }`,
   '>   Opt out per line, per rule: ds-lint-allow: <rule-id>[,<rule-id>] (<reason>) — a bare ds-lint-allow suppresses nothing and warns.',
+  '>   A DS gap is never an opt-out reason: before writing ds-lint-allow (DS gap) or hand-assembling what a DS component does, read that component\'s agent.json at the LATEST release (top of CHANGELOG.md) and bump your pinned version; what is still missing is added to the DS (contract + lib/, released), never built in the consumer.',
   '',
   ...routeLines(ENVIRONMENTS, SITE),
   ...patternIndexLines(),
@@ -3491,6 +3750,7 @@ const indexLines = [
   '',
 ];
 const fullDocs = [];
+const libraryIndexLines = [];
 for (const c of contracts) {
   const d = join(OUT, c.slug); mkdirSync(d, { recursive: true });
   if (c.docPage) {
@@ -3506,10 +3766,11 @@ for (const c of contracts) {
   writeFileSync(join(d, `${c.slug}.agent.json`), agentJson);       // alongside the doc page
   writeFileSync(join(OUT, `${c.slug}.agent.json`), agentJson);     // flat canonical URL agents fetch
   writeFileSync(join(OUT, `${c.slug}.llms.txt`), renderLlms(c));
-  indexLines.push(`- [${c.name}](${c.slug}/${c.slug}.md) — ${c.tier}${environmentTag(c)} — ${c.summary}${settingsHubPointer(c) ? ' (Settings pattern: read the Settings hub first)' : ''}`);
+  (c.libraryArea ? libraryIndexLines : indexLines).push(`- [${c.name}](${c.slug}/${c.slug}.md) — ${c.tier}${environmentTag(c)} — ${c.summary}${settingsHubPointer(c) ? ' (Settings pattern: read the Settings hub first)' : ''}`);
   fullDocs.push(md);
   console.log(`  ✓ ${c.slug}: index.html · ${c.slug}.md · ${c.slug}.agent.json · ${c.slug}.llms.txt`);
 }
+if (libraryIndexLines.length) indexLines.push('', '## Canvas and Audience Library components', '', ...libraryIndexLines);
 writeFileSync(join(OUT, 'llms.txt'), indexLines.join('\n') + '\n');
 // Full-context feed ends with the changelog, so an agent reading the whole thing knows what
 // changed per release (and which version these docs describe).

@@ -56,6 +56,6 @@ const options = computed(() => slideProps.value?.options ?? [])
 /* legible fixed-px roles — this fixture isolates C12, not C13 */
 .prompt { font-size: 32px; font-weight: 600; }
 .share { font-size: 24px; font-weight: 600; font-variant-numeric: tabular-nums; }
-.bar-track { display: block; height: 1.6vh; background: color-mix(in srgb, currentColor 10%, transparent); border-radius: 4px; }
-.bar-fill { display: block; height: 100%; border-radius: 4px; }
+.bar-track { display: block; height: 1.6vh; background: color-mix(in srgb, currentColor 10%, transparent); border-radius: 999px; }
+.bar-fill { display: block; height: 100%; border-radius: 999px; }
 </style>

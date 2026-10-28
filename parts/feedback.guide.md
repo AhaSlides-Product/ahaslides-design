@@ -16,7 +16,7 @@ reading as one product.
 
 | Surface | Use for |
 | --- | --- |
-| **Toast** (fixed bottom-right toast) | A transient, non-actionable confirmation that auto-dismisses (~3s) |
+| **Toast** (fixed bottom-right pill) | A transient, non-actionable confirmation that auto-dismisses (~3s) |
 | **Alert** (inline banner) | A persistent, in-context message the user may need to act on; stays in layout |
 | **Inline result panel** (correct/incorrect) | In-place result feedback shown after an answer |
 | **CSAT thumbs widget** | A satisfaction (thumbs up/down) prompt with an optional follow-up |
@@ -24,11 +24,11 @@ reading as one product.
 ## Toasts (transient confirmations)
 
 - Use a toast only for a **transient, non-actionable confirmation** ("Thanks for your feedback", "Copied").
-- Position: a small fixed toast at the **viewport bottom-right**; it rises up from below so it never shifts surrounding layout.
+- Position: a small fixed pill at the **viewport bottom-right**; it rises up from below so it never shifts surrounding layout.
 - **Auto-dismiss after ~3s** (the cross-product convention); **clear the timer on unmount**.
 - Carry `role="status"` so it is announced without stealing focus.
 - **Portal to `document.body`** via `createPortal(node, document.body)`. A `position: fixed` toast is clipped by any ancestor that establishes a containing block (`transform`, `filter`, `backdrop-filter`, `will-change`); portalling keeps it truly viewport-fixed from every mount point.
-- For ordinary app-level success/info toasts, prefer AntD's `message` / `notification` APIs; reach for the bespoke fixed toast only when you need the specific bottom-right placement and custom content.
+- For ordinary app-level success/info toasts, prefer AntD's `message` / `notification` APIs; reach for the bespoke fixed pill only when you need the specific bottom-right placement and custom content.
 
 ## Alert (inline banner)
 

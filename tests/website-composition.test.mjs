@@ -78,6 +78,32 @@ test('W15: every content card link opens in a new tab with noopener and hidden t
   assert.doesNotMatch(page, /target="_blank"/);
 });
 
+test('W15: section link-out buttons and off-site Footer links open in a new tab, AhaSlides links do not', () => {
+  for (const [slug, label] of [['testimonials', 'Read customer stories'], ['faq', 'Read the docs']]) {
+    const html = readJson(`marketing/${slug}.json`)[slug === 'faq' ? 'html' : 'layouts'];
+    const markup = typeof html === 'string' ? html : html.map((layout) => layout.html).join('');
+    assert.match(markup, new RegExp(`target="_blank" rel="noopener">${label}<span class="aha-[a-z]+__visually-hidden"> \\(opens in a new tab\\)`), label);
+  }
+  const footer = readJson('marketing/footer.json').html;
+  for (const anchor of footer.match(/<a [^>]*>/g)) {
+    const url = new URL(anchor.match(/href="([^"]+)"/)[1]);
+    const leaves = url.protocol === 'https:' && (!/(^|\.)ahaslides\.com$/.test(url.hostname) || ['help.ahaslides.com', 'status.ahaslides.com'].includes(url.hostname));
+    assert.equal(/target="_blank" rel="noopener"/.test(anchor), leaves, anchor);
+  }
+  assert.match(footer, /status\.ahaslides\.com\/" target="_blank" rel="noopener">System status<span class="aha-footer__visually-hidden">/);
+});
+
+test('W19: at most three testimonial cards and balanced quote lengths in every shipped layout', () => {
+  const quoteLengths = (html) => [...html.matchAll(/<blockquote[^>]*><p>(.*?)<\/p>/g)].map((match) => match[1].length);
+  for (const layout of readJson('marketing/testimonials.json').layouts) {
+    const cards = (layout.html.match(/<(figure|article)[^>]*class="aha-testimonials__card/g) || []).length;
+    assert.ok(cards <= 3, `${layout.slug}: ${cards} cards`);
+    const lengths = quoteLengths(layout.html);
+    if (lengths.length > 1) assert.ok(Math.max(...lengths) <= 1.5 * Math.min(...lengths), `${layout.slug}: ${lengths}`);
+    assert.ok(lengths.every((length) => length <= 160 + 30), `${layout.slug}: ${lengths}`);
+  }
+});
+
 test('the Cards grid and the Features icon grid balance by item count', () => {
   for (const css of [cardsCss, featuresCss]) {
     assert.match(css, /:has\(>:first-child:last-child\)\{grid-template-columns:minmax\(0,36rem\)/);
@@ -208,15 +234,23 @@ test('W17: the FAQ title centres itself and symmetric headers carry the centre c
 });
 
 test('W18: every content section ships one call to action, aligned with its heading', () => {
-  for (const slug of ['alternating-screenshots', 'icon-grid', 'tabs-screenshots']) {
+  for (const slug of ['alternating-screenshots', 'icon-grid']) {
     assert.match(features.layouts.find((layout) => layout.slug === slug).html, /<div class="aha-features__cta"><aha-button variant="primary" size="xl" href="#sign-up">Sign up<\/aha-button><\/div>/, slug);
   }
-  assert.match(readJson('marketing/faq.json').html, /aha-faq__cta"><aha-button variant="secondary" size="xl" href="#docs">Read the docs/);
+  for (const slug of ['icon-list-photo', 'tabs-screenshots']) {
+    const html = features.layouts.find((layout) => layout.slug === slug).html;
+    assert.match(html, /<div class="aha-features__column">[\s\S]*<div class="aha-features__cta aha-features__cta--start"><aha-button variant="primary" size="xl" href="#sign-up">Sign up<\/aha-button><\/div>\n      <\/div>\n      <div class="aha-features__(visual|tabpanels)">/, slug);
+    assert.doesNotMatch(html, /\n    <div class="aha-features__cta">/, slug);
+  }
+  assert.match(featuresCss, /\.aha-features__cta--start\{justify-content:flex-start\}/);
+  assert.ok(featuresCss.indexOf('.aha-features__cta--start{') > featuresCss.indexOf('.aha-features__cta{display:flex'), 'start modifier must follow the base rule to win');
+  assert.ok(testimonialsCss.indexOf('.aha-testimonials__cta--start{') > testimonialsCss.indexOf('.aha-testimonials__cta{display:flex'), 'start modifier must follow the base rule to win');
+  assert.match(readJson('marketing/faq.json').html, /aha-faq__cta"><aha-button variant="secondary" size="xl" href="#docs" target="_blank" rel="noopener">Read the docs/);
   assert.match(featuresCss, /\.aha-features__cta\{display:flex;flex-wrap:wrap;justify-content:center/);
   assert.match(numbersCss, /\.aha-numbers__cta\{display:flex;flex-wrap:wrap;justify-content:center/);
   assert.match(testimonialsCss, /\.aha-testimonials__cta--start\{justify-content:flex-start\}/);
   for (const slug of ['faq', 'features', 'numbers', 'testimonials']) {
-    assert.doesNotMatch(marketingFile(slug), /href=\\"#(sign-up|case-studies|docs)\\"[^>]*target=/, slug);
+    assert.doesNotMatch(marketingFile(slug), /href=\\"#sign-up\\"[^>]*target=/, slug);
   }
   assert.doesNotMatch(sectionPage('fail-w18-missing-section-cta'), /aha-faq__cta/);
 });
@@ -242,6 +276,7 @@ test('W9: the motion script reveals with a stagger, drifts photos, counts number
   const script = readFileSync(new URL('../lib/marketing-motion.js', import.meta.url), 'utf8');
   assert.match(script, /STAGGER_MILLISECONDS = 80/);
   assert.match(script, /PARALLAX_RANGE_PIXELS = 48/);
+  assert.match(script, /PARALLAX_RANGE_FRACTION = 0\.06/);
   assert.match(script, /--aha-motion-viz-enter/);
   assert.match(script, /--aha-ease-out/);
   assert.match(script, /prefers-reduced-motion: reduce/);
@@ -253,6 +288,30 @@ test('W9: the motion script reveals with a stagger, drifts photos, counts number
   for (const entry of evals.filter((item) => item.label === 'good-control')) {
     assert.match(sectionPage(entry.files[0].path.split('/')[1]), /lib\/marketing-motion\.js/);
   }
+});
+
+test('W9: parallax moves the image inside a clipping frame, never the frame, and never a screenshot', () => {
+  const script = readFileSync(new URL('../lib/marketing-motion.js', import.meta.url), 'utf8');
+  const selector = script.match(/const PARALLAX_SELECTOR = '([^']+)'/)[1];
+  assert.deepEqual(selector.split(', '), ['.aha-features__frame > img', '.aha-testimonials__frame > img', '.aha-numbers__frame > img']);
+  const style = script.match(/const STYLE = `([\s\S]*?)`;/)[1];
+  assert.match(style, /\[data-aha-parallax\]\{transform:translate3d\(0,var\(--aha-parallax-y,0px\),0\) scale\(calc\(\$\{PARALLAX_OVERSCAN\} \* var\(--aha-picture-enter\)\)\)/);
+  assert.match(style, /\.aha-motion-picture\{opacity:0;--aha-picture-enter:\$\{PICTURE_ENTER_SCALE\}/);
+  assert.match(script, /PICTURE_ENTER_SCALE = 1\.08/);
+  assert.match(script, /target\.parentElement\.getBoundingClientRect/);
+  for (const [file, css] of [['features', featuresCss], ['testimonials', testimonialsCss], ['numbers', numbersCss]]) {
+    const frameSelector = `.aha-${file}__frame`;
+    const frame = declarations(css, frameSelector);
+    assert.equal(frame.overflow, 'hidden', `${file} frame clips the image`);
+    assert.equal(frame.transform, undefined, `${file} frame is not transformed`);
+  }
+  for (const layout of features.layouts) {
+    const framed = layout.html.includes('aha-features__frame');
+    assert.equal(framed, layout.slug === 'icon-list-photo', layout.slug);
+    if (framed) assert.doesNotMatch(layout.html, /aha-features__photo--(fill|pink-frame)/);
+  }
+  assert.equal(declarations(testimonialsCss, '.aha-testimonials__photo').height, '100%');
+  assert.equal(declarations(numbersCss, '.aha-numbers__image').height, '100%');
 });
 
 test('W9: the motion script imports as a no-op outside a browser and keeps the final number for screen readers and print', async () => {

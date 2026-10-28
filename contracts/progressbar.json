@@ -13,7 +13,7 @@
   "tokensUsed": [
     "color-primary",
     "gray-30",
-    "radius-xs",
+    "radius-pill",
     "motion-slow",
     "ease-out",
     "font-product"
@@ -29,7 +29,7 @@
     },
     {
       "label": "Track",
-      "value": "line height 8 (small 6) · radius 4 · #F1F1F1"
+      "value": "line height 8 (small 6) · radius pill · #F1F1F1"
     },
     {
       "label": "Fill",
