@@ -975,8 +975,8 @@
         },
         {
           "id": "C4",
-          "title": "Drawers use placement=right and responsive width",
-          "test": "**Rule.** Drawers default to `placement=\"right\"` with **responsive width** `width={isMobile ? '100%' : <fixed>}` (e.g. `720`) driven by `useIsMobile()` — full-bleed on mobile, fixed panel on desktop. The width is a **prop**, not gated through CSS."
+          "title": "Side drawers use placement=right and responsive width; list-launched surfaces are a bottom sheet",
+          "test": "**Rule.** Side drawers default to `placement=\"right\"` with **responsive width** `width={isMobile ? '100%' : <fixed>}` (e.g. `720`) driven by `useIsMobile()` — full-bleed on mobile, fixed panel on desktop. The width is a **prop**, not gated through CSS. A launch surface opened from a list of objects (one click on a deck) is instead a **bottom sheet**: `<aha-drawer placement=\"bottom\">` in every framework — full width, 48px top gap that closes on click, 16px top corners, grab handle, Esc, ✕ and swipe down close it, full page under 768px. Never a sheet hand-built from a fixed `div`."
         },
         {
           "id": "C5",

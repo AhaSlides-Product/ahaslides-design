@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.512.0 — 2026-10-28
+## 0.523.0 — 2026-10-28
 ### Changed
 - Header: every layout has one button, the primary call to action. The white Learn more buttons and the Sign up with Google button on Split with form are gone.
 - Header → Page header: its Get started button is always there; the Buttons switch is removed, so every Header layout has exactly one call to action (a button, or the email form on Hero split, Hero stacked, Hero card and Hero split form). On Hero split and Hero stacked the Call to action choice is now named Button.
@@ -33,6 +33,14 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Header → Hero stacked, Gallery bento grid and Gallery tabs: the picture under the copy sizes to the window, so the section no longer needs a long scroll at 1440 × 900. Hero stacked's screenshot is never cropped: its width is `min(100%, clamp(300px, 100svh − 576px, 400px) × 16/9)`, all from `--aha-space-100` and `--aha-space-96`. The bento's height is `clamp(300px, 100svh − 384px, 500px)` and the tab photo's `clamp(300px, 100svh − 480px, 500px)`, both photos with object-fit cover. Phones are unchanged (full width). Other Header layouts already fit one window or, like Gallery masonry, must not crop.
 - `lib/marketing-motion.js`: the carousel's `[data-aha-gallery-prev]` and `[data-aha-gallery-next]` handlers and the `data-aha-gallery="marquee"` Pause handler are removed, as no layout uses them any more; the marquee rows drop that attribute. A page that still has those buttons keeps them on screen, but they do nothing.
 - Revert: revert the PR; the second buttons, badge, Pause buttons, carousel arrows, their script handlers and centred stars come back (#429)
+
+## 0.517.0 — 2026-10-28
+### Added
+- Drawer (web component): `placement="bottom"` is a bottom sheet for a surface launched from a list of objects. Full width, a 48px gap above it (`--aha-drawer-top-gap`) that closes on click, 16px top corners, a 40 × 4 grab handle (`part="handle"`), slide-up with an upward shadow, and a full page with no gap or radius under 768px. Swipe down on the handle or header (touch and pen) closes it past 25% of its height or faster than 0.5 px/ms, otherwise it snaps back; `close` has a new `detail.source` of `"swipe"`. New `slot="subtitle"` under the title and `slot="actions"` between the title and the ✕, both hidden when empty and usable by side drawers too. `width` and `size` are ignored for bottom; an unknown placement keeps the right-side look.
+- Drawer docs, OVERLAY-05 and its anti-slop criterion: side drawers stay `placement="right"`; a list-launched surface is the bottom sheet, never a fixed `div`. New pass and fail eval cases. workspace-app joins the consumer bump list (#436)
+### Changed
+- Drawer (web component): Esc and Tab now leave an open popup inside the drawer (an `aria-expanded="true"` trigger, or an open `aha-select`, `aha-dropdown`, `aha-menu` or `aha-popover`) and a key pressed in an overlay portalled outside it (an antd Modal or DatePicker) to handle their own keys, so Esc closes the menu, not the drawer behind it. This also applies to right and left drawers (#436)
+- Revert: revert the PR; nothing renders `placement="bottom"` until an app asks for it, and an unknown placement falls back to the right-side drawer. The keyboard change is the only shared behaviour; reverting it restores Esc closing the drawer first (#436)
 
 ## 0.509.1 — 2026-10-28
 ### Fixed
