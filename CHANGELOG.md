@@ -28,7 +28,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Numbers → Simple with actions 02: the secondary Demo button is gone; Get started stays.
 - Numbers → Split image 02: the image sits edge to edge in its slot with no pale pink or white card around it; the `aha-numbers__card` rules are removed.
 - Marketing pages: a layout can list `formerSlugs`; each renders an anchor before the layout heading so an old link keeps working after a merge.
-- Revert: revert the PR; the five Numbers layouts, both buttons and the picture card come back (#NNN)
+- Revert: revert the PR; the five Numbers layouts, both buttons and the picture card come back (#428)
 
 ## 0.509.1 — 2026-10-28
 ### Fixed
