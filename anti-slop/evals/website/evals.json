@@ -937,16 +937,34 @@
           "path": "fixtures/sections.css"
         }
       ],
-      "label": "good-example",
-      "notes": "Guards W6 against over-firing: a Hero image marquee of screenshots of different ratios with the Fit media switch on, so each tile is uncropped at its own ratio, with no pink frame.",
+      "label": "good-control",
+      "notes": "Good control for the Hero image marquee Fit media switch: a white Hero image marquee of screenshots of different ratios, uncropped at their own ratio, then the usual body with no Logos strip. Guards W6 against over-firing.",
       "expected_output": "W6 PASSes: the Hero image marquee carries aha-header-section-hero-image-marquee--fit-media, so every screenshot sits uncropped, unpadded and unletterboxed at its own ratio in a tile of one fixed height with width and height equal to the file's size; the different ratios need no pink frame. The page has no Logos strip, so the looping photo band is not next to one (W9). Overall: OK TO SHIP.",
       "assertions": [
-        "W6 is marked PASS",
+        "Overall verdict is OK TO SHIP",
+        "No criterion is marked FAIL",
         "Does not ask for the pink frame or for the screenshots to share one ratio"
       ],
       "expected": {
+        "overall": "OK_TO_SHIP",
         "criteria": {
-          "W6": "PASS"
+          "W1": "PASS",
+          "W2": "PASS",
+          "W3": "PASS",
+          "W4": "PASS",
+          "W5": "PASS",
+          "W6": "PASS",
+          "W7": "PASS",
+          "W9": "PASS",
+          "W11": "PASS",
+          "W12": "PASS",
+          "W13": "PASS",
+          "W14": "PASS",
+          "W15": "PASS",
+          "W16": "PASS",
+          "W17": "PASS",
+          "W18": "PASS",
+          "W19": "PASS"
         }
       },
       "source": {
