@@ -22,6 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.539.0 — 2026-10-28
+### Added
+- `<aha-number-with-unit>`: `increase-label` and `decrease-label` set the stepper buttons' accessible names (defaults `Increase` and `Decrease`); `aria-label`, `aria-labelledby` or `label` now name the inner input. When a name is given the inner input is the one `spinbutton` and the host drops its role, so a screen reader announces it once; with no name the host stays the spinbutton as before. (#448)
+### Fixed
+- `<aha-number-with-unit>` unit text and `<aha-counted-textarea>` counter now use `--aha-text-secondary` (#4A4A4A, 8.9:1 on white, 8.3:1 on the read-only fill); before they used `--aha-text-placeholder` (2.84:1) and `--aha-text-tertiary` (3.45:1), below the 4.5:1 AA minimum. Token values are unchanged. The antd `textarea-counted.css` counter is not part of this change. (#448)
+- Revert: revert the PR; it restores the grey unit and counter and the fixed English stepper labels (#448)
+
 ## 0.538.1 — 2026-10-28
 ### Changed
 - CSAT: the chosen thumb is now drawn in the Button's Tertiary active ink (`--aha-text-link-hover`, #DB005B, 4.66:1 on white) on the accent fill, with or without `confirmation`; before, only a CSAT with `confirmation` showed a coloured thumb (colour-primary #E70E68, now aligned to the same token) and every other CSAT kept it dark. Hover on the chosen thumb keeps the same ink; focus ring, rest and disabled are unchanged (#447)
