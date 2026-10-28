@@ -29,7 +29,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Header → Hero image marquee and Gallery marquee rows: the Pause button is gone, like the Logos strip. The rows still pause while hovered or focused and stand still under reduced motion, in print and under `data-aha-motion="off"`. W9 and its criterion now say photo marquees carry no Pause button.
 - Header → Gallery carousel: the Previous and Next buttons are gone, so every slider uses the same Carousel dots as Hero slideshow; swipe, scroll and arrow keys still move it.
 - Header: on centred layouts the G2 stars and score line up on the left of the G2 block instead of each being centred.
-- Revert: revert the PR; the second buttons, badge, Pause buttons, carousel arrows and centred stars come back (#NNN)
+- Revert: revert the PR; the second buttons, badge, Pause buttons, carousel arrows and centred stars come back (#429)
 
 ## 0.509.1 — 2026-10-28
 ### Fixed
