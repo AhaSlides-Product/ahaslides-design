@@ -196,3 +196,19 @@ test('every section pads its top and bottom by the Section level at every width,
     }
   }
 });
+
+test('two neighbouring sections on one surface show one Section space: the token layer drops the second one\'s top padding', () => {
+  const tokens = readFileSync(new URL('../lib/tokens.css', import.meta.url), 'utf8');
+  const adjacency = tokens.split('\n').filter((line) => line.startsWith(':is(') && line.endsWith('>[class*="__inner"]{padding-top:0}'));
+  assert.equal(adjacency.length, 3, 'one rule each for White, Accent and Vivid Pink');
+  const [white, accent, brand] = adjacency.map((line) => line.slice(0, line.indexOf('>[class')).split(')+:is('));
+  for (const root of ['aha-numbers', 'aha-features', 'aha-testimonials', 'aha-faq', 'aha-footer-banner', 'aha-pricing', 'aha-comparison', 'aha-logos', 'aha-header-section-hero-split']) {
+    assert.match(white[0], new RegExp(`\\.${root}[:,)]`), `${root} counts as the section before`);
+    assert.match(white[1], new RegExp(`\\.${root}[:,)]`), `${root} drops its top padding after a White section`);
+  }
+  assert.match(white[0], /\.aha-numbers:not\(\.aha-numbers--accent,\.aha-numbers--brand\)/);
+  assert.match(accent[1], /\.aha-features--accent/);
+  assert.match(brand[1], /\.aha-numbers--brand/);
+  assert.doesNotMatch(white[1], /\.aha-footer[:,)]/, 'the Footer keeps its top padding below its divider');
+  assert.doesNotMatch(white[0] + white[1], /\.aha-header[:,)]/, 'the Navigation is not a section');
+});

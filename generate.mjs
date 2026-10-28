@@ -375,7 +375,43 @@ function tokenVars(t) {
   L.push(sectionVars('desktop'));
   /* unnamed @container: every element steps the levels by its nearest container's width, so no section switches them itself */
   const sectionSteps = [['tablet', 767], ['phone', 479]].map(([step, width]) => `@container (max-width:${width}px){:where(*){${sectionVars(step)}}}`).join('\n');
-  return `:root{\n  ${L.join('\n  ')}\n}\n${sectionSteps}`;
+  return `:root{\n  ${L.join('\n  ')}\n}\n${sectionSteps}${sectionAdjacencyCss()}`;
+}
+
+/* The Footer's top rule is a divider, so it keeps its top padding after any surface. */
+const SECTIONS_KEEPING_TOP_SPACE = new Set(['footer']);
+const SECTION_SURFACE_MODIFIERS = ['accent', 'brand'];
+function marketingSectionSurfaces() {
+  const rootClassOf = (html) => (String(html || '').match(/^\s*<\w+[^>]*\bclass="([\w-]+)/) || [])[1];
+  const sections = [];
+  for (const b of MARKETING) {
+    const css = (b.baseCss || '') + (b.css || '') + (b.layouts || []).map(layout => layout.css || '').join('');
+    if (!css.includes('--aha-section-space-block')) continue;
+    const layoutRoots = b.stateClass ? [{ root: b.stateClass, states: b.states }]
+      : (b.layouts || []).some(layout => layout.states) ? b.layouts.map(layout => ({ root: String(layout.class).split(' ')[0], states: layout.states }))
+      : [{ root: rootClassOf(b.html), states: b.states }];
+    const classText = (b.layouts || []).map(layout => layout.class || '').join(' ') + ' ' + (b.html || '');
+    for (const { root, states } of layoutRoots) {
+      if (!root) continue;
+      const surfaces = new Set((states || []).map(state => state.modifier).filter(Boolean));
+      for (const modifier of SECTION_SURFACE_MODIFIERS) if (classText.includes(`${root}--${modifier}`)) surfaces.add(modifier);
+      if (!sections.some(section => section.root === root)) sections.push({ root, surfaces: [...surfaces], keepsTopSpace: SECTIONS_KEEPING_TOP_SPACE.has(b.slug) });
+    }
+  }
+  return sections;
+}
+/* Two neighbouring sections on one surface read as one space, so the second drops its top Section padding;
+   a surface change is the divider, so both sides keep theirs. Direct siblings only. */
+function sectionAdjacencyCss() {
+  const sections = marketingSectionSurfaces();
+  if (!sections.length) return '';
+  const onSurface = (surface, list) => list.filter(section => surface ? section.surfaces.includes(surface) : true)
+    .map(({ root, surfaces }) => surface ? `.${root}--${surface}` : surfaces.length ? `.${root}:not(${surfaces.map(modifier => `.${root}--${modifier}`).join(',')})` : `.${root}`);
+  const followers = sections.filter(section => !section.keepsTopSpace);
+  return ['', ...SECTION_SURFACE_MODIFIERS].map(surface => {
+    const before = onSurface(surface, sections), after = onSurface(surface, followers);
+    return before.length && after.length ? `\n:is(${before.join(',')})+:is(${after.join(',')})>[class*="__inner"]{padding-top:0}` : '';
+  }).join('');
 }
 
 /* ===== structural shell styles — AntD docs IA (sticky header + left nav + main),
