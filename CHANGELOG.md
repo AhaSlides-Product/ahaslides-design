@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.510.0 — 2026-10-28
 ### Changed
-- Testimonials → Simple left aligned: the section has no button any more; it ends on the quote, name and role. Rule and criterion W18 list it as exempt from the one-call-to-action rule, beside the Logos strip. The unused `aha-testimonials__actions` rule is removed from the section CSS.
+- Testimonials → Simple left aligned: the section has no button any more; it ends on the quote, name and role. Rule and criterion W18 list it as exempt from the one-call-to-action rule, beside the Logos strip. The unused `aha-testimonials__actions` rule is removed from the section CSS and from the website eval fixture `sections.css`.
 - Revert: revert the PR; the Read customer stories button comes back under the quote (#427)
 
 ## 0.509.1 — 2026-10-28
