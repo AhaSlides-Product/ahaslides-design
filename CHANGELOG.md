@@ -28,6 +28,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Changed
 - `<aha-option-row>` right padding is 4px (was 10px): padding is now 3 4 3 10, and the focused correct row 2 3 2 9 so nothing shifts. ([#463](https://github.com/AhaSlides-Product/ahaslides-design/pull/463))
 
+## 0.563.1 — 2026-10-29
+### Removed
+- Website rule W20 is retired, with every height limit in the website rules: the Features band cap (at most 800 px tall at 1440), the Navigation plus Hero within 720 px at 1280 x 720, and the Hero line "visible without scrolling at 1280 by 720". Criteria W1 to W19 keep their ids. The W20 eval and its fixture are removed and the evals renumbered. ([#467](https://github.com/AhaSlides-Product/ahaslides-design/pull/467))
+- Revert: revert the PR; only website guideline text, one criterion, one eval and its fixture change
+
 ## 0.563.0 — 2026-10-29
 ### Removed
 - Website > Marketing > Hero: the Hero stacked, Hero bento collage and Gallery bento grid layouts, with the Video slot that only Hero stacked had. Their classes join `marketing/data/removed-layouts.json`, so website rule W1 fails a page that still uses them. The Hero page keeps 11 layouts. (#468)
