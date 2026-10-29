@@ -203,8 +203,8 @@
         "marketing-assets/image-placeholder.svg",
         "marketing/features.json and marketing/cards.json — the Vivid Pink image frame",
         "marketing/numbers.json and marketing/testimonials.json image slots",
-        "marketing/hero.json — the multi-image heroes' tilted photos, photo frame and bento collage",
-        "marketing/hero.json — the Gallery bento grid and masonry cells; marketing/features.json — the Sticky stack photos",
+        "marketing/hero.json — the multi-image heroes' tilted photos and photo frame",
+        "marketing/hero.json — the Gallery masonry cells; marketing/features.json — the Sticky stack photos",
         "icons/registry.json"
       ]
     },
