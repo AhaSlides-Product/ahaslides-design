@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.554.0 — 2026-10-29
+## 0.555.0 — 2026-10-29
 ### Added
 - Brand guidelines v2.3 (29 October 2026, final) is published at `https://design.ahaslides.io/brand/ahaslides-brand-guidelines-v2.3.pdf`. (#459)
 
@@ -31,6 +31,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ### Changed
 - Brand voice rules: the lede names v2.3 and links the PDF, new rule 16.4 sets the three sources of truth (design system, voice rules online, the PDF) and that the first two win. The colour rules lede carries the same precedence line. (#459)
+
+## 0.554.0 — 2026-10-29
+### Changed
+- Website > Marketing > Features, Tabs with screenshots: the tab list now stretches to the height of the image slot instead of being centred against it. The left column fills the grid row, the tab list takes the space above the call to action and shares it between the tabs, so the rail runs the full height of the image. Every other value (rail width and colours, padding, gaps, tab text, the 4:3 slot, the 991 px stack) is unchanged, and the stacked phone layout keeps its natural height. The removed Compact accordion layout stays removed (#453)
+- Revert: revert the PR; only the three `tabs-screenshots` CSS declarations and its summary change in `marketing/features.json` (DSN-986)
 
 ## 0.553.0 — 2026-10-29
 ### Fixed
