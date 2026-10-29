@@ -22,10 +22,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.553.1 — 2026-10-29
+## 0.554.1 — 2026-10-29
 ### Fixed
 - Form controls (`aha-counted-input`, `aha-counted-textarea`, `aha-input`, `aha-number-with-unit`, `aha-select`, `aha-autocomplete`, `aha-color-picker`, `aha-segmented`, `aha-tabs`, `aha-rate`, `aha-radio`, `aha-checkbox`, `aha-switch`, `aha-card-select`, `aha-mode-field`, `aha-option-row`, `aha-answer-list`, `aha-rank-list`, `aha-scale-slider`, `aha-audience-image-upload`): a property such as `value`, `checked` or `options` set on the element before its tag was defined used to sit on the element as an own property and shadow the control's setter, so the inner field stayed out of sync and the first keystroke after a re-render wiped the typed text. Each control now moves such a property back through its setter when it connects, through one shared `upgrade-properties.js` helper (#460)
 - Revert: revert the PR; a property set before the tag is defined is ignored again, so set the attribute instead (#460)
+
+## 0.554.0 — 2026-10-29
+### Changed
+- Website > Marketing > Features, Tabs with screenshots: the tab list now stretches to the height of the image slot instead of being centred against it. The left column fills the grid row, the tab list takes the space above the call to action and shares it between the tabs, so the rail runs the full height of the image. Every other value (rail width and colours, padding, gaps, tab text, the 4:3 slot, the 991 px stack) is unchanged, and the stacked phone layout keeps its natural height. The removed Compact accordion layout stays removed (#453)
+- Revert: revert the PR; only the three `tabs-screenshots` CSS declarations and its summary change in `marketing/features.json` (DSN-986)
 
 ## 0.553.0 — 2026-10-29
 ### Fixed
@@ -47,8 +52,6 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Numbers, Centred: the stat row no longer pads 8 px above and below, so the space under the stats is exactly one Section level (#439)
 - Website guideline W2 and its anti-slop criterion: rewritten around the four levels, the one-Section-space rule between neighbouring sections and the Logos rule; a new W2 eval fails two White sections wrapped apart (#439)
 - Revert: revert the PR; the sections go back to their own padding values and breakpoints, the four tokens and the neighbouring-section rule are removed, and the Centred Numbers stats pad 8 px again (#439)
-
-
 
 ## 0.550.0 — 2026-10-29
 ### Changed
