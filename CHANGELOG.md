@@ -24,8 +24,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.569.0 — 2026-10-29
 ### Added
-- Button: the canvas close ✕ (DESY-402). `<aha-button variant="tertiary-deck" size="sm" icon-only corner>` is the 28 × 28 dismiss for a panel or overlay on the presenter canvas, glyph in the deck's secondary ink (76%) at rest and the full ink on a 5% wash on hover; on a photographic deck it is `secondary-deck` (white fill, dark glyph). The app close ✕ (xs) and the audience close ✕ (md) are unchanged. Canvas Library gets a Close button section (#NNN)
-- Icons: `system-thumb-up-down`, a thumb up and a thumb down side by side, for helpful or not-helpful feedback (#NNN)
+- Button: the canvas close ✕ (DESY-402). `<aha-button variant="tertiary-deck" size="sm" icon-only corner>` is the 28 × 28 dismiss for a panel or overlay on the presenter canvas, glyph in the deck's secondary ink (76%) at rest and the full ink on a 5% wash on hover; on a photographic deck it is `secondary-deck` (white fill, dark glyph). The app close ✕ (xs) and the audience close ✕ (md) are unchanged. Canvas Library gets a Close button section (#474)
+- Icons: `system-thumb-up-down`, a thumb up and a thumb down side by side, for helpful or not-helpful feedback (#474)
 
 ## 0.568.0 — 2026-10-29
 ### Added
