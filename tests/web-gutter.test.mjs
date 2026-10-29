@@ -205,12 +205,20 @@ test('two neighbouring sections on one surface show one Section space: the token
   assert.deepEqual(adjacency.filter((line) => line.includes(')+script+:is(')), direct.map((line) => line.replace(')+:is(', ')+script+:is(')), 'a snippet\'s trailing init script between two sections still collapses the gap');
   const [white, accent, brand] = direct.map((line) => line.slice(0, line.indexOf('>[class')).split(')+:is('));
   for (const root of ['aha-numbers', 'aha-features', 'aha-testimonials', 'aha-faq', 'aha-footer-banner', 'aha-pricing', 'aha-comparison', 'aha-logos', 'aha-header-section-hero-split']) {
-    assert.match(white[0], new RegExp(`\\.${root}[:,)]`), `${root} counts as the section before`);
+    assert.match(white[0], new RegExp(`\\.${root}[:,).]`), `${root} counts as the section before`);
+  }
+  for (const root of ['aha-numbers', 'aha-features', 'aha-testimonials', 'aha-faq', 'aha-footer-banner', 'aha-pricing', 'aha-comparison', 'aha-header-section-hero-split']) {
     assert.match(white[1], new RegExp(`\\.${root}[:,)]`), `${root} drops its top padding after a White section`);
   }
-  assert.match(white[0], /\.aha-numbers:not\(\.aha-numbers--accent\)/);
+  assert.doesNotMatch(white[1], /\.aha-logos[:,)]/, 'Logos joins the section above through its own rule');
+  assert.match(white[0], /\.aha-numbers:not\(\.aha-numbers--accent,\.aha-numbers--brand\)/, 'a Vivid Pink Numbers layout is not White');
+  assert.match(brand[0], /\.aha-numbers--brand/);
+  assert.match(white[0], /\.aha-header-section-page-header:not\([^)]*\)\.aha-header-section-page-header--no-tabs/, 'a Page header ending on its tab rule keeps the next section\'s top padding');
   assert.match(accent[1], /\.aha-features--accent/);
   assert.match(brand[1], /\.aha-header-section-hero-split--brand/);
   assert.doesNotMatch(white[1], /\.aha-footer[:,)]/, 'the Footer keeps its top padding below its divider');
   assert.doesNotMatch(white[0] + white[1], /\.aha-header[:,)]/, 'the Navigation is not a section');
+  const logos = tokens.split('\n').filter((line) => line.startsWith(':is(') && line.includes(')+:is(') && line.endsWith('>:first-child{margin-top:calc(var(--aha-section-space-group) - var(--aha-section-space-block));padding-top:0}'));
+  assert.equal(logos.length, 2, 'Logos pulls up to one Group after a White or Accent section only');
+  assert.match(logos[0].split(')+:is(')[1], /^\.aha-logos:not\(\.aha-logos--accent\)\)/);
 });

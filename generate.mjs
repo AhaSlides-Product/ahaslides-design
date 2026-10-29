@@ -380,6 +380,10 @@ function tokenVars(t) {
 
 /* The Footer's top rule is a divider, so it keeps its top padding after any surface. */
 const SECTIONS_KEEPING_TOP_SPACE = new Set(['footer']);
+/* Logos is the last group of a same-surface section above it; after a surface change it is a section of its own. */
+const SECTIONS_JOINING_THE_SECTION_ABOVE = new Set(['logos']);
+/* With tabs the Page header ends on its tab rule, a divider, so only the no-tabs variant ends on Section padding. */
+const SECTION_BOTTOM_SPACE_MODIFIER = new Map([['aha-header-section-page-header', 'no-tabs']]);
 const SECTION_SURFACE_MODIFIERS = ['accent', 'brand'];
 function marketingSectionSurfaces() {
   const rootClassOf = (html) => (String(html || '').match(/^\s*<\w+[^>]*\bclass="([\w-]+)/) || [])[1];
@@ -387,7 +391,7 @@ function marketingSectionSurfaces() {
   for (const b of MARKETING) {
     const css = (b.baseCss || '') + (b.css || '') + (b.layouts || []).map(layout => layout.css || '').join('');
     if (!css.includes('--aha-section-space-block')) continue;
-    const layoutRoots = b.stateClass ? [{ root: b.stateClass, states: b.states }]
+    const layoutRoots = b.stateClass ? [{ root: b.stateClass, states: [...(b.states || []), ...(b.layouts || []).flatMap(layout => layout.states || [])] }]
       : (b.layouts || []).some(layout => layout.states) ? b.layouts.map(layout => ({ root: String(layout.class).split(' ')[0], states: layout.states }))
       : [{ root: rootClassOf(b.html), states: b.states }];
     const classText = (b.layouts || []).map(layout => layout.class || '').join(' ') + ' ' + (b.html || '');
@@ -395,7 +399,7 @@ function marketingSectionSurfaces() {
       if (!root) continue;
       const surfaces = new Set((states || []).map(state => state.modifier).filter(Boolean));
       for (const modifier of SECTION_SURFACE_MODIFIERS) if (classText.includes(`${root}--${modifier}`)) surfaces.add(modifier);
-      if (!sections.some(section => section.root === root)) sections.push({ root, surfaces: [...surfaces], keepsTopSpace: SECTIONS_KEEPING_TOP_SPACE.has(b.slug) });
+      if (!sections.some(section => section.root === root)) sections.push({ root, surfaces: [...surfaces], keepsTopSpace: SECTIONS_KEEPING_TOP_SPACE.has(b.slug), joinsSectionAbove: SECTIONS_JOINING_THE_SECTION_ABOVE.has(b.slug), bottomSpaceModifier: SECTION_BOTTOM_SPACE_MODIFIER.get(root) });
     }
   }
   return sections;
@@ -405,13 +409,20 @@ function marketingSectionSurfaces() {
 function sectionAdjacencyCss() {
   const sections = marketingSectionSurfaces();
   if (!sections.length) return '';
-  const onSurface = (surface, list) => list.filter(section => surface ? section.surfaces.includes(surface) : true)
-    .map(({ root, surfaces }) => surface ? `.${root}--${surface}` : surfaces.length ? `.${root}:not(${surfaces.map(modifier => `.${root}--${modifier}`).join(',')})` : `.${root}`);
-  const followers = sections.filter(section => !section.keepsTopSpace);
-  return ['', ...SECTION_SURFACE_MODIFIERS].map(surface => {
-    const before = onSurface(surface, sections), after = onSurface(surface, followers);
-    return before.length && after.length ? ['+', '+script+'].map(between => `\n:is(${before.join(',')})${between}:is(${after.join(',')})>[class*="__inner"]{padding-top:0}`).join('') : '';
-  }).join('');
+  const onSurface = (surface, list, requiredModifierOf = () => '') => list.filter(section => surface ? section.surfaces.includes(surface) : true)
+    .map(section => {
+      const { root, surfaces } = section, required = requiredModifierOf(section);
+      const surfaceSelector = surface ? `.${root}--${surface}` : surfaces.length ? `.${root}:not(${surfaces.map(modifier => `.${root}--${modifier}`).join(',')})` : `.${root}`;
+      return required ? `${surfaceSelector}.${root}--${required}` : surfaceSelector;
+    });
+  const followerGroups = [
+    [sections.filter(section => !section.keepsTopSpace && !section.joinsSectionAbove), '>[class*="__inner"]{padding-top:0}'],
+    [sections.filter(section => section.joinsSectionAbove), '>:first-child{margin-top:calc(var(--aha-section-space-group) - var(--aha-section-space-block));padding-top:0}'],
+  ];
+  return followerGroups.map(([followers, declaration]) => ['', ...SECTION_SURFACE_MODIFIERS].map(surface => {
+    const before = onSurface(surface, sections, section => section.bottomSpaceModifier), after = onSurface(surface, followers);
+    return before.length && after.length ? ['+', '+script+'].map(between => `\n:is(${before.join(',')})${between}:is(${after.join(',')})${declaration}`).join('') : '';
+  }).join('')).join('');
 }
 
 /* ===== structural shell styles — AntD docs IA (sticky header + left nav + main),
