@@ -22,10 +22,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.561.0 — 2026-10-29
+## 0.562.0 — 2026-10-29
 ### Fixed
 - Audience: in `<aha-answer-option>` and `<aha-rank-list>`, a row with text and a picture now has the same gap above the picture, to its right and below it (answer option 8px: the unused count space is collapsed when the count is off; rank list 6px between the picture and the move buttons). A tall row keeps the picture top-aligned with the same top and right gap. Image-only rows are unchanged. ([#PRNUM](https://github.com/AhaSlides-Product/ahaslides-design/pull/PRNUM))
 - Revert: revert the PR; only padding and the picture alignment of rows with text and a picture change
+
+## 0.560.0 — 2026-10-29
+### Added
+- Radio and Checkbox: new `help` attribute shows the muted "?" tooltip after the label, and `locked` (with `plan`, `feature-key`, `upgrade-body`, same as Setting row) shows the crown paywall instead. Works on every Radio variant (dot, card, button) and on each option of a group. A click on the icon, or on a locked option, never selects or ticks; a locked option opens the paywall on click or Space, sends no `change`, and arrow keys skip it. The help text is the option's accessible description, with no extra tab stop. Contracts, snippets and previews updated. ([#465](https://github.com/AhaSlides-Product/ahaslides-design/pull/465))
+- Revert: revert the PR; without the new attributes nothing in Radio or Checkbox changes
 
 ## 0.559.0 — 2026-10-29
 ### Changed
