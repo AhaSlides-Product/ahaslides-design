@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.547.1 — 2026-10-29
 ### Changed
-- Brand voice rules: "Our why" (1.1) and the "What we believe" aha-moments paragraph (1.4) now carry the approved page 05 and page 07 wording of the brand guidelines; the duplicate buzz-you-can-feel quote under 1.5 is folded into 1.4. (#PRNUM)
+- Brand voice rules: "Our why" (1.1) and the "What we believe" aha-moments paragraph (1.4) now carry the approved page 05 and page 07 wording of the brand guidelines; the duplicate buzz-you-can-feel quote under 1.5 is folded into 1.4. (#457)
 
 ## 0.547.0 — 2026-10-29
 ### Added
