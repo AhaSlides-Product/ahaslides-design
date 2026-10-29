@@ -22,6 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.573.0 — 2026-10-29
+### Added
+- A Vivid Pink hero and its Vivid Pink Logos strip now read as one surface: put `<section class="aha-logos aha-logos--brand">` inside the Vivid Pink hero section as its last child, after the hero's `__inner`, and the hero's Splash runs on behind the logos with no edge. `tokens.css` drops the nested strip's own fill and sets it one Group below the hero content, so the spacing matches the sibling placement. Works in every Vivid Pink hero, Gallery layout and the Page header with no tabs; the hero markup is unchanged when no Vivid Pink Logos strip follows (#478)
+- screen-lint `--surface=website` rule `logos-outside-hero`: a Vivid Pink Logos strip placed after a Vivid Pink hero as a sibling fails, since the hero clips its Splash on a hard line through the logo row. `band-order` now also checks that the band after a hero holding the strip is white (#478)
+### Fixed
+- Hero guidance no longer contradicts W1: a Vivid Pink hero is followed by a full white section, and the one thing between them may be the Vivid Pink Logos strip nested in the hero. Hero and Logos docs, W1, W5 and the website guideline say the same (#478)
+
 ## 0.572.2 — 2026-10-29
 ### Removed
 - Every image aspect-ratio requirement is removed from the website rules: W6 no longer makes portrait or square images, or sections of mixed sizes, use the Vivid Pink frame, no longer requires one frame ratio per section (4:3 in a Features row, 3:2 on a card), and the criterion no longer fails a framed landscape image; images show at their own ratio. The Vivid Pink frame stays as an optional look. The `square-image-unframed` screen-lint rule is removed. Rules that protect the image stay: never cropped, never stretched or distorted, screenshots exported tight to the UI (#470)

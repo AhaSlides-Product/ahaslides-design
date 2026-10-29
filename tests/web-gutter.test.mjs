@@ -227,4 +227,10 @@ test('two neighbouring sections on one surface show one Section space: the token
   assert.match(logos[2].split(')+:is(')[0], /\.aha-header-section-page-header--brand\.aha-header-section-page-header--no-tabs/, 'a Vivid Pink Page header with no tabs takes the Vivid Pink Logos as its last group');
   const logosAfterScript = tokens.split('\n').filter((line) => line.includes(')+script+:is(.aha-logos') && line.endsWith('>:first-child{margin-top:calc(var(--aha-section-space-group) - var(--aha-section-space-block));padding-top:0}'));
   assert.deepEqual(logosAfterScript, logos.map((line) => line.replace(')+:is(', ')+script+:is(')), 'a snippet\'s trailing init script between the section and Logos still pulls Logos up');
+  const nested = tokens.split('\n').filter((line) => line.startsWith(':is(') && line.includes(')>.aha-logos--brand'));
+  assert.equal(nested.length, 2, 'a Vivid Pink Logos strip nested in a Vivid Pink hero drops its fill and pulls up one Group');
+  assert.match(nested[0], /\)>\.aha-logos--brand\{background:none;box-shadow:none\}$/);
+  assert.match(nested[1], /\)>\.aha-logos--brand>:first-child\{margin-top:calc\(var\(--aha-section-space-group\) - var\(--aha-section-space-block\)\);padding-top:0\}$/);
+  assert.match(nested[0], /\.aha-header-section-hero-split--brand[,)]/);
+  assert.doesNotMatch(nested[0], /aha-numbers|aha-logos--brand[,)]/, 'only heroes, Gallery layouts and the Page header hold the strip');
 });

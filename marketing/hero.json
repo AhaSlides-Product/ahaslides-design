@@ -43,7 +43,11 @@
       },
       {
         "title": "Colour",
-        "text": "Colour rule 3.5 keeps the first screen of a product-app screen white, but a web page built from full-width sections may open with a Vivid Pink hero (it is one of the two Vivid Pink sections of rule 3.4). Follow it with a full white section, never another coloured one. A Vivid Pink hero always carries the DS Splash background (right when the copy is beside a picture or left-aligned with no picture, centre when the copy is centred or a picture fills the width), never a flat pink fill or hand-drawn hooks."
+        "text": "Colour rule 3.5 keeps the first screen of a product-app screen white, but a web page built from full-width sections may open with a Vivid Pink hero (it is one of the two Vivid Pink sections of rule 3.4). Follow it with a full white section, never another coloured one; the one thing that may sit between the hero and that white section is the Vivid Pink Logos strip, nested inside the hero as its last child so the two are one continuous Vivid Pink surface (see Logos strip on a Vivid Pink hero). A Vivid Pink hero always carries the DS Splash background (right when the copy is beside a picture or left-aligned with no picture, centre when the copy is centred or a picture fills the width), never a flat pink fill or hand-drawn hooks."
+      },
+      {
+        "title": "Logos strip on a Vivid Pink hero",
+        "text": "On a landing page the Logos strip comes directly after the hero (W1). With a Vivid Pink hero use the Vivid Pink Logos strip and put it inside the hero section as its last child, after the hero's `__inner`: `<section class=\"aha-header-section-hero-split aha-header-section-hero-split--brand\"> … <div class=\"aha-header-section-hero-split__inner\">…</div> <section class=\"aha-logos aha-logos--brand\" aria-label=\"Customer logos\">…</section></section>`. The Splash then runs on behind the logos, the strip drops its own fill and sits one Group below the hero content (tokens.css), and the white section that follows meets one Vivid Pink surface. Placed after the hero as a sibling, the hero clips its Splash at its own bottom edge, a hard line through the logo row (screen-lint logos-outside-hero). The hero markup is unchanged when no Vivid Pink Logos strip follows. Same for every Vivid Pink hero, Gallery layout and the Page header with no tabs."
       },
       {
         "title": "One H1 per page",

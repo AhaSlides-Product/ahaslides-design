@@ -426,7 +426,16 @@ function sectionAdjacencyCss() {
   return followerGroups.map(([followers, declaration]) => ['', ...SECTION_SURFACE_MODIFIERS].map(surface => {
     const before = onSurface(surface, sections, section => section.bottomSpaceModifier), after = onSurface(surface, followers);
     return before.length && after.length ? ['+', '+script+'].map(between => `\n:is(${before.join(',')})${between}:is(${after.join(',')})${declaration}`).join('') : '';
-  }).join('')).join('');
+  }).join('')).join('') + logosInsideBrandHeroCss(sections, onSurface);
+}
+/* A Vivid Pink hero clips its Splash at its own edge, so a Vivid Pink Logos strip nested as the hero's last child
+   lets the Splash run behind the logos: the strip drops its own fill and joins one Group below the hero content. */
+function logosInsideBrandHeroCss(sections, onSurface) {
+  const heroes = onSurface('brand', sections.filter(section => section.root.startsWith('aha-header-section-')), section => section.bottomSpaceModifier);
+  if (!heroes.length) return '';
+  const heroList = `:is(${heroes.join(',')})`;
+  return `\n${heroList}>.aha-logos--brand{background:none;box-shadow:none}` +
+    `\n${heroList}>.aha-logos--brand>:first-child{margin-top:calc(var(--aha-section-space-group) - var(--aha-section-space-block));padding-top:0}`;
 }
 
 /* ===== structural shell styles — AntD docs IA (sticky header + left nav + main),

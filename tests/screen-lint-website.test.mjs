@@ -50,7 +50,7 @@ test('every image carries alt', () => {
 
 const band = (classes) => `<section class="${classes}"></section>`;
 const page = (...bands) => `<main>\n${bands.join('\n')}\n</main>`;
-const websiteRulesOf = (source) => rulesOf(source).filter((rule) => ['section-eyebrow', 'band-order', 'section-spacing-override', 'removed-layout', 'hero-not-brand', 'tabs-description-long', 'steps-as-tabs', 'autoplay-video-extra', 'autoplay-video-attributes', 'autoplay-video-motion', 'grey-quote-or-frame'].includes(rule));
+const websiteRulesOf = (source) => rulesOf(source).filter((rule) => ['section-eyebrow', 'band-order', 'section-spacing-override', 'removed-layout', 'hero-not-brand', 'tabs-description-long', 'steps-as-tabs', 'autoplay-video-extra', 'autoplay-video-attributes', 'autoplay-video-motion', 'grey-quote-or-frame', 'logos-outside-hero'].includes(rule));
 const fixture = (name) => readFileSync(new URL(`../anti-slop/evals/website/fixtures/${name}/Page.html`, import.meta.url), 'utf8');
 
 test('a section eyebrow fails and a card category label does not', () => {
@@ -124,6 +124,20 @@ test('the eval fixtures: both pass pages are clean, the eyebrow fixture and the 
 test('the band after the Logos strip must be white', () => {
   assert.deepEqual(websiteRulesOf(page(band('aha-header-section-hero-split aha-header-section-hero-split--brand'), band('aha-logos'), band('aha-features aha-features--accent'))), ['band-order']);
   assert.deepEqual(websiteRulesOf(page(band('aha-logos'), band('aha-features'), band('aha-features aha-features--accent'))), []);
+});
+
+test('a Vivid Pink Logos strip after a Vivid Pink hero goes inside it', () => {
+  const brandHero = 'aha-header-section-hero-split aha-header-section-hero-split--brand';
+  assert.deepEqual(websiteRulesOf(page(band(brandHero), band('aha-logos aha-logos--brand'), band('aha-features'))), ['logos-outside-hero']);
+  assert.deepEqual(websiteRulesOf(page(`<section class="${brandHero}"><div class="aha-header-section-hero-split__inner"></div><section class="aha-logos aha-logos--brand"></section></section>`, band('aha-features'))), []);
+  assert.deepEqual(websiteRulesOf(page(band(brandHero), band('aha-logos'), band('aha-features'))), []);
+  assert.deepEqual(websiteRulesOf(page(band('aha-header-section-page-header aha-header-section-page-header--brand'), band('aha-logos aha-logos--brand'), band('aha-features'))), []);
+});
+
+test('the band after a hero holding the Logos strip must be white', () => {
+  const heroWithLogos = '<section class="aha-header-section-hero-split aha-header-section-hero-split--brand"><div class="aha-header-section-hero-split__inner"></div><section class="aha-logos aha-logos--brand"></section></section>';
+  assert.deepEqual(websiteRulesOf(page(heroWithLogos, band('aha-features aha-features--accent'))), ['band-order']);
+  assert.deepEqual(websiteRulesOf(page(heroWithLogos, band('aha-features'), band('aha-features aha-features--accent'))), []);
 });
 
 test('eyebrow and removed-layout classes are found in single-quoted and unquoted class attributes', () => {
