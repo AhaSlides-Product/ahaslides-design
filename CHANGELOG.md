@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.545.1 — 2026-10-29
+### Fixed
+- Icons: `system-palette` rendered as four large dark blobs instead of four small dots. The Figma export kept a mask-and-inside-stroke construct (a 1.5 px ring path per dot) that the icon build cannot carry, because it drops the mask id; the ring path then drew as a solid fill. The source SVG now holds the outline and four filled dots only, and the registry and `lib/icons-registry.js` are rebuilt. The name is unchanged, so no alias is needed (#NNN)
+- Revert: revert the PR; only `system-palette` changes (DSN-987)
+
 ## 0.540.0 — 2026-10-28
 ### Changed
 - Marketing: the Header page is now Hero (`marketing/hero/`, `marketing/hero.json`). `marketing/header/` stays as a redirect to it, and `marketing/hero.md` and `hero.agent.json` replace the `header` feed files. The Navigation site header and the Page header layout keep their names.
