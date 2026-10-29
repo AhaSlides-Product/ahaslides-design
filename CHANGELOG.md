@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.562.1 — 2026-10-29
 ### Changed
-- Website rule W20 (guideline, judge criterion and its eval): drop the Features band cap (at most 800 px tall at 1440). Only the first-screen limit stays: at 1280 x 720 the Navigation plus the Hero fit within 720 px. W20 is retitled "First screen: the Navigation plus the Hero fit within 720 px at 1280 x 720", and the long Features band bad-example eval and its fixture are removed. ([#NNN](https://github.com/AhaSlides-Product/ahaslides-design/pull/NNN))
+- Website rule W20 (guideline, judge criterion and its eval): drop the Features band cap (at most 800 px tall at 1440). Only the first-screen limit stays: at 1280 x 720 the Navigation plus the Hero fit within 720 px. W20 is retitled "First screen: the Navigation plus the Hero fit within 720 px at 1280 x 720", and the long Features band bad-example eval and its fixture are removed. ([#467](https://github.com/AhaSlides-Product/ahaslides-design/pull/467))
 - Revert: revert the PR; only text in W20 and one eval change
 
 ## 0.560.0 — 2026-10-29
