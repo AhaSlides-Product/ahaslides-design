@@ -22,10 +22,12 @@ test('the five multi-image heroes and five Header gallery layouts ship, and the 
   assert.equal(header.layouts.some((layout) => layout.slug.includes('sticky')), false);
 });
 
-test('each Header gallery layout is scoped to its own class and has White and Accent states', () => {
+test('each Header gallery layout is scoped to its own class and has White and Vivid Pink states, Vivid Pink the default', () => {
   for (const layout of galleryLayouts) {
     assert.equal(layout.class, `aha-header-section-${layout.slug}`);
-    assert.deepEqual(layout.states.map((state) => state.modifier), ['', 'accent']);
+    assert.deepEqual(layout.states.map((state) => state.modifier), ['', 'brand']);
+    assert.equal(layout.states.find((state) => state.default).modifier, 'brand');
+    assert.match(layout.html, /splash-icon-pink\.svg/, layout.slug);
     assert.doesNotMatch(layout.css + layout.html, /(?<!data-)aha-gallery/, layout.slug);
     assert.match(layout.html, new RegExp(`^<section class="${layout.class} `), layout.slug);
     assert.equal((layout.html.match(/<h1\b/g) ?? []).length, 1, layout.slug);
@@ -43,7 +45,7 @@ test('the Features sticky stack is pure CSS: no script hook and no animation', (
 test('each multi-image hero has White, Accent and Vivid Pink states, the Vivid Pink one with the Splash', () => {
   for (const slug of multiImageHeroes) {
     const hero = header.layouts.find((layout) => layout.slug === slug);
-    assert.deepEqual(hero.states.map((state) => state.modifier), ['', 'accent', 'brand'], slug);
+    assert.deepEqual(hero.states.map((state) => state.modifier), ['', 'brand'], slug);
     assert.match(hero.html, /splash-icon-pink\.svg/, slug);
     assert.match(hero.css, new RegExp(`\\.${hero.class}--brand>\\.${hero.class}__splash\\{display:block`), slug);
   }
@@ -208,4 +210,14 @@ test('W6 and W9 allow the multi-image photo treatments and the photo marquee loo
   assert.match(criterion('W6'), /cover-cropped photo cells of mixed size or ratio/);
   assert.match(rule('W9'), /Hero image marquee and Gallery marquee rows/);
   assert.match(criterion('W9'), /photo marquees \(the Hero image marquee and Gallery marquee rows\)/);
+});
+
+test('every Hero gallery thumbnail opens on its default state, Vivid Pink', () => {
+  const page = readFileSync(new URL('../dist/marketing/hero/index.html', import.meta.url), 'utf8');
+  const cards = page.match(/<a class="sg-card"[^>]*>/g);
+  assert.equal(cards.length, header.layouts.length);
+  for (const card of cards) {
+    assert.match(card, /data-state-modifier="brand"/, card);
+    assert.doesNotMatch(card, /accent/, card);
+  }
 });
