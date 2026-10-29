@@ -28,7 +28,7 @@ test('W3: only the subject of a selector is judged', () => {
 });
 
 test('every shipped Marketing layout snippet passes the guideline rules', () => {
-  const rules = new Set(['content-width-uncapped', 'missing-h1', 'multiple-h1', 'multiple-primary-buttons', 'img-empty-alt', 'brand-not-lockup', 'missing-navigation', 'motion-library', 'motion-own-script', 'motion-own-animation', 'card-link-same-tab', 'new-tab-on-sign-up']);
+  const rules = new Set(['content-width-uncapped', 'missing-h1', 'multiple-h1', 'multiple-primary-buttons', 'img-empty-alt', 'stock-photo', 'brand-not-lockup', 'missing-navigation', 'motion-library', 'motion-own-script', 'motion-own-animation', 'card-link-same-tab', 'new-tab-on-sign-up']);
   const snippets = [];
   const collect = (value) => { if (typeof value === 'string') { if (/<(section|header|footer|aha-)/.test(value)) snippets.push(value); } else if (value && typeof value === 'object') Object.values(value).forEach(collect); };
   for (const file of readdirSync(new URL('../marketing/', import.meta.url)).filter((name) => name.endsWith('.json'))) collect(JSON.parse(readFileSync(new URL(`../marketing/${file}`, import.meta.url), 'utf8')));
@@ -127,4 +127,32 @@ test('W8: --measure fails a page that scrolls sideways and passes one that fits'
   const measure = (name) => spawnSync(process.execPath, ['screen-lint.mjs', '--surface=website', '--measure', `anti-slop/evals/website/fixtures/${name}/Page.html`], { cwd: new URL('..', import.meta.url), encoding: 'utf8' }).stdout;
   assert.match(measure('fail-w8-overflow'), /FAIL \[overflow\] horizontal scroll at 375px/);
   assert.match(measure('pass-landing-page'), /fits every viewport/);
+});
+
+test('W6: an image from a stock photo host fails, a DS placeholder or Customer Love photo passes', () => {
+  const stock = ['https://images.unsplash.com/photo-1', 'https://picsum.photos/240/150', 'https://www.pexels.com/photo/1.jpg', 'https://media.gettyimages.com/id/1/a.jpg', 'https://cdn.shutterstock.com/a.jpg', '//www.istockphoto.com/a.jpg'];
+  for (const address of stock) {
+    assert.equal(hits(`<img src="${address}" alt="Team">`, 'stock-photo').length, 1, address);
+    assert.equal(hits(`<img srcset="/a.webp 1x, ${address} 2x" alt="Team">`, 'stock-photo').length, 1, address);
+    assert.equal(hits(`<picture><source srcset="${address}"><img src="/a.webp" alt="Team"></picture>`, 'stock-photo').length, 1, address);
+    assert.equal(hits(`<style>.hero{background:url('${address}') center/cover}</style>`, 'stock-photo').length, 1, address);
+    assert.equal(hits(`<div style="background-image:url(${address})"></div>`, 'stock-photo').length, 1, address);
+  }
+  assert.equal(hits('<img src="https://design.ahaslides.io/marketing-assets/image-placeholder.svg" alt="Placeholder">', 'stock-photo').length, 0);
+  assert.equal(hits('<img src="https://ahaslides.com/webflow-assets/a/Jo-Patton-150x150.webp" alt="Jo Patton">', 'stock-photo').length, 0);
+  assert.equal(hits('<a href="https://unsplash.com/">Photo credit</a><p>picsum.photos</p>', 'stock-photo').length, 0);
+});
+
+test('W6: every marketing photo in a manifest is from Drive or Customer Love', () => {
+  const folders = readdirSync(new URL('../marketing/images/', import.meta.url));
+  let photos = 0;
+  for (const folder of folders) {
+    const manifest = JSON.parse(readFileSync(new URL(`../marketing/images/${folder}/manifest.json`, import.meta.url), 'utf8'));
+    for (const entry of manifest.images.filter((one) => !/logo/i.test(one.kind))) {
+      photos += 1;
+      assert.ok(['drive', 'customer-love'].includes(entry.source), `${folder}/${entry.file}`);
+      assert.doesNotMatch(entry.sourceUrl, /unsplash|picsum|pexels|shutterstock|istock|getty|adobe|freepik/i, entry.file);
+    }
+  }
+  assert.ok(photos >= 3);
 });
