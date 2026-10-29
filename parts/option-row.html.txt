@@ -16,7 +16,7 @@
        square toggle, and singleline for a single-line answer (Enter blocked, trims on blur). -->
   <aha-option-row id="a" orderable reorderable correctable image correct value="Paris" maxlength="80"></aha-option-row>
   <aha-option-row orderable reorderable correctable image value="London" maxlength="80"></aha-option-row>
-  <!-- colordot + colorindex: a 12px dot from the deck palette (--aha-deck-palette-<n>, set by paletteVars/applyDeck); neutral grey without a palette -->
+  <!-- colordot + colorindex: a 12px dot from the deck palette (--aha-deck-palette-<n>, set by paletteVars/applyDeck), on rows that are not correctable; neutral grey without a palette -->
   <aha-option-row orderable colordot colorindex="2" value="Berlin" maxlength="80"></aha-option-row>
   <aha-option-row orderable reorderable correctable checkboxshape="square" singleline value="Rome" maxlength="80"></aha-option-row>
 </div>

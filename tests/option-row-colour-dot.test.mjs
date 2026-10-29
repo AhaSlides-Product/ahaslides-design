@@ -40,19 +40,21 @@ test('colorindex maps to the deck palette variable, with a neutral fallback and 
   const result = await run(`
     <aha-option-row id="off" colorindex="1" value="x"></aha-option-row>
     <aha-option-row id="one" colordot colorindex="1" value="x"></aha-option-row>
-    <aha-option-row id="two" colordot colorindex="2" correct correctable value="x"></aha-option-row>
+    <aha-option-row id="two" colordot colorindex="2" value="x"></aha-option-row>
+    <aha-option-row id="both" colordot colorindex="2" correct correctable value="x"></aha-option-row>
     <aha-option-row id="none" colordot value="x"></aha-option-row>
     <aha-option-row id="beyond" colordot colorindex="9" value="x"></aha-option-row>`, `${dotOf}
     const r = (id) => document.getElementById(id);
     const dotNode = dot(r('one'));
     r('one').setAttribute('colorindex', '3');
     return { off: display(r('off')), one: display(r('one')), size: [getComputedStyle(dotNode).width, getComputedStyle(dotNode).height], radius: getComputedStyle(dotNode).borderTopLeftRadius,
-      hidden: dotNode.getAttribute('aria-hidden'), samenode: dotNode === dot(r('one')), updated: fill(r('one')), two: fill(r('two')), none: fill(r('none')), beyond: fill(r('beyond')),
+      hidden: dotNode.getAttribute('aria-hidden'), samenode: dotNode === dot(r('one')), updated: fill(r('one')), two: fill(r('two')), both: display(r('both')), none: fill(r('none')), beyond: fill(r('beyond')),
       order: [...r('two').shadowRoot.querySelector('.row').children].map((c) => c.className.split(' ')[0]) };
   `);
   assert.equal(result.off, 'none');
   assert.equal(result.one, 'block');
   assert.deepEqual(result.size, ['12px', '12px']);
+  assert.equal(result.both, 'none');
   assert.equal(result.hidden, 'true');
   assert.equal(result.samenode, true);
   assert.equal(result.updated, 'rgb(70, 80, 90)');
@@ -75,10 +77,13 @@ test('a question list colours option n by position, cycling the palette size, an
     const plain = document.getElementById('plain');
     plain.questions = [{ id: 'q1', prompt: 'Q', open: true, options: options(2) }];
     const plainRow = plain.shadowRoot.querySelector('aha-option-row');
-    return { initial, fills, afterDelete, plainDot: plainRow.hasAttribute('colordot') };
+    const scored = [...list.shadowRoot.querySelectorAll('aha-option-row')].map((r) => r.hasAttribute('correctable'));
+    return { scored, plainCorrectable: plainRow.hasAttribute('correctable'), initial, fills, afterDelete, plainDot: plainRow.hasAttribute('colordot') };
   `);
   assert.deepEqual(result.initial, ['1', '2', '3', '1', '2']);
   assert.deepEqual(result.fills.slice(0, 4), ['rgb(10, 20, 30)', 'rgb(40, 50, 60)', 'rgb(70, 80, 90)', 'rgb(10, 20, 30)']);
   assert.deepEqual(result.afterDelete, ['1', '2', '3', '1']);
   assert.equal(result.plainDot, false);
+  assert.equal(result.plainCorrectable, true);
+  assert.ok(result.scored.every((c) => c === false));
 });
