@@ -32,7 +32,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Navigation and Footer snippets: "Word Cloud" and "Spinner Wheel" are sentence case ("Word cloud", "Spinner wheel"), as are the website eval fixtures that paste them.
 
 ### Fixed
-- `variables.css` and `lib/tokens.css` header comments no longer carry an em dash (#PR)
+- `variables.css` and `lib/tokens.css` header comments no longer carry an em dash (#476)
 
 ## 0.569.0 — 2026-10-29
 ### Added
