@@ -22,10 +22,18 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.552.0 — 2026-10-29
+## 0.554.0 — 2026-10-29
 ### Changed
 - Website > Marketing > Features, Tabs with screenshots: the tab list now stretches to the height of the image slot instead of being centred against it. The left column fills the grid row, the tab list takes the space above the call to action and shares it between the tabs, so the rail runs the full height of the image. Every other value (rail width and colours, padding, gaps, tab text, the 4:3 slot, the 991 px stack) is unchanged, and the stacked phone layout keeps its natural height. The removed Compact accordion layout stays removed (#453)
 - Revert: revert the PR; only the three `tabs-screenshots` CSS declarations and its summary change in `marketing/features.json` (DSN-986)
+
+## 0.553.0 — 2026-10-29
+### Fixed
+- Marketing sections no longer pick up the Webflow site's base CSS. Testimonials and Cards clear the quote border (a grey stripe on the left of every quote from `blockquote{border-left:5px solid #e2e2e2}`), and every section title rule (Hero, Features, Numbers, Pricing, Testimonials, FAQ, Comparison, Footer banner) sets `display:block`, so a host `h2{display:flex;text-align:left}` can no longer pull a centred title off-centre.
+- Step card: the pink number badge rule (`.aha-marketing-card__number`) now ships in the Cards base CSS, so every section that embeds Cards carries it and a pasted Steps row keeps its badge.
+### Added
+- A node test fails when a marketing blockquote reset leaves the border, when a section title rule has no `display`, or when the Step number rule leaves the Cards base CSS.
+- Supersedes the earlier 0.497.1 attempt. Revert: revert the PR; the sections go back to relying on the host CSS (#438)
 
 ## 0.551.0 — 2026-10-29
 ### Added
