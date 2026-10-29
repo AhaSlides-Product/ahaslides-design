@@ -22,10 +22,19 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.550.0 — 2026-10-29
+## 0.551.0 — 2026-10-29
 ### Changed
 - Website > Marketing > Features, Tabs with screenshots: the tab list now stretches to the height of the image slot instead of being centred against it. The left column fills the grid row, the tab list takes the space above the call to action and shares it between the tabs, so the rail runs the full height of the image. Every other value (rail width and colours, padding, gaps, tab text, the 4:3 slot, the 991 px stack) is unchanged, and the stacked phone layout keeps its natural height. The removed Compact accordion layout stays removed (#453)
 - Revert: revert the PR; only the three `tabs-screenshots` CSS declarations and its summary change in `marketing/features.json` (DSN-986)
+
+## 0.550.0 — 2026-10-29
+### Changed
+- Website rule W6 (guideline, anti-slop criterion in both copies): photos of people, customers and events come only from the AhaSlides Drive photo library or Customer Love; stock photos (Unsplash, Pexels, Picsum, Shutterstock, iStock, Getty, Adobe Stock, Freepik and the like) are banned. Product screenshots and the DS placeholder stay allowed. (#458)
+- Testimonials: the 9 stock photos (5 Unsplash avatars, 1 Unsplash portrait, 3 Lorem Picsum covers) and their manifest entries are removed. The Simple left aligned portrait and the Case study covers are the DS image placeholder, and a case study reviewer with no photo shows name and role only, with no avatar or initials. (#458)
+### Added
+- `screen-lint --surface=website` hard-fails `stock-photo`: an `<img>`, `<source>` srcset or CSS `url()` pointing at a stock photo host. (#458)
+- `standards.mjs` fails a marketing image manifest photo entry whose new `source` field is not `drive` or `customer-love`; the 3 customer quote photos carry `customer-love`. (#458)
+- Revert: revert the PR; nothing depends on the removed files.
 
 ## 0.549.0 — 2026-10-29
 ### Changed
