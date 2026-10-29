@@ -386,7 +386,7 @@
       "verdict": "consumer self-judges (W8)"
     },
     {
-      "label": "motion is the DS script only: staggered reveal, light in-frame photo parallax and a fade-and-settle entrance of the photo (the frame never moves), numbers count up from 0, all off under reduced motion; the only loops are the shipped Logos and photo marquees; no scroll-jacking or autoplay",
+      "label": "motion is the DS script only: staggered reveal, light in-frame photo parallax and a fade-and-settle entrance of the photo (the frame never moves), numbers count up from 0, all off under reduced motion; the only loops are the shipped Logos and photo marquees; no scroll-jacking; the one video that plays by itself is the hero's (autoplay, muted, loop, playsinline, a poster, stopped under reduced motion)",
       "verdict": "consumer self-judges (W9)"
     },
     {

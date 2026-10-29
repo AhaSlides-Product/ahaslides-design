@@ -282,3 +282,8 @@ test('W9: the hero is found by its class and its closing tag, not by position', 
   assert.ok(videoRulesOf(`<section class="aha-features">${clip}</section>${stopScript}`).includes('autoplay-video-extra'));
   assert.deepEqual(videoRulesOf(`<section class="aha-features"></section><section class="aha-header-section-hero-split"><div>${clip}</div></section>${stopScript}`), []);
 });
+
+test('W9: a no-preference reduced-motion block is no stop', () => {
+  assert.deepEqual(videoRulesOf(heroWithVideo(heroVideo, '<style>@media (prefers-reduced-motion: no-preference){video{opacity:1}}</style>')), ['autoplay-video-motion']);
+  assert.deepEqual(videoRulesOf(heroWithVideo(heroVideo, '<script>if (matchMedia("(prefers-reduced-motion: no-preference)").matches) v.pause();</script>')), ['autoplay-video-motion']);
+});
