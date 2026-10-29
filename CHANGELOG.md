@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.556.1 — 2026-10-29
+### Fixed
+- Icons: `system-palette` rendered as four large dark blobs instead of four small dots. The Figma export kept a mask-and-inside-stroke construct (a 1.5 px ring path per dot) that the icon build cannot carry, because it drops the mask id; the ring path then drew as a solid fill. The source SVG now holds the outline and four filled dots only, and the registry and `lib/icons-registry.js` are rebuilt. The name is unchanged, so no alias is needed (#451)
+- Revert: revert the PR; only `system-palette` changes (DSN-987)
+
 ## 0.556.0 — 2026-10-29
 ### Added
 - screen-lint, website surface: six page rules for a whole page of Marketing sections. `section-gap` fails a margin, padding, gap, spacer, divider or per-band wrapper that makes the gap between two bands anything but one Section step (96, 64 and 48 px at 1440, 768 and 375); `motion-script-copy` fails a `marketing-motion.js` that differs from the shipped `lib/marketing-motion.js`, compared when the lint runs, so no hash is kept; `step-numbers` fails numbered steps that are not the Cards Steps row (`aha-marketing-cards__grid--row`) with the DS number ring; `ds-class-without-css` fails markup that uses a DS section class the page's pasted CSS does not style; `page-font` fails a body or h1 to h6 font that does not resolve to Plus Jakarta Sans; `card-description-long` fails a Cards, Features or Numbers description over 25 words (DSN-980, DSN-981, DSN-982, DSN-983, DSN-984, DSN-985) (#454)
