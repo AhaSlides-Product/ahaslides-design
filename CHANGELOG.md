@@ -22,6 +22,21 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.551.0 — 2026-10-29
+### Added
+- Tokens: four website section spacing levels, `--aha-section-space-block` (Section, 96 px), `--aha-section-space-header` (Header, 64), `--aha-section-space-group` (Group, 48) and `--aha-section-space-item` (Item, 32). Each level is one step below the one above on the ladder 96, 64, 48, 32, 24, 16, and each steps one down when the section's own container is 767 px or narrower and again at 479 px, so a section never switches them itself (#439)
+- Logos: a Vivid Pink background, `aha-logos--brand`, so the strip can sit inside a Vivid Pink hero as its last group (one Group below the hero's content, as under White and Accent sections). The label turns solid white and the logos turn one colour, white, per colour rules 6.4 and 2.6 (#439)
+### Changed
+- Marketing sections (Header, Logos, Numbers, Features, Testimonials, FAQ, Footer banner, Footer, Pricing, Comparison table): section padding, heading spacing, group spacing and item gaps now use the four levels in place of per-section values and breakpoint overrides. Visible changes: Hero layouts and the Page header step their spacing at 767 px, not 991 px; the Page header pads 96 px like every section; compact Features pads 96 px; alternating Features rows sit 48 px apart (was 96); the Footer keeps the Section padding on a phone; spacing inside a component (card padding, title to text, a button under its text) is unchanged (#439)
+- Logos: after a section on the same surface the strip is that section's last group, sitting one Group below its content; after a surface change it pads one Section above; it pads one Section below; with the label on, the label takes that Group gap (its own 32 px top padding is gone) and sits 24 px above the logos (#439)
+- Neighbouring sections: the visible space between two sections' content is one Section level. Across a surface change each side keeps its padding up to the edge; on a shared surface (White and White, Accent and Accent, Vivid Pink and Vivid Pink) `tokens.css` drops the second section's top padding, through one generated sibling rule per surface built from every section's surface options, so it holds in any order. Sections wrapped in their own element are not neighbours and keep both paddings; the Footer keeps its top padding below its divider. A Page header with tabs ends on its tab rule, so the next section keeps its top padding; a snippet's trailing init script between two sections does not break the rule (#439)
+- Screen lint: a `<style>` block that defines `--aha-section-space-block` is the inlined DS token sheet, so `section-spacing-override` skips it the same way it skips inlined section CSS; the neighbouring-section rule no longer fails a page that inlines `tokens.css` (#439)
+- Numbers, Centred: the stat row no longer pads 8 px above and below, so the space under the stats is exactly one Section level (#439)
+- Website guideline W2 and its anti-slop criterion: rewritten around the four levels, the one-Section-space rule between neighbouring sections and the Logos rule; a new W2 eval fails two White sections wrapped apart (#439)
+- Revert: revert the PR; the sections go back to their own padding values and breakpoints, the four tokens and the neighbouring-section rule are removed, and the Centred Numbers stats pad 8 px again (#439)
+
+
+
 ## 0.550.0 — 2026-10-29
 ### Changed
 - Website rule W6 (guideline, anti-slop criterion in both copies): photos of people, customers and events come only from the AhaSlides Drive photo library or Customer Love; stock photos (Unsplash, Pexels, Picsum, Shutterstock, iStock, Getty, Adobe Stock, Freepik and the like) are banned. Product screenshots and the DS placeholder stay allowed. (#458)

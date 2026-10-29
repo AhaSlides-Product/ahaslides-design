@@ -86,6 +86,7 @@ test('page CSS that overrides a section spacing fails; the section CSS pasted wh
   assert.deepEqual(websiteRulesOf('<style>main > section + section{margin-top:var(--aha-space-64)}</style>'), []);
   assert.deepEqual(websiteRulesOf('<style>.aha-features__title{color:var(--aha-text-default)}</style>'), []);
   assert.deepEqual(websiteRulesOf('<style>.aha-features{container:aha-features / inline-size}\n.aha-features__inner{padding:var(--aha-space-96) var(--aha-space-64)}</style>'), []);
+  assert.deepEqual(websiteRulesOf('<style>:root{--aha-section-space-block:var(--aha-space-96)}\n:is(.aha-faq)+:is(.aha-features)>[class*="__inner"]{padding-top:0}</style>'), []);
 });
 
 test('a class of a removed layout fails', () => {
