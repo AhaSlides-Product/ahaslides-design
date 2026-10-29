@@ -22,10 +22,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.563.2 — 2026-10-29
+## 0.565.1 — 2026-10-29
 ### Removed
 - Every image aspect-ratio requirement is removed from the website rules: W6 no longer makes portrait or square images, or sections of mixed sizes, use the Vivid Pink frame, no longer requires one frame ratio per section (4:3 in a Features row, 3:2 on a card), and the criterion no longer fails a framed landscape image; images show at their own ratio. The Vivid Pink frame stays as an optional look. The `square-image-unframed` screen-lint rule is removed. Rules that protect the image stay: never cropped, never stretched or distorted, screenshots exported tight to the UI (#470)
 - Revert: revert the PR; only website guideline text, the W6 criterion and one eval, the Features and Cards usage text, and one screen-lint rule with its test change. No component CSS changes
+
+## 0.565.0 — 2026-10-29
+### Added
+- `<aha-option-row>` opt-in `colordot` + `colorindex`: a 12px decorative dot before the text, filled from the deck palette (`--aha-deck-palette-<n>`), neutral grey without one. The dot and the correct toggle never show together: `colordot` is ignored on a `correctable` row. `<aha-question-list>` gains `colordots` + `palette-size` for unscored lists (Poll): option n takes colour ((n-1) % palette-size) + 1 by position and the rows show the dot instead of the correct toggle. ([#463](https://github.com/AhaSlides-Product/ahaslides-design/pull/463))
+### Changed
+- `<aha-option-row>` right padding is 4px (was 10px): padding is now 3 4 3 10, and the focused correct row 2 3 2 9 so nothing shifts. ([#463](https://github.com/AhaSlides-Product/ahaslides-design/pull/463))
 
 ## 0.563.1 — 2026-10-29
 ### Removed
