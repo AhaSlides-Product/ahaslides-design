@@ -849,6 +849,17 @@ const repoChecks = [];
   rchk('every original-colour logo sits beside its one-colour file and is declared in logo/manifest.json', originalsUnpaired.length === 0,
     `logo/original/<file> holds the brand's own colours for rule 2.6 and shares the one-colour file's name: ${originalsUnpaired.join(', ')}`);
 
+  const PHOTO_SOURCES = ['drive', 'customer-love'];
+  const imagesDir = join(root, 'marketing', 'images');
+  const photosWithoutSource = existsSync(imagesDir)
+    ? readdirSync(imagesDir).filter(folder => existsSync(join(imagesDir, folder, 'manifest.json'))).flatMap(folder =>
+      JSON.parse(read(join(imagesDir, folder, 'manifest.json'))).images
+        .filter(entry => !/logo/i.test(entry.kind) && !PHOTO_SOURCES.includes(entry.source))
+        .map(entry => `marketing/images/${folder}/${entry.file} (source: ${entry.source ?? 'missing'})`))
+    : [];
+  rchk('every marketing photo in a manifest comes from the AhaSlides Drive photo library or Customer Love (W6)', photosWithoutSource.length === 0,
+    `photos of people, customers and events carry source "drive" or "customer-love", never a stock photo: ${photosWithoutSource.join(', ')}`);
+
   /* A demo teaches by example, so a placeholder cover or a sample deck accent is held to the list too.
      Each exemption names why the file has to spell out an off-list colour. */
   const OFF_LIST_SOURCE_EXEMPT = {
