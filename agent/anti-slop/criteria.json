@@ -1633,11 +1633,6 @@
           "id": "W19",
           "title": "Testimonials: at most three cards, quotes of similar length, authors on one baseline",
           "test": "In Testimonials the quote and the author block (avatar, name, role) are left aligned together, even in a centred section: avatar, name and role form one row with the name and role stacked and left aligned, and in a row of quote cards the author rows sit on one baseline across cards (the shipped grid subgrid). A centred name or role under a left aligned quote, an avatar on its own line, or author rows at different heights across cards fails. A Testimonials section shows at most 3 testimonial or case cards, and quotes in a row are of similar length: the longest quote within about 1.5 times the characters of the shortest and none over 160 characters, so no card is a wall of text beside two short ones. 4 or more cards, or one long quote beside short ones (for example 240 characters beside 80), fails. N/A when the page has no Testimonials section."
-        },
-        {
-          "id": "W20",
-          "title": "First screen: the Navigation plus the Hero fit within 720 px at 1280 x 720",
-          "test": "Measured in a render at 1280 x 720: the Navigation plus the Hero fit within 720 px, so the hero's heading, lead and primary call to action show without scrolling. A Navigation plus Hero taller than 720 px at 1280 x 720 fails. N/A only when the page has no Marketing section."
         }
       ]
     }

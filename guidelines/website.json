@@ -19,7 +19,7 @@
   "skillRef": {
     "build": "DS guideline — guidelines/website.json",
     "judge": "DS anti-slop feed — anti-slop.md (surface: website)",
-    "note": "The enforceable criteria are anti-slop/criteria.json surfaces.website (W1 to W20). Each rule below names its source (`source`): a Marketing section, a token or a colour rule."
+    "note": "The enforceable criteria are anti-slop/criteria.json surfaces.website (W1 to W19). Each rule below names its source (`source`): a Marketing section, a token or a colour rule."
   },
   "surfaces": [
     "landing page",
@@ -339,15 +339,6 @@
         "marketing/testimonials.json — person, person-text, quote and the quote-cards subgrid"
       ]
     },
-    {
-      "rule": "Keep the first screen useful: at 1280 x 720 the Navigation plus the Hero fit within 720 px, so the heading, lead and primary call to action show without scrolling. These are heights read from a render, so `screen-lint` cannot check them from the markup: the website judge and the agent's own render at 1440 and 1280 x 720 do.",
-      "ref": [
-        "W20"
-      ],
-      "source": [
-        "marketing/hero.json — the hero layouts and Navigation"
-      ]
-    },
     { "rule": "Draw every button with `<aha-button>`: the Navigation Log in (secondary) and Sign up (primary), the Join button and every header, section and footer banner call to action, with `href` for a link and `type=\"submit\"` in a form, as the sections ship them. Never restyle, re-colour or re-hover a DS component: the page's own CSS sets only layout on `<aha-button>` (margin, flex, width, order, align-self), never a colour, fill, border, shadow, height or state rule, `::part` or `--aha-button-*` token. A button look the DS lacks is a gap to raise, not CSS to write. `screen-lint` hard-fails it as `hand-rolled-button`.", "ref": ["W16"], "source": ["contracts/button.json — href and type", "marketing/navigation.json", "lib/screen-lint-button.js"] }
   ],
   "reuse": null,
@@ -424,10 +415,6 @@
     {
       "label": "testimonial avatar, name, role and quote left aligned; author rows on one baseline across cards",
       "verdict": "consumer self-judges (W19)"
-    },
-    {
-      "label": "Navigation plus Hero within 720 px at 1280 x 720",
-      "verdict": "consumer self-judges (W20)"
     },
     { "label": "every button is <aha-button> with no colour, size or hover CSS of its own", "verdict": "screen-lint hand-rolled-button (W16)" }
   ]

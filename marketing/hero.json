@@ -39,7 +39,7 @@
       },
       {
         "title": "Above the fold",
-        "text": "The headline, the button and the visual are visible without scrolling at 1280 by 720 and on mobile. Use a real AhaSlides screenshot, not a stock photo. No small label or badge sits above the headline. For proof, keep the G2 reviews row (the G2 logo, stars and the 4.8 rating), which sits under the call to action on the heroes and is on by default. In Hero stacked the picture is shown whole at its own ratio at every width, never cropped with object-fit cover (rule W6): supply the screenshot at the ratio you want shown."
+        "text": "Use a real AhaSlides screenshot, not a stock photo. No small label or badge sits above the headline. For proof, keep the G2 reviews row (the G2 logo, stars and the 4.8 rating), which sits under the call to action on the heroes and is on by default. In Hero stacked the picture is shown whole at its own ratio at every width, never cropped with object-fit cover (rule W6): supply the screenshot at the ratio you want shown."
       },
       {
         "title": "Colour",

@@ -2,7 +2,7 @@
   "surface": "website",
   "judgedAgainst": "anti-slop/criteria.json surfaces.website",
   "portedFrom": null,
-  "authoredNote": "DS-authored with the website surface (W1 to W20) from guidelines/website.json and the shipped Marketing sections; there is no plugin judge for whole-page composition.",
+  "authoredNote": "DS-authored with the website surface (W1 to W19) from guidelines/website.json and the shipped Marketing sections; there is no plugin judge for whole-page composition.",
   "evals": [
     {
       "id": 1,
@@ -41,8 +41,7 @@
           "W16": "PASS",
           "W17": "PASS",
           "W18": "PASS",
-          "W19": "PASS",
-          "W20": "PASS"
+          "W19": "PASS"
         }
       },
       "source": {
@@ -84,8 +83,7 @@
           "W16": "PASS",
           "W17": "PASS",
           "W18": "PASS",
-          "W19": "PASS",
-          "W20": "PASS"
+          "W19": "PASS"
         }
       },
       "source": {
@@ -936,8 +934,7 @@
           "W16": "PASS",
           "W17": "PASS",
           "W18": "PASS",
-          "W19": "PASS",
-          "W20": "PASS"
+          "W19": "PASS"
         }
       },
       "source": {
@@ -1010,36 +1007,6 @@
       "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
       "files": [
         {
-          "path": "fixtures/fail-w20-tall-first-screen/Page.html"
-        },
-        {
-          "path": "fixtures/sections.css"
-        }
-      ],
-      "label": "bad-example",
-      "notes": "Targets W20: a hero stretched to 900 px, so the Navigation plus the Hero are far over 720 px at 1280 x 720.",
-      "expected_output": "W20 FAILs: the Navigation plus the Hero are about 1,000 px tall at 1280 x 720, so the heading shows but the lead and primary call to action fall below the first screen, over the 720 px limit. Fix: cut the hero height so the Navigation plus the Hero fit within 720 px. Overall: NEEDS FIX.",
-      "assertions": [
-        "Overall verdict is NEEDS FIX",
-        "W20 is marked FAIL",
-        "Names the Navigation plus Hero height at 1280 x 720"
-      ],
-      "expected": {
-        "overall": "NEEDS_FIX",
-        "criteria": {
-          "W20": "FAIL"
-        }
-      },
-      "source": {
-        "authored": "ahaslides-design",
-        "why": "DS-authored with the website surface; no plugin judge dataset exists"
-      }
-    },
-    {
-      "id": 34,
-      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
-      "files": [
-        {
           "path": "fixtures/fail-w2-doubled-gap/Page.html"
         },
         {
@@ -1065,7 +1032,7 @@
       }
     },
     {
-      "id": 35,
+      "id": 34,
       "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
       "files": [
         {

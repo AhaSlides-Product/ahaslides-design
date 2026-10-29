@@ -20,7 +20,7 @@ const footerBannerCss = readJson('marketing/footer-banner.json').css;
 const cardSnippetsCss = readJson('marketing/cards.json').snippets.map((snippet) => snippet.css ?? '').join('\n');
 const alternatingRowCss = features.layouts.find((layout) => layout.slug === 'alternating-screenshots').css;
 
-for (const id of ['W9', 'W11', 'W12', 'W13', 'W14', 'W15', 'W17', 'W18', 'W19', 'W20']) {
+for (const id of ['W9', 'W11', 'W12', 'W13', 'W14', 'W15', 'W17', 'W18', 'W19']) {
   test(`${id} has a guideline rule, a criterion, a synced copy and a failing eval`, () => {
     assert.ok(guideline.rules.some((rule) => rule.ref.includes(id)), 'guideline rule');
     assert.ok(criteria.some((criterion) => criterion.id === id), 'criterion');
