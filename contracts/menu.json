@@ -8,13 +8,14 @@
   "element": "aha-menu",
   "summary": "A list of selectable options — a side nav, a settings list, an overflow menu — with icons, groups, submenus and danger actions.",
   "highlights": ["List of selectable options", "For side navs, settings lists and overflow menus", "Icons, groups, submenus and danger actions"],
-  "lead": "ONE custom element — <aha-menu> — defined once, imported unchanged by React and Vue. Feed it an `items` tree and a `value` (the selected key). The DS V3 Menu is a family, not a flat list: rows carry leading icons, a group title splits sections, a divider rules them off, a submenu expands inline, an item can be disabled or a red danger action. Three `mode`s: `vertical` (compact popover list, default), `inline` (indented sidebar tree), `horizontal` (top nav bar). The selected row is brand-tinted; hover, selection, submenu expand and the caret all animate via the shared motion tokens on PERSISTENT nodes — a class toggles, the subtree is never rebuilt on a state change. Emits a composed `select`.",
+  "lead": "ONE custom element — <aha-menu> — defined once, imported unchanged by React and Vue. Feed it an `items` tree and a `value` (the selected key). The DS V3 Menu is a family, not a flat list: rows carry leading icons, a group title splits sections, a divider rules them off, a submenu expands inline, an item can be disabled or a red danger action, and a leaf can carry a `description` — a smaller muted second line under the label, for a role picker or a setting that needs one line of explanation. Three `mode`s: `vertical` (compact popover list, default), `inline` (indented sidebar tree), `horizontal` (top nav bar). The selected row is brand-tinted; hover, selection, submenu expand and the caret all animate via the shared motion tokens on PERSISTENT nodes — a class toggles, the subtree is never rebuilt on a state change. Emits a composed `select`.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper that listens for `select`; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["border", "bg-container", "bg-hover", "bg-accent", "weight-regular", "weight-semibold", "text-default", "text-tertiary", "text-disabled", "color-primary", "color-error", "border-focus", "split", "radius-default"],
+  "tokensUsed": ["border", "bg-container", "bg-hover", "bg-accent", "weight-regular", "weight-semibold", "text-default", "text-secondary", "text-tertiary", "text-disabled", "size-sm", "color-primary", "color-error", "border-focus", "split", "radius-default"],
   "spec": [
     { "label": "Container", "value": "white surface, 1px border #E3E3E3, radius 8, 6 padding, min-width 200" },
     { "label": "Row", "value": "height 36 · radius 8 · Regular 400, the selected row SemiBold 600 · 10px gap to a 16px leading icon" },
     { "label": "Group title", "value": "11px uppercase, text-tertiary #8A8A8A, non-interactive section header" },
+    { "label": "Description", "value": "optional second line under the label: size-sm 12px / 16px line, Regular 400, text-secondary #4A4A4A (text-disabled on a disabled row), single line with ellipsis; the row grows to fit (min-height 36, 6px vertical padding); part=description" },
     { "label": "Divider", "value": "1px split #F1F1F1 rule, role=separator" },
     { "label": "Submenu", "value": "caret rotates 90° + children expand inline (motion-mid), aria-expanded synced" },
     { "label": "Hover", "value": "bg-hover #F7F7F7 (motion-fast + ease-out, persistent node)" },
@@ -23,7 +24,7 @@
     { "label": "Disabled", "value": "text-disabled #B5B5B5, not-allowed" }
   ],
   "props": [
-    { "name": "items", "type": "JSON tree", "default": "[]", "desc": "Rows. Leaf {key,label,icon?,disabled?,danger?}; submenu {key,label,icon?,children:[]}; section {type:'group',label,children:[]}; rule {type:'divider'}" },
+    { "name": "items", "type": "JSON tree", "default": "[]", "desc": "Rows. Leaf {key,label,description?,icon?,disabled?,danger?}; submenu {key,label,icon?,children:[]}; section {type:'group',label,children:[]}; rule {type:'divider'}" },
     { "name": "value", "type": "string", "default": "—", "desc": "The selected item's key (brand-tinted row)" },
     { "name": "mode", "type": "'vertical' | 'inline' | 'horizontal'", "default": "vertical", "desc": "Layout: compact list · indented sidebar tree · top nav bar" },
     { "name": "borderless", "type": "boolean", "default": "false", "desc": "Drop the container's border, radius, fill and padding, for a side nav inside a surface that already frames it (a settings modal's left column). Rows, group titles and dividers are unchanged" },
@@ -61,6 +62,7 @@
         { "label": "App navigation", "value": "[{\"key\":\"home\",\"label\":\"Home\",\"icon\":\"system-house\"},{\"key\":\"presentations\",\"label\":\"My Presentations\",\"icon\":\"system-presentation-chart\"},{\"key\":\"templates\",\"label\":\"Template Library\",\"icon\":\"system-squares-four\"},{\"key\":\"shared\",\"label\":\"Shared Presentations\",\"icon\":\"system-share-network\"},{\"key\":\"plan\",\"label\":\"My Plan\",\"icon\":\"system-plan\"},{\"key\":\"integrations\",\"label\":\"Integration Center\",\"icon\":\"system-link\"},{\"key\":\"team\",\"label\":\"Team Management\",\"icon\":\"system-users\"}]" },
         { "label": "Sections + submenu", "value": "[{\"type\":\"group\",\"label\":\"Workspace\",\"children\":[{\"key\":\"polls\",\"label\":\"Polls\",\"icon\":\"system-chart-bar\"},{\"key\":\"quizzes\",\"label\":\"Quizzes\",\"icon\":\"system-question\"}]},{\"key\":\"library\",\"label\":\"Content library\",\"icon\":\"system-folder\",\"children\":[{\"key\":\"templates\",\"label\":\"Templates\"},{\"key\":\"archived\",\"label\":\"Archived\",\"disabled\":true}]},{\"type\":\"divider\"},{\"key\":\"team\",\"label\":\"Team members\",\"icon\":\"system-users\"},{\"key\":\"delete\",\"label\":\"Delete workspace\",\"icon\":\"system-trash\",\"danger\":true}]" },
         { "label": "Flat list", "value": "[{\"key\":\"polls\",\"label\":\"Polls\",\"icon\":\"system-chart-bar\"},{\"key\":\"quizzes\",\"label\":\"Quizzes\",\"icon\":\"system-question\"},{\"key\":\"wordcloud\",\"label\":\"Word cloud\",\"icon\":\"system-chart-donut\"},{\"key\":\"qa\",\"label\":\"Q&A\",\"icon\":\"system-question-bubble\"},{\"key\":\"archived\",\"label\":\"Archived\",\"icon\":\"system-folder\",\"disabled\":true}]" },
+        { "label": "Role picker with descriptions", "value": "[{\"key\":\"editor\",\"label\":\"Editor\",\"description\":\"Edit and present\"},{\"key\":\"presenter\",\"label\":\"Presenter\",\"description\":\"Present only, cannot edit\"},{\"type\":\"divider\"},{\"key\":\"remove\",\"label\":\"Remove access\",\"description\":\"They lose access to this presentation\",\"icon\":\"system-trash\",\"danger\":true}]" },
         { "label": "Danger + disabled", "value": "[{\"type\":\"group\",\"label\":\"Danger zone\",\"children\":[{\"key\":\"reset\",\"label\":\"Reset results\",\"icon\":\"system-arrow-right\"},{\"key\":\"delete\",\"label\":\"Delete workspace\",\"icon\":\"system-trash\",\"danger\":true}]},{\"type\":\"divider\"},{\"key\":\"locked\",\"label\":\"Locked (Pro)\",\"icon\":\"system-star\",\"disabled\":true}]" }
       ] }
     ]
@@ -70,6 +72,7 @@
     { "label": "selected bg-accent + color-primary", "verdict": "PASS" },
     { "label": "group title, divider, danger, disabled render", "verdict": "PASS" },
     { "label": "submenu expands inline on a persistent node (aria-expanded synced)", "verdict": "PASS" },
+    { "label": "description renders as a smaller muted second line, linked with aria-describedby; rows without one are unchanged", "verdict": "PASS" },
     { "label": "roving arrow-key nav; select event composed", "verdict": "PASS" }
   ],
   "conformance": {
