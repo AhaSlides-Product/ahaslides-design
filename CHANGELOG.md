@@ -22,10 +22,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.566.1 — 2026-10-29
+## 0.567.1 — 2026-10-29
 ### Removed
 - Every image aspect-ratio requirement is removed from the website rules: W6 no longer makes portrait or square images, or sections of mixed sizes, use the Vivid Pink frame, no longer requires one frame ratio per section (4:3 in a Features row, 3:2 on a card), and the criterion no longer fails a framed landscape image; images show at their own ratio. The Vivid Pink frame stays as an optional look. The `square-image-unframed` screen-lint rule is removed. Rules that protect the image stay: never cropped, never stretched or distorted, screenshots exported tight to the UI (#470)
 - Revert: revert the PR; only website guideline text, the W6 criterion and one eval, the Features and Cards usage text, and one screen-lint rule with its test change. No component CSS changes
+
+## 0.567.0 — 2026-10-29
+### Added
+- Brand voice rules: new rules 13.18 to 13.25 carry the general half of the brand director's 29 October editorial feedback (SOMW-153): tell-tale AI language, varying familiar brand phrases, saying what you mean, challenging briefs, product precision, consistent audience perspective, framing stories about people, and hard rules versus editorial judgement. Rules 13.12 and 13.13 are extended. The change log gains v4. The social-only half lives in the social channel's brand-feedback log. Revert: revert the PR.
 
 ## 0.566.0 — 2026-10-29
 ### Changed

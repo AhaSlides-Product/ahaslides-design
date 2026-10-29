@@ -961,7 +961,7 @@
    "blocks": [
     {
      "type": "paragraph",
-     "text": "These came from the brand director's reviews of draft copy on 12 and 15 October 2026. They apply to every kind of writing; the social-only rules (post types, LinkedIn, reels) stay with the social writing skill."
+     "text": "These came from the brand director's reviews of draft copy on 12 and 15 October 2026 and on 29 October 2026. They apply to every kind of writing; the social-only rules (post types, LinkedIn, reels) stay with the social writing skill."
     },
     {
      "type": "rules",
@@ -1023,12 +1023,12 @@
       },
       {
        "id": "13.12",
-       "text": "Don't assume the reader has seen earlier messages. Each one must make sense to someone meeting the feature for the first time.",
+       "text": "Don't assume the reader has seen earlier messages. Each one must make sense to someone meeting the feature for the first time, and each sentence and supporting detail must make sense on its own.",
        "origin": "Brand director feedback, 12 and 15 October 2026"
       },
       {
        "id": "13.13",
-       "text": "Be direct about what you want people to do: say what to try, why and where. Don't add a generic example to a call to action.",
+       "text": "Be direct about what you want people to do: say what to try, why and where. Don't add a generic example to a call to action. Make it immediately understandable: if a word such as \"one\" could mean more than one thing, name the thing (\"send this to the friend planning an event\").",
        "origin": "Brand director feedback, 12 and 15 October 2026"
       },
       {
@@ -1050,6 +1050,46 @@
        "id": "13.17",
        "text": "Interrogate your own draft before submitting: is the main point immediately clear, does it sound human, is every sentence earning its place, is the audience benefit obvious, and does the call to action give people a reason to act?",
        "origin": "Brand director feedback, 12 and 15 October 2026"
+      },
+      {
+       "id": "13.18",
+       "text": "Avoid tell-tale AI language. Words and structures such as \"lands\" or \"landed\", \"quiet\", \"tension\", \"It's not what you think\", \"What people miss\" and \"It's not this. It's that.\" are not wrong in isolation, but they have become predictable AI writing habits. Don't swap them for another stock set: write naturally, vary your sentence structures and choose language that suits the audience and the context.",
+       "origin": "Brand director feedback, 29 October 2026 (SOMW-153)"
+      },
+      {
+       "id": "13.19",
+       "text": "Don't overuse a familiar brand phrase. \"See what stuck\" and \"see what sticks\" are acceptable AhaSlides language, but vary the wording by what you actually mean (see what they learned, see what they remembered, see what stuck with them). A brief using the word is not a reason to use it.",
+       "origin": "Brand director feedback, 29 October 2026 (SOMW-153)"
+      },
+      {
+       "id": "13.20",
+       "text": "Say what you mean. Be playful when it adds something, never at the expense of clarity: no needless metaphor, awkward personification or complicated sentence structure. Don't describe audiences, rooms or questions as if they were people (questions don't walk out of rooms, people do; the people in a room have the phones, not the room). Keep the humans, with their real concerns, frustrations and ambitions, at the centre, and use the plain word (\"anonymously\", not \"without a name\").",
+       "origin": "Brand director feedback, 29 October 2026 (SOMW-153)"
+      },
+      {
+       "id": "13.21",
+       "text": "Treat a brief as direction, not a script, and challenge it when it would produce confusing, misleading or forced copy (too many metaphors, an unclear angle, wording that doesn't make sense). Flag the problem, explain why the direction isn't working and suggest a clearer alternative. Editorial judgement, not unquestioning compliance.",
+       "origin": "Brand director feedback, 29 October 2026 (SOMW-153)"
+      },
+      {
+       "id": "13.22",
+       "text": "Be precise about the product. Verify what a feature does before claiming it, and avoid wording that could confuse or raise a privacy worry (for example, saying a photo feature \"puts every phone snap on screen\" when people only share the photos they choose). Don't exaggerate functionality, and never undermine one AhaSlides feature to sell another: don't call polls boring to promote a new game. Write official feature names consistently, with their capitals, on every channel.",
+       "origin": "Brand director feedback, 29 October 2026 (SOMW-153)"
+      },
+      {
+       "id": "13.23",
+       "text": "Know who you are talking to. Keep the reader's perspective consistent within a piece (not a student in one sentence and the person teaching in the next), and make the next action obvious.",
+       "origin": "Brand director feedback, 29 October 2026 (SOMW-153)"
+      },
+      {
+       "id": "13.24",
+       "text": "Think about how an outside audience will read a story about people, particularly around gender and cultural celebrations. A fun, colleague-led celebration should show the participants' own choices and reactions, and must not frame one group as the capable providers and another as the recipients. Don't turn an office party into a grand statement either.",
+       "origin": "Brand director feedback, 29 October 2026 (SOMW-153)"
+      },
+      {
+       "id": "13.25",
+       "text": "Hard rules and editorial judgement are different things. Product and feature name capitalisation and factual accuracy are hard rules. Choices such as \"will\" or \"would\" (\"will\" is more confident where the reader might really use the feature) or capitalising a word like \"FUN\" for emphasis are context-dependent editorial preferences, not formulas. Don't turn this feedback into another rigid set of writing habits.",
+       "origin": "Brand director feedback, 29 October 2026 (SOMW-153)"
       }
      ]
     }
@@ -1243,6 +1283,11 @@
   }
  ],
  "changes": [
+    {
+   "version": "v4",
+   "date": "29 Oct",
+   "text": "Brand director editorial feedback on social posts 1 to 61 (SOMW-153), the general half. New rules 13.18 to 13.25: tell-tale AI language, varying familiar brand phrases, saying what you mean and keeping humans at the centre, challenging briefs, product precision, consistent audience perspective, framing stories about people, and hard rules versus editorial judgement. Rules 13.12 and 13.13 are extended (standalone sentences, unambiguous calls to action). The tell-tale words are not added to the retired wording list: they are habits to avoid, not banned words. The social-only half lives in the social writing skill's brand-feedback log."
+  },
     {
    "version": "v3",
    "date": "29 Oct",
