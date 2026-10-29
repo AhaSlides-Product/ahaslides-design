@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.541.0 — 2026-10-29
 ### Added
-- Brand voice rules: rule 14.2 lets a retired phrase stay as a search keyword that a specific page or ad targets (page title, H1, URL, ad headline), never as a description of AhaSlides. The Google Ads landing page /features/interactive-presentation-tool/ is the example. (#PRNUM)
+- Brand voice rules: rule 14.2 lets a retired phrase stay as a search keyword that a specific page or ad targets (page title, H1, URL, ad headline), never as a description of AhaSlides. The Google Ads landing page /features/interactive-presentation-tool/ is the example. (#450)
 ### Changed
 - Brand voice rules, section 14: "interactive presentation tool" and "live audience engagement platform" join the retired wording table, and the copy lint (`retired-wording`) now catches them. A keyword-target page marks its lines with `ds-lint-allow: retired-wording (14.2, keyword target: ...)`.
 
