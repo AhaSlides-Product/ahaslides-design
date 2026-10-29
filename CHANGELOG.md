@@ -31,6 +31,17 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `standards.mjs` fails a marketing image manifest photo entry whose new `source` field is not `drive` or `customer-love`; the 3 customer quote photos carry `customer-love`. (#458)
 - Revert: revert the PR; nothing depends on the removed files.
 
+## 0.548.0 — 2026-10-29
+### Changed
+- Colour rule 3.5, anti-slop W5 and the website guideline: a landing page's Hero must open in its Vivid Pink state (`--brand`), not the White default of the snippet; the "a white hero is also allowed" line is gone and a white hero is only for a Page header page or a hero the requester names. The Hero guidance carries a "Surface" point saying so.
+- Anti-slop W12, the website guideline, the Features guidance and the Cards Steps note: a numbered how-to or how it works is Step cards (Steps row, a Cards grid for four or more), never Features Tabs; a tab description is one short sentence of 90 characters or fewer. Rebuilding a section keeps every point, step and image: five steps become five Step cards with their images, never fewer.
+### Added
+- `screen-lint --surface=website` rules `hero-not-brand` (the first band is a Hero not in the Vivid Pink state), `steps-as-tabs` (a Features Tabs section whose heading, eyebrow or tablist label says how it works or steps, or with numbered tab titles) and `tabs-description-long` (a tab description over 90 characters); escape `ds-lint-allow: page (why)`.
+- Features: new layout Compact: swipeable card scroller with images (`compact-scroller-images`), the scroller with a numbered Step card and a screenshot at the foot of each card (optional image slot, `aha-marketing-card__media--scroller`, ordered-list track); the Features, Steps and W12 guidance now say a how it works with images may use it as well as the Step grid.
+- Revert: revert the PR; the rules go back to "may be Vivid Pink" and the lint drops the three rules (#440); the scroller-with-images layout is removed
+### Fixed
+- Features layouts built from cards now load the Step card styles too, so the numbered badges in the scroller with images render in the preview and the copied snippet (#440).
+
 ## 0.547.0 — 2026-10-29
 ### Added
 - `screen-lint --surface=website` hard-fails seven more website guideline rules: W3 `content-width-uncapped` (section container over 1280 px, heading block over 720 px, lead over 44ch), W4 `missing-h1` and `multiple-primary-buttons`, W6 `img-empty-alt` (an empty alt on a picture that is not decorative), W7 `brand-not-lockup` and `missing-navigation`, W9 `motion-library`, `motion-own-script` and `motion-own-animation`, and W15 `card-link-same-tab` and `new-tab-on-sign-up`. W8 is `--measure`, which now renders a website page at 375, 768 and 1440 px. The matching `selfCheck` verdicts and anti-slop criteria name the new rules. (#456)

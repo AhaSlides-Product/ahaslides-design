@@ -50,7 +50,7 @@ test('every image carries alt', () => {
 
 const band = (classes) => `<section class="${classes}"></section>`;
 const page = (...bands) => `<main>\n${bands.join('\n')}\n</main>`;
-const websiteRulesOf = (source) => rulesOf(source).filter((rule) => ['section-eyebrow', 'band-order', 'section-spacing-override', 'removed-layout'].includes(rule));
+const websiteRulesOf = (source) => rulesOf(source).filter((rule) => ['section-eyebrow', 'band-order', 'section-spacing-override', 'removed-layout', 'hero-not-brand', 'tabs-description-long', 'steps-as-tabs'].includes(rule));
 const fixture = (name) => readFileSync(new URL(`../anti-slop/evals/website/fixtures/${name}/Page.html`, import.meta.url), 'utf8');
 
 test('a section eyebrow fails and a card category label does not', () => {
@@ -71,7 +71,7 @@ test('two coloured bands touching fail', () => {
 test('three white content bands in a row fail, the Logos strip and hero do not count', () => {
   const white = (name) => band(`aha-${name}`);
   assert.deepEqual(websiteRulesOf(page(white('features'), white('numbers'), white('testimonials'))), ['band-order']);
-  assert.deepEqual(websiteRulesOf(page(band('aha-header-section-hero-split'), band('aha-logos'), white('features'), white('testimonials'), band('aha-features aha-features--accent'), white('faq'))), []);
+  assert.deepEqual(websiteRulesOf(page(band('aha-header-section-hero-split aha-header-section-hero-split--brand'), band('aha-logos'), white('features'), white('testimonials'), band('aha-features aha-features--accent'), white('faq'))), []);
   assert.deepEqual(websiteRulesOf(page(white('features'), white('numbers'), band('aha-features aha-features--accent'), white('faq'), white('testimonials'))), []);
 });
 
@@ -118,7 +118,7 @@ test('the eval fixtures: both pass pages are clean, the eyebrow fixture and the 
 });
 
 test('the band after the Logos strip must be white', () => {
-  assert.deepEqual(websiteRulesOf(page(band('aha-header-section-hero-split'), band('aha-logos'), band('aha-features aha-features--accent'))), ['band-order']);
+  assert.deepEqual(websiteRulesOf(page(band('aha-header-section-hero-split aha-header-section-hero-split--brand'), band('aha-logos'), band('aha-features aha-features--accent'))), ['band-order']);
   assert.deepEqual(websiteRulesOf(page(band('aha-logos'), band('aha-features'), band('aha-features aha-features--accent'))), []);
 });
 
@@ -172,4 +172,38 @@ test('every whole-document check finishes fast on adversarial input', () => {
 test('tags with attributes spread over lines, extra attributes and upper-case names are read', () => {
   assert.deepEqual(websiteRulesOf('<P\n  id="a"\n  CLASS = "aha-features__eyebrow"\n>x</P>'), ['section-eyebrow']);
   assert.deepEqual(websiteRulesOf('<section data-x="a>b" class="aha-features aha-features--accent"></section><section class="aha-numbers aha-numbers--accent"></section>'), ['band-order']);
+});
+
+test('a landing hero left in the White state fails, the Vivid Pink hero and a Page header pass', () => {
+  assert.deepEqual(websiteRulesOf(page(band('aha-header-section-hero-split'), band('aha-features'))), ['hero-not-brand']);
+  assert.deepEqual(websiteRulesOf(page(band('aha-header-section-hero-stacked aha-header-section-hero-stacked--accent'))), ['removed-layout', 'hero-not-brand']);
+  assert.deepEqual(websiteRulesOf(page(band('aha-header-section-hero-split aha-header-section-hero-split--brand'), band('aha-features'))), []);
+  assert.deepEqual(websiteRulesOf(page(band('aha-header-section-page'), band('aha-features'))), []);
+  assert.deepEqual(websiteRulesOf(page(band('aha-header-section-hero-split') + ' <!-- ds-lint-allow: page (requester asked for white) -->')), []);
+});
+
+const tabsSection = (heading, ...tabs) => `<section class="aha-features aha-features--tabs-screenshots"><h2>${heading}</h2>${tabs.map(([title, text]) => `<button class="aha-features__tab"><span class="aha-features__item-title">${title}</span>\n<span class="aha-features__item-text">${text}</span></button>`).join('\n')}</section>`;
+
+test('Features Tabs hold parallel choices with short descriptions', () => {
+  assert.deepEqual(websiteRulesOf(tabsSection('One deck, every question', ['Polls', 'Ask and see answers live.'], ['Word clouds', 'One word from everyone.'])), []);
+  const long = 'Create your first presentation in minutes by choosing a template and adding your questions.';
+  assert.deepEqual(websiteRulesOf(tabsSection('One deck, every question', ['Polls', long])), ['tabs-description-long']);
+  assert.deepEqual(websiteRulesOf(tabsSection('How it works', ['Polls', 'Short.'])), ['steps-as-tabs']);
+  assert.deepEqual(websiteRulesOf(tabsSection('Get going', ['1. Create', 'Short.'], ['2. Share', 'Short.'])), ['steps-as-tabs']);
+});
+
+test('a steps section is caught by its eyebrow or tablist label even with unnumbered titles', () => {
+  const shape = (eyebrow, label) => `<section class="aha-features aha-features--tabs-screenshots"><header><p class="aha-features__eyebrow">${eyebrow}</p><h2>Set up a vote in seconds</h2></header><div class="aha-features__tablist" role="tablist" aria-label="${label}"><button class="aha-features__tab"><span class="aha-features__item-title">Write your question</span><span class="aha-features__item-text">Short.</span></button><button class="aha-features__tab"><span class="aha-features__item-title">Present</span><span class="aha-features__item-text">Short.</span></button></div></section>`;
+  assert.ok(rulesOf(shape('How it works', 'Formats')).includes('steps-as-tabs'));
+  assert.ok(rulesOf(shape('Formats', 'Set-up steps')).includes('steps-as-tabs'));
+  assert.ok(!rulesOf(shape('Formats', 'Question formats')).includes('steps-as-tabs'));
+});
+
+test('a parallel Tabs heading containing "how to" is not steps, inline markup does not cut text short', () => {
+  const tabs = (heading, text) => `<section class="aha-features aha-features--tabs-screenshots"><h2>${heading}</h2><button class="aha-features__tab"><span class="aha-features__item-title">Polls</span><span class="aha-features__item-text">${text}</span></button></section>`;
+  assert.ok(!rulesOf(tabs('Know how to pick the right format', 'Short.')).includes('steps-as-tabs'));
+  assert.ok(rulesOf(tabs('How to run a vote', 'Short.')).includes('steps-as-tabs'));
+  assert.ok(rulesOf(tabs('<span>How</span> it works', 'Short.')).includes('steps-as-tabs'));
+  const long = `<strong>Ask</strong> a question and ${'see the answers arrive from every phone '.repeat(3)}`;
+  assert.ok(rulesOf(tabs('One deck', long)).includes('tabs-description-long'));
 });
