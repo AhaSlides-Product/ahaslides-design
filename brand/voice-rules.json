@@ -3,7 +3,7 @@
  "id": "voice-rules",
  "title": "AhaSlides brand voice rules",
  "lede": "The single source for how AhaSlides talks: what we believe, who we serve, what we say and how we write. It follows brand guidelines v2.2 (22 October 2026) and the decisions made since. Visual rules are not here: the design system holds them.",
- "updated": "2026-10-23",
+ "updated": "2026-10-29",
  "environment": [
   "product",
   "audience",
@@ -809,13 +809,13 @@
      "rules": [
       {
        "id": "10.6",
-       "text": "Write British English everywhere, the blog included: colour, organise, centre, behaviour, licence (the noun), programme. Keep an American spelling only where it is a code identifier, an API field or a third-party product name.",
-       "origin": "Decided on 23 October 2026, not in brand guidelines v2.2"
+       "text": "Write British English everywhere, the blog included: colour, organise, centre, behaviour, licence (the noun), programme. Keep an American spelling only where it is a code identifier, an API field or a third-party product name, or in a search keyword field or hashtag (rule 14.3).",
+       "origin": "Decided on 23 October 2026, not in brand guidelines v2.2. Keyword and hashtag exception: Brand director decision, 29 October 2026 (BRGO-20 retro)"
       },
       {
        "id": "10.7",
-       "text": "Headlines and CTA labels are in sentence case, with no end punctuation: no full stop, no exclamation mark.",
-       "origin": "Brand guidelines v2.2, applied to every headline and CTA"
+       "text": "Headlines and CTA labels are in sentence case, with no end punctuation: no full stop, no exclamation mark. A product or feature name keeps its own capitals inside a sentence-case line, for example \"Try the AhaSlides AI Presentation Maker\". When a brief or requester supplies title-case copy, change it to sentence case and tell the requester which lines you changed.",
+       "origin": "Brand guidelines v2.2, applied to every headline and CTA. Product names and brief copy: Brand director decision, 29 October 2026 (BRGO-20 retro)"
       },
       {
        "id": "10.8",
@@ -1081,6 +1081,11 @@
        "id": "14.2",
        "text": "A retired phrase may stay as a search keyword that a specific page or ad targets (page title, H1, URL, ad headline or keyword) where data shows it brings traffic or sign-ups. It is never used to describe what AhaSlides is, and the body of that page describes AhaSlides with the section 5 wording. Measure before you change such a page (before and after, with a rollback trigger). Example: the Google Ads landing page /features/interactive-presentation-tool/, titled \"AhaSlides - Interactive Presentation Tool\". In the screen lint, mark each keyword line with `ds-lint-allow: retired-wording (14.2, keyword target: <page or ad>)`.",
        "origin": "Brand director decision, 29 October 2026, from search and paid sign-up data"
+      },
+      {
+       "id": "14.3",
+       "text": "A retired phrase or an American spelling may appear only in a search keyword field or a hashtag: an SEO keyword list, ad keywords, meta keywords, or a social hashtag such as #InteractivePresentations, where it is the term people search for. Never use it in copy people read: body text, a headline (except the keyword-target page in rule 14.2), a CTA label or a caption. In the screen lint, mark a keyword line with `ds-lint-allow: retired-wording (14.3, keyword field: <where>)`.",
+       "origin": "Brand director decision, 29 October 2026 (BRGO-20 retro)"
       }
      ]
     },
@@ -1237,6 +1242,11 @@
    "version": "v1",
    "date": "23 Oct",
    "text": "First version: everything non-visual in brand guidelines v2.2, the brand director's general editorial feedback, British spelling, one clear CTA, the retired wording list and which rules apply to which kind of communication."
+  },
+  {
+   "version": "v2",
+   "date": "29 Oct",
+   "text": "Brand director decisions from the first weekly retro (BRGO-20). Rule 10.7: a product or feature name keeps its capitals inside a sentence-case headline or CTA, and title-case copy from a brief is changed to sentence case with the requester told. New rule 14.3 (cross-referenced from 10.6): a retired phrase or an American spelling is allowed only in search keyword fields and hashtags, never in copy people read. Also records rule 14.2 (a retired phrase may stay as a keyword-target page or ad keyword, BRGO-11), which shipped on 29 Oct without an entry."
   }
  ]
 }
