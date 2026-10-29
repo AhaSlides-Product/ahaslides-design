@@ -70,3 +70,25 @@ test('ds-lint-allow opts a composition finding out on its line', () => {
   assert.ok(flagged('<style>body{font-family:Inter}</style>'));
   assert.ok(!flagged('<style>body{font-family:Inter} /* ds-lint-allow: page-font (legacy embed) */</style>'));
 });
+
+test('every shipped marketing snippet, html with its own css, has no ds-class-without-css finding', () => {
+  const snippets = [];
+  const visit = (node, label, baseCss = '') => {
+    if (Array.isArray(node)) return node.forEach((item) => visit(item, label, baseCss));
+    if (!node || typeof node !== 'object') return;
+    const shared = `${baseCss}\n${typeof node.baseCss === 'string' ? node.baseCss : ''}`;
+    if (typeof node.html === 'string') snippets.push([label, { html: node.html, css: `${shared}\n${node.css ?? ''}` }]);
+    Object.values(node).forEach((value) => visit(value, label, shared));
+  };
+  for (const file of readdirSync(new URL('../marketing/', import.meta.url)).filter((entry) => entry.endsWith('.json')))
+    visit(JSON.parse(readFileSync(new URL(`../marketing/${file}`, import.meta.url), 'utf8')), file);
+  assert.ok(snippets.length > 10);
+  for (const [label, node] of snippets)
+    assert.deepEqual(rulesOf(`<style>${node.css}</style>${node.html}`).filter((rule) => rule === 'ds-class-without-css'), [], label);
+});
+
+test('a Step card in an ordinary grid fails even when another Steps row exists on the page', () => {
+  const ring = '<span class="aha-marketing-card__number">1</span>';
+  const page = `<div class="aha-marketing-cards__grid aha-marketing-cards__grid--row"><div class="aha-marketing-card--step">${ring}</div></div><div class="aha-marketing-cards__grid"><div class="aha-marketing-card--step">${ring}</div></div>`;
+  assert.equal(websiteCompositionFindings(page).filter((finding) => finding.rule === 'step-numbers').length, 1);
+});
