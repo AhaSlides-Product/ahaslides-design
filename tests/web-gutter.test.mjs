@@ -228,3 +228,19 @@ test('two neighbouring sections on one surface show one Section space: the token
   const logosAfterScript = tokens.split('\n').filter((line) => line.includes(')+script+:is(.aha-logos') && line.endsWith('>:first-child{margin-top:calc(var(--aha-section-space-group) - var(--aha-section-space-block));padding-top:0}'));
   assert.deepEqual(logosAfterScript, logos.map((line) => line.replace(')+:is(', ')+script+:is(')), 'a snippet\'s trailing init script between the section and Logos still pulls Logos up');
 });
+
+test('DSN-992: a Vivid Pink Logos strip nested in any Vivid Pink hero drops its fill and pulls up one Group, except under page-header tabs', () => {
+  const tokens = readFileSync(new URL('../lib/tokens.css', import.meta.url), 'utf8');
+  const fill = tokens.split('\n').find((line) => line.endsWith('>.aha-logos--brand{background:none;box-shadow:none}'));
+  const pullUp = tokens.split('\n').find((line) => line.endsWith('>.aha-logos--brand>:first-child{margin-top:calc(var(--aha-section-space-group) - var(--aha-section-space-block));padding-top:0}') && !line.includes('+'));
+  assert.ok(fill && pullUp);
+  const heroes = readdirSync(new URL('../marketing/', import.meta.url))
+    .filter((file) => file.endsWith('.json'))
+    .flatMap((file) => [...readFileSync(new URL(`../marketing/${file}`, import.meta.url), 'utf8').matchAll(/\.(aha-header-section-[a-z0-9-]+)--brand\b/g)].map((match) => match[1]));
+  for (const root of new Set(heroes)) {
+    assert.ok(fill.includes(`.${root}--brand`), root);
+    assert.ok(pullUp.includes(`.${root}--brand`), root);
+  }
+  assert.ok(pullUp.includes('.aha-header-section-page-header--brand.aha-header-section-page-header--no-tabs'));
+  assert.ok(!/\.aha-header-section-page-header--brand[,)]/.test(pullUp));
+});

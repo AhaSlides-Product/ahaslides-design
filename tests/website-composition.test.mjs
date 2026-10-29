@@ -34,9 +34,9 @@ for (const id of ['W9', 'W11', 'W12', 'W13', 'W14', 'W15', 'W17', 'W18', 'W19'])
   });
 }
 
-test('W1 puts the Logos strip directly below the hero, and the pass pages do', () => {
+test('W1 puts the Logos strip straight after the hero, and the pass pages do', () => {
   for (const list of [criteria, agentCriteria]) {
-    assert.match(list.find((criterion) => criterion.id === 'W1').test, /Logos strip is always the band directly below the hero/);
+    assert.match(list.find((criterion) => criterion.id === 'W1').test, /Logos strip always comes straight after the hero[^;]*hero's last child, with aha-logos--brand/);
   }
   const failing = evals.find((entry) => entry.expected.criteria.W1 === 'FAIL' && entry.files[0].path.includes('logos-mid-page'));
   assert.ok(failing, 'eval with Logos placed mid-page');
