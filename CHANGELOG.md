@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.571.1 — 2026-10-29
+### Fixed
+- Cards, the Steps row band: its heading pads the top and its button the bottom with Section (`--aha-section-space-block`: 96, 64, 48 by width) instead of a fixed 64, 48, 32, so the gap from the button to the next band is one Section step like every other Marketing section (DESY-407). The width overrides are gone, the token steps itself.
+- Testimonials, Quote cards: the author row aligns to the top of its shared bottom track, so a role that wraps to two lines no longer lifts that card's name above the others; names share one baseline whatever the role length. W19 prose (guideline, criterion and its agent copy, section summary) says so (#NNN)
+
 ## 0.571.0 — 2026-10-29
 ### Added
 - Hero split: the 16:9 Video slot is back (DESY-404), the markup and CSS `hero.md` already described (`<video class="{{c}}__video">`, the ambient form with `autoplay muted loop playsinline` and no controls, paused under `prefers-reduced-motion` by `lib/marketing-motion.js`). The slot narrows and centres on a wide screen instead of letterboxing.
