@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync } from 'node:fs';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { evaluateInPage, resolveChrome } from '../cdp.mjs';
+import { evaluateInPage, resolveChrome, withPage } from '../cdp.mjs';
 
 const fixture = pathToFileURL(fileURLToPath(new URL('./option-picture-expand.html', import.meta.url))).href;
 const skip = existsSync(resolveChrome()) ? false : 'needs headless Chrome (set CHROME_BIN)';
@@ -77,4 +77,49 @@ test('the corner expand button opens the picture in the bottom sheet without sel
   assert.equal(result.answerOnly.size, 32);
   assert.equal(result.answerText.size, 24);
   assert.deepEqual(result.order, ['a', 'b']);
+});
+
+const focusExpand = (hostId, rowSelector) => String.raw`(() => {
+  const host = document.getElementById('${hostId}');
+  const button = host.shadowRoot.querySelector('${rowSelector} .expand');
+  button.focus();
+  return host.shadowRoot.activeElement === button;
+})()`;
+const sheetOpen = String.raw`(async () => { await new Promise((done) => setTimeout(done, 300)); const sheet = document.querySelector('aha-bottom-sheet'); const open = !!sheet && sheet.hasAttribute('open'); if (sheet) sheet.close(); await new Promise((done) => setTimeout(done, 300)); return open; })()`;
+const keys = {
+  Enter: { key: 'Enter', code: 'Enter', windowsVirtualKeyCode: 13, text: '\r' },
+  Space: { key: ' ', code: 'Space', windowsVirtualKeyCode: 32, text: ' ' },
+};
+const evaluate = async (command, expression) => (await command('Runtime.evaluate', { expression, returnByValue: true, awaitPromise: true })).result.value;
+
+test('Enter and Space on the focused expand button open the sheet from the keyboard, in both components', { skip }, async () => {
+  const outcomes = await withPage(fixture, async (command) => {
+    const seen = {};
+    for (const [host, selector] of [['answer-text', '.row'], ['answer-only', '.row'], ['rank', '[data-option-id="a"]'], ['rank', '[data-option-id="b"]']]) {
+      for (const [name, spec] of Object.entries(keys)) {
+        const focused = await evaluate(command, focusExpand(host, selector));
+        await command('Input.dispatchKeyEvent', { type: 'keyDown', ...spec });
+        await command('Input.dispatchKeyEvent', { type: 'keyUp', key: spec.key, code: spec.code, windowsVirtualKeyCode: spec.windowsVirtualKeyCode });
+        seen[host + selector + name] = { focused, opened: await evaluate(command, sheetOpen) };
+      }
+    }
+    return seen;
+  }, { readyExpr: '!!window.expandReady', timeout: 45000 });
+  for (const [name, outcome] of Object.entries(outcomes)) {
+    assert.ok(outcome.focused, name + ' button focused');
+    assert.ok(outcome.opened, name + ' opens from the keyboard');
+  }
+});
+
+const lateLabel = String.raw`(() => {
+  const answer = document.getElementById('answer-text');
+  const rank = document.getElementById('rank');
+  answer.setAttribute('expand-picture-label', 'Xem ảnh lớn');
+  rank.setAttribute('expand-picture-label', 'Xem ảnh lớn');
+  return [answer.shadowRoot.querySelector('.expand').getAttribute('aria-label'), ...[...rank.shadowRoot.querySelectorAll('.expand')].map((button) => button.getAttribute('aria-label'))];
+})()`;
+
+test('a later expand-picture-label change updates the button name', { skip }, async () => {
+  const labels = await evaluateInPage(fixture, lateLabel, { readyExpr: '!!window.expandReady', timeout: 45000 });
+  assert.deepEqual(labels, ['Xem ảnh lớn', 'Xem ảnh lớn', 'Xem ảnh lớn']);
 });
