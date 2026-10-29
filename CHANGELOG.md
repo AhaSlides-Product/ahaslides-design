@@ -22,6 +22,18 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.571.0 — 2026-10-29
+### Added
+- Hero split: the 16:9 Video slot is back (DESY-404), the markup and CSS `hero.md` already described (`<video class="{{c}}__video">`, the ambient form with `autoplay muted loop playsinline` and no controls, paused under `prefers-reduced-motion` by `lib/marketing-motion.js`). The slot narrows and centres on a wide screen instead of letterboxing.
+- Cards: the Steps row as its own band takes an optional centred heading, lead and one button (`aha-marketing-cards__header`, `__title`, `__lead`, `__cta`), same type as the Features header, so a page no longer needs a Features section around the Steps row to get them. New snippet "Steps row with heading, lead and button".
+
+### Changed
+- Features, Icons around a phone screenshot: below 767px the image now follows the text (`order:1`) instead of sitting above it, like Hero split, Compact tabs and Alternating rows, so W8 passes on a page that uses both. The W8 rule, its criteria copy and the layout summary say text first.
+- Navigation and Footer snippets: "Word Cloud" and "Spinner Wheel" are sentence case ("Word cloud", "Spinner wheel"), as are the website eval fixtures that paste them.
+
+### Fixed
+- `variables.css` and `lib/tokens.css` header comments no longer carry an em dash (#476)
+
 ## 0.569.0 — 2026-10-29
 ### Added
 - Button: the canvas close ✕ (DESY-402). `<aha-button variant="tertiary-deck" size="sm" icon-only corner>` is the 28 × 28 dismiss for a panel or overlay on the presenter canvas, glyph in the deck's secondary ink (76%) at rest and the full ink on a 5% wash on hover; on a photographic deck it is `secondary-deck` (white fill, dark glyph). The app close ✕ (xs) and the audience close ✕ (md) are unchanged. Canvas Library gets a Close button section (#474)
