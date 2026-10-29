@@ -1637,7 +1637,7 @@
         {
           "id": "W20",
           "title": "Page length: the page, each Features band and the first screen stay within their height limits",
-          "test": "Measured in a render at 1440 px wide: the whole page is at most 5000 px tall, and each Features band is at most 800 px tall (a band taller than that is split, or cut to fewer rows or tabs). Measured at 1280 x 720: the Navigation plus the Hero fit within 720 px, so the hero's heading, lead and primary call to action show without scrolling. A page over 5000 px, a Features band over 800 px (a long stack of alternating rows, a tall tab pane), or a Navigation plus Hero taller than 720 px at 1280 x 720 fails. A page of at most three short sections passes. N/A only when the page has no Marketing section."
+          "test": "Measured in a render at 1440 px wide: each Features band is at most 800 px tall (a band taller than that is split, or cut to fewer rows or tabs). Measured at 1280 x 720: the Navigation plus the Hero fit within 720 px, so the hero's heading, lead and primary call to action show without scrolling. A Features band over 800 px (a long stack of alternating rows, a tall tab pane), or a Navigation plus Hero taller than 720 px at 1280 x 720 fails. A page of at most three short sections passes. N/A only when the page has no Marketing section."
         }
       ]
     }

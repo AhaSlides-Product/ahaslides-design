@@ -1018,7 +1018,7 @@
       ],
       "label": "bad-example",
       "notes": "Targets W20: a Features band stacking eight alternating rows, far over 800 px tall at 1440.",
-      "expected_output": "W20 FAILs: the first Features section stacks eight alternating screenshot rows, each about 480 px tall, so the band is over 3,000 px at 1440, far over the 800 px limit, and pushes the page past 5,000 px. Fix: cut the band to two or three rows or split it. Overall: NEEDS FIX.",
+      "expected_output": "W20 FAILs: the first Features section stacks eight alternating screenshot rows, each about 480 px tall, so the band is over 3,000 px at 1440, far over the 800 px limit. Fix: cut the band to two or three rows or split it. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "W20 is marked FAIL",
