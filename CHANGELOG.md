@@ -22,6 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.551.0 — 2026-10-29
+### Added
+- Brand guidelines v2.3 (29 October 2026, final) is published at `https://design.ahaslides.io/brand/ahaslides-brand-guidelines-v2.3.pdf`. (#PRNUM)
+
+### Changed
+- Brand voice rules: the lede names v2.3 and links the PDF, new rule 16.4 sets the three sources of truth (design system, voice rules online, the PDF) and that the first two win. The colour rules lede carries the same precedence line. (#PRNUM)
+
 ## 0.550.0 — 2026-10-29
 ### Changed
 - Website rule W6 (guideline, anti-slop criterion in both copies): photos of people, customers and events come only from the AhaSlides Drive photo library or Customer Love; stock photos (Unsplash, Pexels, Picsum, Shutterstock, iStock, Getty, Adobe Stock, Freepik and the like) are banned. Product screenshots and the DS placeholder stay allowed. (#458)
