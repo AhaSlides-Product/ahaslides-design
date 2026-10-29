@@ -301,6 +301,7 @@
   "system-table": ["table", "data", "spreadsheet", "rows", "grid", "list"],
   "system-tag": ["tag", "label", "category", "price tag", "badge", "keyword"],
   "system-text-t": ["text", "font", "typography", "type", "add text", "heading"],
+  "system-thumb-up-down": ["thumbs up and down", "feedback", "rate", "like or dislike", "helpful", "was this helpful", "vote"],
   "system-thumbs-down": ["dislike", "thumbs down", "disagree", "bad", "negative", "downvote"],
   "system-thumbs-up": ["like", "thumbs up", "agree", "good", "positive", "upvote"],
   "system-time-out": ["time out", "time limit", "timer", "countdown", "expired", "clock"],
