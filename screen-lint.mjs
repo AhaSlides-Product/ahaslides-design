@@ -15,6 +15,7 @@
  *   node screen-lint.mjs --surface=audience <file ...>      # a slide type's audience phone
  *   node screen-lint.mjs --surface=settings <file ...>      # a slide type's settings panel (lib/settings.js only)
  *   node screen-lint.mjs --surface=website  <file ...>      # a whole website page of Marketing sections
+ *   node screen-lint.mjs --surface=website --measure <file ...>   # W8: render at 375/768/1440, fail on horizontal scroll (needs Chrome)
  *   node screen-lint.mjs --self-test                       # dogfood: run over this repo's snippets
  *
  * --surface is REQUIRED and mirrors the judge's J0: you cannot grade a screen without first routing
@@ -82,15 +83,20 @@ const MEASURE_VIEWPORTS = [
   { label: '768', width: 768, height: 1024 },
   { label: '1440', width: 1440, height: 900 },
 ];
-async function runMeasure(fileList) {
+const WEBSITE_MEASURE_VIEWPORTS = [
+  { label: '375', width: 375, height: 667 },
+  { label: '768', width: 768, height: 1024 },
+  { label: '1440', width: 1440, height: 900 },
+];
+async function runMeasure(fileList, viewports = MEASURE_VIEWPORTS) {
   const { measureAtViewports } = await import('./cdp.mjs');
   const expr = `(function(){var de=document.documentElement;return {ow:Math.round(de.scrollWidth),cw:de.clientWidth};})()`;
   let hardCount = 0;
-  console.log(`\n=== SCREEN-LINT · measured responsive pass (360/768/1440) ===\n`);
+  console.log(`\n=== SCREEN-LINT · measured responsive pass (${viewports.map(v => v.label).join('/')}) ===\n`);
   for (const f of fileList) {
     try {
-      const r = await measureAtViewports('file://' + f, expr, { viewports: MEASURE_VIEWPORTS, readyExpr: "document.readyState==='complete'", timeout: 45000 });
-      const over = MEASURE_VIEWPORTS.filter(v => { const m = r[v.label] || {}; return (m.ow - m.cw) > 1; })
+      const r = await measureAtViewports('file://' + f, expr, { viewports, readyExpr: "document.readyState==='complete'", timeout: 45000 });
+      const over = viewports.filter(v => { const m = r[v.label] || {}; return (m.ow - m.cw) > 1; })
         .map(v => `${v.label}px +${(r[v.label].ow - r[v.label].cw)}`);
       console.log(`${over.length ? '✗' : '✓'} ${f.replace(root + '/', '')}`);
       if (over.length) { hardCount++; console.log(`      ✗ FAIL [overflow] horizontal scroll at ${over.join(', ')} — the screen must reflow to fit the phone floor`); }
@@ -196,5 +202,5 @@ if (!files.length) {
 }
 const abs = files.map(f => (f.startsWith('/') ? f : join(process.cwd(), f)));
 let hard = run(abs, surface);
-if (measure) hard += await runMeasure(abs);   // opt-in render pass — a real screen must fit the phone floor
+if (measure) hard += await runMeasure(abs, surface === 'website' ? WEBSITE_MEASURE_VIEWPORTS : MEASURE_VIEWPORTS);   // opt-in render pass — a real screen must fit the phone floor
 process.exit(hard > 0 ? 1 : 0);
