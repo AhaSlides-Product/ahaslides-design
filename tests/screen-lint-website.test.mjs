@@ -287,3 +287,14 @@ test('W9: a no-preference reduced-motion block is no stop', () => {
   assert.deepEqual(videoRulesOf(heroWithVideo(heroVideo, '<style>@media (prefers-reduced-motion: no-preference){video{opacity:1}}</style>')), ['autoplay-video-motion']);
   assert.deepEqual(videoRulesOf(heroWithVideo(heroVideo, '<script>if (matchMedia("(prefers-reduced-motion: no-preference)").matches) v.pause();</script>')), ['autoplay-video-motion']);
 });
+
+test('W9: a class that merely contains "video" is no stop', () => {
+  assert.deepEqual(videoRulesOf(heroWithVideo(heroVideo, '<style>@media (prefers-reduced-motion: reduce){.video-card{transition:none}}</style>')), ['autoplay-video-motion']);
+  assert.deepEqual(videoRulesOf(heroWithVideo(heroVideo, '<style>@media (prefers-reduced-motion: reduce){.hero video, video{display:none}}</style>')), []);
+});
+
+test('DSN-975: iframe and trailer selectors are not rails or frames; DS rail and frame classes still are', () => {
+  assert.deepEqual(greyRulesOf('<style>iframe{background:#f6f6f6}.trailer{background:#f7f7f7}</style>'), []);
+  assert.deepEqual(greyRulesOf('<style>.aha-quote__rail{background:#f6f6f6}</style>'), ['grey-quote-or-frame']);
+  assert.deepEqual(greyRulesOf('<style>.aha-features__frame{border-left:2px solid #F7F7F7}</style>'), ['grey-quote-or-frame']);
+});
