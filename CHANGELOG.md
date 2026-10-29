@@ -29,6 +29,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Audience: every picture in `<aha-answer-option>` and `<aha-rank-list>` (rows that are not `expandable`) now has an expand button in its top-right corner: it shows on hover or keyboard focus, and stays visible on touch screens (`hover: none`). It opens the picture large in `<aha-bottom-sheet>` (contained, titled with the option text when there is one) and never selects the option or starts a drag. New `expand-picture-label` attribute (default "View larger picture"); `<aha-bottom-sheet>` / `<aha-audience-modal>` gain `fit-image`, which caps the picture at the viewport height. `expandable` rows keep their existing picture overlay and `expand` event. ([#466](https://github.com/AhaSlides-Product/ahaslides-design/pull/466))
 - Revert: revert the PR; only the picture alignment and padding of rows with text and a picture, the size and fit of image-only pictures, and the new corner expand button change
 
+## 0.563.1 — 2026-10-29
+### Removed
+- Website rule W20 is retired, with every height limit in the website rules: the Features band cap (at most 800 px tall at 1440), the Navigation plus Hero within 720 px at 1280 x 720, and the Hero line "visible without scrolling at 1280 by 720". Criteria W1 to W19 keep their ids. The W20 eval and its fixture are removed and the evals renumbered. ([#467](https://github.com/AhaSlides-Product/ahaslides-design/pull/467))
+- Revert: revert the PR; only website guideline text, one criterion, one eval and its fixture change
+
 ## 0.563.0 — 2026-10-29
 ### Removed
 - Website > Marketing > Hero: the Hero stacked, Hero bento collage and Gallery bento grid layouts, with the Video slot that only Hero stacked had. Their classes join `marketing/data/removed-layouts.json`, so website rule W1 fails a page that still uses them. The Hero page keeps 11 layouts. (#468)
