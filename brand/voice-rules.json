@@ -54,7 +54,7 @@
      "rules": [
       {
        "id": "1.1",
-       "text": "**Our why.** We believe humans achieve more when they genuinely engage with each other. But getting people involved can be hard work. And we don't think it should be."
+       "text": "**Our why.** We believe humans achieve much more when they genuinely engage with each other. That's the power of engagement. But getting people involved can be hard work. And we don't think it should be."
       },
       {
        "id": "1.2",
@@ -76,17 +76,13 @@
      "rules": [
       {
        "id": "1.4",
-       "text": "We believe in aha moments: when everyone is tuned in, questions are flying, ideas are bouncing around, and people are laughing, learning and sharing what they really think."
+       "text": "When everyone is tuned in. Questions are flying, ideas are bouncing around, people are laughing, learning and sharing what they really think. There's a buzz you can feel. A sense that something good is happening between people. These are the moments that stick. When something finally clicks. When someone finds their voice. When a team comes together. When people leave knowing, feeling or understanding something they didn't before. That's the power of engagement."
       },
       {
        "id": "1.5",
        "text": "We also believe humans achieve more when they genuinely engage with each other. Creating those moments should be easier: less time preparing, organising, chasing responses and figuring out what it all means, and more time connecting, listening, learning and making things happen together."
       }
      ]
-    },
-    {
-     "type": "quote",
-     "text": "There's a buzz you can feel. A sense that something good is happening between people. These are the moments that stick. When something finally clicks. When someone finds their voice. When a team comes together. When people leave knowing, feeling or understanding something they didn't before."
     },
     {
      "type": "quote",
@@ -1080,6 +1076,11 @@
        "id": "14.1",
        "text": "Never use the retired wording below in any communication, internal or external. Use the replacement in the right-hand column, or the descriptions in section 5.",
        "origin": "Decided on 23 October 2026, not in brand guidelines v2.2"
+      },
+      {
+       "id": "14.2",
+       "text": "A retired phrase may stay as a search keyword that a specific page or ad targets (page title, H1, URL, ad headline or keyword) where data shows it brings traffic or sign-ups. It is never used to describe what AhaSlides is, and the body of that page describes AhaSlides with the section 5 wording. Measure before you change such a page (before and after, with a rollback trigger). Example: the Google Ads landing page /features/interactive-presentation-tool/, titled \"AhaSlides - Interactive Presentation Tool\". In the screen lint, mark each keyword line with `ds-lint-allow: retired-wording (14.2, keyword target: <page or ad>)`.",
+       "origin": "Brand director decision, 29 October 2026, from search and paid sign-up data"
       }
      ]
     },
@@ -1108,6 +1109,14 @@
        "an all-in-one engagement platform for teams and classrooms"
       ],
       [
+       "interactive presentation tool",
+       "an all-in-one engagement platform for teams and classrooms"
+      ],
+      [
+       "live audience engagement platform",
+       "an all-in-one engagement platform for teams and classrooms"
+      ],
+      [
        "save the world from sleepy meetings",
        "AhaSlides takes the work out of engagement."
       ],
@@ -1123,7 +1132,7 @@
     },
     {
      "type": "paragraph",
-     "text": "A phrase such as \"interactive presentations\" is not retired when it names a feature or an article topic. What is retired is describing the whole product that way."
+     "text": "A phrase such as \"interactive presentations\" is not retired when it names a feature or an article topic. What is retired is describing the whole product that way. Rule 14.2 covers the other allowed use: a retired phrase as a search keyword a page or ad targets."
     }
    ],
    "kinds": [

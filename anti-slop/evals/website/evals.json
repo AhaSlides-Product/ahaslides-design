@@ -2,7 +2,7 @@
   "surface": "website",
   "judgedAgainst": "anti-slop/criteria.json surfaces.website",
   "portedFrom": null,
-  "authoredNote": "DS-authored with the website surface (W1 to W19) from guidelines/website.json and the shipped Marketing sections; there is no plugin judge for whole-page composition.",
+  "authoredNote": "DS-authored with the website surface (W1 to W20) from guidelines/website.json and the shipped Marketing sections; there is no plugin judge for whole-page composition.",
   "evals": [
     {
       "id": 1,
@@ -41,7 +41,8 @@
           "W16": "PASS",
           "W17": "PASS",
           "W18": "PASS",
-          "W19": "PASS"
+          "W19": "PASS",
+          "W20": "PASS"
         }
       },
       "source": {
@@ -62,7 +63,7 @@
       ],
       "label": "good-control",
       "notes": "Good control at the W5 boundary: a Vivid Pink hero plus a Vivid Pink footer banner is the allowed maximum of two; must not be flagged as too many.",
-      "expected_output": "A Vivid Pink hero, then white Pricing, a pale pink icon-grid band, white Testimonials and FAQ, and a closing Vivid Pink Footer banner after a white band: two Vivid Pink bands in all (colour rule 3.4) and a full white section between every pair of coloured bands (rule 3.3). The hero is Vivid Pink as rule 3.5 allows on a web page. Each banner has one call to action, and the closing banner repeats the hero's label (Start free, written for the pricing page). Headings are centred over every full-width section and each content section ends with its shipped centred call to action row: Read customer stories under Testimonials, Read the docs under the FAQ and the hero's Start free everywhere else; testimonial authors are left aligned. Overall: OK TO SHIP.",
+      "expected_output": "A Vivid Pink hero, then white Pricing, a pale pink icon-grid band, white Testimonials and FAQ, and a closing Vivid Pink Footer banner after a white band: two Vivid Pink bands in all (colour rule 3.4) and a full white section between every pair of coloured bands (rule 3.3). The hero is Vivid Pink as rule 3.5 requires on a web page. Each banner has one call to action, and the closing banner repeats the hero's label (Start free, written for the pricing page). Headings are centred over every full-width section and each content section ends with its shipped centred call to action row: Read customer stories under Testimonials, Read the docs under the FAQ and the hero's Start free everywhere else; testimonial authors are left aligned. Overall: OK TO SHIP.",
       "assertions": [
         "Overall verdict is OK TO SHIP",
         "W5 is not FAIL for two separated Vivid Pink bands"
@@ -83,7 +84,8 @@
           "W16": "PASS",
           "W17": "PASS",
           "W18": "PASS",
-          "W19": "PASS"
+          "W19": "PASS",
+          "W20": "PASS"
         }
       },
       "source": {
@@ -368,7 +370,7 @@
       ],
       "label": "bad-example",
       "notes": "Targets W5: a Darker Pink hero background, with the body otherwise correct.",
-      "expected_output": "W5 FAILs: the hero surface is overridden to Darker Pink #DB005B. The hero may be Vivid Pink #E70E68 (rule 3.5); Darker Pink is only the Splash hooks on it (rule 5.1). Fix: remove the surface override so the hero is Vivid Pink. Overall: NEEDS FIX.",
+      "expected_output": "W5 FAILs: the hero surface is overridden to Darker Pink #DB005B. The hero must be Vivid Pink #E70E68 (rule 3.5); Darker Pink is only the Splash hooks on it (rule 5.1). Fix: remove the surface override so the hero is Vivid Pink. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "W5 is marked FAIL",
@@ -889,6 +891,143 @@
         "overall": "NEEDS_FIX",
         "criteria": {
           "W6": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 30,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/pass-hero-video/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "good-control",
+      "notes": "Good control at the W9 boundary: one hero video that autoplays muted and looped with a poster, and the DS motion script that pauses it under prefers-reduced-motion. Must not be flagged as an autoplaying video.",
+      "expected_output": "The Vivid Pink hero carries one <video> with autoplay, muted, loop, playsinline and a poster, and lib/marketing-motion.js is loaded, which pauses it under prefers-reduced-motion. It is the only video on the page, so W9 passes. The rest of the page is the reference landing page. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "W9 is not FAIL",
+        "Does not flag the hero video"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "W1": "PASS",
+          "W2": "PASS",
+          "W3": "PASS",
+          "W4": "PASS",
+          "W5": "PASS",
+          "W6": "PASS",
+          "W7": "PASS",
+          "W9": "PASS",
+          "W11": "PASS",
+          "W12": "PASS",
+          "W13": "PASS",
+          "W14": "PASS",
+          "W15": "PASS",
+          "W16": "PASS",
+          "W17": "PASS",
+          "W18": "PASS",
+          "W19": "PASS",
+          "W20": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 31,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w9-second-autoplay-video/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W9: a second autoplaying video in a Features row beside the hero video.",
+      "expected_output": "W9 FAILs: the Features row 'Questions without the awkward silence' carries a second autoplaying video; a page allows exactly one autoplaying video, the hero's. Fix: use a still screenshot or a video with controls and no autoplay in the row. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W9 is marked FAIL",
+        "Names the second autoplaying video in the Features row"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W9": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 32,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w9-no-reduced-motion/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W9: the hero video autoplays but nothing stops it under prefers-reduced-motion.",
+      "expected_output": "W9 FAILs: the hero video autoplays and loops, but the page does not load lib/marketing-motion.js and has no prefers-reduced-motion handling, so it keeps playing for people who asked for less motion. Fix: load the DS motion script, which pauses it. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W9 is marked FAIL",
+        "Says the hero video is not stopped under prefers-reduced-motion"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W9": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 33,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w20-long-features-band/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W20: a Features band stacking eight alternating rows, far over 800 px tall at 1440.",
+      "expected_output": "W20 FAILs: the first Features section stacks eight alternating screenshot rows, each about 480 px tall, so the band is over 3,000 px at 1440, far over the 800 px limit, and pushes the page past 5,000 px. Fix: cut the band to two or three rows or split it. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W20 is marked FAIL",
+        "Names the Features band of eight rows and its height"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W20": "FAIL"
         }
       },
       "source": {
