@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.557.1 — 2026-10-29
 ### Changed
-- Website rule W20 (guideline, judge criterion and its eval): drop the whole-page height cap (at most 5000 px at 1440). The Features band cap (800 px) and the Navigation plus Hero within 720 px at 1280 x 720 stay. ([#PRNUM](https://github.com/AhaSlides-Product/ahaslides-design/pull/PRNUM))
+- Website rule W20 (guideline, judge criterion and its eval): drop the whole-page height cap (at most 5000 px at 1440). The Features band cap (800 px) and the Navigation plus Hero within 720 px at 1280 x 720 stay. ([#462](https://github.com/AhaSlides-Product/ahaslides-design/pull/462))
 - Revert: revert the PR; only text in W20 changes
 
 ## 0.557.0 — 2026-10-29
