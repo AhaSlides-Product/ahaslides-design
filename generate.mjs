@@ -401,7 +401,7 @@ function marketingSectionSurfaces() {
   return sections;
 }
 /* Two neighbouring sections on one surface read as one space, so the second drops its top Section padding;
-   a surface change is the divider, so both sides keep theirs. Direct siblings only. */
+   a surface change is the divider, so both sides keep theirs. Direct siblings, or with one snippet's trailing init script between. */
 function sectionAdjacencyCss() {
   const sections = marketingSectionSurfaces();
   if (!sections.length) return '';
@@ -410,7 +410,7 @@ function sectionAdjacencyCss() {
   const followers = sections.filter(section => !section.keepsTopSpace);
   return ['', ...SECTION_SURFACE_MODIFIERS].map(surface => {
     const before = onSurface(surface, sections), after = onSurface(surface, followers);
-    return before.length && after.length ? `\n:is(${before.join(',')})+:is(${after.join(',')})>[class*="__inner"]{padding-top:0}` : '';
+    return before.length && after.length ? ['+', '+script+'].map(between => `\n:is(${before.join(',')})${between}:is(${after.join(',')})>[class*="__inner"]{padding-top:0}`).join('') : '';
   }).join('');
 }
 

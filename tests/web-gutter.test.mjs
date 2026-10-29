@@ -200,8 +200,10 @@ test('every section pads its top and bottom by the Section level at every width,
 test('two neighbouring sections on one surface show one Section space: the token layer drops the second one\'s top padding', () => {
   const tokens = readFileSync(new URL('../lib/tokens.css', import.meta.url), 'utf8');
   const adjacency = tokens.split('\n').filter((line) => line.startsWith(':is(') && line.endsWith('>[class*="__inner"]{padding-top:0}'));
-  assert.equal(adjacency.length, 3, 'one rule each for White, Accent and Vivid Pink');
-  const [white, accent, brand] = adjacency.map((line) => line.slice(0, line.indexOf('>[class')).split(')+:is('));
+  const direct = adjacency.filter((line) => !line.includes(')+script+:is('));
+  assert.equal(direct.length, 3, 'one rule each for White, Accent and Vivid Pink');
+  assert.deepEqual(adjacency.filter((line) => line.includes(')+script+:is(')), direct.map((line) => line.replace(')+:is(', ')+script+:is(')), 'a snippet\'s trailing init script between two sections still collapses the gap');
+  const [white, accent, brand] = direct.map((line) => line.slice(0, line.indexOf('>[class')).split(')+:is('));
   for (const root of ['aha-numbers', 'aha-features', 'aha-testimonials', 'aha-faq', 'aha-footer-banner', 'aha-pricing', 'aha-comparison', 'aha-logos', 'aha-header-section-hero-split']) {
     assert.match(white[0], new RegExp(`\\.${root}[:,)]`), `${root} counts as the section before`);
     assert.match(white[1], new RegExp(`\\.${root}[:,)]`), `${root} drops its top padding after a White section`);
