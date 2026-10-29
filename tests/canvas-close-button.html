@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Canvas close button</title>
+<style>body{ margin:0; padding:40px; font-family:sans-serif; --aha-deck-ink:#1A1A1A; --aha-deck-ink-secondary:color-mix(in srgb, #1A1A1A 76%, transparent) } .row{ display:flex; gap:40px; align-items:center }</style>
+</head>
+<body>
+  <div class="row">
+    <aha-button id="tertiary" variant="tertiary-deck" size="xs" icon-only aria-label="Close"><aha-icon name="system-x" size="16" decorative></aha-icon></aha-button>
+    <aha-button id="secondary" variant="secondary-deck" size="xs" icon-only aria-label="Close"><aha-icon name="system-x" size="16" decorative></aha-icon></aha-button>
+    <aha-button id="audience" variant="tertiary-deck" size="md" icon-only aria-label="Close"><aha-icon name="system-x" size="16" decorative></aha-icon></aha-button>
+    <aha-button id="app" variant="tertiary" size="xs" icon-only aria-label="Dismiss"><aha-icon name="system-x" size="16" decorative></aha-icon></aha-button>
+  </div>
+  <script type="module">
+    await import('../lib/aha-button.js');
+    await import('../lib/icons.js');
+    await customElements.whenDefined('aha-button');
+    window.canvasCloseFixtureReady = [...document.querySelectorAll('aha-button')].every((button) => button.shadowRoot?.querySelector('button'));
+  </script>
+</body>
+</html>

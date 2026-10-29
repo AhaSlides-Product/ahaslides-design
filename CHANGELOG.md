@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.569.0 — 2026-10-29
+### Added
+- Button: the canvas close ✕ (DESY-402). `<aha-button variant="tertiary-deck" size="xs" icon-only corner>` is the 20 × 20 dismiss for a panel or overlay on the presenter canvas, glyph in the deck's secondary ink (76%) at rest and the full ink on a 5% wash on hover; on a photographic deck it is `secondary-deck` (white fill, dark glyph). The app close ✕ and the audience close ✕ are unchanged. Canvas Library gets a Close button section (#NNN)
+
 ## 0.567.0 — 2026-10-29
 ### Added
 - Brand voice rules: new rules 13.18 to 13.25 carry the general half of the brand director's 29 October editorial feedback (SOMW-153): tell-tale AI language, varying familiar brand phrases, saying what you mean, challenging briefs, product precision, consistent audience perspective, framing stories about people, and hard rules versus editorial judgement. Rules 13.12 and 13.13 are extended. The change log gains v4. The social-only half lives in the social channel's brand-feedback log. Revert: revert the PR.
