@@ -32,6 +32,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Changed
 - Brand voice rules: the lede names v2.3 and links the PDF, new rule 16.4 sets the three sources of truth (design system, voice rules online, the PDF) and that the first two win. The colour rules lede carries the same precedence line. (#459)
 
+## 0.554.1 — 2026-10-29
+### Fixed
+- Form controls (`aha-counted-input`, `aha-counted-textarea`, `aha-input`, `aha-number-with-unit`, `aha-select`, `aha-autocomplete`, `aha-color-picker`, `aha-segmented`, `aha-tabs`, `aha-rate`, `aha-radio`, `aha-checkbox`, `aha-switch`, `aha-card-select`, `aha-mode-field`, `aha-option-row`, `aha-answer-list`, `aha-rank-list`, `aha-scale-slider`, `aha-audience-image-upload`): a property such as `value`, `checked` or `options` set on the element before its tag was defined used to sit on the element as an own property and shadow the control's setter, so the inner field stayed out of sync and the first keystroke after a re-render wiped the typed text. Each control now moves such a property back through its setter when it connects, through one shared `upgrade-properties.js` helper (#460)
+- Revert: revert the PR; a property set before the tag is defined is ignored again, so set the attribute instead (#460)
+
 ## 0.554.0 — 2026-10-29
 ### Changed
 - Website > Marketing > Features, Tabs with screenshots: the tab list now stretches to the height of the image slot instead of being centred against it. The left column fills the grid row, the tab list takes the space above the call to action and shares it between the tabs, so the rail runs the full height of the image. Every other value (rail width and colours, padding, gaps, tab text, the 4:3 slot, the 991 px stack) is unchanged, and the stacked phone layout keeps its natural height. The removed Compact accordion layout stays removed (#453)
