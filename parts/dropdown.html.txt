@@ -9,7 +9,7 @@
 
 <!-- placement="bottomLeft" (default) | "bottomRight" | "topLeft" | "topRight"
      trigger="click" (default) | "hover"
-     items: leaf {key,label,icon?,disabled?,danger?} · submenu-parent {key,label,icon?,children:[…]}
+     items: leaf {key,label,description?,icon?,disabled?,danger?} · submenu-parent {key,label,icon?,children:[…]}
             (opens an adjacent flyout — hover / ArrowRight / Enter; ArrowLeft / Escape closes it)
             · {type:"divider"} · {type:"group",label,children:[]} -->
 <aha-dropdown id="menu" label="Actions" placement="bottomLeft"
@@ -20,6 +20,7 @@
       {"key":"pptx","label":"PowerPoint","icon":"system-file"},
       {"key":"xlsx","label":"Excel","icon":"system-file"}
     ]},
+    {"key":"role","label":"Editor","description":"Edit and present","icon":"system-pencil-simple"},
     {"type":"divider"},
     {"key":"delete","label":"Delete","icon":"system-trash","danger":true}
   ]'>
