@@ -22,6 +22,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.549.0 — 2026-10-29
+### Changed
+- Anti-slop W9 and the website guideline: the hero may carry exactly one video that plays by itself (autoplay, muted, loop, playsinline, a poster, paused under `prefers-reduced-motion`); a second autoplaying video, one outside the hero, a missing attribute or no reduced-motion stop still fails. Hero guidance and the Video slot describe the ambient form. (#452)
+- Anti-slop W6 and the website guideline, Features and Cards: a square image sits in the Vivid Pink frame like a portrait one (only a landscape image fills its slot); a quote, rail or image frame is never light grey (`#F6F6F6`, `#F7F7F7`). (#452)
+### Added
+- Anti-slop W20: the whole page is at most 5000 px at 1440, each Features band at most 800 px, and the Navigation plus Hero fit within 720 px at 1280 x 720. Judged from a render; the lint cannot read heights. (#452)
+- `screen-lint --surface=website` rules `autoplay-video-extra`, `autoplay-video-attributes`, `autoplay-video-motion`, `grey-quote-or-frame` and `square-image-unframed`. `lib/marketing-motion.js` pauses a hero `<video autoplay>` under reduced motion. Four eval cases (hero video control, second autoplay video, no reduced-motion stop, long Features band). (#452)
+- Revert: revert the PR; W9 and W6 go back to "no autoplaying video" and "square fills", W20 and the five lint rules go.
+
 ## 0.548.1 — 2026-10-29
 ### Changed
 - Brand voice rules: "Our why" (1.1) and the "What we believe" aha-moments paragraph (1.4) now carry the approved page 05 and page 07 wording of the brand guidelines; the duplicate buzz-you-can-feel quote under 1.5 is folded into 1.4. (#457)
