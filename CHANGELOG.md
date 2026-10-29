@@ -36,6 +36,16 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Revert: revert the PR; the sections go back to their own padding values and breakpoints, the four tokens and the neighbouring-section rule are removed, and the Centred Numbers stats pad 8 px again (#439)
 
 
+
+## 0.550.0 — 2026-10-29
+### Changed
+- Website rule W6 (guideline, anti-slop criterion in both copies): photos of people, customers and events come only from the AhaSlides Drive photo library or Customer Love; stock photos (Unsplash, Pexels, Picsum, Shutterstock, iStock, Getty, Adobe Stock, Freepik and the like) are banned. Product screenshots and the DS placeholder stay allowed. (#458)
+- Testimonials: the 9 stock photos (5 Unsplash avatars, 1 Unsplash portrait, 3 Lorem Picsum covers) and their manifest entries are removed. The Simple left aligned portrait and the Case study covers are the DS image placeholder, and a case study reviewer with no photo shows name and role only, with no avatar or initials. (#458)
+### Added
+- `screen-lint --surface=website` hard-fails `stock-photo`: an `<img>`, `<source>` srcset or CSS `url()` pointing at a stock photo host. (#458)
+- `standards.mjs` fails a marketing image manifest photo entry whose new `source` field is not `drive` or `customer-love`; the 3 customer quote photos carry `customer-love`. (#458)
+- Revert: revert the PR; nothing depends on the removed files.
+
 ## 0.549.0 — 2026-10-29
 ### Changed
 - Anti-slop W9 and the website guideline: the hero may carry exactly one video that plays by itself (autoplay, muted, loop, playsinline, a poster, paused under `prefers-reduced-motion`); a second autoplaying video, one outside the hero, a missing attribute or no reduced-motion stop still fails. Hero guidance and the Video slot describe the ambient form. (#452)
