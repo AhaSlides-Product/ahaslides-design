@@ -24,10 +24,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.573.0 — 2026-10-29
 ### Added
-- A Vivid Pink hero and its Vivid Pink Logos strip now read as one surface: put `<section class="aha-logos aha-logos--brand">` inside the Vivid Pink hero section as its last child, after the hero's `__inner`, and the hero's Splash runs on behind the logos with no edge. `tokens.css` drops the nested strip's own fill and sets it one Group below the hero content, so the spacing matches the sibling placement. Works in every Vivid Pink hero, Gallery layout and the Page header with no tabs; the hero markup is unchanged when no Vivid Pink Logos strip follows (#478)
-- screen-lint `--surface=website` rule `logos-outside-hero`: a Vivid Pink Logos strip placed after a Vivid Pink hero as a sibling fails, since the hero clips its Splash on a hard line through the logo row. `band-order` now also checks that the band after a hero holding the strip is white (#478)
+- A Vivid Pink hero and its Vivid Pink Logos strip now read as one surface: put `<section class="aha-logos aha-logos--brand">` inside the Vivid Pink hero section as its last child, after the hero's `__inner`, and the hero's Splash runs on behind the logos with no edge. `tokens.css` drops the nested strip's own fill and sets it one Group below the hero content, so the spacing matches the sibling placement. Works in every Vivid Pink hero, Gallery layout and the Page header with no tabs; the hero markup is unchanged when no Vivid Pink Logos strip follows (#479)
+- screen-lint `--surface=website` rule `logos-outside-hero`: a Vivid Pink Logos strip placed after a Vivid Pink hero as a sibling fails, since the hero clips its Splash on a hard line through the logo row. `band-order` now also checks that the band after a hero holding the strip is white (#479)
 ### Fixed
-- Hero guidance no longer contradicts W1: a Vivid Pink hero is followed by a full white section, and the one thing between them may be the Vivid Pink Logos strip nested in the hero. Hero and Logos docs, W1, W5 and the website guideline say the same (#478)
+- Hero guidance no longer contradicts W1: a Vivid Pink hero is followed by a full white section, and the one thing between them may be the Vivid Pink Logos strip nested in the hero. Hero and Logos docs, W1, W5 and the website guideline say the same (#479)
 
 ## 0.572.2 — 2026-10-29
 ### Removed
