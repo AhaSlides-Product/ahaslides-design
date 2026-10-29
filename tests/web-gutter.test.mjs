@@ -103,10 +103,10 @@ for (const part of ['inner', 'band', 'copyright']) addSection(`footer ${part}`, 
 const navigation = readSection('navigation').layouts[0].css;
 addSection('navigation bar', [navigation], '.aha-header__nav');
 addSection('navigation menu', [navigation], '.aha-header__menu', { gutterFrom: '.aha-header__nav' });
-for (const layout of readSection('header').layouts) addSection(layout.slug, [layout.css], `.${layout.class}__inner`);
+for (const layout of readSection('hero').layouts) addSection(layout.slug, [layout.css], `.${layout.class}__inner`);
 
 test('every Marketing section other than the edge to edge Logos marquee is checked against the gutter', () => {
-  const checked = new Set(['features', 'numbers', 'pricing', 'testimonials', 'cards', 'faq', 'footer-banner', 'footer', 'navigation', 'header', 'comparison']);
+  const checked = new Set(['features', 'numbers', 'pricing', 'testimonials', 'cards', 'faq', 'footer-banner', 'footer', 'navigation', 'hero', 'comparison']);
   const slugs = readdirSync(new URL('../marketing/', import.meta.url)).filter((file) => file.endsWith('.json')).map((file) => file.replace('.json', ''));
   assert.deepEqual(slugs.filter((slug) => !checked.has(slug)), ['logos']);
 });
@@ -154,7 +154,7 @@ for (const { css } of closeCalls('testimonials')) closingCalls.push([css, '.aha-
 for (const { css } of closeCalls('comparison')) closingCalls.push([css, '.aha-comparison__cta']);
 closingCalls.push([readSection('faq').css, '.aha-faq__cta']);
 buttonSpacing.push([footerBanner, '.aha-footer-banner__text', 'margin-bottom', 32, 24]);
-for (const layout of readSection('header').layouts) {
+for (const layout of readSection('hero').layouts) {
   const { class: name, slug, css } = layout;
   if (slug === 'hero-split-form') continue;
   if (slug.startsWith('gallery-')) closingCalls.push([css, `.${name}__cta`]);
@@ -206,9 +206,9 @@ test('two neighbouring sections on one surface show one Section space: the token
     assert.match(white[0], new RegExp(`\\.${root}[:,)]`), `${root} counts as the section before`);
     assert.match(white[1], new RegExp(`\\.${root}[:,)]`), `${root} drops its top padding after a White section`);
   }
-  assert.match(white[0], /\.aha-numbers:not\(\.aha-numbers--accent,\.aha-numbers--brand\)/);
+  assert.match(white[0], /\.aha-numbers:not\(\.aha-numbers--accent\)/);
   assert.match(accent[1], /\.aha-features--accent/);
-  assert.match(brand[1], /\.aha-numbers--brand/);
+  assert.match(brand[1], /\.aha-header-section-hero-split--brand/);
   assert.doesNotMatch(white[1], /\.aha-footer[:,)]/, 'the Footer keeps its top padding below its divider');
   assert.doesNotMatch(white[0] + white[1], /\.aha-header[:,)]/, 'the Navigation is not a section');
 });

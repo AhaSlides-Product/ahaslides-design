@@ -1794,9 +1794,9 @@ const MARKETING_BREAKPOINT_CSS = `
 function marketingBreakpointPreview(b) {
   const options = JSON.stringify(MARKETING_WIDTHS.map(([label, width]) => ({ value: String(width), label: `${label} ${width}` })));
   return `<div class="mbp" data-default="${MARKETING_DEFAULT_WIDTH}">
-    <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="Preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented>${marketingStateSwitch(b, b)}<span class="mbp-label" aria-live="polite"></span></div>
+    <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="Preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented>${marketingStateSwitch(b, b)}${b.options ? marketingOptionSwitches(b) : ''}<span class="mbp-label" aria-live="polite"></span></div>
     <div class="mbp-viewport" role="region" tabindex="0" aria-label="${esc(b.name)} preview, scrolls inside"><div class="mbp-sizer"><iframe class="mbp-frame" title="${esc(b.name)} preview" scrolling="no"></iframe></div></div>
-    <template class="mbp-doc"><style>${tokenVars(TOK)}</style>${marketingSnippet(b)}</template>
+    <template class="mbp-doc"><style>${tokenVars(TOK)}</style>${marketingSnippet(b.choiceHtml ? { ...b, html: b.choiceHtml } : b)}</template>
   </div>
   <script type="module">
   import '../../lib/aha-segmented.js';
@@ -1915,7 +1915,7 @@ function marketingStateSwitch(b, layout) {
 const STATE_HOOK = /\sdata-(?:variant|surface)-[a-z0-9-]+="[^"]*"/g;
 const stripStateVariantHooks = (code) => code.replace(/<aha-button\b[^>]*>/g, (tag) => tag.replace(STATE_HOOK, ''));
 const resolveDefaultStateVariants = (b, layout, code) => {
-  const defaultState = marketingLayoutStates(b, layout)?.find(state => state.default);
+  const defaultState = marketingLayoutStates(b, layout)?.find(state => !state.modifier);
   return defaultState?.modifier ? marketingStateVariants(code, defaultState.modifier) : stripStateVariantHooks(code);
 };
 const marketingStateVariants = (code, modifier) => code.replace(/<aha-button\b[^>]*>/g, (tag) => {
@@ -1987,6 +1987,7 @@ function marketingChoiceHtml(layout, chosen) {
   return html.replace(new RegExp(`class="([^"]*\\b${layout.class}\\b[^"]*)"`), (match, classes) => `class="${classes}${modifiers}"`);
 }
 function bakeMarketingOptions(b) {
+  if (b.options && !b.layouts) return { ...b, choiceHtml: b.html, html: marketingChoiceHtml({ ...b, choiceHtml: b.html }, marketingDefaultChoices(b)) };
   if (!b.layouts?.some(layout => layout.options)) return b;
   return { ...b, layouts: b.layouts.map(layout => {
     if (!layout.options) return layout;
@@ -2317,7 +2318,7 @@ function renderMarketingLayoutsHtml(b) {
 ${marketingGuidanceHtml(b)}  ${docFold('Which is which', `<p class="body">${esc(b.layoutsIntro || `Each section copies the layout of one Untitled UI ${b.layoutKind || b.name.toLowerCase()} section, and nothing else of it. Class names carry the layout, not the Untitled UI number.`)}</p>
   <ul class="highlights">${b.layouts.map(layout => `<li><b>${esc(layout.name)}</b>: ${layout.reference ? `Untitled UI ${esc(layout.reference)}, ` : ''}<code>${esc(layout.class || layout.classes || `aha-${b.slug}--${layout.slug}`)}</code>${layout.useFor ? `. Use for: ${esc(layout.useFor)}` : ''}</li>`).join('')}</ul>`)}
 
-${gallery.open}${b.layouts.map(layout => `  <h2 id="${esc(layout.slug)}">${esc(layout.name)}</h2>
+${gallery.open}${b.layouts.map(layout => `  ${(layout.formerSlugs || []).map(slug => `<span id="${esc(slug)}"></span>`).join('')}<h2 id="${esc(layout.slug)}">${esc(layout.name)}</h2>
   ${marketingLayoutIntroHtml(layout)}
   <div class="marketing-stage">${marketingLayoutPreview(b, layout)}</div>
   ${marketingCodeToggle(marketingHasStates(b, layout) ? marketingLayoutStates(b, layout).find(state => !state.modifier).label : `${layout.slug}.html`, resolveDefaultStateVariants(b, layout, marketingLayoutSnippet(b, layout)), '', marketingStatePanes(b, layout, marketingLayoutSnippet(b, layout)).concat(marketingOptionPanes(b, layout)))}`).join('\n\n')}${gallery.close}
@@ -2356,7 +2357,7 @@ ${b.snippets ? cardsGallery.open + b.snippets.map(card => `<h2${cardsGallery.ope
   <div class="marketing-stage">${marketingBreakpointPreview(b)}</div>
 
   <h2>Paste-and-run HTML</h2>
-  ${marketingCodeToggle(marketingHasStates(b, b) ? b.states.find(state => !state.modifier).label : `${b.slug}.html`, marketingSnippet(b), 'Paste into any page. It reads only the shared <code>--aha-*</code> tokens.', marketingStatePanes(b, b, marketingSnippet(b)))}${marketingHasStates(b, b) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}`}
+  ${marketingCodeToggle(marketingHasStates(b, b) ? b.states.find(state => !state.modifier).label : `${b.slug}.html`, marketingSnippet(b), 'Paste into any page. It reads only the shared <code>--aha-*</code> tokens.', [...marketingStatePanes(b, b, marketingSnippet(b)), ...(b.options ? marketingOptionPanes(b, b) : [])])}${marketingHasStates(b, b) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}${b.options ? `\n  ${MARKETING_LAYOUT_OPTION_SCRIPT.replace(".querySelectorAll('.mfv')", ".querySelectorAll('.mbp')")}` : ''}`}
 
   <h2>Load the tokens once</h2>
   ${marketingCodeToggle('head', `<link rel="stylesheet" href="${SITE}/variables.css">`, 'Add this to the page <code>&lt;head&gt;</code> before the block.')}${details.length ? `
@@ -2387,7 +2388,7 @@ Bind the page to the shared token layer (${SITE}/variables.css), then paste the 
 ## Paste-and-run HTML
 \`\`\`html
 ${marketingSnippet(b)}\`\`\`
-`;
+${b.options && !b.layouts ? marketingOptionPanes(b, b).map(pane => `\n## ${pane.label}\n\`\`\`html\n${pane.code}\`\`\`\n`).join('') : ''}`;
 }
 function renderMarketingAgent(b) {
   return JSON.stringify({
@@ -2409,6 +2410,7 @@ function renderMarketingAgent(b) {
       html: b.video.html, css: b.video.css,
       layouts: b.layouts.filter(layout => b.video.layouts.includes(layout.slug)).map(layout => ({ slug: layout.slug, class: layout.class })),
     } } : {}),
+    ...(b.options && !b.layouts ? marketingOptionsAgent(b, b) : {}),
     html: b.html || '', css: b.css || '',
   }, null, 2) + '\n';
 }
@@ -2418,10 +2420,14 @@ function renderMarketingLlms(blocks) {
   for (const b of blocks) s += `- [${b.name}](marketing/${b.slug}/${b.slug}.md)${environmentTag(b)} — ${b.summary}\n`;
   return s;
 }
+/* A renamed Marketing page keeps a stub at its old URL. */
+const MARKETING_REDIRECTS = {
+  header: 'hero/index.html',
+};
 /* Old landing/ URLs are still linked from outside the site, so each keeps a stub forwarding to its new home. */
 const LANDING_REDIRECTS = {
-  '': 'marketing/header/index.html',
-  hero: 'marketing/header/index.html',
+  '': 'marketing/hero/index.html',
+  hero: 'marketing/hero/index.html',
   button: 'button/index.html',
   link: 'button/index.html',
   fonts: 'foundations/typography.html',
@@ -3517,7 +3523,7 @@ function expandMarketingData(rawSection) {
   if (!b.dataFile) return b;
   const data = JSON.parse(read(join(MDIR, b.dataFile)));
   const items = data.items.map(item => b.itemHtml.replace(/\{\{(\w+)\}\}/g, (_, key) => esc(item[key]))).join('');
-  return { ...b, html: b.html.replaceAll('{{items}}', items) };
+  return { ...b, html: b.html.replaceAll('{{items}}', items), ...(b.choiceHtml ? { choiceHtml: b.choiceHtml.replaceAll('{{items}}', items) } : {}) };
 }
 const expandMarketingAssets = (b) => {
   if (!b.imagePath) return b;
@@ -3567,7 +3573,7 @@ if (GUIDELINES.length) {
 }
 if (MARKETING.length) {
   RAW_FEEDS.push(
-    { name: 'marketing.llms.txt',  file: 'marketing.llms.txt',  page: 'marketing-llms-txt',  desc: 'One entry per marketing section (Header) for the AhaSlides marketing sites, paste-and-run and token-bound.' },
+    { name: 'marketing.llms.txt',  file: 'marketing.llms.txt',  page: 'marketing-llms-txt',  desc: 'One entry per marketing section (Hero) for the AhaSlides marketing sites, paste-and-run and token-bound.' },
     { name: 'marketing.agent.json', file: 'marketing.agent.json', page: 'marketing-agent-json', desc: 'Machine feed: every marketing section with its summary, paste-and-run html/css, and how to consume it.' },
   );
 }
@@ -3853,6 +3859,10 @@ if (MARKETING.length) {
   }
   writeFileSync(join(OUT, 'marketing.llms.txt'), renderMarketingLlms(MARKETING));
   writeFileSync(join(OUT, 'marketing.agent.json'), JSON.stringify(MARKETING.map(b => JSON.parse(renderMarketingAgent(b))), null, 2) + '\n');
+}
+for (const [slug, target] of Object.entries(MARKETING_REDIRECTS)) {
+  const d = join(OUT, 'marketing', slug); mkdirSync(d, { recursive: true });
+  writeFileSync(join(d, 'index.html'), redirectStub('../' + target));
 }
 for (const [slug, target] of Object.entries(LANDING_REDIRECTS)) {
   const d = join(OUT, 'landing', slug); mkdirSync(d, { recursive: true });

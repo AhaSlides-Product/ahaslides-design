@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.527.0 — 2026-10-28
+## 0.543.0 — 2026-10-29
 ### Added
 - Tokens: four website section spacing levels, `--aha-section-space-block` (Section, 96 px), `--aha-section-space-header` (Header, 64), `--aha-section-space-group` (Group, 48) and `--aha-section-space-item` (Item, 32). Each level is one step below the one above on the ladder 96, 64, 48, 32, 24, 16, and each steps one down when the section's own container is 767 px or narrower and again at 479 px, so a section never switches them itself (#439)
 ### Changed
@@ -33,6 +33,90 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Numbers, Centred: the stat row no longer pads 8 px above and below, so the space under the stats is exactly one Section level (#439)
 - Website guideline W2 and its anti-slop criterion: rewritten around the four levels, the one-Section-space rule between neighbouring sections and the Logos rule; a new W2 eval fails two White sections wrapped apart (#439)
 - Revert: revert the PR; the sections go back to their own padding values and breakpoints, the four tokens and the neighbouring-section rule are removed, and the Centred Numbers stats pad 8 px again (#439)
+
+## 0.540.0 — 2026-10-28
+### Changed
+- Marketing: the Header page is now Hero (`marketing/hero/`, `marketing/hero.json`). `marketing/header/` stays as a redirect to it, and `marketing/hero.md` and `hero.agent.json` replace the `header` feed files. The Navigation site header and the Page header layout keep their names.
+- Hero: every layout that has a Vivid Pink state opens on Vivid Pink in the preview (the three heroes, the five multi-image heroes and Page header). The five Gallery layouts have White and Accent only, so they still open on White. The pasted code of the first tab stays the White version, so the HTML shown always matches its tab.
+- Testimonials → Case study cards and Quote cards: the gap between the cards and the call to action is `--aha-space-48` (`--aha-space-32` on a phone), the same as Numbers, Features and FAQ. It was 112 px because the section's 64 px flex gap was added to the button's 48 px margin; the header now carries its own `--aha-space-64` bottom margin instead of the flex gap.
+- Features: no layout has a Learn more link or button any more, including the three buttons under each item in Alternating with screenshots (kept: its Demo button) (Icon grid, Icon list with photo, Icon cards, Icon cards with side header, Tabs with screenshots, Compact tabs, Compact swipeable card scroller, Compact top three and See all features). The `aha-features__more` rules are gone, and the Feature card snippet in Cards loses its Learn more line too. Rule W15 no longer mentions a Features Learn more link.
+- Hero: the Reassurance line switch from 0.527.0 now sits on seven heroes (Hero split, Hero stacked and the five multi-image heroes), as Hero card is removed.
+### Removed
+- Hero → Hero card (`aha-header-section-hero-card`): the layout is gone, with its Vivid Pink panel and email field. Its classes join the removed-layout list that screen-lint W1 checks. Hero split and Hero stacked still offer the Email form call to action.
+- Revert: revert the PR; Hero card, the Header page name, the Learn more links and the 112 px Testimonials gap come back (#445)
+
+## 0.539.0 — 2026-10-28
+### Added
+- `<aha-number-with-unit>`: `increase-label` and `decrease-label` set the stepper buttons' accessible names (defaults `Increase` and `Decrease`); `aria-label`, `aria-labelledby` or `label` now name the inner input. When a name is given the inner input is the one `spinbutton` and the host drops its role, so a screen reader announces it once; with no name the host stays the spinbutton as before. (#448)
+### Fixed
+- `<aha-number-with-unit>` unit text and `<aha-counted-textarea>` counter now use `--aha-text-secondary` (#4A4A4A, 8.9:1 on white, 8.3:1 on the read-only fill); before they used `--aha-text-placeholder` (2.84:1) and `--aha-text-tertiary` (3.45:1), below the 4.5:1 AA minimum. Token values are unchanged. The antd `textarea-counted.css` counter is not part of this change. (#448)
+- Revert: revert the PR; it restores the grey unit and counter and the fixed English stepper labels (#448)
+
+## 0.538.1 — 2026-10-28
+### Changed
+- CSAT: the chosen thumb is now drawn in the Button's Tertiary active ink (`--aha-text-link-hover`, #DB005B, 4.66:1 on white) on the accent fill, with or without `confirmation`; before, only a CSAT with `confirmation` showed a coloured thumb (colour-primary #E70E68, now aligned to the same token) and every other CSAT kept it dark. Hover on the chosen thumb keeps the same ink; focus ring, rest and disabled are unchanged (#447)
+- Revert: revert the PR; it restores the dark chosen thumb and the colour-primary ink with `confirmation` (#447)
+
+## 0.538.0 — 2026-10-28
+### Added
+- Eight plugin slide-type icons in the `slidetype` family: `slidetype-fill-in-the-blanks`, `slidetype-split-the-points`, `slidetype-drag-and-drop`, `slidetype-bubble-rush`, `slidetype-tournament-bracket`, `slidetype-radar`, `slidetype-calm` and `slidetype-push-race`. 24 px grid, 2 px round stroke, DS ink, registered through `node build-icons.mjs` (registry, `meaning.json` words, `lib/icon-names.js`, `lib/icons-registry.js`), so every flavour of the icon feed carries them (#435)
+- Revert: revert the PR; it removes the eight SVGs, their `meaning.json` lines and the regenerated registry entries (#435)
+
+## 0.534.1 — 2026-10-28
+### Fixed
+- `aha-chart`: moving the pointer between bars or columns hands the highlight straight from one to the next; the other bars no longer dim, reappear and dim again as the pointer crosses the gap. The highlight clears only when the pointer leaves the plot. (#443)
+- `<aha-chart type="bar">`: the other rows now fade in and out over the same 0.2s transition as columns (`--aha-motion-mid`) when the highlight moves, instead of switching at once; the image, label and fill each carry the transition, and reduced motion still turns it off. (#443)
+
+## 0.534.0 — 2026-10-28
+### Added
+- CSAT: an optional `feedback-hint="<text>"` shows a helper line under the feedback text box, beside the counter, reusing the text box's `info-message`; for example `What you write goes to the developer`. Not set, nothing changes. Changing or removing it updates the open popover (#446)
+### Changed
+- CSAT: the feedback popover now anchors to the whole thumbs group (Good, Not good and the Feedback button), so `feedback-placement="start"` and `"end"` line up with the group's edge instead of the Not good button's. The Good thumb joins the popover's trigger; the popover still opens only after the ratings that ask for feedback (#446)
+- CSAT: while the feedback popover is open the thumbs' hover tooltips are hidden, so the Good tooltip no longer renders under the popover (#446)
+- Revert: revert the PR; it removes the `feedback-hint` attribute and restores the popover's old anchor and the tooltips' behaviour while open (#446)
+
+## 0.530.0 — 2026-10-28
+### Added
+- Logos: an optional "Trusted by teams at" label centred above the strip (new Label switch, `aha-logos__label`): the meta role of the type ramp (`--aha-size-default`, regular) in `--aha-text-secondary`, 32px above and 24px below. Off by default: the strip, its snippet and its tests are unchanged until the paragraph is added. `generate.mjs` takes a section-level `options` key (the same `data-choice` switches the layouts use) for single-block sections; the other Marketing pages' output is byte-identical (#432)
+- Revert: revert the PR; it removes the `options`, `class` and label keys from `marketing/logos.json` and four small hooks from `generate.mjs` (`bakeMarketingOptions`, `expandMarketingData`, the preview bar and the code panes) (#432)
+
+## 0.527.0 — 2026-10-28
+### Added
+- Header: an optional reassurance line ("Free forever. No credit card needed.") under the call to action on the eight heroes that hold the button in their copy block (Hero split, stacked, card and the five multi-image heroes), above the G2 row. New Reassurance line switch (Off / On), off by default; it reuses each layout's existing muted `__hint` style (meta role, secondary ink), so no new CSS or type-ramp line. Default snippets and every other marketing page are unchanged (#444)
+- Revert: revert the PR; it removes the `data-choice="reassurance"` paragraph and the Reassurance line option from the eight layouts in `marketing/header.json` and two prose sentences (#444)
+
+## 0.526.0 — 2026-10-28
+### Added
+- Cards: an optional New badge for the Template card (new snippet "Template card, New badge"). It sits in the cover's top-left corner and carries the DS Tag solid values (`--aha-color-primary` fill, `--aha-text-inverse` label at 4.51:1, 20px high, 12px semibold, `--aha-radius-xs`), bound to the same tokens because `<aha-tag>` is not a website component. Off by default: the Template card and the templates grid are unchanged. Website rule W14 names the badge label in the type ramp (#431)
+- Revert: revert the PR; it removes one snippet and one highlight from `marketing/cards.json` and one sentence from the W14 type-ramp copies (`guidelines/website.json`, `anti-slop/criteria.json`, `agent/anti-slop/criteria.json`) (#431)
+
+## 0.524.0 — 2026-10-28
+### Changed
+- Features: Alternating with screenshots and Alternating with mixed-size screenshots were the same layout, so they are now one, Alternating with screenshots, with an Image switch: Fill (the default; the screenshot fills its slot, `aha-features__photo--fill`) or Pink frame (every screenshot whole in a 4:3 Vivid Pink frame with the Splash, `aha-features__photo--pink-frame`). The "Fill the slot, or frame mixed sizes" rule is unchanged; the switch applies it to the whole section. Eleven layouts instead of twelve; the old `#alternating-mixed-screenshots` link lands on the merged layout.
+- Marketing pages: a layout can list `formerSlugs`; each renders an anchor before the layout heading so an old link keeps working after a merge.
+- Revert: revert the PR; Alternating with mixed-size screenshots comes back as its own layout (#430)
+
+## 0.523.0 — 2026-10-28
+### Changed
+- Header: every layout has one button, the primary call to action. The white Learn more buttons and the Sign up with Google button on Split with form are gone.
+- Header → Page header: its Get started button is always there; the Buttons switch is removed, so every Header layout has exactly one call to action (a button, or the email form on Hero split, Hero stacked, Hero card and Hero split form). On Hero split and Hero stacked the Call to action choice is now named Button.
+- Header: no small label above any headline. The badge pill and the Badge switch on Split and Stacked are removed, with their `__badge` rules.
+- Header → Hero image marquee and Gallery marquee rows: the Pause button is gone, like the Logos strip. The rows still pause while hovered or focused and stand still under reduced motion, in print and under `data-aha-motion="off"`. W9 and its criterion now say photo marquees carry no Pause button.
+- Header → Gallery carousel: the Previous and Next buttons are gone, so every slider uses the same Carousel dots as Hero slideshow; swipe, scroll and arrow keys still move it.
+- Header: on centred layouts the G2 stars and score line up on the left of the G2 block instead of each being centred.
+- Header → Hero stacked, Gallery bento grid and Gallery tabs: the picture under the copy sizes to the window, so the section no longer needs a long scroll at 1440 × 900. Hero stacked's screenshot is never cropped: its width is `min(100%, clamp(300px, 100svh − 576px, 400px) × 16/9)`, all from `--aha-space-100` and `--aha-space-96`. The bento's height is `clamp(300px, 100svh − 384px, 500px)` and the tab photo's `clamp(300px, 100svh − 480px, 500px)`, both photos with object-fit cover. Phones are unchanged (full width). Other Header layouts already fit one window or, like Gallery masonry, must not crop.
+- `lib/marketing-motion.js`: the carousel's `[data-aha-gallery-prev]` and `[data-aha-gallery-next]` handlers and the `data-aha-gallery="marquee"` Pause handler are removed, as no layout uses them any more; the marquee rows drop that attribute. A page that still has those buttons keeps them on screen, but they do nothing.
+- Header → Hero card: it opens on Vivid Pink, so its Get started button now starts as the secondary Button with `surface="brand"` (white, readable on the pink) instead of a pink primary that vanished into the card. The White and Accent states still switch it back to the primary.
+- Revert: revert the PR; the second buttons, badge, Pause buttons, carousel arrows, their script handlers and centred stars come back (#429)
+
+## 0.522.0 — 2026-10-28
+### Changed
+- Numbers: three layouts instead of five, each with one button. Simple centred now carries three switches (Number style: Divided or Left aligned; Icon; Description) and replaces Simple with actions 01 (`actions-row`), which is Simple centred with Left aligned, Icon Off and Description On. Split image 02 gains a Vivid Pink background (`aha-numbers--brand`) and replaces Split image 02 brand (`split-image-brand`); its button turns secondary with `surface="brand"`, so it no longer disappears into the pink. The old layout links still land on the merged layouts.
+- Numbers → Simple with actions 02: the secondary Demo button is gone; Get started stays.
+- Numbers: the button comes after the numbers. Split image 02 now reads title, numbers, button in all three backgrounds (48 px above the button, 32 px on a phone). On Simple with actions 02 the button stays under the header beside the grid on wide screens, and follows the numbers once the columns stack (grid areas instead of a wrapper `div`). Simple centred already ended on its button.
+- Numbers → Split image 02: the image sits edge to edge in its slot with no pale pink or white card around it; the `aha-numbers__card` rules are removed.
+- Marketing pages: a layout can list `formerSlugs`; each renders an anchor before the layout heading so an old link keeps working after a merge.
+- Revert: revert the PR; the five Numbers layouts, both buttons, the picture card and the button above the numbers come back (#428)
 
 ## 0.521.0 — 2026-10-28
 ### Changed

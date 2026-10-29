@@ -880,12 +880,6 @@ a.aha-footer__heading:hover{color:var(--aha-color-primary)}
 .aha-header-section-hero-split__inner{max-width:1280px;margin:0 auto;padding:var(--aha-section-space-block) var(--aha-space-32)}
 .aha-header-section-hero-split__split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--aha-space-64);align-items:center}
 .aha-header-section-hero-split__copy{display:flex;flex-direction:column;align-items:flex-start;max-width:640px}
-.aha-header-section-hero-split__badge{
-  display:inline-flex;align-items:center;margin-bottom:var(--aha-space-24);padding:var(--aha-space-4) var(--aha-space-12);
-  border:1px solid var(--aha-header-section-hero-split-frame);border-radius:var(--aha-radius-pill);
-  font-size:var(--aha-size-sm);font-weight:var(--aha-weight-semibold);line-height:var(--aha-line-height-heading);
-  color:var(--aha-header-section-hero-split-ink);
-}
 .aha-header-section-hero-split__title{
   font-size:var(--aha-size-h1);font-weight:var(--aha-weight-semibold);line-height:var(--aha-line-height-heading);
   letter-spacing:var(--aha-letter-spacing-headlines);

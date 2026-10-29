@@ -79,7 +79,7 @@ test('csat opt-ins: default unchanged, feedback-on="any" opens after a like, con
   assert.equal(r.plainUpHasPopupAttr, false);
   assert.equal(r.plainConfirmEmpty, '');
   assert.equal(r.plainConfirmHidden, 'none');
-  assert.equal(r.plainSelectedColour, 'rgb(26, 26, 26)');
+  assert.equal(r.plainSelectedColour, 'rgb(219, 0, 91)');
   assert.equal(r.plainDownOpens, true);
   assert.equal(r.anyRestStatus, 'status');
   assert.equal(r.anyRestText, '');
@@ -87,7 +87,7 @@ test('csat opt-ins: default unchanged, feedback-on="any" opens after a like, con
   assert.equal(r.anyUpExpanded, 'true');
   assert.equal(r.anyUpHaspopup, 'dialog');
   assert.equal(r.anyConfirm, 'Thanks, feedback received');
-  assert.equal(r.anySelectedColour, 'rgb(231, 14, 104)');
+  assert.equal(r.anySelectedColour, 'rgb(219, 0, 91)');
   assert.equal(r.anyClosedWithoutText, true);
   assert.equal(r.anyValueKept, 'up');
   assert.deepEqual(r.anyEvent, ['any', 'up', 'nice']);
@@ -102,4 +102,34 @@ test('csat opt-ins: default unchanged, feedback-on="any" opens after a like, con
   assert.equal(r.stackedUnderThumbs, true);
   assert.equal(r.stackedStaysInside, true);
   assert.equal(r.rowBesideThumbs, true);
+});
+
+const anchorScenarios = String.raw`(async () => {
+  const wait = (ms) => new Promise((done) => setTimeout(done, ms));
+  const root = document.getElementById('hint').shadowRoot;
+  const popover = root.querySelector('aha-popover');
+  const up = root.querySelector('.up').getBoundingClientRect();
+  const feedbackButton = root.querySelector('.fb-open').getBoundingClientRect();
+  const host = popover.getBoundingClientRect();
+  const out = {
+    anchorStartsAtUp: Math.abs(host.left - up.left) < 1,
+    anchorEndsAtFeedbackButton: Math.abs(host.right - feedbackButton.right) < 1,
+  };
+  root.querySelector('.up').click(); await wait(400);
+  out.opened = popover.open;
+  out.hintShown = root.querySelector('.fb-text').getAttribute('info-message');
+  out.tooltipHiddenWhileOpen = getComputedStyle(root.querySelector('.tip-up').shadowRoot.querySelector('.bubble')).visibility;
+  root.querySelector('.fb-close').click(); await wait(400);
+  out.closed = !popover.open;
+  return out;
+})()`;
+
+test('csat: the popover anchors to the whole thumbs group and tooltips yield while it is open', { skip }, async () => {
+  const r = await evaluateInPage(fixture, anchorScenarios, { readyExpr: '!!window.csatFixtureReady', timeout: 60000 });
+  assert.equal(r.anchorStartsAtUp, true);
+  assert.equal(r.anchorEndsAtFeedbackButton, true);
+  assert.equal(r.opened, true);
+  assert.equal(r.hintShown, 'What you write goes to the developer');
+  assert.equal(r.tooltipHiddenWhileOpen, 'hidden');
+  assert.equal(r.closed, true);
 });

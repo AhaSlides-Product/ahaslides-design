@@ -22,6 +22,9 @@
 <!-- Opt-ins for more feedback: a like also opens the feedback popover, and a "received" line shows once rated. -->
 <aha-csat prompt="How did this import go?" source="docs_more_feedback" feedback-on="any" confirmation="Thanks, feedback received"></aha-csat>
 
+<!-- Opt-in feedback-hint shows a helper line under the feedback text box, beside the counter. -->
+<aha-csat prompt="How did this import go?" source="docs_hint" feedback-hint="What you write goes to the developer"></aha-csat>
+
 <script>
   const csat = document.querySelector('aha-csat');
   csat.addEventListener('rate', (e) => {
