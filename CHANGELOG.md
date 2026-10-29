@@ -34,6 +34,12 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Website guideline W2 and its anti-slop criterion: rewritten around the four levels, the one-Section-space rule between neighbouring sections and the Logos rule; a new W2 eval fails two White sections wrapped apart (#439)
 - Revert: revert the PR; the sections go back to their own padding values and breakpoints, the four tokens and the neighbouring-section rule are removed, and the Centred Numbers stats pad 8 px again (#439)
 
+## 0.541.0 — 2026-10-29
+### Added
+- Brand voice rules: rule 14.2 lets a retired phrase stay as a search keyword that a specific page or ad targets (page title, H1, URL, ad headline), never as a description of AhaSlides. The Google Ads landing page /features/interactive-presentation-tool/ is the example. (#450)
+### Changed
+- Brand voice rules, section 14: "interactive presentation tool" and "live audience engagement platform" join the retired wording table, and the copy lint (`retired-wording`) now catches them. A keyword-target page marks its lines with `ds-lint-allow: retired-wording (14.2, keyword target: ...)`.
+
 ## 0.540.0 — 2026-10-28
 ### Changed
 - Marketing: the Header page is now Hero (`marketing/hero/`, `marketing/hero.json`). `marketing/header/` stays as a redirect to it, and `marketing/hero.md` and `hero.agent.json` replace the `header` feed files. The Navigation site header and the Page header layout keep their names.

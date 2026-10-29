@@ -1080,6 +1080,11 @@
        "id": "14.1",
        "text": "Never use the retired wording below in any communication, internal or external. Use the replacement in the right-hand column, or the descriptions in section 5.",
        "origin": "Decided on 23 October 2026, not in brand guidelines v2.2"
+      },
+      {
+       "id": "14.2",
+       "text": "A retired phrase may stay as a search keyword that a specific page or ad targets (page title, H1, URL, ad headline or keyword) where data shows it brings traffic or sign-ups. It is never used to describe what AhaSlides is, and the body of that page describes AhaSlides with the section 5 wording. Measure before you change such a page (before and after, with a rollback trigger). Example: the Google Ads landing page /features/interactive-presentation-tool/, titled \"AhaSlides - Interactive Presentation Tool\". In the screen lint, mark each keyword line with `ds-lint-allow: retired-wording (14.2, keyword target: <page or ad>)`.",
+       "origin": "Brand director decision, 29 October 2026, from search and paid sign-up data"
       }
      ]
     },
@@ -1108,6 +1113,14 @@
        "an all-in-one engagement platform for teams and classrooms"
       ],
       [
+       "interactive presentation tool",
+       "an all-in-one engagement platform for teams and classrooms"
+      ],
+      [
+       "live audience engagement platform",
+       "an all-in-one engagement platform for teams and classrooms"
+      ],
+      [
        "save the world from sleepy meetings",
        "AhaSlides takes the work out of engagement."
       ],
@@ -1123,7 +1136,7 @@
     },
     {
      "type": "paragraph",
-     "text": "A phrase such as \"interactive presentations\" is not retired when it names a feature or an article topic. What is retired is describing the whole product that way."
+     "text": "A phrase such as \"interactive presentations\" is not retired when it names a feature or an article topic. What is retired is describing the whole product that way. Rule 14.2 covers the other allowed use: a retired phrase as a search keyword a page or ad targets."
     }
    ],
    "kinds": [
