@@ -207,7 +207,7 @@ test('W6 and W9 allow the multi-image photo treatments and the photo marquee loo
   assert.doesNotMatch(rule('W1'), /Gallery/);
   assert.doesNotMatch(criterion('W1'), /Gallery/i);
   assert.match(rule('W6'), /photo stack and floating images may tilt a photo/);
-  assert.match(criterion('W6'), /cover-cropped photo cells of mixed size or ratio/);
+  assert.match(criterion('W6'), /cover-cropped photo cells of mixed size/);
   assert.match(rule('W9'), /Hero image marquee and Gallery marquee rows/);
   assert.match(criterion('W9'), /photo marquees \(the Hero image marquee and Gallery marquee rows\)/);
 });

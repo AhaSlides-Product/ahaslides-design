@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.563.2 — 2026-10-29
+### Removed
+- Every image aspect-ratio requirement is removed from the website rules: W6 no longer makes portrait or square images, or sections of mixed sizes, use the Vivid Pink frame, no longer requires one frame ratio per section (4:3 in a Features row, 3:2 on a card), and the criterion no longer fails a framed landscape image; images show at their own ratio. The Vivid Pink frame stays as an optional look. The `square-image-unframed` screen-lint rule is removed. Rules that protect the image stay: never cropped, never stretched or distorted, screenshots exported tight to the UI (#PLACEHOLDER)
+- Revert: revert the PR; only website guideline text, the W6 criterion and one eval, the Features and Cards usage text, and one screen-lint rule with its test change. No component CSS changes
+
 ## 0.563.1 — 2026-10-29
 ### Removed
 - Website rule W20 is retired, with every height limit in the website rules: the Features band cap (at most 800 px tall at 1440), the Navigation plus Hero within 720 px at 1280 x 720, and the Hero line "visible without scrolling at 1280 by 720". Criteria W1 to W19 keep their ids. The W20 eval and its fixture are removed and the evals renumbered. ([#467](https://github.com/AhaSlides-Product/ahaslides-design/pull/467))
