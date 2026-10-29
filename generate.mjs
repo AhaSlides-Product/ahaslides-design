@@ -386,6 +386,8 @@ const SECTIONS_JOINING_THE_SECTION_ABOVE = new Set(['logos']);
 /* With tabs the Page header ends on its tab rule, a divider, so only the no-tabs variant ends on Section padding. */
 const SECTION_BOTTOM_SPACE_MODIFIER = new Map([['aha-header-section-page-header', 'no-tabs']]);
 const SECTION_SURFACE_MODIFIERS = ['accent', 'brand'];
+/* The standalone Cards band pads its own header or grid, not a __inner wrapper. */
+const STEPS_BAND_ROOT = 'aha-marketing-cards';
 function marketingSectionSurfaces() {
   const rootClassOf = (html) => (String(html || '').match(/^\s*<\w+[^>]*\bclass="([\w-]+)/) || [])[1];
   const sections = [];
@@ -417,7 +419,8 @@ function sectionAdjacencyCss() {
       return required ? `${surfaceSelector}.${root}--${required}` : surfaceSelector;
     });
   const followerGroups = [
-    [sections.filter(section => !section.keepsTopSpace && !section.joinsSectionAbove), '>[class*="__inner"]{padding-top:0}'],
+    [sections.filter(section => !section.keepsTopSpace && !section.joinsSectionAbove && section.root !== STEPS_BAND_ROOT), '>[class*="__inner"]{padding-top:0}'],
+    [sections.filter(section => section.root === STEPS_BAND_ROOT), '>:is(.aha-marketing-cards__header,.aha-marketing-cards__grid):first-child{padding-top:0}'],
     [sections.filter(section => section.joinsSectionAbove), '>:first-child{margin-top:calc(var(--aha-section-space-group) - var(--aha-section-space-block));padding-top:0}'],
   ];
   return followerGroups.map(([followers, declaration]) => ['', ...SECTION_SURFACE_MODIFIERS].map(surface => {
