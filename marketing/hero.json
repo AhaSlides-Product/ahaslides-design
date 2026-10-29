@@ -43,7 +43,7 @@
       },
       {
         "title": "Colour",
-        "text": "Colour rule 3.5 keeps the first screen of a product-app screen white, but a web page built from full-width sections may open with a Vivid Pink hero (it is one of the two Vivid Pink sections of rule 3.4). Follow it with a full white section, never another coloured one. A Vivid Pink hero always carries the DS Splash background (right when the copy is beside a picture or left-aligned with no picture, centre when the copy is centred or a picture fills the width), never a flat pink fill or hand-drawn hooks."
+        "text": "Colour rule 3.5 keeps the first screen of a product-app screen white, but a web page built from full-width sections may open with a Vivid Pink hero (it is one of the two Vivid Pink sections of rule 3.4). Customer logos after it go inside the hero as its last child, with aha-logos--brand, so the hero's Splash runs behind it and the hero and the strip read as one surface, with no seam and no flat pink strip; the first section after the hero is full white, never another coloured one, and never a Vivid Pink Logos strip or other coloured band placed after the hero as its own section (screen-lint `band-after-brand-hero`). A Vivid Pink hero always carries the DS Splash background (right when the copy is beside a picture or left-aligned with no picture, centre when the copy is centred or a picture fills the width), never a flat pink fill or hand-drawn hooks."
       },
       {
         "title": "One H1 per page",
@@ -55,7 +55,7 @@
       },
       {
         "title": "Background",
-        "text": "Every hero, every Gallery layout and the page header has a White / Vivid Pink switch, and Vivid Pink is the default: add the layout's own --brand class (for example aha-header-section-hero-split--brand) for Vivid Pink on the DS Splash background, or leave it off for White. There is no Accent surface. Never place a Vivid Pink hero next to another coloured section."
+        "text": "Every hero, every Gallery layout and the page header has a White / Vivid Pink switch, and Vivid Pink is the default: add the layout's own --brand class (for example aha-header-section-hero-split--brand) for Vivid Pink on the DS Splash background, or leave it off for White. There is no Accent surface. Never place a Vivid Pink hero next to another coloured section; its Logos strip goes inside it as the last child, with aha-logos--brand (screen-lint `band-after-brand-hero`)."
       },
       {
         "title": "Hero video",

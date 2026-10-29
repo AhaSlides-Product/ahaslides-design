@@ -376,7 +376,7 @@ function tokenVars(t) {
   L.push(sectionVars('desktop'));
   /* unnamed @container: every element steps the levels by its nearest container's width, so no section switches them itself */
   const sectionSteps = [['tablet', 767], ['phone', 479]].map(([step, width]) => `@container (max-width:${width}px){:where(*){${sectionVars(step)}}}`).join('\n');
-  return `:root{\n  ${L.join('\n  ')}\n}\n${sectionSteps}${sectionAdjacencyCss()}`;
+  return `:root{\n  ${L.join('\n  ')}\n}\n${sectionSteps}${sectionAdjacencyCss()}${logosInsideBrandHeroCss()}`;
 }
 
 /* The Footer's top rule is a divider, so it keeps its top padding after any surface. */
@@ -427,6 +427,18 @@ function sectionAdjacencyCss() {
     const before = onSurface(surface, sections, section => section.bottomSpaceModifier), after = onSurface(surface, followers);
     return before.length && after.length ? ['+', '+script+'].map(between => `\n:is(${before.join(',')})${between}:is(${after.join(',')})${declaration}`).join('') : '';
   }).join('')).join('');
+}
+
+/* A Vivid Pink Logos strip nested as the last child of a Vivid Pink hero lies inside the hero's Splash box,
+   so it drops its own flat fill and the Splash runs behind it with no seam; it pulls up to one Group only where the hero ends on Section padding. */
+const HERO_ROOT_PREFIX = 'aha-header-section-';
+function logosInsideBrandHeroCss() {
+  const heroes = marketingSectionSurfaces().filter(section => section.root.startsWith(HERO_ROOT_PREFIX) && section.surfaces.includes('brand'));
+  if (!heroes.length) return '';
+  const hero = `:is(${heroes.map(section => `.${section.root}--brand`).join(',')})`;
+  const heroEndingOnSectionPadding = `:is(${heroes.map(section => `.${section.root}--brand${section.bottomSpaceModifier ? `.${section.root}--${section.bottomSpaceModifier}` : ''}`).join(',')})`;
+  return `\n${hero}>.aha-logos--brand{background:none;box-shadow:none}` +
+    `\n${heroEndingOnSectionPadding}>.aha-logos--brand>:first-child{margin-top:calc(var(--aha-section-space-group) - var(--aha-section-space-block));padding-top:0}`;
 }
 
 /* ===== structural shell styles — AntD docs IA (sticky header + left nav + main),

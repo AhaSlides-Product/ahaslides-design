@@ -22,6 +22,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.573.0 — 2026-10-29
+### Added
+- Hero and Logos read as one surface: a Vivid Pink Logos strip (`aha-logos--brand`) nested as the last child of any Vivid Pink hero, Gallery or page header (`--brand`) drops its own flat fill, so the hero's Splash runs behind it with no seam, and it sits one Group below the hero's content (a page header with tabs keeps its tab rule, so no pull-up there). Before, the strip placed after the hero showed the Splash cut at the hero's edge and a flat pink strip below; at 1440 the Splash now ends at the strip's bottom edge (DESY-408)
+- screen-lint `band-after-brand-hero` (website, hard): fails a Vivid Pink Logos strip or any other coloured band (`--brand` or `--accent`) placed straight after a Vivid Pink hero as its own section, and names the fix (nest the Logos strip inside the hero). The band after a hero holding the Logos strip must be white (`band-order`) (DSN-992) (#PR)
+### Changed
+- Hero composition rule 6 (Colour) and Background, the Logos placement and Vivid Pink background notes, website rules W1, W2 and W5 (guideline, criteria and the agent copy) agree: after a Vivid Pink hero the Logos strip goes inside it as its last child with `aha-logos--brand`; the first section after the hero is full white. The website eval fixtures nest their Logos strip the same way
+- Revert: revert the PR; one generated token rule pair, one screen-lint rule with its tests, rule text and eval fixtures. No section CSS changes
+
 ## 0.572.2 — 2026-10-29
 ### Removed
 - Every image aspect-ratio requirement is removed from the website rules: W6 no longer makes portrait or square images, or sections of mixed sizes, use the Vivid Pink frame, no longer requires one frame ratio per section (4:3 in a Features row, 3:2 on a card), and the criterion no longer fails a framed landscape image; images show at their own ratio. The Vivid Pink frame stays as an optional look. The `square-image-unframed` screen-lint rule is removed. Rules that protect the image stay: never cropped, never stretched or distorted, screenshots exported tight to the UI (#470)
