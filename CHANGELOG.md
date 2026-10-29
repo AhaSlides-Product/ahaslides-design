@@ -25,7 +25,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.571.1 — 2026-10-29
 ### Fixed
 - Cards, the Steps row band: its heading pads the top and its button the bottom with Section (`--aha-section-space-block`: 96, 64, 48 by width) instead of a fixed 64, 48, 32, so the gap from the button to the next band is one Section step like every other Marketing section (DESY-407). The width overrides are gone, the token steps itself.
-- Testimonials, Quote cards: the author row aligns to the top of its shared bottom track, so a role that wraps to two lines no longer lifts that card's name above the others; names share one baseline whatever the role length. W19 prose (guideline, criterion and its agent copy, section summary) says so (#NNN)
+- Testimonials, Quote cards: the author row aligns to the top of its shared bottom track, so a role that wraps to two lines no longer lifts that card's name above the others; names share one baseline whatever the role length. W19 prose (guideline, criterion and its agent copy, section summary) says so (#477)
 
 ## 0.571.0 — 2026-10-29
 ### Added
