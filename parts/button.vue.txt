@@ -27,8 +27,8 @@ const emit = defineEmits(['save', 'dismiss']);
     </aha-button>
   </div>
 
-  <!-- Canvas close (✕): xs icon-only after applyCanvasDeck; tertiary-deck, or secondary-deck on a photographic deck. -->
-  <aha-button variant="tertiary-deck" icon-only size="xs" corner aria-label="Close" @click="emit('close')">
+  <!-- Canvas close (✕): sm icon-only after applyCanvasDeck; tertiary-deck, or secondary-deck on a photographic deck. -->
+  <aha-button variant="tertiary-deck" icon-only size="sm" corner aria-label="Close" @click="emit('close')">
     <aha-icon name="system-x" :size="16" decorative />
   </aha-button>
 

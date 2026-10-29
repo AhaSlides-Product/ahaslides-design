@@ -8,10 +8,14 @@
 </head>
 <body>
   <div class="row">
-    <aha-button id="tertiary" variant="tertiary-deck" size="xs" icon-only aria-label="Close"><aha-icon name="system-x" size="16" decorative></aha-icon></aha-button>
-    <aha-button id="secondary" variant="secondary-deck" size="xs" icon-only aria-label="Close"><aha-icon name="system-x" size="16" decorative></aha-icon></aha-button>
+    <aha-button id="tertiary" variant="tertiary-deck" size="sm" icon-only aria-label="Close"><aha-icon name="system-x" size="16" decorative></aha-icon></aha-button>
+    <aha-button id="secondary" variant="secondary-deck" size="sm" icon-only aria-label="Close"><aha-icon name="system-x" size="16" decorative></aha-icon></aha-button>
     <aha-button id="audience" variant="tertiary-deck" size="md" icon-only aria-label="Close"><aha-icon name="system-x" size="16" decorative></aha-icon></aha-button>
     <aha-button id="app" variant="tertiary" size="xs" icon-only aria-label="Dismiss"><aha-icon name="system-x" size="16" decorative></aha-icon></aha-button>
+  </div>
+  <div id="panel" style="display:flex; gap:8px; align-items:flex-start; width:320px; margin-top:40px; font:16px/21px sans-serif">
+    <span>Voting is closed for this round and the results are on screen for everyone in the room to read.</span>
+    <aha-button id="corner" variant="tertiary-deck" size="sm" icon-only corner aria-label="Close"><aha-icon name="system-x" size="16" decorative></aha-icon></aha-button>
   </div>
   <script type="module">
     await import('../lib/aha-button.js');

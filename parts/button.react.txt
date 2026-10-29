@@ -34,10 +34,10 @@ export function Notice({ children, onDismiss }) {
   );
 }
 
-// Canvas close (✕): xs icon-only after applyCanvasDeck; tertiary-deck, or secondary-deck on a photographic deck.
+// Canvas close (✕): sm icon-only after applyCanvasDeck; tertiary-deck, or secondary-deck on a photographic deck.
 export function CanvasPanelClose({ onClose }) {
   return (
-    <aha-button variant="tertiary-deck" icon-only="" size="xs" corner="" aria-label="Close" onClick={onClose}>
+    <aha-button variant="tertiary-deck" icon-only="" size="sm" corner="" aria-label="Close" onClick={onClose}>
       <aha-icon name="system-x" size="16" decorative="" />
     </aha-button>
   );

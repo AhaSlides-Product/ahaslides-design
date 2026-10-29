@@ -45,10 +45,10 @@
 <aha-button variant="tertiary-deck" size="md" icon-only sheet aria-label="Close"><aha-icon name="system-x" size="16" decorative></aha-icon></aha-button>
 
 
-<!-- Canvas close (✕): the same 20 x 20 xs square on the presenter canvas, after applyCanvasDeck. tertiary-deck draws the glyph in the
+<!-- Canvas close (✕): a 28 x 28 sm square on the presenter canvas, after applyCanvasDeck. tertiary-deck draws the glyph in the
      deck's secondary ink; on a photographic deck, where tertiary-deck is banned, use secondary-deck. -->
-<aha-button variant="tertiary-deck" icon-only size="xs" corner aria-label="Close"><aha-icon name="system-x" size="16" decorative></aha-icon></aha-button>
-<aha-button variant="secondary-deck" icon-only size="xs" corner aria-label="Close"><aha-icon name="system-x" size="16" decorative></aha-icon></aha-button>
+<aha-button variant="tertiary-deck" icon-only size="sm" corner aria-label="Close"><aha-icon name="system-x" size="16" decorative></aha-icon></aha-button>
+<aha-button variant="secondary-deck" icon-only size="sm" corner aria-label="Close"><aha-icon name="system-x" size="16" decorative></aha-icon></aha-button>
 
 <!-- Close (✕): a tertiary icon-only button at size xs (20 x 20, radius 6). `corner` pins it to the first line of its
      flex container, in the corner; the container passes --aha-close-line-height. A press is a normal click. -->

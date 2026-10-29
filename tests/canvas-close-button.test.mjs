@@ -27,14 +27,14 @@ const readStates = async (command, id, forcedPseudoClasses) => {
   return { ...state, colour: rgba(state.colour), background: rgba(state.background) };
 };
 
-test('the canvas close is a 20 x 20 square in both deck variants', { skip }, async () => {
+test('the canvas close is a 28 x 28 square in both deck variants', { skip }, async () => {
   const sizes = await withPage(fixture, async (command) => {
     await command('DOM.enable'); await command('CSS.enable');
     await command('DOM.getDocument', { depth: -1, pierce: true });
     return { tertiary: await readStates(command, 'tertiary', []), secondary: await readStates(command, 'secondary', []) };
   }, { readyExpr: '!!window.canvasCloseFixtureReady' });
   for (const close of [sizes.tertiary, sizes.secondary]) {
-    assert.deepEqual([close.width, close.height, close.radius], [20, 20, '6px']);
+    assert.deepEqual([close.width, close.height, close.radius], [28, 28, '4px']);
   }
 });
 
@@ -71,4 +71,16 @@ test('the secondary-deck close keeps the white fill and dark-ink glyph', { skip 
   assert.equal(states.rest.colour, 'rgb(26, 26, 26)');
   assert.equal(states.rest.background, 'rgb(255, 255, 255)');
   assert.equal(states.hover.colour, 'rgb(26, 26, 26)');
+});
+
+test('the corner close sits centred on the first line of its text', { skip }, async () => {
+  const offset = await withPage(fixture, async (command) => {
+    const read = await command('Runtime.evaluate', {
+      expression: `(() => { const panel = document.querySelector('#panel').getBoundingClientRect(); const button = document.querySelector('#corner').shadowRoot.querySelector('button').getBoundingClientRect(); return { centre: button.y + button.height / 2 - panel.y, height: button.height }; })()`,
+      returnByValue: true,
+    });
+    return read.result.value;
+  }, { readyExpr: '!!window.canvasCloseFixtureReady' });
+  assert.equal(offset.height, 28);
+  assert.equal(offset.centre, 10.5);
 });
