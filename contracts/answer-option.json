@@ -122,6 +122,12 @@
       "desc": "Translated More link and picture button name (expandable)"
     },
     {
+      "name": "expand-picture-label",
+      "type": "string",
+      "default": "View larger picture",
+      "desc": "Translated name of the corner button that opens a picture large in a bottom sheet (rows that are not expandable)"
+    },
+    {
       "name": "expand",
       "type": "CustomEvent",
       "default": "—",

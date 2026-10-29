@@ -34,18 +34,18 @@ const scenarios = String.raw`(async () => {
   };
 })()`;
 
-test('an image-only row shows the whole picture: contained, as tall as the picture allows up to 240px, on a neutral background', { skip }, async () => {
+test('an image-only row shows the whole picture: contained, as tall as the picture allows up to 200px, on a neutral background', { skip }, async () => {
   const result = await evaluateInPage(fixture, scenarios, { readyExpr: '!!window.wholePictureReady', timeout: 45000 });
   for (const component of ['answer', 'rank']) {
     const { portrait, square, landscape } = result[component];
     for (const shape of [portrait, square, landscape]) {
       assert.equal(shape.fit, 'contain');
       assert.equal(shape.background, 'rgb(243, 243, 243)');
-      assert.ok(shape.boxHeight <= 240);
+      assert.ok(shape.boxHeight <= 200);
     }
-    assert.equal(portrait.boxHeight, 240);
-    assert.equal(square.boxHeight, 240);
-    assert.ok(landscape.boxHeight < 240);
+    assert.equal(portrait.boxHeight, 200);
+    assert.equal(square.boxHeight, 200);
+    assert.ok(landscape.boxHeight < 200);
     assert.ok(Math.abs(landscape.boxHeight - landscape.boxWidth / 2) < 1, 'landscape box follows its 2:1 ratio');
     assert.ok(landscape.boxHeight > 120, 'landscape is taller than the old 120px strip');
   }

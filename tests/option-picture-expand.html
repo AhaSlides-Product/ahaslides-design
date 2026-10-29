@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Option picture expand</title>
+</head>
+<body style="width:375px">
+  <aha-answer-option id="answer-text" image="data:image/svg+xml;utf8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27600%27 height=%27900%27 viewBox=%270 0 600 900%27%3E%3Crect width=%27600%27 height=%27900%27 fill=%27%236A1EBB%27/%3E%3C/svg%3E">Purple door</aha-answer-option>
+  <aha-answer-option id="answer-only" image="data:image/svg+xml;utf8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27600%27 height=%27900%27 viewBox=%270 0 600 900%27%3E%3Crect width=%27600%27 height=%27900%27 fill=%27%236A1EBB%27/%3E%3C/svg%3E"></aha-answer-option>
+  <aha-rank-list id="rank" options='[{"id":"a","label":"Purple door","image":"data:image/svg+xml;utf8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27600%27 height=%27900%27 viewBox=%270 0 600 900%27%3E%3Crect width=%27600%27 height=%27900%27 fill=%27%236A1EBB%27/%3E%3C/svg%3E"},{"id":"b","label":"","image":"data:image/svg+xml;utf8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27600%27 height=%27900%27 viewBox=%270 0 600 900%27%3E%3Crect width=%27600%27 height=%27900%27 fill=%27%236A1EBB%27/%3E%3C/svg%3E"}]'></aha-rank-list>
+  <script type="module">
+    await import('../lib/all.js');
+    await new Promise((done) => setTimeout(done, 300));
+    window.expandReady = true;
+  </script>
+</body>
+</html>
