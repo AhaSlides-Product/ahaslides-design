@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.542.0 — 2026-10-29
+## 0.547.0 — 2026-10-29
 ### Changed
 - Colour rule 3.5, anti-slop W5 and the website guideline: a landing page's Hero must open in its Vivid Pink state (`--brand`), not the White default of the snippet; the "a white hero is also allowed" line is gone and a white hero is only for a Page header page or a hero the requester names. The Hero guidance carries a "Surface" point saying so.
 - Anti-slop W12, the website guideline, the Features guidance and the Cards Steps note: a numbered how-to or how it works is Step cards (Steps row, a Cards grid for four or more), never Features Tabs; a tab description is one short sentence of 90 characters or fewer. Rebuilding a section keeps every point, step and image: five steps become five Step cards with their images, never fewer.
@@ -32,6 +32,13 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Revert: revert the PR; the rules go back to "may be Vivid Pink" and the lint drops the three rules (#440); the scroller-with-images layout is removed
 ### Fixed
 - Features layouts built from cards now load the Step card styles too, so the numbered badges in the scroller with images render in the preview and the copied snippet (#440).
+
+## 0.546.0 — 2026-10-29
+### Changed
+- Hero page: every layout now has White and Vivid Pink only, and Vivid Pink is the default. The Accent surface is gone from all 14 layouts (the `--accent` classes are listed as removed, so screen-lint flags a page that still uses one). (#455)
+- The five Gallery layouts (bento grid, masonry, carousel, marquee rows, tabbed images) gain a Vivid Pink surface on the DS Splash background, with the button on `secondary`, white carousel dots and white tabs, and it is their default. (#455)
+### Fixed
+- The Grid and List thumbnails on a Marketing layouts page now show each layout's default surface; before, every thumbnail rendered White. (#455)
 
 ## 0.541.0 — 2026-10-29
 ### Added
