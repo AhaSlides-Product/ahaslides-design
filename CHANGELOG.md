@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.572.0 — 2026-10-29
+### Added
+- Menu and Dropdown: optional `description` on a leaf item (DESY-403). It renders as a second line under the label, 12px in `text-secondary` (`text-disabled` on a disabled row, `text-inverse` while a Dropdown danger row is hovered), one line with an ellipsis, with `part="description"` and linked to the row by `aria-describedby`. The row grows to fit it; the selected tint, danger colour and every state are unchanged, and an item without `description` renders exactly as before. Menu and Dropdown gain a role picker example (Editor "Edit and present", Presenter "Present only, cannot edit"). (#475)
+
 ## 0.571.0 — 2026-10-29
 ### Added
 - Hero split: the 16:9 Video slot is back (DESY-404), the markup and CSS `hero.md` already described (`<video class="{{c}}__video">`, the ambient form with `autoplay muted loop playsinline` and no controls, paused under `prefers-reduced-motion` by `lib/marketing-motion.js`). The slot narrows and centres on a wide screen instead of letterboxing.

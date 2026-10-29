@@ -42,6 +42,16 @@
       ]}
     ]'>
   </aha-menu>
+
+  <div class="lbl">Role picker (item description)</div>
+  <aha-menu value="editor"
+    items='[
+      {"key":"editor","label":"Editor","description":"Edit and present"},
+      {"key":"presenter","label":"Presenter","description":"Present only, cannot edit"},
+      {"type":"divider"},
+      {"key":"remove","label":"Remove access","description":"They lose access to this presentation","icon":"system-trash","danger":true}
+    ]'>
+  </aha-menu>
 </div>
 
 <!-- Imports the REAL shipped element (../lib/aha-menu.js) + the icon library — no inlined copy, so

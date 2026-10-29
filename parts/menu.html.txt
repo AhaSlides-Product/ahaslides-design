@@ -23,6 +23,14 @@
   ]'>
 </aha-menu>
 
+<!-- description: an optional smaller, muted second line under the label (a role picker) -->
+<aha-menu id="roles" value="editor"
+  items='[
+    {"key":"editor","label":"Editor","description":"Edit and present"},
+    {"key":"presenter","label":"Presenter","description":"Present only, cannot edit"}
+  ]'>
+</aha-menu>
+
 <script>
   // Selection animates on a persistent row; each pick emits a composed `select` event.
   document.getElementById('nav').addEventListener('select', (e) => console.log('selected', e.detail.key));
