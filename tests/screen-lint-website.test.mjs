@@ -50,7 +50,7 @@ test('every image carries alt', () => {
 
 const band = (classes) => `<section class="${classes}"></section>`;
 const page = (...bands) => `<main>\n${bands.join('\n')}\n</main>`;
-const websiteRulesOf = (source) => rulesOf(source).filter((rule) => ['section-eyebrow', 'band-order', 'section-spacing-override', 'removed-layout', 'hero-not-brand', 'tabs-description-long', 'steps-as-tabs', 'autoplay-video-extra', 'autoplay-video-attributes', 'autoplay-video-motion', 'grey-quote-or-frame', 'square-image-unframed'].includes(rule));
+const websiteRulesOf = (source) => rulesOf(source).filter((rule) => ['section-eyebrow', 'band-order', 'section-spacing-override', 'removed-layout', 'hero-not-brand', 'tabs-description-long', 'steps-as-tabs', 'autoplay-video-extra', 'autoplay-video-attributes', 'autoplay-video-motion', 'grey-quote-or-frame'].includes(rule));
 const fixture = (name) => readFileSync(new URL(`../anti-slop/evals/website/fixtures/${name}/Page.html`, import.meta.url), 'utf8');
 
 test('a section eyebrow fails and a card category label does not', () => {
@@ -251,21 +251,6 @@ test('DSN-975: light grey on a blockquote, rail or image frame fails', () => {
 test('DSN-975: other grey uses and other properties do not trip it', () => {
   assert.deepEqual(greyRulesOf('<style>.card{background:#F6F6F6}</style>'), []);
   assert.deepEqual(greyRulesOf('<style>blockquote{color:#F6F6F6;border-left:4px solid var(--aha-vivid-pink-100)}</style>'), []);
-});
-
-const squareRulesOf = (source) => rulesOf(source).filter((rule) => rule === 'square-image-unframed');
-const featuresWith = (inner) => `<section class="aha-features aha-features--alternating-screenshots">${inner}</section>`;
-
-test('DSN-975: a square image outside the pink frame fails, inside it passes', () => {
-  assert.deepEqual(squareRulesOf(featuresWith('<img class="aha-features__visual" src="a.png" alt="x" width="800" height="800">')), ['square-image-unframed']);
-  assert.deepEqual(squareRulesOf(featuresWith('<img class="aha-features__visual" src="a.png" alt="x" style="aspect-ratio:1/1">')), ['square-image-unframed']);
-  assert.deepEqual(squareRulesOf(featuresWith('<div class="aha-features__photo aha-features__photo--pink-frame"><img src="a.png" alt="x" width="800" height="800"></div>')), []);
-});
-
-test('DSN-975: landscape images, small square logos and avatars, and square images outside Features and Cards pass', () => {
-  assert.deepEqual(squareRulesOf(featuresWith('<img src="a.png" alt="x" width="800" height="600">')), []);
-  assert.deepEqual(squareRulesOf(featuresWith('<img class="aha-features__logo" src="a.png" alt="x" width="48" height="48">')), []);
-  assert.deepEqual(squareRulesOf('<section class="aha-header-section-hero-bento"><img src="a.png" alt="x" width="400" height="400"></section>'), []);
 });
 
 test('W9: a reduced-motion rule that does not target the video, or an older motion script, is no stop', () => {
