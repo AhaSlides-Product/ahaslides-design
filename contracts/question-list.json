@@ -192,6 +192,18 @@
       "desc": "Character limit of each option"
     },
     {
+      "name": "colordots",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Make the list unscored: every option row gets a colour dot from the deck palette instead of the correct toggle (a scored list shows the toggle and no dot); option n takes colour ((n-1) % palette-size) + 1, so colour follows position and is recomputed after every add and delete"
+    },
+    {
+      "name": "palette-size",
+      "type": "number",
+      "default": "—",
+      "desc": "With colordots: how many deck palette colours to cycle; without it each option takes its own number (n)"
+    },
+    {
       "name": "singlecorrect",
       "type": "boolean",
       "default": "false",

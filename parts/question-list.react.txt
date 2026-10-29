@@ -4,7 +4,7 @@ import { useRef, useEffect } from 'react';
 // React 18 needs a thin wrapper; React 19 can use <aha-question-list> directly.
 // questions and notices are PROPERTIES; onChange gives the full edited model back plus the edit that made it.
 // Writing questions back with the same ids updates in place, so the caret survives a controlled host.
-function AhaQuestionList({ questions, notices, label, help, min, max, minOptions, maxOptions, allowImage, disabled, accordion, multiline, singleCorrect, testId, onChange, onToggle, onLeave, children }) {
+function AhaQuestionList({ questions, notices, label, help, min, max, minOptions, maxOptions, allowImage, disabled, accordion, multiline, singleCorrect, colorDots, paletteSize, testId, onChange, onToggle, onLeave, children }) {
   const ref = useRef();
   useEffect(() => {
     const el = ref.current;
@@ -32,6 +32,8 @@ function AhaQuestionList({ questions, notices, label, help, min, max, minOptions
       {...(accordion ? { accordion: '' } : {})}
       {...(multiline ? { multiline: '' } : {})}
       {...(singleCorrect ? { singlecorrect: '' } : {})}
+      {...(colorDots ? { colordots: '' } : {})}
+      {...(colorDots && paletteSize ? { 'palette-size': String(paletteSize) } : {})}
       {...(testId ? { testid: testId } : {})}
     >{children}</aha-question-list>
   );
