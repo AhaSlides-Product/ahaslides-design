@@ -26,6 +26,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - Menu: `borderless` attribute drops the container's border, radius, fill and padding, for a side nav inside a surface that already frames it (a settings modal's left column), so Vue 2 apps no longer need `::part` to remove the box. Rows, group titles, dividers and every state are unchanged. The guidance now says group titles separate side-nav sections with no divider between groups; a divider only rules off a destructive action. ([#472](https://github.com/AhaSlides-Product/ahaslides-design/pull/472))
 
+- Brand voice rules: new rules 13.18 to 13.25 carry the general half of the brand director's 29 October editorial feedback (SOMW-153): tell-tale AI language, varying familiar brand phrases, saying what you mean, challenging briefs, product precision, consistent audience perspective, framing stories about people, and hard rules versus editorial judgement. Rules 13.12 and 13.13 are extended. The change log gains v4. The social-only half lives in the social channel's brand-feedback log. Revert: revert the PR.
+
 ## 0.566.0 — 2026-10-29
 ### Changed
 - Audience: in `<aha-answer-option>` and `<aha-rank-list>`, a row with text and a picture now has the same gap above the picture, to its right and below it (answer option 8px: the unused count space is collapsed when the count is off; rank list 6px between the picture and the move buttons). A tall row centres the picture vertically and keeps the same right gap. ([#466](https://github.com/AhaSlides-Product/ahaslides-design/pull/466))
