@@ -22,6 +22,21 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.562.1 — 2026-10-29
+### Changed
+- Website rule W20 (guideline, judge criterion and its eval): drop the Features band cap (at most 800 px tall at 1440). Only the first-screen limit stays: at 1280 x 720 the Navigation plus the Hero fit within 720 px. W20 is retitled "First screen: the Navigation plus the Hero fit within 720 px at 1280 x 720", and the long Features band bad-example eval and its fixture are removed. ([#NNN](https://github.com/AhaSlides-Product/ahaslides-design/pull/NNN))
+- Revert: revert the PR; only text in W20 and one eval change
+
+## 0.560.0 — 2026-10-29
+### Added
+- Radio and Checkbox: new `help` attribute shows the muted "?" tooltip after the label, and `locked` (with `plan`, `feature-key`, `upgrade-body`, same as Setting row) shows the crown paywall instead. Works on every Radio variant (dot, card, button) and on each option of a group. A click on the icon, or on a locked option, never selects or ticks; a locked option opens the paywall on click or Space, sends no `change`, and arrow keys skip it. The help text is the option's accessible description, with no extra tab stop. Contracts, snippets and previews updated. ([#465](https://github.com/AhaSlides-Product/ahaslides-design/pull/465))
+- Revert: revert the PR; without the new attributes nothing in Radio or Checkbox changes
+
+## 0.559.0 — 2026-10-29
+### Changed
+- Audience: `<aha-answer-option>` and `<aha-rank-list>` rows with both a picture and a text label now put the picture after the text (rank list: badge, text, picture, move buttons and grip). DOM order matches visual order. Image-only rows, sizes, gaps, expandable behaviour and verdict styling are unchanged. ([#464](https://github.com/AhaSlides-Product/ahaslides-design/pull/464))
+- Revert: revert the PR; only the order of the picture in the two rows changes
+
 ## 0.557.1 — 2026-10-29
 ### Changed
 - Website rule W20 (guideline, judge criterion and its eval): drop the whole-page height cap (at most 5000 px at 1440). The Features band cap (800 px) and the Navigation plus Hero within 720 px at 1280 x 720 stay. ([#462](https://github.com/AhaSlides-Product/ahaslides-design/pull/462))

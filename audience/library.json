@@ -25,7 +25,7 @@
    "element": "<aha-answer-option>",
    "kind": "Answers",
    "what": "One tappable answer row, driven entirely by a state object rather than by working its own state out.",
-   "useWhen": "The rare answer screen that is NOT a plain list: rows split across columns, interleaved with other content, or laid out on a board. Set the raw quiz flags as attributes; the row resolves them with `answerOptionState()`. Add `expandable` for long text: the label clamps to 4 lines, More sits inside the card and the picture stays on the left like a default row; More and the picture emit `expand`, which opens `<aha-audience-modal>`.",
+   "useWhen": "The rare answer screen that is NOT a plain list: rows split across columns, interleaved with other content, or laid out on a board. Set the raw quiz flags as attributes; the row resolves them with `answerOptionState()`. Add `expandable` for long text: the label clamps to 4 lines, More sits inside the card and the picture sits after the text like a default row; More and the picture emit `expand`, which opens `<aha-audience-modal>`.",
    "notFor": "An ordinary list of options. `<aha-answer-list>` already repeats this row and owns the gap, the selection mode and the counts.",
    "replaces": null,
    "note": "Shown answered and revealed, the state with the most moving parts: an answer mark on every row (a white tick or cross on the answer disc), the correct row edged in the answer green, the participant's own wrong pick ringed and tinted in the answer red, and the other rows muted.",

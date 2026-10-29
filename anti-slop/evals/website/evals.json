@@ -1010,19 +1010,19 @@
       "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
       "files": [
         {
-          "path": "fixtures/fail-w20-long-features-band/Page.html"
+          "path": "fixtures/fail-w20-tall-first-screen/Page.html"
         },
         {
           "path": "fixtures/sections.css"
         }
       ],
       "label": "bad-example",
-      "notes": "Targets W20: a Features band stacking eight alternating rows, far over 800 px tall at 1440.",
-      "expected_output": "W20 FAILs: the first Features section stacks eight alternating screenshot rows, each about 480 px tall, so the band is over 3,000 px at 1440, far over the 800 px limit. Fix: cut the band to two or three rows or split it. Overall: NEEDS FIX.",
+      "notes": "Targets W20: a hero stretched to 900 px, so the Navigation plus the Hero are far over 720 px at 1280 x 720.",
+      "expected_output": "W20 FAILs: the Navigation plus the Hero are about 1,000 px tall at 1280 x 720, so the heading shows but the lead and primary call to action fall below the first screen, over the 720 px limit. Fix: cut the hero height so the Navigation plus the Hero fit within 720 px. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "W20 is marked FAIL",
-        "Names the Features band of eight rows and its height"
+        "Names the Navigation plus Hero height at 1280 x 720"
       ],
       "expected": {
         "overall": "NEEDS_FIX",
