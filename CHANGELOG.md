@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.563.0 — 2026-10-29
+### Removed
+- Website > Marketing > Hero: the Hero stacked, Hero bento collage and Gallery bento grid layouts, with the Video slot that only Hero stacked had. Their classes join `marketing/data/removed-layouts.json`, so website rule W1 fails a page that still uses them. The Hero page keeps 11 layouts. (#NNN)
+- Revert: revert the PR; `marketing/hero.json`, `marketing/data/removed-layouts.json`, `guidelines/website.json` and `tests/marketing-gallery.test.mjs` return to the previous layouts
+
 ## 0.560.0 — 2026-10-29
 ### Added
 - Radio and Checkbox: new `help` attribute shows the muted "?" tooltip after the label, and `locked` (with `plan`, `feature-key`, `upgrade-body`, same as Setting row) shows the crown paywall instead. Works on every Radio variant (dot, card, button) and on each option of a group. A click on the icon, or on a locked option, never selects or ticks; a locked option opens the paywall on click or Space, sends no `change`, and arrow keys skip it. The help text is the option's accessible description, with no extra tab stop. Contracts, snippets and previews updated. ([#465](https://github.com/AhaSlides-Product/ahaslides-design/pull/465))
