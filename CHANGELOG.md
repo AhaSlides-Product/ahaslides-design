@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.551.1 — 2026-10-29
+### Fixed
+- Form controls (`aha-counted-input`, `aha-counted-textarea`, `aha-input`, `aha-number-with-unit`, `aha-select`, `aha-autocomplete`, `aha-color-picker`, `aha-segmented`, `aha-tabs`, `aha-rate`, `aha-radio`, `aha-checkbox`, `aha-switch`, `aha-card-select`, `aha-mode-field`, `aha-option-row`, `aha-answer-list`, `aha-rank-list`, `aha-scale-slider`, `aha-audience-image-upload`): a property such as `value`, `checked` or `options` set on the element before its tag was defined used to sit on the element as an own property and shadow the control's setter, so the inner field stayed out of sync and the first keystroke after a re-render wiped the typed text. Each control now moves such a property back through its setter when it connects, through one shared `upgrade-properties.js` helper (#NNN)
+- Revert: revert the PR; a property set before the tag is defined is ignored again, so set the attribute instead (#NNN)
+
 ## 0.551.0 — 2026-10-29
 ### Added
 - Tokens: four website section spacing levels, `--aha-section-space-block` (Section, 96 px), `--aha-section-space-header` (Header, 64), `--aha-section-space-group` (Group, 48) and `--aha-section-space-item` (Item, 32). Each level is one step below the one above on the ladder 96, 64, 48, 32, 24, 16, and each steps one down when the section's own container is 767 px or narrower and again at 479 px, so a section never switches them itself (#439)
