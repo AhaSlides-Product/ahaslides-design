@@ -22,6 +22,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.544.0 — 2026-10-29
+### Added
+- screen-lint, website surface: six page rules for a whole page of Marketing sections. `section-gap` fails a margin, padding, gap, spacer, divider or per-band wrapper that makes the gap between two bands anything but one Section step (96, 64 and 48 px at 1440, 768 and 375); `motion-script-copy` fails a `marketing-motion.js` that differs from the shipped `lib/marketing-motion.js`, compared when the lint runs, so no hash is kept; `step-numbers` fails numbered steps that are not the Cards Steps row (`aha-marketing-cards__grid--row`) with the DS number ring; `ds-class-without-css` fails markup that uses a DS section class the page's pasted CSS does not style; `page-font` fails a body or h1 to h6 font that does not resolve to Plus Jakarta Sans; `card-description-long` fails a Cards, Features or Numbers description over 25 words (DSN-980, DSN-981, DSN-982, DSN-983, DSN-984, DSN-985) (#PR)
+### Changed
+- Website guideline and judge criteria W1, W2, W9, W10, W12 and W14 state the same six checks and say which part only a render can verify (the measured gap at each width, a font set by a linked stylesheet, whether a section is text-led with four or more points). New eval case 30 (`fail-w10-wordy-cards`) covers the Cards word limit.
+
 ## 0.540.0 — 2026-10-28
 ### Changed
 - Marketing: the Header page is now Hero (`marketing/hero/`, `marketing/hero.json`). `marketing/header/` stays as a redirect to it, and `marketing/hero.md` and `hero.agent.json` replace the `header` feed files. The Navigation site header and the Page header layout keep their names.
