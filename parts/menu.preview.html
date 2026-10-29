@@ -28,6 +28,20 @@
       {"key":"delete","label":"Delete workspace","icon":"system-trash","danger":true}
     ]'>
   </aha-menu>
+
+  <div class="lbl">Settings modal side nav (borderless)</div>
+  <aha-menu mode="inline" borderless value="general"
+    items='[
+      {"type":"group","label":"Presentation","children":[
+        {"key":"general","label":"General","icon":"system-gear"},
+        {"key":"audience","label":"Audience","icon":"system-users"}
+      ]},
+      {"type":"group","label":"Quiz","children":[
+        {"key":"scoring","label":"Scoring","icon":"system-star"},
+        {"key":"leaderboard","label":"Leaderboard","icon":"system-chart-bar"}
+      ]}
+    ]'>
+  </aha-menu>
 </div>
 
 <!-- Imports the REAL shipped element (../lib/aha-menu.js) + the icon library — no inlined copy, so
