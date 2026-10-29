@@ -160,7 +160,7 @@
     {
       "ref": "option-row",
       "as": "component",
-      "use": "OptionRow — repeatable option/answer row: drag handle, optional correct toggle, borderless textarea with hover counter, optional image control, floating delete",
+      "use": "OptionRow — repeatable option/answer row: drag handle, optional correct toggle, optional deck-palette colour dot, borderless textarea with hover counter, optional image control, floating delete",
       "status": "available"
     },
     {

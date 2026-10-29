@@ -22,6 +22,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.558.0 — 2026-10-29
+### Added
+- `<aha-option-row>` opt-in `colordot` + `colorindex`: a 12px decorative dot before the text, filled from the deck palette (`--aha-deck-palette-<n>`), neutral grey without one. `<aha-question-list>` gains `colordots` + `palette-size`, so option n takes colour ((n-1) % palette-size) + 1 by position. (#PRNUM)
+### Changed
+- `<aha-option-row>` right padding is 4px (was 10px): padding is now 3 4 3 10, and the focused correct row 2 3 2 9 so nothing shifts. (#PRNUM)
+
 ## 0.557.1 — 2026-10-29
 ### Changed
 - Website rule W20 (guideline, judge criterion and its eval): drop the whole-page height cap (at most 5000 px at 1440). The Features band cap (800 px) and the Navigation plus Hero within 720 px at 1280 x 720 stay. ([#462](https://github.com/AhaSlides-Product/ahaslides-design/pull/462))

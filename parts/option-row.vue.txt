@@ -25,6 +25,8 @@ function activate(i) {}
     correctable
     image
     checkboxshape="circle"
+    colordot
+    :colorindex="(i % 6) + 1"
     :value.prop="o.text"
     maxlength="80"
     :correct="o.correct || undefined"
