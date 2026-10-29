@@ -1063,6 +1063,36 @@
         "authored": "ahaslides-design",
         "why": "DS-authored with the website surface; no plugin judge dataset exists"
       }
+    },
+    {
+      "id": 35,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w10-wordy-cards/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W10: a text-led section of four points is the Cards grid, but each card description runs to about 45 words. screen-lint card-description-long fails it; that the section is text-led with four points is the judge's call.",
+      "expected_output": "W10 FAILs: the four-point section is a Cards grid, but every card description is about 45 words, over the 25-word limit. Fix: cut each description to 25 words or fewer and link to the page that holds the detail. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W10 is marked FAIL",
+        "Names the 25-word limit on card descriptions"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W10": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
     }
   ]
 }
