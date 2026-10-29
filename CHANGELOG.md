@@ -24,10 +24,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.551.0 — 2026-10-29
 ### Added
-- Brand guidelines v2.3 (29 October 2026, final) is published at `https://design.ahaslides.io/brand/ahaslides-brand-guidelines-v2.3.pdf`. (#PRNUM)
+- Brand guidelines v2.3 (29 October 2026, final) is published at `https://design.ahaslides.io/brand/ahaslides-brand-guidelines-v2.3.pdf`. (#459)
 
 ### Changed
-- Brand voice rules: the lede names v2.3 and links the PDF, new rule 16.4 sets the three sources of truth (design system, voice rules online, the PDF) and that the first two win. The colour rules lede carries the same precedence line. (#PRNUM)
+- Brand voice rules: the lede names v2.3 and links the PDF, new rule 16.4 sets the three sources of truth (design system, voice rules online, the PDF) and that the first two win. The colour rules lede carries the same precedence line. (#459)
 
 ## 0.550.0 — 2026-10-29
 ### Changed
