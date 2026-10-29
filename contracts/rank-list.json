@@ -113,7 +113,7 @@
       "name": "expand-picture-label",
       "type": "string",
       "default": "View larger picture",
-      "desc": "Translated name of the corner button that opens a picture large in a bottom sheet (rows that are not expandable)"
+      "desc": "Translated name of the full-picture overlay button that opens a picture large in a bottom sheet (rows that are not expandable)"
     },
     {
       "name": "change",

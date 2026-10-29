@@ -63,7 +63,7 @@ const insets = String.raw`(async () => {
   return { answer: answerGaps('answer'), answerLong: answerGaps('answer-long'), rank: rankGaps('a'), rankLong: rankGaps('c') };
 })()`;
 
-test('a picture beside text has the same gap above it, to its right and below it; a tall row keeps it top-aligned', { skip }, async () => {
+test('a picture beside text has the same gap above it, to its right and below it; a tall row centres it with the same gap to its right', { skip }, async () => {
   const result = await evaluateInPage(fixture, insets, { readyExpr: '!!window.optionPictureOrderReady', timeout: 45000 });
   const close = (actual, expected) => assert.ok(Math.abs(actual - expected) < 0.51, actual + ' vs ' + expected);
   for (const key of ['answer', 'rank']) {
@@ -73,9 +73,9 @@ test('a picture beside text has the same gap above it, to its right and below it
   }
   for (const key of ['answerLong', 'rankLong']) {
     const gap = result[key];
-    close(gap.right, gap.top);
-    assert.ok(gap.bottom > gap.top);
+    close(gap.top, gap.bottom);
+    assert.ok(gap.top > 0);
   }
-  close(result.answerLong.top, result.answer.top);
-  close(result.rankLong.top, result.rank.top);
+  close(result.answerLong.right, result.answer.right);
+  close(result.rankLong.right, result.rank.right);
 });

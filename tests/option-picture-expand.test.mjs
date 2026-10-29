@@ -21,8 +21,11 @@ const scenarios = String.raw`(async () => {
     const buttonBox = button.getBoundingClientRect();
     const out = {
       label: button.getAttribute('aria-label'),
-      inCorner: buttonBox.right <= pictureBox.right && buttonBox.top >= pictureBox.top && pictureBox.right - buttonBox.right < 8 && buttonBox.top - pictureBox.top < 8,
-      size: Math.round(buttonBox.width),
+      coversPicture: ['left', 'top', 'right', 'bottom'].every((side) => Math.abs(buttonBox[side] - pictureBox[side]) < 1),
+      iconSize: Math.round(button.querySelector('aha-icon').getBoundingClientRect().width),
+      iconCentred: (() => { const icon = button.querySelector('aha-icon').getBoundingClientRect(); return Math.abs(icon.left + icon.width / 2 - (pictureBox.left + pictureBox.width / 2)) < 1 && Math.abs(icon.top + icon.height / 2 - (pictureBox.top + pictureBox.height / 2)) < 1; })(),
+      idleOpacity: getComputedStyle(button).opacity,
+      background: getComputedStyle(button).backgroundColor,
     };
     let picked = 0;
     let changed = 0;
@@ -57,12 +60,16 @@ const scenarios = String.raw`(async () => {
   return results;
 })()`;
 
-test('the corner expand button opens the picture in the bottom sheet without selecting or dragging, and Esc closes it', { skip }, async () => {
+test('the whole-picture expand overlay opens the picture in the bottom sheet without selecting or dragging, and Esc closes it', { skip }, async () => {
   const result = await evaluateInPage(fixture, scenarios, { readyExpr: '!!window.expandReady', timeout: 45000 });
   for (const name of ['answerText', 'answerOnly', 'rankText', 'rankOnly']) {
     const out = result[name];
     assert.equal(out.label, 'View larger picture', name);
-    assert.ok(out.inCorner, name + ' sits in the picture corner');
+    assert.ok(out.coversPicture, name + ' overlay covers the whole picture');
+    assert.equal(out.iconSize, 24, name + ' icon matches the expandable-row overlay');
+    assert.ok(out.iconCentred, name + ' icon is centred on the picture');
+    assert.equal(out.idleOpacity, '0', name + ' overlay hidden until hover or focus');
+    assert.equal(out.background, 'rgba(0, 0, 0, 0.5)', name + ' same dim as the expandable overlay');
     assert.ok(out.opened, name + ' opens the sheet');
     assert.ok(out.sheetImage, name + ' shows the same picture');
     assert.equal(out.title, out.expectedTitle, name + ' title');
@@ -74,8 +81,6 @@ test('the corner expand button opens the picture in the bottom sheet without sel
     assert.ok(out.closed, name + ' Esc closes');
     assert.ok(out.focusBack, name + ' focus returns to the button');
   }
-  assert.equal(result.answerOnly.size, 32);
-  assert.equal(result.answerText.size, 24);
   assert.deepEqual(result.order, ['a', 'b']);
 });
 
@@ -122,4 +127,81 @@ const lateLabel = String.raw`(() => {
 test('a later expand-picture-label change updates the button name', { skip }, async () => {
   const labels = await evaluateInPage(fixture, lateLabel, { readyExpr: '!!window.expandReady', timeout: 45000 });
   assert.deepEqual(labels, ['Xem ảnh lớn', 'Xem ảnh lớn', 'Xem ảnh lớn']);
+});
+
+const centring = String.raw`(() => {
+  const centreY = (element) => { const box = element.getBoundingClientRect(); return box.top + box.height / 2; };
+  const offsets = {};
+  const measure = (name, host, rowSelector, partSelectors) => {
+    const row = host.shadowRoot.querySelector(rowSelector);
+    const rowCentre = centreY(row);
+    offsets[name] = { rowHeight: Math.round(row.getBoundingClientRect().height) };
+    for (const part of partSelectors) offsets[name][part] = Math.abs(centreY(row.querySelector(part)) - rowCentre);
+  };
+  const rank = document.getElementById('rank');
+  measure('answerLong', document.getElementById('answer-long'), '.row', ['.control', '.picture']);
+  measure('answerOnly', document.getElementById('answer-only'), '.row', ['.control', '.picture']);
+  measure('rankText', rank, '[data-option-id="a"]', ['.badge', '.grip', '.picture']);
+  measure('rankOnly', rank, '[data-option-id="b"]', ['.badge', '.grip', '.moves']);
+  return offsets;
+})()`;
+
+test('side controls and the picture sit at the vertical middle of a tall row', { skip }, async () => {
+  const offsets = await evaluateInPage(fixture, centring, { readyExpr: '!!window.expandReady', timeout: 45000 });
+  assert.ok(offsets.answerOnly.rowHeight > 150, 'image-only row is tall');
+  assert.ok(offsets.answerLong.rowHeight > 60, 'long-text row is tall');
+  for (const [name, parts] of Object.entries(offsets)) {
+    for (const [part, offset] of Object.entries(parts)) {
+      if (part !== 'rowHeight') assert.ok(offset < 1, name + ' ' + part + ' is ' + offset + 'px off the row middle');
+    }
+  }
+});
+
+const hoverShows = String.raw`(() => {
+  const pictures = [document.getElementById('answer-text'), document.getElementById('answer-only'), document.getElementById('answer-long')].map((host) => host.shadowRoot.querySelector('.picture'));
+  const rank = document.getElementById('rank').shadowRoot;
+  pictures.push(...rank.querySelectorAll('.picture'));
+  return pictures.map((picture) => { const box = picture.getBoundingClientRect(); return { x: box.left + box.width / 2, y: box.top + box.height / 2 }; });
+})()`;
+const overlayOpacities = String.raw`[...document.querySelectorAll('aha-answer-option, aha-rank-list')].flatMap((host) => [...host.shadowRoot.querySelectorAll('.expand')].map((button) => getComputedStyle(button).opacity))`;
+const dropTouchRule = String.raw`(() => {
+  let dropped = 0;
+  for (const host of document.querySelectorAll('aha-answer-option, aha-rank-list')) {
+    const sheets = [...host.shadowRoot.styleSheets, ...host.shadowRoot.adoptedStyleSheets];
+    for (const sheet of sheets) {
+      for (let index = sheet.cssRules.length - 1; index >= 0; index--) {
+        if (sheet.cssRules[index].conditionText === '(hover: none)') { sheet.deleteRule(index); dropped += 1; }
+      }
+    }
+  }
+  return dropped;
+})()`;
+const settle = 'new Promise((done) => setTimeout(done, 250))';
+
+test('hovering a picture fades its overlay in and moving away hides it; on a touch screen hover never shows it', { skip }, async () => {
+  const outcome = await withPage(fixture, async (command) => {
+    const points = await evaluate(command, hoverShows);
+    const touch = await evaluate(command, 'matchMedia("(hover: none)").matches');
+    const before = await evaluate(command, overlayOpacities);
+    const hoverOn = async (index) => {
+      await command('Input.dispatchMouseEvent', { type: 'mouseMoved', x: points[index].x, y: points[index].y });
+      await evaluate(command, settle);
+      return (await evaluate(command, overlayOpacities))[index];
+    };
+    const touchHovered = [];
+    for (let index = 0; index < points.length; index++) touchHovered.push(await hoverOn(index));
+    const dropped = await evaluate(command, dropTouchRule);
+    const hovered = [];
+    for (let index = 0; index < points.length; index++) hovered.push(await hoverOn(index));
+    await command('Input.dispatchMouseEvent', { type: 'mouseMoved', x: 1, y: 1 });
+    await evaluate(command, settle);
+    return { points: points.length, touch, dropped, before, touchHovered, hovered, after: await evaluate(command, overlayOpacities) };
+  }, { readyExpr: '!!window.expandReady', timeout: 45000 });
+  assert.equal(outcome.points, 5);
+  assert.ok(outcome.touch, 'headless Chrome reports no hover, so it stands in for a touch screen');
+  assert.equal(outcome.dropped, 4, 'every host carries the touch rule once');
+  assert.deepEqual(outcome.before, ['0', '0', '0', '0', '0']);
+  assert.deepEqual(outcome.touchHovered, ['0', '0', '0', '0', '0']);
+  assert.deepEqual(outcome.hovered, ['1', '1', '1', '1', '1']);
+  assert.deepEqual(outcome.after, ['0', '0', '0', '0', '0']);
 });
