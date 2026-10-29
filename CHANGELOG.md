@@ -22,11 +22,21 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.555.0 — 2026-10-29
+## 0.556.0 — 2026-10-29
 ### Added
 - Brand voice rules: new rule 14.3 allows a retired phrase or an American spelling only in search keyword fields and hashtags (SEO and ad keywords, meta keywords, social hashtags such as #InteractivePresentations), never in copy people read. Rule 10.6 points to it. (#461)
 ### Changed
-- Brand voice rules: rule 10.7 now says a product or feature name keeps its capitals inside a sentence-case headline or CTA, and title-case copy from a brief is changed to sentence case with the requester told. The change log gains v2 (it also records rule 14.2). Revert: revert the PR. (#461)
+- Brand voice rules: rule 10.7 now says a product or feature name keeps its capitals inside a sentence-case headline or CTA, and title-case copy from a brief is changed to sentence case with the requester told. The change log gains v3 (it also records rule 14.2). Revert: revert the PR. (#461)
+
+## 0.555.0 — 2026-10-29
+### Added
+- Brand guidelines v2.3 (29 October 2026, final) is published at `https://design.ahaslides.io/brand/ahaslides-brand-guidelines-v2.3.pdf`. (#459)
+
+### Fixed
+- The render gate treats the new `brand` output folder as a support folder, not a component page. (#459)
+
+### Changed
+- Brand voice rules: the lede names v2.3 and links the PDF, new rule 16.4 sets the three sources of truth (design system, voice rules online, the PDF) and that the first two win. The colour rules lede carries the same precedence line. (#459)
 
 ## 0.554.1 — 2026-10-29
 ### Fixed
@@ -45,6 +55,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - A node test fails when a marketing blockquote reset leaves the border, when a section title rule has no `display`, or when the Step number rule leaves the Cards base CSS.
 - Supersedes the earlier 0.497.1 attempt. Revert: revert the PR; the sections go back to relying on the host CSS (#438)
+
 
 ## 0.551.0 — 2026-10-29
 ### Added

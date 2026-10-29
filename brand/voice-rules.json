@@ -2,7 +2,7 @@
  "$about": "The one source of the AhaSlides verbal brand rules: what we believe, who we serve, what we say, how we sound and how we write. generate.mjs renders the human page (foundations/brand-voice-rules.html) and the agent feeds (voice-rules.md, voice-rules.agent.json) from this file. Edit a rule here and nowhere else. Text markup is the same as brand/colour-rules.json: **bold**, `code`, ((small print)), [label](href), and a line break is a new line. A rule or section with no environment or kinds takes the one above it. origin names where a rule came from when it was not in brand guidelines v2.2. The retired-wording table is also enforced by lib/screen-lint-copy.js.",
  "id": "voice-rules",
  "title": "AhaSlides brand voice rules",
- "lede": "The single source for how AhaSlides talks: what we believe, who we serve, what we say and how we write. It follows brand guidelines v2.2 (22 October 2026) and the decisions made since. Visual rules are not here: the design system holds them.",
+ "lede": "The single source for how AhaSlides talks: what we believe, who we serve, what we say and how we write. It follows [brand guidelines v2.3](https://design.ahaslides.io/brand/ahaslides-brand-guidelines-v2.3.pdf) (29 October 2026, final) and the decisions made since. Visual rules are not here: the design system holds them.",
  "updated": "2026-10-29",
  "environment": [
   "product",
@@ -1226,6 +1226,11 @@
        "id": "16.3",
        "text": "The wording is from AhaSlides brand guidelines v2.2 (22 October 2026), where the document uses its own spelling. Where a rule here differs from v2.2, the rule here is a later decision and says so in its origin.",
        "origin": "Decided on 23 October 2026, not in brand guidelines v2.2"
+      },
+      {
+       "id": "16.4",
+       "text": "The three sources of truth are the design system (visual rules), this voice rules page (verbal rules) and the [brand guidelines v2.3 PDF](https://design.ahaslides.io/brand/ahaslides-brand-guidelines-v2.3.pdf), the designed reference book. Where they differ, the design system and the voice rules online win. Report a clash in #brand-governance so the book gets fixed.",
+       "origin": "Decided on 29 October 2026, with brand guidelines v2.3"
       }
      ]
     }
@@ -1238,15 +1243,20 @@
   }
  ],
  "changes": [
-  {
-   "version": "v1",
-   "date": "23 Oct",
-   "text": "First version: everything non-visual in brand guidelines v2.2, the brand director's general editorial feedback, British spelling, one clear CTA, the retired wording list and which rules apply to which kind of communication."
+    {
+   "version": "v3",
+   "date": "29 Oct",
+   "text": "Brand director decisions from the first weekly retro (BRGO-20). Rule 10.7: a product or feature name keeps its capitals inside a sentence-case headline or CTA, and title-case copy from a brief is changed to sentence case with the requester told. New rule 14.3 (cross-referenced from 10.6): a retired phrase or an American spelling is allowed only in search keyword fields and hashtags, never in copy people read. Also records rule 14.2 (a retired phrase may stay as a keyword-target page or ad keyword, BRGO-11), which shipped on 29 Oct without an entry."
   },
   {
    "version": "v2",
    "date": "29 Oct",
-   "text": "Brand director decisions from the first weekly retro (BRGO-20). Rule 10.7: a product or feature name keeps its capitals inside a sentence-case headline or CTA, and title-case copy from a brief is changed to sentence case with the requester told. New rule 14.3 (cross-referenced from 10.6): a retired phrase or an American spelling is allowed only in search keyword fields and hashtags, never in copy people read. Also records rule 14.2 (a retired phrase may stay as a keyword-target page or ad keyword, BRGO-11), which shipped on 29 Oct without an entry."
+   "text": "Brand guidelines v2.3 (29 October 2026, final) is published at design.ahaslides.io/brand and named in the lede. New rule 16.4 sets the three sources of truth and says the design system and these voice rules win over the book. No other rule changed."
+  },
+  {
+   "version": "v1",
+   "date": "23 Oct",
+   "text": "First version: everything non-visual in brand guidelines v2.2, the brand director's general editorial feedback, British spelling, one clear CTA, the retired wording list and which rules apply to which kind of communication."
   }
  ]
 }
