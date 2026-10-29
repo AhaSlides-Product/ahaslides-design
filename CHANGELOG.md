@@ -22,11 +22,81 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.544.0 — 2026-10-29
+## 0.555.0 — 2026-10-29
 ### Added
 - screen-lint, website surface: six page rules for a whole page of Marketing sections. `section-gap` fails a margin, padding, gap, spacer, divider or per-band wrapper that makes the gap between two bands anything but one Section step (96, 64 and 48 px at 1440, 768 and 375); `motion-script-copy` fails a `marketing-motion.js` that differs from the shipped `lib/marketing-motion.js`, compared when the lint runs, so no hash is kept; `step-numbers` fails numbered steps that are not the Cards Steps row (`aha-marketing-cards__grid--row`) with the DS number ring; `ds-class-without-css` fails markup that uses a DS section class the page's pasted CSS does not style; `page-font` fails a body or h1 to h6 font that does not resolve to Plus Jakarta Sans; `card-description-long` fails a Cards, Features or Numbers description over 25 words (DSN-980, DSN-981, DSN-982, DSN-983, DSN-984, DSN-985) (#454)
 ### Changed
 - Website guideline and judge criteria W1, W2, W9, W10, W12 and W14 state the same six checks and say which part only a render can verify (the measured gap at each width, a font set by a linked stylesheet, whether a section is text-led with four or more points). New eval case 30 (`fail-w10-wordy-cards`) covers the Cards word limit.
+
+## 0.554.0 — 2026-10-29
+### Changed
+- Website > Marketing > Features, Tabs with screenshots: the tab list now stretches to the height of the image slot instead of being centred against it. The left column fills the grid row, the tab list takes the space above the call to action and shares it between the tabs, so the rail runs the full height of the image. Every other value (rail width and colours, padding, gaps, tab text, the 4:3 slot, the 991 px stack) is unchanged, and the stacked phone layout keeps its natural height. The removed Compact accordion layout stays removed (#453)
+- Revert: revert the PR; only the three `tabs-screenshots` CSS declarations and its summary change in `marketing/features.json` (DSN-986)
+
+## 0.553.0 — 2026-10-29
+### Fixed
+- Marketing sections no longer pick up the Webflow site's base CSS. Testimonials and Cards clear the quote border (a grey stripe on the left of every quote from `blockquote{border-left:5px solid #e2e2e2}`), and every section title rule (Hero, Features, Numbers, Pricing, Testimonials, FAQ, Comparison, Footer banner) sets `display:block`, so a host `h2{display:flex;text-align:left}` can no longer pull a centred title off-centre.
+- Step card: the pink number badge rule (`.aha-marketing-card__number`) now ships in the Cards base CSS, so every section that embeds Cards carries it and a pasted Steps row keeps its badge.
+### Added
+- A node test fails when a marketing blockquote reset leaves the border, when a section title rule has no `display`, or when the Step number rule leaves the Cards base CSS.
+- Supersedes the earlier 0.497.1 attempt. Revert: revert the PR; the sections go back to relying on the host CSS (#438)
+
+## 0.551.0 — 2026-10-29
+### Added
+- Tokens: four website section spacing levels, `--aha-section-space-block` (Section, 96 px), `--aha-section-space-header` (Header, 64), `--aha-section-space-group` (Group, 48) and `--aha-section-space-item` (Item, 32). Each level is one step below the one above on the ladder 96, 64, 48, 32, 24, 16, and each steps one down when the section's own container is 767 px or narrower and again at 479 px, so a section never switches them itself (#439)
+- Logos: a Vivid Pink background, `aha-logos--brand`, so the strip can sit inside a Vivid Pink hero as its last group (one Group below the hero's content, as under White and Accent sections). The label turns solid white and the logos turn one colour, white, per colour rules 6.4 and 2.6 (#439)
+### Changed
+- Marketing sections (Header, Logos, Numbers, Features, Testimonials, FAQ, Footer banner, Footer, Pricing, Comparison table): section padding, heading spacing, group spacing and item gaps now use the four levels in place of per-section values and breakpoint overrides. Visible changes: Hero layouts and the Page header step their spacing at 767 px, not 991 px; the Page header pads 96 px like every section; compact Features pads 96 px; alternating Features rows sit 48 px apart (was 96); the Footer keeps the Section padding on a phone; spacing inside a component (card padding, title to text, a button under its text) is unchanged (#439)
+- Logos: after a section on the same surface the strip is that section's last group, sitting one Group below its content; after a surface change it pads one Section above; it pads one Section below; with the label on, the label takes that Group gap (its own 32 px top padding is gone) and sits 24 px above the logos (#439)
+- Neighbouring sections: the visible space between two sections' content is one Section level. Across a surface change each side keeps its padding up to the edge; on a shared surface (White and White, Accent and Accent, Vivid Pink and Vivid Pink) `tokens.css` drops the second section's top padding, through one generated sibling rule per surface built from every section's surface options, so it holds in any order. Sections wrapped in their own element are not neighbours and keep both paddings; the Footer keeps its top padding below its divider. A Page header with tabs ends on its tab rule, so the next section keeps its top padding; a snippet's trailing init script between two sections does not break the rule (#439)
+- Screen lint: a `<style>` block that defines `--aha-section-space-block` is the inlined DS token sheet, so `section-spacing-override` skips it the same way it skips inlined section CSS; the neighbouring-section rule no longer fails a page that inlines `tokens.css` (#439)
+- Numbers, Centred: the stat row no longer pads 8 px above and below, so the space under the stats is exactly one Section level (#439)
+- Website guideline W2 and its anti-slop criterion: rewritten around the four levels, the one-Section-space rule between neighbouring sections and the Logos rule; a new W2 eval fails two White sections wrapped apart (#439)
+- Revert: revert the PR; the sections go back to their own padding values and breakpoints, the four tokens and the neighbouring-section rule are removed, and the Centred Numbers stats pad 8 px again (#439)
+
+## 0.550.0 — 2026-10-29
+### Changed
+- Website rule W6 (guideline, anti-slop criterion in both copies): photos of people, customers and events come only from the AhaSlides Drive photo library or Customer Love; stock photos (Unsplash, Pexels, Picsum, Shutterstock, iStock, Getty, Adobe Stock, Freepik and the like) are banned. Product screenshots and the DS placeholder stay allowed. (#458)
+- Testimonials: the 9 stock photos (5 Unsplash avatars, 1 Unsplash portrait, 3 Lorem Picsum covers) and their manifest entries are removed. The Simple left aligned portrait and the Case study covers are the DS image placeholder, and a case study reviewer with no photo shows name and role only, with no avatar or initials. (#458)
+### Added
+- `screen-lint --surface=website` hard-fails `stock-photo`: an `<img>`, `<source>` srcset or CSS `url()` pointing at a stock photo host. (#458)
+- `standards.mjs` fails a marketing image manifest photo entry whose new `source` field is not `drive` or `customer-love`; the 3 customer quote photos carry `customer-love`. (#458)
+- Revert: revert the PR; nothing depends on the removed files.
+
+## 0.549.0 — 2026-10-29
+### Changed
+- Anti-slop W9 and the website guideline: the hero may carry exactly one video that plays by itself (autoplay, muted, loop, playsinline, a poster, paused under `prefers-reduced-motion`); a second autoplaying video, one outside the hero, a missing attribute or no reduced-motion stop still fails. Hero guidance and the Video slot describe the ambient form. (#452)
+- Anti-slop W6 and the website guideline, Features and Cards: a square image sits in the Vivid Pink frame like a portrait one (only a landscape image fills its slot); a quote, rail or image frame is never light grey (`#F6F6F6`, `#F7F7F7`). (#452)
+### Added
+- Anti-slop W20: the whole page is at most 5000 px at 1440, each Features band at most 800 px, and the Navigation plus Hero fit within 720 px at 1280 x 720. Judged from a render; the lint cannot read heights. (#452)
+- `screen-lint --surface=website` rules `autoplay-video-extra`, `autoplay-video-attributes`, `autoplay-video-motion`, `grey-quote-or-frame` and `square-image-unframed`. `lib/marketing-motion.js` pauses a hero `<video autoplay>` under reduced motion. Four eval cases (hero video control, second autoplay video, no reduced-motion stop, long Features band). (#452)
+- Revert: revert the PR; W9 and W6 go back to "no autoplaying video" and "square fills", W20 and the five lint rules go.
+
+## 0.548.1 — 2026-10-29
+### Changed
+- Brand voice rules: "Our why" (1.1) and the "What we believe" aha-moments paragraph (1.4) now carry the approved page 05 and page 07 wording of the brand guidelines; the duplicate buzz-you-can-feel quote under 1.5 is folded into 1.4. (#457)
+
+## 0.548.0 — 2026-10-29
+### Changed
+- Colour rule 3.5, anti-slop W5 and the website guideline: a landing page's Hero must open in its Vivid Pink state (`--brand`), not the White default of the snippet; the "a white hero is also allowed" line is gone and a white hero is only for a Page header page or a hero the requester names. The Hero guidance carries a "Surface" point saying so.
+- Anti-slop W12, the website guideline, the Features guidance and the Cards Steps note: a numbered how-to or how it works is Step cards (Steps row, a Cards grid for four or more), never Features Tabs; a tab description is one short sentence of 90 characters or fewer. Rebuilding a section keeps every point, step and image: five steps become five Step cards with their images, never fewer.
+### Added
+- `screen-lint --surface=website` rules `hero-not-brand` (the first band is a Hero not in the Vivid Pink state), `steps-as-tabs` (a Features Tabs section whose heading, eyebrow or tablist label says how it works or steps, or with numbered tab titles) and `tabs-description-long` (a tab description over 90 characters); escape `ds-lint-allow: page (why)`.
+- Features: new layout Compact: swipeable card scroller with images (`compact-scroller-images`), the scroller with a numbered Step card and a screenshot at the foot of each card (optional image slot, `aha-marketing-card__media--scroller`, ordered-list track); the Features, Steps and W12 guidance now say a how it works with images may use it as well as the Step grid.
+- Revert: revert the PR; the rules go back to "may be Vivid Pink" and the lint drops the three rules (#440); the scroller-with-images layout is removed
+### Fixed
+- Features layouts built from cards now load the Step card styles too, so the numbered badges in the scroller with images render in the preview and the copied snippet (#440).
+
+## 0.547.0 — 2026-10-29
+### Added
+- `screen-lint --surface=website` hard-fails seven more website guideline rules: W3 `content-width-uncapped` (section container over 1280 px, heading block over 720 px, lead over 44ch), W4 `missing-h1` and `multiple-primary-buttons`, W6 `img-empty-alt` (an empty alt on a picture that is not decorative), W7 `brand-not-lockup` and `missing-navigation`, W9 `motion-library`, `motion-own-script` and `motion-own-animation`, and W15 `card-link-same-tab` and `new-tab-on-sign-up`. W8 is `--measure`, which now renders a website page at 375, 768 and 1440 px. The matching `selfCheck` verdicts and anti-slop criteria name the new rules. (#456)
+
+## 0.546.0 — 2026-10-29
+### Changed
+- Hero page: every layout now has White and Vivid Pink only, and Vivid Pink is the default. The Accent surface is gone from all 14 layouts (the `--accent` classes are listed as removed, so screen-lint flags a page that still uses one). (#455)
+- The five Gallery layouts (bento grid, masonry, carousel, marquee rows, tabbed images) gain a Vivid Pink surface on the DS Splash background, with the button on `secondary`, white carousel dots and white tabs, and it is their default. (#455)
+### Fixed
+- The Grid and List thumbnails on a Marketing layouts page now show each layout's default surface; before, every thumbnail rendered White. (#455)
 
 ## 0.541.0 — 2026-10-29
 ### Added

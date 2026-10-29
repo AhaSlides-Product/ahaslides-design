@@ -19,7 +19,7 @@
   "skillRef": {
     "build": "DS guideline — guidelines/website.json",
     "judge": "DS anti-slop feed — anti-slop.md (surface: website)",
-    "note": "The enforceable criteria are anti-slop/criteria.json surfaces.website (W1 to W19). Each rule below names its source (`source`): a Marketing section, a token or a colour rule."
+    "note": "The enforceable criteria are anti-slop/criteria.json surfaces.website (W1 to W20). Each rule below names its source (`source`): a Marketing section, a token or a colour rule."
   },
   "surfaces": [
     "landing page",
@@ -138,18 +138,19 @@
       ]
     },
     {
-      "rule": "Keep the padding each section ships and never override it. One page gutter: every section's side padding is `--aha-web-gutter`, `--aha-space-64` on desktop, `--aha-space-24` at 767 px and below and `--aha-space-16` at 479 px and below, so the logo, headings, text and buttons of every section sit on one vertical line on a phone. Features, Numbers, Pricing, Testimonials, FAQ and the Footer banner read it on desktop too. Heroes, page headers, the Footer and the Navigation keep their shipped 32 px side padding above 767 px and switch to the gutter at 767 px and below. Vertical padding stays per section: Features, Numbers, Pricing and Testimonials ship `--aha-space-96` on desktop, `--aha-space-48` at 767 px and `--aha-space-32` at 479 px; Logos ships a 32 px vertical. Only backgrounds, full-bleed images and the Logos marquee run edge to edge. A card inside a section (the Footer banner card, step cards) puts its outer edge on the gutter; the Footer banner card pads its own content `--aha-space-24` at 767 px and below and `--aha-space-16` at 479 px and below. Sections sit flush; add no margin, spacer or divider between them. The visible gap between two bands is exactly one Section step (96 px at 1440, 64 at 768, 48 at 375, `--aha-section-space-block`): the page adds no margin, padding, gap, spacer or divider of its own between bands, and never wraps two same-surface bands in their own elements, which doubles the padding (screen-lint `section-gap` fails these static cases; the measured gap at 1440, 768 and 375 is checked by render only).",
+      "rule": "Space every section with the four section spacing levels the sections ship, and never with a value of your own. Section (`--aha-section-space-block`: 96 px, 64 px at 767 px and below, 48 px at 479 px and below) is a section's top and bottom padding. Header (`--aha-section-space-header`: 64, 48, 32) sits below a section's heading block and between a copy column and its media or content column. Group (`--aha-section-space-group`: 48, 32, 24) separates the groups inside a section: stacked feature rows, a closing call to action after a list or grid, the Footer's columns, band and copyright. Item (`--aha-section-space-item`: 32, 24, 16) is the gap between repeated items in a grid, list or track. Each level is one step below the level above on one ladder (96, 64, 48, 32, 24, 16), and each smaller width moves every level one step down; the levels step with the section's own container width, so a section never switches them itself. Spacing inside a component (a card's padding, a title to its text, a button under its own text) is not a level. The visible space between the content of two neighbouring sections is one Section level, never two: where the surface changes, each section keeps its Section padding up to the edge, because the change of background is the divider; where two neighbouring sections share a surface (White and White, Accent and Accent), the second drops its top padding. The token layer (`tokens.css`) applies this to every section that sits directly next to another, keyed on each section's surface, so it holds in any order; sections wrapped in their own element are not neighbours, and keep both paddings. The Footer keeps its top padding after any surface, because its top rule is a divider. The Logos strip is the last group of the section above it: it sits one Group below that section's content and takes that section's surface. A card that holds a whole section (the Footer banner card) pads its content by Header and puts its outer edge on the gutter. One page gutter: every section's side padding is `--aha-web-gutter`, `--aha-space-64` on desktop, `--aha-space-24` at 767 px and below and `--aha-space-16` at 479 px and below, so the logo, headings, text and buttons of every section sit on one vertical line on a phone; Heroes, page headers, the Footer and the Navigation keep their shipped 32 px side padding above 767 px. Only backgrounds, full-bleed images and the Logos marquee run edge to edge. Sections sit flush; add no margin, spacer or divider between them. The visible gap between two bands is exactly one Section step (96 px at 1440, 64 at 768, 48 at 375, `--aha-section-space-block`): the page adds no margin, padding, gap, spacer or divider of its own between bands, and never wraps two same-surface bands in their own elements, which doubles the padding (screen-lint `section-gap` fails these static cases; the measured gap at 1440, 768 and 375 is checked by render only).",
       "ref": [
         "W2"
       ],
       "source": [
+        "tokens.canonical.json — `sectionSpace`, emitted as `--aha-section-space-block`, `-header`, `-group` and `-item`",
         "marketing/*.json — each section's `__inner` padding and its 767 px and 479 px container rules set `--aha-web-gutter`",
         "marketing/footer.json, marketing/navigation.json — the Footer and Navigation side padding",
         "marketing/logos.json — runs edge to edge"
       ]
     },
     {
-      "rule": "Space content from its button by one of two steps, and never by a value of your own. A button directly under its own block's text (Hero, page Header, Footer banner, a Features or Numbers row's actions) sits `--aha-space-32` below it, `--aha-space-24` at 479 px and below. A section-closing call to action after a list or grid (FAQ, Features, Numbers and Testimonials `__cta`) sits `--aha-space-48` below it, `--aha-space-32` at 479 px and below. Buttons in one row keep `--aha-space-12` between them.",
+      "rule": "Space content from its button by one of two steps, and never by a value of your own. A button directly under its own block's text (Hero, page Header, Footer banner, a Features or Numbers row's actions) sits `--aha-space-32` below it, `--aha-space-24` at 479 px and below. A section-closing call to action after a list or grid (FAQ, Features, Numbers and Testimonials `__cta`) sits one Group (`--aha-section-space-group`) below it. Buttons in one row keep `--aha-space-12` between them.",
       "ref": [
         "W2"
       ],
@@ -183,7 +184,7 @@
       ]
     },
     {
-      "rule": "Lay out band backgrounds by colour rules 3.2 to 3.5, 3.8 and 3.10: open with a Vivid Pink hero (a Hero on its Vivid Pink surface, whose Splash hooks are Darker Pink, rule 5.1; the hero is Vivid Pink `#E70E68`, never Darker Pink itself), then alternate full-width white and pale pink bands (a Features section with the `aha-features--accent` class, Vivid Pink at 5%; never an inline `background: var(--aha-bg-accent)` style on the section), starting with white right after the hero, so a full white band always sits between two coloured bands. The band directly after the hero's Logos strip (the customer logos band) is always full white, never the pale pink accent or any other tint. At most two Vivid Pink bands count, the hero being one (a closing Footer banner may be the second, with a white band before it). No black band, no gradient, and no light grey band: light grey belongs to cards inside a section (the Cards gray variant). A white hero is also allowed.",
+      "rule": "Lay out band backgrounds by colour rules 3.2 to 3.5, 3.8 and 3.10: open with a Vivid Pink hero (a Hero on its Vivid Pink surface, the `--brand` state, which `screen-lint --surface=website` checks as `hero-not-brand`; whose Splash hooks are Darker Pink, rule 5.1; the hero is Vivid Pink `#E70E68`, never Darker Pink itself), then alternate full-width white and pale pink bands (a Features section with the `aha-features--accent` class, Vivid Pink at 5%; never an inline `background: var(--aha-bg-accent)` style on the section), starting with white right after the hero, so a full white band always sits between two coloured bands. The band directly after the hero's Logos strip (the customer logos band) is always full white, never the pale pink accent or any other tint. At most two Vivid Pink bands count, the hero being one (a closing Footer banner may be the second, with a white band before it). No black band, no gradient, and no light grey band: light grey belongs to cards inside a section (the Cards gray variant). A landing page never keeps the snippet's White default: switch the Hero to its Vivid Pink state (`--brand` class on the Hero root and `surface=\"brand\"` on its Buttons). A white hero is for a content or listing page that opens with the Page header, or when the requester names it.",
       "ref": [
         "W5"
       ],
@@ -194,7 +195,7 @@
       ]
     },
     {
-      "rule": "Use real `<img>` elements with alt text for pictures: a product screenshot, a committed photo with its licence in the manifest, or the DS placeholder `marketing-assets/image-placeholder.svg` until one exists. Never crop a screenshot. Size and ratio are those of the visible UI in the picture, not of the file: a screenshot padded, letterboxed or placed on a plain canvas to match other files counts at its own size and ratio, and an image never carries its own background margin (the frame supplies the inset), so export each screenshot tight to its UI. An image fills its container edge to edge at its own ratio (`aha-features__photo--fill`, `aha-marketing-card__media--fill`): no pink frame, no inset. That is the rule for a landscape or square image, alone or among others of the same size. Use the Vivid Pink frame (`aha-features__photo--pink-frame`, `aha-marketing-card__media--pink-frame`: `--aha-vivid-pink-100` with the centre Splash) for any portrait image (taller than wide, ratio under 1), even alone or when every image in the section is the same size, and when a section holds more than one image and those images differ in size or ratio: each sits contained with an even inset, and every frame in the section keeps one ratio (4:3 in a Features row, 3:2 on a card). One narrow exception covers photos (never screenshots) in the multi-image layouts only, the multi-image heroes and Gallery layouts and the Features Sticky stack: the photo stack and floating images may tilt a photo, as they ship, and the cells of a bento, collage or masonry layout may differ in size or ratio and fill with `object-fit: cover` instead of the pink frame. A tilted or overlapping photo sits in the photo frame: an 8 px white border (`--aha-space-8` solid `--aha-white`) and a 1 px ring in the layout's frame colour, never a shadow. No stock clip art, emoji used as icons, gradient blobs, glassmorphism or decorative 3D. Icons come from the registry by name with `<aha-icon>`.",
+      "rule": "Use real `<img>` elements with alt text for pictures: a product screenshot, a committed photo, or the DS placeholder `marketing-assets/image-placeholder.svg` until one exists. Photos of people, customers and events come only from the AhaSlides Drive photo library or Customer Love, each committed with its `source` (`drive` or `customer-love`) and licence in the manifest; stock photos (Unsplash, Pexels, Picsum, Shutterstock, iStock, Getty, Adobe Stock, Freepik and the like) are never used. Never crop a screenshot. Size and ratio are those of the visible UI in the picture, not of the file: a screenshot padded, letterboxed or placed on a plain canvas to match other files counts at its own size and ratio, and an image never carries its own background margin (the frame supplies the inset), so export each screenshot tight to its UI. An image fills its container edge to edge at its own ratio (`aha-features__photo--fill`, `aha-marketing-card__media--fill`): no pink frame, no inset. That is the rule for a landscape image, alone or among others of the same size. Use the Vivid Pink frame (`aha-features__photo--pink-frame`, `aha-marketing-card__media--pink-frame`: `--aha-vivid-pink-100` with the centre Splash) for any portrait or square image (as tall as wide or taller, ratio 1 or under), even alone or when every image in the section is the same size, and when a section holds more than one image and those images differ in size or ratio: each sits contained with an even inset, and every frame in the section keeps one ratio (4:3 in a Features row, 3:2 on a card). One narrow exception covers photos (never screenshots) in the multi-image layouts only, the multi-image heroes and Gallery layouts and the Features Sticky stack: the photo stack and floating images may tilt a photo, as they ship, and the cells of a bento, collage or masonry layout may differ in size or ratio and fill with `object-fit: cover` instead of the pink frame. A tilted or overlapping photo sits in the photo frame: an 8 px white border (`--aha-space-8` solid `--aha-white`) and a 1 px ring in the layout's frame colour, never a shadow. No stock photos, stock clip art, emoji used as icons, gradient blobs, glassmorphism or decorative 3D. Icons come from the registry by name with `<aha-icon>`. A quote, rail or image frame is never light grey: no `#F6F6F6` or `#F7F7F7` border-left or background on a blockquote, a rail or a frame (use the Vivid Pink frame or the pale pink accent); `screen-lint --surface=website` checks it as `grey-quote-or-frame`, and a square image outside the Vivid Pink frame as `square-image-unframed`.",
       "ref": [
         "W6"
       ],
@@ -241,7 +242,7 @@
       ]
     },
     {
-      "rule": "Motion is staggered reveal, light image parallax and count-up numbers, all from one DS script, and nothing else. Load `lib/marketing-motion.js` once (`<script type=\"module\" src=\"…/lib/marketing-motion.js\">`; on by default, `data-aha-motion=\"off\"` opts a section or the page out). Elements fade in and slide up 24 px as they scroll into view, items that enter together 80 ms apart, timed with `--aha-motion-viz-enter` and `--aha-ease-out`; a real photo in an `aha-features__frame`, `aha-testimonials__frame` or `aha-numbers__frame` drifts inside that frame, which never moves (the picture is drawn 112% of the frame and drifts at most 6% of the frame height, never more than 48 px, against the scroll; a screenshot gets no frame wrapper and never drifts), and the same picture enters as it scrolls into view, fading in and settling from 1.08x its parallax scale a beat after its row's reveal, with the frame still; a Numbers value counts up from 0 to its written value once, when it is half in view. Hover transitions use `--aha-motion-*` and `--aha-ease-*`. Under `prefers-reduced-motion: reduce` nothing moves and every final value shows at once. No scroll-jacking, no autoplaying carousel or video, no hand-written scroll or parallax script on the page; the only continuous motion allowed is a shipped marquee loop: the Logos strip, and the photo marquees (the Hero image marquee and Gallery marquee rows), which pause while hovered or focused and, like the Logos strip, carry no Pause button. Every loop stops under reduced motion, in print and under `data-aha-motion=\"off\"`. Use at most one looping photo band per page, never next to the Logos strip. The page's marketing-motion.js is the current DS file, never an edited or older copy: screen-lint `motion-script-copy` compares it with lib/marketing-motion.js at lint time (no stored hash), so a DS release is picked up with no list to update.",
+      "rule": "Motion is staggered reveal, light image parallax and count-up numbers, all from one DS script, and nothing else. Load `lib/marketing-motion.js` once (`<script type=\"module\" src=\"…/lib/marketing-motion.js\">`; on by default, `data-aha-motion=\"off\"` opts a section or the page out). Elements fade in and slide up 24 px as they scroll into view, items that enter together 80 ms apart, timed with `--aha-motion-viz-enter` and `--aha-ease-out`; a real photo in an `aha-features__frame`, `aha-testimonials__frame` or `aha-numbers__frame` drifts inside that frame, which never moves (the picture is drawn 112% of the frame and drifts at most 6% of the frame height, never more than 48 px, against the scroll; a screenshot gets no frame wrapper and never drifts), and the same picture enters as it scrolls into view, fading in and settling from 1.08x its parallax scale a beat after its row's reveal, with the frame still; a Numbers value counts up from 0 to its written value once, when it is half in view. Hover transitions use `--aha-motion-*` and `--aha-ease-*`. Under `prefers-reduced-motion: reduce` nothing moves and every final value shows at once. No scroll-jacking, no autoplaying carousel, no hand-written scroll or parallax script on the page; the only continuous motion allowed is a shipped marquee loop: the Logos strip, and the photo marquees (the Hero image marquee and Gallery marquee rows), which pause while hovered or focused and, like the Logos strip, carry no Pause button. Every loop stops under reduced motion, in print and under `data-aha-motion=\"off\"`. Use at most one looping photo band per page, never next to the Logos strip. The one video that may play by itself is the hero video, exactly one per page: a `<video>` with `autoplay muted loop playsinline` and a `poster`, which `lib/marketing-motion.js` pauses under reduced motion (a second autoplaying video, one outside the hero, one missing an attribute or one that keeps playing under reduced motion fails; `screen-lint --surface=website` checks these as `autoplay-video-extra`, `autoplay-video-attributes` and `autoplay-video-motion`). The page's marketing-motion.js is the current DS file, never an edited or older copy: screen-lint `motion-script-copy` compares it with lib/marketing-motion.js at lint time (no stored hash), so a DS release is picked up with no list to update.",
       "ref": [
         "W9"
       ],
@@ -249,6 +250,7 @@
         "lib/marketing-motion.js — reveal, stagger, parallax and count-up",
         "every section's prefers-reduced-motion block",
         "marketing/features.json — the video variant never autoplays",
+        "marketing/hero.json — the one hero video that autoplays muted and loops",
         "marketing/testimonials.json — carousels never autoplay",
         "marketing/logos.json — the loop and its reduced-motion stop",
         "marketing/hero.json — the photo marquee loops (the Hero image marquee and the Gallery marquee rows), their pause on hover and focus and their reduced-motion stop, with no Pause button",
@@ -277,7 +279,7 @@
       ]
     },
     {
-      "rule": "No layout fatigue: a section shows at most 3 alternating image/text rows, and two alternating-row sections never sit back to back (a fourth row or a second alternating section becomes Cards, an icon grid or Tabs). Numbered steps use the Steps row (Cards `aha-marketing-cards__grid--row`), never alternating rows. Consecutive sections change layout: no two neighbouring sections share the same layout. Numbered steps are the Cards Steps row (`aha-marketing-cards__grid--row`) with the DS number ring (`aha-marketing-card__number`), never a hand-built layout or numbers drawn by hand (screen-lint `step-numbers`).",
+      "rule": "No layout fatigue: a section shows at most 3 alternating image/text rows, and two alternating-row sections never sit back to back (a fourth row or a second alternating section becomes Cards, an icon grid or Tabs). Numbered steps use the Steps row (Cards `aha-marketing-cards__grid--row`; four or more steps are a Cards grid of Step cards, or the Features swipeable card scroller with images when each step has a screenshot), never alternating rows and never Features Tabs. Tabs hold parallel choices, each description one short sentence of at most 90 characters. Moving a section to another layout keeps every point, step and image: five steps become five Step cards with their images, never fewer and never without the pictures; find a better way to show the content, never delete it. Consecutive sections change layout: no two neighbouring sections share the same layout. Numbered steps are the Cards Steps row (`aha-marketing-cards__grid--row`) with the DS number ring (`aha-marketing-card__number`), never a hand-built layout or numbers drawn by hand (screen-lint `step-numbers`).",
       "ref": [
         "W12"
       ],
@@ -338,16 +340,16 @@
       ]
     },
     {
-      "rule": "Draw every button with `<aha-button>`: the Navigation Log in (secondary) and Sign up (primary), the Join button and every header, section and footer banner call to action, with `href` for a link and `type=\"submit\"` in a form, as the sections ship them. Never restyle, re-colour or re-hover a DS component: the page's own CSS sets only layout on `<aha-button>` (margin, flex, width, order, align-self), never a colour, fill, border, shadow, height or state rule, `::part` or `--aha-button-*` token. A button look the DS lacks is a gap to raise, not CSS to write. `screen-lint` hard-fails it as `hand-rolled-button`.",
+      "rule": "Keep the page short enough to scan: at 1440 px wide the whole page is at most 5000 px tall and each Features band at most 800 px tall (cut rows or tabs, or split the band, rather than stack more); at 1280 x 720 the Navigation plus the Hero fit within 720 px, so the heading, lead and primary call to action show without scrolling. These are heights read from a render, so `screen-lint` cannot check them from the markup: the website judge and the agent's own render at 1440 and 1280 x 720 do.",
       "ref": [
-        "W16"
+        "W20"
       ],
       "source": [
-        "contracts/button.json — href and type",
-        "marketing/navigation.json",
-        "lib/screen-lint-button.js"
+        "marketing/features.json — the Features band layouts",
+        "marketing/hero.json — the hero layouts and Navigation"
       ]
-    }
+    },
+    { "rule": "Draw every button with `<aha-button>`: the Navigation Log in (secondary) and Sign up (primary), the Join button and every header, section and footer banner call to action, with `href` for a link and `type=\"submit\"` in a form, as the sections ship them. Never restyle, re-colour or re-hover a DS component: the page's own CSS sets only layout on `<aha-button>` (margin, flex, width, order, align-self), never a colour, fill, border, shadow, height or state rule, `::part` or `--aha-button-*` token. A button look the DS lacks is a gap to raise, not CSS to write. `screen-lint` hard-fails it as `hand-rolled-button`.", "ref": ["W16"], "source": ["contracts/button.json — href and type", "marketing/navigation.json", "lib/screen-lint-button.js"] }
   ],
   "reuse": null,
   "reuseNote": "Doc-only pattern: the DS ships the sections, not a page wrapper. A page is the sections' snippets pasted in order on one page that loads variables.css once; this pattern is the conventions plus the binary criteria (anti-slop/criteria.json, surfaces.website) a builder self-judges against.",
@@ -357,16 +359,16 @@
       "verdict": "consumer self-judges (W1)"
     },
     {
-      "label": "sections keep their shipped padding and the shared side gutter at each width, buttons sit one of the two shipped steps below their text, and nothing sits between sections",
+      "label": "sections keep their shipped spacing levels and the shared side gutter at each width, buttons sit one of the two shipped steps below their text, and nothing sits between sections",
       "verdict": "consumer self-judges (W2)"
     },
     {
       "label": "content capped at 1280 px; heading block 720 px; lead text 44ch",
-      "verdict": "consumer self-judges (W3)"
+      "verdict": "screen-lint content-width-uncapped (W3)"
     },
     {
       "label": "one H1; one primary button per section; at most two buttons side by side; hero CTA repeated at the end; label written for the page",
-      "verdict": "consumer self-judges (W4)"
+      "verdict": "screen-lint missing-h1, multiple-h1, multiple-primary-buttons (W4)"
     },
     {
       "label": "band backgrounds follow colour rules 3.2 to 3.5, 3.8 and 3.10; pink hero, white and pale pink body, no grey band",
@@ -374,19 +376,19 @@
     },
     {
       "label": "real images with alt text or the DS placeholder; registry icons; no clip art, emoji icons, blobs or glass",
-      "verdict": "consumer self-judges (W6)"
+      "verdict": "screen-lint img-no-alt, img-empty-alt, stock-photo (W6)"
     },
     {
       "label": "the site header is the Navigation section with <aha-product-lockup>",
-      "verdict": "consumer self-judges (W7)"
+      "verdict": "screen-lint brand-not-lockup, missing-navigation (W7)"
     },
     {
       "label": "no horizontal scroll at 1440, 768 and 375 px; consistent stacking; targets at least 24 px",
-      "verdict": "consumer self-judges (W8)"
+      "verdict": "screen-lint --surface=website --measure (W8)"
     },
     {
-      "label": "motion is the DS script only: staggered reveal, light in-frame photo parallax and a fade-and-settle entrance of the photo (the frame never moves), numbers count up from 0, all off under reduced motion; the only loops are the shipped Logos and photo marquees; no scroll-jacking or autoplay",
-      "verdict": "consumer self-judges (W9)"
+      "label": "motion is the DS script only: staggered reveal, light in-frame photo parallax and a fade-and-settle entrance of the photo (the frame never moves), numbers count up from 0, all off under reduced motion; the only loops are the shipped Logos and photo marquees; no scroll-jacking; the one video that plays by itself is the hero's (autoplay, muted, loop, playsinline, a poster, stopped under reduced motion)",
+      "verdict": "screen-lint motion-library, motion-own-script, motion-own-animation (W9)"
     },
     {
       "label": "in an image-led section, every image is at least half the content width and uncropped",
@@ -410,7 +412,7 @@
     },
     {
       "label": "content card links open in a new tab with rel noopener and hidden new-tab text; Sign up and navigation links stay in the same tab",
-      "verdict": "consumer self-judges (W15)"
+      "verdict": "screen-lint card-link-same-tab, new-tab-on-sign-up (W15)"
     },
     {
       "label": "section headings centred when full width over the content, left only when they share a row or column with it; FAQ title centred",
@@ -425,8 +427,9 @@
       "verdict": "consumer self-judges (W19)"
     },
     {
-      "label": "every button is <aha-button> with no colour, size or hover CSS of its own",
-      "verdict": "screen-lint hand-rolled-button (W16)"
-    }
+      "label": "page at most 5000 px at 1440; each Features band at most 800 px; Navigation plus Hero within 720 px at 1280 x 720",
+      "verdict": "consumer self-judges (W20)"
+    },
+    { "label": "every button is <aha-button> with no colour, size or hover CSS of its own", "verdict": "screen-lint hand-rolled-button (W16)" }
   ]
 }

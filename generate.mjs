@@ -22,6 +22,7 @@ import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync, rmSync
 import { anchorHeadings, buildSearchIndex, searchHeaderHtml, SEARCH_CSS, SEARCH_JS, SEARCH_GLYPHS } from './docs-search.mjs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { collectUnstyledHooks } from './lib/collect-unstyled-hooks.js';
 import { antdBaseTheme, dsAntdTheme } from './lib/antd-base-theme.js';
 import { ILLUSTRATION_TINTS } from './recolour-art.mjs';
 import { loadEnvironmentTable, routeLines, withRouteHeader } from './environments.mjs';
@@ -370,7 +371,59 @@ function tokenVars(t) {
   /* chart motion: slower than UI state changes because the eye has to follow data moving. */
   L.push(Object.entries(t.effect.blur).filter(([k]) => !k.startsWith('$')).map(([k, value]) => `--aha-blur-${k}:${value}px;`).join(' '));
   L.push(`--aha-motion-viz-enter:.6s; --aha-motion-viz-update:.4s; --aha-motion-viz-reorder:.35s; --aha-motion-viz-stagger:40ms; --aha-ease-viz:cubic-bezier(0.2,0.7,0.4,1);`);
-  return `:root{\n  ${L.join('\n  ')}\n}`;
+  const sectionLevels = Object.entries(t.sectionSpace).filter(([k]) => !k.startsWith('$'));
+  const sectionVars = (step) => sectionLevels.map(([level, steps]) => `--aha-section-space-${level}:${cssValue(`sectionSpace.${level}.${step}`, `${steps[step]}px`)};`).join(' ');
+  L.push(sectionVars('desktop'));
+  /* unnamed @container: every element steps the levels by its nearest container's width, so no section switches them itself */
+  const sectionSteps = [['tablet', 767], ['phone', 479]].map(([step, width]) => `@container (max-width:${width}px){:where(*){${sectionVars(step)}}}`).join('\n');
+  return `:root{\n  ${L.join('\n  ')}\n}\n${sectionSteps}${sectionAdjacencyCss()}`;
+}
+
+/* The Footer's top rule is a divider, so it keeps its top padding after any surface. */
+const SECTIONS_KEEPING_TOP_SPACE = new Set(['footer']);
+/* Logos is the last group of a same-surface section above it; after a surface change it is a section of its own. */
+const SECTIONS_JOINING_THE_SECTION_ABOVE = new Set(['logos']);
+/* With tabs the Page header ends on its tab rule, a divider, so only the no-tabs variant ends on Section padding. */
+const SECTION_BOTTOM_SPACE_MODIFIER = new Map([['aha-header-section-page-header', 'no-tabs']]);
+const SECTION_SURFACE_MODIFIERS = ['accent', 'brand'];
+function marketingSectionSurfaces() {
+  const rootClassOf = (html) => (String(html || '').match(/^\s*<\w+[^>]*\bclass="([\w-]+)/) || [])[1];
+  const sections = [];
+  for (const b of MARKETING) {
+    const css = (b.baseCss || '') + (b.css || '') + (b.layouts || []).map(layout => layout.css || '').join('');
+    if (!css.includes('--aha-section-space-block')) continue;
+    const layoutRoots = b.stateClass ? [{ root: b.stateClass, states: [...(b.states || []), ...(b.layouts || []).flatMap(layout => layout.states || [])] }]
+      : (b.layouts || []).some(layout => layout.states) ? b.layouts.map(layout => ({ root: String(layout.class).split(' ')[0], states: layout.states }))
+      : [{ root: rootClassOf(b.html), states: b.states }];
+    const classText = (b.layouts || []).map(layout => layout.class || '').join(' ') + ' ' + (b.html || '');
+    for (const { root, states } of layoutRoots) {
+      if (!root) continue;
+      const surfaces = new Set((states || []).map(state => state.modifier).filter(Boolean));
+      for (const modifier of SECTION_SURFACE_MODIFIERS) if (classText.includes(`${root}--${modifier}`)) surfaces.add(modifier);
+      if (!sections.some(section => section.root === root)) sections.push({ root, surfaces: [...surfaces], keepsTopSpace: SECTIONS_KEEPING_TOP_SPACE.has(b.slug), joinsSectionAbove: SECTIONS_JOINING_THE_SECTION_ABOVE.has(b.slug), bottomSpaceModifier: SECTION_BOTTOM_SPACE_MODIFIER.get(root) });
+    }
+  }
+  return sections;
+}
+/* Two neighbouring sections on one surface read as one space, so the second drops its top Section padding;
+   a surface change is the divider, so both sides keep theirs. Direct siblings, or with one snippet's trailing init script between. */
+function sectionAdjacencyCss() {
+  const sections = marketingSectionSurfaces();
+  if (!sections.length) return '';
+  const onSurface = (surface, list, requiredModifierOf = () => '') => list.filter(section => surface ? section.surfaces.includes(surface) : true)
+    .map(section => {
+      const { root, surfaces } = section, required = requiredModifierOf(section);
+      const surfaceSelector = surface ? `.${root}--${surface}` : surfaces.length ? `.${root}:not(${surfaces.map(modifier => `.${root}--${modifier}`).join(',')})` : `.${root}`;
+      return required ? `${surfaceSelector}.${root}--${required}` : surfaceSelector;
+    });
+  const followerGroups = [
+    [sections.filter(section => !section.keepsTopSpace && !section.joinsSectionAbove), '>[class*="__inner"]{padding-top:0}'],
+    [sections.filter(section => section.joinsSectionAbove), '>:first-child{margin-top:calc(var(--aha-section-space-group) - var(--aha-section-space-block));padding-top:0}'],
+  ];
+  return followerGroups.map(([followers, declaration]) => ['', ...SECTION_SURFACE_MODIFIERS].map(surface => {
+    const before = onSurface(surface, sections, section => section.bottomSpaceModifier), after = onSurface(surface, followers);
+    return before.length && after.length ? ['+', '+script+'].map(between => `\n:is(${before.join(',')})${between}:is(${after.join(',')})${declaration}`).join('') : '';
+  }).join('')).join('');
 }
 
 /* ===== structural shell styles — AntD docs IA (sticky header + left nav + main),
@@ -1521,7 +1574,9 @@ const marketingSnippet = (b) => withBuildSite(`<style>\n${b.css || ''}\n</style>
 const marketingPreviewAssets = (b, snippet) => b.imagePath ? snippet.replaceAll(`${SITE}/marketing/`, '../').replaceAll(`${SITE}/logo/`, '../../logo/') : snippet;
 const marketingFeatureCardCss = () => {
   const cards = JSON.parse(read(join(MDIR, 'cards.json')));
-  return (cards.baseCss || '') + (cards.snippets.find(card => card.slug === 'feature')?.css || '');
+  return (cards.baseCss || '') + ['feature', 'step']
+    .map(slug => cards.snippets.find(card => card.slug === slug)?.css || '')
+    .join('');
 };
 const marketingLayoutSnippet = (b, layout) => withBuildSite(`<style>\n${b.baseCss || ''}${layout.cards ? marketingFeatureCardCss() : ''}${layout.css || ''}</style>\n${layout.html || ''}\n`);
 function composeMarketingLayouts(b) {
@@ -1863,6 +1918,11 @@ function marketingCodeToggle(file, code, lead = '', extraPanes = []) {
 }
 const marketingLayoutStates = (b, layout) => layout.states || b.states;
 const marketingLayoutStateClass = (b, layout) => layout.stateClass || layout.class || b.stateClass;
+const marketingDefaultState = (b, layout) => {
+  const states = marketingLayoutStates(b, layout);
+  const initial = states && (states.find(state => state.default) || states[0]);
+  return initial?.modifier ? { className: marketingLayoutStateClass(b, layout), modifier: initial.modifier, modifiers: states.map(state => state.modifier).filter(Boolean) } : null;
+};
 const marketingHasStates = (b, layout) => marketingLayoutStates(b, layout)?.length > 1;
 function marketingStateSwitch(b, layout) {
   if (!marketingHasStates(b, layout)) return '';
@@ -2014,9 +2074,7 @@ const MARKETING_LAYOUT_PREVIEW_SCRIPT = `<script type="module">
 const marketingLayoutPreviewScript = (b) => b.previewModules?.length
   ? MARKETING_LAYOUT_PREVIEW_SCRIPT.replace(JSON.stringify(MARKETING_FRAME_MODULES), JSON.stringify([...MARKETING_FRAME_MODULES, ...b.previewModules]))
   : MARKETING_LAYOUT_PREVIEW_SCRIPT;
-const MARKETING_LAYOUT_STATE_SCRIPT = `<script type="module">
-  (function(){
-    function carriers(doc,prefix,modifiers){
+const MARKETING_STATE_CARRIERS_JS = `function carriers(doc,prefix,modifiers){
       var found=[];
       doc.querySelectorAll('[class*="'+prefix+'"]').forEach(function(el){
         [].slice.call(el.classList).forEach(function(token){
@@ -2028,7 +2086,10 @@ const MARKETING_LAYOUT_STATE_SCRIPT = `<script type="module">
       });
       if(!found.length){var root=doc.querySelector('.'+prefix);if(root)found.push({el:root,prefix:prefix});}
       return found;
-    }
+    }`;
+const MARKETING_LAYOUT_STATE_SCRIPT = `<script type="module">
+  (function(){
+    ${MARKETING_STATE_CARRIERS_JS}
     document.querySelectorAll('.mfv,.mbp').forEach(function(root){
       var seg=root.querySelector('.mbp-state');
       if(!seg)return;
@@ -2151,7 +2212,8 @@ const SECTION_GALLERY_CSS = `
 @media (prefers-reduced-motion:reduce){.sg-thumb{transition:none}}`;
 function sectionGalleryCard(item, pageName) {
   const frameWidth = item.frameWidth || SECTION_GALLERY_FRAME.width;
-  return `<li data-search="${esc(item.searchText.toLowerCase())}"><a class="sg-card" href="#${esc(item.slug)}"><div class="sg-thumb"><iframe class="sg-frame" title="${esc(item.name)} thumbnail" data-frame-width="${frameWidth}" style="width:${frameWidth}px;height:${Math.round(frameWidth * SECTION_GALLERY_FRAME.height / SECTION_GALLERY_FRAME.width)}px" tabindex="-1" aria-hidden="true" scrolling="no"></iframe></div><span class="sg-caption"><b>${esc(item.name)}</b> · ${esc(pageName)}</span></a></li>`;
+  const state = item.defaultState ? ` data-state-class="${esc(item.defaultState.className)}" data-state-modifier="${esc(item.defaultState.modifier)}" data-state-modifiers="${esc(JSON.stringify(item.defaultState.modifiers))}"` : '';
+  return `<li data-search="${esc(item.searchText.toLowerCase())}"><a class="sg-card" href="#${esc(item.slug)}"${state}><div class="sg-thumb"><iframe class="sg-frame" title="${esc(item.name)} thumbnail" data-frame-width="${frameWidth}" style="width:${frameWidth}px;height:${Math.round(frameWidth * SECTION_GALLERY_FRAME.height / SECTION_GALLERY_FRAME.width)}px" tabindex="-1" aria-hidden="true" scrolling="no"></iframe></div><span class="sg-caption"><b>${esc(item.name)}</b> · ${esc(pageName)}</span></a></li>`;
 }
 function sectionGallerySlots(b, items, noun) {
   const options = JSON.stringify([{ value: 'grid', label: 'Grid', icon: 'system-squares-four' }, { value: 'list', label: 'List', icon: 'system-rows' }]);
@@ -2190,11 +2252,22 @@ const SECTION_GALLERY_SCRIPT = `<script type="module">
       var template=el&&el.tagName!=='H2'&&el.querySelector('.mbp-doc');
       return template?template.innerHTML:'';
     }
+    ${MARKETING_STATE_CARRIERS_JS}
+    function applyDefaultState(doc,prefix,modifier,modifiers){
+      carriers(doc,prefix,modifiers).forEach(function(carrier){modifiers.forEach(function(name){carrier.el.classList.remove(carrier.prefix+'--'+name);});carrier.el.classList.add(carrier.prefix+'--'+modifier);});
+      doc.querySelectorAll('aha-button').forEach(function(button){
+        var variant=button.getAttribute('data-variant-'+modifier),surface=button.getAttribute('data-surface-'+modifier);
+        if(variant)button.setAttribute('variant',variant);
+        if(surface)button.setAttribute('surface',surface);
+      });
+    }
     function load(frame){
       if(frame.dataset.loaded)return;
       frame.dataset.loaded='1';
       var slug=frame.closest('.sg-card').getAttribute('href').slice(1);
       frame.srcdoc='<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width='+frame.dataset.frameWidth+'"><style>'+fonts+'html,body{margin:0;overflow:hidden}body{font-family:var(--aha-font-product)}</style></head><body>'+docFor(slug)+'<scr'+'ipt type="module">'+imports+'</scr'+'ipt></body></html>';
+      var card=frame.closest('.sg-card');
+      if(card.dataset.stateModifier)frame.addEventListener('load',function(){applyDefaultState(frame.contentDocument,card.dataset.stateClass,card.dataset.stateModifier,JSON.parse(card.dataset.stateModifiers));});
     }
     var seen=new IntersectionObserver(function(entries){
       entries.forEach(function(entry){if(entry.isIntersecting){load(entry.target);seen.unobserve(entry.target);}});
@@ -2266,7 +2339,7 @@ const SECTION_GALLERY_SCRIPT = `<script type="module">
   })();
   </script>`;
 function renderMarketingLayoutsHtml(b) {
-  const gallery = b.layouts.length > 1 ? sectionGallerySlots(b, b.layouts.map(layout => ({ slug: layout.slug, name: layout.name, searchText: `${layout.name} ${layout.useFor || ''}` })), 'layouts') : { open: '', close: '' };
+  const gallery = b.layouts.length > 1 ? sectionGallerySlots(b, b.layouts.map(layout => ({ slug: layout.slug, name: layout.name, searchText: `${layout.name} ${layout.useFor || ''}`, defaultState: marketingDefaultState(b, layout) })), 'layouts') : { open: '', close: '' };
   const galleryCss = b.layouts.length > 1 ? SECTION_GALLERY_CSS : '';
   const [intro, ...details] = b.highlights?.length ? b.highlights : [b.summary];
   const main = `
@@ -3650,6 +3723,13 @@ writeFileSync(join(root, 'lib', 'marketing-removed-layouts.js'),
   `// screen-lint --surface=website fails a page that still uses one.\n` +
   `export const MARKETING_REMOVED_CLASSES = ${JSON.stringify(removedMarketingClasses)};\n`);
 console.log(`  ✓ lib/marketing-removed-layouts.js — ${removedMarketingClasses.length} removed Marketing classes`);
+
+const unstyledMarketingHooks = collectUnstyledHooks(readdirSync(MDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(readFileSync(join(MDIR, f), 'utf8'))));
+writeFileSync(join(root, 'lib', 'marketing-unstyled-hooks.js'),
+  `// ${PKGNAME}/screen-lint — the Marketing class names the shipped snippets use as markup hooks with no CSS rule of their own (generated by generate.mjs from marketing/*.json; do not edit by hand).\n` +
+  `// screen-lint --surface=website does not report these as ds-class-without-css.\n` +
+  `export const MARKETING_UNSTYLED_HOOKS = ${JSON.stringify(unstyledMarketingHooks)};\n`);
+console.log(`  ✓ lib/marketing-unstyled-hooks.js — ${unstyledMarketingHooks.length} unstyled Marketing hooks`);
 
 /* Ship the real component modules INTO the site (dist/lib) so a doc-page preview can
    ESM-import the SHIPPED element (../lib/<name>.js) — resolves both locally and on
