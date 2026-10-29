@@ -85,6 +85,13 @@
   "controlHeight": { "root": 32, "sm": 24, "lg": 40, "button": { "sm": 28, "md": 36, "lg": 40, "xl": 52 },
     "$note": "MEASURED wins: fields (Input/Select/DatePicker) inherit root 32 (sm 24 / lg 40); Button carries 28/36/40/52 via components.Button. Export specimen field heights (32/36/40) are drift." },
   "space": [0, 2, 4, 6, 8, 10, 12, 14, 16, 20, 24, 28, 32, 36, 40, 44, 48, 56, 60, 64, 68, 80, 96, 100],
+  "sectionSpace": {
+    "$note": "Website section spacing levels (guideline W2). One ladder 96, 64, 48, 32, 24, 16: each level is one step below the level above, and each smaller breakpoint moves every level one step down. desktop is the default; tablet applies when the nearest container is 767px or narrower, phone at 479px or narrower. Spacing inside a component is not a level.",
+    "block": { "desktop": "{space.96}", "tablet": "{space.64}", "phone": "{space.48}" },
+    "header": { "desktop": "{space.64}", "tablet": "{space.48}", "phone": "{space.32}" },
+    "group": { "desktop": "{space.48}", "tablet": "{space.32}", "phone": "{space.24}" },
+    "item": { "desktop": "{space.32}", "tablet": "{space.24}", "phone": "{space.16}" }
+  },
   "breakpoints": { "phone": 375, "tablet": 768, "desktop": 1280,
     "$note": "From the export README; export space.css omits 375 (internal export nit) — README value used." },
   "layout": { "contentMaxWidth": 1440,
