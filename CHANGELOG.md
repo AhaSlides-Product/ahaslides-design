@@ -23,9 +23,10 @@ an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix w
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
 ## 0.562.0 — 2026-10-29
-### Fixed
-- Audience: in `<aha-answer-option>` and `<aha-rank-list>`, a row with text and a picture now has the same gap above the picture, to its right and below it (answer option 8px: the unused count space is collapsed when the count is off; rank list 6px between the picture and the move buttons). A tall row keeps the picture top-aligned with the same top and right gap. Image-only rows are unchanged. ([#466](https://github.com/AhaSlides-Product/ahaslides-design/pull/466))
-- Revert: revert the PR; only padding and the picture alignment of rows with text and a picture change
+### Changed
+- Audience: in `<aha-answer-option>` and `<aha-rank-list>`, a row with text and a picture now has the same gap above the picture, to its right and below it (answer option 8px: the unused count space is collapsed when the count is off; rank list 6px between the picture and the move buttons). A tall row keeps the picture top-aligned with the same top and right gap. ([#466](https://github.com/AhaSlides-Product/ahaslides-design/pull/466))
+- Audience: image-only rows in `<aha-answer-option>` and `<aha-rank-list>` now show the whole picture instead of cropping it to a 120px strip: `object-fit: contain`, the box is as tall as the picture's aspect ratio gives (never above 240px, never below 48px) and the letterbox is `--aha-gray-25`. Rows with text and a picture are unchanged. ([#466](https://github.com/AhaSlides-Product/ahaslides-design/pull/466))
+- Revert: revert the PR; only the picture alignment and padding of rows with text and a picture, and the size and fit of image-only pictures, change
 
 ## 0.560.0 — 2026-10-29
 ### Added
