@@ -74,6 +74,16 @@ test('W9: motion comes from lib/marketing-motion.js only', () => {
   assert.equal(hits(fixture('pass-landing-page'), 'motion-own-animation').length, 0);
 });
 
+test('W9: a shipped section script is not judged, and a script end tag with spaces still closes it', () => {
+  assert.equal(hits('<script>document.querySelectorAll("[data-aha-scroller]");new IntersectionObserver(() => {})</script>', 'motion-own-script').length, 0);
+  assert.equal(hits('<script>window.scrollY</script\t\n bar>', 'motion-own-script').length, 1);
+});
+
+test('multi-line tags with single-quoted attributes are read', () => {
+  assert.equal(hits("<img\n  src='a.png'\n  alt=''>", 'img-empty-alt').length, 1);
+  assert.equal(hits("<section class='aha-features'>\n<aha-button\n href='#'\n variant='primary'>A</aha-button><aha-button variant='primary' href='#'>B</aha-button></section>", 'multiple-primary-buttons').length, 1);
+});
+
 test('W15: content card links open in a new tab with noopener and hidden text', () => {
   const link = (attributes, text = '') => `<article class="aha-marketing-card"><a class="aha-marketing-card__link" href="https://ahaslides.com/t" ${attributes}>Quiz${text}</a></article>`;
   const cue = '<span class="aha-marketing-card__visually-hidden"> (opens in a new tab)</span>';
