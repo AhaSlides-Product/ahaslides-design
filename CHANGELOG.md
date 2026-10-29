@@ -22,11 +22,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.561.0 — 2026-10-29
+## 0.565.0 — 2026-10-29
 ### Added
 - `<aha-option-row>` opt-in `colordot` + `colorindex`: a 12px decorative dot before the text, filled from the deck palette (`--aha-deck-palette-<n>`), neutral grey without one. The dot and the correct toggle never show together: `colordot` is ignored on a `correctable` row. `<aha-question-list>` gains `colordots` + `palette-size` for unscored lists (Poll): option n takes colour ((n-1) % palette-size) + 1 by position and the rows show the dot instead of the correct toggle. ([#463](https://github.com/AhaSlides-Product/ahaslides-design/pull/463))
 ### Changed
 - `<aha-option-row>` right padding is 4px (was 10px): padding is now 3 4 3 10, and the focused correct row 2 3 2 9 so nothing shifts. ([#463](https://github.com/AhaSlides-Product/ahaslides-design/pull/463))
+
+## 0.563.0 — 2026-10-29
+### Removed
+- Website > Marketing > Hero: the Hero stacked, Hero bento collage and Gallery bento grid layouts, with the Video slot that only Hero stacked had. Their classes join `marketing/data/removed-layouts.json`, so website rule W1 fails a page that still uses them. The Hero page keeps 11 layouts. (#468)
+- Revert: revert the PR; `marketing/hero.json`, `marketing/data/removed-layouts.json`, `guidelines/website.json` and `tests/marketing-gallery.test.mjs` return to the previous layouts
 
 ## 0.560.0 — 2026-10-29
 ### Added
