@@ -22,10 +22,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.568.1 — 2026-10-29
+## 0.569.1 — 2026-10-29
 ### Removed
 - Every image aspect-ratio requirement is removed from the website rules: W6 no longer makes portrait or square images, or sections of mixed sizes, use the Vivid Pink frame, no longer requires one frame ratio per section (4:3 in a Features row, 3:2 on a card), and the criterion no longer fails a framed landscape image; images show at their own ratio. The Vivid Pink frame stays as an optional look. The `square-image-unframed` screen-lint rule is removed. Rules that protect the image stay: never cropped, never stretched or distorted, screenshots exported tight to the UI (#470)
 - Revert: revert the PR; only website guideline text, the W6 criterion and one eval, the Features and Cards usage text, and one screen-lint rule with its test change. No component CSS changes
+
+## 0.569.0 — 2026-10-29
+### Added
+- Button: the canvas close ✕ (DESY-402). `<aha-button variant="tertiary-deck" size="sm" icon-only corner>` is the 28 × 28 dismiss for a panel or overlay on the presenter canvas, glyph in the deck's secondary ink (76%) at rest and the full ink on a 5% wash on hover; on a photographic deck it is `secondary-deck` (white fill, dark glyph). The app close ✕ (xs) and the audience close ✕ (md) are unchanged. Canvas Library gets a Close button section (#474)
+- Icons: `system-thumb-up-down`, a thumb up and a thumb down side by side, for helpful or not-helpful feedback (#474)
 
 ## 0.568.0 — 2026-10-29
 ### Added

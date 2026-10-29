@@ -27,6 +27,11 @@ const emit = defineEmits(['save', 'dismiss']);
     </aha-button>
   </div>
 
+  <!-- Canvas close (✕): sm icon-only after applyCanvasDeck; tertiary-deck, or secondary-deck on a photographic deck. -->
+  <aha-button variant="tertiary-deck" icon-only size="sm" corner aria-label="Close" @click="emit('close')">
+    <aha-icon name="system-x" :size="16" decorative />
+  </aha-button>
+
   <!-- Audience close (✕): tertiary-deck icon-only md, 36 x 36 drawn with a 44 x 44 hit area; `sheet` on a white modal. -->
   <aha-button variant="tertiary-deck" size="md" icon-only sheet aria-label="Close" @click="emit('close')">
     <aha-icon name="system-x" :size="16" decorative />
