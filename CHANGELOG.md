@@ -22,6 +22,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.557.0 — 2026-10-29
+### Added
+- Brand voice rules: new rule 14.3 allows a retired phrase or an American spelling only in search keyword fields and hashtags (SEO and ad keywords, meta keywords, social hashtags such as #InteractivePresentations), never in copy people read. Rule 10.6 points to it. (#461)
+### Changed
+- Brand voice rules: rule 10.7 now says a product or feature name keeps its capitals inside a sentence-case headline or CTA, and title-case copy from a brief is changed to sentence case with the requester told. The change log gains v3 (it also records rule 14.2). Revert: revert the PR. (#461)
+
 ## 0.556.1 — 2026-10-29
 ### Fixed
 - Icons: `system-palette` rendered as four large dark blobs instead of four small dots. The Figma export kept a mask-and-inside-stroke construct (a 1.5 px ring path per dot) that the icon build cannot carry, because it drops the mask id; the ring path then drew as a solid fill. The source SVG now holds the outline and four filled dots only, and the registry and `lib/icons-registry.js` are rebuilt. The name is unchanged, so no alias is needed (#451)
