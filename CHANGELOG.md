@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.563.0 — 2026-10-29
 ### Removed
-- Website > Marketing > Hero: the Hero stacked, Hero bento collage and Gallery bento grid layouts, with the Video slot that only Hero stacked had. Their classes join `marketing/data/removed-layouts.json`, so website rule W1 fails a page that still uses them. The Hero page keeps 11 layouts. (#NNN)
+- Website > Marketing > Hero: the Hero stacked, Hero bento collage and Gallery bento grid layouts, with the Video slot that only Hero stacked had. Their classes join `marketing/data/removed-layouts.json`, so website rule W1 fails a page that still uses them. The Hero page keeps 11 layouts. (#468)
 - Revert: revert the PR; `marketing/hero.json`, `marketing/data/removed-layouts.json`, `guidelines/website.json` and `tests/marketing-gallery.test.mjs` return to the previous layouts
 
 ## 0.560.0 — 2026-10-29
