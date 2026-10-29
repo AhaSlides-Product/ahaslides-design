@@ -20,7 +20,7 @@ const footerBannerCss = readJson('marketing/footer-banner.json').css;
 const cardSnippetsCss = readJson('marketing/cards.json').snippets.map((snippet) => snippet.css ?? '').join('\n');
 const alternatingRowCss = features.layouts.find((layout) => layout.slug === 'alternating-screenshots').css;
 
-for (const id of ['W9', 'W11', 'W12', 'W13', 'W14', 'W15', 'W17', 'W18', 'W19']) {
+for (const id of ['W9', 'W11', 'W12', 'W13', 'W14', 'W15', 'W17', 'W18', 'W19', 'W20']) {
   test(`${id} has a guideline rule, a criterion, a synced copy and a failing eval`, () => {
     assert.ok(guideline.rules.some((rule) => rule.ref.includes(id)), 'guideline rule');
     assert.ok(criteria.some((criterion) => criterion.id === id), 'criterion');
@@ -62,7 +62,7 @@ test('templates are a 3 by n grid on desktop and skip count balancing', () => {
 });
 
 test('W15: every content card link opens in a new tab with noopener and hidden text, calls to action do not', () => {
-  const linkClasses = ['aha-marketing-card__link', 'aha-testimonials__link', 'aha-features__more'];
+  const linkClasses = ['aha-marketing-card__link', 'aha-testimonials__link'];
   for (const slug of ['cards', 'testimonials', 'features']) {
     const raw = readFileSync(new URL(`../marketing/${slug}.json`, import.meta.url), 'utf8');
     const links = linkClasses.flatMap((name) => [...raw.matchAll(new RegExp(`<a class=\\\\"${name}\\\\"[^>]*>`, 'g'))].map((match) => match[0]));
@@ -214,7 +214,7 @@ test('W14: the alternating row title is h4 semibold on the product face', () => 
 });
 
 test('W14: no Marketing section sets the display face; every heading inherits Plus Jakarta Sans', () => {
-  const marketing = ['cards', 'features', 'numbers', 'pricing', 'testimonials', 'faq', 'footer-banner', 'header'];
+  const marketing = ['cards', 'features', 'numbers', 'pricing', 'testimonials', 'faq', 'footer-banner', 'hero'];
   for (const slug of marketing) {
     assert.doesNotMatch(readFileSync(new URL(`../marketing/${slug}.json`, import.meta.url), 'utf8'), /--aha-font-display/, slug);
   }
