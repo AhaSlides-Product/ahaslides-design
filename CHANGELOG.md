@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.542.0 — 2026-10-29
+## 0.543.0 — 2026-10-29
 ### Changed
 - Anti-slop W9 and the website guideline: the hero may carry exactly one video that plays by itself (autoplay, muted, loop, playsinline, a poster, paused under `prefers-reduced-motion`); a second autoplaying video, one outside the hero, a missing attribute or no reduced-motion stop still fails. Hero guidance and the Video slot describe the ambient form. (#452)
 - Anti-slop W6 and the website guideline, Features and Cards: a square image sits in the Vivid Pink frame like a portrait one (only a landscape image fills its slot); a quote, rail or image frame is never light grey (`#F6F6F6`, `#F7F7F7`). (#452)
@@ -31,7 +31,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `screen-lint --surface=website` rules `autoplay-video-extra`, `autoplay-video-attributes`, `autoplay-video-motion`, `grey-quote-or-frame` and `square-image-unframed`. `lib/marketing-motion.js` pauses a hero `<video autoplay>` under reduced motion. Four eval cases (hero video control, second autoplay video, no reduced-motion stop, long Features band). (#452)
 - Revert: revert the PR; W9 and W6 go back to "no autoplaying video" and "square fills", W20 and the five lint rules go.
 
-## 0.541.0 — 2026-10-28
+## 0.542.0 — 2026-10-29
 ### Changed
 - Colour rule 3.5, anti-slop W5 and the website guideline: a landing page's Hero must open in its Vivid Pink state (`--brand`), not the White default of the snippet; the "a white hero is also allowed" line is gone and a white hero is only for a Page header page or a hero the requester names. The Hero guidance carries a "Surface" point saying so.
 - Anti-slop W12, the website guideline, the Features guidance and the Cards Steps note: a numbered how-to or how it works is Step cards (Steps row, a Cards grid for four or more), never Features Tabs; a tab description is one short sentence of 90 characters or fewer. Rebuilding a section keeps every point, step and image: five steps become five Step cards with their images, never fewer.
@@ -39,6 +39,12 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `screen-lint --surface=website` rules `hero-not-brand` (the first band is a Hero not in the Vivid Pink state), `steps-as-tabs` (a Features Tabs section whose heading, eyebrow or tablist label says how it works or steps, or with numbered tab titles) and `tabs-description-long` (a tab description over 90 characters); escape `ds-lint-allow: page (why)`.
 - Features: new layout Compact: swipeable card scroller with images (`compact-scroller-images`), the scroller with a numbered Step card and a screenshot at the foot of each card (optional image slot, `aha-marketing-card__media--scroller`, ordered-list track); the Features, Steps and W12 guidance now say a how it works with images may use it as well as the Step grid.
 - Revert: revert the PR; the rules go back to "may be Vivid Pink" and the lint drops the three rules (#440); the scroller-with-images layout is removed
+
+## 0.541.0 — 2026-10-29
+### Added
+- Brand voice rules: rule 14.2 lets a retired phrase stay as a search keyword that a specific page or ad targets (page title, H1, URL, ad headline), never as a description of AhaSlides. The Google Ads landing page /features/interactive-presentation-tool/ is the example. (#450)
+### Changed
+- Brand voice rules, section 14: "interactive presentation tool" and "live audience engagement platform" join the retired wording table, and the copy lint (`retired-wording`) now catches them. A keyword-target page marks its lines with `ds-lint-allow: retired-wording (14.2, keyword target: ...)`.
 
 ## 0.540.0 — 2026-10-28
 ### Changed
