@@ -2,8 +2,8 @@
  "$about": "The one source of the AhaSlides colour and background rules. generate.mjs renders the human page (foundations/brand-colour-rules.html), the agent feeds (colour-rules.agent.json, colour-rules.md) and the Background library page from this file; build-splash.mjs reads splash for its geometry and colours; the anti-slop surfaces colour and background and guidelines/background.json cite rules here by id. Edit a rule here and nowhere else. Text markup: **bold**, `code`, [[#HEX]] is a click-to-copy code with a swatch, [[#HEX|plain]] one without, ((small print)), [label](href), and a line break is a new line. A rule with no environment takes its section's; a section with none takes the file's. origin names where a rule came from when it was not on the rules page of 8 October 2026.",
  "id": "colour-rules",
  "title": "AhaSlides visual identity: colour rules",
- "lede": "These rules replace the colour section of the current brand guidelines. Everything not mentioned here (the font, spacing, components, icons) stays as it is in the design system.",
- "updated": "2026-10-27",
+ "lede": "These rules replace the colour section of the current brand guidelines. Everything not mentioned here (the font, spacing, components, icons) stays as it is in the design system. The three sources of truth are this page and the design system (visual rules), the brand voice rules (verbal rules) and the [brand guidelines v2.3 PDF](https://design.ahaslides.io/brand/ahaslides-brand-guidelines-v2.3.pdf), the designed reference book. Where they differ, the design system and the voice rules online win; report a clash in #brand-governance so the book gets fixed.",
+ "updated": "2026-10-29",
  "environment": ["product", "audience", "web", "video", "social-ads", "report-image"],
  "glance": [
   "Vivid Pink (`#E70E68`) is the one primary colour. Purple is the logo only, plus one small playful touch on white.",
@@ -299,6 +299,7 @@
  ],
  "open": [],
  "changes": [
+  { "version": "v26", "date": "29 Oct", "text": "The lede names brand guidelines v2.3 (29 October 2026, final) as the designed reference book, links the PDF and says that where it differs from the design system the design system wins. No rule changed." },
   { "version": "v25", "date": "28 Oct", "text": "New rule 2.6a: social-media links use the one-colour system-<brand>-logo glyph at currentColor, never a greyscale copy of the colour logo and no brand colour on hover. Rule 2.6 stays for third-party tool logos." },
   { "version": "v24", "date": "27 Oct", "text": "Rule 2.1 allows the black logo and the black Splash, both #1A1A1A, for one-colour print on white only. Rule 4.6 covers Vivid Pink at 5% surfaces and names the Vivid Pink text on 5% pair that fails. New rules 4.10 and 4.11 give the photography do and don't from brand guidelines v2.3 (real moments and relaxed portraits; avoid staged shots and stiff portraits). The contrast table names the app's light grey as #F7F7F7 (4.21 to 1), not #FAFAFA (4.32 to 1). Found in BRGO-2. No rule id changed." },
   { "version": "v23", "date": "24 Oct", "text": "The splash rules now apply to any splash background in any medium, with no exceptions: 5.1 to 5.5, 5.7 to 5.11, 5.14, 5.15, 5.17 to 5.19, the splash layouts table and the Splash in CSS block cover every environment, including report images, which draw a hero band splash with the Splash in CSS block on the band's own frame and never place it by hand. 5.6 (where a splash may be used), 5.12, 5.13 and 5.16 (export sizes) keep their scope. Found in DESY-331. No rule id changed." },

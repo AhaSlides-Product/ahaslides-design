@@ -3743,6 +3743,8 @@ cpSync(join(root, 'lib'), join(OUT, 'lib'), { recursive: true });
    component previews — silently falls back to -apple-system instead of the brand face. */
 cpSync(join(root, 'fonts'), join(OUT, 'fonts'), { recursive: true });
 cpSync(join(root, 'logo'), join(OUT, 'logo'), { recursive: true });
+mkdirSync(join(OUT, 'brand'), { recursive: true });
+cpSync(join(root, 'brand', 'ahaslides-brand-guidelines-v2.3.pdf'), join(OUT, 'brand', 'ahaslides-brand-guidelines-v2.3.pdf'));
 cpSync(join(root, 'marketing-assets'), join(OUT, 'marketing-assets'), { recursive: true });
 cpSync(join(root, FAVICON_FOLDER, 'favicon.ico'), join(OUT, ROOT_FAVICON_FILE));
 cpSync(join(root, 'backgrounds'), join(OUT, 'backgrounds'), { recursive: true });

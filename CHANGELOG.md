@@ -22,11 +22,21 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.555.0 — 2026-10-29
+## 0.556.0 — 2026-10-29
 ### Added
 - screen-lint, website surface: six page rules for a whole page of Marketing sections. `section-gap` fails a margin, padding, gap, spacer, divider or per-band wrapper that makes the gap between two bands anything but one Section step (96, 64 and 48 px at 1440, 768 and 375); `motion-script-copy` fails a `marketing-motion.js` that differs from the shipped `lib/marketing-motion.js`, compared when the lint runs, so no hash is kept; `step-numbers` fails numbered steps that are not the Cards Steps row (`aha-marketing-cards__grid--row`) with the DS number ring; `ds-class-without-css` fails markup that uses a DS section class the page's pasted CSS does not style; `page-font` fails a body or h1 to h6 font that does not resolve to Plus Jakarta Sans; `card-description-long` fails a Cards, Features or Numbers description over 25 words (DSN-980, DSN-981, DSN-982, DSN-983, DSN-984, DSN-985) (#454)
 ### Changed
 - Website guideline and judge criteria W1, W2, W9, W10, W12 and W14 state the same six checks and say which part only a render can verify (the measured gap at each width, a font set by a linked stylesheet, whether a section is text-led with four or more points). New eval case 30 (`fail-w10-wordy-cards`) covers the Cards word limit.
+
+## 0.555.0 — 2026-10-29
+### Added
+- Brand guidelines v2.3 (29 October 2026, final) is published at `https://design.ahaslides.io/brand/ahaslides-brand-guidelines-v2.3.pdf`. (#459)
+
+### Fixed
+- The render gate treats the new `brand` output folder as a support folder, not a component page. (#459)
+
+### Changed
+- Brand voice rules: the lede names v2.3 and links the PDF, new rule 16.4 sets the three sources of truth (design system, voice rules online, the PDF) and that the first two win. The colour rules lede carries the same precedence line. (#459)
 
 ## 0.554.1 — 2026-10-29
 ### Fixed
@@ -45,6 +55,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - A node test fails when a marketing blockquote reset leaves the border, when a section title rule has no `display`, or when the Step number rule leaves the Cards base CSS.
 - Supersedes the earlier 0.497.1 attempt. Revert: revert the PR; the sections go back to relying on the host CSS (#438)
+
 
 ## 0.551.0 — 2026-10-29
 ### Added
