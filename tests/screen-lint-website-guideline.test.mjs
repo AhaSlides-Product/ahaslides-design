@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { lintHtml } from '../lib/screen-lint.js';
 
@@ -19,6 +19,21 @@ test('W3: a section container capped at 1280px passes, an uncapped one fails', (
   assert.equal(hits('<style>.aha-features__header{max-width:900px}</style>', 'content-width-uncapped').length, 1);
   assert.ok(hits(fixture('fail-w3-full-width'), 'content-width-uncapped').length > 0);
   assert.equal(hits(fixture('pass-landing-page'), 'content-width-uncapped').length, 0);
+});
+
+test('W3: only the subject of a selector is judged', () => {
+  assert.equal(hits('<style>.aha-features__inner img{width:1440px;max-width:100%}</style>', 'content-width-uncapped').length, 0);
+  assert.equal(hits('<style>.x, .aha-features__inner{max-width:none}</style>', 'content-width-uncapped').length, 1);
+  assert.equal(hits('<style>.a > .aha-features__inner{max-width:none}</style>', 'content-width-uncapped').length, 1);
+});
+
+test('every shipped Marketing layout snippet passes the guideline rules', () => {
+  const rules = new Set(['content-width-uncapped', 'missing-h1', 'multiple-h1', 'multiple-primary-buttons', 'img-empty-alt', 'brand-not-lockup', 'missing-navigation', 'motion-library', 'motion-own-script', 'motion-own-animation', 'card-link-same-tab', 'new-tab-on-sign-up']);
+  const snippets = [];
+  const collect = (value) => { if (typeof value === 'string') { if (/<(section|header|footer|aha-)/.test(value)) snippets.push(value); } else if (value && typeof value === 'object') Object.values(value).forEach(collect); };
+  for (const file of readdirSync(new URL('../marketing/', import.meta.url)).filter((name) => name.endsWith('.json'))) collect(JSON.parse(readFileSync(new URL(`../marketing/${file}`, import.meta.url), 'utf8')));
+  assert.ok(snippets.length > 50);
+  for (const snippet of snippets) assert.deepEqual(lintHtml(snippet, { surface: 'website' }).findings.filter((f) => rules.has(f.rule)), []);
 });
 
 test('W3: a shipped section style block is not judged', () => {
