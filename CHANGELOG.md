@@ -22,6 +22,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.565.1 — 2026-10-29
+### Fixed
+- Testimonials: the author row stays pinned to the card bottom outside the Quote cards grid too. A quote card placed in the Case study carousel track lost the grid subgrid, so authors followed quote length and sat at different heights (LAPA-307 saw a 154px spread); `.aha-testimonials__card--quote` now pins its author with `align-self:end`, and a card body whose last slot is the author pushes it down with `margin-top:auto`. ([#471](https://github.com/AhaSlides-Product/ahaslides-design/pull/471))
+- Features compact layouts: the title keeps its gap to the lead. `margin-bottom:0` now applies only when the title is the header's last child, so a compact header with a lead no longer sets the lead about 4px under the title (20px now, as in every other Features header). ([#471](https://github.com/AhaSlides-Product/ahaslides-design/pull/471))
+### Changed
+- Testimonials guidance and website rule W19: one card anatomy per row. Every card in a row has the same slots in the same order (stars, title, quote, author); a testimonial with no rating or title goes in its own Simple left aligned section; the author row is pinned to the card bottom in the grid and in the carousel. ([#471](https://github.com/AhaSlides-Product/ahaslides-design/pull/471))
+- Revert: revert the PR; `marketing/testimonials.json`, `marketing/features.json` and `anti-slop/criteria.json` return to the previous rules
+
 ## 0.565.0 — 2026-10-29
 ### Added
 - `<aha-option-row>` opt-in `colordot` + `colorindex`: a 12px decorative dot before the text, filled from the deck palette (`--aha-deck-palette-<n>`), neutral grey without one. The dot and the correct toggle never show together: `colordot` is ignored on a `correctable` row. `<aha-question-list>` gains `colordots` + `palette-size` for unscored lists (Poll): option n takes colour ((n-1) % palette-size) + 1 by position and the rows show the dot instead of the correct toggle. ([#463](https://github.com/AhaSlides-Product/ahaslides-design/pull/463))
