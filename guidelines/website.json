@@ -19,7 +19,7 @@
   "skillRef": {
     "build": "DS guideline — guidelines/website.json",
     "judge": "DS anti-slop feed — anti-slop.md (surface: website)",
-    "note": "The enforceable criteria are anti-slop/criteria.json surfaces.website (W1 to W19). Each rule below names its source (`source`): a Marketing section, a token or a colour rule."
+    "note": "The enforceable criteria are anti-slop/criteria.json surfaces.website (W1 to W20). Each rule below names its source (`source`): a Marketing section, a token or a colour rule."
   },
   "surfaces": [
     "landing page",
@@ -194,7 +194,7 @@
       ]
     },
     {
-      "rule": "Use real `<img>` elements with alt text for pictures: a product screenshot, a committed photo, or the DS placeholder `marketing-assets/image-placeholder.svg` until one exists. Photos of people, customers and events come only from the AhaSlides Drive photo library or Customer Love, each committed with its `source` (`drive` or `customer-love`) and licence in the manifest; stock photos (Unsplash, Pexels, Picsum, Shutterstock, iStock, Getty, Adobe Stock, Freepik and the like) are never used. Never crop a screenshot. Size and ratio are those of the visible UI in the picture, not of the file: a screenshot padded, letterboxed or placed on a plain canvas to match other files counts at its own size and ratio, and an image never carries its own background margin (the frame supplies the inset), so export each screenshot tight to its UI. An image fills its container edge to edge at its own ratio (`aha-features__photo--fill`, `aha-marketing-card__media--fill`): no pink frame, no inset. That is the rule for a landscape or square image, alone or among others of the same size. Use the Vivid Pink frame (`aha-features__photo--pink-frame`, `aha-marketing-card__media--pink-frame`: `--aha-vivid-pink-100` with the centre Splash) for any portrait image (taller than wide, ratio under 1), even alone or when every image in the section is the same size, and when a section holds more than one image and those images differ in size or ratio: each sits contained with an even inset, and every frame in the section keeps one ratio (4:3 in a Features row, 3:2 on a card). One narrow exception covers photos (never screenshots) in the multi-image layouts only, the multi-image heroes and Gallery layouts and the Features Sticky stack: the photo stack and floating images may tilt a photo, as they ship, and the cells of a bento, collage or masonry layout may differ in size or ratio and fill with `object-fit: cover` instead of the pink frame. A tilted or overlapping photo sits in the photo frame: an 8 px white border (`--aha-space-8` solid `--aha-white`) and a 1 px ring in the layout's frame colour, never a shadow. No stock photos, stock clip art, emoji used as icons, gradient blobs, glassmorphism or decorative 3D. Icons come from the registry by name with `<aha-icon>`.",
+      "rule": "Use real `<img>` elements with alt text for pictures: a product screenshot, a committed photo, or the DS placeholder `marketing-assets/image-placeholder.svg` until one exists. Photos of people, customers and events come only from the AhaSlides Drive photo library or Customer Love, each committed with its `source` (`drive` or `customer-love`) and licence in the manifest; stock photos (Unsplash, Pexels, Picsum, Shutterstock, iStock, Getty, Adobe Stock, Freepik and the like) are never used. Never crop a screenshot. Size and ratio are those of the visible UI in the picture, not of the file: a screenshot padded, letterboxed or placed on a plain canvas to match other files counts at its own size and ratio, and an image never carries its own background margin (the frame supplies the inset), so export each screenshot tight to its UI. An image fills its container edge to edge at its own ratio (`aha-features__photo--fill`, `aha-marketing-card__media--fill`): no pink frame, no inset. That is the rule for a landscape image, alone or among others of the same size. Use the Vivid Pink frame (`aha-features__photo--pink-frame`, `aha-marketing-card__media--pink-frame`: `--aha-vivid-pink-100` with the centre Splash) for any portrait or square image (as tall as wide or taller, ratio 1 or under), even alone or when every image in the section is the same size, and when a section holds more than one image and those images differ in size or ratio: each sits contained with an even inset, and every frame in the section keeps one ratio (4:3 in a Features row, 3:2 on a card). One narrow exception covers photos (never screenshots) in the multi-image layouts only, the multi-image heroes and Gallery layouts and the Features Sticky stack: the photo stack and floating images may tilt a photo, as they ship, and the cells of a bento, collage or masonry layout may differ in size or ratio and fill with `object-fit: cover` instead of the pink frame. A tilted or overlapping photo sits in the photo frame: an 8 px white border (`--aha-space-8` solid `--aha-white`) and a 1 px ring in the layout's frame colour, never a shadow. No stock photos, stock clip art, emoji used as icons, gradient blobs, glassmorphism or decorative 3D. Icons come from the registry by name with `<aha-icon>`. A quote, rail or image frame is never light grey: no `#F6F6F6` or `#F7F7F7` border-left or background on a blockquote, a rail or a frame (use the Vivid Pink frame or the pale pink accent); `screen-lint --surface=website` checks it as `grey-quote-or-frame`, and a square image outside the Vivid Pink frame as `square-image-unframed`.",
       "ref": [
         "W6"
       ],
@@ -241,7 +241,7 @@
       ]
     },
     {
-      "rule": "Motion is staggered reveal, light image parallax and count-up numbers, all from one DS script, and nothing else. Load `lib/marketing-motion.js` once (`<script type=\"module\" src=\"…/lib/marketing-motion.js\">`; on by default, `data-aha-motion=\"off\"` opts a section or the page out). Elements fade in and slide up 24 px as they scroll into view, items that enter together 80 ms apart, timed with `--aha-motion-viz-enter` and `--aha-ease-out`; a real photo in an `aha-features__frame`, `aha-testimonials__frame` or `aha-numbers__frame` drifts inside that frame, which never moves (the picture is drawn 112% of the frame and drifts at most 6% of the frame height, never more than 48 px, against the scroll; a screenshot gets no frame wrapper and never drifts), and the same picture enters as it scrolls into view, fading in and settling from 1.08x its parallax scale a beat after its row's reveal, with the frame still; a Numbers value counts up from 0 to its written value once, when it is half in view. Hover transitions use `--aha-motion-*` and `--aha-ease-*`. Under `prefers-reduced-motion: reduce` nothing moves and every final value shows at once. No scroll-jacking, no autoplaying carousel or video, no hand-written scroll or parallax script on the page; the only continuous motion allowed is a shipped marquee loop: the Logos strip, and the photo marquees (the Hero image marquee and Gallery marquee rows), which pause while hovered or focused and, like the Logos strip, carry no Pause button. Every loop stops under reduced motion, in print and under `data-aha-motion=\"off\"`. Use at most one looping photo band per page, never next to the Logos strip.",
+      "rule": "Motion is staggered reveal, light image parallax and count-up numbers, all from one DS script, and nothing else. Load `lib/marketing-motion.js` once (`<script type=\"module\" src=\"…/lib/marketing-motion.js\">`; on by default, `data-aha-motion=\"off\"` opts a section or the page out). Elements fade in and slide up 24 px as they scroll into view, items that enter together 80 ms apart, timed with `--aha-motion-viz-enter` and `--aha-ease-out`; a real photo in an `aha-features__frame`, `aha-testimonials__frame` or `aha-numbers__frame` drifts inside that frame, which never moves (the picture is drawn 112% of the frame and drifts at most 6% of the frame height, never more than 48 px, against the scroll; a screenshot gets no frame wrapper and never drifts), and the same picture enters as it scrolls into view, fading in and settling from 1.08x its parallax scale a beat after its row's reveal, with the frame still; a Numbers value counts up from 0 to its written value once, when it is half in view. Hover transitions use `--aha-motion-*` and `--aha-ease-*`. Under `prefers-reduced-motion: reduce` nothing moves and every final value shows at once. No scroll-jacking, no autoplaying carousel, no hand-written scroll or parallax script on the page; the only continuous motion allowed is a shipped marquee loop: the Logos strip, and the photo marquees (the Hero image marquee and Gallery marquee rows), which pause while hovered or focused and, like the Logos strip, carry no Pause button. Every loop stops under reduced motion, in print and under `data-aha-motion=\"off\"`. Use at most one looping photo band per page, never next to the Logos strip. The one video that may play by itself is the hero video, exactly one per page: a `<video>` with `autoplay muted loop playsinline` and a `poster`, which `lib/marketing-motion.js` pauses under reduced motion (a second autoplaying video, one outside the hero, one missing an attribute or one that keeps playing under reduced motion fails; `screen-lint --surface=website` checks these as `autoplay-video-extra`, `autoplay-video-attributes` and `autoplay-video-motion`).",
       "ref": [
         "W9"
       ],
@@ -249,6 +249,7 @@
         "lib/marketing-motion.js — reveal, stagger, parallax and count-up",
         "every section's prefers-reduced-motion block",
         "marketing/features.json — the video variant never autoplays",
+        "marketing/hero.json — the one hero video that autoplays muted and loops",
         "marketing/testimonials.json — carousels never autoplay",
         "marketing/logos.json — the loop and its reduced-motion stop",
         "marketing/hero.json — the photo marquee loops (the Hero image marquee and the Gallery marquee rows), their pause on hover and focus and their reduced-motion stop, with no Pause button",
@@ -337,6 +338,16 @@
         "marketing/testimonials.json — person, person-text, quote and the quote-cards subgrid"
       ]
     },
+    {
+      "rule": "Keep the page short enough to scan: at 1440 px wide the whole page is at most 5000 px tall and each Features band at most 800 px tall (cut rows or tabs, or split the band, rather than stack more); at 1280 x 720 the Navigation plus the Hero fit within 720 px, so the heading, lead and primary call to action show without scrolling. These are heights read from a render, so `screen-lint` cannot check them from the markup: the website judge and the agent's own render at 1440 and 1280 x 720 do.",
+      "ref": [
+        "W20"
+      ],
+      "source": [
+        "marketing/features.json — the Features band layouts",
+        "marketing/hero.json — the hero layouts and Navigation"
+      ]
+    },
     { "rule": "Draw every button with `<aha-button>`: the Navigation Log in (secondary) and Sign up (primary), the Join button and every header, section and footer banner call to action, with `href` for a link and `type=\"submit\"` in a form, as the sections ship them. Never restyle, re-colour or re-hover a DS component: the page's own CSS sets only layout on `<aha-button>` (margin, flex, width, order, align-self), never a colour, fill, border, shadow, height or state rule, `::part` or `--aha-button-*` token. A button look the DS lacks is a gap to raise, not CSS to write. `screen-lint` hard-fails it as `hand-rolled-button`.", "ref": ["W16"], "source": ["contracts/button.json — href and type", "marketing/navigation.json", "lib/screen-lint-button.js"] }
   ],
   "reuse": null,
@@ -375,7 +386,7 @@
       "verdict": "screen-lint --surface=website --measure (W8)"
     },
     {
-      "label": "motion is the DS script only: staggered reveal, light in-frame photo parallax and a fade-and-settle entrance of the photo (the frame never moves), numbers count up from 0, all off under reduced motion; the only loops are the shipped Logos and photo marquees; no scroll-jacking or autoplay",
+      "label": "motion is the DS script only: staggered reveal, light in-frame photo parallax and a fade-and-settle entrance of the photo (the frame never moves), numbers count up from 0, all off under reduced motion; the only loops are the shipped Logos and photo marquees; no scroll-jacking; the one video that plays by itself is the hero's (autoplay, muted, loop, playsinline, a poster, stopped under reduced motion)",
       "verdict": "screen-lint motion-library, motion-own-script, motion-own-animation (W9)"
     },
     {
@@ -413,6 +424,10 @@
     {
       "label": "testimonial avatar, name, role and quote left aligned; author rows on one baseline across cards",
       "verdict": "consumer self-judges (W19)"
+    },
+    {
+      "label": "page at most 5000 px at 1440; each Features band at most 800 px; Navigation plus Hero within 720 px at 1280 x 720",
+      "verdict": "consumer self-judges (W20)"
     },
     { "label": "every button is <aha-button> with no colour, size or hover CSS of its own", "verdict": "screen-lint hand-rolled-button (W16)" }
   ]
