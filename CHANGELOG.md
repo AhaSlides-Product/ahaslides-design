@@ -22,10 +22,22 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.569.1 — 2026-10-29
+## 0.571.1 — 2026-10-29
 ### Removed
 - Every image aspect-ratio requirement is removed from the website rules: W6 no longer makes portrait or square images, or sections of mixed sizes, use the Vivid Pink frame, no longer requires one frame ratio per section (4:3 in a Features row, 3:2 on a card), and the criterion no longer fails a framed landscape image; images show at their own ratio. The Vivid Pink frame stays as an optional look. The `square-image-unframed` screen-lint rule is removed. Rules that protect the image stay: never cropped, never stretched or distorted, screenshots exported tight to the UI (#470)
 - Revert: revert the PR; only website guideline text, the W6 criterion and one eval, the Features and Cards usage text, and one screen-lint rule with its test change. No component CSS changes
+
+## 0.571.0 — 2026-10-29
+### Added
+- Hero split: the 16:9 Video slot is back (DESY-404), the markup and CSS `hero.md` already described (`<video class="{{c}}__video">`, the ambient form with `autoplay muted loop playsinline` and no controls, paused under `prefers-reduced-motion` by `lib/marketing-motion.js`). The slot narrows and centres on a wide screen instead of letterboxing.
+- Cards: the Steps row as its own band takes an optional centred heading, lead and one button (`aha-marketing-cards__header`, `__title`, `__lead`, `__cta`), same type as the Features header, so a page no longer needs a Features section around the Steps row to get them. New snippet "Steps row with heading, lead and button".
+
+### Changed
+- Features, Icons around a phone screenshot: below 767px the image now follows the text (`order:1`) instead of sitting above it, like Hero split, Compact tabs and Alternating rows, so W8 passes on a page that uses both. The W8 rule, its criteria copy and the layout summary say text first.
+- Navigation and Footer snippets: "Word Cloud" and "Spinner Wheel" are sentence case ("Word cloud", "Spinner wheel"), as are the website eval fixtures that paste them.
+
+### Fixed
+- `variables.css` and `lib/tokens.css` header comments no longer carry an em dash (#476)
 
 ## 0.569.0 — 2026-10-29
 ### Added

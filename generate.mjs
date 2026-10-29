@@ -1563,7 +1563,12 @@ const MARKETING_COMPONENTS_CAT = 'Components';
 const isMarketingComponent = (b) => b.kind === 'component';
 const marketingCardItems = (card) => String(card.html || '').split('\n<!-- next -->\n').map(html => `    <li>\n${html.split('\n').map(line => '      ' + line).join('\n')}\n    </li>`).join('\n');
 const marketingCardGridClass = (card) => 'aha-marketing-cards__grid' + (card.gridClass ? ' ' + card.gridClass : '');
-const marketingCardSnippet = (b, card) => `<style>\n${b.baseCss || ''}${card.css || ''}</style>\n<section class="aha-marketing-cards">\n  <ul class="${marketingCardGridClass(card)}">\n${marketingCardItems(card)}\n  </ul>\n</section>\n`;
+const marketingCardHeaderHtml = (card) => card.header ? `  <header class="aha-marketing-cards__header aha-marketing-cards__header--center">
+    <h2 class="aha-marketing-cards__title">${card.header.title}</h2>
+    <p class="aha-marketing-cards__lead">${card.header.lead}</p>
+  </header>\n` : '';
+const marketingCardCtaHtml = (card) => card.header?.cta ? `  <div class="aha-marketing-cards__cta"><aha-button variant="primary" size="xl" href="${card.header.cta.href}">${card.header.cta.label}</aha-button></div>\n` : '';
+const marketingCardSnippet = (b, card) => `<style>\n${b.baseCss || ''}${card.css || ''}</style>\n<section class="aha-marketing-cards">\n${marketingCardHeaderHtml(card)}  <ul class="${marketingCardGridClass(card)}">\n${marketingCardItems(card)}\n  </ul>\n${marketingCardCtaHtml(card)}</section>\n`;
 function composeMarketingComponent(b) {
   if (!b.snippets) return b;
   const grid = b.snippets.filter(card => !card.demo).map(card => `    <li>\n${card.html.split('\n').map(line => '      ' + line).join('\n')}\n    </li>`).join('\n');
@@ -3622,11 +3627,11 @@ if (ANTISLOP) {
   );
 }
 
-writeFileSync(join(OUT, 'variables.css'), '/* Generated from tokens.canonical.json — do not edit by hand. */\n' + tokenVars(TOK) + '\n');
+writeFileSync(join(OUT, 'variables.css'), '/* Generated from tokens.canonical.json. Do not edit by hand. */\n' + tokenVars(TOK) + '\n');
 
 /* Importable token layer for real consumers: @ahaslides-product/design/tokens.css + /tokens */
 mkdirSync(join(root, 'lib'), { recursive: true });
-writeFileSync(join(root, 'lib', 'tokens.css'), '/* @ahaslides-product/design/tokens.css — generated from tokens.canonical.json. */\n' + tokenVars(TOK) + '\n');
+writeFileSync(join(root, 'lib', 'tokens.css'), '/* @ahaslides-product/design/tokens.css, generated from tokens.canonical.json. */\n' + tokenVars(TOK) + '\n');
 writeFileSync(join(root, 'lib', 'tokens.js'),
   '// @ahaslides-product/design/tokens — the canonical design tokens (generated from tokens.canonical.json).\n' +
   'export const tokens = ' + JSON.stringify(TOK, null, 2) + ';\n' +
