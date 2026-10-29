@@ -39,3 +39,43 @@ test('an option row with text and a picture puts the picture after the text, and
     answerDomOrder: ['control', 'verdict', 'body', 'picture', 'count'],
   });
 });
+
+const insets = String.raw`(async () => {
+  await new Promise((done) => setTimeout(done, 50));
+  const gaps = (row, picture, next) => {
+    const outer = row.getBoundingClientRect();
+    const inner = picture.getBoundingClientRect();
+    return {
+      top: inner.top - outer.top,
+      right: next ? next.getBoundingClientRect().left - inner.right : outer.right - inner.right,
+      bottom: outer.bottom - inner.bottom,
+    };
+  };
+  const answerGaps = (id) => {
+    const host = document.getElementById(id);
+    return gaps(host.shadowRoot.querySelector('.row'), host.shadowRoot.querySelector('.picture'));
+  };
+  const rank = document.getElementById('rank');
+  const rankGaps = (id) => {
+    const row = rank.shadowRoot.querySelector('[data-option-id="' + id + '"]');
+    return gaps(row, row.querySelector('.picture'), row.querySelector('.controls'));
+  };
+  return { answer: answerGaps('answer'), answerLong: answerGaps('answer-long'), rank: rankGaps('a'), rankLong: rankGaps('c') };
+})()`;
+
+test('a picture beside text has the same gap above it, to its right and below it; a tall row centres it with the same gap to its right', { skip }, async () => {
+  const result = await evaluateInPage(fixture, insets, { readyExpr: '!!window.optionPictureOrderReady', timeout: 45000 });
+  const close = (actual, expected) => assert.ok(Math.abs(actual - expected) < 0.51, actual + ' vs ' + expected);
+  for (const key of ['answer', 'rank']) {
+    const gap = result[key];
+    close(gap.right, gap.top);
+    close(gap.bottom, gap.top);
+  }
+  for (const key of ['answerLong', 'rankLong']) {
+    const gap = result[key];
+    close(gap.top, gap.bottom);
+    assert.ok(gap.top > 0);
+  }
+  close(result.answerLong.right, result.answer.right);
+  close(result.rankLong.right, result.rank.right);
+});
