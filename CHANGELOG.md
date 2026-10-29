@@ -22,6 +22,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.555.0 — 2026-10-29
+### Added
+- Brand guidelines v2.3 (29 October 2026, final) is published at `https://design.ahaslides.io/brand/ahaslides-brand-guidelines-v2.3.pdf`. (#459)
+
+### Fixed
+- The render gate treats the new `brand` output folder as a support folder, not a component page. (#459)
+
+### Changed
+- Brand voice rules: the lede names v2.3 and links the PDF, new rule 16.4 sets the three sources of truth (design system, voice rules online, the PDF) and that the first two win. The colour rules lede carries the same precedence line. (#459)
+
 ## 0.554.1 — 2026-10-29
 ### Fixed
 - Form controls (`aha-counted-input`, `aha-counted-textarea`, `aha-input`, `aha-number-with-unit`, `aha-select`, `aha-autocomplete`, `aha-color-picker`, `aha-segmented`, `aha-tabs`, `aha-rate`, `aha-radio`, `aha-checkbox`, `aha-switch`, `aha-card-select`, `aha-mode-field`, `aha-option-row`, `aha-answer-list`, `aha-rank-list`, `aha-scale-slider`, `aha-audience-image-upload`): a property such as `value`, `checked` or `options` set on the element before its tag was defined used to sit on the element as an own property and shadow the control's setter, so the inner field stayed out of sync and the first keystroke after a re-render wiped the typed text. Each control now moves such a property back through its setter when it connects, through one shared `upgrade-properties.js` helper (#460)
@@ -39,6 +49,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - A node test fails when a marketing blockquote reset leaves the border, when a section title rule has no `display`, or when the Step number rule leaves the Cards base CSS.
 - Supersedes the earlier 0.497.1 attempt. Revert: revert the PR; the sections go back to relying on the host CSS (#438)
+
 
 ## 0.551.0 — 2026-10-29
 ### Added
