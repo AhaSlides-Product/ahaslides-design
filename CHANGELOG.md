@@ -22,10 +22,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.571.1 — 2026-10-29
+## 0.572.1 — 2026-10-29
 ### Removed
 - Every image aspect-ratio requirement is removed from the website rules: W6 no longer makes portrait or square images, or sections of mixed sizes, use the Vivid Pink frame, no longer requires one frame ratio per section (4:3 in a Features row, 3:2 on a card), and the criterion no longer fails a framed landscape image; images show at their own ratio. The Vivid Pink frame stays as an optional look. The `square-image-unframed` screen-lint rule is removed. Rules that protect the image stay: never cropped, never stretched or distorted, screenshots exported tight to the UI (#470)
 - Revert: revert the PR; only website guideline text, the W6 criterion and one eval, the Features and Cards usage text, and one screen-lint rule with its test change. No component CSS changes
+
+## 0.572.0 — 2026-10-29
+### Added
+- Menu and Dropdown: optional `description` on a leaf item (DESY-403). It renders as a second line under the label, 12px in `text-secondary` (`text-disabled` on a disabled row, `text-inverse` while a Dropdown danger row is hovered), one line with an ellipsis, with `part="description"` and linked to the row by `aria-describedby`. The row grows to fit it; the selected tint, danger colour and every state are unchanged, and an item without `description` renders exactly as before. Menu and Dropdown gain a role picker example (Editor "Edit and present", Presenter "Present only, cannot edit"). (#475)
 
 ## 0.571.0 — 2026-10-29
 ### Added
