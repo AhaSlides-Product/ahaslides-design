@@ -22,10 +22,18 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.565.2 — 2026-10-29
+## 0.566.1 — 2026-10-29
 ### Removed
 - Every image aspect-ratio requirement is removed from the website rules: W6 no longer makes portrait or square images, or sections of mixed sizes, use the Vivid Pink frame, no longer requires one frame ratio per section (4:3 in a Features row, 3:2 on a card), and the criterion no longer fails a framed landscape image; images show at their own ratio. The Vivid Pink frame stays as an optional look. The `square-image-unframed` screen-lint rule is removed. Rules that protect the image stay: never cropped, never stretched or distorted, screenshots exported tight to the UI (#470)
 - Revert: revert the PR; only website guideline text, the W6 criterion and one eval, the Features and Cards usage text, and one screen-lint rule with its test change. No component CSS changes
+
+## 0.566.0 — 2026-10-29
+### Changed
+- Audience: in `<aha-answer-option>` and `<aha-rank-list>`, a row with text and a picture now has the same gap above the picture, to its right and below it (answer option 8px: the unused count space is collapsed when the count is off; rank list 6px between the picture and the move buttons). A tall row centres the picture vertically and keeps the same right gap. ([#466](https://github.com/AhaSlides-Product/ahaslides-design/pull/466))
+- Audience: image-only rows in `<aha-answer-option>` and `<aha-rank-list>` now show the whole picture instead of cropping it to a 120px strip: `object-fit: contain`, the box is as tall as the picture's aspect ratio gives (never above 200px, never below 48px) and the letterbox is `--aha-gray-25`. Image-only rows also get equal 8px gaps above, below and to the right of the picture (answer option: the hidden count space is collapsed when the count is off; rank list: 8px between the picture and the move buttons). With a visible count, the count still sits to the right. ([#466](https://github.com/AhaSlides-Product/ahaslides-design/pull/466))
+- Audience: every picture in `<aha-answer-option>` and `<aha-rank-list>` (rows that are not `expandable`) now has the same dark full-picture overlay with the centred expand icon as an `expandable` row (24px icon): it shows on hover or keyboard focus, covers text-and-picture and image-only rows alike, and is a real button named "View larger picture". On touch screens (`hover: none`) the overlay stays hidden and a tap on the picture opens the sheet. It opens the picture large in `<aha-bottom-sheet>` (contained, titled with the option text when there is one) and never selects the option or starts a drag. New `expand-picture-label` attribute (default "View larger picture"); `<aha-bottom-sheet>` / `<aha-audience-modal>` gain `fit-image`, which caps the picture at the viewport height. `expandable` rows keep their existing picture overlay and `expand` event. ([#466](https://github.com/AhaSlides-Product/ahaslides-design/pull/466))
+- Audience: in `<aha-answer-option>` and `<aha-rank-list>` the side controls (radio or checkbox, rank number badge, move up/down buttons, drag handle) and the picture now sit at the vertical middle of a tall row instead of the top, for image-only and long-text rows. ([#466](https://github.com/AhaSlides-Product/ahaslides-design/pull/466))
+- Revert: revert the PR; only the picture alignment and padding of rows with text and a picture, the size and fit of image-only pictures, and the new corner expand button change
 
 ## 0.565.1 — 2026-10-29
 ### Fixed
