@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Option picture order</title>
+</head>
+<body style="width:375px">
+  <aha-answer-option id="answer" image="data:image/gif;base64,R0lGODlhAQABAAAAACw=">Coffee</aha-answer-option>
+  <aha-answer-option id="answer-expandable" expandable image="data:image/gif;base64,R0lGODlhAQABAAAAACw=">Tea</aha-answer-option>
+  <aha-answer-option id="answer-image-only" image="data:image/gif;base64,R0lGODlhAQABAAAAACw="></aha-answer-option>
+  <aha-rank-list id="rank" options='[{"id":"a","label":"Jupiter","image":"data:image/gif;base64,R0lGODlhAQABAAAAACw="},{"id":"b","label":"","image":"data:image/gif;base64,R0lGODlhAQABAAAAACw="}]'></aha-rank-list>
+  <script type="module">
+    await import('../lib/all.js');
+    window.optionPictureOrderReady = true;
+  </script>
+</body>
+</html>

@@ -51,7 +51,7 @@
     },
     {
       "label": "Long text (expandable)",
-      "value": "the same long-text treatment as the answer option: the label clamps to 4 lines, More is a Button link (size sm, underlined, in the deck ink) inside the row only when the text is cut, the 44 picture stays on the left of the text with an expand overlay on hover, and the move buttons and grip keep their place; a one-line option lines up with a default row"
+      "value": "the same long-text treatment as the answer option: the label clamps to 4 lines, More is a Button link (size sm, underlined, in the deck ink) inside the row only when the text is cut, the 44 picture stays after the text, before the move buttons, with an expand overlay on hover, and the move buttons and grip keep their place; a one-line option lines up with a default row"
     }
   ],
   "props": [
