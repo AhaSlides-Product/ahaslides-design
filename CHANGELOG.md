@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.567.0 — 2026-10-29
 ### Added
-- Menu: `borderless` attribute drops the container's border, radius, fill and padding, for a side nav inside a surface that already frames it (a settings modal's left column), so Vue 2 apps no longer need `::part` to remove the box. Rows, group titles, dividers and every state are unchanged. The guidance now says group titles separate side-nav sections with no divider between groups; a divider only rules off a destructive action. ([#NNN](https://github.com/AhaSlides-Product/ahaslides-design/pull/NNN))
+- Menu: `borderless` attribute drops the container's border, radius, fill and padding, for a side nav inside a surface that already frames it (a settings modal's left column), so Vue 2 apps no longer need `::part` to remove the box. Rows, group titles, dividers and every state are unchanged. The guidance now says group titles separate side-nav sections with no divider between groups; a divider only rules off a destructive action. ([#472](https://github.com/AhaSlides-Product/ahaslides-design/pull/472))
 
 ## 0.565.1 — 2026-10-29
 ### Fixed
