@@ -42,7 +42,7 @@ test('the Features sticky stack is pure CSS: no script hook and no animation', (
   assert.doesNotMatch(stack.css + stack.html, /aha-gallery/);
 });
 
-test('each multi-image hero has White, Accent and Vivid Pink states, the Vivid Pink one with the Splash', () => {
+test('each multi-image hero has White and Vivid Pink states, the Vivid Pink one with the Splash', () => {
   for (const slug of multiImageHeroes) {
     const hero = header.layouts.find((layout) => layout.slug === slug);
     assert.deepEqual(hero.states.map((state) => state.modifier), ['', 'brand'], slug);

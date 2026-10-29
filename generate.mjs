@@ -2019,9 +2019,7 @@ const MARKETING_LAYOUT_PREVIEW_SCRIPT = `<script type="module">
 const marketingLayoutPreviewScript = (b) => b.previewModules?.length
   ? MARKETING_LAYOUT_PREVIEW_SCRIPT.replace(JSON.stringify(MARKETING_FRAME_MODULES), JSON.stringify([...MARKETING_FRAME_MODULES, ...b.previewModules]))
   : MARKETING_LAYOUT_PREVIEW_SCRIPT;
-const MARKETING_LAYOUT_STATE_SCRIPT = `<script type="module">
-  (function(){
-    function carriers(doc,prefix,modifiers){
+const MARKETING_STATE_CARRIERS_JS = `function carriers(doc,prefix,modifiers){
       var found=[];
       doc.querySelectorAll('[class*="'+prefix+'"]').forEach(function(el){
         [].slice.call(el.classList).forEach(function(token){
@@ -2033,7 +2031,10 @@ const MARKETING_LAYOUT_STATE_SCRIPT = `<script type="module">
       });
       if(!found.length){var root=doc.querySelector('.'+prefix);if(root)found.push({el:root,prefix:prefix});}
       return found;
-    }
+    }`;
+const MARKETING_LAYOUT_STATE_SCRIPT = `<script type="module">
+  (function(){
+    ${MARKETING_STATE_CARRIERS_JS}
     document.querySelectorAll('.mfv,.mbp').forEach(function(root){
       var seg=root.querySelector('.mbp-state');
       if(!seg)return;
@@ -2196,18 +2197,9 @@ const SECTION_GALLERY_SCRIPT = `<script type="module">
       var template=el&&el.tagName!=='H2'&&el.querySelector('.mbp-doc');
       return template?template.innerHTML:'';
     }
+    ${MARKETING_STATE_CARRIERS_JS}
     function applyDefaultState(doc,prefix,modifier,modifiers){
-      var found=[];
-      doc.querySelectorAll('[class*="'+prefix+'"]').forEach(function(el){
-        [].slice.call(el.classList).forEach(function(token){
-          modifiers.forEach(function(name){
-            var suffix='--'+name;
-            if(token.indexOf(prefix)===0&&token.slice(-suffix.length)===suffix)found.push({el:el,prefix:token.slice(0,-suffix.length)});
-          });
-        });
-      });
-      if(!found.length){var host=doc.querySelector('.'+prefix);if(host)found.push({el:host,prefix:prefix});}
-      found.forEach(function(carrier){modifiers.forEach(function(name){carrier.el.classList.remove(carrier.prefix+'--'+name);});carrier.el.classList.add(carrier.prefix+'--'+modifier);});
+      carriers(doc,prefix,modifiers).forEach(function(carrier){modifiers.forEach(function(name){carrier.el.classList.remove(carrier.prefix+'--'+name);});carrier.el.classList.add(carrier.prefix+'--'+modifier);});
       doc.querySelectorAll('aha-button').forEach(function(button){
         var variant=button.getAttribute('data-variant-'+modifier),surface=button.getAttribute('data-surface-'+modifier);
         if(variant)button.setAttribute('variant',variant);
