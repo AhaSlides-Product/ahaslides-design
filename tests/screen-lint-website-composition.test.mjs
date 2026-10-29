@@ -71,7 +71,7 @@ test('ds-lint-allow opts a composition finding out on its line', () => {
   assert.ok(!flagged('<style>body{font-family:Inter} /* ds-lint-allow: page-font (legacy embed) */</style>'));
 });
 
-test('every shipped marketing snippet, html with its own css, has no ds-class-without-css finding', () => {
+test('every shipped marketing snippet, html with the catalogue css, has no ds-class-without-css finding', () => {
   const snippets = [];
   const visit = (node, label, baseCss = '') => {
     if (Array.isArray(node)) return node.forEach((item) => visit(item, label, baseCss));
@@ -83,8 +83,9 @@ test('every shipped marketing snippet, html with its own css, has no ds-class-wi
   for (const file of readdirSync(new URL('../marketing/', import.meta.url)).filter((entry) => entry.endsWith('.json')))
     visit(JSON.parse(readFileSync(new URL(`../marketing/${file}`, import.meta.url), 'utf8')), file);
   assert.ok(snippets.length > 10);
+  const catalogueCss = snippets.map(([, node]) => node.css).join('\n');
   for (const [label, node] of snippets)
-    assert.deepEqual(rulesOf(`<style>${node.css}</style>${node.html}`).filter((rule) => rule === 'ds-class-without-css'), [], label);
+    assert.deepEqual(rulesOf(`<style>${catalogueCss}</style>${node.html}`).filter((rule) => rule === 'ds-class-without-css'), [], label);
 });
 
 test('a Step card in an ordinary grid fails even when another Steps row exists on the page', () => {

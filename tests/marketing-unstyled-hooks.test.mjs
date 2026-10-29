@@ -11,3 +11,8 @@ test('the generated unstyled-hook module matches the marketing snippets', () => 
   assert.deepEqual(MARKETING_UNSTYLED_HOOKS, collectUnstyledHooks(documents));
   assert.ok(MARKETING_UNSTYLED_HOOKS.length > 0);
 });
+
+test('a hook stays exempt only when no snippet or shared stylesheet styles it', () => {
+  assert.ok(MARKETING_UNSTYLED_HOOKS.includes('aha-faq__list'));
+  assert.ok(!MARKETING_UNSTYLED_HOOKS.includes('aha-marketing-card__text'));
+});
