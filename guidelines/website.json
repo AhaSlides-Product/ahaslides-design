@@ -363,11 +363,11 @@
     },
     {
       "label": "content capped at 1280 px; heading block 720 px; lead text 44ch",
-      "verdict": "consumer self-judges (W3)"
+      "verdict": "screen-lint content-width-uncapped (W3)"
     },
     {
       "label": "one H1; one primary button per section; at most two buttons side by side; hero CTA repeated at the end; label written for the page",
-      "verdict": "consumer self-judges (W4)"
+      "verdict": "screen-lint missing-h1, multiple-h1, multiple-primary-buttons (W4)"
     },
     {
       "label": "band backgrounds follow colour rules 3.2 to 3.5, 3.8 and 3.10; pink hero, white and pale pink body, no grey band",
@@ -375,19 +375,19 @@
     },
     {
       "label": "real images with alt text or the DS placeholder; registry icons; no clip art, emoji icons, blobs or glass",
-      "verdict": "consumer self-judges (W6)"
+      "verdict": "screen-lint img-no-alt, img-empty-alt (W6)"
     },
     {
       "label": "the site header is the Navigation section with <aha-product-lockup>",
-      "verdict": "consumer self-judges (W7)"
+      "verdict": "screen-lint brand-not-lockup, missing-navigation (W7)"
     },
     {
       "label": "no horizontal scroll at 1440, 768 and 375 px; consistent stacking; targets at least 24 px",
-      "verdict": "consumer self-judges (W8)"
+      "verdict": "screen-lint --surface=website --measure (W8)"
     },
     {
       "label": "motion is the DS script only: staggered reveal, light in-frame photo parallax and a fade-and-settle entrance of the photo (the frame never moves), numbers count up from 0, all off under reduced motion; the only loops are the shipped Logos and photo marquees; no scroll-jacking; the one video that plays by itself is the hero's (autoplay, muted, loop, playsinline, a poster, stopped under reduced motion)",
-      "verdict": "consumer self-judges (W9)"
+      "verdict": "screen-lint motion-library, motion-own-script, motion-own-animation (W9)"
     },
     {
       "label": "in an image-led section, every image is at least half the content width and uncropped",
@@ -411,7 +411,7 @@
     },
     {
       "label": "content card links open in a new tab with rel noopener and hidden new-tab text; Sign up and navigation links stay in the same tab",
-      "verdict": "consumer self-judges (W15)"
+      "verdict": "screen-lint card-link-same-tab, new-tab-on-sign-up (W15)"
     },
     {
       "label": "section headings centred when full width over the content, left only when they share a row or column with it; FAQ title centred",

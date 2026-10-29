@@ -179,7 +179,7 @@ test('tags with attributes spread over lines, extra attributes and upper-case na
 
 test('a landing hero left in the White state fails, the Vivid Pink hero and a Page header pass', () => {
   assert.deepEqual(websiteRulesOf(page(band('aha-header-section-hero-split'), band('aha-features'))), ['hero-not-brand']);
-  assert.deepEqual(websiteRulesOf(page(band('aha-header-section-hero-stacked aha-header-section-hero-stacked--accent'))), ['hero-not-brand']);
+  assert.deepEqual(websiteRulesOf(page(band('aha-header-section-hero-stacked aha-header-section-hero-stacked--accent'))), ['removed-layout', 'hero-not-brand']);
   assert.deepEqual(websiteRulesOf(page(band('aha-header-section-hero-split aha-header-section-hero-split--brand'), band('aha-features'))), []);
   assert.deepEqual(websiteRulesOf(page(band('aha-header-section-page'), band('aha-features'))), []);
   assert.deepEqual(websiteRulesOf(page(band('aha-header-section-hero-split') + ' <!-- ds-lint-allow: page (requester asked for white) -->')), []);
