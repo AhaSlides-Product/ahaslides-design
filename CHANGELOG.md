@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.543.0 — 2026-10-29
+## 0.548.0 — 2026-10-29
 ### Added
 - Tokens: four website section spacing levels, `--aha-section-space-block` (Section, 96 px), `--aha-section-space-header` (Header, 64), `--aha-section-space-group` (Group, 48) and `--aha-section-space-item` (Item, 32). Each level is one step below the one above on the ladder 96, 64, 48, 32, 24, 16, and each steps one down when the section's own container is 767 px or narrower and again at 479 px, so a section never switches them itself (#439)
 - Logos: a Vivid Pink background, `aha-logos--brand`, so the strip can sit inside a Vivid Pink hero as its last group (one Group below the hero's content, as under White and Accent sections). The label turns solid white and the logos turn one colour, white, per colour rules 6.4 and 2.6 (#439)
@@ -34,6 +34,13 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Numbers, Centred: the stat row no longer pads 8 px above and below, so the space under the stats is exactly one Section level (#439)
 - Website guideline W2 and its anti-slop criterion: rewritten around the four levels, the one-Section-space rule between neighbouring sections and the Logos rule; a new W2 eval fails two White sections wrapped apart (#439)
 - Revert: revert the PR; the sections go back to their own padding values and breakpoints, the four tokens and the neighbouring-section rule are removed, and the Centred Numbers stats pad 8 px again (#439)
+
+## 0.546.0 — 2026-10-29
+### Changed
+- Hero page: every layout now has White and Vivid Pink only, and Vivid Pink is the default. The Accent surface is gone from all 14 layouts (the `--accent` classes are listed as removed, so screen-lint flags a page that still uses one). (#455)
+- The five Gallery layouts (bento grid, masonry, carousel, marquee rows, tabbed images) gain a Vivid Pink surface on the DS Splash background, with the button on `secondary`, white carousel dots and white tabs, and it is their default. (#455)
+### Fixed
+- The Grid and List thumbnails on a Marketing layouts page now show each layout's default surface; before, every thumbnail rendered White. (#455)
 
 ## 0.541.0 — 2026-10-29
 ### Added
