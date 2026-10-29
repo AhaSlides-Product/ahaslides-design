@@ -39,6 +39,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `screen-lint --surface=website` rules `hero-not-brand` (the first band is a Hero not in the Vivid Pink state), `steps-as-tabs` (a Features Tabs section whose heading, eyebrow or tablist label says how it works or steps, or with numbered tab titles) and `tabs-description-long` (a tab description over 90 characters); escape `ds-lint-allow: page (why)`.
 - Features: new layout Compact: swipeable card scroller with images (`compact-scroller-images`), the scroller with a numbered Step card and a screenshot at the foot of each card (optional image slot, `aha-marketing-card__media--scroller`, ordered-list track); the Features, Steps and W12 guidance now say a how it works with images may use it as well as the Step grid.
 - Revert: revert the PR; the rules go back to "may be Vivid Pink" and the lint drops the three rules (#440); the scroller-with-images layout is removed
+### Fixed
+- Features layouts built from cards now load the Step card styles too, so the numbered badges in the scroller with images render in the preview and the copied snippet (#440).
 
 ## 0.541.0 — 2026-10-29
 ### Added
