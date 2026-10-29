@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.559.0 — 2026-10-29
 ### Changed
-- Audience: `<aha-answer-option>` and `<aha-rank-list>` rows with both a picture and a text label now put the picture after the text (rank list: badge, text, picture, move buttons and grip). DOM order matches visual order. Image-only rows, sizes, gaps, expandable behaviour and verdict styling are unchanged. ([#PRNUM](https://github.com/AhaSlides-Product/ahaslides-design/pull/PRNUM))
+- Audience: `<aha-answer-option>` and `<aha-rank-list>` rows with both a picture and a text label now put the picture after the text (rank list: badge, text, picture, move buttons and grip). DOM order matches visual order. Image-only rows, sizes, gaps, expandable behaviour and verdict styling are unchanged. ([#464](https://github.com/AhaSlides-Product/ahaslides-design/pull/464))
 - Revert: revert the PR; only the order of the picture in the two rows changes
 
 ## 0.557.1 — 2026-10-29
