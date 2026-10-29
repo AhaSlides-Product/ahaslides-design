@@ -1863,6 +1863,11 @@ function marketingCodeToggle(file, code, lead = '', extraPanes = []) {
 }
 const marketingLayoutStates = (b, layout) => layout.states || b.states;
 const marketingLayoutStateClass = (b, layout) => layout.stateClass || layout.class || b.stateClass;
+const marketingDefaultState = (b, layout) => {
+  const states = marketingLayoutStates(b, layout);
+  const initial = states && (states.find(state => state.default) || states[0]);
+  return initial?.modifier ? { className: marketingLayoutStateClass(b, layout), modifier: initial.modifier, modifiers: states.map(state => state.modifier).filter(Boolean) } : null;
+};
 const marketingHasStates = (b, layout) => marketingLayoutStates(b, layout)?.length > 1;
 function marketingStateSwitch(b, layout) {
   if (!marketingHasStates(b, layout)) return '';
@@ -2014,9 +2019,7 @@ const MARKETING_LAYOUT_PREVIEW_SCRIPT = `<script type="module">
 const marketingLayoutPreviewScript = (b) => b.previewModules?.length
   ? MARKETING_LAYOUT_PREVIEW_SCRIPT.replace(JSON.stringify(MARKETING_FRAME_MODULES), JSON.stringify([...MARKETING_FRAME_MODULES, ...b.previewModules]))
   : MARKETING_LAYOUT_PREVIEW_SCRIPT;
-const MARKETING_LAYOUT_STATE_SCRIPT = `<script type="module">
-  (function(){
-    function carriers(doc,prefix,modifiers){
+const MARKETING_STATE_CARRIERS_JS = `function carriers(doc,prefix,modifiers){
       var found=[];
       doc.querySelectorAll('[class*="'+prefix+'"]').forEach(function(el){
         [].slice.call(el.classList).forEach(function(token){
@@ -2028,7 +2031,10 @@ const MARKETING_LAYOUT_STATE_SCRIPT = `<script type="module">
       });
       if(!found.length){var root=doc.querySelector('.'+prefix);if(root)found.push({el:root,prefix:prefix});}
       return found;
-    }
+    }`;
+const MARKETING_LAYOUT_STATE_SCRIPT = `<script type="module">
+  (function(){
+    ${MARKETING_STATE_CARRIERS_JS}
     document.querySelectorAll('.mfv,.mbp').forEach(function(root){
       var seg=root.querySelector('.mbp-state');
       if(!seg)return;
@@ -2151,7 +2157,8 @@ const SECTION_GALLERY_CSS = `
 @media (prefers-reduced-motion:reduce){.sg-thumb{transition:none}}`;
 function sectionGalleryCard(item, pageName) {
   const frameWidth = item.frameWidth || SECTION_GALLERY_FRAME.width;
-  return `<li data-search="${esc(item.searchText.toLowerCase())}"><a class="sg-card" href="#${esc(item.slug)}"><div class="sg-thumb"><iframe class="sg-frame" title="${esc(item.name)} thumbnail" data-frame-width="${frameWidth}" style="width:${frameWidth}px;height:${Math.round(frameWidth * SECTION_GALLERY_FRAME.height / SECTION_GALLERY_FRAME.width)}px" tabindex="-1" aria-hidden="true" scrolling="no"></iframe></div><span class="sg-caption"><b>${esc(item.name)}</b> · ${esc(pageName)}</span></a></li>`;
+  const state = item.defaultState ? ` data-state-class="${esc(item.defaultState.className)}" data-state-modifier="${esc(item.defaultState.modifier)}" data-state-modifiers="${esc(JSON.stringify(item.defaultState.modifiers))}"` : '';
+  return `<li data-search="${esc(item.searchText.toLowerCase())}"><a class="sg-card" href="#${esc(item.slug)}"${state}><div class="sg-thumb"><iframe class="sg-frame" title="${esc(item.name)} thumbnail" data-frame-width="${frameWidth}" style="width:${frameWidth}px;height:${Math.round(frameWidth * SECTION_GALLERY_FRAME.height / SECTION_GALLERY_FRAME.width)}px" tabindex="-1" aria-hidden="true" scrolling="no"></iframe></div><span class="sg-caption"><b>${esc(item.name)}</b> · ${esc(pageName)}</span></a></li>`;
 }
 function sectionGallerySlots(b, items, noun) {
   const options = JSON.stringify([{ value: 'grid', label: 'Grid', icon: 'system-squares-four' }, { value: 'list', label: 'List', icon: 'system-rows' }]);
@@ -2190,11 +2197,22 @@ const SECTION_GALLERY_SCRIPT = `<script type="module">
       var template=el&&el.tagName!=='H2'&&el.querySelector('.mbp-doc');
       return template?template.innerHTML:'';
     }
+    ${MARKETING_STATE_CARRIERS_JS}
+    function applyDefaultState(doc,prefix,modifier,modifiers){
+      carriers(doc,prefix,modifiers).forEach(function(carrier){modifiers.forEach(function(name){carrier.el.classList.remove(carrier.prefix+'--'+name);});carrier.el.classList.add(carrier.prefix+'--'+modifier);});
+      doc.querySelectorAll('aha-button').forEach(function(button){
+        var variant=button.getAttribute('data-variant-'+modifier),surface=button.getAttribute('data-surface-'+modifier);
+        if(variant)button.setAttribute('variant',variant);
+        if(surface)button.setAttribute('surface',surface);
+      });
+    }
     function load(frame){
       if(frame.dataset.loaded)return;
       frame.dataset.loaded='1';
       var slug=frame.closest('.sg-card').getAttribute('href').slice(1);
       frame.srcdoc='<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width='+frame.dataset.frameWidth+'"><style>'+fonts+'html,body{margin:0;overflow:hidden}body{font-family:var(--aha-font-product)}</style></head><body>'+docFor(slug)+'<scr'+'ipt type="module">'+imports+'</scr'+'ipt></body></html>';
+      var card=frame.closest('.sg-card');
+      if(card.dataset.stateModifier)frame.addEventListener('load',function(){applyDefaultState(frame.contentDocument,card.dataset.stateClass,card.dataset.stateModifier,JSON.parse(card.dataset.stateModifiers));});
     }
     var seen=new IntersectionObserver(function(entries){
       entries.forEach(function(entry){if(entry.isIntersecting){load(entry.target);seen.unobserve(entry.target);}});
@@ -2266,7 +2284,7 @@ const SECTION_GALLERY_SCRIPT = `<script type="module">
   })();
   </script>`;
 function renderMarketingLayoutsHtml(b) {
-  const gallery = b.layouts.length > 1 ? sectionGallerySlots(b, b.layouts.map(layout => ({ slug: layout.slug, name: layout.name, searchText: `${layout.name} ${layout.useFor || ''}` })), 'layouts') : { open: '', close: '' };
+  const gallery = b.layouts.length > 1 ? sectionGallerySlots(b, b.layouts.map(layout => ({ slug: layout.slug, name: layout.name, searchText: `${layout.name} ${layout.useFor || ''}`, defaultState: marketingDefaultState(b, layout) })), 'layouts') : { open: '', close: '' };
   const galleryCss = b.layouts.length > 1 ? SECTION_GALLERY_CSS : '';
   const [intro, ...details] = b.highlights?.length ? b.highlights : [b.summary];
   const main = `
