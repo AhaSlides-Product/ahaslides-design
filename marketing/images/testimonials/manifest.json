@@ -1,96 +1,6 @@
 {
-  "$comment": "Source of truth for marketing/images/testimonials/. Every placeholder image in the Testimonials section is a real photo file listed here with its source URL, licence and fetch date. The people in avatar-01 to avatar-05, person-08 and the case study covers are stock models: their names, roles, companies and quotes in the section are fictional. The avatar-quote-* files are real AhaSlides customers shown with their own quotes from ahaslides.com. Refresh by re-fetching sourceUrl and re-cropping (avatars: square crop around the face, 128 px; portraits: 4:5, 600 px wide; webp quality 72-80).",
+  "$comment": "Source of truth for marketing/images/testimonials/. Photos of people, customers and events come only from the AhaSlides Drive photo library or Customer Love, never a stock photo, and every photo entry carries source \"drive\" or \"customer-love\" (standards.mjs fails otherwise). The avatar-quote-* files are real AhaSlides customers shown with their own quotes from ahaslides.com. Every entry lists its source URL, licence and fetch date. Refresh by re-fetching sourceUrl and re-cropping (avatars: square crop around the face, 128 px; webp quality 72-80).",
   "images": [
-    {
-      "file": "avatar-01.webp",
-      "kind": "avatar",
-      "description": "128 px square crop of the same photo",
-      "sourceUrl": "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
-      "sourcePage": "https://unsplash.com/s/photos/portrait",
-      "licence": "Unsplash License (free to use, no attribution required)",
-      "fetched": "2026-10-16",
-      "note": "Stock portrait of a model; the name and quote shown with it in the section are fictional."
-    },
-    {
-      "file": "avatar-02.webp",
-      "kind": "avatar",
-      "description": "128 px square crop of the same photo",
-      "sourceUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d",
-      "sourcePage": "https://unsplash.com/s/photos/portrait",
-      "licence": "Unsplash License (free to use, no attribution required)",
-      "fetched": "2026-10-16",
-      "note": "Stock portrait of a model; the name and quote shown with it in the section are fictional."
-    },
-    {
-      "file": "avatar-03.webp",
-      "kind": "avatar",
-      "description": "128 px square crop of the same photo",
-      "sourceUrl": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80",
-      "sourcePage": "https://unsplash.com/s/photos/portrait",
-      "licence": "Unsplash License (free to use, no attribution required)",
-      "fetched": "2026-10-16",
-      "note": "Stock portrait of a model; the name and quote shown with it in the section are fictional."
-    },
-    {
-      "file": "avatar-04.webp",
-      "kind": "avatar",
-      "description": "128 px square crop of the same photo",
-      "sourceUrl": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e",
-      "sourcePage": "https://unsplash.com/s/photos/portrait",
-      "licence": "Unsplash License (free to use, no attribution required)",
-      "fetched": "2026-10-16",
-      "note": "Stock portrait of a model; the name and quote shown with it in the section are fictional."
-    },
-    {
-      "file": "avatar-05.webp",
-      "kind": "avatar",
-      "description": "128 px square crop of the same photo",
-      "sourceUrl": "https://images.unsplash.com/photo-1544005313-94ddf0286df2",
-      "sourcePage": "https://unsplash.com/s/photos/portrait",
-      "licence": "Unsplash License (free to use, no attribution required)",
-      "fetched": "2026-10-16",
-      "note": "Stock portrait of a model; the name and quote shown with it in the section are fictional."
-    },
-    {
-      "file": "person-08.webp",
-      "kind": "person",
-      "description": "4:5 portrait, 600 px wide",
-      "sourceUrl": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2",
-      "sourcePage": "https://unsplash.com/s/photos/portrait",
-      "licence": "Unsplash License (free to use, no attribution required)",
-      "fetched": "2026-10-16",
-      "note": "Stock portrait of a model; the name and quote shown with it in the section are fictional."
-    },
-    {
-      "file": "cover-workspace.webp",
-      "kind": "cover",
-      "description": "3:2 scene, 720 px wide",
-      "sourceUrl": "https://picsum.photos/id/0/720/480",
-      "sourcePage": "https://unsplash.com/photos/yC-Yzbqy7PY",
-      "photographer": "Alejandro Escamilla",
-      "licence": "Unsplash License (served by Lorem Picsum)",
-      "fetched": "2026-10-16"
-    },
-    {
-      "file": "cover-cafe.webp",
-      "kind": "cover",
-      "description": "3:2 scene, 720 px wide",
-      "sourceUrl": "https://picsum.photos/id/42/720/480",
-      "sourcePage": "https://unsplash.com/photos/KR2mdHJ5qMg",
-      "photographer": "Luke Chesser",
-      "licence": "Unsplash License (served by Lorem Picsum)",
-      "fetched": "2026-10-16"
-    },
-    {
-      "file": "cover-desk.webp",
-      "kind": "cover",
-      "description": "3:2 scene, 720 px wide",
-      "sourceUrl": "https://picsum.photos/id/20/720/480",
-      "sourcePage": "https://unsplash.com/photos/nJdwUHmaY8A",
-      "photographer": "Aleks Dorohovich",
-      "licence": "Unsplash License (served by Lorem Picsum)",
-      "fetched": "2026-10-16"
-    },
     {
       "file": "logo-intel.webp",
       "kind": "logo",
@@ -129,7 +39,8 @@
       "sourcePage": "https://ahaslides.com/slide-types/word-cloud/",
       "licence": "AhaSlides customer photo, shown with the customer's quote as on ahaslides.com",
       "fetched": "2026-10-21",
-      "note": "Jo Patton, Remote Teacher for Church of England: a real quote and photo from the live What our users say section."
+      "note": "Jo Patton, Remote Teacher for Church of England: a real quote and photo from the live What our users say section.",
+      "source": "customer-love"
     },
     {
       "file": "avatar-quote-02.webp",
@@ -139,7 +50,8 @@
       "sourcePage": "https://ahaslides.com/slide-types/word-cloud/",
       "licence": "AhaSlides customer photo, shown with the customer's quote as on ahaslides.com",
       "fetched": "2026-10-21",
-      "note": "Ana Laura Pérez Martínez, Professor, Faculty of Engineering, UNAM: a real quote and photo from the live What our users say section."
+      "note": "Ana Laura Pérez Martínez, Professor, Faculty of Engineering, UNAM: a real quote and photo from the live What our users say section.",
+      "source": "customer-love"
     },
     {
       "file": "avatar-quote-03.webp",
@@ -149,7 +61,8 @@
       "sourcePage": "https://ahaslides.com/slide-types/word-cloud/",
       "licence": "AhaSlides customer photo, shown with the customer's quote as on ahaslides.com",
       "fetched": "2026-10-21",
-      "note": "Mandiaye Ndao, CEO of NeX AFRICA: a real quote and photo from the live What our users say section."
+      "note": "Mandiaye Ndao, CEO of NeX AFRICA: a real quote and photo from the live What our users say section.",
+      "source": "customer-love"
     }
   ]
 }
