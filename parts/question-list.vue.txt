@@ -22,6 +22,8 @@ const notices = ref([{ tone: 'info', paragraphs: [['Question ', { question: 'q1'
     accordion
     multiline
     singlecorrect
+    colordots
+    palette-size="6"
     :questions.prop="quiz"
     :notices.prop="notices"
     @change="quiz = $event.detail.questions"
