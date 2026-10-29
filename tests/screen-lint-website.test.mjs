@@ -50,7 +50,7 @@ test('every image carries alt', () => {
 
 const band = (classes) => `<section class="${classes}"></section>`;
 const page = (...bands) => `<main>\n${bands.join('\n')}\n</main>`;
-const websiteRulesOf = (source) => rulesOf(source).filter((rule) => ['section-eyebrow', 'band-order', 'section-spacing-override', 'removed-layout', 'hero-not-brand', 'tabs-description-long', 'steps-as-tabs'].includes(rule));
+const websiteRulesOf = (source) => rulesOf(source).filter((rule) => ['section-eyebrow', 'band-order', 'section-spacing-override', 'removed-layout', 'hero-not-brand', 'tabs-description-long', 'steps-as-tabs', 'autoplay-video-extra', 'autoplay-video-attributes', 'autoplay-video-motion', 'grey-quote-or-frame', 'square-image-unframed'].includes(rule));
 const fixture = (name) => readFileSync(new URL(`../anti-slop/evals/website/fixtures/${name}/Page.html`, import.meta.url), 'utf8');
 
 test('a section eyebrow fails and a card category label does not', () => {
@@ -113,6 +113,9 @@ test('no current Marketing section ships an eyebrow, the card category label apa
 test('the eval fixtures: both pass pages are clean, the eyebrow fixture and the spacing fixture fail', () => {
   assert.deepEqual(websiteRulesOf(fixture('pass-landing-page')), []);
   assert.deepEqual(websiteRulesOf(fixture('pass-pricing-page')), []);
+  assert.deepEqual(websiteRulesOf(fixture('pass-hero-video')), []);
+  assert.deepEqual(websiteRulesOf(fixture('fail-w9-second-autoplay-video')), ['autoplay-video-extra']);
+  assert.deepEqual(websiteRulesOf(fixture('fail-w9-no-reduced-motion')), ['autoplay-video-motion']);
   assert.ok(websiteRulesOf(fixture('fail-w14-eyebrow')).includes('section-eyebrow'));
   assert.ok(websiteRulesOf(fixture('fail-w2-section-gaps')).includes('section-spacing-override'));
 });
@@ -206,4 +209,60 @@ test('a parallel Tabs heading containing "how to" is not steps, inline markup do
   assert.ok(rulesOf(tabs('<span>How</span> it works', 'Short.')).includes('steps-as-tabs'));
   const long = `<strong>Ask</strong> a question and ${'see the answers arrive from every phone '.repeat(3)}`;
   assert.ok(rulesOf(tabs('One deck', long)).includes('tabs-description-long'));
+});
+
+const videoRulesOf = (source) => rulesOf(source).filter((rule) => rule.startsWith('autoplay-video'));
+const heroWithVideo = (attributes, tail = '') => `<section class="aha-header-section-hero-split aha-header-section-hero-split--brand"><video ${attributes}></video></section>\n<section class="aha-logos"></section>${tail}`;
+const heroVideo = 'autoplay muted loop playsinline poster="p.jpg"';
+const stopScript = '<script type="module" src="lib/marketing-motion.js"></script>';
+
+test('W9: one hero video with autoplay, muted, loop, playsinline, poster and a reduced-motion stop passes', () => {
+  assert.deepEqual(videoRulesOf(heroWithVideo(heroVideo, stopScript)), []);
+  assert.deepEqual(videoRulesOf(heroWithVideo(heroVideo, '<style>@media (prefers-reduced-motion:reduce){video{display:none}}</style>')), []);
+  assert.deepEqual(videoRulesOf(heroWithVideo('controls playsinline poster="p.jpg"')), []);
+});
+
+test('W9: a second autoplaying video, or one outside the hero, fails', () => {
+  assert.ok(videoRulesOf(heroWithVideo(heroVideo, `<video ${heroVideo}></video>${stopScript}`)).includes('autoplay-video-extra'));
+  assert.ok(videoRulesOf(heroWithVideo('controls', `<section class="aha-features"><video ${heroVideo}></video></section>${stopScript}`)).includes('autoplay-video-extra'));
+});
+
+test('W9: an autoplaying video without muted, loop, playsinline or poster fails', () => {
+  for (const missing of ['muted', 'loop', 'playsinline', 'poster="p.jpg"'])
+    assert.ok(videoRulesOf(heroWithVideo(heroVideo.replace(missing, ''), stopScript)).includes('autoplay-video-attributes'), missing);
+});
+
+test('W9: an autoplaying video with no reduced-motion stop fails and ds-lint-allow page silences it', () => {
+  assert.deepEqual(videoRulesOf(heroWithVideo(heroVideo)), ['autoplay-video-motion']);
+  assert.deepEqual(videoRulesOf(heroWithVideo(heroVideo).replace('</video>', '</video><!-- ds-lint-allow: page (demo) -->')), []);
+});
+
+const greyRulesOf = (source) => rulesOf(source).filter((rule) => rule === 'grey-quote-or-frame');
+
+test('DSN-975: light grey on a blockquote, rail or image frame fails', () => {
+  assert.deepEqual(greyRulesOf('<style>.page blockquote{border-left:4px solid #F6F6F6}</style>'), ['grey-quote-or-frame']);
+  assert.deepEqual(greyRulesOf('<style>.quote-rail{background:#f7f7f7}</style>'), ['grey-quote-or-frame']);
+  assert.deepEqual(greyRulesOf('<style>.shot-frame{background-color:#F7F7F7}</style>'), ['grey-quote-or-frame']);
+  assert.deepEqual(greyRulesOf('<blockquote style="background:#F6F6F6">x</blockquote>'), ['grey-quote-or-frame']);
+  assert.deepEqual(greyRulesOf('<div class="photo-frame" style="border-left:2px solid #f7f7f7"></div>'), ['grey-quote-or-frame']);
+});
+
+test('DSN-975: other grey uses and other properties do not trip it', () => {
+  assert.deepEqual(greyRulesOf('<style>.card{background:#F6F6F6}</style>'), []);
+  assert.deepEqual(greyRulesOf('<style>blockquote{color:#F6F6F6;border-left:4px solid var(--aha-vivid-pink-100)}</style>'), []);
+});
+
+const squareRulesOf = (source) => rulesOf(source).filter((rule) => rule === 'square-image-unframed');
+const featuresWith = (inner) => `<section class="aha-features aha-features--alternating-screenshots">${inner}</section>`;
+
+test('DSN-975: a square image outside the pink frame fails, inside it passes', () => {
+  assert.deepEqual(squareRulesOf(featuresWith('<img class="aha-features__visual" src="a.png" alt="x" width="800" height="800">')), ['square-image-unframed']);
+  assert.deepEqual(squareRulesOf(featuresWith('<img class="aha-features__visual" src="a.png" alt="x" style="aspect-ratio:1/1">')), ['square-image-unframed']);
+  assert.deepEqual(squareRulesOf(featuresWith('<div class="aha-features__photo aha-features__photo--pink-frame"><img src="a.png" alt="x" width="800" height="800"></div>')), []);
+});
+
+test('DSN-975: landscape images, small square logos and avatars, and square images outside Features and Cards pass', () => {
+  assert.deepEqual(squareRulesOf(featuresWith('<img src="a.png" alt="x" width="800" height="600">')), []);
+  assert.deepEqual(squareRulesOf(featuresWith('<img class="aha-features__logo" src="a.png" alt="x" width="48" height="48">')), []);
+  assert.deepEqual(squareRulesOf('<section class="aha-header-section-hero-bento"><img src="a.png" alt="x" width="400" height="400"></section>'), []);
 });
