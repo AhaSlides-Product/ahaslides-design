@@ -22,10 +22,18 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.565.1 — 2026-10-29
+## 0.565.2 — 2026-10-29
 ### Removed
 - Every image aspect-ratio requirement is removed from the website rules: W6 no longer makes portrait or square images, or sections of mixed sizes, use the Vivid Pink frame, no longer requires one frame ratio per section (4:3 in a Features row, 3:2 on a card), and the criterion no longer fails a framed landscape image; images show at their own ratio. The Vivid Pink frame stays as an optional look. The `square-image-unframed` screen-lint rule is removed. Rules that protect the image stay: never cropped, never stretched or distorted, screenshots exported tight to the UI (#470)
 - Revert: revert the PR; only website guideline text, the W6 criterion and one eval, the Features and Cards usage text, and one screen-lint rule with its test change. No component CSS changes
+
+## 0.565.1 — 2026-10-29
+### Fixed
+- Testimonials: the author row stays pinned to the card bottom outside the Quote cards grid too. A quote card placed in the Case study carousel track lost the grid subgrid, so authors followed quote length and sat at different heights (LAPA-307 saw a 154px spread); `.aha-testimonials__card--quote` now pins its author with `align-self:end`, and a card body whose last slot is the author pushes it down with `margin-top:auto`. ([#471](https://github.com/AhaSlides-Product/ahaslides-design/pull/471))
+- Features compact layouts: the title keeps its gap to the lead. `margin-bottom:0` now applies only when the title is the header's last child, so a compact header with a lead no longer sets the lead about 4px under the title (20px now, as in every other Features header). ([#471](https://github.com/AhaSlides-Product/ahaslides-design/pull/471))
+### Changed
+- Testimonials guidance and website rule W19: one card anatomy per row. Every card in a row has the same slots in the same order (stars, title, quote, author); a testimonial with no rating or title goes in its own Simple left aligned section; the author row is pinned to the card bottom in the grid and in the carousel. ([#471](https://github.com/AhaSlides-Product/ahaslides-design/pull/471))
+- Revert: revert the PR; `marketing/testimonials.json`, `marketing/features.json` and `anti-slop/criteria.json` return to the previous rules
 
 ## 0.565.0 — 2026-10-29
 ### Added
