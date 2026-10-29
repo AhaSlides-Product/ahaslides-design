@@ -230,7 +230,7 @@
       ]
     },
     {
-      "rule": "Check the page at 1440, 768 and 375 px: no horizontal scroll at any width, multi-column sections stack to one column (one exception: a Comparison table with four or five compared columns keeps its columns on a phone and scrolls sideways inside its own table frame, with the feature column held in place by `position: sticky`; the page itself never scrolls sideways), and a stacked image sits on the same side of its text (above or below) in every section of the page. Calls to action keep the xl button height the sections ship; nothing you can tap is smaller than 24 by 24 px.",
+      "rule": "Check the page at 1440, 768 and 375 px: no horizontal scroll at any width, multi-column sections stack to one column (one exception: a Comparison table with four or five compared columns keeps its columns on a phone and scrolls sideways inside its own table frame, with the feature column held in place by `position: sticky`; the page itself never scrolls sideways), and a stacked image sits below its text (text first) in every section of the page. Calls to action keep the xl button height the sections ship; nothing you can tap is smaller than 24 by 24 px.",
       "ref": [
         "W8"
       ],
