@@ -138,18 +138,19 @@
       ]
     },
     {
-      "rule": "Keep the padding each section ships and never override it. One page gutter: every section's side padding is `--aha-web-gutter`, `--aha-space-64` on desktop, `--aha-space-24` at 767 px and below and `--aha-space-16` at 479 px and below, so the logo, headings, text and buttons of every section sit on one vertical line on a phone. Features, Numbers, Pricing, Testimonials, FAQ and the Footer banner read it on desktop too. Heroes, page headers, the Footer and the Navigation keep their shipped 32 px side padding above 767 px and switch to the gutter at 767 px and below. Vertical padding stays per section: Features, Numbers, Pricing and Testimonials ship `--aha-space-96` on desktop, `--aha-space-48` at 767 px and `--aha-space-32` at 479 px; Logos ships a 32 px vertical. Only backgrounds, full-bleed images and the Logos marquee run edge to edge. A card inside a section (the Footer banner card, step cards) puts its outer edge on the gutter; the Footer banner card pads its own content `--aha-space-24` at 767 px and below and `--aha-space-16` at 479 px and below. Sections sit flush; add no margin, spacer or divider between them.",
+      "rule": "Space every section with the four section spacing levels the sections ship, and never with a value of your own. Section (`--aha-section-space-block`: 96 px, 64 px at 767 px and below, 48 px at 479 px and below) is a section's top and bottom padding. Header (`--aha-section-space-header`: 64, 48, 32) sits below a section's heading block and between a copy column and its media or content column. Group (`--aha-section-space-group`: 48, 32, 24) separates the groups inside a section: stacked feature rows, a closing call to action after a list or grid, the Footer's columns, band and copyright. Item (`--aha-section-space-item`: 32, 24, 16) is the gap between repeated items in a grid, list or track. Each level is one step below the level above on one ladder (96, 64, 48, 32, 24, 16), and each smaller width moves every level one step down; the levels step with the section's own container width, so a section never switches them itself. Spacing inside a component (a card's padding, a title to its text, a button under its own text) is not a level. The visible space between the content of two neighbouring sections is one Section level, never two: where the surface changes, each section keeps its Section padding up to the edge, because the change of background is the divider; where two neighbouring sections share a surface (White and White, Accent and Accent), the second drops its top padding. The token layer (`tokens.css`) applies this to every section that sits directly next to another, keyed on each section's surface, so it holds in any order; sections wrapped in their own element are not neighbours, and keep both paddings. The Footer keeps its top padding after any surface, because its top rule is a divider. The Logos strip is the last group of the section above it: it sits one Group below that section's content and takes that section's surface. A card that holds a whole section (the Footer banner card) pads its content by Header and puts its outer edge on the gutter. One page gutter: every section's side padding is `--aha-web-gutter`, `--aha-space-64` on desktop, `--aha-space-24` at 767 px and below and `--aha-space-16` at 479 px and below, so the logo, headings, text and buttons of every section sit on one vertical line on a phone; Heroes, page headers, the Footer and the Navigation keep their shipped 32 px side padding above 767 px. Only backgrounds, full-bleed images and the Logos marquee run edge to edge. Sections sit flush; add no margin, spacer or divider between them.",
       "ref": [
         "W2"
       ],
       "source": [
+        "tokens.canonical.json — `sectionSpace`, emitted as `--aha-section-space-block`, `-header`, `-group` and `-item`",
         "marketing/*.json — each section's `__inner` padding and its 767 px and 479 px container rules set `--aha-web-gutter`",
         "marketing/footer.json, marketing/navigation.json — the Footer and Navigation side padding",
         "marketing/logos.json — runs edge to edge"
       ]
     },
     {
-      "rule": "Space content from its button by one of two steps, and never by a value of your own. A button directly under its own block's text (Hero, page Header, Footer banner, a Features or Numbers row's actions) sits `--aha-space-32` below it, `--aha-space-24` at 479 px and below. A section-closing call to action after a list or grid (FAQ, Features, Numbers and Testimonials `__cta`) sits `--aha-space-48` below it, `--aha-space-32` at 479 px and below. Buttons in one row keep `--aha-space-12` between them.",
+      "rule": "Space content from its button by one of two steps, and never by a value of your own. A button directly under its own block's text (Hero, page Header, Footer banner, a Features or Numbers row's actions) sits `--aha-space-32` below it, `--aha-space-24` at 479 px and below. A section-closing call to action after a list or grid (FAQ, Features, Numbers and Testimonials `__cta`) sits one Group (`--aha-section-space-group`) below it. Buttons in one row keep `--aha-space-12` between them.",
       "ref": [
         "W2"
       ],
@@ -358,7 +359,7 @@
       "verdict": "consumer self-judges (W1)"
     },
     {
-      "label": "sections keep their shipped padding and the shared side gutter at each width, buttons sit one of the two shipped steps below their text, and nothing sits between sections",
+      "label": "sections keep their shipped spacing levels and the shared side gutter at each width, buttons sit one of the two shipped steps below their text, and nothing sits between sections",
       "verdict": "consumer self-judges (W2)"
     },
     {
