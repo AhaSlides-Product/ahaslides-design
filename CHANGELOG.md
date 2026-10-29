@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.548.0 — 2026-10-29
+## 0.551.0 — 2026-10-29
 ### Added
 - Tokens: four website section spacing levels, `--aha-section-space-block` (Section, 96 px), `--aha-section-space-header` (Header, 64), `--aha-section-space-group` (Group, 48) and `--aha-section-space-item` (Item, 32). Each level is one step below the one above on the ladder 96, 64, 48, 32, 24, 16, and each steps one down when the section's own container is 767 px or narrower and again at 479 px, so a section never switches them itself (#439)
 - Logos: a Vivid Pink background, `aha-logos--brand`, so the strip can sit inside a Vivid Pink hero as its last group (one Group below the hero's content, as under White and Accent sections). The label turns solid white and the logos turn one colour, white, per colour rules 6.4 and 2.6 (#439)
@@ -34,6 +34,35 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Numbers, Centred: the stat row no longer pads 8 px above and below, so the space under the stats is exactly one Section level (#439)
 - Website guideline W2 and its anti-slop criterion: rewritten around the four levels, the one-Section-space rule between neighbouring sections and the Logos rule; a new W2 eval fails two White sections wrapped apart (#439)
 - Revert: revert the PR; the sections go back to their own padding values and breakpoints, the four tokens and the neighbouring-section rule are removed, and the Centred Numbers stats pad 8 px again (#439)
+
+
+## 0.549.0 — 2026-10-29
+### Changed
+- Anti-slop W9 and the website guideline: the hero may carry exactly one video that plays by itself (autoplay, muted, loop, playsinline, a poster, paused under `prefers-reduced-motion`); a second autoplaying video, one outside the hero, a missing attribute or no reduced-motion stop still fails. Hero guidance and the Video slot describe the ambient form. (#452)
+- Anti-slop W6 and the website guideline, Features and Cards: a square image sits in the Vivid Pink frame like a portrait one (only a landscape image fills its slot); a quote, rail or image frame is never light grey (`#F6F6F6`, `#F7F7F7`). (#452)
+### Added
+- Anti-slop W20: the whole page is at most 5000 px at 1440, each Features band at most 800 px, and the Navigation plus Hero fit within 720 px at 1280 x 720. Judged from a render; the lint cannot read heights. (#452)
+- `screen-lint --surface=website` rules `autoplay-video-extra`, `autoplay-video-attributes`, `autoplay-video-motion`, `grey-quote-or-frame` and `square-image-unframed`. `lib/marketing-motion.js` pauses a hero `<video autoplay>` under reduced motion. Four eval cases (hero video control, second autoplay video, no reduced-motion stop, long Features band). (#452)
+- Revert: revert the PR; W9 and W6 go back to "no autoplaying video" and "square fills", W20 and the five lint rules go.
+
+## 0.548.1 — 2026-10-29
+### Changed
+- Brand voice rules: "Our why" (1.1) and the "What we believe" aha-moments paragraph (1.4) now carry the approved page 05 and page 07 wording of the brand guidelines; the duplicate buzz-you-can-feel quote under 1.5 is folded into 1.4. (#457)
+
+## 0.548.0 — 2026-10-29
+### Changed
+- Colour rule 3.5, anti-slop W5 and the website guideline: a landing page's Hero must open in its Vivid Pink state (`--brand`), not the White default of the snippet; the "a white hero is also allowed" line is gone and a white hero is only for a Page header page or a hero the requester names. The Hero guidance carries a "Surface" point saying so.
+- Anti-slop W12, the website guideline, the Features guidance and the Cards Steps note: a numbered how-to or how it works is Step cards (Steps row, a Cards grid for four or more), never Features Tabs; a tab description is one short sentence of 90 characters or fewer. Rebuilding a section keeps every point, step and image: five steps become five Step cards with their images, never fewer.
+### Added
+- `screen-lint --surface=website` rules `hero-not-brand` (the first band is a Hero not in the Vivid Pink state), `steps-as-tabs` (a Features Tabs section whose heading, eyebrow or tablist label says how it works or steps, or with numbered tab titles) and `tabs-description-long` (a tab description over 90 characters); escape `ds-lint-allow: page (why)`.
+- Features: new layout Compact: swipeable card scroller with images (`compact-scroller-images`), the scroller with a numbered Step card and a screenshot at the foot of each card (optional image slot, `aha-marketing-card__media--scroller`, ordered-list track); the Features, Steps and W12 guidance now say a how it works with images may use it as well as the Step grid.
+- Revert: revert the PR; the rules go back to "may be Vivid Pink" and the lint drops the three rules (#440); the scroller-with-images layout is removed
+### Fixed
+- Features layouts built from cards now load the Step card styles too, so the numbered badges in the scroller with images render in the preview and the copied snippet (#440).
+
+## 0.547.0 — 2026-10-29
+### Added
+- `screen-lint --surface=website` hard-fails seven more website guideline rules: W3 `content-width-uncapped` (section container over 1280 px, heading block over 720 px, lead over 44ch), W4 `missing-h1` and `multiple-primary-buttons`, W6 `img-empty-alt` (an empty alt on a picture that is not decorative), W7 `brand-not-lockup` and `missing-navigation`, W9 `motion-library`, `motion-own-script` and `motion-own-animation`, and W15 `card-link-same-tab` and `new-tab-on-sign-up`. W8 is `--measure`, which now renders a website page at 375, 768 and 1440 px. The matching `selfCheck` verdicts and anti-slop criteria name the new rules. (#456)
 
 ## 0.546.0 — 2026-10-29
 ### Changed

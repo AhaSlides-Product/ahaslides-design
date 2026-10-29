@@ -1573,7 +1573,9 @@ const marketingSnippet = (b) => withBuildSite(`<style>\n${b.css || ''}\n</style>
 const marketingPreviewAssets = (b, snippet) => b.imagePath ? snippet.replaceAll(`${SITE}/marketing/`, '../').replaceAll(`${SITE}/logo/`, '../../logo/') : snippet;
 const marketingFeatureCardCss = () => {
   const cards = JSON.parse(read(join(MDIR, 'cards.json')));
-  return (cards.baseCss || '') + (cards.snippets.find(card => card.slug === 'feature')?.css || '');
+  return (cards.baseCss || '') + ['feature', 'step']
+    .map(slug => cards.snippets.find(card => card.slug === slug)?.css || '')
+    .join('');
 };
 const marketingLayoutSnippet = (b, layout) => withBuildSite(`<style>\n${b.baseCss || ''}${layout.cards ? marketingFeatureCardCss() : ''}${layout.css || ''}</style>\n${layout.html || ''}\n`);
 function composeMarketingLayouts(b) {
