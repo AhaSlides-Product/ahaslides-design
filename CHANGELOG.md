@@ -22,6 +22,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.553.0 — 2026-10-29
+### Fixed
+- Marketing sections no longer pick up the Webflow site's base CSS. Testimonials and Cards clear the quote border (a grey stripe on the left of every quote from `blockquote{border-left:5px solid #e2e2e2}`), and every section title rule (Hero, Features, Numbers, Pricing, Testimonials, FAQ, Comparison, Footer banner) sets `display:block`, so a host `h2{display:flex;text-align:left}` can no longer pull a centred title off-centre.
+- Step card: the pink number badge rule (`.aha-marketing-card__number`) now ships in the Cards base CSS, so every section that embeds Cards carries it and a pasted Steps row keeps its badge.
+### Added
+- A node test fails when a marketing blockquote reset leaves the border, when a section title rule has no `display`, or when the Step number rule leaves the Cards base CSS.
+- Supersedes the earlier 0.497.1 attempt. Revert: revert the PR; the sections go back to relying on the host CSS (#438)
+
 ## 0.551.0 — 2026-10-29
 ### Added
 - Tokens: four website section spacing levels, `--aha-section-space-block` (Section, 96 px), `--aha-section-space-header` (Header, 64), `--aha-section-space-group` (Group, 48) and `--aha-section-space-item` (Item, 32). Each level is one step below the one above on the ladder 96, 64, 48, 32, 24, 16, and each steps one down when the section's own container is 767 px or narrower and again at 479 px, so a section never switches them itself (#439)
