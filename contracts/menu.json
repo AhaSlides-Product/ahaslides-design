@@ -26,6 +26,7 @@
     { "name": "items", "type": "JSON tree", "default": "[]", "desc": "Rows. Leaf {key,label,icon?,disabled?,danger?}; submenu {key,label,icon?,children:[]}; section {type:'group',label,children:[]}; rule {type:'divider'}" },
     { "name": "value", "type": "string", "default": "—", "desc": "The selected item's key (brand-tinted row)" },
     { "name": "mode", "type": "'vertical' | 'inline' | 'horizontal'", "default": "vertical", "desc": "Layout: compact list · indented sidebar tree · top nav bar" },
+    { "name": "borderless", "type": "boolean", "default": "false", "desc": "Drop the container's border, radius, fill and padding, for a side nav inside a surface that already frames it (a settings modal's left column). Rows, group titles and dividers are unchanged" },
     { "name": "select", "type": "CustomEvent", "default": "—", "desc": "Composed event on selection, detail { key }" }
   ],
   "opinion": {
@@ -34,7 +35,7 @@
       { "what": "Tabs", "when": "switching horizontal views within one screen" },
       { "what": "Dropdown", "when": "the same list should sit inside a triggered overlay, not inline" }
     ],
-    "note": "One selection at a time — reserve the brand tint for the active row. Keep labels short and in sentence case. Group related rows under a title; rule off a destructive action with a divider and mark it danger. For a triggered overlay, put a Menu inside a Dropdown rather than reinventing the list.",
+    "note": "One selection at a time — reserve the brand tint for the active row. Keep labels short and in sentence case. Group related rows under a title: the title and its top spacing separate the sections, so a side nav needs no divider between groups. Rule off a destructive action with a divider and mark it danger. A side nav inside a framed surface (a settings modal) takes `borderless` so it carries no second box. For a triggered overlay, put a Menu inside a Dropdown rather than reinventing the list.",
     "dsv3": "COVERED — enumerated from the DS V3 Menu component-set taxonomy: Menu / Submenu/Inline, Menu Item / Inline / Group Title, / Inline / Navigation Item, / Horizontal menu, / Sidebar menu / Highest level, / Vertical / Popover Menu — i.e. the family carries modes (horizontal · inline/sidebar · vertical popover), group titles, submenus, navigation items, disabled + danger rows. Token layer: white surface, border #E3E3E3, bg-accent selected fill, color-primary label, color-error danger, text-tertiary group title, radius-default 8. Motion bound to the shared motion tokens on persistent nodes."
   },
   "surfaces": ["editor", "dashboard", "settings", "admin"],
@@ -51,6 +52,10 @@
         { "label": "Vertical", "value": "vertical" },
         { "label": "Inline", "value": "inline" },
         { "label": "Horizontal", "value": "horizontal" }
+      ] },
+      { "prop": "borderless", "label": "Borderless", "default": "off", "options": [
+        { "label": "Off", "value": null },
+        { "label": "On", "value": "" }
       ] },
       { "prop": "items", "label": "Content", "options": [
         { "label": "App navigation", "value": "[{\"key\":\"home\",\"label\":\"Home\",\"icon\":\"system-house\"},{\"key\":\"presentations\",\"label\":\"My Presentations\",\"icon\":\"system-presentation-chart\"},{\"key\":\"templates\",\"label\":\"Template Library\",\"icon\":\"system-squares-four\"},{\"key\":\"shared\",\"label\":\"Shared Presentations\",\"icon\":\"system-share-network\"},{\"key\":\"plan\",\"label\":\"My Plan\",\"icon\":\"system-plan\"},{\"key\":\"integrations\",\"label\":\"Integration Center\",\"icon\":\"system-link\"},{\"key\":\"team\",\"label\":\"Team Management\",\"icon\":\"system-users\"}]" },
