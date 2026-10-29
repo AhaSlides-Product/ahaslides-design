@@ -22,11 +22,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.558.0 — 2026-10-29
+## 0.560.0 — 2026-10-29
 ### Added
 - `<aha-option-row>` opt-in `colordot` + `colorindex`: a 12px decorative dot before the text, filled from the deck palette (`--aha-deck-palette-<n>`), neutral grey without one. `<aha-question-list>` gains `colordots` + `palette-size`, so option n takes colour ((n-1) % palette-size) + 1 by position. ([#463](https://github.com/AhaSlides-Product/ahaslides-design/pull/463))
 ### Changed
 - `<aha-option-row>` right padding is 4px (was 10px): padding is now 3 4 3 10, and the focused correct row 2 3 2 9 so nothing shifts. ([#463](https://github.com/AhaSlides-Product/ahaslides-design/pull/463))
+
+## 0.559.0 — 2026-10-29
+### Changed
+- Audience: `<aha-answer-option>` and `<aha-rank-list>` rows with both a picture and a text label now put the picture after the text (rank list: badge, text, picture, move buttons and grip). DOM order matches visual order. Image-only rows, sizes, gaps, expandable behaviour and verdict styling are unchanged. ([#464](https://github.com/AhaSlides-Product/ahaslides-design/pull/464))
+- Revert: revert the PR; only the order of the picture in the two rows changes
 
 ## 0.557.1 — 2026-10-29
 ### Changed

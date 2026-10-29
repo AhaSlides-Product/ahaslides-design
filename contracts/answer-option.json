@@ -45,7 +45,7 @@
     },
     {
       "label": "Long text (expandable)",
-      "value": "label clamps to 4 lines; More is a Button link (size sm, underlined, in the deck ink) under the text inside the card, only when the text is cut; the 44 picture stays on the left of the text exactly as on a default row (same size, 12 gap, 8 radius) and a 50% black overlay with a 24 expand arrow shows on hover and keyboard focus; a one-line option lines up pixel for pixel with a default row"
+      "value": "label clamps to 4 lines; More is a Button link (size sm, underlined, in the deck ink) under the text inside the card, only when the text is cut; the 44 picture stays after the text exactly as on a default row (same size, 12 gap, 8 radius) and a 50% black overlay with a 24 expand arrow shows on hover and keyboard focus; a one-line option lines up pixel for pixel with a default row"
     }
   ],
   "props": [
@@ -71,13 +71,13 @@
       "name": "image",
       "type": "url",
       "default": "—",
-      "desc": "A picture that fills its slot (cover): a thumbnail before the label, or a full tile with no label"
+      "desc": "A picture that fills its slot (cover): a thumbnail after the label, or a full tile with no label"
     },
     {
       "name": "expandable",
       "type": "boolean",
       "default": "false",
-      "desc": "The long-text variant: the label clamps to 4 lines, a More link (Button link) sits inside the card when the text is cut, the picture stays on the left with a dark expand overlay on hover"
+      "desc": "The long-text variant: the label clamps to 4 lines, a More link (Button link) sits inside the card when the text is cut, the picture stays after the text with a dark expand overlay on hover"
     },
     {
       "name": "selected / correct",
