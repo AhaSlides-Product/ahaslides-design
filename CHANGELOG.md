@@ -26,6 +26,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - Brand guidelines v2.3 (29 October 2026, final) is published at `https://design.ahaslides.io/brand/ahaslides-brand-guidelines-v2.3.pdf`. (#459)
 
+### Fixed
+- The render gate treats the new `brand` output folder as a support folder, not a component page. (#459)
+
 ### Changed
 - Brand voice rules: the lede names v2.3 and links the PDF, new rule 16.4 sets the three sources of truth (design system, voice rules online, the PDF) and that the first two win. The colour rules lede carries the same precedence line. (#459)
 
