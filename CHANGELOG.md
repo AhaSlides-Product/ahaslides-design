@@ -28,6 +28,12 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Changed
 - Website guideline and judge criteria W1, W2, W9, W10, W12 and W14 state the same six checks and say which part only a render can verify (the measured gap at each width, a font set by a linked stylesheet, whether a section is text-led with four or more points). New eval case 30 (`fail-w10-wordy-cards`) covers the Cards word limit.
 
+## 0.541.0 — 2026-10-29
+### Added
+- Brand voice rules: rule 14.2 lets a retired phrase stay as a search keyword that a specific page or ad targets (page title, H1, URL, ad headline), never as a description of AhaSlides. The Google Ads landing page /features/interactive-presentation-tool/ is the example. (#450)
+### Changed
+- Brand voice rules, section 14: "interactive presentation tool" and "live audience engagement platform" join the retired wording table, and the copy lint (`retired-wording`) now catches them. A keyword-target page marks its lines with `ds-lint-allow: retired-wording (14.2, keyword target: ...)`.
+
 ## 0.540.0 — 2026-10-28
 ### Changed
 - Marketing: the Header page is now Hero (`marketing/hero/`, `marketing/hero.json`). `marketing/header/` stays as a redirect to it, and `marketing/hero.md` and `hero.agent.json` replace the `header` feed files. The Navigation site header and the Page header layout keep their names.
