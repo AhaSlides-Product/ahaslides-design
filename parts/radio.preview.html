@@ -22,6 +22,24 @@
     <aha-radio name="plan" value="free" variant="card">Free</aha-radio>
   </div>
 
+  <div class="lbl">Help "?" and locked crown after the label</div>
+  <div class="stack" role="radiogroup" aria-label="Export format">
+    <aha-radio name="exp" value="pdf" checked help="A print-ready file with every slide.">PDF</aha-radio>
+    <aha-radio name="exp" value="csv" help="Responses only, one row per participant.">Spreadsheet</aha-radio>
+    <aha-radio name="exp" value="video" locked plan="pro" feature-key="export_video" upgrade-body="Export your deck as a video.">Video</aha-radio>
+  </div>
+
+  <div class="lbl">Help and locked on the card and button variants</div>
+  <div class="stack" role="radiogroup" aria-label="Plan" style="max-width:360px">
+    <aha-radio name="plan2" value="a" variant="card" checked help="Billed yearly." description="For teams.">Team</aha-radio>
+    <aha-radio name="plan2" value="b" variant="card" locked plan="pro" feature-key="sso" upgrade-body="Single sign-on for your organisation." description="Sign in with your company account.">Single sign-on</aha-radio>
+  </div>
+  <div class="row" role="radiogroup" aria-label="View" style="gap:0;margin-top:12px">
+    <aha-radio name="view2" value="grid" variant="button" checked help="Thumbnails in a grid.">Grid</aha-radio>
+    <aha-radio name="view2" value="list" variant="button" help="One slide per row.">List</aha-radio>
+    <aha-radio name="view2" value="board" variant="button" locked plan="pro" feature-key="board">Board</aha-radio>
+  </div>
+
   <div class="lbl">Small and disabled</div>
   <div class="row">
     <aha-radio name="sz" value="a" size="small" checked>Small on</aha-radio>

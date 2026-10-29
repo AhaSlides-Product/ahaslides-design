@@ -22,11 +22,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.560.0 — 2026-10-29
+## 0.561.0 — 2026-10-29
 ### Added
 - `<aha-option-row>` opt-in `colordot` + `colorindex`: a 12px decorative dot before the text, filled from the deck palette (`--aha-deck-palette-<n>`), neutral grey without one. The dot and the correct toggle never show together: `colordot` is ignored on a `correctable` row. `<aha-question-list>` gains `colordots` + `palette-size` for unscored lists (Poll): option n takes colour ((n-1) % palette-size) + 1 by position and the rows show the dot instead of the correct toggle. ([#463](https://github.com/AhaSlides-Product/ahaslides-design/pull/463))
 ### Changed
 - `<aha-option-row>` right padding is 4px (was 10px): padding is now 3 4 3 10, and the focused correct row 2 3 2 9 so nothing shifts. ([#463](https://github.com/AhaSlides-Product/ahaslides-design/pull/463))
+
+## 0.560.0 — 2026-10-29
+### Added
+- Radio and Checkbox: new `help` attribute shows the muted "?" tooltip after the label, and `locked` (with `plan`, `feature-key`, `upgrade-body`, same as Setting row) shows the crown paywall instead. Works on every Radio variant (dot, card, button) and on each option of a group. A click on the icon, or on a locked option, never selects or ticks; a locked option opens the paywall on click or Space, sends no `change`, and arrow keys skip it. The help text is the option's accessible description, with no extra tab stop. Contracts, snippets and previews updated. ([#465](https://github.com/AhaSlides-Product/ahaslides-design/pull/465))
+- Revert: revert the PR; without the new attributes nothing in Radio or Checkbox changes
 
 ## 0.559.0 — 2026-10-29
 ### Changed
