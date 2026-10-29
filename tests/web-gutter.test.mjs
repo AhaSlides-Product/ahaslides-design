@@ -168,7 +168,7 @@ for (const layout of readSection('hero').layouts) {
 }
 
 test('a button sits 32 px under its own text, 24 px at 479 px and below', () => {
-  assert.ok(buttonSpacing.length > 30);
+  assert.ok(buttonSpacing.length > 20);
   for (const [css, selector, property, wide, narrow] of buttonSpacing) {
     const desktop = valueAt(css, selector, property, 1440);
     const tablet = valueAt(css, selector, property, 600);

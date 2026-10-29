@@ -8,16 +8,16 @@ const script = readFileSync(new URL('../lib/marketing-motion.js', import.meta.ur
 const header = readSection('hero');
 const galleryLayouts = header.layouts.filter((layout) => layout.slug.startsWith('gallery-'));
 const features = readSection('features');
-const multiImageHeroes = ['hero-photo-stack', 'hero-bento-collage', 'hero-image-marquee', 'hero-slideshow', 'hero-floating-images'];
+const multiImageHeroes = ['hero-photo-stack', 'hero-image-marquee', 'hero-slideshow', 'hero-floating-images'];
 const ownCss = (css) => css.slice(css.indexOf('\n', css.indexOf('__visually-hidden{')) + 1);
 const layouts = [
   ...header.layouts.filter((layout) => multiImageHeroes.includes(layout.slug)).map((layout) => ({ ...layout, css: ownCss(layout.css) })),
   ...galleryLayouts,
 ];
 
-test('the five multi-image heroes and five Header gallery layouts ship, and the sticky stack is a Features layout', () => {
-  assert.equal(layouts.length, 10);
-  assert.deepEqual(galleryLayouts.map((layout) => layout.slug), ['gallery-bento', 'gallery-masonry', 'gallery-carousel', 'gallery-marquee-rows', 'gallery-tabs']);
+test('the four multi-image heroes and four Header gallery layouts ship, and the sticky stack is a Features layout', () => {
+  assert.equal(layouts.length, 8);
+  assert.deepEqual(galleryLayouts.map((layout) => layout.slug), ['gallery-masonry', 'gallery-carousel', 'gallery-marquee-rows', 'gallery-tabs']);
   assert.ok(features.layouts.some((layout) => layout.slug === 'sticky-stack'));
   assert.equal(header.layouts.some((layout) => layout.slug.includes('sticky')), false);
 });
