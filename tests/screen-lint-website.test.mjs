@@ -214,7 +214,7 @@ test('a parallel Tabs heading containing "how to" is not steps, inline markup do
 const videoRulesOf = (source) => rulesOf(source).filter((rule) => rule.startsWith('autoplay-video'));
 const heroWithVideo = (attributes, tail = '') => `<section class="aha-header-section-hero-split aha-header-section-hero-split--brand"><video ${attributes}></video></section>\n<section class="aha-logos"></section>${tail}`;
 const heroVideo = 'autoplay muted loop playsinline poster="p.jpg"';
-const stopScript = '<script type="module" src="lib/marketing-motion.js"></script>';
+const stopScript = '<script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.543.0/lib/marketing-motion.js"></script>';
 
 test('W9: one hero video with autoplay, muted, loop, playsinline, poster and a reduced-motion stop passes', () => {
   assert.deepEqual(videoRulesOf(heroWithVideo(heroVideo, stopScript)), []);
@@ -265,4 +265,20 @@ test('DSN-975: landscape images, small square logos and avatars, and square imag
   assert.deepEqual(squareRulesOf(featuresWith('<img src="a.png" alt="x" width="800" height="600">')), []);
   assert.deepEqual(squareRulesOf(featuresWith('<img class="aha-features__logo" src="a.png" alt="x" width="48" height="48">')), []);
   assert.deepEqual(squareRulesOf('<section class="aha-header-section-hero-bento"><img src="a.png" alt="x" width="400" height="400"></section>'), []);
+});
+
+test('W9: a reduced-motion rule that does not target the video, or an older motion script, is no stop', () => {
+  assert.deepEqual(videoRulesOf(heroWithVideo(heroVideo, '<style>@media(prefers-reduced-motion:reduce){.button{transition:none}}</style>')), ['autoplay-video-motion']);
+  assert.deepEqual(videoRulesOf(heroWithVideo(heroVideo, '<script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.341.0/lib/marketing-motion.js"></script>')), ['autoplay-video-motion']);
+  assert.deepEqual(videoRulesOf(heroWithVideo(heroVideo, '<script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.600.1/lib/marketing-motion.js"></script>')), []);
+  assert.deepEqual(videoRulesOf(heroWithVideo(heroVideo, '<script>if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.querySelector("video").pause();</script>')), []);
+  assert.deepEqual(videoRulesOf(heroWithVideo(heroVideo, '<style>@media (prefers-reduced-motion:reduce){.a{transition:none}.hero video{display:none}}</style>')), []);
+});
+
+test('W9: the hero is found by its class and its closing tag, not by position', () => {
+  const clip = `<video ${heroVideo}></video>`;
+  assert.ok(videoRulesOf(`<section class="aha-header-section-hero-split"></section>${clip}${stopScript}`).includes('autoplay-video-extra'));
+  assert.ok(videoRulesOf(`<section class="aha-features">${clip}</section><section class="aha-header-section-hero-split"></section>${stopScript}`).includes('autoplay-video-extra'));
+  assert.ok(videoRulesOf(`<section class="aha-features">${clip}</section>${stopScript}`).includes('autoplay-video-extra'));
+  assert.deepEqual(videoRulesOf(`<section class="aha-features"></section><section class="aha-header-section-hero-split"><div>${clip}</div></section>${stopScript}`), []);
 });
