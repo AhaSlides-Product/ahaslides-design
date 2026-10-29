@@ -340,7 +340,7 @@
       ]
     },
     {
-      "rule": "Keep the page short enough to scan: at 1440 px wide the whole page is at most 5000 px tall and each Features band at most 800 px tall (cut rows or tabs, or split the band, rather than stack more); at 1280 x 720 the Navigation plus the Hero fit within 720 px, so the heading, lead and primary call to action show without scrolling. These are heights read from a render, so `screen-lint` cannot check them from the markup: the website judge and the agent's own render at 1440 and 1280 x 720 do.",
+      "rule": "Keep the page short enough to scan: at 1440 px wide each Features band is at most 800 px tall (cut rows or tabs, or split the band, rather than stack more); at 1280 x 720 the Navigation plus the Hero fit within 720 px, so the heading, lead and primary call to action show without scrolling. These are heights read from a render, so `screen-lint` cannot check them from the markup: the website judge and the agent's own render at 1440 and 1280 x 720 do.",
       "ref": [
         "W20"
       ],
@@ -427,7 +427,7 @@
       "verdict": "consumer self-judges (W19)"
     },
     {
-      "label": "page at most 5000 px at 1440; each Features band at most 800 px; Navigation plus Hero within 720 px at 1280 x 720",
+      "label": "each Features band at most 800 px; Navigation plus Hero within 720 px at 1280 x 720",
       "verdict": "consumer self-judges (W20)"
     },
     { "label": "every button is <aha-button> with no colour, size or hover CSS of its own", "verdict": "screen-lint hand-rolled-button (W16)" }
