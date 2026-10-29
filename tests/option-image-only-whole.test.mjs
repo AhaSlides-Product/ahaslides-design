@@ -50,3 +50,38 @@ test('an image-only row shows the whole picture: contained, as tall as the pictu
     assert.ok(landscape.boxHeight > 120, 'landscape is taller than the old 120px strip');
   }
 });
+
+const insets = String.raw`(async () => {
+  await new Promise((done) => setTimeout(done, 100));
+  const gaps = (row, picture, next) => {
+    const outer = row.getBoundingClientRect();
+    const inner = picture.getBoundingClientRect();
+    return {
+      top: inner.top - outer.top,
+      right: next ? next.getBoundingClientRect().left - inner.right : outer.right - inner.right,
+      bottom: outer.bottom - inner.bottom,
+    };
+  };
+  const answer = (id) => {
+    const root = document.getElementById(id).shadowRoot;
+    return gaps(root.querySelector('.row'), root.querySelector('.picture'));
+  };
+  const rank = document.getElementById('rank').shadowRoot;
+  const rankGaps = (id) => {
+    const row = rank.querySelector('[data-option-id="' + id + '"]');
+    return gaps(row, row.querySelector('.picture'), row.querySelector('.controls'));
+  };
+  return {
+    answer: [answer('answer-portrait'), answer('answer-square'), answer('answer-landscape')],
+    rank: ['portrait', 'square', 'landscape'].map(rankGaps),
+  };
+})()`;
+
+test('an image-only row has the same gap above, below and to the right of the picture (rank list: to the move buttons)', { skip }, async () => {
+  const result = await evaluateInPage(fixture, insets, { readyExpr: '!!window.wholePictureReady', timeout: 45000 });
+  for (const gap of [...result.answer, ...result.rank]) {
+    assert.ok(Math.abs(gap.top - 8) < 0.51, 'top ' + gap.top);
+    assert.ok(Math.abs(gap.right - 8) < 0.51, 'right ' + gap.right);
+    assert.ok(Math.abs(gap.bottom - 8) < 0.51, 'bottom ' + gap.bottom);
+  }
+});
