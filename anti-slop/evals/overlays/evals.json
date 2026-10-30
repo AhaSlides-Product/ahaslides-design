@@ -255,6 +255,50 @@
         "id": 10,
         "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
       }
+    },
+    {
+      "id": 11,
+      "prompt": "Review this share drawer. Next to the \"Editors\" label at the drawer's left edge sits a hand-made help hint: `<span class=\"hint\">?<span class=\"bubble\" style=\"position:absolute; right:calc(100% + 8px)\">Editors can change slides and invite other people</span></span>` inside `<Drawer styles={{ body: { overflow: 'auto' } }}>`. The screenshot shows the bubble cut off at the drawer's left edge.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C8 — an overlay clipped by its panel: a hand-positioned bubble on a fixed side, cut off at the drawer edge",
+      "expected_output": "C8 FAILs. The help bubble is hand-positioned to the left of a trigger at the drawer's left edge, so the drawer's overflow cuts it off. Fix: use <aha-tooltip help text=\"…\">, which moves to the side with room inside the drawer and slides along it. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C8 is marked FAIL",
+        "Cites the bubble cut off at the drawer edge",
+        "Names <aha-tooltip> as the fix"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C8": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "DESY-413 — DS-authored case for the clipped-overlay criterion"
+      }
+    },
+    {
+      "id": 12,
+      "prompt": "Review this share drawer. The \"Editors\" label at the drawer's left edge has `<aha-tooltip help text=\"Editors can change slides and invite other people\"></aha-tooltip>` beside it; the drawer is a right-placed Drawer with responsive width and destroyOnClose. Screenshots of the open tooltip at 1280 and 375 show the whole bubble inside the drawer.",
+      "files": [],
+      "label": "good-control",
+      "notes": "C8 — the DS tooltip repositions inside its panel, nothing clipped",
+      "expected_output": "C8 PASSes: the DS tooltip repositions inside the drawer and the screenshots show the whole bubble. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C8 is marked PASS"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C8": "PASS"
+        }
+      },
+      "source": {
+        "authored": "DESY-413 — DS-authored good control for the clipped-overlay criterion"
+      }
     }
   ]
 }

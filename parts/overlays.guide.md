@@ -63,8 +63,14 @@ Never close a destructive overlay before its action resolves, and **never fire-a
 - **Never** stack a second modal on top, and **never** downgrade the error to a transient toast.
 - The overlay **remains open on failure** so the user can retry without re-opening.
 
+## Nothing is clipped
+
+- A tooltip, popover or menu inside a drawer, modal or scroll area shows its **whole bubble**, also when its trigger sits at the panel's edge or the screen's edge.
+- Use `<aha-tooltip>`: it moves to the side of its trigger that has room inside its clipping panel, then slides along that side, with the arrow kept on the trigger. Its `placement` stays the preference.
+- `<aha-popover flip>` and `<aha-dropdown>` open on the roomier side. **Never** hand-position a bubble on a fixed side.
+
 ---
 
 *Full detail, the `DeleteSurveyConfirmModal` / `RespondentReportDrawer` references, and the
-`OVERLAY-01..08` assertions live in the DS `overlays` guide. Self-check any built
+`OVERLAY-01..09` assertions live in the DS `overlays` guide. Self-check any built
 overlay with the DS anti-slop judge (`overlays` surface) and fix every FAIL before shipping.*
