@@ -20,7 +20,7 @@
     { "label": "Trigger mode", "value": "click (default) or hover" },
     { "label": "Open motion", "value": "opacity + translateY on a persistent node (motion-mid + ease-out)" },
     { "label": "Item", "value": "min-height 40 · padding 8 12 · radius 4 · 10px gap to a 16px leading icon in icon-default #4A4A4A · label Regular 400 · hover bg-hover #F7F7F7 (neutral, not a brand tint)" },
-    { "label": "Description", "value": "optional second line, 4px below the label: size-sm 12px / 16px line, text-secondary #4A4A4A (text-disabled on a disabled row, text-inverse while a danger row is hovered), wraps onto as many lines as it needs, never truncated; the row grows to fit; part=description" },
+    { "label": "Description", "value": "optional second line, 6px below the label: size-sm 12px / 16px line, text-secondary #4A4A4A (text-disabled on a disabled row, text-inverse while a danger row is hovered), wraps onto as many lines as it needs, never truncated; the row grows to fit; part=description" },
     { "label": "Selected item", "value": "only with a `value` attribute: the row whose key equals `value` takes bg-accent #E70E680D, text-default #1A1A1A and SemiBold 600 on the label (a description stays Regular 400), no check mark; leaf rows become role=menuitemradio with aria-checked; the trigger shows the selected label unless `label` is set; opening focuses the selected row; hover on it keeps the tint" },
     { "label": "Danger item", "value": "color-error #1A1A1A text; hover fills button-danger-bg #1A1A1A with white text" },
     { "label": "Divider", "value": "1px border-disabled #EBEBEB rule, role=separator" },
@@ -93,7 +93,7 @@
     { "label": "flyout edge-collision flips to the left when it overflows the viewport", "verdict": "PASS" },
     { "label": "ArrowLeft / Escape closes the flyout back to the parent (focus returns to it)", "verdict": "PASS" },
     { "label": "description renders as a smaller muted second line, linked with aria-describedby; rows without one are unchanged", "verdict": "PASS" },
-    { "label": "description sits 4px below the label; panel and flyout stop at max-width min(320px, 90vw) and a long description wraps onto more lines, never truncated", "verdict": "PASS" },
+    { "label": "description sits 6px below the label; panel and flyout stop at max-width min(320px, 90vw) and a long description wraps onto more lines, never truncated", "verdict": "PASS" },
     { "label": "with `value`: the matching row is bg-accent + semibold with no check mark, leaf rows are menuitemradio, the trigger shows the selected label unless `label` is set, a click selects and closes, and no `value` leaves rows as plain menuitem", "verdict": "PASS" },
     { "label": "select event composed", "verdict": "PASS" }
   ],
