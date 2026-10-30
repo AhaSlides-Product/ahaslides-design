@@ -287,7 +287,7 @@ test('leaderboard: showWinner centres every tied rank 1 in a banner covering the
     const state = { hiddenBefore, phone, many, shown, sizes, attribute: host.hasAttribute('winner'), names, score: root.querySelector('.winner-score').textContent,
       announced: root.querySelector('.live').textContent, covers: box.top <= list.top && box.bottom >= list.bottom && box.width === list.width,
       you: winner.textContent.includes('(you)'), dim: getComputedStyle(winner).backgroundColor,
-      reducedMotion: { pieces: root.querySelectorAll('.confetti .piece').length, confetti: getComputedStyle(root.querySelector('.confetti')).display, fade: getComputedStyle(winner).animationName },
+      reducedMotion: { pieces: root.querySelectorAll('.confetti .piece').length, confetti: getComputedStyle(root.querySelector('.confetti')).display, fade: getComputedStyle(winner).animationName, focus: getComputedStyle(root.querySelector('.winner-focus')).display },
       closeLabel: root.querySelector('.winner-close').getAttribute('aria-label'), closeInBannerCorner: closeInBannerCorner(root) };
     root.querySelector('.winner-close').shadowRoot.querySelector('button').click();
     state.afterClick = { hidden: winner.hidden, attribute: host.hasAttribute('winner'), closes: closes.length };
@@ -310,7 +310,7 @@ test('leaderboard: showWinner centres every tied rank 1 in a banner covering the
   assert.equal(result.covers, true, JSON.stringify(result));
   assert.equal(result.you, false);
   assert.notEqual(result.dim, 'rgba(0, 0, 0, 0)');
-  assert.deepEqual(result.reducedMotion, { pieces: 0, confetti: 'none', fade: 'none' });
+  assert.deepEqual(result.reducedMotion, { pieces: 0, confetti: 'none', fade: 'none', focus: 'none' });
   assert.equal(result.closeLabel, 'Close');
   assert.equal(result.closeInBannerCorner, true);
   assert.deepEqual(result.afterClick, { hidden: true, attribute: false, closes: 1 });
@@ -323,10 +323,10 @@ test('leaderboard: showWinner centres every tied rank 1 in a banner covering the
   assert.equal(result.zero, false);
 });
 
-test('leaderboard: with motion on, showWinner first dims the lower ranks bottom-up with no spinner-like ring, then counts the winner score up from 0 under a burst of full-strength deck-palette confetti in mixed shapes, and closing then showing again replays the reveal', { skip }, async () => {
+test('leaderboard: with motion on, showWinner reveals the banner at once with no rank countdown, an accent glow that blooms from the centre and no spinner-like ring, counts the winner score up from 0 under a burst of full-strength deck-palette confetti in mixed shapes, and closing then showing again replays the reveal', { skip }, async () => {
   const file = join(mkdtempSync(join(tmpdir(), 'leaderboard-')), 'page.html');
   const entries = [{ id: 'a', name: 'Al', score: 932 }, { id: 'b', name: 'Bo', score: 500 }, { id: 'c', name: 'Cy', score: 300 }, { id: 'd', name: 'Di', score: 100 }];
-  writeFileSync(file, `<!doctype html><body style="--aha-deck-palette-1:rgb(255,0,0);--aha-deck-palette-2:rgb(0,0,255);--aha-deck-palette-3:rgb(0,128,0)">
+  writeFileSync(file, `<!doctype html><body style="--aha-deck-accent:rgb(255,0,255);--aha-deck-palette-1:rgb(255,0,0);--aha-deck-palette-2:rgb(0,0,255);--aha-deck-palette-3:rgb(0,128,0)">
 <aha-leaderboard id="lb" style="display:block;width:600px;height:320px" entries='${JSON.stringify(entries)}'></aha-leaderboard>
 <script type="module">window.matchMedia = () => ({ matches: false }); await import('${lib}'); await customElements.whenDefined('aha-leaderboard'); window.ready = true;</script>`);
   const result = await evaluateInPage(pathToFileURL(file).href, `(async () => {
@@ -334,12 +334,13 @@ test('leaderboard: with motion on, showWinner first dims the lower ranks bottom-
     const root = host.shadowRoot;
     const score = () => root.querySelector('.winner-score').textContent;
     const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-    const rows = () => [...root.querySelectorAll('.row')].map((row) => ({ name: row.querySelector('.name').textContent,
-      dimAt: row.hasAttribute('data-countdown') ? getComputedStyle(row).getPropertyValue('--_dim-at').trim() : null }));
+    const animated = () => [...root.querySelectorAll('.row')].filter((row) => getComputedStyle(row).animationName !== 'none').length;
     host.showWinner();
     const ring = [...root.querySelectorAll('*')].filter((node) => { const style = getComputedStyle(node);
       return style.borderRadius === '50%' && parseFloat(style.borderWidth) > 0 && node.closest('.winner') && !node.closest('.winner-avatar'); }).length;
-    const countdown = { rows: rows(), ring, bannerOpensAt: getComputedStyle(root.querySelector('.winner')).getPropertyValue('--_open-at').trim() };
+    const focus = getComputedStyle(root.querySelector('.winner-focus'));
+    const opening = { animatedRows: animated(), ring, bannerDelay: getComputedStyle(root.querySelector('.winner')).animationDelay,
+      focus: focus.animationName, focusDelay: focus.animationDelay, focusColour: focus.backgroundColor };
     const pieces = [...root.querySelectorAll('.confetti .piece')];
     const first = { score: score(), confetti: !root.querySelector('.confetti').hidden, pieces: pieces.length,
       shapes: [...new Set(pieces.map((piece) => piece.dataset.shape))].sort(),
@@ -348,36 +349,17 @@ test('leaderboard: with motion on, showWinner first dims the lower ranks bottom-
     await wait(2800);
     first.settled = score();
     root.querySelector('.winner-close').shadowRoot.querySelector('button').click();
-    const closed = { hidden: root.querySelector('.winner').hidden, confetti: root.querySelector('.confetti').hidden, dimmed: rows().filter((row) => row.dimAt !== null).length };
+    const closed = { hidden: root.querySelector('.winner').hidden, confetti: root.querySelector('.confetti').hidden, animatedRows: animated() };
     const again = { shown: host.showWinner(), hidden: root.querySelector('.winner').hidden, score: score(), confetti: !root.querySelector('.confetti').hidden };
     await wait(2800);
     again.settled = score();
-    return { countdown, first, closed, again };
+    return { opening, first, closed, again };
   })()`, { readyExpr: '!!window.ready', timeout: 45000 });
   assert.deepEqual(result.first, { score: '0 points', confetti: true, pieces: 120, shapes: ['circle', 'rect', 'streamer'],
     colours: ['rgb(0, 0, 255)', 'rgb(0, 128, 0)', 'rgb(255, 0, 0)'], announced: 'Winner: Al, 932 points', settled: '932 points' });
-  assert.deepEqual(result.countdown, { rows: [{ name: 'Al', dimAt: null }, { name: 'Bo', dimAt: '440ms' }, { name: 'Cy', dimAt: '220ms' }, { name: 'Di', dimAt: '0ms' }],
-    ring: 0, bannerOpensAt: '660ms' });
-  assert.deepEqual(result.closed, { hidden: true, confetti: true, dimmed: 0 });
+  assert.deepEqual(result.opening, { animatedRows: 0, ring: 0, bannerDelay: '0s', focus: 'winner-focus', focusDelay: '0s', focusColour: 'rgb(255, 0, 255)' });
+  assert.deepEqual(result.closed, { hidden: true, confetti: true, animatedRows: 0 });
   assert.deepEqual(result.again, { shown: true, hidden: false, score: '0 points', confetti: true, settled: '932 points' });
-});
-
-test('leaderboard: a board shown as winner, removed, hidden while detached and appended again keeps no dimmed row', { skip }, async () => {
-  const file = join(mkdtempSync(join(tmpdir(), 'leaderboard-')), 'page.html');
-  const entries = [{ id: 'a', name: 'Al', score: 932 }, { id: 'b', name: 'Bo', score: 500 }, { id: 'c', name: 'Cy', score: 300 }];
-  writeFileSync(file, `<!doctype html><body>
-<aha-leaderboard id="lb" style="display:block;width:600px;height:320px" entries='${JSON.stringify(entries)}'></aha-leaderboard>
-<script type="module">window.matchMedia = () => ({ matches: false }); await import('${lib}'); await customElements.whenDefined('aha-leaderboard'); window.ready = true;</script>`);
-  const dimmed = await evaluateInPage(pathToFileURL(file).href, `(async () => {
-    const host = document.getElementById('lb');
-    host.showWinner();
-    host.remove();
-    host.hideWinner();
-    document.body.append(host);
-    await new Promise((resolve) => requestAnimationFrame(resolve));
-    return host.shadowRoot.querySelectorAll('.row[data-countdown]').length;
-  })()`, { readyExpr: '!!window.ready', timeout: 45000 });
-  assert.equal(dimmed, 0);
 });
 
 test('leaderboard: the winner name and score reach WCAG AA 4.5:1 on the winner banner and the row text behind the banner stays illegible on the canvas, on light, dark and coloured decks', { skip }, async () => {
