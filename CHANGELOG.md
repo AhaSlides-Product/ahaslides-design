@@ -22,10 +22,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.577.4 — 2026-10-30
+## 0.577.5 — 2026-10-30
 ### Fixed
 - Tooltip: a visible tooltip also re-picks its side when a scroller inside a shadow root moves, such as the body of an `aha-drawer` (its scroll event never reaches the window) (#489)
 - Revert: revert the PR; the shadow-root listeners in `_syncScrollWatch` in `lib/aha-tooltip.js`
+## 0.577.4 — 2026-10-30
+### Changed
+- Dropdown and Menu: a row's description sits 6px below its label (was 4px) (#492)
+- Revert: revert the PR; one `gap` declaration in `lib/aha-dropdown.js` and `lib/aha-menu.js`, and the matching contract rows
+
 ## 0.577.3 — 2026-10-30
 ### Fixed
 - `<aha-empty>`, DataTable and `createRenderEmpty` load only their own two pictures (`empty-list`, `empty-table`) instead of the whole illustration catalogue: `import '@ahaslides-product/design/aha-empty'` drops from 190.7 KB to 2.3 KB gzipped in a bundle with dynamic imports inlined. `import '@ahaslides-product/design/illustrations'` behaves as before. A slot="image" picture with any other name now needs that import; until the full set loads, such a name stays a blank box, and an already-rendered element redraws when it arrives. (#491)
