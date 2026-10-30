@@ -22,6 +22,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.577.0 — 2026-10-30
+### Added
+- Illustration `empty-list`: pink stacked cards with empty dashed rows, drawn in the illustration tints; reads at 64 px and 48 px; 35 illustrations now (#129)
+- `@ahaslides-product/design/antd-render-empty`: `createRenderEmpty({ h, labels })` returns the `renderEmpty` prop for an app's root antd `ConfigProvider` (React `createElement` or Vue 3 `h`), so every antd Select, TreeSelect, Cascader, AutoComplete, Transfer, List and Table with nothing to show draws `<aha-empty>` instead of antd's grey Empty picture: `empty-table` in a table body, `simple` empty-list art in a dropdown, default empty-list art elsewhere (#129)
+### Changed
+- Illustration `empty-sessions`: redrawn as a presentation canvas on an easel with a play mark and a live signal (a session is hosted, not browsed), replacing the computer monitor; same name (#129)
+- Empty: the built-in art is now the pink `empty-list` illustration rendered through `<aha-illustration>` (64 px for `image="default"`, 48 px for `simple`), replacing the grey folder line art; `image` values and the `image` slot are unchanged. The illustration registry loads lazily in the browser (#129)
+- Empty state guideline and guide, Empty and Illustration contracts, anti-slop shared-components criterion and the Empty snippets: lists and dropdowns show the empty-list art; antd components get it through `createRenderEmpty` on the root ConfigProvider (#129)
+- Revert: revert the PR; `empty-sessions.svg` goes back to the monitor, `<aha-empty>` back to the grey folder art, and `antd-render-empty` is removed (drop its `renderEmpty` from any ConfigProvider first)
+
 ## 0.576.0 — 2026-10-30
 ### Changed
 - Tooltip: `placement` is now a preference. On show the bubble is measured against its clipping panel (the nearest `overflow` ancestor, across shadow roots and slots, cut down to the viewport); with no room on that side it moves to the opposite side, then the roomier perpendicular side, then slides along that side to stay inside, with the arrow kept on the trigger. The attribute is never rewritten; the side used is reflected as `data-placement`, which the bubble CSS now reads. A `?` help tooltip at a drawer's edge is no longer cut off (#485)

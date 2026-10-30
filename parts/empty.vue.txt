@@ -1,5 +1,5 @@
 // main.ts — register the elements + mark aha-* as custom elements
-import '@ahaslides-product/design/icons';      // registers <aha-icon> (custom-image slot)
+import '@ahaslides-product/design/illustrations'; // registers <aha-illustration> (custom-image slot)
 import '@ahaslides-product/design/aha-empty';
 import '@ahaslides-product/design/aha-button';
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
@@ -12,8 +12,14 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
     <aha-button slot="action" variant="primary" @click="copyJoinLink">Copy link</aha-button>
   </aha-empty>
 
-  <!-- simple variant with a custom illustration and no action -->
-  <aha-empty image="simple" description="No results">
-    <aha-icon slot="image" name="system-folder" size="32" />
+  <!-- a table body: the empty-table illustration replaces the built-in empty-list art -->
+  <aha-empty description="No data">
+    <aha-illustration slot="image" name="empty-table" size="64" decorative />
   </aha-empty>
 </template>
+
+// App.vue — every ant-design-vue Select, Cascader, TreeSelect, Transfer, List and Table shows <aha-empty>
+// <a-config-provider :render-empty="renderEmpty"><router-view /></a-config-provider>
+import { h } from 'vue';
+import { createRenderEmpty } from '@ahaslides-product/design/antd-render-empty';
+const renderEmpty = createRenderEmpty({ h });

@@ -12,7 +12,7 @@
     "state",
     "team"
   ],
-  "count": 34,
+  "count": 35,
   "illustrations": {
     "empty-feedback": {
       "family": "empty",
@@ -34,6 +34,13 @@
       "body": "<rect x=\"44\" y=\"40\" width=\"32\" height=\"50\" rx=\"4\" fill=\"#E70E68\"/><rect x=\"12\" y=\"56\" width=\"32\" height=\"34\" rx=\"4\" fill=\"#F8B7D2\"/><rect x=\"76\" y=\"64\" width=\"32\" height=\"26\" rx=\"4\" fill=\"#F493BB\"/><rect x=\"58\" y=\"50\" width=\"4\" height=\"14\" rx=\"2\" fill=\"white\"/><rect x=\"6\" y=\"88\" width=\"108\" height=\"6\" rx=\"3\" fill=\"#FACFE1\"/><path d=\"M60 8L63.5 15.6L71.8 16.5L65.6 22.1L67.3 30.3L60 26.1L52.7 30.3L54.4 22.1L48.2 16.5L56.5 15.6L60 8Z\" fill=\"#F8B7D2\"/><circle cx=\"34\" cy=\"30\" r=\"3\" fill=\"#F493BB\"/><circle cx=\"88\" cy=\"38\" r=\"3\" fill=\"#F493BB\"/>",
       "w": 120,
       "h": 96
+    },
+    "empty-list": {
+      "family": "empty",
+      "viewBox": "0 0 100 72",
+      "body": "<rect x=\"16\" y=\"5\" width=\"72\" height=\"54\" rx=\"8\" transform=\"rotate(-5 52 32)\" fill=\"#FACFE1\"/><rect x=\"8\" y=\"12\" width=\"80\" height=\"56\" rx=\"8\" fill=\"#F8B7D2\"/><circle cx=\"22\" cy=\"27\" r=\"5\" fill=\"#E70E68\"/><path d=\"M34 27H72\" stroke=\"white\" stroke-width=\"5\" stroke-linecap=\"round\" stroke-dasharray=\"10 8\"/><circle cx=\"22\" cy=\"40\" r=\"5\" fill=\"white\"/><path d=\"M34 40H72\" stroke=\"white\" stroke-width=\"5\" stroke-linecap=\"round\" stroke-dasharray=\"10 8\"/><circle cx=\"22\" cy=\"53\" r=\"5\" fill=\"white\"/><path d=\"M34 53H54\" stroke=\"white\" stroke-width=\"5\" stroke-linecap=\"round\" stroke-dasharray=\"10 8\"/><circle cx=\"93\" cy=\"9\" r=\"4\" fill=\"#F493BB\"/>",
+      "w": 100,
+      "h": 72
     },
     "empty-participants": {
       "family": "empty",
@@ -65,10 +72,10 @@
     },
     "empty-sessions": {
       "family": "empty",
-      "viewBox": "0 0 120 96",
-      "body": "<rect x=\"17\" y=\"6\" width=\"96\" height=\"62\" rx=\"8\" transform=\"rotate(4 65 37)\" fill=\"#FACFE1\"/><rect x=\"8\" y=\"12\" width=\"100\" height=\"64\" rx=\"8\" fill=\"#F8B7D2\"/><path d=\"M19 24H37\" stroke=\"white\" stroke-width=\"3.5\" stroke-linecap=\"round\"/><path d=\"M19 32H29\" stroke=\"white\" stroke-width=\"3.5\" stroke-linecap=\"round\"/><path d=\"M51 76H65L70 88H46L51 76Z\" fill=\"#F493BB\"/><rect x=\"34\" y=\"86\" width=\"48\" height=\"6\" rx=\"3\" fill=\"#F493BB\"/><circle cx=\"58\" cy=\"44\" r=\"17\" fill=\"#E70E68\"/><path d=\"M53.5 36.6C53.5 35.4 54.8 34.7 55.8 35.3L67.6 42.7C68.6 43.3 68.6 44.7 67.6 45.3L55.8 52.7C54.8 53.3 53.5 52.6 53.5 51.4V36.6Z\" fill=\"white\"/><circle cx=\"97\" cy=\"23\" r=\"4\" fill=\"#E70E68\"/>",
+      "viewBox": "0 0 120 100",
+      "body": "<path d=\"M38 70L26 94\" stroke=\"#F493BB\" stroke-width=\"5\" stroke-linecap=\"round\"/><path d=\"M82 70L94 94\" stroke=\"#F493BB\" stroke-width=\"5\" stroke-linecap=\"round\"/><path d=\"M60 70V90\" stroke=\"#F493BB\" stroke-width=\"5\" stroke-linecap=\"round\"/><rect x=\"20\" y=\"6\" width=\"92\" height=\"58\" rx=\"8\" transform=\"rotate(4 66 35)\" fill=\"#FACFE1\"/><rect x=\"10\" y=\"10\" width=\"100\" height=\"60\" rx=\"8\" fill=\"#F8B7D2\"/><rect x=\"4\" y=\"66\" width=\"112\" height=\"7\" rx=\"3.5\" fill=\"#F493BB\"/><path d=\"M21 23H45\" stroke=\"white\" stroke-width=\"3.5\" stroke-linecap=\"round\"/><path d=\"M21 31H33\" stroke=\"white\" stroke-width=\"3.5\" stroke-linecap=\"round\"/><circle cx=\"60\" cy=\"44\" r=\"15\" fill=\"#E70E68\"/><path d=\"M56 37.4C56 36.3 57.2 35.6 58.1 36.2L68.5 42.8C69.4 43.4 69.4 44.6 68.5 45.2L58.1 51.8C57.2 52.4 56 51.7 56 50.6V37.4Z\" fill=\"white\"/><circle cx=\"98\" cy=\"22\" r=\"4\" fill=\"#E70E68\"/><path d=\"M91.6 15.6C89.9 17.2 89 19.5 89 22C89 24.5 89.9 26.8 91.6 28.4\" stroke=\"#E70E68\" stroke-width=\"2.5\" stroke-linecap=\"round\"/><path d=\"M104.4 15.6C106.1 17.2 107 19.5 107 22C107 24.5 106.1 26.8 104.4 28.4\" stroke=\"#E70E68\" stroke-width=\"2.5\" stroke-linecap=\"round\"/>",
       "w": 120,
-      "h": 96
+      "h": 100
     },
     "empty-slides": {
       "family": "empty",
