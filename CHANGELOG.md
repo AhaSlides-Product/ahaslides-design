@@ -27,6 +27,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Leaderboard: Show winner. `showWinner()` (or the `winner` attribute) dims the list with the deck's deep surface and centres rank 1's name, avatar and score over it, every tied rank 1 side by side, while confetti in the deck palette colours falls once (about 4 seconds); the winner stays until `hideWinner()`, the close ✕ or Esc, which fire `winner-close`. Translatable `winner-score-label` ("{score} points"), `winner-label` (announced politely) and `close-label`. Canvas and phone sizes; no confetti or fade under reduced motion; does nothing with no entries or when nobody has scored (#490)
 - Revert: revert the PR; Show winner is additive, so drop any `showWinner()` call or `winner` attribute first
 
+## 0.577.5 — 2026-10-30
+### Fixed
+- Tooltip: a visible tooltip also re-picks its side when a scroller inside a shadow root moves, such as the body of an `aha-drawer` (its scroll event never reaches the window) (#489)
+- Revert: revert the PR; the shadow-root listeners in `_syncScrollWatch` in `lib/aha-tooltip.js`
 ## 0.577.4 — 2026-10-30
 ### Changed
 - Dropdown and Menu: a row's description sits 6px below its label (was 4px) (#492)
