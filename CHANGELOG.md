@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.577.2 — 2026-10-30
 ### Fixed
-- Tooltip: a visible tooltip also re-picks its side when a scroller inside a shadow root moves, such as the body of an `aha-drawer` (its scroll event never reaches the window) (#PRNUM)
+- Tooltip: a visible tooltip also re-picks its side when a scroller inside a shadow root moves, such as the body of an `aha-drawer` (its scroll event never reaches the window) (#489)
 - Revert: revert the PR; the shadow-root listeners in `_syncScrollWatch` in `lib/aha-tooltip.js`
 ## 0.577.1 — 2026-10-30
 ### Fixed
