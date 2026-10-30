@@ -1,5 +1,7 @@
 import { ConfigProvider, Table } from 'antd';   // antd v6
 import { tableTheme } from '@ahaslides-product/design/table-theme';
+import '@ahaslides-product/design/aha-empty';       // registers <aha-empty>
+import '@ahaslides-product/design/illustrations';   // registers <aha-illustration>
 
 const columns = [
   { key: 'name',      title: 'Name',      dataIndex: 'name', sorter: (a, b) => a.name.localeCompare(b.name) },
@@ -14,6 +16,11 @@ const columns = [
     columns={columns}
     dataSource={rows}
     pagination={{ pageSize: 5, showSizeChanger: true }}
+    locale={{ emptyText: (
+      <aha-empty description="No data">
+        <aha-illustration slot="image" name="empty-table" size="64"></aha-illustration>
+      </aha-empty>
+    ) }}
   />
 </ConfigProvider>
 // One shared tableTheme → the DS V3 look; never restyle a bare <Table> per call site.

@@ -1,6 +1,7 @@
 {
   "name": "Table",
   "slug": "table",
+  "environment": ["product"],
   "group": "Data display",
   "tier": "composite-antd",
   "badge": "composite — antd wrappers",
@@ -17,6 +18,7 @@
     { "label": "Row hover", "value": "gray-30 #F1F1F1" },
     { "label": "Expandable rows (React)", "value": "detail panel (a nested sub-table or free content under the row) or tree rows (children share the parent's columns) — via useExpandableRows from table-expandable; the open parent keeps the plain surface (bold text, primary chevron) and its panel / children take the gray-20 surface, so the expanded content is obvious; panel sub-tables are styled by the panel (white card, one compact density) and grouped with DetailSection; every state is on the Data table page" },
     { "label": "Expand chevron", "value": "leading 24px button inline in the first column, system-caret-right rotating 0→90° on --aha-motion-mid; aligned spacer on rows that cannot expand; aria-expanded + aria-controls; Enter/Space; whole-row click toggles too (never twice); optional header toggle expands / collapses all" },
+    { "label": "Empty", "value": "no rows → locale.emptyText = <aha-empty description=\"No data\"> holding <aha-illustration name=\"empty-table\" size=\"64\" slot=\"image\">; DataTable does this by default" },
     { "label": "Customisations (DS V3)", "value": "sorting (single arrow) · filtering (checklist/range) · reorder · resize · rows-per-page · freeze · add/remove columns" }
   ],
   "props": [

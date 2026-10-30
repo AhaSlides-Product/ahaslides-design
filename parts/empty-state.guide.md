@@ -21,7 +21,8 @@ art. (EMPTY-01 to EMPTY-13)
 | A whole page with no content | Full pattern, **page scale** | The page is the empty thing, so it needs a clear next step |
 | A tab panel or card that is the main content of its area, 240 px tall or more | Full pattern, **panel scale** | Enough room for the art; the tabs and card stay |
 | A card or panel under 240 px whose content is the empty thing (Session detail Insights card) | Full pattern, **compact scale** | The card is the empty thing; small art, no action |
-| A table body, list, dropdown or widget | Plain `<aha-empty>` (`image="simple"` when tight) | Grey line art stays out of the way of the rows |
+| A table body with no rows | `<aha-empty>` with `empty-table` in its `image` slot at 64 px, one caption | A small pink table names what is missing; DataTable shows it by default |
+| A list, dropdown or widget | Plain `<aha-empty>` (`image="simple"` when tight) | Grey line art stays out of the way of the items |
 | A small item repeated per slide or row (an answer card per skipped slide) | A plain one-line caption, `No answer`, no art | The same picture on every item is noise |
 | A failed request, a missing page, a denied page | `<aha-error-page>` or `<aha-result>` | Something went wrong: not an empty state |
 
@@ -55,6 +56,7 @@ and names what is missing. Never inline SVG, never a PNG, never recoloured. (EMP
 | `empty-presentation-list` | no presentations |
 | `empty-templates` | no templates |
 | `empty-trash` | an empty trash |
+| `empty-table` | a table body with no rows, inside `<aha-empty>` at 64 px |
 
 Search the registry first. When no `empty-*` fits, add the missing one under
 `illustrations/svg/empty/` as the Illustration contract describes. Never borrow art that
@@ -124,7 +126,7 @@ it through the live region. (EMPTY-11)
 
 | # | Rule | Ref |
 | --- | --- | --- |
-| 1 | Full pattern for a page, a panel of 240 px or more, or a compact card; plain `<aha-empty>` in tables, lists, dropdowns and widgets | EMPTY-01 |
+| 1 | Full pattern for a page, a panel of 240 px or more, or a compact card; `<aha-empty>` with `empty-table` at 64 px in a table body; plain `<aha-empty>` in lists, dropdowns and widgets | EMPTY-01 |
 | 2 | Illustration, title, body, at most one action, one centred column | EMPTY-02 |
 | 3 | An `empty-*` illustration by name, never inline SVG or PNG | EMPTY-03 |
 | 4 | Page scale: art 128, 16 px gaps, 18 px title | EMPTY-04 |

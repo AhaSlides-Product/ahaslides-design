@@ -22,6 +22,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.575.0 — 2026-10-30
+### Added
+- Illustration `empty-table`: a pink table card (Vivid Pink header row, empty dashed rows) drawn in the illustration tints to match the other `empty-*` art; 34 illustrations now (#484)
+### Changed
+- DataTable: with no rows the body shows `<aha-empty>` with the `empty-table` illustration at 64 px and the caption "No data" (new `labels.noData`), instead of antd's default grey Empty; `locale.emptyText` still replaces it. The Table page and its HTML, React and Vue snippets pass the same `emptyText` to a plain antd Table, and both pages show a "No rows" case (#484)
+- Empty state guideline and guide, Empty, Table, Data table and Illustration contracts: a table body with no rows takes `<aha-empty>` with `empty-table` at 64 px; lists, dropdowns and widgets keep the plain grey `<aha-empty>` (#484)
+- Revert: revert the PR; `illustrations/svg/empty/empty-table.svg` and the regenerated registry, the `locale` default and `noData` label in `lib/aha-data-table.js`, the table snippets and the prose above
+
 ## 0.574.3 — 2026-10-30
 ### Fixed
 - Dropdown and Menu: a row's description sits 4px below its label (it touched the label before); the Dropdown panel and its flyout stop at `max-width: min(320px, 90vw)`, the same cap as the Select popup, so a long description truncates with an ellipsis instead of stretching the panel (#483)

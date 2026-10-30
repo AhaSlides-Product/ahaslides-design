@@ -12,7 +12,7 @@
     "state",
     "team"
   ],
-  "count": 33,
+  "count": 34,
   "illustrations": {
     "empty-feedback": {
       "family": "empty",
@@ -76,6 +76,13 @@
       "body": "<rect x=\"26\" y=\"6\" width=\"86\" height=\"58\" rx=\"8\" transform=\"rotate(7 69 35)\" fill=\"#FACFE1\"/><rect x=\"10\" y=\"16\" width=\"92\" height=\"62\" rx=\"8\" fill=\"#F8B7D2\"/><path d=\"M22 28H48\" stroke=\"white\" stroke-width=\"3.5\" stroke-linecap=\"round\"/><rect x=\"30\" y=\"46\" width=\"13\" height=\"22\" rx=\"3\" fill=\"white\"/><rect x=\"49\" y=\"34\" width=\"13\" height=\"34\" rx=\"3\" fill=\"#E70E68\"/><rect x=\"68\" y=\"52\" width=\"13\" height=\"16\" rx=\"3\" fill=\"#F493BB\"/><circle cx=\"48\" cy=\"88\" r=\"3\" fill=\"#E70E68\"/><circle cx=\"57\" cy=\"88\" r=\"3\" fill=\"#F493BB\"/><circle cx=\"66\" cy=\"88\" r=\"3\" fill=\"#F493BB\"/>",
       "w": 120,
       "h": 96
+    },
+    "empty-table": {
+      "family": "empty",
+      "viewBox": "0 0 100 84",
+      "body": "<rect x=\"14\" y=\"8\" width=\"72\" height=\"62\" rx=\"8\" transform=\"rotate(-5 50 39)\" fill=\"#FACFE1\"/><rect x=\"8\" y=\"16\" width=\"80\" height=\"62\" rx=\"8\" fill=\"#F8B7D2\"/><rect x=\"16\" y=\"24\" width=\"64\" height=\"13\" rx=\"4\" fill=\"#E70E68\"/><path d=\"M23 30.5H33\" stroke=\"white\" stroke-width=\"3\" stroke-linecap=\"round\"/><path d=\"M43 30.5H53\" stroke=\"white\" stroke-width=\"3\" stroke-linecap=\"round\"/><path d=\"M63 30.5H71\" stroke=\"white\" stroke-width=\"3\" stroke-linecap=\"round\"/><path d=\"M23 48H73\" stroke=\"white\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-dasharray=\"5 6\"/><path d=\"M23 58.5H73\" stroke=\"white\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-dasharray=\"5 6\"/><path d=\"M23 69H51\" stroke=\"white\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-dasharray=\"5 6\"/><circle cx=\"92\" cy=\"12\" r=\"4\" fill=\"#F493BB\"/>",
+      "w": 100,
+      "h": 84
     },
     "empty-templates": {
       "family": "empty",

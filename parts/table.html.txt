@@ -10,6 +10,8 @@
   import { createRoot } from 'https://esm.sh/react-dom@18/client';
   import { ConfigProvider, Table } from 'https://esm.sh/antd@6?deps=react@18,react-dom@18';
   import { tableTheme } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/table-theme.js';
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-empty.js';
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/illustrations.js';
 
   const h = React.createElement;
 
@@ -28,7 +30,9 @@
   // Same shared theme the React/Vue snippets pass to ConfigProvider.
   createRoot(document.getElementById('root')).render(
     h(ConfigProvider, { theme: tableTheme },
-      h(Table, { rowKey: 'key', columns, dataSource: rows, pagination: { pageSize: 5, showSizeChanger: true } })
+      h(Table, { rowKey: 'key', columns, dataSource: rows, pagination: { pageSize: 5, showSizeChanger: true },
+        locale: { emptyText: h('aha-empty', { description: 'No data' },
+          h('aha-illustration', { slot: 'image', name: 'empty-table', size: '64' })) } })
     )
   );
   // The React/Vue snippets show the same real Table + tableTheme wired through a bundler;
