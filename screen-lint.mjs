@@ -16,6 +16,10 @@
  *   node screen-lint.mjs --surface=settings <file ...>      # a slide type's settings panel (lib/settings.js only)
  *   node screen-lint.mjs --surface=website  <file ...>      # a whole website page of Marketing sections
  *   node screen-lint.mjs --surface=website --measure <file ...>   # W8: render at 375/768/1440, fail on horizontal scroll (needs Chrome)
+ *   node screen-lint.mjs --surface=product --measure <file ...>   # any surface: render at 360/768/1440, fail on horizontal scroll
+ *                                                                # and on overlay-clip (OVERLAY-09): every <aha-tooltip> and <aha-popover>
+ *                                                                # is opened, and it and any shown [role=tooltip] must paint whole inside
+ *                                                                # every clipping ancestor (shadow roots included) and the viewport
  *   node screen-lint.mjs --self-test                       # dogfood: run over this repo's snippets
  *
  * --surface is REQUIRED and mirrors the judge's J0: you cannot grade a screen without first routing
@@ -68,7 +72,7 @@ const root = dirname(fileURLToPath(import.meta.url));
 /* ---- args ---- */
 const argv = process.argv.slice(2);
 const selfTest = argv.includes('--self-test');
-const measure = argv.includes('--measure');   // opt-in: also RENDER each screen at 360/768/1440 and fail on horizontal overflow (needs headless Chrome)
+const measure = argv.includes('--measure');   // opt-in: also RENDER each screen at 360/768/1440 and fail on horizontal overflow or a clipped overlay (needs headless Chrome)
 let surface = (argv.find(a => a.startsWith('--surface=')) || '').split('=')[1] || '';
 const files = argv.filter(a => !a.startsWith('--'));
 
@@ -90,23 +94,30 @@ const WEBSITE_MEASURE_VIEWPORTS = [
 ];
 async function runMeasure(fileList, viewports = MEASURE_VIEWPORTS) {
   const { measureAtViewports } = await import('./cdp.mjs');
-  const expr = `(function(){var de=document.documentElement;return {ow:Math.round(de.scrollWidth),cw:de.clientWidth};})()`;
+  const { overlayClipProbe, formatOverlayClip } = await import('./lib/overlay-clip.js');
+  const expr = `(async function(){var de=document.documentElement;var ow=Math.round(de.scrollWidth),cw=de.clientWidth;var overlays=await ${overlayClipProbe};return {ow:ow,cw:cw,overlays:overlays};})()`;
   let hardCount = 0;
-  console.log(`\n=== SCREEN-LINT · measured responsive pass (${viewports.map(v => v.label).join('/')}) ===\n`);
+  console.log(`\n=== SCREEN-LINT · measured pass: overflow + overlay-clip (${viewports.map(v => v.label).join('/')}) ===\n`);
   for (const f of fileList) {
     try {
       const r = await measureAtViewports('file://' + f, expr, { viewports, readyExpr: "document.readyState==='complete'", timeout: 45000 });
       const over = viewports.filter(v => { const m = r[v.label] || {}; return (m.ow - m.cw) > 1; })
         .map(v => `${v.label}px +${(r[v.label].ow - r[v.label].cw)}`);
-      console.log(`${over.length ? '✗' : '✓'} ${f.replace(root + '/', '')}`);
-      if (over.length) { hardCount++; console.log(`      ✗ FAIL [overflow] horizontal scroll at ${over.join(', ')} — the screen must reflow to fit the phone floor`); }
+      const clipped = viewports.flatMap(v => ((r[v.label] || {}).overlays?.findings || []).map(finding => `${v.label}px: ${formatOverlayClip(finding)}`));
+      const checked = Math.max(0, ...viewports.map(v => (r[v.label] || {}).overlays?.checked || 0));
+      const failed = over.length > 0 || clipped.length > 0;
+      console.log(`${failed ? '✗' : '✓'} ${f.replace(root + '/', '')}`);
+      if (over.length) console.log(`      ✗ FAIL [overflow] horizontal scroll at ${over.join(', ')} — the screen must reflow to fit the phone floor`);
       else console.log('      · fits every viewport (no horizontal overflow)');
+      for (const line of clipped) console.log(`      ✗ FAIL [overlay-clip] ${line} — an overlay is never clipped by its panel or the viewport (OVERLAY-09): use <aha-tooltip>, <aha-popover flip> or <aha-dropdown>`);
+      if (!clipped.length) console.log(`      · ${checked} overlay(s) opened, none clipped by a panel or the viewport`);
+      if (failed) hardCount++;
     } catch (e) {
       hardCount++;
       console.log(`✗ ${f.replace(root + '/', '')}\n      ✗ FAIL [measure] could not render: ${e.message}`);
     }
   }
-  console.log(`\n${fileList.length} screen(s) measured · ${hardCount} overflow fail(s)\n`);
+  console.log(`\n${fileList.length} screen(s) measured · ${hardCount} screen(s) failed\n`);
   return hardCount;
 }
 

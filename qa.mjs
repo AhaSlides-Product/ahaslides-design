@@ -8,6 +8,9 @@
  *    BOTH framework tiers hit the contract AND match each other (parity) — the real gate.
  *  - INTERACTIVE STATES: state-check.mjs forces :hover, :focus-visible and :active on every control of
  *    every built page and fails text contrast, an off-list colour, or a focus indicator nobody can see.
+ *  - OVERLAY CLIP (OVERLAY-09): opens every <aha-tooltip> and <aha-popover> on every built page, and
+ *    fails any overlay its panel or the viewport cuts off (lib/overlay-clip.js, shared with
+ *    screen-lint.mjs --measure).
  * Prints a PASS/FAIL scorecard; exits non-zero on any FAIL.
  */
 import { readdirSync, readFileSync, existsSync, statSync, rmSync } from 'node:fs';
@@ -16,6 +19,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { evaluateInPage, resolveChrome } from './cdp.mjs';
 import { builtPages, checkPages, formatFinding } from './state-check.mjs';
+import { overlayClipProbe, formatOverlayClip } from './lib/overlay-clip.js';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const DIST = join(root, 'dist');
@@ -147,6 +151,27 @@ const stateCheck = (list, slug) => {
       result.resolved.length ? `${result.resolved.length} baseline entr${result.resolved.length === 1 ? 'y is' : 'ies are'} fixed: run node state-check.mjs --update-baseline (${result.resolved.slice(0, 2).join(' | ')})` : ''].filter(Boolean).join(' | '));
 };
 
+/* ---- overlay clip — every built page, a few at a time ---- */
+const PAGE_SETTLED = "document.readyState==='complete'&&(!document.getElementById('react-root')||document.getElementById('react-root').childElementCount>0)";
+const overlayResults = {};
+{ let next = 0;
+  const worker = async () => {
+    while (next < statePages.length) {
+      const slug = statePages[next++];
+      try { overlayResults[slug] = await evaluateInPage('file://' + join(DIST, slug, 'index.html'), overlayClipProbe, { readyExpr: PAGE_SETTLED, timeout: 60000 }); }
+      catch (error) { overlayResults[slug] = { error: error.message }; }
+    }
+  };
+  await Promise.all(Array.from({ length: Number(process.env.STATE_CHECK_JOBS || 3) }, worker));
+}
+const overlayCheck = (list, slug) => {
+  const result = overlayResults[slug];
+  if (!result) return;
+  const name = `overlays never clipped by their panel or the viewport${result.checked ? ` (${result.checked} opened)` : ''}`;
+  if (result.error) return chk(list, name, false, result.error);
+  chk(list, name, result.findings.length === 0, result.findings.slice(0, 4).map(formatOverlayClip).join(' | ') + (result.findings.length > 4 ? ` | +${result.findings.length - 4} more` : ''));
+};
+
 /* ---- per component ---- */
 const NON_COMPONENT_DIRS = new Set(['feeds', 'fonts', 'icons', 'guidelines', 'foundations', 'lib', 'landing', 'marketing', 'settings', 'audience', 'canvas', 'deck-tokens', 'charts', 'logo', 'brand', 'marketing-assets', 'backgrounds', 'get-started']);  // generated support dirs, not components (guidelines are prose composition guides gated by standards.mjs; foundations are token pages; lib is the shipped component modules copied in for previews; landing holds only redirect stubs; marketing is framework-free HTML+CSS sections, not product components; settings is the consolidated Settings group hub, composed from the guideline + settings-list contract; audience is a first-class area page, not a product component; canvas is the Canvas Library area page, likewise)
 const slugs = readdirSync(DIST, { withFileTypes: true }).filter(d => d.isDirectory() && !d.name.startsWith('.') && !NON_COMPONENT_DIRS.has(d.name)).map(d => d.name);
@@ -197,11 +222,15 @@ for (const slug of slugs) {
     chk(c, 'contract has a conformance block', false, 'no conformance in contract — gate is blind to the rendered UI');
   }
   stateCheck(c, slug);
+  overlayCheck(c, slug);
   results.push({ slug, checks: c });
 }
 { const sitePages = [];
   for (const slug of statePages.filter(page => NON_COMPONENT_DIRS.has(page))) { const checks = []; stateCheck(checks, slug); sitePages.push(...checks.map(([name, ok, note]) => [`${slug} — ${name}`, ok, note])); }
-  results.push({ slug: '(site pages — interactive states)', checks: sitePages }); }
+  results.push({ slug: '(site pages — interactive states)', checks: sitePages });
+  const siteOverlays = [];
+  for (const slug of statePages.filter(page => NON_COMPONENT_DIRS.has(page))) { const checks = []; overlayCheck(checks, slug); siteOverlays.push(...checks.map(([name, ok, note]) => [`${slug} — ${name}`, ok, note])); }
+  results.push({ slug: '(site pages — overlay clip)', checks: siteOverlays }); }
 
 /* ---- report ---- */
 let pass = 0, fail = 0;
