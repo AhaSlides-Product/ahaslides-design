@@ -22,9 +22,19 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.573.1 — 2026-10-30
+## 0.574.2 — 2026-10-30
 ### Changed
 - Canvas criterion C17 and every copy of the rule (Button contract, Canvas Library, canvas guideline and guide, the agent skill, the button snippets): `tertiary-deck` stays banned directly on the photo of a photographic deck, and is now allowed there when it sits on a bounded surface the slide fills itself (card, panel, popover, sheet, chip) and its glyph clears 3:1 (a text label 4.5:1) against that surface as rendered over the photo. A translucent card counts when it clears that floor. New canvas eval 77 (tertiary-deck ✕ on an 80% card over a photo deck = PASS) beside eval 69 (directly on the photo = FAIL). (#481)
+
+## 0.574.1 — 2026-10-30
+### Fixed
+- Dropdown with `value`: the selected row's description stays Regular 400 under the SemiBold label, as in the role picker design (#482)
+- Revert: revert the PR; one font-weight declaration in `lib/aha-dropdown.js` and a spec sentence
+
+## 0.574.0 — 2026-10-30
+### Added
+- Dropdown `value` attribute: a short single-choice picker with no Popover or Menu wrapper. The row whose key equals `value` is the brand-tinted selected row (bg-accent, SemiBold 600, no check mark) with `role=menuitemradio` and `aria-checked`; the trigger shows its label unless `label` is set; choosing a row sets `value`, closes the panel and emits `select`; opening focuses the selected row. Without `value` every row stays a plain `menuitem` and nothing changes for action dropdowns. Docs, playground, examples and a role-picker example updated (#480)
+- Revert: revert the PR; one attribute and one `_syncValue` method in `lib/aha-dropdown.js`, its contract and example text, and one test file. No existing behaviour changes
 
 ## 0.573.0 — 2026-10-29
 ### Added

@@ -8,9 +8,9 @@
   "element": "aha-dropdown",
   "summary": "A trigger button that reveals a floating overlay of actions — with leading icons, dividers, disabled rows and a dark danger action.",
   "highlights": ["Trigger button revealing a floating overlay of actions", "Leading icons, dividers and disabled rows", "Black danger action"],
-  "lead": "ONE custom element — <aha-dropdown> — defined once, imported unchanged by React and Vue. A trigger button reveals a floating overlay from the `items` list. The overlay is a Menu of the DS V3 item family, not a flat list: rows carry leading icons, a divider rules them off, an item can be disabled or a dark danger action, can carry a `description` (a smaller muted second line under the label), and a group title splits sections. An item that carries `children:[…]` is a submenu-parent: hovering it (or ArrowRight / Enter) opens a SECOND floating panel to the side — a flyout, positioned adjacent to the parent row, with edge-collision handling (it flips to the other side when there's no room); ArrowLeft / Escape closes the flyout back to the parent. `placement` positions the overlay (bottomLeft default · bottomRight · topLeft · topRight) and `trigger` is click (default) or hover. Open/close animates via the shared motion tokens on a PERSISTENT panel (a class toggles — the subtree is never rebuilt on open), the caret rotates, every flyout fades/scales in on its own persistent node, and it closes on outside-click or Escape (focus returns to the trigger). Every glyph — the trigger caret, the submenu caret, each leading icon — is the DS icon by name via <aha-icon>. Emits a composed `select`.",
+  "lead": "ONE custom element — <aha-dropdown> — defined once, imported unchanged by React and Vue. A trigger button reveals a floating overlay from the `items` list. The overlay is a Menu of the DS V3 item family, not a flat list: rows carry leading icons, a divider rules them off, an item can be disabled or a dark danger action, can carry a `description` (a smaller muted second line under the label), and a group title splits sections. With a `value` attribute the dropdown is also a short single-choice picker (a role picker with descriptions): the row whose key equals `value` is the brand-tinted selected row, the trigger shows its label, and choosing a row sets `value`. An item that carries `children:[…]` is a submenu-parent: hovering it (or ArrowRight / Enter) opens a SECOND floating panel to the side — a flyout, positioned adjacent to the parent row, with edge-collision handling (it flips to the other side when there's no room); ArrowLeft / Escape closes the flyout back to the parent. `placement` positions the overlay (bottomLeft default · bottomRight · topLeft · topRight) and `trigger` is click (default) or hover. Open/close animates via the shared motion tokens on a PERSISTENT panel (a class toggles — the subtree is never rebuilt on open), the caret rotates, every flyout fades/scales in on its own persistent node, and it closes on outside-click or Escape (focus returns to the trigger). Every glyph — the trigger caret, the submenu caret, each leading icon — is the DS icon by name via <aha-icon>. Emits a composed `select`.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper that listens for `select`; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["border", "border-hover", "bg-container", "bg-elevated", "bg-hover", "icon-default", "weight-regular", "bg-accent", "text-default", "text-inverse", "text-secondary", "text-tertiary", "text-disabled", "size-sm", "icon-muted", "color-error", "button-danger-bg", "border-focus", "border-disabled", "radius-default", "radius-xs"],
+  "tokensUsed": ["border", "border-hover", "bg-container", "bg-elevated", "bg-hover", "icon-default", "weight-regular", "weight-semibold", "bg-accent", "text-default", "text-inverse", "text-secondary", "text-tertiary", "text-disabled", "size-sm", "icon-muted", "color-error", "button-danger-bg", "border-focus", "border-disabled", "radius-default", "radius-xs"],
   "spec": [
     { "label": "Trigger", "value": "height 40 · radius 8 · white bg, 1px border #E3E3E3, SemiBold 600" },
     { "label": "Trigger hover", "value": "border-hover #E70E68 (motion-fast + ease-out)" },
@@ -21,6 +21,7 @@
     { "label": "Open motion", "value": "opacity + translateY on a persistent node (motion-mid + ease-out)" },
     { "label": "Item", "value": "min-height 40 · padding 8 12 · radius 4 · 10px gap to a 16px leading icon in icon-default #4A4A4A · label Regular 400 · hover bg-hover #F7F7F7 (neutral, not a brand tint)" },
     { "label": "Description", "value": "optional second line under the label: size-sm 12px / 16px line, text-secondary #4A4A4A (text-disabled on a disabled row, text-inverse while a danger row is hovered), single line with ellipsis; the row grows to fit; part=description" },
+    { "label": "Selected item", "value": "only with a `value` attribute: the row whose key equals `value` takes bg-accent #E70E680D, text-default #1A1A1A and SemiBold 600 on the label (a description stays Regular 400), no check mark; leaf rows become role=menuitemradio with aria-checked; the trigger shows the selected label unless `label` is set; opening focuses the selected row; hover on it keeps the tint" },
     { "label": "Danger item", "value": "color-error #1A1A1A text; hover fills button-danger-bg #1A1A1A with white text" },
     { "label": "Divider", "value": "1px border-disabled #EBEBEB rule, role=separator" },
     { "label": "Group title", "value": "11px uppercase, text-tertiary #8A8A8A, non-interactive section header" },
@@ -32,6 +33,7 @@
   ],
   "props": [
     { "name": "label", "type": "string", "default": "Menu", "desc": "The trigger button text" },
+    { "name": "value", "type": "string", "default": "—", "desc": "Makes the dropdown a single-choice picker: the leaf whose key equals this is the selected row (brand-tinted, semibold, no check mark) and, with no `label`, the trigger text. Choosing a leaf sets it, closes the panel and emits select. Leave it off for an action dropdown" },
     { "name": "items", "type": "JSON list", "default": "[]", "desc": "Rows. Leaf {key,label,description?,icon?,disabled?,danger?}; submenu-parent {key,label,icon?,children:[…]} → adjacent flyout; rule {type:'divider'}; section {type:'group',label,children:[]}" },
     { "name": "placement", "type": "'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight'", "default": "bottomLeft", "desc": "Where the overlay opens relative to the trigger" },
     { "name": "trigger", "type": "'click' | 'hover'", "default": "click", "desc": "How the overlay is revealed" },
@@ -41,9 +43,10 @@
     "whenToUse": [
       { "what": "Dropdown", "when": "a set of actions or options should sit behind a trigger to save space" },
       { "what": "Menu", "when": "the same list belongs inline, always visible — not behind a trigger" },
-      { "what": "Select", "when": "the control picks a single value for a form field, not fires an action" }
+      { "what": "Select", "when": "the control picks a single value for a form field, not fires an action" },
+      { "what": "Dropdown with value", "when": "a short single-choice picker outside a form, such as a role picker with a description under each choice" }
     ],
-    "note": "A dropdown holds actions or navigation, not form values — use Select for a field. Keep the item list short; the panel closes on outside-click and Escape. Give each action a leading icon, rule off a destructive action with a divider and mark it danger. Reach for a submenu-parent (children[]) only when a group of related actions would otherwise crowd the top level — one level of flyout is plenty; deeper nesting is a menu smell. The overlay reuses the shared Menu item vocabulary rather than reinventing the row styling.",
+    "note": "A dropdown holds actions or navigation; use Select for a form field. Set `value` when it acts as a short single-choice picker outside a form (a role picker with descriptions): do not hand-roll it from Menu inside a Popover. Keep the item list short; the panel closes on outside-click and Escape. Give each action a leading icon, rule off a destructive action with a divider and mark it danger. Reach for a submenu-parent (children[]) only when a group of related actions would otherwise crowd the top level — one level of flyout is plenty; deeper nesting is a menu smell. The overlay reuses the shared Menu item vocabulary rather than reinventing the row styling.",
     "dsv3": "COVERED — enumerated from the DS V3 Dropdown-Menu + Components/Dropdown/Menu-Item + Dropdown/Menu-Item-Group component sets: the overlay is a Menu of items carrying leading icons, dividers, group titles, disabled + danger rows — the same item family as Menu — plus submenu-parents whose children[] open an adjacent flyout (the DS V3 Menu-Item nested/expandable variant, here as a floating flyout with a trailing system-caret-right and aria-haspopup). Reference contract measured keys (dropdown|menu radius 8, dropdown|item height 40 with hover/focus states) plus the token layer: white trigger, border #E3E3E3, border-hover, bg-elevated panel, color-error danger, text-tertiary group title, radius-default 8; the flyout reuses the same elevated-panel + item tokens, and the open submenu-parent takes the brand-tinted bg-accent / color-primary highlight. Placement (bottomLeft/bottomRight/topLeft/topRight) + click/hover trigger from AntD Dropdown conventions; the flyout does edge-collision flip like AntD's rc-menu submenu. Motion bound to the shared motion tokens on persistent panels (root + each flyout); every glyph from the DS icon library."
   },
   "surfaces": ["editor", "dashboard", "admin", "settings"],
@@ -61,6 +64,11 @@
         { "label": "Bottom-right", "value": "bottomRight" },
         { "label": "Top-left", "value": "topLeft" },
         { "label": "Top-right", "value": "topRight" }
+      ] },
+      { "prop": "value", "label": "Selected row", "default": null, "options": [
+        { "label": "None (actions)", "value": null },
+        { "label": "Editor", "value": "editor", "note": "Use with the With descriptions content: the row takes the brand tint and the trigger shows its label unless label is set." },
+        { "label": "Presenter", "value": "presenter" }
       ] },
       { "prop": "items", "label": "Content", "default": "actions", "options": [
         { "label": "Actions + divider + danger", "value": "[{\"key\":\"rename\",\"label\":\"Rename\",\"icon\":\"system-pencil-simple\"},{\"key\":\"duplicate\",\"label\":\"Duplicate\",\"icon\":\"system-copy\"},{\"key\":\"export\",\"label\":\"Export\",\"icon\":\"system-export\",\"disabled\":true},{\"type\":\"divider\"},{\"key\":\"delete\",\"label\":\"Delete\",\"icon\":\"system-trash\",\"danger\":true}]" },
@@ -85,6 +93,7 @@
     { "label": "flyout edge-collision flips to the left when it overflows the viewport", "verdict": "PASS" },
     { "label": "ArrowLeft / Escape closes the flyout back to the parent (focus returns to it)", "verdict": "PASS" },
     { "label": "description renders as a smaller muted second line, linked with aria-describedby; rows without one are unchanged", "verdict": "PASS" },
+    { "label": "with `value`: the matching row is bg-accent + semibold with no check mark, leaf rows are menuitemradio, the trigger shows the selected label unless `label` is set, a click selects and closes, and no `value` leaves rows as plain menuitem", "verdict": "PASS" },
     { "label": "select event composed", "verdict": "PASS" }
   ],
   "conformance": {
