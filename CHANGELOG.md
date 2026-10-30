@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.577.4 — 2026-10-30
 ### Changed
-- Dropdown and Menu: a row's description sits 6px below its label (was 4px) (#NNN)
+- Dropdown and Menu: a row's description sits 6px below its label (was 4px) (#492)
 - Revert: revert the PR; one `gap` declaration in `lib/aha-dropdown.js` and `lib/aha-menu.js`, and the matching contract rows
 
 ## 0.577.3 — 2026-10-30
