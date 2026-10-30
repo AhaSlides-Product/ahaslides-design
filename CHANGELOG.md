@@ -24,10 +24,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.581.0 — 2026-10-30
 ### Added
-- `screen-lint` hard-fails three new rules on every surface: `status-hue-class` (a `text-red-*`, `bg-green-*`, `border-yellow-*`, `text-danger` or similar utility class painting status in a hue; error text stays the default ink in `<aha-field-error>` or `<aha-alert type="error">`), `foreign-icon-library` (`<font-awesome-icon>`, `fa fa-*`, `zmdi`, `material-icons` and other icon libraries; glyphs are `<aha-icon>`) and `brand-logo-colour` (a `logo/original/` file outside the Logo library hover pattern, or the kit's `icon-maintain-color`, colour rule 2.6). Escape with `ds-lint-allow: status-hue`, `icon` or `brand-logo (why)` (#PR)
-- Colour rule 6.9: a product screen or form has at most one Vivid Pink text link, its main secondary path (Sign up now on a login form); every other text link is a neutral link in the default ink, underlined, Darker Pink on hover, focus and press. Colour criterion C9 fails a second pink text link (#PR)
+- `screen-lint` hard-fails three new rules on every surface: `status-hue-class` (a `text-red-*`, `bg-green-*`, `border-yellow-*`, `text-danger` or similar utility class painting status in a hue; error text stays the default ink in `<aha-field-error>` or `<aha-alert type="error">`), `foreign-icon-library` (`<font-awesome-icon>`, `fa fa-*`, `zmdi`, `material-icons` and other icon libraries; glyphs are `<aha-icon>`) and `brand-logo-colour` (a `logo/original/` file outside the Logo library hover pattern, or the kit's `icon-maintain-color`, colour rule 2.6). Escape with `ds-lint-allow: status-hue`, `icon` or `brand-logo (why)` (#495)
+- Colour rule 6.9: a product screen or form has at most one Vivid Pink text link, its main secondary path (Sign up now on a login form); every other text link is a neutral link in the default ink, underlined, Darker Pink on hover, focus and press. Colour criterion C9 fails a second pink text link (#495)
 ### Changed
-- Colour rule 2.6 and criterion C7 name sign-in buttons (Log in with Google, Log in with Microsoft) among the places a third-party logo is greyscale at rest (#PR)
+- Colour rule 2.6 and criterion C7 name sign-in buttons (Log in with Google, Log in with Microsoft) among the places a third-party logo is greyscale at rest (#495)
 
 ## 0.579.1 — 2026-10-30
 ### Fixed
