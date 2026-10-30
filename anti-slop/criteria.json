@@ -179,7 +179,7 @@
         {
           "id": "C1",
           "title": "One shared icon set — never mixed",
-          "test": "Every glyph comes from the single shared icon component (<aha-icon name> in the DS, the shared SVG Icon in an app) and one view uses the system-* outline family consistently — never mixed with @ant-design/icons, Lucide, Heroicons, FontAwesome, Material, Phosphor in a migrated repo, a hand-rolled inline <svg>, or a legacy fill/multicolour glyph."
+          "test": "Every glyph comes from the single shared icon component (<aha-icon name> in the DS, the shared SVG Icon in an app) and one view uses the system-* outline family consistently — never mixed with @ant-design/icons, Lucide, Heroicons, FontAwesome, Material, Phosphor in a migrated repo, a hand-rolled inline <svg>, or a legacy fill/multicolour glyph. An icon component or icon font from another library (<font-awesome-icon>, `fa fa-*`, `zmdi`, `material-icons` and the like) fails; `screen-lint` hard-fails it as `foreign-icon-library`."
         },
         {
           "id": "C2",
@@ -577,7 +577,7 @@
             "8.5",
             "11.1"
           ],
-          "test": "No red, yellow, amber, green or blue shows danger, warning, success or information, whether as text, an icon, a border or a dot. Status is shown with an icon, clear wording and an outline or a black fill. A rise is plain black with an up arrow; a fall is white on a black pill with a down arrow; never green and red. The one exception is a quiz answer: the correct green and wrong red (--aha-answer-*) mark a correct or wrong answer with a tick or cross disc (colour rules section 11) and pass; the same colours on a status, a toast, validation or a trend fail. A tinted status background is judged on the background surface (C5 there), not here."
+          "test": "No red, yellow, amber, green or blue shows danger, warning, success or information, whether as text, an icon, a border or a dot. Status is shown with an icon, clear wording and an outline or a black fill. A rise is plain black with an up arrow; a fall is white on a black pill with a down arrow; never green and red. The one exception is a quiz answer: the correct green and wrong red (--aha-answer-*) mark a correct or wrong answer with a tick or cross disc (colour rules section 11) and pass; the same colours on a status, a toast, validation or a trend fail. An error line in red text (a `text-red-*` utility class, `--aha-answer-wrong` as text) fails: error text stays the default ink in <aha-field-error> or <aha-alert type=\"error\"> with its DS icon; `screen-lint` hard-fails `status-hue-class`. A tinted status background is judged on the background surface (C5 there), not here."
         },
         {
           "id": "C6",
@@ -599,7 +599,7 @@
             "2.6",
             "7.4"
           ],
-          "test": "A third-party brand logo in any interface (presenter app, website header or menu, dialog, import source, connect button) is one colour at rest, greyscale (white on a Vivid Pink background), and shows its own brand colours only on hover and keyboard focus, from the Logo library's original-colour file, with the tool's name beside it. Brand colours at rest fail, except on a page that lists other products (Marketplace, an integrations directory), where each logo keeps its own colours in the DS white tile with a grey border, 32px at most, name beside it, and a tool not available yet is greyscale with a Coming soon tag (`<aha-tag color=\"primary\" bordered>`). Brand colour on anything beyond the logo (a button, tag, background or text) fails everywhere. Customer logos in a Trusted by strip are one colour, greyscale or Vivid Pink, one treatment per row. A file-type icon is one colour. The AhaSlides logo is the colour logo on white or the white logo on Vivid Pink, never an all-pink logo on white."
+          "test": "A third-party brand logo in any interface (presenter app, website header or menu, dialog, import source, connect button, a Log in with Google or Log in with Microsoft sign-in button) is one colour at rest, greyscale (white on a Vivid Pink background), and shows its own brand colours only on hover and keyboard focus, from the Logo library's original-colour file, with the tool's name beside it. Brand colours at rest fail, except on a page that lists other products (Marketplace, an integrations directory), where each logo keeps its own colours in the DS white tile with a grey border, 32px at most, name beside it, and a tool not available yet is greyscale with a Coming soon tag (`<aha-tag color=\"primary\" bordered>`). Brand colour on anything beyond the logo (a button, tag, background or text) fails everywhere. Customer logos in a Trusted by strip are one colour, greyscale or Vivid Pink, one treatment per row. A file-type icon is one colour. The AhaSlides logo is the colour logo on white or the white logo on Vivid Pink, never an all-pink logo on white."
         },
         {
           "id": "C8",
@@ -611,11 +611,12 @@
         },
         {
           "id": "C9",
-          "title": "In the product app, Vivid Pink at rest fills only each region's primary button",
+          "title": "In the product app, Vivid Pink at rest fills only each region's primary button and one text link",
           "source": [
-            "6.8"
+            "6.8",
+            "6.9"
           ],
-          "test": "Applies to product app screens only, not the website, the canvas or the audience screens. At rest, Vivid Pink is the fill of the primary button of each region (a page, panel, dialog or drawer) and nothing else: text, borders and icons are the default ink, and pink appears on hover, focus or selection. FAIL if a pink icon, pink border, pink heading or label, or a pink fill other than a primary button shows at rest. Rules that name their own pink pass: inline text links on white (6.6) or in an Alert or info box (6.7), tags (4.6), charts (section 8), the logo and illustrations, the focus ring, the chat launcher, the selected or on state of a control, the one Vivid Pink at 5% highlighted panel (3.7), and fills and marks a DS component ships at rest from its own contract, such as the Paywall upgrade mark, the Stat tile bar, group Avatar grounds, filled Rate stars, Badge primary count, ribbon and active dot, progress and loader fills, the current and finished Steps icons, the Upgrade (positive) and primary-alt buttons, and the highlighted name in a Screen heading greeting."
+          "test": "Applies to product app screens only, not the website, the canvas or the audience screens. At rest, Vivid Pink is the fill of the primary button of each region (a page, panel, dialog or drawer) and nothing else: text, borders and icons are the default ink, and pink appears on hover, focus or selection. FAIL if a pink icon, pink border, pink heading or label, or a pink fill other than a primary button shows at rest. Rules that name their own pink pass: one inline text link on white per screen or form, its main secondary path such as Sign up now (6.6, 6.9), links in an Alert or info box (6.7), tags (4.6), charts (section 8), the logo and illustrations, the focus ring, the chat launcher, the selected or on state of a control, the one Vivid Pink at 5% highlighted panel (3.7), and fills and marks a DS component ships at rest from its own contract, such as the Paywall upgrade mark, the Stat tile bar, group Avatar grounds, filled Rate stars, Badge primary count, ribbon and active dot, progress and loader fills, the current and finished Steps icons, the Upgrade (positive) and primary-alt buttons, and the highlighted name in a Screen heading greeting. FAIL if a screen or form shows more than one Vivid Pink text link at rest (outside an Alert or info box): every text link but the main secondary path is the neutral link of rule 6.9, the DS text-link in the default ink #1A1A1A, underlined at rest, Darker Pink #DB005B and underlined on hover, keyboard focus and press."
         }
       ]
     },
