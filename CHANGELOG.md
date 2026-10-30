@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.574.1 — 2026-10-30
+### Fixed
+- Dropdown with `value`: the selected row's description stays Regular 400 under the SemiBold label, as in the role picker design (#NNN)
+- Revert: revert the PR; one font-weight declaration in `lib/aha-dropdown.js` and a spec sentence
+
 ## 0.574.0 — 2026-10-30
 ### Added
 - Dropdown `value` attribute: a short single-choice picker with no Popover or Menu wrapper. The row whose key equals `value` is the brand-tinted selected row (bg-accent, SemiBold 600, no check mark) with `role=menuitemradio` and `aria-checked`; the trigger shows its label unless `label` is set; choosing a row sets `value`, closes the panel and emits `select`; opening focuses the selected row. Without `value` every row stays a plain `menuitem` and nothing changes for action dropdowns. Docs, playground, examples and a role-picker example updated (#480)
