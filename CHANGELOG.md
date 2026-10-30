@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.573.1 — 2026-10-30
+### Changed
+- Canvas criterion C17 and every copy of the rule (Button contract, Canvas Library, canvas guideline and guide, the agent skill, the button snippets): `tertiary-deck` stays banned directly on the photo of a photographic deck, and is now allowed there when it sits on a bounded surface the slide fills itself (card, panel, popover, sheet, chip) and its glyph clears 3:1 (a text label 4.5:1) against that surface as rendered over the photo. A translucent card counts when it clears that floor. New canvas eval 77 (tertiary-deck ✕ on an 80% card over a photo deck = PASS) beside eval 69 (directly on the photo = FAIL). (#NNN)
+
 ## 0.573.0 — 2026-10-29
 ### Added
 - Hero and Logos read as one surface: a Vivid Pink Logos strip (`aha-logos--brand`) nested as the last child of any Vivid Pink hero, Gallery or page header (`--brand`) drops its own flat fill, so the hero's Splash runs behind it with no seam, and it sits one Group below the hero's content (a page header with tabs keeps its tab rule, so no pull-up there). Before, the strip placed after the hero showed the Splash cut at the hero's edge and a flat pink strip below; at 1440 the Splash now ends at the strip's bottom edge (DESY-408)

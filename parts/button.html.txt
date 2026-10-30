@@ -46,7 +46,7 @@
 
 
 <!-- Canvas close (✕): a 28 x 28 sm square on the presenter canvas, after applyCanvasDeck. tertiary-deck draws the glyph in the
-     deck's secondary ink; on a photographic deck, where tertiary-deck is banned, use secondary-deck. -->
+     deck's secondary ink; directly on a deck photo, where tertiary-deck is banned, use secondary-deck. -->
 <aha-button variant="tertiary-deck" icon-only size="sm" corner aria-label="Close"><aha-icon name="system-x" size="16" decorative></aha-icon></aha-button>
 <aha-button variant="secondary-deck" icon-only size="sm" corner aria-label="Close"><aha-icon name="system-x" size="16" decorative></aha-icon></aha-button>
 

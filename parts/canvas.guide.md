@@ -301,8 +301,12 @@ from the deck once with `applyCanvasDeck`:
   Without `palette` nothing changes; `<aha-leaderboard>` then draws its bars in the deck accent, the only fallback.
 - The variant hierarchy is the same as the host bar's: at most one `primary`, the rest
   `secondary-deck` (white on every deck), per-round steppers `secondary-deck`. `tertiary-deck`
-  is never used on a photographic deck — a borderless button gets lost on a busy picture — so
-  the action becomes a `secondary-deck` there.
+  is never used directly on the photo of a photographic deck — a borderless button gets lost on
+  a busy picture — so the action becomes a `secondary-deck` there. It is allowed on a photographic
+  deck when it sits on a bounded surface the slide paints with its own fill (card, panel, popover,
+  sheet, chip), so the photo is not its direct backdrop, and its glyph clears 3:1 (a text label
+  4.5:1) against that surface as rendered over the photo. A translucent surface (an 80% card)
+  counts when it clears that floor.
 - Keyboard chips follow the in-canvas affordance rules below.
 
 The host control bar (next section) applies only to **built** plugins that declare manifest
