@@ -22,6 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.576.0 — 2026-10-30
+### Changed
+- Tooltip: `placement` is now a preference. On show the bubble is measured against its clipping panel (the nearest `overflow` ancestor, across shadow roots and slots, cut down to the viewport); with no room on that side it moves to the opposite side, then the roomier perpendicular side, then slides along that side to stay inside, with the arrow kept on the trigger. The attribute is never rewritten; the side used is reflected as `data-placement`, which the bubble CSS now reads. A `?` help tooltip at a drawer's edge is no longer cut off (#485)
+### Added
+- Overlays criterion C8 and guideline rule OVERLAY-09: an overlay is never clipped by its panel or the viewport (both criteria copies, the overlays guideline and guide, eval cases 11 and 12); gate test `tests/tooltip-clip.test.mjs` opens every placement at the edges of an `overflow: hidden` panel, a slotted shadow panel and the viewport and fails on any cut-off bubble (#485)
+- Revert: revert the PR; tooltips go back to their fixed side
+
 ## 0.575.0 — 2026-10-30
 ### Added
 - Illustration `empty-table`: a pink table card (Vivid Pink header row, empty dashed rows) drawn in the illustration tints to match the other `empty-*` art; 34 illustrations now (#484)
