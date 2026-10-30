@@ -9,6 +9,7 @@
 
 <!-- placement="bottomLeft" (default) | "bottomRight" | "topLeft" | "topRight"
      trigger="click" (default) | "hover"
+     value: key of the selected leaf (picker mode; omit for an action dropdown)
      items: leaf {key,label,description?,icon?,disabled?,danger?} · submenu-parent {key,label,icon?,children:[…]}
             (opens an adjacent flyout — hover / ArrowRight / Enter; ArrowLeft / Escape closes it)
             · {type:"divider"} · {type:"group",label,children:[]} -->
@@ -26,7 +27,17 @@
   ]'>
 </aha-dropdown>
 
+<!-- value="editor" makes it a single-choice picker: the matching row is the brand-tinted selected one
+     and the trigger shows its label (an explicit label wins). Choosing a row sets value and emits select. -->
+<aha-dropdown id="role" value="editor"
+  items='[
+    {"key":"editor","label":"Editor","description":"Edit and present"},
+    {"key":"presenter","label":"Presenter","description":"Present only, cannot edit"}
+  ]'>
+</aha-dropdown>
+
 <script>
+  document.getElementById('role').addEventListener('select', (e) => console.log('role', e.detail.key));
   // Opens on click, closes on outside-click / Escape (focus returns to the trigger); choosing an
   // item emits a composed `select`.
   document.getElementById('menu').addEventListener('select', (e) => console.log('action', e.detail.key));

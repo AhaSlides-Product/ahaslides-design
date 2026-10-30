@@ -3,7 +3,7 @@ import '@ahaslides-product/design/aha-dropdown';  // registers <aha-dropdown>
 import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper for the composed `select` event; React 19 can bind onSelect directly.
-function AhaDropdown({ label, items, placement, trigger, onSelect }) {
+function AhaDropdown({ label, value, items, placement, trigger, onSelect }) {
   const ref = useRef();
   useEffect(() => {
     const el = ref.current;
@@ -11,7 +11,7 @@ function AhaDropdown({ label, items, placement, trigger, onSelect }) {
     el.addEventListener('select', h);
     return () => el.removeEventListener('select', h);
   });
-  return <aha-dropdown ref={ref} label={label} placement={placement} trigger={trigger} items={JSON.stringify(items)} />;
+  return <aha-dropdown ref={ref} label={label} value={value} placement={placement} trigger={trigger} items={JSON.stringify(items)} />;
 }
 
 // usage — leading icons, a submenu-parent (children[] → adjacent flyout), a divider, a red danger action
@@ -31,4 +31,14 @@ function AhaDropdown({ label, items, placement, trigger, onSelect }) {
     { key: 'delete', label: 'Delete', icon: 'system-trash', danger: true },
   ]}
   onSelect={(key) => runAction(key)}
+/>
+
+// a single-choice picker: `value` selects the row and the trigger shows its label
+<AhaDropdown
+  value={role}
+  items={[
+    { key: 'editor', label: 'Editor', description: 'Edit and present' },
+    { key: 'presenter', label: 'Presenter', description: 'Present only, cannot edit' },
+  ]}
+  onSelect={setRole}
 />
