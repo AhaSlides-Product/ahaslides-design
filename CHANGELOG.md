@@ -22,10 +22,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.574.2 — 2026-10-30
+## 0.574.3 — 2026-10-30
 ### Fixed
 - Dropdown and Menu: a row's description sits 4px below its label (it touched the label before); the Dropdown panel and its flyout stop at `max-width: min(320px, 90vw)`, the same cap as the Select popup, so a long description truncates with an ellipsis instead of stretching the panel (#483)
 - Revert: revert the PR; a `gap` declaration in `lib/aha-dropdown.js` and `lib/aha-menu.js`, two `max-width` declarations in `lib/aha-dropdown.js`, and their spec rows
+
+## 0.574.2 — 2026-10-30
+### Changed
+- Canvas criterion C17 and every copy of the rule (Button contract, Canvas Library, canvas guideline and guide, the agent skill, the button snippets): `tertiary-deck` stays banned directly on the photo of a photographic deck, and is now allowed there when it sits on a bounded surface the slide fills itself (card, panel, popover, sheet, chip) and its glyph clears 3:1 (a text label 4.5:1) against that surface as rendered over the photo. A translucent card counts when it clears that floor. New canvas eval 77 (tertiary-deck ✕ on an 80% card over a photo deck = PASS) beside eval 69 (directly on the photo = FAIL). (#481)
 
 ## 0.574.1 — 2026-10-30
 ### Fixed

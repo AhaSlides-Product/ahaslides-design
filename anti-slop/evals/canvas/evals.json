@@ -1889,8 +1889,8 @@
       "prompt": "Review this Developer Platform presenter canvas on a deck whose slide.backgroundImage is a night-sky photograph. The controls row is `<aha-button variant=\"secondary-deck\" size=\"lg\" shortcut=\"V\">Hide votes</aha-button><aha-button variant=\"tertiary-deck\" size=\"lg\" shortcut=\"S\">Skip</aha-button><aha-button variant=\"primary\" size=\"lg\" shortcut=\"Enter\">Next: Result</aha-button>`, themed by applyCanvasDeck. Is the variant choice right on this deck?",
       "files": [],
       "label": "bad-example",
-      "notes": "C17 photographic-deck axis — a borderless tertiary-deck on a busy photo. Isolation case: only C17 should FAIL.",
-      "expected_output": "C17 FAILs. On a photographic deck a tertiary-deck button (no fill, no edge) gets lost on the busy picture, so tertiary is not used there: Skip becomes a secondary-deck (white fill on every deck). Size lg, the chips and applyCanvasDeck are correct. Overall: NEEDS FIX",
+      "notes": "C17 photographic-deck axis — a borderless tertiary-deck directly on a busy photo, with no filled surface behind it. Isolation case: only C17 should FAIL.",
+      "expected_output": "C17 FAILs. Directly on the photo of a photographic deck a tertiary-deck button (no fill, no edge) gets lost on the busy picture, so tertiary is not used there: Skip becomes a secondary-deck (white fill on every deck). Size lg, the chips and applyCanvasDeck are correct. Overall: NEEDS FIX",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C17 is marked FAIL",
@@ -2083,6 +2083,29 @@
       "source": {
         "authored": "ahaslides-design",
         "why": "DESY-285: Slide Plugin Policy section 6 (full keyboard control of the presenting view) had no judge criterion"
+      }
+    },
+    {
+      "id": 77,
+      "prompt": "Review this Developer Platform presenter canvas on a deck whose slide.backgroundImage is a night-sky photograph and whose textColour is #1A1A1A. Each idea sits on a card drawn by the slide: `background: rgba(255,255,255,0.8); border-radius: 8px; padding: 16px`, so the photo faintly shows through. The card's Remove button is `<aha-button variant=\"tertiary-deck\" size=\"sm\" icon-only corner aria-label=\"Remove idea\"><aha-icon name=\"system-x\" size=\"16\" decorative></aha-icon></aha-button>`, themed by applyCanvasDeck; its glyph measures about 5:1 against the card as rendered over the photo. The presenter controls row is `<aha-button variant=\"secondary-deck\" size=\"lg\" shortcut=\"V\">Hide votes</aha-button><aha-button variant=\"primary\" size=\"lg\" shortcut=\"Enter\">Next: Result</aha-button>`. Is the tertiary-deck Remove allowed on this deck?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C17 photographic-deck axis, allowed side: a tertiary-deck ✕ on a filled card over the photo, glyph above 3:1 against the card. Pair of eval 69 (tertiary-deck directly on the photo = FAIL).",
+      "expected_output": "C17 PASSes. The tertiary-deck ✕ does not sit on the photo: it sits on a card the slide paints with its own fill, and an 80% card counts because its glyph clears 3:1 (about 5:1) against the card as rendered over the photo. The controls row keeps one primary and a secondary-deck at size lg. Overall: OK TO SHIP",
+      "assertions": [
+        "C17 is marked PASS",
+        "Does not ask to swap the card's Remove ✕ to secondary-deck",
+        "Recognises that the card, not the photo, is the button's backdrop and that its glyph clears 3:1"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C17": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-410: tertiary-deck is allowed on a photographic deck when it sits on a filled surface that clears the contrast floor (Brainstorm card Remove ✕)"
       }
     }
   ]
