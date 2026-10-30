@@ -24,8 +24,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.575.1 — 2026-10-30
 ### Fixed
-- Dropdown and Menu: a row's description wraps onto as many lines as it needs instead of truncating with an ellipsis; the row grows to fit, and the label still truncates on one line (#486)
-- Revert: revert the PR; one `.description` declaration in `lib/aha-dropdown.js` and `lib/aha-menu.js`, and the Description and Panel rows in the dropdown and menu contracts
+- Dropdown and Menu: a row's description wraps onto as many lines as it needs instead of truncating with an ellipsis; the row grows to fit, and the label still truncates on one line. The Dropdown panel and flyout now size to their content up to `max-width: min(320px, 90vw)` before a description wraps, instead of shrinking to their minimum width (#486)
+- Revert: revert the PR; one `.description` declaration in `lib/aha-dropdown.js` and `lib/aha-menu.js`, a `width:max-content` on the Dropdown panel and flyout, and the Description and Panel rows in the dropdown and menu contracts
 
 ## 0.575.0 — 2026-10-30
 ### Added
