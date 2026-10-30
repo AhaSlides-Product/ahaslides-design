@@ -30,7 +30,7 @@
     { "name": "trigger", "type": "'hover' | 'focus' | 'click'", "default": "hover", "desc": "How it opens: hover+focus · focus only · click to toggle" },
     { "name": "open", "type": "boolean", "default": "false", "desc": "Force the bubble visible (demos/tests); otherwise the trigger opens it" },
     { "name": "size", "type": "'default' | 'lg'", "default": "default", "desc": "lg is the canvas tooltip: 16px / 400 name, one line, 6px / 12px padding (36px tall), no drop shadow, a 1px edge of white at 20%" },
-    { "name": "shortcut", "type": "string", "default": "—", "desc": "size=\"lg\" only. Display-only keyboard chip after the name, the same as aha-button's: \"M\", \"Esc\", \"Enter\", \"Shift+Enter\", \"Mod+Enter\" (Mod = ⌘ on a Mac, Ctrl elsewhere); aria-hidden, so keep the key in the trigger's aria-label" },
+    { "name": "shortcut", "type": "string", "default": "—", "desc": "size=\"lg\" only. Display-only keyboard chip after the name, the same as aha-button's: \"M\", \"Esc\", \"Enter\", \"Shift+Enter\", \"Mod+Enter\", \"+\" for a literal plus key, \"Ctrl++\" for Ctrl and plus (Mod = ⌘ on a Mac, Ctrl elsewhere); aria-hidden, so keep the key in the trigger's aria-label" },
     { "name": "help", "type": "boolean", "default": "false", "desc": "Render a built-in `?` help trigger — a focusable button carrying the DS <aha-icon name=\"system-question\"> (16px, --aha-icon-muted → --aha-icon-default on hover/focus) — instead of requiring a slotted trigger. The settings-label help-glyph pattern; shows on focus as well as hover" }
   ],
   "opinion": {
