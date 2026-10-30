@@ -362,6 +362,24 @@ test('leaderboard: with motion on, showWinner first dims the lower ranks bottom-
   assert.deepEqual(result.again, { shown: true, hidden: false, score: '0 points', confetti: true, settled: '932 points' });
 });
 
+test('leaderboard: a board shown as winner, removed, hidden while detached and appended again keeps no dimmed row', { skip }, async () => {
+  const file = join(mkdtempSync(join(tmpdir(), 'leaderboard-')), 'page.html');
+  const entries = [{ id: 'a', name: 'Al', score: 932 }, { id: 'b', name: 'Bo', score: 500 }, { id: 'c', name: 'Cy', score: 300 }];
+  writeFileSync(file, `<!doctype html><body>
+<aha-leaderboard id="lb" style="display:block;width:600px;height:320px" entries='${JSON.stringify(entries)}'></aha-leaderboard>
+<script type="module">window.matchMedia = () => ({ matches: false }); await import('${lib}'); await customElements.whenDefined('aha-leaderboard'); window.ready = true;</script>`);
+  const dimmed = await evaluateInPage(pathToFileURL(file).href, `(async () => {
+    const host = document.getElementById('lb');
+    host.showWinner();
+    host.remove();
+    host.hideWinner();
+    document.body.append(host);
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    return host.shadowRoot.querySelectorAll('.row[data-countdown]').length;
+  })()`, { readyExpr: '!!window.ready', timeout: 45000 });
+  assert.equal(dimmed, 0);
+});
+
 test('leaderboard: the winner name and score reach WCAG AA 4.5:1 on the winner banner and the row text behind the banner stays illegible on the canvas, on light, dark and coloured decks', { skip }, async () => {
   const decks = [
     { name: 'light', bg: '#FFFFFF', ink: '#1A1A1A', palette: ['#E70E68', '#4DE8AB', '#F2643A', '#1A1A1A'] },
