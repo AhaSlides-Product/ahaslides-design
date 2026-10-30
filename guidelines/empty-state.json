@@ -13,9 +13,9 @@
     "Illustration, title, body, at most one action, centred",
     "Three scales: page, panel, and compact for a card under 240 px",
     "A repeated small item gets a one-line caption, never the pattern",
-    "Plain <aha-empty> for tables, lists, dropdowns and widgets"
+    "Tables show empty-table art at 64 px; lists keep grey <aha-empty>"
   ],
-  "lead": "An empty state is what a surface shows when nothing has gone wrong and there is simply nothing to show yet. The full pattern is built from parts the DS already ships: an empty-* spot illustration called by name through <aha-illustration>, a title, a body and, when one next step exists, one <aha-button>. It ships no new element. The rules come from three states the Reports team approved in the report app: Session detail with no data, the Participants tab and the Feedback tab. A card or panel under 240 px whose content is the empty thing takes the compact scale; a table body, list, dropdown or widget keeps the plain grey <aha-empty>; a small item repeated many times shows a one-line caption.",
+  "lead": "An empty state is what a surface shows when nothing has gone wrong and there is simply nothing to show yet. The full pattern is built from parts the DS already ships: an empty-* spot illustration called by name through <aha-illustration>, a title, a body and, when one next step exists, one <aha-button>. It ships no new element. The rules come from three states the Reports team approved in the report app: Session detail with no data, the Participants tab and the Feedback tab. A card or panel under 240 px whose content is the empty thing takes the compact scale; a table body shows <aha-empty> with the pink empty-table illustration at 64 px and a short caption; a list, dropdown or widget keeps the plain grey <aha-empty>; a small item repeated many times shows a one-line caption.",
   "skillRef": {
     "build": "DS guideline — guidelines/empty-state.json",
     "judge": "DS anti-slop feed — anti-slop.md (no surface yet; the rules below are build checks)",
@@ -44,8 +44,13 @@
       "example": "All quiet here! No insights found yet."
     },
     {
-      "surface": "A table body, list, dropdown or widget",
-      "useFor": "a small surface where a spot illustration would crowd the rows. Plain <aha-empty> (grey line art, one caption)",
+      "surface": "A table body with no rows",
+      "useFor": "<aha-empty> with the empty-table illustration in its image slot at 64 px and one caption. DataTable shows it by default; a plain antd Table passes it as locale.emptyText",
+      "example": "<aha-empty description=\"No data\"><aha-illustration slot=\"image\" name=\"empty-table\" size=\"64\"></aha-illustration></aha-empty>"
+    },
+    {
+      "surface": "A list, dropdown or widget",
+      "useFor": "a small surface where a spot illustration would crowd the items. Plain <aha-empty> (grey line art, one caption)",
       "example": "<aha-empty image=\"simple\" description=\"No responses yet\"></aha-empty>"
     },
     {
@@ -69,7 +74,7 @@
     {
       "ref": "empty",
       "as": "component",
-      "use": "the plain placeholder for table bodies, lists, dropdowns and widgets (grey line art, one caption); the pattern replaces it only where the area is large enough",
+      "use": "the small placeholder: in a table body with the empty-table illustration in its image slot at 64 px; in lists, dropdowns and widgets with its own grey line art; one caption either way. The pattern replaces it only where the area is large enough",
       "status": "available"
     },
     {
@@ -160,7 +165,7 @@
   "rules": [
     {
       "id": "when-to-use",
-      "rule": "Use the full pattern (illustration, title, body, optional action) when the empty thing is a page or a panel that is the main content of its area: page or panel scale at 240 px tall or more, compact scale for a card or panel under 240 px whose content is the empty thing (the Session detail Insights card). Use plain <aha-empty> in a table body, list, dropdown or widget, where its grey line art does not crowd the rows. Never put the full pattern inside a table row, and never leave a full page on a grey <aha-empty> or a bare table placeholder.",
+      "rule": "Use the full pattern (illustration, title, body, optional action) when the empty thing is a page or a panel that is the main content of its area: page or panel scale at 240 px tall or more, compact scale for a card or panel under 240 px whose content is the empty thing (the Session detail Insights card). In a table body use <aha-empty> with the empty-table illustration in its image slot at 64 px and one caption (DataTable does this by default; a plain antd Table passes it as locale.emptyText). Use plain <aha-empty> in a list, dropdown or widget, where its grey line art does not crowd the items. Never put the full pattern inside a table row, and never leave a full page on a grey <aha-empty> or a bare table placeholder.",
       "ref": [
         "EMPTY-01"
       ]
@@ -174,7 +179,7 @@
     },
     {
       "id": "illustration",
-      "rule": "The illustration is <aha-illustration name=\"empty-…\"> from the registry, sized by one edge, and it names what is missing: empty-report for a session or report with no data, empty-sessions, empty-slides, empty-insights, empty-leaderboard, empty-responses, empty-participants, empty-feedback, empty-presentation-list, empty-templates, empty-trash. It is never inline SVG or a PNG, and it keeps its fixed pink tints (never recoloured, never tinted by currentColor). Search the registry first; when no empty-* fits, add the missing one under illustrations/svg/empty/ as the Illustration contract describes, and never borrow an illustration for a different thing.",
+      "rule": "The illustration is <aha-illustration name=\"empty-…\"> from the registry, sized by one edge, and it names what is missing: empty-report for a session or report with no data, empty-sessions, empty-slides, empty-insights, empty-leaderboard, empty-responses, empty-participants, empty-feedback, empty-presentation-list, empty-templates, empty-trash, and empty-table for a table body with no rows (inside <aha-empty>, at 64 px). It is never inline SVG or a PNG, and it keeps its fixed pink tints (never recoloured, never tinted by currentColor). Search the registry first; when no empty-* fits, add the missing one under illustrations/svg/empty/ as the Illustration contract describes, and never borrow an illustration for a different thing.",
       "ref": [
         "EMPTY-03"
       ]

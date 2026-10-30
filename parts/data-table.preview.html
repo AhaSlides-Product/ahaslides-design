@@ -136,6 +136,8 @@ function App() {
     h(Case, { title: 'Basic', hint: 'toolbar title + actions' },
       h(DataTable, { rowKey: 'key', dataSource: rows.slice(0, 5), columns: base, pagination: false,
         toolbarTitle: 'Leaderboard', toolbarActions: h(Button, { icon: icon('system-download-simple') }, 'Export') })),
+    h(Case, { title: 'No rows', hint: 'the empty-table illustration at 64 px with the noData caption; locale.emptyText replaces it' },
+      h(DataTable, { rowKey: 'key', dataSource: [], columns: base, pagination: false })),
     h(Case, { title: 'Sorting', hint: 'single directional arrow; click a header to cycle ↓ → ↑ → none' },
       h(DataTable, { rowKey: 'key', dataSource: rows.slice(0, 5), pagination: false, columns: [
         { ...base[0], sorter: byName, help: 'Participant display name' },
