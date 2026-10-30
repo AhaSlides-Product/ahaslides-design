@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.574.1 — 2026-10-30
 ### Fixed
-- Dropdown with `value`: the selected row's description stays Regular 400 under the SemiBold label, as in the role picker design (#NNN)
+- Dropdown with `value`: the selected row's description stays Regular 400 under the SemiBold label, as in the role picker design (#482)
 - Revert: revert the PR; one font-weight declaration in `lib/aha-dropdown.js` and a spec sentence
 
 ## 0.574.0 — 2026-10-30
