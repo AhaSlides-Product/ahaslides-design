@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.577.1 — 2026-10-30
+### Fixed
+- Tooltip: a tooltip that stays visible (held `open`, or toggled open by click) now re-picks its side as its panel or the page scrolls, so it no longer keeps a side that has since become clipped. It listens for scroll only while visible, one measure per frame (#488)
+- Revert: revert the PR; one `_syncScrollWatch` method and its calls in `lib/aha-tooltip.js`, one clause in the tooltip contract's Placement row
 ## 0.577.0 — 2026-10-30
 ### Added
 - Illustration `empty-list`: pink stacked cards with empty dashed rows, drawn in the illustration tints; reads at 64 px and 48 px; 35 illustrations now (#487)
