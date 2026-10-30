@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.574.0 — 2026-10-30
+### Added
+- Dropdown `value` attribute: a short single-choice picker with no Popover or Menu wrapper. The row whose key equals `value` is the brand-tinted selected row (bg-accent, SemiBold 600, no check mark) with `role=menuitemradio` and `aria-checked`; the trigger shows its label unless `label` is set; choosing a row sets `value`, closes the panel and emits `select`; opening focuses the selected row. Without `value` every row stays a plain `menuitem` and nothing changes for action dropdowns. Docs, playground, examples and a role-picker example updated (#NNN)
+- Revert: revert the PR; one attribute and one `_syncValue` method in `lib/aha-dropdown.js`, its contract and example text, and one test file. No existing behaviour changes
+
 ## 0.573.0 — 2026-10-29
 ### Added
 - Hero and Logos read as one surface: a Vivid Pink Logos strip (`aha-logos--brand`) nested as the last child of any Vivid Pink hero, Gallery or page header (`--brand`) drops its own flat fill, so the hero's Splash runs behind it with no seam, and it sits one Group below the hero's content (a page header with tabs keeps its tab rule, so no pull-up there). Before, the strip placed after the hero showed the Splash cut at the hero's edge and a flat pink strip below; at 1440 the Splash now ends at the strip's bottom edge (DESY-408)
