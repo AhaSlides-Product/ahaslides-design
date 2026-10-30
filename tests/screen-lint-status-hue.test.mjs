@@ -14,6 +14,8 @@ const CASES = {
       '<span className="bg-yellow-10 border-l-amber-500">Check this</span>',
       '<small class="text-danger">Required</small>',
       '.error { @apply hover:text-red-500; }',
+      '<p class="text-red-500">This password is not correct.</p>',
+      '<p class="text-red-500">Incorrect password</p>',
     ],
     pass: [
       '<div class="text-sm text-black-100">',
@@ -44,10 +46,13 @@ const CASES = {
     fail: [
       '<aha-antd-button variant="secondary" icon-maintain-color icon-name="gg">',
       '<img src="https://design.ahaslides.io/logo/original/google.svg" alt="">',
+      '<img\n  class="logo"\n  src="/logo/original/google.svg"\n  alt="Google">',
+      '.sign-in { background: url(/logo/original/microsoft.svg); }',
     ],
     pass: [
       '<img src="https://design.ahaslides.io/logo/google.svg" alt="">',
       '<img class="brand-logo-original" src="https://design.ahaslides.io/logo/original/google.svg" alt="">',
+      '<img\n  class="brand-logo-original"\n  src="/logo/original/google.svg"\n  alt="Google">',
       '<img src="/logo/original/zoom.svg" alt="Zoom"> <!-- ds-lint-allow: brand-logo (Marketplace listing, logos are the content) -->',
     ],
   },
@@ -72,4 +77,10 @@ test('the login error line reports both rules on the lines that carry them', () 
 test('ds-lint-allow names the group or the rule to silence a line', () => {
   assert.ok(!hardRulesOf('<b class="text-red-100"></b> <!-- ds-lint-allow: status-hue (legacy screen, migrating) -->').includes('status-hue-class'));
   assert.ok(!hardRulesOf('<i class="fa fa-x"></i> <!-- ds-lint-allow: icon (legacy screen, migrating) -->').includes('foreign-icon-library'));
+});
+
+test('a logo tag split over several lines reports once, on the line the tag opens', () => {
+  const findings = lintHtml('<p>Sign in</p>\n<img\n  src="/logo/original/google.svg"\n  alt="Google">', { surface: 'product' }).findings
+    .filter((f) => f.rule === 'brand-logo-colour');
+  assert.deepEqual(findings.map((f) => f.line), [2]);
 });
