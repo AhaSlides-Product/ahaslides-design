@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.575.1 — 2026-10-30
 ### Fixed
-- Dropdown and Menu: a row's description wraps onto as many lines as it needs instead of truncating with an ellipsis; the row grows to fit, and the label still truncates on one line (#NNN)
+- Dropdown and Menu: a row's description wraps onto as many lines as it needs instead of truncating with an ellipsis; the row grows to fit, and the label still truncates on one line (#486)
 - Revert: revert the PR; one `.description` declaration in `lib/aha-dropdown.js` and `lib/aha-menu.js`, and the Description and Panel rows in the dropdown and menu contracts
 
 ## 0.575.0 — 2026-10-30
