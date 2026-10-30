@@ -323,9 +323,9 @@ test('leaderboard: showWinner centres every tied rank 1 in a banner covering the
   assert.equal(result.zero, false);
 });
 
-test('leaderboard: with motion on, showWinner counts the winner score up from 0 under a burst of full-strength deck-palette confetti in mixed shapes, and closing then showing again replays the reveal', { skip }, async () => {
+test('leaderboard: with motion on, showWinner first dims the lower ranks bottom-up with no spinner-like ring, then counts the winner score up from 0 under a burst of full-strength deck-palette confetti in mixed shapes, and closing then showing again replays the reveal', { skip }, async () => {
   const file = join(mkdtempSync(join(tmpdir(), 'leaderboard-')), 'page.html');
-  const entries = [{ id: 'a', name: 'Al', score: 932 }, { id: 'b', name: 'Bo', score: 500 }];
+  const entries = [{ id: 'a', name: 'Al', score: 932 }, { id: 'b', name: 'Bo', score: 500 }, { id: 'c', name: 'Cy', score: 300 }, { id: 'd', name: 'Di', score: 100 }];
   writeFileSync(file, `<!doctype html><body style="--aha-deck-palette-1:rgb(255,0,0);--aha-deck-palette-2:rgb(0,0,255);--aha-deck-palette-3:rgb(0,128,0)">
 <aha-leaderboard id="lb" style="display:block;width:600px;height:320px" entries='${JSON.stringify(entries)}'></aha-leaderboard>
 <script type="module">window.matchMedia = () => ({ matches: false }); await import('${lib}'); await customElements.whenDefined('aha-leaderboard'); window.ready = true;</script>`);
@@ -334,7 +334,12 @@ test('leaderboard: with motion on, showWinner counts the winner score up from 0 
     const root = host.shadowRoot;
     const score = () => root.querySelector('.winner-score').textContent;
     const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+    const rows = () => [...root.querySelectorAll('.row')].map((row) => ({ name: row.querySelector('.name').textContent,
+      dimAt: row.hasAttribute('data-countdown') ? getComputedStyle(row).getPropertyValue('--_dim-at').trim() : null }));
     host.showWinner();
+    const ring = [...root.querySelectorAll('*')].filter((node) => { const style = getComputedStyle(node);
+      return style.borderRadius === '50%' && parseFloat(style.borderWidth) > 0 && node.closest('.winner') && !node.closest('.winner-avatar'); }).length;
+    const countdown = { rows: rows(), ring, bannerOpensAt: getComputedStyle(root.querySelector('.winner')).getPropertyValue('--_open-at').trim() };
     const pieces = [...root.querySelectorAll('.confetti .piece')];
     const first = { score: score(), confetti: !root.querySelector('.confetti').hidden, pieces: pieces.length,
       shapes: [...new Set(pieces.map((piece) => piece.dataset.shape))].sort(),
@@ -343,15 +348,17 @@ test('leaderboard: with motion on, showWinner counts the winner score up from 0 
     await wait(2800);
     first.settled = score();
     root.querySelector('.winner-close').shadowRoot.querySelector('button').click();
-    const closed = { hidden: root.querySelector('.winner').hidden, confetti: root.querySelector('.confetti').hidden };
+    const closed = { hidden: root.querySelector('.winner').hidden, confetti: root.querySelector('.confetti').hidden, dimmed: rows().filter((row) => row.dimAt !== null).length };
     const again = { shown: host.showWinner(), hidden: root.querySelector('.winner').hidden, score: score(), confetti: !root.querySelector('.confetti').hidden };
     await wait(2800);
     again.settled = score();
-    return { first, closed, again };
+    return { countdown, first, closed, again };
   })()`, { readyExpr: '!!window.ready', timeout: 45000 });
   assert.deepEqual(result.first, { score: '0 points', confetti: true, pieces: 120, shapes: ['circle', 'rect', 'streamer'],
     colours: ['rgb(0, 0, 255)', 'rgb(0, 128, 0)', 'rgb(255, 0, 0)'], announced: 'Winner: Al, 932 points', settled: '932 points' });
-  assert.deepEqual(result.closed, { hidden: true, confetti: true });
+  assert.deepEqual(result.countdown, { rows: [{ name: 'Al', dimAt: null }, { name: 'Bo', dimAt: '440ms' }, { name: 'Cy', dimAt: '220ms' }, { name: 'Di', dimAt: '0ms' }],
+    ring: 0, bannerOpensAt: '660ms' });
+  assert.deepEqual(result.closed, { hidden: true, confetti: true, dimmed: 0 });
   assert.deepEqual(result.again, { shown: true, hidden: false, score: '0 points', confetti: true, settled: '932 points' });
 });
 

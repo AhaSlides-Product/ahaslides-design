@@ -87,7 +87,7 @@
     },
     {
       "label": "Motion",
-      "value": "rows slide to their new rank (FLIP, --aha-motion-viz-reorder), the bar and ink clip grow together and the score counts up; on the canvas the winner reveal is staged over about 2.5 seconds: the banner fades in over the list (--aha-motion-slow), an accent ring pulses as a build-up and bursts outward, then the name, the avatar and the score pop in one after another (--aha-motion-viz-enter, 250ms apart) with the score counting up from 0, while deck-palette confetti bursts from the banner centre and both bottom corners; none of it under prefers-reduced-motion, where the winner appears at once with no ring, count-up or confetti"
+      "value": "rows slide to their new rank (FLIP, --aha-motion-viz-reorder), the bar and ink clip grow together and the score counts up; on the canvas the winner reveal is staged over about 2.5 to 3 seconds: a rank countdown dims the rows below rank 1 in view one beat at a time from the bottom up (--aha-motion-mid each, at most 220ms apart and 1.1s in all), then the banner fades in over the list (--aha-motion-slow) with an accent light sweeping across it once (--aha-motion-viz-enter), and the name, the avatar and the score scale in one after another (--aha-motion-viz-enter, 250ms apart) with the score counting up from 0, while deck-palette confetti bursts from the banner centre and both bottom corners; no circular or looping shape, so it never reads as loading; none of it under prefers-reduced-motion, where the winner appears at once with no countdown, sweep, count-up or confetti"
     },
     {
       "label": "Show winner",
