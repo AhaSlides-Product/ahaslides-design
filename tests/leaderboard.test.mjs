@@ -248,13 +248,13 @@ await customElements.whenDefined('aha-leaderboard'); await new Promise((r) => se
   });
 }
 
-test('leaderboard: showWinner centres every tied rank 1 over the dimmed list without motion under reduced motion, and the close button or Esc dismisses it with winner-close', { skip }, async () => {
+test('leaderboard: showWinner centres every tied rank 1 over the dimmed list at stage sizes without motion under reduced motion, the close button or Esc dismisses it with winner-close, and the phone shows no winner', { skip }, async () => {
   const file = join(mkdtempSync(join(tmpdir(), 'leaderboard-')), 'page.html');
   const entries = [{ id: 'a', name: 'Al', score: 932, avatar: '💀' }, { id: 'b', name: 'Amber', score: 932 }, { id: 'c', name: 'Lan', score: 0 }];
   writeFileSync(file, `<!doctype html><body style="--aha-deck-palette-1:rgb(255,0,0);--aha-deck-palette-2:rgb(0,0,255)">
 <aha-leaderboard id="lb" style="display:block;width:600px" entries='${JSON.stringify(entries)}'></aha-leaderboard>
 <aha-leaderboard id="phone" size="phone" heading="Leaderboard" winner style="display:block;width:340px" entries='${JSON.stringify(entries)}'></aha-leaderboard>
-<aha-leaderboard id="many" size="phone" winner style="display:block;width:360px;height:300px" entries='${JSON.stringify(Array.from({ length: 12 }, (_, index) => ({ id: 'w' + index, name: 'Winner ' + index, score: 10, avatar: '💀' })))}'></aha-leaderboard>
+<aha-leaderboard id="many" winner style="display:block;width:360px;height:300px" entries='${JSON.stringify(Array.from({ length: 12 }, (_, index) => ({ id: 'w' + index, name: 'Winner ' + index, score: 10, avatar: '💀' })))}'></aha-leaderboard>
 <aha-leaderboard id="empty" entries="[]"></aha-leaderboard>
 <aha-leaderboard id="zero" entries='[{"id":"a","name":"A","score":0}]'></aha-leaderboard>
 <script type="module">import '${lib}'; await customElements.whenDefined('aha-leaderboard'); await new Promise((r) => setTimeout(r, 500)); window.ready = true;</script>`);
@@ -264,13 +264,13 @@ test('leaderboard: showWinner centres every tied rank 1 over the dimmed list wit
     const closes = [];
     host.addEventListener('winner-close', () => closes.push(host.winner));
     const hiddenBefore = root.querySelector('.winner').hidden;
-    const phoneRoot = document.getElementById('phone').shadowRoot;
-    const phone = { open: !phoneRoot.querySelector('.winner').hidden, closeSize: phoneRoot.querySelector('.winner-close').getAttribute('size'),
-      nameSize: getComputedStyle(phoneRoot.querySelector('.winner-name')).fontSize };
+    const phoneHost = document.getElementById('phone');
+    const phoneRoot = phoneHost.shadowRoot;
+    const phone = { open: !phoneRoot.querySelector('.winner').hidden, close: !phoneRoot.querySelector('.winner-close').hidden,
+      confetti: !phoneRoot.querySelector('.confetti').hidden, shown: phoneHost.showWinner(), openAfterCall: !phoneRoot.querySelector('.winner').hidden };
     const overlapsRow = (shadow) => { const close = shadow.querySelector('.winner-close').getBoundingClientRect();
       return [...shadow.querySelectorAll('li.row:not([hidden])')].some((row) => { const box = row.getBoundingClientRect();
         return close.left < box.right && close.right > box.left && close.top < box.bottom && close.bottom > box.top; }); };
-    phone.closeOverRow = overlapsRow(phoneRoot);
     const manyOverlay = document.getElementById('many').shadowRoot.querySelector('.winner');
     const manyFirstTop = manyOverlay.querySelector('.winner-person').getBoundingClientRect().top - manyOverlay.getBoundingClientRect().top;
     manyOverlay.scrollTop = manyOverlay.scrollHeight;
@@ -282,7 +282,9 @@ test('leaderboard: showWinner centres every tied rank 1 over the dimmed list wit
     const box = winner.getBoundingClientRect();
     const list = root.querySelector('.viewport').getBoundingClientRect();
     const names = [...root.querySelectorAll('.winner-person:not([hidden]) .winner-name')].map((name) => name.textContent);
-    const state = { hiddenBefore, phone, many, shown, attribute: host.hasAttribute('winner'), names, score: root.querySelector('.winner-score').textContent,
+    const sizes = { name: getComputedStyle(root.querySelector('.winner-name')).fontSize, score: getComputedStyle(root.querySelector('.winner-score')).fontSize,
+      close: root.querySelector('.winner-close').getAttribute('size') };
+    const state = { hiddenBefore, phone, many, shown, sizes, attribute: host.hasAttribute('winner'), names, score: root.querySelector('.winner-score').textContent,
       announced: root.querySelector('.live').textContent, covers: box.top <= list.top && box.bottom >= list.bottom && box.width === list.width,
       you: winner.textContent.includes('(you)'), dim: getComputedStyle(winner).backgroundColor,
       reducedMotion: { pieces: root.querySelectorAll('.confetti .piece').length, confetti: getComputedStyle(root.querySelector('.confetti')).display, fade: getComputedStyle(winner).animationName },
@@ -314,13 +316,14 @@ test('leaderboard: showWinner centres every tied rank 1 over the dimmed list wit
   assert.deepEqual(result.afterClick, { hidden: true, attribute: false, closes: 1 });
   assert.deepEqual(result.afterEscape, { hidden: true, closes: 2 });
   assert.deepEqual(result.afterHide, { hidden: true, closes: 2 });
-  assert.deepEqual(result.phone, { open: true, closeSize: 'md', nameSize: '24px', closeOverRow: false });
+  assert.deepEqual(result.sizes, { name: '48px', score: '64px', close: 'sm' });
+  assert.deepEqual(result.phone, { open: false, close: false, confetti: false, shown: false, openAfterCall: false });
   assert.deepEqual(result.many, { firstWinnerInside: true, scoreReachable: true, shown: 12 });
   assert.deepEqual(result.empty, { shown: false, attribute: false });
   assert.equal(result.zero, false);
 });
 
-test('leaderboard: the winner name and score reach WCAG AA 4.5:1 on the dimmed list and the row text behind the winner plate stays illegible, canvas and audience, on light, dark and coloured decks', { skip }, async () => {
+test('leaderboard: the winner name and score reach WCAG AA 4.5:1 on the dimmed list and the row text behind the winner plate stays illegible on the canvas, on light, dark and coloured decks', { skip }, async () => {
   const decks = [
     { name: 'light', bg: '#FFFFFF', ink: '#1A1A1A', palette: ['#E70E68', '#4DE8AB', '#F2643A', '#1A1A1A'] },
     { name: 'dark', bg: '#161616', ink: '#FFFFFF', palette: ['#E70E68', '#4DE8AB', '#F2643A', '#FFFFFF'] },
@@ -331,7 +334,6 @@ test('leaderboard: the winner name and score reach WCAG AA 4.5:1 on the dimmed l
 <script type="module">
 import '${lib}';
 import { canvasDeckVars } from '${pathToFileURL(fileURLToPath(new URL('../lib/canvas-deck.js', import.meta.url))).href}';
-import { deckVars } from '${pathToFileURL(fileURLToPath(new URL('../lib/audience-deck.js', import.meta.url))).href}';
 await customElements.whenDefined('aha-leaderboard');
 const canvas = document.createElement('canvas'); canvas.width = canvas.height = 1;
 const context = canvas.getContext('2d', { willReadFrequently: true });
@@ -341,13 +343,13 @@ const channel = (value) => { const unit = value / 255; return unit <= 0.04045 ? 
 const luminance = (rgb) => 0.2126 * channel(rgb[0]) + 0.7152 * channel(rgb[1]) + 0.0722 * channel(rgb[2]);
 const ratio = (a, b) => { const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x); return (hi + 0.05) / (lo + 0.05); };
 window.results = [];
-for (const deck of ${JSON.stringify(decks)}) for (const surface of ['canvas', 'audience']) {
+for (const deck of ${JSON.stringify(decks)}) {
   const root = document.createElement('div');
-  root.style.cssText = 'width:' + (surface === 'canvas' ? 520 : 360) + 'px;background:' + deck.bg;
-  const vars = surface === 'canvas' ? canvasDeckVars({ accent: deck.palette[0], ink: deck.ink, background: deck.bg, palette: deck.palette }) : deckVars({ ink: deck.ink, accent: deck.palette[0], palette: deck.palette });
+  root.style.cssText = 'width:520px;background:' + deck.bg;
+  const vars = canvasDeckVars({ accent: deck.palette[0], ink: deck.ink, background: deck.bg, palette: deck.palette });
   for (const [name, value] of Object.entries(vars)) root.style.setProperty(name, value);
   const element = document.createElement('aha-leaderboard');
-  element.setAttribute('size', surface === 'canvas' ? 'stage' : 'phone');
+  element.setAttribute('size', 'stage');
   element.setAttribute('entries', JSON.stringify([{ id: 'a', name: 'Al', score: 932 }, { id: 'b', name: 'Bo', score: 500 }]));
   root.appendChild(element); document.body.appendChild(root);
   element.showWinner();
@@ -360,16 +362,16 @@ for (const deck of ${JSON.stringify(decks)}) for (const surface of ['canvas', 'a
   for (const kind of ['.winner-name', '.winner-score']) {
     const ink = parse(getComputedStyle(shadow.querySelector(kind)).color);
     const worst = Math.min(...behind.map((colour) => { const background = through(colour); return ratio(over(ink, background), background); }));
-    window.results.push({ deck: deck.name, surface, kind, ratio: worst });
+    window.results.push({ deck: deck.name, kind, ratio: worst });
   }
   const rowInk = parse(getComputedStyle(shadow.querySelector('.label.base')).color);
   const rowText = Math.max(...behind.map((colour) => ratio(through(over(rowInk, colour)), through(colour))));
-  window.results.push({ deck: deck.name, surface, kind: 'row text behind plate', ratio: rowText, ghost: true });
+  window.results.push({ deck: deck.name, kind: 'row text behind plate', ratio: rowText, ghost: true });
 }
 window.ready = true;
 </script>`);
   const result = await evaluateInPage(pathToFileURL(file).href, 'window.results', { readyExpr: '!!window.ready', timeout: 45000 });
-  assert.equal(result.length, 18);
-  assert.deepEqual(result.filter((entry) => entry.ghost && entry.ratio > 1.3).map((entry) => `${entry.surface} ${entry.deck} ${entry.ratio.toFixed(2)}`), []);
-  assert.deepEqual(result.filter((entry) => !entry.ghost && entry.ratio < 4.5).map((entry) => `${entry.surface} ${entry.deck} ${entry.kind} ${entry.ratio.toFixed(2)}`), []);
+  assert.equal(result.length, 9);
+  assert.deepEqual(result.filter((entry) => entry.ghost && entry.ratio > 1.3).map((entry) => `${entry.deck} ${entry.ratio.toFixed(2)}`), []);
+  assert.deepEqual(result.filter((entry) => !entry.ghost && entry.ratio < 4.5).map((entry) => `${entry.deck} ${entry.kind} ${entry.ratio.toFixed(2)}`), []);
 });
