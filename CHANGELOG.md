@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.579.1 — 2026-10-30
 ### Fixed
-- A popover trigger click now bubbles, so opening one `aha-popover` or `aha-csat` feedback popover and then clicking another's trigger (or a thumb) closes the first; a host can also listen to those clicks. Escape, outside click and focus return are unchanged (#NNN)
+- A popover trigger click now bubbles, so opening one `aha-popover` or `aha-csat` feedback popover and then clicking another's trigger (or a thumb) closes the first; a host can also listen to those clicks. Escape, outside click and focus return are unchanged (#494)
 
 ## 0.579.0 — 2026-10-30
 ### Added
