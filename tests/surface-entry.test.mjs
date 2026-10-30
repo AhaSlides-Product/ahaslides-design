@@ -18,7 +18,7 @@ const closure = (file, seen = new Set()) => {
   return seen;
 };
 const elementModules = readdirSync(libDir).filter((file) => file.endsWith('.js') && /customElements\.define\(/.test(source(file)));
-const tagOf = (file) => (file === 'icons.js' ? 'aha-icon' : file === 'illustrations.js' ? 'aha-illustration' : file.replace(/\.js$/, ''));
+const tagOf = (file) => (file === 'icons.js' ? 'aha-icon' : file.replace(/\.js$/, ''));
 
 test('every element module is registered by at least one surface entry', () => {
   const covered = new Set(surfaces.flatMap((surface) => [...closure(`${surface}.js`)]));

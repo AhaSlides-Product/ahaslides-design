@@ -11,7 +11,6 @@
   import { ConfigProvider, Table } from 'https://esm.sh/antd@6?deps=react@18,react-dom@18';
   import { tableTheme } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/table-theme.js';
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-empty.js';
-  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/illustrations.js';
 
   const h = React.createElement;
 
