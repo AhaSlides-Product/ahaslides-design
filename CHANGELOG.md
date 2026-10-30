@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.577.3 — 2026-10-30
 ### Fixed
-- `<aha-empty>`, DataTable and `createRenderEmpty` load only their own two pictures (`empty-list`, `empty-table`) instead of the whole illustration catalogue: `import '@ahaslides-product/design/aha-empty'` drops from 190.7 KB to 2.3 KB gzipped in a bundle with dynamic imports inlined. `import '@ahaslides-product/design/illustrations'` behaves as before. A slot="image" picture with any other name now needs that import; until the full set loads, such a name stays a blank box, and an already-rendered element redraws when it arrives. (#000)
+- `<aha-empty>`, DataTable and `createRenderEmpty` load only their own two pictures (`empty-list`, `empty-table`) instead of the whole illustration catalogue: `import '@ahaslides-product/design/aha-empty'` drops from 190.7 KB to 2.3 KB gzipped in a bundle with dynamic imports inlined. `import '@ahaslides-product/design/illustrations'` behaves as before. A slot="image" picture with any other name now needs that import; until the full set loads, such a name stays a blank box, and an already-rendered element redraws when it arrives. (#491)
 
 ## 0.577.1 — 2026-10-30
 ### Fixed
