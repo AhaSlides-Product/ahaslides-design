@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.581.1 — 2026-10-30
 ### Fixed
-- `shortcut="+"` on `aha-button` and `aha-tooltip` size lg now draws one square "+" key chip, and "Ctrl++", "Mod++" and "Shift++" keep their final "+" key; before, the chip was hidden or lost the plus. Other shortcuts render as before (#NNN)
+- `shortcut="+"` on `aha-button` and `aha-tooltip` size lg now draws one square "+" key chip, and "Ctrl++", "Mod++" and "Shift++" keep their final "+" key; before, the chip was hidden or lost the plus. Other shortcuts render as before (#498)
 - Revert: revert the PR; only `shortcutPieces` in `lib/shortcut-key.js` and the shortcut prose change
 
 ## 0.579.2 — 2026-10-30
