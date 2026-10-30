@@ -247,3 +247,110 @@ await customElements.whenDefined('aha-leaderboard'); await new Promise((r) => se
     assert.ok(result.inks.every((ink) => ink === 'rgb(26, 26, 26)' || ink === 'rgb(255, 255, 255)'), JSON.stringify(result));
   });
 }
+
+test('leaderboard: showWinner centres every tied rank 1 over the dimmed list without motion under reduced motion, and the close button or Esc dismisses it with winner-close', { skip }, async () => {
+  const file = join(mkdtempSync(join(tmpdir(), 'leaderboard-')), 'page.html');
+  const entries = [{ id: 'a', name: 'Al', score: 932, avatar: '💀' }, { id: 'b', name: 'Amber', score: 932 }, { id: 'c', name: 'Lan', score: 0 }];
+  writeFileSync(file, `<!doctype html><body style="--aha-deck-palette-1:rgb(255,0,0);--aha-deck-palette-2:rgb(0,0,255)">
+<aha-leaderboard id="lb" style="display:block;width:600px" entries='${JSON.stringify(entries)}'></aha-leaderboard>
+<aha-leaderboard id="phone" size="phone" winner style="display:block;width:340px" entries='${JSON.stringify(entries)}'></aha-leaderboard>
+<aha-leaderboard id="empty" entries="[]"></aha-leaderboard>
+<aha-leaderboard id="zero" entries='[{"id":"a","name":"A","score":0}]'></aha-leaderboard>
+<script type="module">import '${lib}'; await customElements.whenDefined('aha-leaderboard'); await new Promise((r) => setTimeout(r, 500)); window.ready = true;</script>`);
+  const result = await evaluateInPage(pathToFileURL(file).href, `(() => {
+    const host = document.getElementById('lb');
+    const root = host.shadowRoot;
+    const closes = [];
+    host.addEventListener('winner-close', () => closes.push(host.winner));
+    const hiddenBefore = root.querySelector('.winner').hidden;
+    const phoneRoot = document.getElementById('phone').shadowRoot;
+    const phone = { open: !phoneRoot.querySelector('.winner').hidden, closeSize: phoneRoot.querySelector('.winner-close').getAttribute('size'),
+      nameSize: getComputedStyle(phoneRoot.querySelector('.winner-name')).fontSize };
+    const shown = host.showWinner();
+    const winner = root.querySelector('.winner');
+    const box = winner.getBoundingClientRect();
+    const list = root.querySelector('.viewport').getBoundingClientRect();
+    const names = [...root.querySelectorAll('.winner-person:not([hidden]) .winner-name')].map((name) => name.textContent);
+    const state = { hiddenBefore, phone, shown, attribute: host.hasAttribute('winner'), names, score: root.querySelector('.winner-score').textContent,
+      announced: root.querySelector('.live').textContent, covers: box.top <= list.top && box.bottom >= list.bottom && box.width === list.width,
+      you: winner.textContent.includes('(you)'), dim: getComputedStyle(winner).backgroundColor,
+      reducedMotion: { pieces: root.querySelectorAll('.confetti .piece').length, confetti: getComputedStyle(root.querySelector('.confetti')).display, fade: getComputedStyle(winner).animationName },
+      closeLabel: root.querySelector('.winner-close').getAttribute('aria-label') };
+    root.querySelector('.winner-close').shadowRoot.querySelector('button').click();
+    state.afterClick = { hidden: winner.hidden, attribute: host.hasAttribute('winner'), closes: closes.length };
+    host.showWinner();
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    state.afterEscape = { hidden: winner.hidden, closes: closes.length };
+    host.showWinner(); host.hideWinner();
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    state.afterHide = { hidden: winner.hidden, closes: closes.length };
+    state.empty = { shown: document.getElementById('empty').showWinner(), attribute: document.getElementById('empty').hasAttribute('winner') };
+    state.zero = document.getElementById('zero').showWinner();
+    return state;
+  })()`, { readyExpr: '!!window.ready', timeout: 45000 });
+  assert.equal(result.hiddenBefore, true);
+  assert.equal(result.shown, true);
+  assert.equal(result.attribute, true);
+  assert.deepEqual(result.names, ['Al', 'Amber']);
+  assert.equal(result.score, '932 points');
+  assert.equal(result.announced, 'Winner: Al, Amber, 932 points');
+  assert.equal(result.covers, true, JSON.stringify(result));
+  assert.equal(result.you, false);
+  assert.notEqual(result.dim, 'rgba(0, 0, 0, 0)');
+  assert.deepEqual(result.reducedMotion, { pieces: 0, confetti: 'none', fade: 'none' });
+  assert.equal(result.closeLabel, 'Close');
+  assert.deepEqual(result.afterClick, { hidden: true, attribute: false, closes: 1 });
+  assert.deepEqual(result.afterEscape, { hidden: true, closes: 2 });
+  assert.deepEqual(result.afterHide, { hidden: true, closes: 2 });
+  assert.deepEqual(result.phone, { open: true, closeSize: 'md', nameSize: '24px' });
+  assert.deepEqual(result.empty, { shown: false, attribute: false });
+  assert.equal(result.zero, false);
+});
+
+test('leaderboard: the winner name and score reach WCAG AA 4.5:1 on the dimmed list, canvas and audience, on light, dark and coloured decks', { skip }, async () => {
+  const decks = [
+    { name: 'light', bg: '#FFFFFF', ink: '#1A1A1A', palette: ['#E70E68', '#4DE8AB', '#F2643A', '#1A1A1A'] },
+    { name: 'dark', bg: '#161616', ink: '#FFFFFF', palette: ['#E70E68', '#4DE8AB', '#F2643A', '#FFFFFF'] },
+    { name: 'coloured', bg: '#1F46E8', ink: '#FFFFFF', palette: ['#FFE224', '#4DE8AB', '#FFFFFF', '#F2643A'] },
+  ];
+  const file = join(mkdtempSync(join(tmpdir(), 'leaderboard-')), 'page.html');
+  writeFileSync(file, `<!doctype html><body style="margin:0">
+<script type="module">
+import '${lib}';
+import { canvasDeckVars } from '${pathToFileURL(fileURLToPath(new URL('../lib/canvas-deck.js', import.meta.url))).href}';
+import { deckVars } from '${pathToFileURL(fileURLToPath(new URL('../lib/audience-deck.js', import.meta.url))).href}';
+await customElements.whenDefined('aha-leaderboard');
+const canvas = document.createElement('canvas'); canvas.width = canvas.height = 1;
+const context = canvas.getContext('2d', { willReadFrequently: true });
+const parse = (css) => { context.clearRect(0, 0, 1, 1); context.fillStyle = '#000'; context.fillStyle = css; context.fillRect(0, 0, 1, 1); const d = context.getImageData(0, 0, 1, 1).data; return [d[0], d[1], d[2], d[3] / 255]; };
+const over = (top, bottom) => [0, 1, 2].map((i) => top[i] * top[3] + bottom[i] * (1 - top[3]));
+const channel = (value) => { const unit = value / 255; return unit <= 0.04045 ? unit / 12.92 : ((unit + 0.055) / 1.055) ** 2.4; };
+const luminance = (rgb) => 0.2126 * channel(rgb[0]) + 0.7152 * channel(rgb[1]) + 0.0722 * channel(rgb[2]);
+const ratio = (a, b) => { const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x); return (hi + 0.05) / (lo + 0.05); };
+window.results = [];
+for (const deck of ${JSON.stringify(decks)}) for (const surface of ['canvas', 'audience']) {
+  const root = document.createElement('div');
+  root.style.cssText = 'width:' + (surface === 'canvas' ? 520 : 360) + 'px;background:' + deck.bg;
+  const vars = surface === 'canvas' ? canvasDeckVars({ accent: deck.palette[0], ink: deck.ink, background: deck.bg, palette: deck.palette }) : deckVars({ ink: deck.ink, accent: deck.palette[0], palette: deck.palette });
+  for (const [name, value] of Object.entries(vars)) root.style.setProperty(name, value);
+  const element = document.createElement('aha-leaderboard');
+  element.setAttribute('size', surface === 'canvas' ? 'stage' : 'phone');
+  element.setAttribute('entries', JSON.stringify([{ id: 'a', name: 'Al', score: 932 }, { id: 'b', name: 'Bo', score: 500 }]));
+  root.appendChild(element); document.body.appendChild(root);
+  element.showWinner();
+  const shadow = element.shadowRoot;
+  const dim = parse(getComputedStyle(shadow.querySelector('.winner')).backgroundColor);
+  const page = parse(deck.bg);
+  const behind = [page, ...deck.palette.map(parse), over(parse(getComputedStyle(shadow.querySelector('.track')).backgroundColor), page)];
+  for (const kind of ['.winner-name', '.winner-score']) {
+    const ink = parse(getComputedStyle(shadow.querySelector(kind)).color);
+    const worst = Math.min(...behind.map((colour) => { const background = over(dim, colour); return ratio(over(ink, background), background); }));
+    window.results.push({ deck: deck.name, surface, kind, ratio: worst });
+  }
+}
+window.ready = true;
+</script>`);
+  const result = await evaluateInPage(pathToFileURL(file).href, 'window.results', { readyExpr: '!!window.ready', timeout: 45000 });
+  assert.equal(result.length, 12);
+  assert.deepEqual(result.filter((entry) => entry.ratio < 4.5).map((entry) => `${entry.surface} ${entry.deck} ${entry.kind} ${entry.ratio.toFixed(2)}`), []);
+});

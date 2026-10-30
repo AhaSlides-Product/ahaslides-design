@@ -8,3 +8,10 @@
 
 <aha-leaderboard size="phone" me="u7" heading="Leaderboard" style="height:320px"
   entries='[{"id":"u2","name":"Minh","score":900},{"id":"u7","name":"Linh","score":1200,"delta":300,"avatar":"🦊"},{"id":"u9","name":"An","score":900}]'></aha-leaderboard>
+
+<!-- Show winner: rank 1 over the dimmed list, with confetti; the close button or Esc fires winner-close. -->
+<script type="module">
+  const board = document.querySelector('aha-leaderboard');
+  board.showWinner();
+  board.addEventListener('winner-close', () => { /* back to the list */ });
+</script>
