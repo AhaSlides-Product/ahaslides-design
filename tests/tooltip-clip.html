@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tooltip clip</title>
+<style>
+  body{ margin:0; height:100vh }
+  aha-tooltip::part(bubble){ transition:none }
+  .panel{ position:absolute; left:40px; top:300px; width:360px; height:320px; overflow:hidden; border:2px solid #ccc }
+  .panel aha-tooltip, .corner{ position:absolute }
+  .corner{ position:fixed }
+  button{ font:12px sans-serif; padding:2px 6px }
+</style>
+</head>
+<body>
+  <div class="panel" id="drawer" data-clip>
+    <aha-tooltip data-case="panel-left" style="left:4px;top:140px" text="Editors can change slides and invite other people"><button>Editors</button></aha-tooltip>
+    <aha-tooltip data-case="panel-right" style="right:4px;top:140px" text="Editors can change slides and invite other people"><button>Editors</button></aha-tooltip>
+    <aha-tooltip data-case="panel-top" style="left:160px;top:4px" text="Editors can change slides and invite other people"><button>Editors</button></aha-tooltip>
+    <aha-tooltip data-case="panel-bottom" style="left:160px;bottom:4px" text="Editors can change slides and invite other people"><button>Editors</button></aha-tooltip>
+    <aha-tooltip data-case="panel-help" style="left:4px;top:60px" help text="Editors can change slides and invite other people"></aha-tooltip>
+    <aha-tooltip data-case="room" data-room style="left:150px;top:150px" text="Copy"><button>Share</button></aha-tooltip>
+  </div>
+  <clip-panel id="shadow-panel" style="position:absolute;left:600px;top:300px">
+    <aha-tooltip data-case="slotted-left" text="Editors can change slides and invite other people"><button>Editors</button></aha-tooltip>
+  </clip-panel>
+  <aha-tooltip class="corner" data-case="viewport-top-left" style="left:0;top:0" text="Editors can change slides and invite other people"><button>Editors</button></aha-tooltip>
+  <aha-tooltip class="corner" data-case="viewport-top-right" style="right:0;top:0" text="Editors can change slides and invite other people"><button>Editors</button></aha-tooltip>
+  <script type="module">
+    customElements.define('clip-panel', class extends HTMLElement {
+      constructor() {
+        super();
+        this.attachShadow({ mode: 'open' }).innerHTML =
+          '<div part="clip" style="width:360px;height:320px;overflow:hidden;display:flex;align-items:center"><slot></slot></div>';
+      }
+    });
+    await import('../lib/aha-tooltip.js');
+    window.tooltipClipFixtureReady = true;
+  </script>
+</body>
+</html>

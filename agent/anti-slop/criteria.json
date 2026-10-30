@@ -955,6 +955,10 @@
         {
           "source": "contracts/popover.json",
           "use": "the DS Popover (C1)"
+        },
+        {
+          "source": "contracts/tooltip.json",
+          "use": "the DS Tooltip, which repositions inside its clipping panel (C8)"
         }
       ],
       "criteria": [
@@ -992,6 +996,11 @@
           "id": "C7",
           "title": "Destructive confirm uses a danger-styled button",
           "test": "**Rule.** A destructive confirmation uses `okButtonProps={{ danger: true, type: 'primary', loading: busy }}` — the **dark danger styling lives on the action button**, never on the title or body — and Cancel, the safe choice, is the primary button (`cancelButtonProps={{ type: 'primary', disabled: busy }}`), disabled while busy. For confirmations the title is a **question** (\"Delete this survey permanently?\")."
+        },
+        {
+          "id": "C8",
+          "title": "An overlay is never clipped by its panel or the viewport",
+          "test": "**Rule.** No overlay is clipped by its panel or the viewport. A tooltip, popover, dropdown menu or hint inside a drawer, modal, scroll area or any `overflow: hidden` / `auto` container shows its whole bubble and arrow, also when its trigger sits at that container's edge or the viewport edge. Use the DS elements, which reposition themselves: `<aha-tooltip>` moves to the side of its trigger that has room inside its clipping panel and slides along that side, its `placement` staying the preference; `<aha-popover flip>` and `<aha-dropdown>` open on the roomier side. **FAIL** on a bubble cut off at a panel or screen edge in a screenshot, a hand-positioned tooltip with a fixed side and no flip, or a fixed `placement` that points out of a panel edge (`placement=\"left\"` on a trigger at a drawer's left edge) on an element that cannot reposition."
         }
       ]
     },

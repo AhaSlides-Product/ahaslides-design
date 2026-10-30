@@ -11,7 +11,7 @@
   "skillRef": {
     "build": "DS guideline — guidelines/overlays.json",
     "judge": "DS anti-slop feed — anti-slop.md (surface: overlays)",
-    "note": "This guide is the source of truth for rationale, the DeleteSurveyConfirmModal/RespondentReportDrawer references, and the full OVERLAY-01..08 assertions. This pattern distils the enforceable subset and links each rule back by ref; the judge closes the build→judge→fix loop."
+    "note": "This guide is the source of truth for rationale, the DeleteSurveyConfirmModal/RespondentReportDrawer references, and the full OVERLAY-01..09 assertions. This pattern distils the enforceable subset and links each rule back by ref; the judge closes the build→judge→fix loop."
   },
   "surfaces": [
     "editor",
@@ -83,6 +83,18 @@
       "as": "component",
       "use": "the inline in-overlay error banner (AhaAlert / DS V3 Alert, owned by the `feedback` guide) — never a bare AntD Alert",
       "status": "missing"
+    },
+    {
+      "ref": "tooltip",
+      "as": "component",
+      "use": "the hover/focus hint inside an overlay (a drawer's ? help glyph): <aha-tooltip> repositions inside its clipping panel and the viewport, so it is never cut off at the drawer edge",
+      "status": "available"
+    },
+    {
+      "ref": "dropdown",
+      "as": "component",
+      "use": "a menu opened inside an overlay: <aha-dropdown> opens its flyout on the side with room, so it is not cut off at the panel edge",
+      "status": "available"
     }
   ],
   "componentBacklog": "composedOf marks 4 components this pattern needs that the DS does not yet ship (modal, drawer, popover, alert). Per the charter, a pattern that leans on a missing component is a signal to add it HERE — this is the pattern surfacing the component roadmap (the Alert overlaps the `feedback` guide's banner).",
@@ -155,6 +167,13 @@
       "rule": "Surface failures inside the overlay with an inline DS V3 Alert (AhaAlert type=\"error\", styling owned by the `feedback` guide) — never a bare AntD Alert, never a nested modal stacked on top, never a downgrade to a transient toast. The overlay stays open on failure so the user can retry without re-opening.",
       "ref": [
         "OVERLAY-08"
+      ]
+    },
+    {
+      "id": "overlay-never-clipped",
+      "rule": "An overlay is never clipped by its panel or the viewport: a tooltip, popover or menu inside a drawer, modal or scroll area shows its whole bubble even when its trigger sits at the edge. Use <aha-tooltip>, which moves to the side with room inside its clipping panel and slides along it (placement stays the preference), and <aha-popover flip> or <aha-dropdown>, which open on the roomier side; never hand-position a bubble on a fixed side.",
+      "ref": [
+        "OVERLAY-09"
       ]
     }
   ],
