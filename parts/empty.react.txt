@@ -1,4 +1,4 @@
-import '@ahaslides-product/design/icons';      // registers <aha-icon> (custom-image slot)
+import '@ahaslides-product/design/illustrations'; // registers <aha-illustration> (custom-image slot)
 import '@ahaslides-product/design/aha-empty';  // registers <aha-empty>
 import '@ahaslides-product/design/aha-button'; // registers <aha-button>
 
@@ -12,13 +12,21 @@ function NoResponses({ onShare }) {
   );
 }
 
-// simple variant with a custom illustration and no action
-function NoResults() {
+// a table body: the empty-table illustration replaces the built-in empty-list art
+function NoRows() {
   return (
-    <aha-empty image="simple" description="No results">
-      <aha-icon slot="image" name="system-folder" size="32" />
+    <aha-empty description="No data">
+      <aha-illustration slot="image" name="empty-table" size="64" decorative="" />
     </aha-empty>
   );
+}
+
+// antd: every Select, Cascader, TreeSelect, Transfer, List and Table shows <aha-empty>, not antd's grey Empty
+import { ConfigProvider } from 'antd';
+import { createRenderEmpty } from '@ahaslides-product/design/antd-render-empty';
+const renderEmpty = createRenderEmpty({ h: React.createElement });
+function Root() {
+  return <ConfigProvider renderEmpty={renderEmpty}><App /></ConfigProvider>;
 }
 
 // usage
