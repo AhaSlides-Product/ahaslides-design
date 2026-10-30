@@ -248,7 +248,7 @@ await customElements.whenDefined('aha-leaderboard'); await new Promise((r) => se
   });
 }
 
-test('leaderboard: showWinner centres every tied rank 1 over the dimmed list at stage sizes without motion under reduced motion, the close button or Esc dismisses it with winner-close, and the phone shows no winner', { skip }, async () => {
+test('leaderboard: showWinner centres every tied rank 1 in a banner covering the list at stage sizes without motion under reduced motion, the close button in the banner corner or Esc dismisses it with winner-close, and the phone shows no winner', { skip }, async () => {
   const file = join(mkdtempSync(join(tmpdir(), 'leaderboard-')), 'page.html');
   const entries = [{ id: 'a', name: 'Al', score: 932, avatar: '💀' }, { id: 'b', name: 'Amber', score: 932 }, { id: 'c', name: 'Lan', score: 0 }];
   writeFileSync(file, `<!doctype html><body style="--aha-deck-palette-1:rgb(255,0,0);--aha-deck-palette-2:rgb(0,0,255)">
@@ -266,12 +266,12 @@ test('leaderboard: showWinner centres every tied rank 1 over the dimmed list at 
     const hiddenBefore = root.querySelector('.winner').hidden;
     const phoneHost = document.getElementById('phone');
     const phoneRoot = phoneHost.shadowRoot;
-    const phone = { open: !phoneRoot.querySelector('.winner').hidden, close: !phoneRoot.querySelector('.winner-close').hidden,
+    const phone = { open: !phoneRoot.querySelector('.winner').hidden, close: phoneRoot.querySelector('.winner-close').getClientRects().length > 0,
       confetti: !phoneRoot.querySelector('.confetti').hidden, shown: phoneHost.showWinner(), openAfterCall: !phoneRoot.querySelector('.winner').hidden };
-    const overlapsRow = (shadow) => { const close = shadow.querySelector('.winner-close').getBoundingClientRect();
-      return [...shadow.querySelectorAll('li.row:not([hidden])')].some((row) => { const box = row.getBoundingClientRect();
-        return close.left < box.right && close.right > box.left && close.top < box.bottom && close.bottom > box.top; }); };
-    const manyOverlay = document.getElementById('many').shadowRoot.querySelector('.winner');
+    const closeInBannerCorner = (shadow) => { const close = shadow.querySelector('.winner-close').getBoundingClientRect();
+      const banner = shadow.querySelector('.winner').getBoundingClientRect();
+      return close.top >= banner.top && close.right <= banner.right && close.top - banner.top <= 16 && banner.right - close.right <= 16; };
+    const manyOverlay = document.getElementById('many').shadowRoot.querySelector('.winner-body');
     const manyFirstTop = manyOverlay.querySelector('.winner-person').getBoundingClientRect().top - manyOverlay.getBoundingClientRect().top;
     manyOverlay.scrollTop = manyOverlay.scrollHeight;
     const manyScoreBottom = manyOverlay.getBoundingClientRect().bottom - manyOverlay.querySelector('.winner-score').getBoundingClientRect().bottom;
@@ -288,7 +288,7 @@ test('leaderboard: showWinner centres every tied rank 1 over the dimmed list at 
       announced: root.querySelector('.live').textContent, covers: box.top <= list.top && box.bottom >= list.bottom && box.width === list.width,
       you: winner.textContent.includes('(you)'), dim: getComputedStyle(winner).backgroundColor,
       reducedMotion: { pieces: root.querySelectorAll('.confetti .piece').length, confetti: getComputedStyle(root.querySelector('.confetti')).display, fade: getComputedStyle(winner).animationName },
-      closeLabel: root.querySelector('.winner-close').getAttribute('aria-label'), closeOverRow: overlapsRow(root) };
+      closeLabel: root.querySelector('.winner-close').getAttribute('aria-label'), closeInBannerCorner: closeInBannerCorner(root) };
     root.querySelector('.winner-close').shadowRoot.querySelector('button').click();
     state.afterClick = { hidden: winner.hidden, attribute: host.hasAttribute('winner'), closes: closes.length };
     host.showWinner();
@@ -312,7 +312,7 @@ test('leaderboard: showWinner centres every tied rank 1 over the dimmed list at 
   assert.notEqual(result.dim, 'rgba(0, 0, 0, 0)');
   assert.deepEqual(result.reducedMotion, { pieces: 0, confetti: 'none', fade: 'none' });
   assert.equal(result.closeLabel, 'Close');
-  assert.equal(result.closeOverRow, false);
+  assert.equal(result.closeInBannerCorner, true);
   assert.deepEqual(result.afterClick, { hidden: true, attribute: false, closes: 1 });
   assert.deepEqual(result.afterEscape, { hidden: true, closes: 2 });
   assert.deepEqual(result.afterHide, { hidden: true, closes: 2 });
@@ -323,7 +323,7 @@ test('leaderboard: showWinner centres every tied rank 1 over the dimmed list at 
   assert.equal(result.zero, false);
 });
 
-test('leaderboard: the winner name and score reach WCAG AA 4.5:1 on the dimmed list and the row text behind the winner plate stays illegible on the canvas, on light, dark and coloured decks', { skip }, async () => {
+test('leaderboard: the winner name and score reach WCAG AA 4.5:1 on the winner banner and the row text behind the banner stays illegible on the canvas, on light, dark and coloured decks', { skip }, async () => {
   const decks = [
     { name: 'light', bg: '#FFFFFF', ink: '#1A1A1A', palette: ['#E70E68', '#4DE8AB', '#F2643A', '#1A1A1A'] },
     { name: 'dark', bg: '#161616', ink: '#FFFFFF', palette: ['#E70E68', '#4DE8AB', '#F2643A', '#FFFFFF'] },
@@ -354,9 +354,8 @@ for (const deck of ${JSON.stringify(decks)}) {
   root.appendChild(element); document.body.appendChild(root);
   element.showWinner();
   const shadow = element.shadowRoot;
-  const dim = parse(getComputedStyle(shadow.querySelector('.winner')).backgroundColor);
-  const plate = parse(getComputedStyle(shadow.querySelector('.winner-plate')).backgroundColor);
-  const through = (colour) => over(plate, over(dim, colour));
+  const banner = parse(getComputedStyle(shadow.querySelector('.winner')).backgroundColor);
+  const through = (colour) => over(banner, colour);
   const page = parse(deck.bg);
   const behind = [page, ...deck.palette.map(parse), over(parse(getComputedStyle(shadow.querySelector('.track')).backgroundColor), page)];
   for (const kind of ['.winner-name', '.winner-score']) {
@@ -366,7 +365,7 @@ for (const deck of ${JSON.stringify(decks)}) {
   }
   const rowInk = parse(getComputedStyle(shadow.querySelector('.label.base')).color);
   const rowText = Math.max(...behind.map((colour) => ratio(through(over(rowInk, colour)), through(colour))));
-  window.results.push({ deck: deck.name, kind: 'row text behind plate', ratio: rowText, ghost: true });
+  window.results.push({ deck: deck.name, kind: 'row text behind banner', ratio: rowText, ghost: true });
 }
 window.ready = true;
 </script>`);

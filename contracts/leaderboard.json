@@ -15,7 +15,7 @@
       "rankEntries"
     ]
   },
-  "summary": "The ranked score list for the slide canvas and the audience phone, one look after the presenter leaderboard: a neutral rank circle, a deck-palette bar per row inside a full-width track, the score with its unit and points gained, an optional heading, and, on the phone only, the participant's own row marked with a plain \"(you)\" after the name, and, on the canvas only, a Show winner state that dims the list and centres rank 1 with confetti.",
+  "summary": "The ranked score list for the slide canvas and the audience phone, one look after the presenter leaderboard: a neutral rank circle, a deck-palette bar per row inside a full-width track, the score with its unit and points gained, an optional heading, and, on the phone only, the participant's own row marked with a plain \"(you)\" after the name, and, on the canvas only, a Show winner state that covers the list with one rounded banner centring rank 1, with confetti.",
   "lead": "ONE custom element — <aha-leaderboard> — for the presenter canvas and the audience phone alike. It draws the list only; place it in a deck container or modal. Themed from the deck: call applyCanvasDeck (canvas) or applyDeck (audience) once, and it reads --aha-deck-* tokens only. Every participant is listed: give it a height and the list scrolls inside it, the heading and count staying put.",
   "codeNote": "Same element, same shadow-DOM CSS, so the canvas and the phone render identically. Set `entries` as a JSON attribute or a property.",
   "tokensUsed": [
@@ -91,7 +91,7 @@
     },
     {
       "label": "Show winner",
-      "value": "Canvas (size=\"stage\") only: on the phone `showWinner()` returns false and the `winner` attribute shows nothing. `showWinner()` (or the `winner` attribute) dims the list with the deck's deep surface (--aha-deck-surface-deep: white 80% under dark ink, Deep Space 80% under light ink) and centres rank 1 over it: the name (48, semibold), the avatar (48) and the score with its unit word (`winner-score-label`, \"{score} points\", 64); only an overlay narrower than 340px steps down to 24 / 32 / 32. Every entry tied at rank 1 shows side by side above one shared score. Confetti in the deck palette colours (the accent without a palette) falls once over the whole element, about 4 seconds, and the winner stays until closed: the canvas close ✕ (sm, in the corner, named by `close-label`) or Esc hides it and fires `winner-close`; `hideWinner()` hides it without the event. With no entries, or when nobody has scored, `showWinner()` does nothing and returns false. The canvas never shows \"(you)\" here either. Name and score reach 4.5:1 on the dimmed list on light, dark and coloured decks. The element grows to fit the winner when its list is shorter"
+      "value": "Canvas (size=\"stage\") only: on the phone `showWinner()` returns false and the `winner` attribute shows nothing. `showWinner()` (or the `winner` attribute) covers the whole list with one banner (the deck modal fill --aha-deck-modal-fill: white 92% under dark ink, Deep Space 92% under light ink, frosted with --aha-blur-md, a 1px --aha-deck-container-stroke border and --aha-deck-container-radius-lg corners), so no edge crosses a bar, and centres rank 1 in it: the name (48, semibold), the avatar (48) and the score with its unit word (`winner-score-label`, \"{score} points\", 64); only an overlay narrower than 340px steps down to 24 / 32 / 32. Every entry tied at rank 1 shows side by side above one shared score. Confetti in the deck palette colours (the accent without a palette) falls once over the whole element, about 4 seconds, and the winner stays until closed: the close ✕ (sm, in the banner's top-right corner, 8px in, named by `close-label`) or Esc hides it and fires `winner-close`; `hideWinner()` hides it without the event. With no entries, or when nobody has scored, `showWinner()` does nothing and returns false. The canvas never shows \"(you)\" here either. Name and score reach 4.5:1 on the banner on light, dark and coloured decks. The element grows to fit the winner when its list is shorter"
     },
     {
       "label": "Empty and loading",
@@ -193,7 +193,7 @@
       "name": "winner",
       "type": "boolean",
       "default": "false",
-      "desc": "Canvas only: shows rank 1 over the dimmed list with confetti (nothing on size=\"phone\"); reflects showWinner() and hideWinner(), also the `winner` property"
+      "desc": "Canvas only: shows rank 1 in a banner over the list with confetti (nothing on size=\"phone\"); reflects showWinner() and hideWinner(), also the `winner` property"
     },
     {
       "name": "winner-score-label",
@@ -223,7 +223,7 @@
       "name": "winner-close",
       "type": "CustomEvent",
       "default": "—",
-      "desc": "Fires (bubbling, composed) when the viewer closes the winner with the close button or Esc"
+      "desc": "Fires (bubbling, composed) when the viewer closes the winner with the close button in the banner's corner or Esc"
     },
     {
       "name": "ink / accent",
@@ -300,7 +300,7 @@
     "One rank circle, bar, score and gain row on the canvas and the phone",
     "Row n takes deck palette colour n with its matching ink; ties share a rank",
     "Optional heading with a player count; on the phone the own row carries a plain (you), every participant is listed and the list scrolls",
-    "Rank changes slide and scores count up; on the canvas, Show winner centres rank 1 over the dimmed list with deck-palette confetti"
+    "Rank changes slide and scores count up; on the canvas, Show winner centres rank 1 in a banner over the list with deck-palette confetti and a close button in the banner corner"
   ],
   "composedOf": [
     {
