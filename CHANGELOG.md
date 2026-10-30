@@ -27,6 +27,14 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Leaderboard: Show winner. `showWinner()` (or the `winner` attribute) covers the whole list with one rounded, frosted banner (deck modal fill, container stroke and radius) and reveals rank 1 in it, every tied rank 1 side by side, in about 2.5 to 3 seconds: a rank countdown dims the lower rows one beat at a time from the bottom up, then the banner fades in with an accent light sweeping across it as the name, avatar and score scale in one after another with the score counting up from 0, while 120 pieces of confetti (rectangles, circles and streamers in the full-strength deck palette colours) burst once from the banner centre and both bottom corners and fall away; the winner stays until `hideWinner()`, the close ✕ in the banner's top-right corner or Esc, which fire `winner-close`, and `showWinner()` again shows it again with the reveal replayed. Translatable `winner-score-label` ("{score} points"), `winner-label` (announced politely) and `close-label`. Canvas (`size="stage"`) only: on `size="phone"` it does nothing and returns false; under reduced motion it appears at once with no countdown, sweep, pop, count-up or confetti; does nothing with no entries or when nobody has scored (#490)
 - Revert: revert the PR; Show winner is additive, so drop any `showWinner()` call or `winner` attribute first
 
+## 0.579.2 — 2026-10-30
+### Fixed
+- `aha-tooltip` narrows its bubble to the width of a clipping panel narrower than its 280px max width (for example a 240px overflow panel) and wraps, so a section-header help hint is no longer cut at the edge; a wider panel restores the full max width (#496)
+
+## 0.579.1 — 2026-10-30
+### Fixed
+- A popover trigger click now bubbles, so opening one `aha-popover` or `aha-csat` feedback popover and then clicking another's trigger (or a thumb) closes the first; a host can also listen to those clicks. Escape, outside click and focus return are unchanged (#494)
+
 ## 0.579.0 — 2026-10-30
 ### Added
 - `screen-lint.mjs --measure` hard-fails `overlay-clip` (OVERLAY-09) on every surface: at each viewport it opens every `<aha-tooltip>` and `<aha-popover>`, checks every `[role="tooltip"]` already shown, and fails when a bubble paints outside a clipping ancestor (overflow or paint containment, through shadow roots and slots, honouring absolute, fixed and top-layer placement) or the viewport (#493)
