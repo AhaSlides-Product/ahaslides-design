@@ -1,6 +1,9 @@
 <script setup>
 import { ConfigProvider, Table } from 'ant-design-vue';   // ant-design-vue v4
 import { tableTheme } from '@ahaslides-product/design/table-theme';
+import '@ahaslides-product/design/aha-empty';       // registers <aha-empty>
+import '@ahaslides-product/design/illustrations';   // registers <aha-illustration>
+// app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
 const columns = [
   { key: 'name',      title: 'Name',      dataIndex: 'name', sorter: (a, b) => a.name.localeCompare(b.name) },
@@ -17,6 +20,12 @@ const columns = [
       :columns="columns"
       :data-source="rows"
       :pagination="{ pageSize: 5, showSizeChanger: true }"
-    />
+    >
+      <template #emptyText>
+        <aha-empty description="No data">
+          <aha-illustration slot="image" name="empty-table" size="64"></aha-illustration>
+        </aha-empty>
+      </template>
+    </a-table>
   </a-config-provider>
 </template>

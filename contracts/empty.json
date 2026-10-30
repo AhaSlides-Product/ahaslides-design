@@ -31,7 +31,7 @@
       { "what": "Result", "when": "reporting the outcome of an action (success, 404)" },
       { "what": "Skeleton", "when": "content is loading, not absent" }
     ],
-    "note": "The caption says what's missing and, ideally, the next step — 'No responses yet — share the join link'. Keep one action; an empty state is a nudge, not a menu. <aha-empty> is for small, tight surfaces (a table body, a list, a dropdown, under 240 px); a page or a panel uses the full Empty state pattern, with a pink empty-* illustration (guidelines/empty-state).",
+    "note": "The caption says what's missing and, ideally, the next step — 'No responses yet — share the join link'. Keep one action; an empty state is a nudge, not a menu. <aha-empty> is for small, tight surfaces (a table body, a list, a dropdown, under 240 px). In a table body it holds the pink empty-table illustration in slot=\"image\" at 64 px (DataTable does this by default); a list, dropdown or widget keeps the grey line art. A page or a panel uses the full Empty state pattern, with a pink empty-* illustration (guidelines/empty-state).",
     "dsv3": "COVERED — enumerated from the DS V3 <Empty> component-set (fileKey MwjvUjVI0HnfwD9EwPXRAy: <Empty> set + Empty/Customize + a separate Illustration component), matching antd Empty's matrix: a default illustration vs a smaller `simple` image, a `description` (or none), a custom picture (Customize / slot=\"image\"), and an optional action. Colour/size derived from the token layer (text-tertiary caption, text-disabled art) — a deliberate extension, not a per-cell measured match."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],

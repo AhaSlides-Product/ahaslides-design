@@ -44,6 +44,7 @@
 <script src="https://unpkg.com/dayjs@1/dayjs.min.js"></script>
 <script src="https://unpkg.com/antd@6/dist/antd.min.js"></script>
 <script>window.__antdR = window.antd;</script>
+<script type="module">import '../lib/aha-empty.js'; import '../lib/illustrations.js';</script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
 <script>
@@ -249,6 +250,15 @@ function App() {
         <Section title="Basic">
           <Toolbar />
           <Table rowKey="key" columns={[COLS.name,COLS.team,COLS.responses,COLS.score]} dataSource={R.rows} pagination={false} />
+        </Section>
+
+        <Section title="No rows" hint="locale.emptyText: aha-empty with the empty-table illustration at 64 px">
+          <Table rowKey="key" columns={[COLS.name,COLS.team,COLS.responses,COLS.score]} dataSource={[]} pagination={false}
+            locale={{ emptyText: (
+              <aha-empty description="No data">
+                <aha-illustration slot="image" name="empty-table" size="64"></aha-illustration>
+              </aha-empty>
+            ) }} />
         </Section>
 
         <Section title="Sorting" hint="single directional arrow; click a header to cycle">
