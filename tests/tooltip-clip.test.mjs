@@ -88,3 +88,36 @@ test('an open tooltip re-picks its side when its panel scrolls, and stops watchi
   assert.deepEqual(result.scrolled, { side: 'bottom', inside: true });
   assert.equal(result.afterHide, 'bottom');
 });
+
+const drawerScenario = String.raw`(async () => {
+  const frame = () => new Promise((done) => requestAnimationFrame(() => requestAnimationFrame(done)));
+  const drawer = document.getElementById('drawer-scroll');
+  const tip = document.getElementById('drawer-tip');
+  drawer.setAttribute('open', '');
+  await new Promise((done) => setTimeout(done, 600));
+  const body = drawer.shadowRoot.querySelector('.body');
+  const inside = () => {
+    const bubble = tip.shadowRoot.querySelector('.bubble').getBoundingClientRect();
+    const clip = body.getBoundingClientRect();
+    return bubble.top >= clip.top + body.clientTop - 0.5 && bubble.bottom <= clip.top + body.clientTop + body.clientHeight + 0.5;
+  };
+  tip.setAttribute('placement', 'top');
+  tip.setAttribute('open', '');
+  await frame();
+  const before = { side: tip.getAttribute('data-placement'), inside: inside() };
+  body.scrollTop = 110;
+  await frame();
+  const scrolled = { side: tip.getAttribute('data-placement'), inside: inside() };
+  tip.removeAttribute('open');
+  await frame();
+  body.scrollTop = 0;
+  await frame();
+  return { before, scrolled, afterHide: tip.getAttribute('data-placement') };
+})()`;
+
+test('a tooltip slotted in an aha-drawer re-picks its side when the drawer body scrolls, and stops once hidden', { skip }, async () => {
+  const result = await evaluateInPage(fixture, drawerScenario, { readyExpr: '!!window.tooltipClipFixtureReady', timeout: 45000 });
+  assert.deepEqual(result.before, { side: 'top', inside: true });
+  assert.deepEqual(result.scrolled, { side: 'bottom', inside: true });
+  assert.equal(result.afterHide, 'bottom');
+});

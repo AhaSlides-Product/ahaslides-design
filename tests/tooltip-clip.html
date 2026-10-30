@@ -27,6 +27,11 @@
       <aha-tooltip id="scrolling" data-scroll style="position:absolute;left:100px;top:120px" text="Editors can change slides"><button>Editors</button></aha-tooltip>
     </div>
   </div>
+  <aha-drawer id="drawer-scroll" width="360" heading="Share" style="--aha-drawer-transition:none">
+    <div style="height:4000px;position:relative">
+      <aha-tooltip id="drawer-tip" data-scroll style="position:absolute;left:120px;top:120px" text="Editors can change slides"><button>Editors</button></aha-tooltip>
+    </div>
+  </aha-drawer>
   <clip-panel id="shadow-panel" style="position:absolute;left:600px;top:300px">
     <aha-tooltip data-case="slotted-left" text="Editors can change slides and invite other people"><button>Editors</button></aha-tooltip>
   </clip-panel>
@@ -41,6 +46,7 @@
       }
     });
     await import('../lib/aha-tooltip.js');
+    await import('../lib/aha-drawer.js');
     window.tooltipClipFixtureReady = true;
   </script>
 </body>
