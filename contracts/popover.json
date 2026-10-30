@@ -1,6 +1,7 @@
 {
   "name": "Popover",
   "slug": "popover",
+  "environment": ["product", "audience"],
   "group": "Overlays",
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
@@ -37,7 +38,7 @@
       { "what": "Tooltip", "when": "a short, non-interactive hint on hover" },
       { "what": "Modal", "when": "a focused task that should block the rest of the page" }
     ],
-    "note": "Trigger on click for interactive content (Tooltip owns hover). Give it a short `title` and a one-line body; a long form belongs in a Modal. A click trigger closes on outside-click and Escape (focus returns to the trigger) — both built in.",
+    "note": "Trigger on click for interactive content (Tooltip owns hover). Give it a short `title` and a one-line body; a long form belongs in a Modal. A click trigger closes on outside-click and Escape (focus returns to the trigger) — both built in. A trigger click bubbles: clicking one popover's trigger closes any other open click popover, and a host can listen to that click.",
     "dsv3": "COVERED — from the DS V3 Popover component-set ('the floating card popped by clicking or hovering'), matching the antd Popover matrix: a `title` header over a body (unlike the Tooltip's plain hint), the FULL 12-placement set — the 4 cardinal sides (top · bottom · left · right) PLUS the 8 edge-aligned ones (top-start, top-end, bottom-start, bottom-end, left-start, left-end, right-start, right-end — same side, aligned to the trigger's start/end edge with the arrow offset near that edge, AntD naming) — `trigger` (click · hover · focus) and a toggleable `arrow`. White elevated surface, standard 8 radius, soft ink shadow; title SemiBold text-default over a text-secondary body. Fade + 4px directional lift via the shared motion tokens on a persistent panel — no subtree rebuild on open/close."
   },
   "surfaces": ["editor", "dashboard", "settings"],

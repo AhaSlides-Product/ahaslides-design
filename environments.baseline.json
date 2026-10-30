@@ -17,7 +17,6 @@
   "contract:modal",
   "contract:notification",
   "contract:popconfirm",
-  "contract:popover",
   "contract:product-lockup",
   "contract:qr-code",
   "contract:rate",
