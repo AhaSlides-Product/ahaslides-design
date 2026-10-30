@@ -1,7 +1,6 @@
 import { ConfigProvider, Table } from 'antd';   // antd v6
 import { tableTheme } from '@ahaslides-product/design/table-theme';
-import '@ahaslides-product/design/aha-empty';       // registers <aha-empty>
-import '@ahaslides-product/design/illustrations';   // registers <aha-illustration>
+import '@ahaslides-product/design/aha-empty';       // registers <aha-empty> and its empty-table art
 
 const columns = [
   { key: 'name',      title: 'Name',      dataIndex: 'name', sorter: (a, b) => a.name.localeCompare(b.name) },

@@ -27,6 +27,15 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Leaderboard: Show winner. `showWinner()` (or the `winner` attribute) dims the list with the deck's deep surface and centres rank 1's name, avatar and score over it, every tied rank 1 side by side, while confetti in the deck palette colours falls once (about 4 seconds); the winner stays until `hideWinner()`, the close ✕ or Esc, which fire `winner-close`. Translatable `winner-score-label` ("{score} points"), `winner-label` (announced politely) and `close-label`. Canvas and phone sizes; no confetti or fade under reduced motion; does nothing with no entries or when nobody has scored (#490)
 - Revert: revert the PR; Show winner is additive, so drop any `showWinner()` call or `winner` attribute first
 
+## 0.577.4 — 2026-10-30
+### Changed
+- Dropdown and Menu: a row's description sits 6px below its label (was 4px) (#492)
+- Revert: revert the PR; one `gap` declaration in `lib/aha-dropdown.js` and `lib/aha-menu.js`, and the matching contract rows
+
+## 0.577.3 — 2026-10-30
+### Fixed
+- `<aha-empty>`, DataTable and `createRenderEmpty` load only their own two pictures (`empty-list`, `empty-table`) instead of the whole illustration catalogue: `import '@ahaslides-product/design/aha-empty'` drops from 190.7 KB to 2.3 KB gzipped in a bundle with dynamic imports inlined. `import '@ahaslides-product/design/illustrations'` behaves as before. A slot="image" picture with any other name now needs that import; until the full set loads, such a name stays a blank box, and an already-rendered element redraws when it arrives. (#491)
+
 ## 0.577.1 — 2026-10-30
 ### Fixed
 - Tooltip: a tooltip that stays visible (held `open`, or toggled open by click) now re-picks its side as its panel or the page scrolls, so it no longer keeps a side that has since become clipped. It listens for scroll only while visible, one measure per frame (#488)

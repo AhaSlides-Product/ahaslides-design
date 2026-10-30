@@ -38,7 +38,7 @@
     { "key": "react", "label": "React", "file": "illustration.react.txt" },
     { "key": "vue", "label": "Vue 3", "file": "illustration.vue.txt" }
   ],
-  "codeNote": "Same element + same registry → identical render in React and Vue. The geometry is imported from Figma and normalised (page-frame chrome stripped, clip-paths dropped, gradients kept, colours untouched) at build time by build-illustrations.mjs; the call site only names an illustration and a size.",
+  "codeNote": "Same element + same registry → identical render in React and Vue. The geometry is imported from Figma and normalised (page-frame chrome stripped, clip-paths dropped, gradients kept, colours untouched) at build time by build-illustrations.mjs; the call site only names an illustration and a size. Importing @ahaslides-product/design/illustrations loads every illustration (about 190 KB gzipped); <aha-empty>, DataTable and createRenderEmpty load only empty-list and empty-table, generated from the same registry. Either can load first, and an element already on the page redraws when its art arrives. While only that small set is loaded, a name outside it stays a blank box of its size, because the full set may still be coming; the dashed error box appears only once the full set has loaded and the name is still unknown.",
   "preview": "illustration.preview.html",
   "playground": {
     "controls": [

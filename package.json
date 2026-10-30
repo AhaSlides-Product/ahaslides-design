@@ -116,6 +116,8 @@
     "./lib/aha-option-row.js",
     "./lib/aha-question-list.js",
     "./lib/illustrations.js",
+    "./lib/illustrations-empty.js",
+    "./lib/aha-illustration.js",
     "./lib/aha-user-info.js",
     "./lib/aha-screen-heading.js",
     "./lib/aha-field-error.js",

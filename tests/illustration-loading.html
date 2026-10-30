@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Illustration loading</title>
+</head>
+<body>
+  <aha-empty id="built-in" description="No data"></aha-empty>
+  <aha-illustration id="small" name="empty-table" size="64"></aha-illustration>
+  <aha-illustration id="catalogue" name="empty-report" size="64"></aha-illustration>
+  <aha-empty id="slotted" description="No reports"><aha-illustration slot="image" name="empty-report" size="64"></aha-illustration></aha-empty>
+  <aha-illustration id="typo" name="no-such-art" size="64"></aha-illustration>
+  <script type="module">
+    const stateOf = (element) => {
+      const root = element?.shadowRoot;
+      if (!root) return 'undrawn';
+      if (root.querySelector('svg')) return 'art';
+      return getComputedStyle(root.querySelector('span')).borderTopStyle === 'dashed' ? 'error box' : 'blank';
+    };
+    const snapshot = () => ({
+      builtIn: stateOf(document.querySelector('#built-in').shadowRoot?.querySelector('aha-illustration')),
+      small: stateOf(document.querySelector('#small')),
+      catalogue: stateOf(document.querySelector('#catalogue')),
+      slotted: stateOf(document.querySelector('#slotted aha-illustration')),
+      typo: stateOf(document.querySelector('#typo')),
+    });
+    const order = location.hash.slice(1).split(',');
+    window.loadingErrors = [];
+    window.addEventListener('error', (event) => window.loadingErrors.push(String(event.message)));
+    window.addEventListener('unhandledrejection', (event) => window.loadingErrors.push(String(event.reason)));
+    window.snapshots = [];
+    let catalogueModule;
+    for (const entry of order) {
+      const loaded = await import(`../lib/${entry}.js`);
+      if (entry === 'illustrations') catalogueModule = loaded;
+      // aha-empty fetches its art with a dynamic import, so wait for that before reading the page
+      await import('../lib/illustrations-empty.js');
+      window.snapshots.push(snapshot());
+    }
+    window.sharedClass = !catalogueModule || customElements.get('aha-illustration') === catalogueModule.AhaIllustration;
+    window.loadingReady = true;
+  </script>
+</body>
+</html>
