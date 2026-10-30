@@ -22,10 +22,18 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.578.0 — 2026-10-30
+## 0.580.0 — 2026-10-30
 ### Added
 - Leaderboard: Show winner. `showWinner()` (or the `winner` attribute) dims the list with the deck's deep surface and centres rank 1's name, avatar and score over it, every tied rank 1 side by side, while confetti in the deck palette colours falls once (about 4 seconds); the winner stays until `hideWinner()`, the close ✕ or Esc, which fire `winner-close`. Translatable `winner-score-label` ("{score} points"), `winner-label` (announced politely) and `close-label`. Canvas (`size="stage"`) only: on `size="phone"` it does nothing and returns false; no confetti or fade under reduced motion; does nothing with no entries or when nobody has scored (#490)
 - Revert: revert the PR; Show winner is additive, so drop any `showWinner()` call or `winner` attribute first
+
+## 0.579.0 — 2026-10-30
+### Added
+- `screen-lint.mjs --measure` hard-fails `overlay-clip` (OVERLAY-09) on every surface: at each viewport it opens every `<aha-tooltip>` and `<aha-popover>`, checks every `[role="tooltip"]` already shown, and fails when a bubble paints outside a clipping ancestor (overflow or paint containment, through shadow roots and slots, honouring absolute, fixed and top-layer placement) or the viewport (#493)
+- `qa.mjs` (`npm run check`) runs the same check on every built DS page, so a DS change that makes an overlay clip fails the DS render gate. The probe ships once, as `lib/overlay-clip.js` (#493)
+### Fixed
+- The package ships `cdp.mjs`, so `screen-lint.mjs --measure` runs from an installed package (#493)
+- Revert: revert the PR; `lib/overlay-clip.js`, the measured pass in `screen-lint.mjs` and the overlay block in `qa.mjs`
 
 ## 0.577.5 — 2026-10-30
 ### Fixed

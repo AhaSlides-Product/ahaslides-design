@@ -171,7 +171,7 @@
     },
     {
       "id": "overlay-never-clipped",
-      "rule": "An overlay is never clipped by its panel or the viewport: a tooltip, popover or menu inside a drawer, modal or scroll area shows its whole bubble even when its trigger sits at the edge. Use <aha-tooltip>, which moves to the side with room inside its clipping panel and slides along it (placement stays the preference), and <aha-popover flip> or <aha-dropdown>, which open on the roomier side; never hand-position a bubble on a fixed side.",
+      "rule": "An overlay is never clipped by its panel or the viewport: a tooltip, popover or menu inside a drawer, modal or scroll area shows its whole bubble even when its trigger sits at the edge. Use <aha-tooltip>, which moves to the side with room inside its clipping panel and slides along it (placement stays the preference), and <aha-popover flip> or <aha-dropdown>, which open on the roomier side; never hand-position a bubble on a fixed side. Gated: screen-lint.mjs --measure hard-fails overlay-clip on a consumer screen, and qa.mjs runs the same check on every built DS page.",
       "ref": [
         "OVERLAY-09"
       ]
