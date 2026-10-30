@@ -23,7 +23,7 @@ const scenarios = String.raw`(async () => {
   const clipped = [];
   const keptPreference = [];
   const arrowOff = [];
-  for (const tip of document.querySelectorAll('aha-tooltip')) {
+  for (const tip of document.querySelectorAll('aha-tooltip:not([data-scroll])')) {
     for (const placement of placements) {
       tip.setAttribute('placement', placement);
       tip.setAttribute('open', '');
@@ -56,4 +56,35 @@ test('a tooltip never paints outside its clipping panel or the viewport, keeps t
   assert.deepEqual(result.clipped, []);
   assert.deepEqual(result.keptPreference, []);
   assert.deepEqual(result.arrowOff, []);
+});
+
+const scrollScenario = String.raw`(async () => {
+  const frame = () => new Promise((done) => requestAnimationFrame(() => requestAnimationFrame(done)));
+  const scroller = document.getElementById('scroller');
+  const tip = document.getElementById('scrolling');
+  const inside = () => {
+    const bubble = tip.shadowRoot.querySelector('.bubble').getBoundingClientRect();
+    const clip = scroller.getBoundingClientRect();
+    return bubble.top >= clip.top + scroller.clientTop - 0.5 && bubble.bottom <= clip.top + scroller.clientTop + scroller.clientHeight + 0.5;
+  };
+  tip.setAttribute('placement', 'top');
+  tip.setAttribute('open', '');
+  await frame();
+  const before = { side: tip.getAttribute('data-placement'), inside: inside() };
+  scroller.scrollTop = 100;
+  await frame();
+  const scrolled = { side: tip.getAttribute('data-placement'), inside: inside() };
+  tip.removeAttribute('open');
+  await frame();
+  scroller.scrollTop = 0;
+  await frame();
+  const afterHide = tip.getAttribute('data-placement');
+  return { before, scrolled, afterHide };
+})()`;
+
+test('an open tooltip re-picks its side when its panel scrolls, and stops watching scroll once hidden', { skip }, async () => {
+  const result = await evaluateInPage(fixture, scrollScenario, { readyExpr: '!!window.tooltipClipFixtureReady', timeout: 45000 });
+  assert.deepEqual(result.before, { side: 'top', inside: true });
+  assert.deepEqual(result.scrolled, { side: 'bottom', inside: true });
+  assert.equal(result.afterHide, 'bottom');
 });
