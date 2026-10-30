@@ -68,6 +68,7 @@ Never close a destructive overlay before its action resolves, and **never fire-a
 - A tooltip, popover or menu inside a drawer, modal or scroll area shows its **whole bubble**, also when its trigger sits at the panel's edge or the screen's edge.
 - Use `<aha-tooltip>`: it moves to the side of its trigger that has room inside its clipping panel, then slides along that side, with the arrow kept on the trigger. Its `placement` stays the preference.
 - `<aha-popover flip>` and `<aha-dropdown>` open on the roomier side. **Never** hand-position a bubble on a fixed side.
+- **Gated, not only judged.** `node screen-lint.mjs --surface=<surface> --measure <screen>` renders the screen at 360, 768 and 1440 px, opens every `<aha-tooltip>` and `<aha-popover>`, checks every `[role="tooltip"]` already shown, and hard-fails `overlay-clip` when any bubble paints outside a clipping ancestor (overflow or paint containment, shadow roots included) or the viewport. The DS render gate (`qa.mjs`, part of `npm run check`) runs the same check on every built DS page.
 
 ---
 
