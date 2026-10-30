@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.574.2 — 2026-10-30
 ### Fixed
-- Dropdown and Menu: a row's description sits 4px below its label (it touched the label before); the Dropdown panel and its flyout stop at `max-width: min(320px, 90vw)`, the same cap as the Select popup, so a long description truncates with an ellipsis instead of stretching the panel (#NNN)
+- Dropdown and Menu: a row's description sits 4px below its label (it touched the label before); the Dropdown panel and its flyout stop at `max-width: min(320px, 90vw)`, the same cap as the Select popup, so a long description truncates with an ellipsis instead of stretching the panel (#483)
 - Revert: revert the PR; a `gap` declaration in `lib/aha-dropdown.js` and `lib/aha-menu.js`, two `max-width` declarations in `lib/aha-dropdown.js`, and their spec rows
 
 ## 0.574.1 — 2026-10-30
