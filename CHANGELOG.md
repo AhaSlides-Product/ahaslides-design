@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.574.2 — 2026-10-30
+### Fixed
+- Dropdown and Menu: a row's description sits 4px below its label (it touched the label before); the Dropdown panel and its flyout stop at `max-width: min(320px, 90vw)`, the same cap as the Select popup, so a long description truncates with an ellipsis instead of stretching the panel (#NNN)
+- Revert: revert the PR; a `gap` declaration in `lib/aha-dropdown.js` and `lib/aha-menu.js`, two `max-width` declarations in `lib/aha-dropdown.js`, and their spec rows
+
 ## 0.574.1 — 2026-10-30
 ### Fixed
 - Dropdown with `value`: the selected row's description stays Regular 400 under the SemiBold label, as in the role picker design (#482)
