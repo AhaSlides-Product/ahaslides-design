@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.575.1 — 2026-10-30
+### Fixed
+- Dropdown and Menu: a row's description wraps onto as many lines as it needs instead of truncating with an ellipsis; the row grows to fit, and the label still truncates on one line (#NNN)
+- Revert: revert the PR; one `.description` declaration in `lib/aha-dropdown.js` and `lib/aha-menu.js`, and the Description and Panel rows in the dropdown and menu contracts
+
 ## 0.575.0 — 2026-10-30
 ### Added
 - Illustration `empty-table`: a pink table card (Vivid Pink header row, empty dashed rows) drawn in the illustration tints to match the other `empty-*` art; 34 illustrations now (#484)
