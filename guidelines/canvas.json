@@ -80,7 +80,7 @@
     {
       "ref": "leaderboard",
       "as": "component",
-      "use": "a ranked score list on the canvas, the same look as the phone \u2014 <aha-leaderboard size=\"stage\">, neutral rank circle, a deck-palette bar per row, the score with its unit and gain, and an optional heading, placed in a deck container or modal; showWinner() (canvas only) centres rank 1 in a banner over the list with deck-palette confetti and a close button in the banner corner; never a hand-built leaderboard or winner reveal",
+      "use": "a ranked score list on the canvas, the same look as the phone \u2014 <aha-leaderboard size=\"stage\">, neutral rank circle, a deck-palette bar per row, the score with its unit and gain, and an optional heading, placed in a deck container or modal; showWinner() (canvas only) reveals rank 1 in a banner over the list with a staged build-up, a score count-up and a burst of deck-palette confetti, and a close button in the banner corner; call showWinner() again to show it after a close; never a hand-built leaderboard or winner reveal",
       "status": "available"
     },
     {

@@ -9,7 +9,8 @@
 <aha-leaderboard size="phone" me="u7" heading="Leaderboard" style="height:320px"
   entries='[{"id":"u2","name":"Minh","score":900},{"id":"u7","name":"Linh","score":1200,"delta":300,"avatar":"🦊"},{"id":"u9","name":"An","score":900}]'></aha-leaderboard>
 
-<!-- Show winner is canvas only (size="stage"): rank 1 in a banner covering the list, with confetti; the close button in the banner corner or Esc fires winner-close.
+<!-- Show winner is canvas only (size="stage"): rank 1 revealed in a banner covering the list, with a count-up and confetti; the close button in the banner corner or Esc fires winner-close,
+     and calling showWinner() again shows it again with the reveal replayed.
      On size="phone" showWinner() does nothing and returns false. -->
 <aha-leaderboard id="final" size="stage" style="height:420px"
   entries='[{"id":"u1","name":"Linh","score":932,"avatar":"🦊"},{"id":"u2","name":"Minh","score":895}]'></aha-leaderboard>
