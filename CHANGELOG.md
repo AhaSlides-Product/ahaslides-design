@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.581.1 — 2026-10-30
+### Fixed
+- `shortcut="+"` on `aha-button` and `aha-tooltip` size lg now draws one square "+" key chip, and "Ctrl++", "Mod++" and "Shift++" keep their final "+" key; before, the chip was hidden or lost the plus. Other shortcuts render as before (#498)
+- Revert: revert the PR; only `shortcutPieces` in `lib/shortcut-key.js` and the shortcut prose change
+
 ## 0.579.2 — 2026-10-30
 ### Fixed
 - `aha-tooltip` narrows its bubble to the width of a clipping panel narrower than its 280px max width (for example a 240px overflow panel) and wraps, so a section-header help hint is no longer cut at the edge; a wider panel restores the full max width (#496)
