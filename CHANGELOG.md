@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.577.3 — 2026-10-30
+### Fixed
+- `<aha-empty>`, DataTable and `createRenderEmpty` load only their own two pictures (`empty-list`, `empty-table`) instead of the whole illustration catalogue: `import '@ahaslides-product/design/aha-empty'` drops from 190.7 KB to 2.3 KB gzipped in a bundle with dynamic imports inlined. `import '@ahaslides-product/design/illustrations'` behaves as before. A slot="image" picture with any other name now needs that import; until the full set loads, such a name stays a blank box, and an already-rendered element redraws when it arrives. (#000)
+
 ## 0.577.1 — 2026-10-30
 ### Fixed
 - Tooltip: a tooltip that stays visible (held `open`, or toggled open by click) now re-picks its side as its panel or the page scrolls, so it no longer keeps a side that has since become clipped. It listens for scroll only while visible, one measure per frame (#488)
