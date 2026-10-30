@@ -121,3 +121,31 @@ test('a tooltip slotted in an aha-drawer re-picks its side when the drawer body 
   assert.deepEqual(result.scrolled, { side: 'bottom', inside: true });
   assert.equal(result.afterHide, 'bottom');
 });
+
+const narrowScenario = String.raw`(async () => {
+  const frame = () => new Promise((done) => requestAnimationFrame(() => requestAnimationFrame(done)));
+  const panel = document.getElementById('narrow');
+  const tip = document.getElementById('narrow-tip');
+  const bubble = tip.shadowRoot.querySelector('.bubble');
+  tip.setAttribute('placement', 'bottom-start');
+  tip.setAttribute('open', '');
+  await frame();
+  const rect = bubble.getBoundingClientRect();
+  const clip = panel.getBoundingClientRect();
+  const narrowed = { maxWidth: parseFloat(getComputedStyle(bubble).maxWidth), width: rect.width, fits: rect.left >= clip.left - 0.5 && rect.right <= clip.right + 0.5, panel: panel.clientWidth };
+  panel.style.width = '400px';
+  tip.removeAttribute('open');
+  await frame();
+  tip.setAttribute('open', '');
+  await frame();
+  const widened = parseFloat(getComputedStyle(bubble).maxWidth);
+  return { narrowed, widened };
+})()`;
+
+test('a tooltip narrows to a clipping panel narrower than its max width and goes back to 280px when the panel widens', { skip }, async () => {
+  const result = await evaluateInPage(fixture, narrowScenario, { readyExpr: '!!window.tooltipClipFixtureReady', timeout: 45000 });
+  assert.ok(result.narrowed.maxWidth <= result.narrowed.panel, 'max-width ' + result.narrowed.maxWidth);
+  assert.ok(result.narrowed.width <= result.narrowed.panel);
+  assert.equal(result.narrowed.fits, true);
+  assert.equal(result.widened, 280);
+});
