@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.576.1 — 2026-10-30
+### Fixed
+- Dropdown and Menu: a row's description wraps onto as many lines as it needs instead of truncating with an ellipsis; the row grows to fit, and the label still truncates on one line. The Dropdown panel and flyout now size to their content up to `max-width: min(320px, 90vw)` before a description wraps, instead of shrinking to their minimum width (#486)
+- Revert: revert the PR; one `.description` declaration in `lib/aha-dropdown.js` and `lib/aha-menu.js`, a `width:max-content` on the Dropdown panel and flyout, and the Description and Panel rows in the dropdown and menu contracts
 ## 0.576.0 — 2026-10-30
 ### Changed
 - Tooltip: `placement` is now a preference. On show the bubble is measured against its clipping panel (the nearest `overflow` ancestor, across shadow roots and slots, cut down to the viewport); with no room on that side it moves to the opposite side, then the roomier perpendicular side, then slides along that side to stay inside, with the arrow kept on the trigger. The attribute is never rewritten; the side used is reflected as `data-placement`, which the bubble CSS now reads. A `?` help tooltip at a drawer's edge is no longer cut off (#485)
