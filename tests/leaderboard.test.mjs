@@ -254,6 +254,7 @@ test('leaderboard: showWinner centres every tied rank 1 over the dimmed list wit
   writeFileSync(file, `<!doctype html><body style="--aha-deck-palette-1:rgb(255,0,0);--aha-deck-palette-2:rgb(0,0,255)">
 <aha-leaderboard id="lb" style="display:block;width:600px" entries='${JSON.stringify(entries)}'></aha-leaderboard>
 <aha-leaderboard id="phone" size="phone" heading="Leaderboard" winner style="display:block;width:340px" entries='${JSON.stringify(entries)}'></aha-leaderboard>
+<aha-leaderboard id="many" size="phone" winner style="display:block;width:360px;height:300px" entries='${JSON.stringify(Array.from({ length: 12 }, (_, index) => ({ id: 'w' + index, name: 'Winner ' + index, score: 10, avatar: '💀' })))}'></aha-leaderboard>
 <aha-leaderboard id="empty" entries="[]"></aha-leaderboard>
 <aha-leaderboard id="zero" entries='[{"id":"a","name":"A","score":0}]'></aha-leaderboard>
 <script type="module">import '${lib}'; await customElements.whenDefined('aha-leaderboard'); await new Promise((r) => setTimeout(r, 500)); window.ready = true;</script>`);
@@ -270,12 +271,18 @@ test('leaderboard: showWinner centres every tied rank 1 over the dimmed list wit
       return [...shadow.querySelectorAll('li.row:not([hidden])')].some((row) => { const box = row.getBoundingClientRect();
         return close.left < box.right && close.right > box.left && close.top < box.bottom && close.bottom > box.top; }); };
     phone.closeOverRow = overlapsRow(phoneRoot);
+    const manyOverlay = document.getElementById('many').shadowRoot.querySelector('.winner');
+    const manyFirstTop = manyOverlay.querySelector('.winner-person').getBoundingClientRect().top - manyOverlay.getBoundingClientRect().top;
+    manyOverlay.scrollTop = manyOverlay.scrollHeight;
+    const manyScoreBottom = manyOverlay.getBoundingClientRect().bottom - manyOverlay.querySelector('.winner-score').getBoundingClientRect().bottom;
+    const many = { firstWinnerInside: manyFirstTop >= 0, scoreReachable: manyScoreBottom >= 0,
+      shown: manyOverlay.querySelectorAll('.winner-person:not([hidden])').length };
     const shown = host.showWinner();
     const winner = root.querySelector('.winner');
     const box = winner.getBoundingClientRect();
     const list = root.querySelector('.viewport').getBoundingClientRect();
     const names = [...root.querySelectorAll('.winner-person:not([hidden]) .winner-name')].map((name) => name.textContent);
-    const state = { hiddenBefore, phone, shown, attribute: host.hasAttribute('winner'), names, score: root.querySelector('.winner-score').textContent,
+    const state = { hiddenBefore, phone, many, shown, attribute: host.hasAttribute('winner'), names, score: root.querySelector('.winner-score').textContent,
       announced: root.querySelector('.live').textContent, covers: box.top <= list.top && box.bottom >= list.bottom && box.width === list.width,
       you: winner.textContent.includes('(you)'), dim: getComputedStyle(winner).backgroundColor,
       reducedMotion: { pieces: root.querySelectorAll('.confetti .piece').length, confetti: getComputedStyle(root.querySelector('.confetti')).display, fade: getComputedStyle(winner).animationName },
@@ -308,6 +315,7 @@ test('leaderboard: showWinner centres every tied rank 1 over the dimmed list wit
   assert.deepEqual(result.afterEscape, { hidden: true, closes: 2 });
   assert.deepEqual(result.afterHide, { hidden: true, closes: 2 });
   assert.deepEqual(result.phone, { open: true, closeSize: 'md', nameSize: '24px', closeOverRow: false });
+  assert.deepEqual(result.many, { firstWinnerInside: true, scoreReachable: true, shown: 12 });
   assert.deepEqual(result.empty, { shown: false, attribute: false });
   assert.equal(result.zero, false);
 });
