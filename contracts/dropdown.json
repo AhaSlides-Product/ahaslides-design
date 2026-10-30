@@ -15,7 +15,7 @@
     { "label": "Trigger", "value": "height 40 · radius 8 · white bg, 1px border #E3E3E3, SemiBold 600" },
     { "label": "Trigger hover", "value": "border-hover #E70E68 (motion-fast + ease-out)" },
     { "label": "Caret", "value": "<aha-icon name=\"system-caret-down\" size=16>, rotates 180° when open (motion-mid)" },
-    { "label": "Panel", "value": "elevated white, radius 8, 4 padding, min-width 200, max-width min(320px, 90vw) (the flyout too), long label/description ellipsis, soft shadow" },
+    { "label": "Panel", "value": "elevated white, radius 8, 4 padding, min-width 210 and max-width min(320px, 90vw), both including padding and border (the flyout too), long label/description ellipsis, soft shadow" },
     { "label": "Placement", "value": "bottomLeft · bottomRight · topLeft · topRight — anchors the persistent panel" },
     { "label": "Trigger mode", "value": "click (default) or hover" },
     { "label": "Open motion", "value": "opacity + translateY on a persistent node (motion-mid + ease-out)" },
