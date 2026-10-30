@@ -1,9 +1,9 @@
-import '@ahaslides-product/design/illustrations'; // registers <aha-illustration> (custom-image slot)
-import '@ahaslides-product/design/aha-empty';  // registers <aha-empty>
+import '@ahaslides-product/design/aha-empty';  // registers <aha-empty> and <aha-illustration> with empty-list and empty-table
 import '@ahaslides-product/design/aha-button'; // registers <aha-button>
 
 // `description` is the caption (or use children); description="" hides it.
 // image="default" | "simple"; slot="image" swaps in a custom picture; slot="action" is a CTA.
+// Any other illustration name in slot="image" also needs import '@ahaslides-product/design/illustrations'.
 function NoResponses({ onShare }) {
   return (
     <aha-empty description="No responses yet — share the join link">

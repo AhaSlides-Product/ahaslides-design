@@ -1,5 +1,4 @@
 // main.ts — register the elements + mark aha-* as custom elements
-import '@ahaslides-product/design/illustrations'; // registers <aha-illustration> (custom-image slot)
 import '@ahaslides-product/design/aha-empty';
 import '@ahaslides-product/design/aha-button';
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
