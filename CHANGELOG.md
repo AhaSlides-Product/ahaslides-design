@@ -29,6 +29,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Changed
 - Colour rule 2.6 and criterion C7 name sign-in buttons (Log in with Google, Log in with Microsoft) among the places a third-party logo is greyscale at rest (#495)
 
+## 0.579.2 — 2026-10-30
+### Fixed
+- `aha-tooltip` narrows its bubble to the width of a clipping panel narrower than its 280px max width (for example a 240px overflow panel) and wraps, so a section-header help hint is no longer cut at the edge; a wider panel restores the full max width (#496)
+
 ## 0.579.1 — 2026-10-30
 ### Fixed
 - A popover trigger click now bubbles, so opening one `aha-popover` or `aha-csat` feedback popover and then clicking another's trigger (or a thumb) closes the first; a host can also listen to those clicks. Escape, outside click and focus return are unchanged (#494)
