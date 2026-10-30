@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.574.0 — 2026-10-30
 ### Added
-- Dropdown `value` attribute: a short single-choice picker with no Popover or Menu wrapper. The row whose key equals `value` is the brand-tinted selected row (bg-accent, SemiBold 600, no check mark) with `role=menuitemradio` and `aria-checked`; the trigger shows its label unless `label` is set; choosing a row sets `value`, closes the panel and emits `select`; opening focuses the selected row. Without `value` every row stays a plain `menuitem` and nothing changes for action dropdowns. Docs, playground, examples and a role-picker example updated (#NNN)
+- Dropdown `value` attribute: a short single-choice picker with no Popover or Menu wrapper. The row whose key equals `value` is the brand-tinted selected row (bg-accent, SemiBold 600, no check mark) with `role=menuitemradio` and `aria-checked`; the trigger shows its label unless `label` is set; choosing a row sets `value`, closes the panel and emits `select`; opening focuses the selected row. Without `value` every row stays a plain `menuitem` and nothing changes for action dropdowns. Docs, playground, examples and a role-picker example updated (#480)
 - Revert: revert the PR; one attribute and one `_syncValue` method in `lib/aha-dropdown.js`, its contract and example text, and one test file. No existing behaviour changes
 
 ## 0.573.0 — 2026-10-29
