@@ -12,6 +12,13 @@ name: publish
 #
 # Manual re-publish / backfill: run this workflow via workflow_dispatch (Actions tab) on master.
 #
+# Auto-versioning (only while the repo variable AUTO_VERSION is "on"): a PR writes its CHANGELOG
+# entry under "## Unreleased" and bumps nothing. The "Release" step below (auto-version.mjs) picks
+# the number, rewrites the entry, sets package.json + agent/.claude-plugin/plugin.json, and pushes
+# "chore(release): X.Y.Z" to master; every later step then runs on that commit unchanged. A push
+# made with GITHUB_TOKEN starts no workflow, so this run dispatches pages.yml and publish-cdn.yml
+# itself after publishing. With AUTO_VERSION unset or not "on", the Release step is skipped.
+#
 # Publishing needs no extra secret: GitHub Packages publish uses the built-in GITHUB_TOKEN
 # (`packages: write`). `contents: write` is needed to push the version tag. The consumer bump
 # PRs (bump-consumers job) need DS_BUMP_TOKEN. Consumers install with a scoped .npmrc pointing
@@ -24,8 +31,10 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write   # push the v<version> tag
+  contents: write   # push the v<version> tag (and the auto-version release commit)
   packages: write   # publish to GitHub Packages
+  pull-requests: read   # auto-version reads a merged PR's Version-bump line
+  actions: write    # auto-version dispatches pages.yml + publish-cdn.yml on its release commit
 
 # Never publish two runs concurrently; let an in-flight publish finish rather than cancel it.
 concurrency:
@@ -52,10 +61,20 @@ jobs:
 
       - run: npm install --no-audit --no-fund
 
+      - name: Release the "## Unreleased" CHANGELOG entry (AUTO_VERSION=on)
+        id: release
+        if: vars.AUTO_VERSION == 'on' && github.ref == 'refs/heads/master' && !startsWith(github.event.head_commit.message || '', 'chore(release):')
+        run: node auto-version.mjs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AUTO_VERSION_PUSH_TOKEN: ${{ secrets.AUTO_VERSION_PUSH_TOKEN }}
+
       # Pre-publish gate (deterministic, no browser): the contract must generate AND
       # every component must pass the reusability/import standard before anything ships.
       - name: Build + standards gate
         run: node build-icons.mjs && node generate.mjs && node standards.mjs
+        env:
+          AUTO_VERSION: ${{ vars.AUTO_VERSION }}
 
       # Publish only when package.json's version has no matching tag yet. This makes
       # merge == publish, idempotently: a merge that bumped the version ships; a merge that
@@ -112,6 +131,14 @@ jobs:
           exit 1
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deploy the docs and CDN for the auto-version release
+        if: steps.decide.outputs.publish == 'true' && steps.release.outputs.released == 'true' && steps.release.outputs.pushed_with == 'github-token'
+        run: |
+          gh workflow run pages.yml --ref master --repo "$GITHUB_REPOSITORY"
+          gh workflow run publish-cdn.yml --ref master --repo "$GITHUB_REPOSITORY"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   # After a real release, open or refresh ONE bump PR per consumer app (.github/ds-consumers.json).
   # Never auto-merged: each app's team merges its own PR. GITHUB_TOKEN can neither push to other

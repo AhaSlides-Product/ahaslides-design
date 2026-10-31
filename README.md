@@ -245,7 +245,7 @@ using the built-in `GITHUB_TOKEN`, no npm secret; run it via `workflow_dispatch`
 or backfill), so the registry can never drift behind master. `pages.yml` deploys `dist/` on every
 push to `master`. After each real release, its `bump-consumers` job opens or refreshes one
 `ds/auto-bump` PR per app listed in `.github/ds-consumers.json` (exact pin + regenerated lockfile,
-never auto-merged; needs the `DS_BUMP_TOKEN` secret). Bumping `version` (which the standards gate requires per PR) is therefore all a
+never auto-merged; needs the `DS_BUMP_TOKEN` secret). While the repo variable `AUTO_VERSION` is `on`, a PR writes `## Unreleased` instead and the same workflow sets the version and commits `chore(release): X.Y.Z` before publishing (`CHANGELOG.md` header). Bumping `version` (which the standards gate requires per PR) is therefore all a
 merge needs to ship — no manual `git tag`. Maintainer one-time setup: set Pages → Source =
 "GitHub Actions". Consumers add a scoped `.npmrc`
 (`@ahaslides-product:registry=https://npm.pkg.github.com`) + a `read:packages` GitHub token before `npm i`.
