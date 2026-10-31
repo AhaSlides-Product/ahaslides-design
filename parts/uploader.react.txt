@@ -29,7 +29,7 @@ function AhaUploader({ multiple, accept, disabled, listType, maxCount, hint, ite
 
 // usage — a drop zone with managed rows (done / uploading / error) + a remove handler
 <AhaUploader
-  accept="image/*"
+  accept="image/png,image/jpeg,application/pdf,video/quicktime"
   hint="Up to 25 MB · PNG, JPG, PDF or MOV"
   multiple
   items={[
