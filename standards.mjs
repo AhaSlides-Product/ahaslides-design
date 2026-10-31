@@ -30,6 +30,7 @@ import { execFileSync } from 'node:child_process';
 import { ART_SOURCES, ILLUSTRATION_TINTS, coloursInSvg, recolourSvg } from './recolour-art.mjs';
 import { FROZEN_SNAPSHOT, validateEvalSets, selfTest as evalHarnessSelfTest } from './anti-slop/evals-harness.mjs';
 import { DUPLICATE_BASELINE_FILE, DUPLICATE_BASELINE_ABOUT, DUPLICATE_THRESHOLD, readGlyphSources, rasteriseAll, nearDuplicatePairs, readDuplicateBaseline, readIntentionalPairs, evaluateDuplicateGate } from './icon-similarity.mjs';
+import { unreleasedGate } from './auto-version.mjs';
 import { ENVIRONMENT_TABLE_FILE, ENVIRONMENT_BASELINE_FILE, ENVIRONMENT_BASELINE_ABOUT, loadEnvironmentTable, fileSystemReader, gitReader, collectItems, evaluateEnvironmentGate } from './environments.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
@@ -710,12 +711,21 @@ if (ANTISLOP) {
      ## X.Y.Z — YYYY-MM-DD      (em-dash or hyphen; the TOP entry must equal package.json "version")
      ### Added | Changed | Fixed | Removed
      - one bullet per change, linking the real PR: (#58)   ← never a leftover "(#PR)" placeholder
+   With AUTO_VERSION=on a top "## Unreleased" entry is allowed instead: the merge's release commit
+   (auto-version.mjs) sets the version, so the checks below then hold for the newest RELEASED entry.
    ================================================================================================= */
 const repoChecks = [];
 {
   const rchk = (name, cond, note = '') => repoChecks.push([name, !!cond, cond ? '' : note]);
   const changelog = read(join(root, 'CHANGELOG.md'));
   rchk('CHANGELOG.md exists', !!changelog, 'add a CHANGELOG.md at the repo root (newest entry on top)');
+  const pendingRelease = unreleasedGate({ changelog, packageVersion: PKG.version, readBaseVersion: (baseRef) => {
+    try {
+      execFileSync('git', ['fetch', '--quiet', '--depth=1', 'origin', baseRef], { cwd: root, stdio: 'ignore' });
+      return JSON.parse(execFileSync('git', ['show', 'FETCH_HEAD:package.json'], { cwd: root, encoding: 'utf8' })).version;
+    } catch { return null; }
+  } });
+  for (const [name, ok, note] of pendingRelease.checks) rchk(name, ok, note);
   if (changelog) {
     const m = changelog.match(/^##\s+(\d+\.\d+\.\d+)\s+[—-]\s+(\d{4}-\d{2}-\d{2})\s*$/m);
     rchk('top entry heads the file as "## X.Y.Z — YYYY-MM-DD"', !!m,
@@ -740,7 +750,7 @@ const repoChecks = [];
         }
       } catch { /* no git / no tags (fresh or shallow CI) — skip rather than false-fail */ }
       const baseRef = process.env.GITHUB_BASE_REF || process.env.VERSION_BASE_REF;
-      if (baseRef) {
+      if (baseRef && !pendingRelease.active) {
         let baseVersion = null;
         try {
           execFileSync('git', ['fetch', '--quiet', '--depth=1', 'origin', baseRef], { cwd: root, stdio: 'ignore' });

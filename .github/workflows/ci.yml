@@ -39,6 +39,8 @@ jobs:
         run: git diff --exit-code -- agent/anti-slop/criteria.json
       - name: Component standards gate (reusable or it fails)
         run: node standards.mjs
+        env:
+          AUTO_VERSION: ${{ vars.AUTO_VERSION }}
       - name: 'Environment declared in the PR body (its Environment: line matches the changed items)'
         if: github.event_name == 'pull_request'
         env:
