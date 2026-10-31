@@ -247,3 +247,169 @@ await customElements.whenDefined('aha-leaderboard'); await new Promise((r) => se
     assert.ok(result.inks.every((ink) => ink === 'rgb(26, 26, 26)' || ink === 'rgb(255, 255, 255)'), JSON.stringify(result));
   });
 }
+
+test('leaderboard: showWinner centres every tied rank 1 in a banner covering the list at stage sizes without motion under reduced motion, the close button in the banner corner or Esc dismisses it with winner-close, and the phone shows no winner', { skip }, async () => {
+  const file = join(mkdtempSync(join(tmpdir(), 'leaderboard-')), 'page.html');
+  const entries = [{ id: 'a', name: 'Al', score: 932, avatar: '💀' }, { id: 'b', name: 'Amber', score: 932 }, { id: 'c', name: 'Lan', score: 0 }];
+  writeFileSync(file, `<!doctype html><body style="--aha-deck-palette-1:rgb(255,0,0);--aha-deck-palette-2:rgb(0,0,255)">
+<aha-leaderboard id="lb" style="display:block;width:600px" entries='${JSON.stringify(entries)}'></aha-leaderboard>
+<aha-leaderboard id="phone" size="phone" heading="Leaderboard" winner style="display:block;width:340px" entries='${JSON.stringify(entries)}'></aha-leaderboard>
+<aha-leaderboard id="many" winner style="display:block;width:360px;height:300px" entries='${JSON.stringify(Array.from({ length: 12 }, (_, index) => ({ id: 'w' + index, name: 'Winner ' + index, score: 10, avatar: '💀' })))}'></aha-leaderboard>
+<aha-leaderboard id="empty" entries="[]"></aha-leaderboard>
+<aha-leaderboard id="zero" entries='[{"id":"a","name":"A","score":0}]'></aha-leaderboard>
+<script type="module">import '${lib}'; await customElements.whenDefined('aha-leaderboard'); await new Promise((r) => setTimeout(r, 500)); window.ready = true;</script>`);
+  const result = await evaluateInPage(pathToFileURL(file).href, `(() => {
+    const host = document.getElementById('lb');
+    const root = host.shadowRoot;
+    const closes = [];
+    host.addEventListener('winner-close', () => closes.push(host.winner));
+    const hiddenBefore = root.querySelector('.winner').hidden;
+    const phoneHost = document.getElementById('phone');
+    const phoneRoot = phoneHost.shadowRoot;
+    const phone = { open: !phoneRoot.querySelector('.winner').hidden, close: phoneRoot.querySelector('.winner-close').getClientRects().length > 0,
+      confetti: !phoneRoot.querySelector('.confetti').hidden, shown: phoneHost.showWinner(), openAfterCall: !phoneRoot.querySelector('.winner').hidden };
+    const closeInBannerCorner = (shadow) => { const close = shadow.querySelector('.winner-close').getBoundingClientRect();
+      const banner = shadow.querySelector('.winner').getBoundingClientRect();
+      return close.top >= banner.top && close.right <= banner.right && close.top - banner.top <= 16 && banner.right - close.right <= 16; };
+    const manyOverlay = document.getElementById('many').shadowRoot.querySelector('.winner-body');
+    const manyFirstTop = manyOverlay.querySelector('.winner-person').getBoundingClientRect().top - manyOverlay.getBoundingClientRect().top;
+    manyOverlay.scrollTop = manyOverlay.scrollHeight;
+    const manyScoreBottom = manyOverlay.getBoundingClientRect().bottom - manyOverlay.querySelector('.winner-score').getBoundingClientRect().bottom;
+    const many = { firstWinnerInside: manyFirstTop >= 0, scoreReachable: manyScoreBottom >= 0,
+      shown: manyOverlay.querySelectorAll('.winner-person:not([hidden])').length };
+    const shown = host.showWinner();
+    const winner = root.querySelector('.winner');
+    const box = winner.getBoundingClientRect();
+    const list = root.querySelector('.viewport').getBoundingClientRect();
+    const names = [...root.querySelectorAll('.winner-person:not([hidden]) .winner-name')].map((name) => name.textContent);
+    const sizes = { name: getComputedStyle(root.querySelector('.winner-name')).fontSize, score: getComputedStyle(root.querySelector('.winner-score')).fontSize,
+      close: root.querySelector('.winner-close').getAttribute('size') };
+    const state = { hiddenBefore, phone, many, shown, sizes, attribute: host.hasAttribute('winner'), names, score: root.querySelector('.winner-score').textContent,
+      announced: root.querySelector('.live').textContent, covers: box.top <= list.top && box.bottom >= list.bottom && box.width === list.width,
+      you: winner.textContent.includes('(you)'), dim: getComputedStyle(winner).backgroundColor,
+      reducedMotion: { pieces: root.querySelectorAll('.confetti .piece').length, confetti: getComputedStyle(root.querySelector('.confetti')).display, fade: getComputedStyle(winner).animationName, focus: getComputedStyle(root.querySelector('.winner-focus')).display },
+      closeLabel: root.querySelector('.winner-close').getAttribute('aria-label'), closeInBannerCorner: closeInBannerCorner(root) };
+    root.querySelector('.winner-close').shadowRoot.querySelector('button').click();
+    state.afterClick = { hidden: winner.hidden, attribute: host.hasAttribute('winner'), closes: closes.length };
+    host.showWinner();
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    state.afterEscape = { hidden: winner.hidden, closes: closes.length };
+    host.showWinner(); host.hideWinner();
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    state.afterHide = { hidden: winner.hidden, closes: closes.length };
+    state.empty = { shown: document.getElementById('empty').showWinner(), attribute: document.getElementById('empty').hasAttribute('winner') };
+    state.zero = document.getElementById('zero').showWinner();
+    return state;
+  })()`, { readyExpr: '!!window.ready', timeout: 45000 });
+  assert.equal(result.hiddenBefore, true);
+  assert.equal(result.shown, true);
+  assert.equal(result.attribute, true);
+  assert.deepEqual(result.names, ['Al', 'Amber']);
+  assert.equal(result.score, '932 points');
+  assert.equal(result.announced, 'Winner: Al, Amber, 932 points');
+  assert.equal(result.covers, true, JSON.stringify(result));
+  assert.equal(result.you, false);
+  assert.notEqual(result.dim, 'rgba(0, 0, 0, 0)');
+  assert.deepEqual(result.reducedMotion, { pieces: 0, confetti: 'none', fade: 'none', focus: 'none' });
+  assert.equal(result.closeLabel, 'Close');
+  assert.equal(result.closeInBannerCorner, true);
+  assert.deepEqual(result.afterClick, { hidden: true, attribute: false, closes: 1 });
+  assert.deepEqual(result.afterEscape, { hidden: true, closes: 2 });
+  assert.deepEqual(result.afterHide, { hidden: true, closes: 2 });
+  assert.deepEqual(result.sizes, { name: '48px', score: '64px', close: 'sm' });
+  assert.deepEqual(result.phone, { open: false, close: false, confetti: false, shown: false, openAfterCall: false });
+  assert.deepEqual(result.many, { firstWinnerInside: true, scoreReachable: true, shown: 12 });
+  assert.deepEqual(result.empty, { shown: false, attribute: false });
+  assert.equal(result.zero, false);
+});
+
+test('leaderboard: with motion on, showWinner reveals the banner at once with no rank countdown, an accent glow that blooms from the centre and no spinner-like ring, counts the winner score up from 0 under a burst of full-strength deck-palette confetti in mixed shapes, and closing then showing again replays the reveal', { skip }, async () => {
+  const file = join(mkdtempSync(join(tmpdir(), 'leaderboard-')), 'page.html');
+  const entries = [{ id: 'a', name: 'Al', score: 932 }, { id: 'b', name: 'Bo', score: 500 }, { id: 'c', name: 'Cy', score: 300 }, { id: 'd', name: 'Di', score: 100 }];
+  writeFileSync(file, `<!doctype html><body style="--aha-deck-accent:rgb(255,0,255);--aha-deck-palette-1:rgb(255,0,0);--aha-deck-palette-2:rgb(0,0,255);--aha-deck-palette-3:rgb(0,128,0)">
+<aha-leaderboard id="lb" style="display:block;width:600px;height:320px" entries='${JSON.stringify(entries)}'></aha-leaderboard>
+<script type="module">window.matchMedia = () => ({ matches: false }); await import('${lib}'); await customElements.whenDefined('aha-leaderboard'); window.ready = true;</script>`);
+  const result = await evaluateInPage(pathToFileURL(file).href, `(async () => {
+    const host = document.getElementById('lb');
+    const root = host.shadowRoot;
+    const score = () => root.querySelector('.winner-score').textContent;
+    const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+    const animated = () => [...root.querySelectorAll('.row')].filter((row) => getComputedStyle(row).animationName !== 'none').length;
+    host.showWinner();
+    const ring = [...root.querySelectorAll('*')].filter((node) => { const style = getComputedStyle(node);
+      return style.borderRadius === '50%' && parseFloat(style.borderWidth) > 0 && node.closest('.winner') && !node.closest('.winner-avatar'); }).length;
+    const focus = getComputedStyle(root.querySelector('.winner-focus'));
+    const opening = { animatedRows: animated(), ring, bannerDelay: getComputedStyle(root.querySelector('.winner')).animationDelay,
+      focus: focus.animationName, focusDelay: focus.animationDelay, focusColour: focus.backgroundColor };
+    const pieces = [...root.querySelectorAll('.confetti .piece')];
+    const first = { score: score(), confetti: !root.querySelector('.confetti').hidden, pieces: pieces.length,
+      shapes: [...new Set(pieces.map((piece) => piece.dataset.shape))].sort(),
+      colours: [...new Set(pieces.map((piece) => getComputedStyle(piece).backgroundColor))].sort(),
+      announced: root.querySelector('.live').textContent };
+    await wait(2800);
+    first.settled = score();
+    root.querySelector('.winner-close').shadowRoot.querySelector('button').click();
+    const closed = { hidden: root.querySelector('.winner').hidden, confetti: root.querySelector('.confetti').hidden, animatedRows: animated() };
+    const again = { shown: host.showWinner(), hidden: root.querySelector('.winner').hidden, score: score(), confetti: !root.querySelector('.confetti').hidden };
+    await wait(2800);
+    again.settled = score();
+    return { opening, first, closed, again };
+  })()`, { readyExpr: '!!window.ready', timeout: 45000 });
+  assert.deepEqual(result.first, { score: '0 points', confetti: true, pieces: 120, shapes: ['circle', 'rect', 'streamer'],
+    colours: ['rgb(0, 0, 255)', 'rgb(0, 128, 0)', 'rgb(255, 0, 0)'], announced: 'Winner: Al, 932 points', settled: '932 points' });
+  assert.deepEqual(result.opening, { animatedRows: 0, ring: 0, bannerDelay: '0s', focus: 'winner-focus', focusDelay: '0s', focusColour: 'rgb(255, 0, 255)' });
+  assert.deepEqual(result.closed, { hidden: true, confetti: true, animatedRows: 0 });
+  assert.deepEqual(result.again, { shown: true, hidden: false, score: '0 points', confetti: true, settled: '932 points' });
+});
+
+test('leaderboard: the winner name and score reach WCAG AA 4.5:1 on the winner banner and the row text behind the banner stays illegible on the canvas, on light, dark and coloured decks', { skip }, async () => {
+  const decks = [
+    { name: 'light', bg: '#FFFFFF', ink: '#1A1A1A', palette: ['#E70E68', '#4DE8AB', '#F2643A', '#1A1A1A'] },
+    { name: 'dark', bg: '#161616', ink: '#FFFFFF', palette: ['#E70E68', '#4DE8AB', '#F2643A', '#FFFFFF'] },
+    { name: 'coloured', bg: '#1F46E8', ink: '#FFFFFF', palette: ['#FFE224', '#4DE8AB', '#FFFFFF', '#F2643A'] },
+  ];
+  const file = join(mkdtempSync(join(tmpdir(), 'leaderboard-')), 'page.html');
+  writeFileSync(file, `<!doctype html><body style="margin:0">
+<script type="module">
+import '${lib}';
+import { canvasDeckVars } from '${pathToFileURL(fileURLToPath(new URL('../lib/canvas-deck.js', import.meta.url))).href}';
+await customElements.whenDefined('aha-leaderboard');
+const canvas = document.createElement('canvas'); canvas.width = canvas.height = 1;
+const context = canvas.getContext('2d', { willReadFrequently: true });
+const parse = (css) => { context.clearRect(0, 0, 1, 1); context.fillStyle = '#000'; context.fillStyle = css; context.fillRect(0, 0, 1, 1); const d = context.getImageData(0, 0, 1, 1).data; return [d[0], d[1], d[2], d[3] / 255]; };
+const over = (top, bottom) => [0, 1, 2].map((i) => top[i] * top[3] + bottom[i] * (1 - top[3]));
+const channel = (value) => { const unit = value / 255; return unit <= 0.04045 ? unit / 12.92 : ((unit + 0.055) / 1.055) ** 2.4; };
+const luminance = (rgb) => 0.2126 * channel(rgb[0]) + 0.7152 * channel(rgb[1]) + 0.0722 * channel(rgb[2]);
+const ratio = (a, b) => { const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x); return (hi + 0.05) / (lo + 0.05); };
+window.results = [];
+for (const deck of ${JSON.stringify(decks)}) {
+  const root = document.createElement('div');
+  root.style.cssText = 'width:520px;background:' + deck.bg;
+  const vars = canvasDeckVars({ accent: deck.palette[0], ink: deck.ink, background: deck.bg, palette: deck.palette });
+  for (const [name, value] of Object.entries(vars)) root.style.setProperty(name, value);
+  const element = document.createElement('aha-leaderboard');
+  element.setAttribute('size', 'stage');
+  element.setAttribute('entries', JSON.stringify([{ id: 'a', name: 'Al', score: 932 }, { id: 'b', name: 'Bo', score: 500 }]));
+  root.appendChild(element); document.body.appendChild(root);
+  element.showWinner();
+  const shadow = element.shadowRoot;
+  const banner = parse(getComputedStyle(shadow.querySelector('.winner')).backgroundColor);
+  const through = (colour) => over(banner, colour);
+  const page = parse(deck.bg);
+  const behind = [page, ...deck.palette.map(parse), over(parse(getComputedStyle(shadow.querySelector('.track')).backgroundColor), page)];
+  for (const kind of ['.winner-name', '.winner-score']) {
+    const ink = parse(getComputedStyle(shadow.querySelector(kind)).color);
+    const worst = Math.min(...behind.map((colour) => { const background = through(colour); return ratio(over(ink, background), background); }));
+    window.results.push({ deck: deck.name, kind, ratio: worst });
+  }
+  const rowInk = parse(getComputedStyle(shadow.querySelector('.label.base')).color);
+  const rowText = Math.max(...behind.map((colour) => ratio(through(over(rowInk, colour)), through(colour))));
+  window.results.push({ deck: deck.name, kind: 'row text behind banner', ratio: rowText, ghost: true });
+}
+window.ready = true;
+</script>`);
+  const result = await evaluateInPage(pathToFileURL(file).href, 'window.results', { readyExpr: '!!window.ready', timeout: 45000 });
+  assert.equal(result.length, 9);
+  assert.deepEqual(result.filter((entry) => entry.ghost && entry.ratio > 1.3).map((entry) => `${entry.deck} ${entry.ratio.toFixed(2)}`), []);
+  assert.deepEqual(result.filter((entry) => !entry.ghost && entry.ratio < 4.5).map((entry) => `${entry.deck} ${entry.kind} ${entry.ratio.toFixed(2)}`), []);
+});
