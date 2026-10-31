@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.584.0 — 2026-10-31
+### Added
+- `aha-uploader` takes an optional `hint` attribute (for example `hint="PNG, JPG, PDF or MOV"`): a muted 14/21 line in text-secondary directly under "Click to upload or drag files here" inside the drop zone. It shows only in the active text-mode zone, not in picture-card mode or at the upload limit, and stays text-secondary on hover. Without `hint` the render is unchanged (#PRNUM)
+- Revert: revert the PR; only `lib/aha-uploader.js` and the Upload contract, snippets and preview change
+
 ## 0.581.1 — 2026-10-30
 ### Fixed
 - `shortcut="+"` on `aha-button` and `aha-tooltip` size lg now draws one square "+" key chip, and "Ctrl++", "Mod++" and "Shift++" keep their final "+" key; before, the chip was hidden or lost the plus. Other shortcuts render as before (#498)

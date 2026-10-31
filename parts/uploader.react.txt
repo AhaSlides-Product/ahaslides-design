@@ -3,7 +3,7 @@ import '@ahaslides-product/design/icons';          // registers <aha-icon> (glyp
 import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper (composed CustomEvents + JSON attrs); React 19 can use the tag directly.
-function AhaUploader({ multiple, accept, disabled, listType, maxCount, items, onFiles, onRemove }) {
+function AhaUploader({ multiple, accept, disabled, listType, maxCount, hint, items, onFiles, onRemove }) {
   const ref = useRef();
   useEffect(() => {
     const el = ref.current;
@@ -21,6 +21,7 @@ function AhaUploader({ multiple, accept, disabled, listType, maxCount, items, on
       disabled={disabled || undefined}
       listtype={listType}                                 // "text" | "picture-card"
       maxcount={maxCount}
+      hint={hint}                                         // e.g. "PNG, JPG or GIF" (text mode)
       items={items ? JSON.stringify(items) : undefined}   // [{ name, status?, percent?, thumb? }]
     />
   );
@@ -29,6 +30,7 @@ function AhaUploader({ multiple, accept, disabled, listType, maxCount, items, on
 // usage — a drop zone with managed rows (done / uploading / error) + a remove handler
 <AhaUploader
   accept="image/*"
+  hint="PNG, JPG or GIF"
   multiple
   items={[
     { name: 'cover.png', status: 'done' },

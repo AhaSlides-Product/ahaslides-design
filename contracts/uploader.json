@@ -14,6 +14,7 @@
   "spec": [
     { "label": "Zone", "value": "1px dashed border-strong #D4D4D4, radius 8, pad 24 16" },
     { "label": "Rest text", "value": "text-tertiary #8A8A8A, 14/21" },
+    { "label": "File type hint", "value": "optional, directly under the prompt, text-secondary #4A4A4A, 14/21; active text-mode zone only" },
     { "label": "Hover / drag", "value": "border + accent tint color-primary / bg-accent (motion-mid, persistent zone)" },
     { "label": "File row", "value": "1px border #E3E3E3, radius 8, file icon + name + the shared remove ✕ (tertiary icon-only <aha-button> xs, 20 × 20, 16px system-x)" },
     { "label": "Uploading", "value": "4px pill progress track (split), color-primary fill, width animates (motion-slow)" },
@@ -27,6 +28,7 @@
     { "name": "multiple", "type": "boolean", "default": "false", "desc": "Allow selecting more than one file" },
     { "name": "accept", "type": "string", "default": "—", "desc": "MIME/type filter, e.g. \"image/*\"" },
     { "name": "maxcount", "type": "number", "default": "∞", "desc": "Cap; the add trigger hides once items reach it" },
+    { "name": "hint", "type": "string", "default": "—", "desc": "Accepted file types or limits, e.g. \"PNG, JPG, PDF or MOV\"; a muted line under the prompt in the text-mode zone (hidden in picture-card and at the upload limit)" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Dims and disables the zone / add-box" },
     { "name": "change", "type": "CustomEvent<{files}>", "default": "—", "desc": "Composed event on select; read e.detail.files (File[])" },
     { "name": "remove", "type": "CustomEvent<{name,index}>", "default": "—", "desc": "Composed event when an item's ✕ is clicked" }
@@ -37,7 +39,7 @@
       { "what": "Input", "when": "capturing typed text, not a file" },
       { "what": "Colour picker", "when": "choosing a value from presets rather than importing" }
     ],
-    "note": "State what you accept in the zone copy and set `accept` to match. Drive `items[].status` from your upload lifecycle (uploading → done/error) and update `percent` as bytes land. Show the error reason near the failed row. Use `picture-card` for images, `text` for documents. Offer both click and drag — both are wired here.",
+    "note": "State what you accept with `hint` (for example \"PNG, JPG, PDF or MOV\") and set `accept` to match. Drive `items[].status` from your upload lifecycle (uploading → done/error) and update `percent` as bytes land. Show the error reason near the failed row. Use `picture-card` for images, `text` for documents. Offer both click and drag — both are wired here.",
     "dsv3": "COVERED — enumerated from the DS V3 Upload component-set taxonomy: *Upload* / Drag and drop (the drop zone), *Upload* / Upload List Item (text rows, states loading/success/error), Upload List Item / Picture (picture-card tiles + add-box). Token layer: dashed border-strong zone on white → color-primary border + bg-accent tint on hover/drag (persistent zone); rows on 1px border #E3E3E3 radius 8; error = color-error on bg-negative; done = color-success check; uploading = color-primary progress fill on a split track (width animates via motion-slow). Motion bound to the shared motion tokens on persistent nodes."
   },
   "surfaces": ["editor", "dashboard", "settings"],
@@ -66,6 +68,7 @@
   "selfCheck": [
     { "label": "zone dashed border-strong · radius 8", "verdict": "PASS" },
     { "label": "rest text text-tertiary", "verdict": "PASS" },
+    { "label": "hint line text-secondary under the prompt, 14/21, stays on hover", "verdict": "PASS" },
     { "label": "hover border color-primary + bg-accent", "verdict": "PASS" },
     { "label": "error item text/border color-error on bg-negative", "verdict": "PASS" },
     { "label": "uploading progress fill color-primary (width animates)", "verdict": "PASS" },
