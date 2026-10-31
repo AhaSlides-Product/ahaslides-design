@@ -28,7 +28,7 @@
     { "name": "multiple", "type": "boolean", "default": "false", "desc": "Allow selecting more than one file" },
     { "name": "accept", "type": "string", "default": "—", "desc": "MIME/type filter, e.g. \"image/*\"" },
     { "name": "maxcount", "type": "number", "default": "∞", "desc": "Cap; the add trigger hides once items reach it" },
-    { "name": "hint", "type": "string", "default": "—", "desc": "Accepted file types or limits, e.g. \"PNG, JPG, PDF or MOV\"; a muted line under the prompt in the text-mode zone (hidden in picture-card and at the upload limit)" },
+    { "name": "hint", "type": "string", "default": "—", "desc": "Accepted file types or limits, e.g. \"PNG, JPG, PDF or MOV\"; a text-secondary line under the prompt in the text-mode zone (hidden in picture-card and at the upload limit)" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Dims and disables the zone / add-box" },
     { "name": "change", "type": "CustomEvent<{files}>", "default": "—", "desc": "Composed event on select; read e.detail.files (File[])" },
     { "name": "remove", "type": "CustomEvent<{name,index}>", "default": "—", "desc": "Composed event when an item's ✕ is clicked" }
