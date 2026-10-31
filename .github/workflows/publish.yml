@@ -133,7 +133,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy the docs and CDN for the auto-version release
-        if: steps.decide.outputs.publish == 'true' && steps.release.outputs.released == 'true' && steps.release.outputs.pushed_with == 'github-token'
+        if: vars.AUTO_VERSION == 'on' && github.ref == 'refs/heads/master' && steps.release.outputs.pushed_with != 'push-token' && !startsWith(github.event.head_commit.message || '', 'chore(release):')
         run: |
           gh workflow run pages.yml --ref master --repo "$GITHUB_REPOSITORY"
           gh workflow run publish-cdn.yml --ref master --repo "$GITHUB_REPOSITORY"

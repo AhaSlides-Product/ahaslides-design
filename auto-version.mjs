@@ -97,7 +97,7 @@ export function rewriteChangelog(changelog, version, date, pullRequests) {
 }
 
 export function setJsonVersion(text, from, to) {
-  const field = new RegExp(`("version"\\s*:\\s*")${from.replace(/\./g, '\\.')}(")`);
+  const field = new RegExp(`("version"\\s*:\\s*")${from.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(")`);
   if (!field.test(text)) throw new Error(`no "version": "${from}" field to update`);
   return text.replace(field, `$1${to}$2`);
 }
@@ -215,6 +215,7 @@ async function main(argv) {
   for (let attempt = 1; ; attempt++) {
     const plan = await planRelease(remote, branch);
     if (!plan.newVersion) {
+      if (!dryRun) git(['checkout', '-q', '--detach', plan.tip]);
       console.log(plan.skipped
         ? `Nothing to release: every pull request in "## Unreleased" says Version-bump: none (${branch} stays ${plan.oldVersion}).`
         : `Nothing to release: CHANGELOG.md on ${branch} has no "## Unreleased" entry (${plan.oldVersion}).`);

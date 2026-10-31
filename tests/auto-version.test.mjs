@@ -109,7 +109,7 @@ function sandbox() {
   const onRemote = (path) => git(['--git-dir', remote, 'show', `master:${path}`], dir);
   const remoteSubject = () => git(['--git-dir', remote, 'log', '-1', '--format=%s', 'master'], dir);
   const pull = () => git(['pull', '-q', '--ff-only', 'origin', 'master']);
-  return { dir, remote, land, run, onRemote, remoteSubject, pull, cleanup: () => rmSync(dir, { recursive: true, force: true }) };
+  return { dir, remote, clone, git, land, run, onRemote, remoteSubject, pull, cleanup: () => rmSync(dir, { recursive: true, force: true }) };
 }
 
 const today = () => new Date().toISOString().slice(0, 10);
@@ -118,6 +118,7 @@ const versionOn = (box, path) => JSON.parse(box.onRemote(path)).version;
 test('release: a merged Unreleased fix ships as the next patch, with its PR number, in all three files, once', (t) => {
   const box = sandbox(); t.after(box.cleanup);
   box.land('DESY-1: fix the chip (#41)', changelogWith('## Unreleased\n### Fixed\n- the chip keeps its plus (#PR)\n'));
+  const mergeCommit = box.git(['rev-parse', 'HEAD']);
   const first = box.run();
   assert.equal(first.code, 0, first.out);
   assert.equal(box.remoteSubject(), 'chore(release): 0.4.3');
@@ -128,11 +129,14 @@ test('release: a merged Unreleased fix ships as the next patch, with its PR numb
   assert.match(first.outputs, /^version=0\.4\.3$/m);
   assert.match(first.outputs, /^pushed_with=github-token$/m);
 
-  const again = box.run();
-  assert.equal(again.code, 0, again.out);
-  assert.match(again.out, /Nothing to release/);
-  assert.match(again.outputs, /^released=false$/m);
+  box.git(['checkout', '-q', '--detach', mergeCommit]);
+  const rerun = box.run();
+  assert.equal(rerun.code, 0, rerun.out);
+  assert.match(rerun.out, /Nothing to release/);
+  assert.match(rerun.outputs, /^released=false$/m);
   assert.equal(box.remoteSubject(), 'chore(release): 0.4.3');
+  assert.equal(JSON.parse(readFileSync(join(box.clone, 'package.json'), 'utf8')).version, '0.4.3',
+    'a rerun from the merge commit must publish from the release commit');
 });
 
 test('release: "Version-bump:" in the merged commit overrides the entry, and "none" releases nothing', (t) => {
