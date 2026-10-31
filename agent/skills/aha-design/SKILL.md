@@ -101,7 +101,9 @@ Read the list from the DS each time — surfaces get added.
 2. Read each surface's guideline (`rules`, `selfCheck`) and criteria.
 3. Build from DS components (`llms.txt` → `<slug>.agent.json` for the API) and bind every
    colour, radius and spacing to DS tokens. If the DS lacks a component you need, say so — do not
-   hand-roll a look-alike.
+   hand-roll a look-alike. Status takes no hue: error text stays the default ink in
+   `<aha-field-error>` or `<aha-alert type="error">`, never a `text-red-*` or other status-hue
+   utility class (the `status-hue-class` lint, colour rules 7.1 and 7.2).
 4. Every logo (the AhaSlides logo / The Splash, or a third-party brand such as Google, Zoom or
    Microsoft) comes from the Logo library: `https://design.ahaslides.io/foundations/logo.html`, files at
    `https://design.ahaslides.io/logo/<file>`. Never redraw one, inline a
@@ -109,7 +111,9 @@ Read the list from the DS each time — surfaces get added.
    A third-party logo in any UI, website headers included, is the greyscale file at rest and its
    original-colour file (`logo/original/<file>`) on hover and keyboard focus, with the tool's name
    beside it (the Logo library has the copy-paste pattern); only a page listing other products
-   (Marketplace) shows brand colours at rest. Colour rule 2.6 has the detail.
+   (Marketplace) shows brand colours at rest. Sign-in buttons (Log in with Google, Log in with
+   Microsoft) included. Colour rule 2.6 has the detail; the `brand-logo-colour` lint fails a
+   brand-colour file or `icon-maintain-color` at rest.
    The top-left brand of any site, microsite, docs site, careers, landing or pricing page, internal
    tool or app header is `<aha-product-lockup product="<name>">` (no `product` when no name is
    approved), never the logo file hand-set beside a text span; the header is judged on `app-shell` C1.
@@ -128,7 +132,8 @@ Read the list from the DS each time — surfaces get added.
    `npm run icon-search <words>`), `https://design.ahaslides.io/icons/index.html?q=<words>`, or the
    "Find by meaning" list in `icons.llms.txt` ("help" finds `system-question`, "delete" finds
    `system-trash`). Try two or three synonyms. Never inline an `<svg>` or add a `.svg` file in an app
-   (the plugin blocks both). Only when nothing fits, add the glyph to the design system, with meaning
+   (the plugin blocks both), and never an icon from another library (`<font-awesome-icon>`, `fa fa-*`,
+   `zmdi`, `material-icons`: the `foreign-icon-library` lint). Only when nothing fits, add the glyph to the design system, with meaning
    words, the paired stroke (12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px) and an `Icon search:` line
    in its pull request; a glyph that looks nearly identical to an existing one fails the DS build.
 8. Settings: run the `settings-design` skill (§2).
@@ -151,6 +156,9 @@ Read the list from the DS each time — surfaces get added.
 12. Every button is `<aha-button>`, header and CTA buttons in vendored marketing blocks included
     (`href` for a link, `type="submit"` in a form). Never restyle, re-colour or re-hover a DS
     component; only layout may be set on it. The `hand-rolled-button` lint enforces it.
+    A product screen or form has at most one Vivid Pink text link, its main secondary path (Sign up
+    now on a login form); every other text link is the neutral link of colour rule 6.9 (default ink,
+    underlined, Darker Pink on hover and focus).
 13. Any element you hand-build on the slide canvas (or the audience phone) calls `applyCanvasDeck`
     (canvas) or `applyDeck` (audience) once on the root and paints only with `--aha-deck-*` tokens,
     plus `--aha-answer-correct` / `--aha-answer-wrong` on a verdict mark. Never mix your own shade of

@@ -22,6 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.585.0 — 2026-10-30
+### Added
+- `screen-lint` hard-fails three new rules on every surface: `status-hue-class` (a `text-red-*`, `bg-green-*`, `border-yellow-*`, `text-danger` or similar utility class painting status in a hue; error text stays the default ink in `<aha-field-error>` or `<aha-alert type="error">`), `foreign-icon-library` (`<font-awesome-icon>`, `fa fa-*`, `zmdi`, `material-icons` and other icon libraries; glyphs are `<aha-icon>`) and `brand-logo-colour` (a `logo/original/` file outside the Logo library hover pattern, or the kit's `icon-maintain-color`, colour rule 2.6). Escape with `ds-lint-allow: status-hue`, `icon` or `brand-logo (why)` (#495)
+- Colour rule 6.9: a product screen or form has at most one Vivid Pink text link, its main secondary path (Sign up now on a login form); every other text link is a neutral link in the default ink, underlined, Darker Pink on hover, focus and press. Colour criterion C9 fails a second pink text link (#495)
+### Changed
+- Colour rule 2.6 and criterion C7 name sign-in buttons (Log in with Google, Log in with Microsoft) among the places a third-party logo is greyscale at rest (#495)
+
 ## 0.581.1 — 2026-10-30
 ### Fixed
 - `shortcut="+"` on `aha-button` and `aha-tooltip` size lg now draws one square "+" key chip, and "Ctrl++", "Mod++" and "Shift++" keep their final "+" key; before, the chip was hidden or lost the plus. Other shortcuts render as before (#498)
