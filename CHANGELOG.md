@@ -38,6 +38,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Opt-in auto-versioning: with the repo variable `AUTO_VERSION=on`, a PR writes its entry under `## Unreleased` and leaves the version files alone; on merge, `publish.yml` runs `auto-version.mjs` to pick the number (a `Version-bump:` line in the PR body overrides it), date the entry, fill the PR numbers and commit `chore(release): X.Y.Z` before publishing. Off by default, so today's hand bump is unchanged (#499)
 - Revert: unset the `AUTO_VERSION` variable to go back to hand bumps at once; revert the PR to remove the release step, the gate hook and `auto-version.mjs`
 
+## 0.586.1 — 2026-11-01
+### Changed
+- The framed photo on a website page now only fades in a beat after its row's reveal: the in-frame parallax drift, the 112% overscan and the 1.08x settle are removed from `lib/marketing-motion.js`, because any enlargement hides edges of the photo and no image is cropped. Website rule W9 and its anti-slop criterion now fail a picture scaled above 100% or drifting inside its frame (#502)
+
 ## 0.586.0 — 2026-11-01
 ### Changed
 - A screenshot or photo is never cropped on a website page, in the hero (Hero split `--brand` included) or in any band: website rule W6 and its anti-slop criterion now fail `object-fit: cover`, a forced ratio that clips edges, or a trimmed file, and the bento/collage/masonry cover allowance is gone (#501)
