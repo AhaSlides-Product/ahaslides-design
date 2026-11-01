@@ -22,10 +22,17 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.583.0 — 2026-10-30
+## 0.587.0 — 2026-11-01
 ### Added
 - Leaderboard: Show winner. `showWinner()` (or the `winner` attribute) covers the whole list with one rounded, frosted banner (deck modal fill, container stroke and radius) and reveals rank 1 in it, every tied rank 1 side by side, at once, however many people played: the banner fades in while a soft deck-accent glow blooms from its centre outward and fades, and the name, avatar and score scale in one after another at the centre with the score counting up from 0, while 120 pieces of confetti (rectangles, circles and streamers in the full-strength deck palette colours) burst once from the banner centre and both bottom corners and fall away; the winner stays until `hideWinner()`, the close ✕ in the banner's top-right corner or Esc, which fire `winner-close`, and `showWinner()` again shows it again with the reveal replayed. Translatable `winner-score-label` ("{score} points"), `winner-label` (announced politely) and `close-label`. Canvas (`size="stage"`) only: on `size="phone"` it does nothing and returns false; under reduced motion it appears with no glow, pop, count-up or confetti; does nothing with no entries or when nobody has scored (#490)
 - Revert: revert the PR; Show winner is additive, so drop any `showWinner()` call or `winner` attribute first
+
+## 0.586.0 — 2026-11-01
+### Changed
+- A screenshot or photo is never cropped on a website page, in the hero (Hero split `--brand` included) or in any band: website rule W6 and its anti-slop criterion now fail `object-fit: cover`, a forced ratio that clips edges, or a trimmed file, and the bento/collage/masonry cover allowance is gone (#501)
+- Every DS Marketing media slot shows the picture whole: Hero split, Hero photo stack, floating images and Features sticky stack follow the image's own ratio; slideshow, carousel, marquee, Gallery tabs and masonry, Features photo and frame, Cards, Numbers, Testimonials and the hero video use `object-fit: contain` (#501)
+- `screen-lint --surface=website` reports `object-fit: cover` in page CSS or an inline style as `img-cover-crop` (#501)
+- Revert: revert the PR; the slot CSS, W6 text, criterion and the lint rule return together
 
 ## 0.581.1 — 2026-10-30
 ### Fixed

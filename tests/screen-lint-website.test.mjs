@@ -303,3 +303,21 @@ test('DSN-975: iframe and trailer selectors are not rails or frames; DS rail and
   assert.deepEqual(greyRulesOf('<style>.aha-quote__rail{background:#f6f6f6}</style>'), ['grey-quote-or-frame']);
   assert.deepEqual(greyRulesOf('<style>.aha-features__frame{border-left:2px solid #F7F7F7}</style>'), ['grey-quote-or-frame']);
 });
+
+const coverRulesOf = (source, surface) => rulesOf(source, surface).filter((rule) => rule === 'img-cover-crop');
+
+test('W6: object-fit cover in page CSS or an inline style fails; contain does not', () => {
+  assert.deepEqual(coverRulesOf('<style>.aha-header-section-hero-split__image{aspect-ratio:5 / 4;object-fit:cover}</style>'), ['img-cover-crop']);
+  assert.deepEqual(coverRulesOf('<style>@container x (max-width:991px){.cell img{height:100%;object-fit: Cover}}</style>'), ['img-cover-crop']);
+  assert.deepEqual(coverRulesOf('<img src="a.webp" alt="Poll" style="width:100%;object-fit:cover">'), ['img-cover-crop']);
+  assert.deepEqual(coverRulesOf('<style>.shot img{object-fit:contain}</style><img src="a.webp" alt="Poll" style="object-fit:contain">'), []);
+  assert.deepEqual(coverRulesOf('<style>.shot img{object-fit:cover}</style>', 'product'), []);
+});
+
+test('W6: every DS Marketing section ships its pictures whole, with no object-fit cover', () => {
+  for (const file of readdirSync(new URL('../marketing/', import.meta.url)).filter((name) => name.endsWith('.json'))) {
+    const section = JSON.parse(readFileSync(new URL(`../marketing/${file}`, import.meta.url), 'utf8'));
+    const css = [section.baseCss, section.video?.css, ...(section.layouts ?? []).map((layout) => layout.css), ...(section.snippets ?? []).map((snippet) => snippet.css)].filter(Boolean).join('\n');
+    assert.deepEqual(coverRulesOf(`<style>${css}</style>`), [], file);
+  }
+});
