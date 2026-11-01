@@ -33,10 +33,17 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.582.0 — 2026-10-31
+## 0.587.0 — 2026-11-01
 ### Added
 - Opt-in auto-versioning: with the repo variable `AUTO_VERSION=on`, a PR writes its entry under `## Unreleased` and leaves the version files alone; on merge, `publish.yml` runs `auto-version.mjs` to pick the number (a `Version-bump:` line in the PR body overrides it), date the entry, fill the PR numbers and commit `chore(release): X.Y.Z` before publishing. Off by default, so today's hand bump is unchanged (#499)
 - Revert: unset the `AUTO_VERSION` variable to go back to hand bumps at once; revert the PR to remove the release step, the gate hook and `auto-version.mjs`
+
+## 0.586.0 — 2026-11-01
+### Changed
+- A screenshot or photo is never cropped on a website page, in the hero (Hero split `--brand` included) or in any band: website rule W6 and its anti-slop criterion now fail `object-fit: cover`, a forced ratio that clips edges, or a trimmed file, and the bento/collage/masonry cover allowance is gone (#501)
+- Every DS Marketing media slot shows the picture whole: Hero split, Hero photo stack, floating images and Features sticky stack follow the image's own ratio; slideshow, carousel, marquee, Gallery tabs and masonry, Features photo and frame, Cards, Numbers, Testimonials and the hero video use `object-fit: contain` (#501)
+- `screen-lint --surface=website` reports `object-fit: cover` in page CSS or an inline style as `img-cover-crop` (#501)
+- Revert: revert the PR; the slot CSS, W6 text, criterion and the lint rule return together
 
 ## 0.581.1 — 2026-10-30
 ### Fixed
