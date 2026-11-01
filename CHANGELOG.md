@@ -2,15 +2,26 @@
 
 All notable changes to `@ahaslides-product/design`, **newest first**.
 
-**The rule:** every merge adds one entry here **and** bumps `version` in `package.json`.
-The top entry's version MUST equal `package.json` → `version` — `standards.mjs` enforces it, so a
-PR that forgets either goes red. The `v<version>` release tag (what `npm publish` ships) matches too.
-The gate also rejects an unfilled `(#129)` placeholder in the top entry: link the **real** PR number.
+**The rule:** every merge adds one entry here. Who sets the version depends on the repo variable
+`AUTO_VERSION`:
+
+- **Off (the default): you bump it.** The entry heads as `## X.Y.Z — YYYY-MM-DD` and the PR sets
+  `version` in `package.json` and `agent/.claude-plugin/plugin.json` to the same `X.Y.Z`. The top
+  entry's version MUST equal `package.json` → `version` — `standards.mjs` enforces it, so a PR that
+  forgets either goes red. The `v<version>` release tag (what `npm publish` ships) matches too.
+- **On: the merge bumps it.** The entry heads as `## Unreleased` and the PR never touches a version
+  file. On merge, `publish.yml` (`auto-version.mjs`) picks the number (an entry with only `### Fixed`
+  is a patch, anything else a minor; a `Version-bump: patch|minor|major|none` line in the PR body
+  overrides it), turns the heading into `## X.Y.Z — YYYY-MM-DD`, fills each `(#PR)` with the real
+  number and commits `chore(release): X.Y.Z` to master. Run the gate locally as `AUTO_VERSION=on npm run check`.
+
+The gate rejects an unfilled `(#129)` placeholder in every released entry: link the **real** PR number
+(under `## Unreleased`, `(#PR)` is fine; the release fills it in).
 
 **Format** — one entry per version:
 
 ```
-## X.Y.Z — YYYY-MM-DD
+## X.Y.Z — YYYY-MM-DD   ← "## Unreleased" instead while AUTO_VERSION is on
 ### Added        ← new component / prop / token / export
 ### Changed      ← behaviour or API change to something that already shipped
 ### Fixed        ← bug / gate / doc fix, no API change
@@ -22,10 +33,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.588.0 — 2026-11-01
+## 0.591.0 — 2026-11-01
 ### Added
 - Leaderboard: Show winner. `showWinner()` (or the `winner` attribute) covers the whole list with one rounded, frosted banner (deck modal fill, container stroke and radius) and reveals rank 1 in it, every tied rank 1 side by side, at once, however many people played: the banner fades in while a soft deck-accent glow blooms from its centre outward and fades, and the name, avatar and score scale in one after another at the centre with the score counting up from 0, while 120 pieces of confetti (rectangles, circles and streamers in the full-strength deck palette colours) burst once from the banner centre and both bottom corners and fall away; the winner stays until `hideWinner()`, the close ✕ in the banner's top-right corner or Esc, which fire `winner-close`, and `showWinner()` again shows it again with the reveal replayed. Translatable `winner-score-label` ("{score} points"), `winner-label` (announced politely) and `close-label`. Canvas (`size="stage"`) only: on `size="phone"` it does nothing and returns false; under reduced motion it appears with no glow, pop, count-up or confetti; does nothing with no entries or when nobody has scored (#490)
 - Revert: revert the PR; Show winner is additive, so drop any `showWinner()` call or `winner` attribute first
+
+## 0.590.0 — 2026-11-01
+### Added
+- Opt-in auto-versioning: with the repo variable `AUTO_VERSION=on`, a PR writes its entry under `## Unreleased` and leaves the version files alone; on merge, `publish.yml` runs `auto-version.mjs` to pick the number (a `Version-bump:` line in the PR body overrides it), date the entry, fill the PR numbers and commit `chore(release): X.Y.Z` before publishing. Off by default, so today's hand bump is unchanged (#499)
+- Revert: unset the `AUTO_VERSION` variable to go back to hand bumps at once; revert the PR to remove the release step, the gate hook and `auto-version.mjs`
 
 ## 0.586.1 — 2026-11-01
 ### Changed
