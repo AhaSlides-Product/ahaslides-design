@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.586.1 — 2026-11-01
 ### Changed
-- The framed photo on a website page now only fades in a beat after its row's reveal: the in-frame parallax drift, the 112% overscan and the 1.08x settle are removed from `lib/marketing-motion.js`, because any enlargement hides edges of the photo and no image is cropped. Website rule W9 and its anti-slop criterion now fail a picture scaled above 100% or drifting inside its frame (#PRNUM)
+- The framed photo on a website page now only fades in a beat after its row's reveal: the in-frame parallax drift, the 112% overscan and the 1.08x settle are removed from `lib/marketing-motion.js`, because any enlargement hides edges of the photo and no image is cropped. Website rule W9 and its anti-slop criterion now fail a picture scaled above 100% or drifting inside its frame (#502)
 
 ## 0.586.0 — 2026-11-01
 ### Changed
