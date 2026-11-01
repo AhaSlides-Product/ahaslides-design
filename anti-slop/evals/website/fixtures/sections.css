@@ -352,10 +352,10 @@
   overflow:hidden;
 }
 .aha-features__frame{width:100%;height:100%;overflow:hidden;border-radius:var(--aha-radius-marketing)}
-.aha-features__frame>img{display:block;width:100%;height:100%;object-fit:cover}
+.aha-features__frame>img{display:block;width:100%;height:100%;object-fit:contain}
 .aha-features__photo--4x3{aspect-ratio:4 / 3}
 .aha-features__photo--3x4{aspect-ratio:3 / 4}
-.aha-features__photo img{display:block;width:100%;height:100%;object-fit:cover}
+.aha-features__photo img{display:block;width:100%;height:100%;object-fit:contain}
 @media (prefers-reduced-motion:reduce){
   .aha-features__more{transition:none}
 }
@@ -482,7 +482,7 @@
 }
 .aha-marketing-card__media--16x9{aspect-ratio:16 / 9}
 .aha-marketing-card__media--3x2{aspect-ratio:3 / 2}
-.aha-marketing-card__media img{display:block;width:100%;height:100%;object-fit:cover}
+.aha-marketing-card__media img{display:block;width:100%;height:100%;object-fit:contain}
 .aha-marketing-card__body{
   display:flex;flex-direction:column;flex:1;
   gap:var(--aha-space-12);
@@ -908,7 +908,7 @@ a.aha-footer__heading:hover{color:var(--aha-color-primary)}
 .aha-header-section-hero-split__hint{margin-top:var(--aha-space-12);font-size:var(--aha-size-default);line-height:var(--aha-line-height-body);color:var(--aha-header-section-hero-split-ink-secondary)}
 .aha-header-section-hero-split__media{display:block;min-width:0}
 .aha-header-section-hero-split__image{
-  display:block;width:100%;height:auto;object-fit:cover;
+  display:block;width:100%;height:auto;object-fit:contain;
   border-radius:var(--aha-radius-xl);background:var(--aha-header-section-hero-split-media-bg);
 }
 @container aha-header-section-hero-split (max-width:991px){
@@ -939,7 +939,6 @@ a.aha-footer__heading:hover{color:var(--aha-color-primary)}
 .aha-header-section-hero-split--brand>.aha-header-section-hero-split__splash{display:block;position:absolute;inset:0;z-index:-1;overflow:hidden;container-type:size;pointer-events:none;border-radius:inherit;--aha-header-section-hero-split-splash-width:calc(4.5*min(100cqw,100cqh)*sqrt(max(1,tan(atan2(100cqw,100cqh))*9/16,9/16/tan(atan2(100cqw,100cqh)))))}
 .aha-header-section-hero-split__splash-icon{position:absolute;display:block;max-width:none;height:auto;width:var(--aha-header-section-hero-split-splash-width);left:calc(var(--aha-header-section-hero-split-splash-across)*100cqw - var(--aha-header-section-hero-split-splash-width)*0.516209);top:calc(55cqh - var(--aha-header-section-hero-split-splash-width)*0.418953)}
 .aha-header-section-hero-split__splash{--aha-header-section-hero-split-splash-across:.75}
-.aha-header-section-hero-split__image{aspect-ratio:5 / 4}
 .aha-testimonials{
   container:aha-testimonials / inline-size;
   position:relative;isolation:isolate;overflow:hidden;
@@ -997,7 +996,7 @@ a.aha-footer__heading:hover{color:var(--aha-color-primary)}
 .aha-testimonials__copy{display:flex;flex-direction:column;align-items:flex-start;gap:var(--aha-space-20)}
 .aha-testimonials__frame{overflow:hidden;width:100%;border-radius:var(--aha-radius-marketing);background:var(--aha-bg-container-secondary)}
 .aha-testimonials__frame--square{flex:none;width:240px;aspect-ratio:3 / 4}
-.aha-testimonials__photo{display:block;width:100%;height:100%;object-fit:cover}
+.aha-testimonials__photo{display:block;width:100%;height:100%;object-fit:contain}
 .aha-testimonials__card{
   position:relative;display:flex;flex-direction:column;
   height:100%;
@@ -1005,7 +1004,7 @@ a.aha-footer__heading:hover{color:var(--aha-color-primary)}
   border:1px solid var(--aha-border-default);border-radius:var(--aha-radius-marketing);overflow:hidden;
 }
 .aha-testimonials__cover{aspect-ratio:3 / 2;background:var(--aha-bg-container-secondary);overflow:hidden}
-.aha-testimonials__cover-image{display:block;width:100%;height:100%;object-fit:cover}
+.aha-testimonials__cover-image{display:block;width:100%;height:100%;object-fit:contain}
 .aha-testimonials__card-body{display:flex;flex:1;flex-direction:column;align-items:flex-start;gap:var(--aha-space-12);padding:var(--aha-space-24)}
 .aha-testimonials__card-title{font-size:var(--aha-size-xl);font-weight:var(--aha-weight-semibold);line-height:var(--aha-line-height-heading);color:var(--aha-text-default)}
 .aha-testimonials__link{color:inherit;text-decoration:none}
