@@ -272,11 +272,9 @@ test('W19: testimonial authors are left aligned and share a baseline through sub
   assert.equal(declarations(testimonialsCss, '.aha-testimonials__card--quote')['grid-template-rows'], 'subgrid');
 });
 
-test('W9: the motion script reveals with a stagger, drifts photos, counts numbers up and honours reduced motion', () => {
+test('W9: the motion script reveals with a stagger, fades photos in, counts numbers up and honours reduced motion', () => {
   const script = readFileSync(new URL('../lib/marketing-motion.js', import.meta.url), 'utf8');
   assert.match(script, /STAGGER_MILLISECONDS = 80/);
-  assert.match(script, /PARALLAX_RANGE_PIXELS = 48/);
-  assert.match(script, /PARALLAX_RANGE_FRACTION = 0\.06/);
   assert.match(script, /--aha-motion-viz-enter/);
   assert.match(script, /--aha-ease-out/);
   assert.match(script, /prefers-reduced-motion: reduce/);
@@ -290,15 +288,14 @@ test('W9: the motion script reveals with a stagger, drifts photos, counts number
   }
 });
 
-test('W9: parallax moves the image inside a clipping frame, never the frame, and never a screenshot', () => {
+test('W9: a framed photo only fades in, never scaled or moved, so no edge is cropped', () => {
   const script = readFileSync(new URL('../lib/marketing-motion.js', import.meta.url), 'utf8');
-  const selector = script.match(/const PARALLAX_SELECTOR = '([^']+)'/)[1];
+  const selector = script.match(/const PICTURE_SELECTOR = '([^']+)'/)[1];
   assert.deepEqual(selector.split(', '), ['.aha-features__frame > img', '.aha-testimonials__frame > img', '.aha-numbers__frame > img']);
   const style = script.match(/const STYLE = `([\s\S]*?)`;/)[1];
-  assert.match(style, /\[data-aha-parallax\]\{transform:translate3d\(0,var\(--aha-parallax-y,0px\),0\) scale\(calc\(\$\{PARALLAX_OVERSCAN\} \* var\(--aha-picture-enter\)\)\)/);
-  assert.match(style, /\.aha-motion-picture\{opacity:0;--aha-picture-enter:\$\{PICTURE_ENTER_SCALE\}/);
-  assert.match(script, /PICTURE_ENTER_SCALE = 1\.08/);
-  assert.match(script, /target\.parentElement\.getBoundingClientRect/);
+  assert.match(style, /\.aha-motion-picture\{opacity:0;transition:opacity /);
+  assert.doesNotMatch(script, /parallax|PICTURE_ENTER_SCALE|OVERSCAN|scale\(/i);
+  assert.doesNotMatch(style.match(/\.aha-motion-picture[^\n]*/g).join('\n'), /transform|scale/);
   for (const [file, css] of [['features', featuresCss], ['testimonials', testimonialsCss], ['numbers', numbersCss]]) {
     const frameSelector = `.aha-${file}__frame`;
     const frame = declarations(css, frameSelector);
