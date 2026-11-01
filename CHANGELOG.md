@@ -22,10 +22,21 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.584.0 — 2026-10-31
+## 0.589.0 — 2026-10-31
 ### Added
 - `aha-uploader` takes an optional `hint` attribute (for example `hint="Up to 25 MB · PNG, JPG, PDF or MOV"`, file size first, then file types): a 14/21 second line in text-secondary directly under "Click to upload or drag files here" inside the drop zone. It shows only in the active text-mode zone, not in picture-card mode or at the upload limit, and stays text-secondary on hover. Without `hint` the render is unchanged (#500)
 - Revert: revert the PR; only `lib/aha-uploader.js` and the Upload contract, snippets and preview change
+
+## 0.586.1 — 2026-11-01
+### Changed
+- The framed photo on a website page now only fades in a beat after its row's reveal: the in-frame parallax drift, the 112% overscan and the 1.08x settle are removed from `lib/marketing-motion.js`, because any enlargement hides edges of the photo and no image is cropped. Website rule W9 and its anti-slop criterion now fail a picture scaled above 100% or drifting inside its frame (#502)
+
+## 0.586.0 — 2026-11-01
+### Changed
+- A screenshot or photo is never cropped on a website page, in the hero (Hero split `--brand` included) or in any band: website rule W6 and its anti-slop criterion now fail `object-fit: cover`, a forced ratio that clips edges, or a trimmed file, and the bento/collage/masonry cover allowance is gone (#501)
+- Every DS Marketing media slot shows the picture whole: Hero split, Hero photo stack, floating images and Features sticky stack follow the image's own ratio; slideshow, carousel, marquee, Gallery tabs and masonry, Features photo and frame, Cards, Numbers, Testimonials and the hero video use `object-fit: contain` (#501)
+- `screen-lint --surface=website` reports `object-fit: cover` in page CSS or an inline style as `img-cover-crop` (#501)
+- Revert: revert the PR; the slot CSS, W6 text, criterion and the lint rule return together
 
 ## 0.581.1 — 2026-10-30
 ### Fixed
