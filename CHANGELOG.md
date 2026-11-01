@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.587.0 — 2026-11-01
+## 0.590.0 — 2026-11-01
 ### Added
 - Opt-in auto-versioning: with the repo variable `AUTO_VERSION=on`, a PR writes its entry under `## Unreleased` and leaves the version files alone; on merge, `publish.yml` runs `auto-version.mjs` to pick the number (a `Version-bump:` line in the PR body overrides it), date the entry, fill the PR numbers and commit `chore(release): X.Y.Z` before publishing. Off by default, so today's hand bump is unchanged (#499)
 - Revert: unset the `AUTO_VERSION` variable to go back to hand bumps at once; revert the PR to remove the release step, the gate hook and `auto-version.mjs`
