@@ -22,6 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.586.0 — 2026-11-01
+### Changed
+- A screenshot or photo is never cropped on a website page, in the hero (Hero split `--brand` included) or in any band: website rule W6 and its anti-slop criterion now fail `object-fit: cover`, a forced ratio that clips edges, or a trimmed file, and the bento/collage/masonry cover allowance is gone (#501)
+- Every DS Marketing media slot shows the picture whole: Hero split, Hero photo stack, floating images and Features sticky stack follow the image's own ratio; slideshow, carousel, marquee, Gallery tabs and masonry, Features photo and frame, Cards, Numbers, Testimonials and the hero video use `object-fit: contain` (#501)
+- `screen-lint --surface=website` reports `object-fit: cover` in page CSS or an inline style as `img-cover-crop` (#501)
+- Revert: revert the PR; the slot CSS, W6 text, criterion and the lint rule return together
+
 ## 0.581.1 — 2026-10-30
 ### Fixed
 - `shortcut="+"` on `aha-button` and `aha-tooltip` size lg now draws one square "+" key chip, and "Ctrl++", "Mod++" and "Shift++" keep their final "+" key; before, the chip was hidden or lost the plus. Other shortcuts render as before (#498)
