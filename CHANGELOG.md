@@ -33,6 +33,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.610.0 — 2026-11-02
+### Added
+- `aha-button` copies `aria-current` to its inner button and keeps it in step, so a pagination dot or step marked `aria-current="page"` is announced as current; `aria-keyshortcuts`, `aria-roledescription`, `aria-description` and `aria-busy` are forwarded the same way (#PR)
+### Fixed
+- `aha-button`, `aha-switch` and `aha-select` delegate focus from the host, so `host.focus()` moves keyboard focus to the inner control (it did nothing before). `aha-input` already did; `aha-checkbox` is focusable on the host itself (#PR)
+- `aha-button` updates its inner button in place when `variant`, `size`, `block`, `icon-only`, `loading`, `disabled` or `aria-label` change, so a focused button keeps keyboard focus; it was redrawn and focus dropped. A colour change on a variant swap now runs the button's existing 0.2s transition instead of snapping. Only a link that turns into a button (or back) is redrawn, and it takes focus with it (#PR)
+- Revert: revert the PR; no API is removed
+
 ## 0.609.0 — 2026-11-02
 ### Added
 - `aha-skeleton` takes optional `width` and `height` (a number is px, or a CSS length: px, rem, em, %, vw, vh, calc()), so a placeholder can match the real content; on a paragraph they size the stack and each row. Unset, every variant renders as before (#PR)
