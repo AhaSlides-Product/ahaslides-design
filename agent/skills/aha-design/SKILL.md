@@ -111,8 +111,10 @@ Read the list from the DS each time — surfaces get added.
    A third-party logo in any UI, website headers included, is the greyscale file at rest and its
    original-colour file (`logo/original/<file>`) on hover and keyboard focus, with the tool's name
    beside it (the Logo library has the copy-paste pattern); only a page listing other products
-   (Marketplace) shows brand colours at rest. Sign-in buttons (Log in with Google, Log in with
-   Microsoft) included. Colour rule 2.6 has the detail; the `brand-logo-colour` lint fails a
+   (Marketplace) shows brand colours at rest. A Log in with Google / Microsoft button shows the
+   brand's glyph from the icon library (`<aha-icon name="system-google-logo">`, `system-microsoft-logo`,
+   default ink) at rest, never the greyscale logo, and the original colour logo (`logo/original/`) on
+   hover and keyboard focus. Colour rule 2.6 has the detail; the `brand-logo-colour` lint fails a
    brand-colour file or `icon-maintain-color` at rest.
    The top-left brand of any site, microsite, docs site, careers, landing or pricing page, internal
    tool or app header is `<aha-product-lockup product="<name>">` (no `product` when no name is
@@ -156,9 +158,6 @@ Read the list from the DS each time — surfaces get added.
 12. Every button is `<aha-button>`, header and CTA buttons in vendored marketing blocks included
     (`href` for a link, `type="submit"` in a form). Never restyle, re-colour or re-hover a DS
     component; only layout may be set on it. The `hand-rolled-button` lint enforces it.
-    A product screen or form has at most one Vivid Pink text link, its main secondary path (Sign up
-    now on a login form); every other text link is the neutral link of colour rule 6.9 (default ink,
-    underlined, Darker Pink on hover and focus).
 13. Any element you hand-build on the slide canvas (or the audience phone) calls `applyCanvasDeck`
     (canvas) or `applyDeck` (audience) once on the root and paints only with `--aha-deck-*` tokens,
     plus `--aha-answer-correct` / `--aha-answer-wrong` on a verdict mark. Never mix your own shade of
