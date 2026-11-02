@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Progress deck palette</title>
+</head>
+<body>
+  <aha-progress id="product" percent="60"></aha-progress>
+  <div id="dark-deck">
+    <aha-progress id="deck" palette="deck" percent="60"></aha-progress>
+    <aha-progress id="deck-unflavoured" percent="60"></aha-progress>
+    <aha-progress id="deck-success" palette="deck" status="success" percent="100"></aha-progress>
+    <aha-progressbar id="bar" palette="deck" value="2" max="5" label="Survey progress"></aha-progressbar>
+  </div>
+  <aha-progress id="own-ink" palette="deck" ink="#FFFFFF" accent="#000000" percent="60"></aha-progress>
+  <script type="module">
+    await import('../lib/aha-progressbar.js');
+    const { applyDeck } = await import('../lib/audience-deck.js');
+    applyDeck(document.querySelector('#dark-deck'), { textColour: '#FFFFFF', presentationColorPalette: ['#E70E68'] });
+    await customElements.whenDefined('aha-progressbar');
+    window.progressFixtureReady = !!document.querySelector('#bar').shadowRoot?.querySelector('aha-progress')?.shadowRoot?.querySelector('.track');
+  </script>
+</body>
+</html>

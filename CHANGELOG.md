@@ -33,12 +33,18 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.643.0 — 2026-11-02
+## 0.650.0 — 2026-11-02
 ### Added
 - `<aha-select>` opt-in `allow-clear`: a clear button beside the caret while a value is set; a click, or Delete / Backspace on the closed trigger, empties the value and emits `change` and a new `clear` event with `{value:''}`; `clear-label` names the button (#537)
 - `<aha-select>` opt-in `show-search`: type to filter the options (ARIA 1.2 combobox with list autocomplete, Arrow / Enter / Escape / Tab), a `search` event with `{query}` and an `empty-text` no-match row (#537)
 - `<aha-select>` option objects take `description` (a second, smaller line under the label) and `title` (the row's native tooltip); `popup-width="match | content | <length>"` sets the popup width (#537)
 - Revert: revert the PR; every addition is opt-in, so an existing `<aha-select>` renders unchanged
+
+## 0.624.0 — 2026-11-02
+### Added
+- `palette="deck"` on `<aha-progress>` and `<aha-progressbar>`: the audience flavour of the bar. Track, fill, steps, ring and label take the shared `--aha-deck-*` ladder that `applyDeck()` writes (track ink at 12% with the 1px hairline and frost, fill the deck accent, label ink-secondary, the deck's own font), the same bar as `<aha-countdown>`, so it no longer shows a bright product track on a dark deck. `ink` / `accent` set the deck on one element. Without `palette` the bar renders as before (#528)
+- `DECK_VARIABLES` export from `audience-deck`: the deck ladder's private variables as bare declarations, for an element that offers the deck as an opt-in flavour; `DECK_STYLE` is built from it and unchanged (#528)
+- Revert: revert the PR; the attribute is opt-in, so no consumer changes render
 
 ## 0.621.1 — 2026-11-02
 ### Fixed
