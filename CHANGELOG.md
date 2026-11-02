@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.897.0 — 2026-11-02
+### Added
+- `aha-submitted-card` takes an opt-in `size`: `sm` (24px glyph, 14px / 22px heading, 12px / 18px subtitle) and `lg` (20px / 28px heading, 16px / 24px subtitle) from the DS type scale; `md` and no `size` render exactly as before (#560)
+- Revert: revert the PR; the attribute is new and opt-in
+
 ## 0.896.0 — 2026-11-02
 ### Added
 - `aha-audience-contact`: a contact-details answer for the audience phone. Each entry of the `fields` JSON list (`id`, `kind` name, email, phone or text, `label`, `required`, `placeholder`) is an `aha-audience-field` around an `aha-counted-input`, with the phone keyboard, autofill hint and text direction of its kind (email and phone stay left to right in a right-to-left page); an optional `dial-codes` list puts an `aha-select` before the phone field; a missing required field, a bad email or a bad phone shows its message in `aha-field-error variant="respondent"` after leaving the field or on `showErrors()`, linked to its input, with the warning glyph; required inputs carry `aria-required` and only `required: true` counts; a repeated field id is skipped with a console warning; the 88px dial code stays first in right-to-left, and the phone autofill is `tel` (`tel-national` with a dial picker). `group-label`, `optional-label` (default "(optional)"), `required-message` / `email-message` / `phone-message`, `disabled`, `lock-key`, `ink` / `accent`, and a `change` event with `{value, valid}` (#551)
