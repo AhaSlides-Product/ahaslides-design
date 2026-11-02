@@ -1,0 +1,20 @@
+<div class="pad" style="max-width:640px">
+  <div class="lbl">Selected (60%): outline, four corner handles, mask with Preview and Delete</div>
+  <div style="padding:8px 0 24px">
+    <aha-image-resize-frame data-probe selected width="60"><img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='675'%3E%3Crect width='1200' height='675' fill='%23D9D9D9'/%3E%3Ccircle cx='860' cy='220' r='90' fill='%23B5B5B5'/%3E%3Cpath d='M0 675 L380 300 L700 675 Z' fill='%238A8A8A'/%3E%3C/svg%3E" alt="Mountain placeholder"></aha-image-resize-frame>
+  </div>
+  <div class="lbl">Rest (100%): hover for the mask, click to select, Tab then Enter from the keyboard</div>
+  <div style="padding:8px 0 24px">
+    <aha-image-resize-frame><img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='675'%3E%3Crect width='1200' height='675' fill='%23D9D9D9'/%3E%3Ccircle cx='860' cy='220' r='90' fill='%23B5B5B5'/%3E%3Cpath d='M0 675 L380 300 L700 675 Z' fill='%238A8A8A'/%3E%3C/svg%3E" alt="Mountain placeholder"></aha-image-resize-frame>
+  </div>
+  <div class="lbl">Disabled (40%): display only</div>
+  <div style="padding:8px 0">
+    <aha-image-resize-frame disabled width="40"><img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='675'%3E%3Crect width='1200' height='675' fill='%23D9D9D9'/%3E%3Ccircle cx='860' cy='220' r='90' fill='%23B5B5B5'/%3E%3Cpath d='M0 675 L380 300 L700 675 Z' fill='%238A8A8A'/%3E%3C/svg%3E" alt="Mountain placeholder"></aha-image-resize-frame>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element (../lib/aha-image-resize-frame.js) — no inlined copy, so the
+     preview can never drift from lib/, and qa measures exactly what consumers get. -->
+<script type="module">
+  import '../lib/aha-image-resize-frame.js';   // registers <aha-image-resize-frame>
+</script>
