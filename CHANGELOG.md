@@ -33,12 +33,17 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.861.1 — 2026-11-02
+## 0.866.2 — 2026-11-02
 
 ### Fixed
 
 - `<aha-leaderboard>` Show winner: the list's scrollbar is hidden while the winner banner covers it, so its track no longer shows as light corners outside the banner's rounded corners on a dark deck (#562)
 - Tests: the `aha-segmented` option testid test waits for the element to load before reading it, so it no longer fails at random in CI (#562)
+
+## 0.857.2 — 2026-11-02
+
+### Fixed
+- `aha-tooltip`: a hidden tooltip no longer adds to the page's layout overflow. Its 9px hover bridge took a box while the bubble was hidden, so a tooltip at the right edge of the page gave the whole page a horizontal scrollbar; the bridge now exists only while the bubble is shown, and hover onto the bubble still works. (#564)
 
 ## 0.857.0 — 2026-11-02
 ### Added
