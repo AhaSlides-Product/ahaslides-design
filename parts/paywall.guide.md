@@ -52,7 +52,9 @@ popover. *(`PAYWALL-02`, `PAYWALL-03`, `PAYWALL-04`)*
 | `featureLabel` | Short noun phrase shown next to the crown. **Required.** |
 | `body` | One sentence describing what unlocks. **Required.** |
 | `requiredPlan` | `'essential'` or `'pro'`. Defaults to `'pro'`. Drives the unlock line + analytics plan prop. |
-| `placement` | Popover side. Defaults to `'top'`. |
+| `placement` | Popover side: `'top'` (default), `'bottom'`, or `'left'` / `'right'` (beside the anchor, vertically centred). |
+| `width` | Popover width for longer copy; defaults to 300px, never past 82vw. |
+| `slot="body"` | Optional rich body: the same one sentence when it needs a link or emphasis. Replaces `body`; the unlock line and CTAs stay fixed. |
 | `trigger` | `'click'` (default) or `'hover'`. |
 | `onUpgrade` | Optional. Runs *instead of* opening the pricing page (e.g. an in-app upgrade modal). Analytics still fires first. |
 
@@ -87,7 +89,7 @@ The upsell funnel's denominator and conversion — never gate a feature without 
 
 ## Visual
 
-- Dark grey surface (`--aha-bg-dark-raised`, `#303030`), 300px wide, 16px padding, 12px radius.
+- Dark grey surface (`--aha-bg-dark-raised`, `#303030`), 300px wide (opt-in `width`), 16px padding, 12px radius.
 - The crown badge is the Vivid Pink circle custom SVG — do not substitute a glyph; it lacks the
   circular background.
 
