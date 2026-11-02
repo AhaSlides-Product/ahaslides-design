@@ -33,13 +33,39 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.610.0 — 2026-11-02
+## 0.618.0 — 2026-11-02
 ### Added
 - `aha-button` copies `aria-current` to its inner button and keeps it in step, so a pagination dot or step marked `aria-current="page"` is announced as current; `aria-keyshortcuts`, `aria-roledescription`, `aria-description` and `aria-busy` are forwarded the same way (#531)
 ### Fixed
 - `aha-button`, `aha-switch` and `aha-select` delegate focus from the host, so `host.focus()` moves keyboard focus to the inner control (it did nothing before). `aha-input` already did; `aha-checkbox` is focusable on the host itself (#531)
 - `aha-button` updates its inner button in place when `variant`, `size`, `block`, `icon-only`, `loading`, `disabled` or `aria-label` change, so a focused button keeps keyboard focus; it was redrawn and focus dropped. A colour change on a variant swap now runs the button's existing 0.2s transition instead of snapping. Only a link that turns into a button (or back) is redrawn, and it takes focus with it (#531)
 - Revert: revert the PR; no API is removed
+
+## 0.616.0 — 2026-11-02
+### Added
+- Card: `slot="title"` takes a rich header title (text with an icon, tag or link) and wins over `card-title`, which stays plain text (escaped since 0.604.1, #513) (#527)
+- Card: `interactive` makes the whole card one keyboard-reachable button. The host gets `role="button"` and `tabindex="0"` (author values are kept), Enter and Space fire the native `click` event, the card lifts on hover like `hoverable`, and keyboard focus draws the DS focus ring (2px `--aha-focus-ring`, 2px offset). Keys pressed on a control inside the card are left to that control, and a `loading` card ignores Enter and Space (#527)
+- Card: `stretch` makes the card fill its grid or flex cell, so cards with uneven content in one row share one height; the body grows and the actions row sits at the bottom (#527)
+### Changed
+- Card builds its shadow DOM once and updates persistent nodes when `card-title` or `loading` changes; without the new slot or attributes it renders as before (#527)
+- Card: a light-DOM child that already carried `slot="title"` was never shown; it now renders as the header title (#527)
+- Revert: revert the PR; the slot and both attributes are opt-in, so existing cards are untouched
+
+## 0.613.0 — 2026-11-02
+### Added
+- `aha-rank-list` `touch` attribute: the move up / down buttons become 44 x 44 side by side with 8px between them (the audience touch-targets rule), with an 18% ink press state and disabled buttons at 55% opacity (about 3.9:1 on white) instead of 40%. Off, the 24px stacked buttons render unchanged (#522)
+- `aha-rank-list` `hide-caption` attribute: `group-label` still names the list for assistive technology (the list's aria-label) but the visible caption above the rows is hidden (#522)
+- Revert: revert the PR; both attributes are opt-in and default off
+
+## 0.612.0 — 2026-11-02
+### Added
+- Seven icons for survey building, each with meaning words for `npm run icon-search`: `system-hash` (number rating), `system-arrows-split` (branching and skip logic), `system-check-square` (checkbox question, beside `system-minus-square`), `system-flag`, `system-megaphone` (announcement), `system-neutral-face` (the neutral point between `system-sad-face` and `system-smiley`) and `system-star-filled` (the filled state of `system-star` for rating stars, any size). The first four and the tick come from Phosphor Icons Regular (MIT) on the DS 16px grid with the 1.5 stroke; the registry now holds 362 names (#521)
+- Revert: revert the PR; additive glyphs only, no existing icon changes
+
+## 0.609.1 — 2026-11-02
+### Added
+- `lib/static-icons` gains `system-cursor-click`, `system-check` and `system-arrow-right` (click here, check this, next step), so how-to and tutorial step images take their marks from the DS instead of inlined registry paths; the report-image guideline and feeds now describe the set as status and how-to glyphs (#524)
+- Revert: revert the PR; additive, no existing glyph changes
 
 ## 0.609.0 — 2026-11-02
 ### Added
