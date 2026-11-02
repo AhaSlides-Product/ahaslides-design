@@ -39,6 +39,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `<aha-audience-date status="error">` shows `error-message` at once in the element's own respondent error, for a host that blocks the page on its own check (a required answer, a part-filled date on Next). The host passes its message there instead of rendering a second error under the date, which showed the same message twice (#569)
 - Revert: revert the PR; `state` and `status` are new and opt-in, `value`, `valid` and the existing `change` keys are unchanged
 
+## 0.903.0 — 2026-11-02
+### Fixed
+- `aha-rate size="lg"` wraps its stars onto further centred rows when the host is narrower than the row (8 to 10 stars at 360px) instead of overflowing; widths where they fit render as before. (#566)
+
 ## 0.897.1 — 2026-11-02
 ### Fixed
 - `<aha-input>` built-in label (`label` attribute) is regular 400 in secondary ink (#4A4A4A), matching the Form label; it was semibold 600 in default ink. Size 14/21 and the 4px gap are unchanged. `<aha-counted-input>` and other fields that wrap `<aha-input>` follow. Group headers and SectionHeader stay semibold (#514)
