@@ -75,6 +75,7 @@ test('loading, filter="off", width="content", rich options with a selected label
     const evaluate = async (expression) => (await command('Runtime.evaluate', { expression, returnByValue: true, awaitPromise: true })).result.value;
     const type = async (text) => command('Input.insertText', { text });
     const out = {};
+    out.restFocus = await evaluate(`document.activeElement === document.body`);
     const root = (id) => `document.getElementById('${id}').shadowRoot`;
 
     out.loadingClosed = await evaluate(`({ spin: getComputedStyle(${root('server')}.querySelector('.spin')).display !== 'none',
@@ -108,6 +109,10 @@ test('loading, filter="off", width="content", rich options with a selected label
         suffix: row.querySelector('.suffix').textContent, matched: [...r.querySelectorAll('.option:not([hidden])')].map((o) => o.dataset.value) }; })()`);
     await evaluate(`window.tagEvents = []; document.getElementById('tags').addEventListener('change', (e) => window.tagEvents.push(e.detail.values)); document.getElementById('tags').focus()`);
     out.tagFocus = await evaluate(`${root('tags')}.activeElement === ${root('tags')}.querySelector('.input')`);
+    await evaluate(`document.activeElement.blur && document.activeElement.blur()`);
+    const chip = await evaluate(`(() => { const b = ${root('tags')}.querySelector('aha-tag').getBoundingClientRect(); return { x: b.left + 6, y: b.top + b.height / 2 }; })()`);
+    for (const type of ['mousePressed', 'mouseReleased']) await command('Input.dispatchMouseEvent', { type, x: chip.x, y: chip.y, button: 'left', clickCount: 1 });
+    out.chipClickFocus = await evaluate(`${root('tags')}.activeElement === ${root('tags')}.querySelector('.input')`);
     await type('x@y.z ');
     await type('half');
     out.typed = await evaluate(`({ values: document.getElementById('tags').values, field: ${root('tags')}.querySelector('.input').value })`);
@@ -154,6 +159,8 @@ test('loading, filter="off", width="content", rich options with a selected label
     placeholder: '',
   });
   assert.deepEqual(result.clipped, { topLayer: true, extendsPastCard: true, hitIsOption: true });
+  assert.equal(result.restFocus, true);
+  assert.equal(result.chipClickFocus, true);
   assert.deepEqual(result.grown, { before: true, inside: true, flipped: true });
   assert.deepEqual(result.reattached, { values: ['kept@a.b', 'kept@c.d'], chips: ['kept@a.b', 'kept@c.d'] });
 });
