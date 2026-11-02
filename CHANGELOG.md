@@ -33,13 +33,19 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.592.0 — 2026-11-02
+## 0.594.0 — 2026-11-02
 ### Added
 - `screen-lint` hard-fails three new rules on every surface: `status-hue-class` (a `text-red-*`, `bg-green-*`, `border-yellow-*`, `text-danger` or similar utility class painting status in a hue; error text stays the default ink in `<aha-field-error>` or `<aha-alert type="error">`), `foreign-icon-library` (`<font-awesome-icon>`, `fa fa-*`, `zmdi`, `material-icons` and other icon libraries; glyphs are `<aha-icon>`) and `brand-logo-colour` (a `logo/original/` file outside the Logo library hover pattern, or the kit's `icon-maintain-color`, colour rule 2.6). Escape with `ds-lint-allow: status-hue`, `icon` or `brand-logo (why)` (#495)
 - Icons `system-google-logo` (the Google G) and `system-microsoft-logo` (the four squares): one-colour brand glyphs drawn like `system-facebook-logo` and `system-linkedin-logo` (#495)
 ### Changed
 - Colour rule 2.6 and criterion C7: a Log in with Google or Log in with Microsoft button shows the brand's glyph from the icon library (`<aha-icon name="system-google-logo">`, default ink) at rest and the original colour logo (`logo/original/`) on hover and keyboard focus. Other third-party logos are unchanged (#495)
 - Revert: revert the PR; the icons and lint rules are additive
+
+## 0.593.0 — 2026-11-02
+### Added
+- Guidelines can carry live examples: an optional `examples` array in a guideline JSON renders an Examples section on the guideline page (each example live, with a Show code toggle for its markup and CSS), and the same markup goes into the guideline's `.md` and agent feed. Guidelines without `examples` render unchanged.
+- Empty state guideline Examples: page scale (Session detail with no data), panel scale (Feedback tab), compact scale (Insights card under 240 px), plain `<aha-empty>` in a table body (do), the full pattern in a table row (don't), and the "No answer" caption on a repeated item (#411)
+- Revert: revert the PR; one new optional field and one render function in `generate.mjs`, no existing guideline, component or token changes (#411)
 
 ## 0.591.0 — 2026-11-01
 ### Added
