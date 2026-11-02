@@ -33,6 +33,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.856.1 — 2026-11-02
+
+### Fixed
+
+- CHANGELOG: the 0.840.0 Show winner entry links its PR (#559) instead of a placeholder, so the standards gate passes on master (#561)
+
 ## 0.855.0 — 2026-11-02
 ### Added
 - `aha-button` `pressed`: a toggle button that is on (Bold in a toolbar, a selected filter) keeps its variant's press look, the same fill, edge and label as `:active`, and the inner button gets `aria-pressed="true"`. `pressed="false"` is the toggle when off: `aria-pressed="false"` and the rest look. An `aria-pressed` set on the host wins, and a disabled button draws no pressed look. No new colour: each variant reuses its existing press values (#547)
@@ -43,7 +49,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ### Changed
 
-- `<aha-leaderboard>` Show winner: the avatar now sits before the name on one line (the same order as the list rows, 16px apart, the avatar as tall as the name), and the name is bigger than the score: name 64px semibold with a 64px avatar, score 48px (below 340px: 32px name and avatar, 24px score). The pop order is avatar, name, score. The list rows are unchanged. (#NNN)
+- `<aha-leaderboard>` Show winner: the avatar now sits before the name on one line (the same order as the list rows, 16px apart, the avatar as tall as the name), and the name is bigger than the score: name 64px semibold with a 64px avatar, score 48px (below 340px: 32px name and avatar, 24px score). The pop order is avatar, name, score. The list rows are unchanged. (#559)
 
 ## 0.837.0 — 2026-11-02
 ### Changed
