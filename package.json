@@ -1,6 +1,6 @@
 {
   "name": "@ahaslides-product/design",
-  "version": "0.812.0",
+  "version": "0.852.0",
   "description": "AhaSlides design system for agents — single source of truth (tokens + component contracts) → generated docs, llms.txt, design.md, and per-component agent feeds. Hybrid: shared web-component primitives + antd/ant-design-vue composites.",
   "type": "module",
   "publishConfig": {
@@ -47,7 +47,6 @@
     "./lib/aha-input.js",
     "./lib/aha-tag.js",
     "./lib/aha-answer-list.js",
-    "./lib/aha-audience-date.js",
     "./lib/aha-answer-option.js",
     "./lib/aha-rank-list.js",
     "./lib/aha-audience-field.js",
@@ -74,6 +73,8 @@
     "./lib/aha-dropdown.js",
     "./lib/aha-menu.js",
     "./lib/aha-pagination.js",
+    "./lib/aha-image-resize-frame.js",
+    "./lib/aha-palette-swatch.js",
     "./lib/aha-image-preview.js",
     "./lib/aha-radio.js",
     "./lib/aha-rate.js",
@@ -135,7 +136,8 @@
     "./lib/aha-autocomplete.js",
     "./lib/aha-audience-modal.js",
     "./lib/aha-bottom-sheet.js",
-    "./lib/expandable-option.js"
+    "./lib/expandable-option.js",
+    "./lib/aha-audience-date.js"
   ],
   "unpkg": "./lib/all.js",
   "jsdelivr": "./lib/all.js",
@@ -168,7 +170,6 @@
     "./aha-input": "./lib/aha-input.js",
     "./aha-tag": "./lib/aha-tag.js",
     "./aha-answer-list": "./lib/aha-answer-list.js",
-    "./aha-audience-date": "./lib/aha-audience-date.js",
     "./aha-answer-option": "./lib/aha-answer-option.js",
     "./aha-rank-list": "./lib/aha-rank-list.js",
     "./aha-audience-field": "./lib/aha-audience-field.js",
@@ -200,6 +201,8 @@
     "./aha-dropdown": "./lib/aha-dropdown.js",
     "./aha-menu": "./lib/aha-menu.js",
     "./aha-pagination": "./lib/aha-pagination.js",
+    "./aha-image-resize-frame": "./lib/aha-image-resize-frame.js",
+    "./aha-palette-swatch": "./lib/aha-palette-swatch.js",
     "./aha-image-preview": "./lib/aha-image-preview.js",
     "./antd-base-theme": "./lib/antd-base-theme.js",
     "./antd-render-empty": "./lib/antd-render-empty.js",
@@ -293,7 +296,8 @@
     "./build-splash": "./build-splash.mjs",
     "./anti-slop/criteria.json": "./anti-slop/criteria.json",
     "./marketing.css": "./lib/marketing.css",
-    "./marketing/*": "./lib/marketing/*"
+    "./marketing/*": "./lib/marketing/*",
+    "./aha-audience-date": "./lib/aha-audience-date.js"
   },
   "files": [
     "screen-lint.mjs",

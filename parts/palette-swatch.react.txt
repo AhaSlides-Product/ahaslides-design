@@ -1,0 +1,6 @@
+import '@ahaslides-product/design/aha-palette-swatch';   // registers <aha-palette-swatch>
+
+// Inside a theme card: the card is the button, the palette is a decorative preview.
+export function ThemePalette({ palette }) {
+  return <aha-palette-swatch colors={(palette ?? []).join('|')} />;
+}

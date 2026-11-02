@@ -33,11 +33,35 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.803.0 — 2026-11-02
+## 0.852.0 — 2026-11-02
 ### Added
 - `aha-audience-date`: a date answer for the audience phone. Day, month and year `aha-counted-input` fields in the order `format` sets (DMY, MDY, YMD) with a `separator`, a numeric keypad, digits only and auto-advance; the value is ISO `YYYY-MM-DD`, or empty until the date is real; after leaving the group with a part-filled or impossible date, `error-message` shows in `aha-field-error variant="respondent"`. `birthday` opts into birthday autofill (autocomplete is off otherwise), `group-label`, `day-label` / `month-label` / `year-label`, placeholders, `disabled`, `lock-key`, and a `change` event with `{value, valid}`; each input points at the error through `aria-describedby`, the whole box is the tap target and the pink focus ring shows over the error border (#544)
 - Revert: revert the PR; the element and the attributes are new and opt-in
 
+## 0.837.0 — 2026-11-02
+### Changed
+- Canvas Library Leaderboard: each deck (light, dark and a new orange-accent deck with a tied first place) has a "Demo: show winner" button that replays the `showWinner()` reveal, so the banner, centre glow in `--aha-deck-accent`, count-up and confetti can be seen on the page; new Show winner rule row and `showWinner()` in the snippet. Docs and demo only, the component is unchanged (#556)
+- Revert: revert the PR; docs data only
+
+## 0.835.0 — 2026-11-02
+### Added
+- `aha-button` copies `aria-current` to its inner button and keeps it in step, so a pagination dot or step marked `aria-current="page"` is announced as current; `aria-keyshortcuts`, `aria-roledescription`, `aria-description` and `aria-busy` are forwarded the same way (#531)
+### Fixed
+- `aha-button`, `aha-switch` and `aha-select` delegate focus from the host, so `host.focus()` moves keyboard focus to the inner control (it did nothing before). `aha-input` already did; `aha-checkbox` is focusable on the host itself (#531)
+- `aha-button` updates its inner button in place when `variant`, `size`, `block`, `icon-only`, `loading`, `disabled` or `aria-label` change, so a focused button keeps keyboard focus; it was redrawn and focus dropped. A colour change on a variant swap now runs the button's existing 0.2s transition instead of snapping. Only a link that turns into a button (or back) is redrawn, and it takes focus with it (#531)
+- Revert: revert the PR; no API is removed
+
+## 0.813.0 — 2026-11-02
+### Added
+- `<aha-image-resize-frame>`: the editor's on-canvas image frame. Wraps your `<img>`; click to select (2px Vivid Pink outline, four corner handles), drag a corner or use the Arrow keys on a handle to resize by width percent (floor max(15%, 120px), never past the natural width), and a hover mask with Preview (secondary) and Delete (danger) buttons, both size md (`actions` slot replaces them); handles draw 12px with an invisible 24px hit zone (44px under a coarse pointer). Emits `preview`, `delete`, `select-change`, `width-input` and `width-change`; the host owns the lightbox and the data. Opt-in, existing tokens only (#549)
+
+## 0.811.0 — 2026-11-02
+### Added
+- `<aha-palette-swatch>` (`@ahaslides-product/design/aha-palette-swatch`): a theme's colour palette as five rounded chips of rising heights, the presenter's theme-thumbnail palette. `colors` takes the theme's pipe-separated colours (first five; a shorter palette leaves later chips outlined), `label` gives it an accessible name, otherwise it is decorative. It fills its host's width at 152:33 (#519)
+- Revert: revert the PR; a new element only, nothing else imports it
+
+## 0.803.0 — 2026-11-02
+### Added
 - Chart: `type="nps"` draws the 0 to 10 answers of an NPS question as eleven columns under three brackets (Detractors 0 to 6, Passives 7 to 8, Promoters 9 to 10), each bracket with its count and share, plus the signed score (`NPS +26`, the displayed % promoters minus the displayed % detractors). With 0 responses it shows "No responses yet" and no stubs; under 480px the column counts go compact (18K). `data` is the 11 counts as an array or `{counts}`; `colors` takes the three bracket colours in the order detractor, passive, promoter, so a survey keeps its own hues (matched by position: a missing or invalid entry takes that bracket's default); without `colors` the brackets use the existing brand series and neutral (no new hue). `options.showScore` (default true) hides the score; on a narrow host the bracket names move to a key row under the chart. The text summary and data table list every rating and bracket, and the new copy keys (`typeNames.nps`, `npsDetractors`, `npsPassives`, `npsPromoters`, `npsScore`, `npsRating`, `npsSummary`) override through `strings`, in `en` and `vi`. Other chart types render exactly as before (#553)
 - Revert: revert the PR; only charts that set `type="nps"` change, and before it they fell back to a bar chart
 
