@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.609.0 — 2026-11-02
 ### Added
-- Seven icons for survey building, each with meaning words for `npm run icon-search`: `system-hash` (number rating), `system-arrows-split` (branching and skip logic), `system-check-square` (checkbox question, beside `system-minus-square`), `system-flag`, `system-megaphone` (announcement), `system-neutral-face` (the neutral point between `system-sad-face` and `system-smiley`) and `system-star-filled` (the filled state of `system-star` for rating stars, any size). The first four and the tick come from Phosphor Icons Regular (MIT) on the DS 16px grid with the 1.5 stroke; the registry now holds 362 names (#PR)
+- Seven icons for survey building, each with meaning words for `npm run icon-search`: `system-hash` (number rating), `system-arrows-split` (branching and skip logic), `system-check-square` (checkbox question, beside `system-minus-square`), `system-flag`, `system-megaphone` (announcement), `system-neutral-face` (the neutral point between `system-sad-face` and `system-smiley`) and `system-star-filled` (the filled state of `system-star` for rating stars, any size). The first four and the tick come from Phosphor Icons Regular (MIT) on the DS 16px grid with the 1.5 stroke; the registry now holds 362 names (#521)
 - Revert: revert the PR; additive glyphs only, no existing icon changes
 
 ## 0.605.2 — 2026-11-02
