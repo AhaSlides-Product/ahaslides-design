@@ -1,0 +1,11 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-text';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<template>
+  <aha-text level="2">Lessons</aha-text>
+  <aha-text as="p" tone="secondary">Work through each lesson in order.</aha-text>
+  <aha-text weight="semibold" :ellipsis="truncate || null">{{ title }}</aha-text>
+  <aha-text size="sm" tone="secondary">Updated {{ updated }}</aha-text>
+</template>
