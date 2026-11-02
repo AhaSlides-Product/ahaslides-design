@@ -25,5 +25,19 @@ function DeckList({ title, decks }) {
   );
 }
 
+// Picker: `selectable` + `value` (the picked row's key); `select` fires with { key, index }.
+function SurveyPicker({ surveys, value, onChange }) {
+  return (
+    <aha-list
+      bordered
+      selectable=""
+      value={value}
+      list-title="Pick a survey"
+      items={JSON.stringify(surveys.map((s) => ({ key: s.id, title: s.name, description: s.meta })))}
+      ref={(el) => el && (el.onselect = (e) => onChange(e.detail.key))}  // { key, index }
+    />
+  );
+}
+
 // usage
 <DeckList title="Recent decks" decks={[{ name: 'Team offsite 2026', meta: '12 slides · edited 2h ago' }]} />
