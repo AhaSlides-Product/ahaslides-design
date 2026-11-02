@@ -79,7 +79,7 @@
       "name": "status · size · type · steps · show-info · palette · ink · accent",
       "type": "as <aha-progress>",
       "default": "—",
-      "desc": "Passed through to the visual bar"
+      "desc": "Passed through to the visual bar; ink and accent apply only with palette=\"deck\""
     }
   ],
   "opinion": {
