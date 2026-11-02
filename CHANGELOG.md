@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.601.0 — 2026-11-02
+### Added
+- Chart: `<aha-chart type="pie">`, a solid pie with no centre hole. It is the donut renderer with the same slices, palette, labels, legend, tooltip, empty state and screen-reader summary (named "Pie chart"). `type="donut"` with `options.variant: "pie"` keeps working. Contract, all flavour files, docs and a Pie default snippet updated together.
+- Revert: revert the PR; `pie` is one new value in the chart type list that reuses the donut renderer, so existing donut and `variant: "pie"` markup is untouched (#508)
+
 ## 0.600.0 — 2026-11-02
 ### Added
 - Course theme: `applyCourseTheme(root, theme)` and `courseThemeVars(theme)` from `@ahaslides-product/design/course-theme` re-skin every `<aha-*>` component inside a customer course theme. Inputs: primary, pageBg, surface, textBody, textHeading, accent, fontBody, fontHeading, radius. Every semantic colour token, the grey ramp, fonts and the radius ladder resolve inside the scope; text and labels are floored at 4.5:1 and fills and focus rings at 3:1 on every state. The default theme reproduces the DS values exactly. New tokens `--aha-course-text-heading` and `--aha-course-accent`. Docs: Foundations › Course theme, with a learner-page `--lp-*` mapping; feed `course-theme.agent.json` (#510)
