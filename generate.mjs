@@ -1823,7 +1823,7 @@ const COURSE_THEME_CSS = `
 .ct-panel{ background:var(--aha-bg-layout); color:var(--aha-text-default); font-family:var(--aha-font-product); padding:16px; border-radius:var(--aha-radius-lg); display:grid; gap:12px; align-content:start; color-scheme:inherit }
 .ct-name{ font-size:12px; font-weight:600; color:var(--aha-text-secondary) }
 .ct-card{ background:var(--aha-bg-container); border:1px solid var(--aha-border-default); border-radius:var(--aha-radius-lg); padding:16px; display:grid; gap:12px }
-.ct-heading{ margin:0; font-family:var(--aha-font-display); font-size:20px; line-height:28px; font-weight:700; color:var(--aha-course-text-heading) }
+.ct-heading{ margin:0; font-family:var(--aha-font-display); font-size:20px; line-height:28px; font-weight:600; color:var(--aha-course-text-heading) }
 .ct-body{ margin:0; font-size:14px; line-height:22px }
 .ct-link{ color:var(--aha-text-link) }
 .ct-link:hover{ color:var(--aha-text-link-hover) }
