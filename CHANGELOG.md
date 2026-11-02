@@ -35,9 +35,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.604.0 — 2026-11-02
 ### Added
-- `<aha-stat-tile icon="…">`: an optional DS icon name shown before the label in the muted icon colour at 16px. Without it the tile renders exactly as before. (#PR)
-- `<aha-dropdown loading>`: shows the DS spinner in place of the caret and blocks opening, as Button's `loading` does; the trigger carries `aria-busy`. (#PR)
-- `<aha-dropdown>` items take an optional `testid`, rendered as `data-testid` on the row. (#PR)
+- `<aha-stat-tile icon="…">`: an optional DS icon name shown before the label in the muted icon colour at 16px. Without it the tile renders exactly as before. (#512)
+- `<aha-dropdown loading>`: shows the DS spinner in place of the caret and blocks opening, as Button's `loading` does; the trigger carries `aria-busy`. (#512)
+- `<aha-dropdown>` items take an optional `testid`, rendered as `data-testid` on the row. (#512)
 
 ## 0.599.0 — 2026-11-02
 ### Added
