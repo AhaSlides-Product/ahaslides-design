@@ -530,6 +530,40 @@
         "web"
       ],
       "sourceNote": "Cornerstone's own site header logo (horizontal Cornerstone wordmark), served from its CMS CDN."
+    },
+    {
+      "id": "claude",
+      "name": "Claude",
+      "category": "Brands",
+      "file": "claude.svg",
+      "originalFile": "original/claude.svg",
+      "originalFetched": "2026-11-02",
+      "sourceUrl": "https://thesvg.org/icons/claude/default.svg",
+      "sourcePage": "https://thesvg.org/icon/claude",
+      "fetched": "2026-11-02",
+      "usedIn": "social-ads co-brand lockup (AhaSlides × Claude how-to images)",
+      "section": "Integrations",
+      "environment": [
+        "web",
+        "social-ads"
+      ],
+      "sourceNote": "Anthropic's Claude mark as published on theSVG. The combined mark-and-wordmark file on theSVG draws the wordmark in white for dark surfaces only, so it has no greyscale-on-white form; the mark is the co-brand asset. Brand-use: Anthropic's own brand and press guidelines apply; use it only to name Claude as a partner or integration, unaltered."
+    },
+    {
+      "id": "claude-white",
+      "name": "Claude, white",
+      "category": "Brands",
+      "file": "claude-white.svg",
+      "sourceUrl": "https://thesvg.org/icons/claude/default.svg",
+      "sourcePage": "https://thesvg.org/icon/claude",
+      "fetched": "2026-11-02",
+      "usedIn": "social-ads co-brand lockup on Vivid Pink (AhaSlides × Claude how-to images)",
+      "section": "Integrations",
+      "environment": [
+        "web",
+        "social-ads"
+      ],
+      "sourceNote": "The same Claude mark with its one fill set to white, for use on Vivid Pink (colour rule 2.6: partner marks are white on the brand colour). Derived mechanically from original/claude.svg; the shape is unchanged."
     }
   ]
 }
