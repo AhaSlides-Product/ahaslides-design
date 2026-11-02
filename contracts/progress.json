@@ -1,5 +1,5 @@
 {
-  "environment": ["product"],
+  "environment": ["product", "audience"],
   "name": "Progress",
   "slug": "progress",
   "group": "Feedback",
@@ -8,7 +8,7 @@
   "element": "aha-progress",
   "summary": "A determinate progress indicator — completion, upload, a quiz timer — as a line, segmented steps, or a circle.",
   "highlights": ["Determinate progress indicator", "For completion, upload and quiz timers", "Line, segmented steps or circle"],
-  "lead": "ONE custom element — <aha-progress> — defined once, imported unchanged by React and Vue. The DS V3 Progress is a family, not one bar: `type` picks the shape (`line` horizontal bar · `circle` SVG ring), `steps` splits a line into discrete segments, `size` is default or `small` (the Mini variants), and `status` recolours the fill (active/success/warning/exception). `percent` drives a PERSISTENT fill node — the line's width or the ring's stroke-dashoffset — so it animates on the shared motion tokens; the shape is never rebuilt on a percent/status change. Shadow-DOM CSS, themed only by --aha-* tokens → byte-identical in React and Vue. Zero drift — the same element, not look-alikes.",
+  "lead": "ONE custom element — <aha-progress> — defined once, imported unchanged by React and Vue. The DS V3 Progress is a family, not one bar: `type` picks the shape (`line` horizontal bar · `circle` SVG ring), `steps` splits a line into discrete segments, `size` is default or `small` (the Mini variants), and `status` recolours the fill (active/success/warning/exception). `palette=\"deck\"` is the audience flavour: the bar takes the shared --aha-deck-* ladder (the same track as <aha-countdown>) instead of the product colours. `percent` drives a PERSISTENT fill node — the line's width or the ring's stroke-dashoffset — so it animates on the shared motion tokens; the shape is never rebuilt on a percent/status change. Shadow-DOM CSS, themed only by --aha-* tokens → byte-identical in React and Vue. Zero drift — the same element, not look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin attribute wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["color-primary", "color-success", "color-warning", "color-error", "gray-30", "radius-pill", "text-secondary", "text-positive", "text-negative"],
   "spec": [
@@ -19,7 +19,8 @@
     { "label": "Status", "value": "active primary · success #1A1A1A · warning #1A1A1A · exception #1A1A1A" },
     { "label": "Motion", "value": "width / stroke-dashoffset animate on --aha-motion-slow / --aha-ease-out" },
     { "label": "Info", "value": "percent label (✓/✕ glyph at success/exception); hide with show-info=false" },
-    { "label": "A11y", "value": "role=progressbar · aria-valuemin 0 / valuemax 100 / valuenow synced to percent" }
+    { "label": "A11y", "value": "role=progressbar · aria-valuemin 0 / valuemax 100 / valuenow synced to percent" },
+    { "label": "Deck palette", "value": "palette=\"deck\" (audience): track --aha-deck-stroke (ink at 12%) with the 1px ink hairline over the frosted blur, fill and on-steps the deck accent, label --aha-deck-ink-secondary (76%), the deck's own font; the same bar as <aha-countdown>. Status fills keep the values above" }
   ],
   "props": [
     { "name": "percent", "type": "number", "default": "0", "desc": "Completion 0–100; clamped and drives the fill" },
@@ -27,7 +28,10 @@
     { "name": "steps", "type": "number", "default": "0", "desc": "Split a line into N discrete segments (line type only)" },
     { "name": "size", "type": "'default' | 'small'", "default": "default", "desc": "Compact Mini variant (thinner bar / smaller ring)" },
     { "name": "status", "type": "default | active | success | warning | exception", "default": "default", "desc": "Fill colour (exception aliases error)" },
-    { "name": "show-info", "type": "boolean", "default": "true", "desc": "Show the trailing percent/glyph label (set 'false' to hide)" }
+    { "name": "show-info", "type": "boolean", "default": "true", "desc": "Show the trailing percent/glyph label (set 'false' to hide)" },
+    { "name": "palette", "type": "'product' | 'deck'", "default": "product", "desc": "deck on an audience page: track, fill and label follow the --aha-deck-* ladder applyDeck() writes; product (or no attribute) keeps the product colours" },
+    { "name": "ink", "type": "colour", "default": "—", "desc": "The deck ink (xprops.slide.textColour) for this element only, with palette=\"deck\"; normally inherited from applyDeck()" },
+    { "name": "accent", "type": "colour", "default": "—", "desc": "The deck accent (presentationColorPalette[0]) for this element only, with palette=\"deck\"; normally inherited from applyDeck()" }
   ],
   "opinion": {
     "whenToUse": [
@@ -73,7 +77,8 @@
     { "label": "line fill width / circle stroke-dashoffset = percent", "verdict": "PASS" },
     { "label": "status recolours the fill (active/success/warning/exception)", "verdict": "PASS" },
     { "label": "type=circle SVG ring · steps=N segments render", "verdict": "PASS" },
-    { "label": "role=progressbar · aria-valuenow synced", "verdict": "PASS" }
+    { "label": "role=progressbar · aria-valuenow synced", "verdict": "PASS" },
+    { "label": "palette=\"deck\" track/fill/label from the --aha-deck-* ladder; no palette = product colours unchanged", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The [data-probe] is a default LINE bar so the base measure holds; a second element asserts the exception status colour.",
