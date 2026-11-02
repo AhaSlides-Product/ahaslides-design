@@ -33,6 +33,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.861.1 — 2026-11-02
+
+### Fixed
+
+- `<aha-leaderboard>` Show winner: the list's scrollbar is hidden while the winner banner covers it, so its track no longer shows as light corners outside the banner's rounded corners on a dark deck (#NNN)
+
 ## 0.857.0 — 2026-11-02
 ### Added
 - `aha-icon` sizes 40, 48 and 64 with 3, 3.5 and 4px strokes (backed by the 40, 48 and 64 size tokens), for empty states and illustrations; static icon files are generated for the new sizes (#554)
