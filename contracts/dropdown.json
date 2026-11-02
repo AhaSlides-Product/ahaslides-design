@@ -29,7 +29,8 @@
     { "label": "Submenu parent", "value": "item with children[]; aria-haspopup=menu, trailing <aha-icon name=\"system-caret-right\" size=16>; brand-tinted (bg-accent #E70E680D, color-primary #E70E68) while its flyout is open" },
     { "label": "Flyout", "value": "second elevated panel adjacent to the parent (left:100%), opens on hover / ArrowRight / Enter; fades+scales on a persistent node (motion-mid + ease-out)" },
     { "label": "Edge-collision flip", "value": "flyout measures on open; if it overflows the viewport it flips to open on the left (right:100%)" },
-    { "label": "Flyout keyboard", "value": "Up/Down within the flyout, ArrowLeft / Escape closes it back to the parent (focus returns to the parent row)" }
+    { "label": "Flyout keyboard", "value": "Up/Down within the flyout, ArrowLeft / Escape closes it back to the parent (focus returns to the parent row)" },
+    { "label": "Custom trigger", "value": "an element in `slot=\"trigger\"` replaces the default button (the default is hidden while one is slotted); the dropdown sets aria-haspopup=menu and aria-expanded on it, opens it on click, Enter, Space and ArrowDown, and returns focus to it on Escape or choosing a row; an icon-only trigger needs an aria-label" }
   ],
   "props": [
     { "name": "label", "type": "string", "default": "Menu", "desc": "The trigger button text" },
@@ -37,6 +38,7 @@
     { "name": "items", "type": "JSON list", "default": "[]", "desc": "Rows. Leaf {key,label,description?,icon?,disabled?,danger?}; submenu-parent {key,label,icon?,children:[…]} → adjacent flyout; rule {type:'divider'}; section {type:'group',label,children:[]}" },
     { "name": "placement", "type": "'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight'", "default": "bottomLeft", "desc": "Where the overlay opens relative to the trigger" },
     { "name": "trigger", "type": "'click' | 'hover'", "default": "click", "desc": "How the overlay is revealed" },
+    { "name": "slot=\"trigger\"", "type": "element", "default": "the button", "desc": "Your own trigger control, such as an icon-only aha-button with an aria-label for a kebab (three-dot) menu. Opt-in: without it the default button renders unchanged." },
     { "name": "select", "type": "CustomEvent", "default": "—", "desc": "Composed event on choosing an item, detail { key }" }
   ],
   "opinion": {
