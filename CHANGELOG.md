@@ -33,6 +33,24 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.727.0 — 2026-11-02
+### Added
+- `aha-icon` sizes 40, 48 and 64 with 3, 3.5 and 4px strokes (backed by the 40, 48 and 64 size tokens), for empty states and illustrations; static icon files are generated for the new sizes (#NNN)
+- `aha-button` forwards `aria-disabled` and `aria-labelledby` to its inner button and keeps both in sync when they change (#NNN)
+- `aha-button` gains a trailing icon: `<aha-icon slot="icon-end">` draws after the label, for buttons such as "Next →"; hidden on icon-only (#NNN)
+- `aha-input` gains `borderless` (no border or fill at rest or on hover, the DS border and focus ring on keyboard focus, error status keeps its border) for inline editing, and `monospace` (field text in `--aha-font-mono`) (#NNN)
+- `aha-collapse` `slot="extra"` now takes a button: a click inside it no longer toggles the panel (#NNN)
+- `<aha-stat-tile icon="…">`: an optional DS icon name shown before the label in the muted icon colour at 16px. Without it the tile renders exactly as before. (#NNN)
+- `<aha-dropdown loading>`: shows the DS spinner in place of the caret and blocks opening, as Button's `loading` does; the trigger carries `aria-busy`. (#NNN)
+- `<aha-dropdown>` items take an optional `testid`, rendered as `data-testid` on the row. (#NNN)
+- `aha-chart` grouped columns: `type="column"` with `{series, rows:[{label, values}]}` (or the line shape `{labels, series:[{label, values}]}`) draws one column per series side by side inside each row, with a series legend, value labels and a data table; up to 4 series (#NNN)
+- `aha-chart` attributes `x-title` and `y-title` on bar, column and line: one line of secondary text above (y) and under (x) the plot (#NNN)
+### Changed
+- `aha-chart` pie and donut fit a small host: a pie no longer keeps the 140px floor or overflows a host narrower than 320px, a host with a set height shortens it and swaps the callouts for the legend below 224px tall, and the legend wraps, is capped at half the width and scrolls inside the host. Only the first 4 slices have distinct fills (slices 5 and 6 repeat 2 and 3), now stated in the Chart contract (#NNN)
+### Fixed
+- `aha-button` is disabled by a disabled ancestor `<fieldset>`, like a native button (#NNN)
+- Revert: revert the PR; every addition is opt-in (new sizes, attributes, slots and data shape) and the pie, donut and fieldset changes only affect hosts that were already overflowing or sat in a disabled fieldset
+
 ## 0.726.0 — 2026-11-02
 ### Added
 - Chart: `strings` is now also a JSON attribute (`<aha-chart strings='{"emptyNote":"No answers yet"}'>`), so a static page or a framework binding can override any built-in text without a script. Every key of `chartStrings.en` is overridable, per key: type names, the empty-state note and summary, pager labels, legends, axis and tooltip text, summaries and live-region text, and the word-cloud and mind-map controls; the chart docs and contract list every key. Keys left out fall back to the locale's built-in copy (`en`, `vi`), then English; the `strings` property still wins over the attribute until the attribute changes. A chart without `strings` renders exactly as before (#545)
