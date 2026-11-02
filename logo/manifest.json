@@ -118,7 +118,12 @@
       "monoSource": "Simple Icons (CC0) via theSVG mono",
       "monoSourceUrl": "https://thesvg.org/icons/google/mono.svg",
       "monoSourcePage": "https://thesvg.org/icon/google?variant=mono",
-      "monoFetched": "2026-11-02"
+      "monoFetched": "2026-11-02",
+      "line": "line/google.svg",
+      "lineSource": "Phosphor Icons regular (MIT): google-logo",
+      "lineSourceUrl": "https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/regular/google-logo.svg",
+      "lineSourcePage": "https://phosphoricons.com/?q=google-logo",
+      "lineFetched": "2026-11-02"
     },
     {
       "id": "microsoft",
@@ -139,7 +144,13 @@
       "monoSource": "DS icon library, stand-in: Simple Icons has no mark",
       "monoSourceUrl": "icons/svg/system/system-microsoft-logo.svg",
       "monoStatus": "stand-in",
-      "monoFetched": "2026-11-02"
+      "monoFetched": "2026-11-02",
+      "line": "line/microsoft.svg",
+      "lineSource": "Drawn in Phosphor's regular line style (256 grid, 16 stroke, round caps and joins), stand-in",
+      "lineSourceUrl": "https://phosphoricons.com/?q=logo",
+      "lineStatus": "stand-in",
+      "lineFetched": "2026-11-02",
+      "lineNote": "four squares of the Microsoft mark, drawn as outlines; Phosphor has no Microsoft logo (its windows-logo is the Windows brand)"
     },
     {
       "id": "google-slides",
@@ -160,7 +171,13 @@
       "monoSource": "Simple Icons (CC0) via theSVG mono",
       "monoSourceUrl": "https://thesvg.org/icons/google-slides/mono.svg",
       "monoSourcePage": "https://thesvg.org/icon/google-slides?variant=mono",
-      "monoFetched": "2026-11-02"
+      "monoFetched": "2026-11-02",
+      "line": "line/google-slides.svg",
+      "lineSource": "Drawn in Phosphor's regular line style (256 grid, 16 stroke, round caps and joins), stand-in",
+      "lineSourceUrl": "https://phosphoricons.com/?q=logo",
+      "lineStatus": "stand-in",
+      "lineFetched": "2026-11-02",
+      "lineNote": "page with folded corner and a landscape slide, after Phosphor's file icons; Phosphor has no Google Slides logo"
     },
     {
       "id": "microsoft-powerpoint",
@@ -181,7 +198,12 @@
       "monoSource": "Phosphor Icons fill (MIT), stand-in: Simple Icons has no mark",
       "monoSourceUrl": "https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/fill/microsoft-powerpoint-logo-fill.svg",
       "monoStatus": "stand-in",
-      "monoFetched": "2026-11-02"
+      "monoFetched": "2026-11-02",
+      "line": "line/microsoft-powerpoint.svg",
+      "lineSource": "Phosphor Icons regular (MIT): microsoft-powerpoint-logo",
+      "lineSourceUrl": "https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/regular/microsoft-powerpoint-logo.svg",
+      "lineSourcePage": "https://phosphoricons.com/?q=microsoft-powerpoint-logo",
+      "lineFetched": "2026-11-02"
     },
     {
       "id": "microsoft-teams",
@@ -202,7 +224,12 @@
       "monoSource": "Phosphor Icons fill (MIT), stand-in: Simple Icons has no mark",
       "monoSourceUrl": "https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/fill/microsoft-teams-logo-fill.svg",
       "monoStatus": "stand-in",
-      "monoFetched": "2026-11-02"
+      "monoFetched": "2026-11-02",
+      "line": "line/microsoft-teams.svg",
+      "lineSource": "Phosphor Icons regular (MIT): microsoft-teams-logo",
+      "lineSourceUrl": "https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/regular/microsoft-teams-logo.svg",
+      "lineSourcePage": "https://phosphoricons.com/?q=microsoft-teams-logo",
+      "lineFetched": "2026-11-02"
     },
     {
       "id": "zoom",
@@ -224,7 +251,13 @@
       "monoSourceUrl": "https://thesvg.org/icons/zoom/mono.svg",
       "monoSourcePage": "https://thesvg.org/icon/zoom?variant=mono",
       "monoFetched": "2026-11-02",
-      "monoNote": "The Simple Icons wordmark knocked out of the same rounded square as Zapier, so a wordmark reads at icon size"
+      "monoNote": "The Simple Icons wordmark knocked out of the same rounded square as Zapier, so a wordmark reads at icon size",
+      "line": "line/zoom.svg",
+      "lineSource": "Drawn in Phosphor's regular line style (256 grid, 16 stroke, round caps and joins), stand-in",
+      "lineSourceUrl": "https://phosphoricons.com/?q=logo",
+      "lineStatus": "stand-in",
+      "lineFetched": "2026-11-02",
+      "lineNote": "video camera in a rounded square, the Zoom app mark as an outline; Phosphor has no Zoom logo"
     },
     {
       "id": "chatgpt",
@@ -245,7 +278,12 @@
       "monoSource": "Simple Icons (CC0) via theSVG mono",
       "monoSourceUrl": "https://thesvg.org/icons/openai-chatgpt/mono.svg",
       "monoSourcePage": "https://thesvg.org/icon/openai-chatgpt?variant=mono",
-      "monoFetched": "2026-11-02"
+      "monoFetched": "2026-11-02",
+      "line": "line/chatgpt.svg",
+      "lineSource": "Phosphor Icons regular (MIT): open-ai-logo",
+      "lineSourceUrl": "https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/regular/open-ai-logo.svg",
+      "lineSourcePage": "https://phosphoricons.com/?q=open-ai-logo",
+      "lineFetched": "2026-11-02"
     },
     {
       "id": "slack",
@@ -266,7 +304,12 @@
       "monoSource": "Phosphor Icons fill (MIT), stand-in: Simple Icons has no mark",
       "monoSourceUrl": "https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/fill/slack-logo-fill.svg",
       "monoStatus": "stand-in",
-      "monoFetched": "2026-11-02"
+      "monoFetched": "2026-11-02",
+      "line": "line/slack.svg",
+      "lineSource": "Phosphor Icons regular (MIT): slack-logo",
+      "lineSourceUrl": "https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/regular/slack-logo.svg",
+      "lineSourcePage": "https://phosphoricons.com/?q=slack-logo",
+      "lineFetched": "2026-11-02"
     },
     {
       "id": "model-context-protocol",
@@ -288,7 +331,13 @@
       "monoSource": "Simple Icons (CC0) via theSVG mono",
       "monoSourceUrl": "https://thesvg.org/icons/model-context-protocol/mono.svg",
       "monoSourcePage": "https://thesvg.org/icon/model-context-protocol?variant=mono",
-      "monoFetched": "2026-11-02"
+      "monoFetched": "2026-11-02",
+      "line": "line/model-context-protocol.svg",
+      "lineSource": "Drawn in Phosphor's regular line style (256 grid, 16 stroke, round caps and joins), stand-in",
+      "lineSourceUrl": "https://phosphoricons.com/?q=logo",
+      "lineStatus": "stand-in",
+      "lineFetched": "2026-11-02",
+      "lineNote": "the MCP mark's three strokes, redrawn at Phosphor's 16-unit stroke; Phosphor has no MCP logo"
     },
     {
       "id": "microsoft-excel",
@@ -309,7 +358,12 @@
       "monoSource": "Phosphor Icons fill (MIT), stand-in: Simple Icons has no mark",
       "monoSourceUrl": "https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/fill/microsoft-excel-logo-fill.svg",
       "monoStatus": "stand-in",
-      "monoFetched": "2026-11-02"
+      "monoFetched": "2026-11-02",
+      "line": "line/microsoft-excel.svg",
+      "lineSource": "Phosphor Icons regular (MIT): microsoft-excel-logo",
+      "lineSourceUrl": "https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/regular/microsoft-excel-logo.svg",
+      "lineSourcePage": "https://phosphoricons.com/?q=microsoft-excel-logo",
+      "lineFetched": "2026-11-02"
     },
     {
       "id": "microsoft-word",
@@ -330,7 +384,12 @@
       "monoSource": "Phosphor Icons fill (MIT), stand-in: Simple Icons has no mark",
       "monoSourceUrl": "https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/fill/microsoft-word-logo-fill.svg",
       "monoStatus": "stand-in",
-      "monoFetched": "2026-11-02"
+      "monoFetched": "2026-11-02",
+      "line": "line/microsoft-word.svg",
+      "lineSource": "Phosphor Icons regular (MIT): microsoft-word-logo",
+      "lineSourceUrl": "https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/regular/microsoft-word-logo.svg",
+      "lineSourcePage": "https://phosphoricons.com/?q=microsoft-word-logo",
+      "lineFetched": "2026-11-02"
     },
     {
       "id": "pdf",
@@ -349,7 +408,12 @@
       "monoFetched": "2026-11-02",
       "environment": [
         "product"
-      ]
+      ],
+      "line": "line/pdf.svg",
+      "lineSource": "Phosphor Icons regular (MIT): file-pdf",
+      "lineSourceUrl": "https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/regular/file-pdf.svg",
+      "lineSourcePage": "https://phosphoricons.com/?q=file-pdf",
+      "lineFetched": "2026-11-02"
     },
     {
       "id": "google-drive",
@@ -370,7 +434,12 @@
       "monoSource": "Simple Icons (CC0) via theSVG mono",
       "monoSourceUrl": "https://thesvg.org/icons/google-drive/mono.svg",
       "monoSourcePage": "https://thesvg.org/icon/google-drive?variant=mono",
-      "monoFetched": "2026-11-02"
+      "monoFetched": "2026-11-02",
+      "line": "line/google-drive.svg",
+      "lineSource": "Phosphor Icons regular (MIT): google-drive-logo",
+      "lineSourceUrl": "https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/regular/google-drive-logo.svg",
+      "lineSourcePage": "https://phosphoricons.com/?q=google-drive-logo",
+      "lineFetched": "2026-11-02"
     },
     {
       "id": "microsoft-onedrive",
@@ -391,7 +460,13 @@
       "monoSource": "DS colour file, stand-in: the three cloud pieces merged into one silhouette, knocked out of a rounded square",
       "monoSourceUrl": "logo/microsoft-onedrive.svg",
       "monoStatus": "stand-in",
-      "monoFetched": "2026-11-02"
+      "monoFetched": "2026-11-02",
+      "line": "line/microsoft-onedrive.svg",
+      "lineSource": "Phosphor Icons regular (MIT): cloud, stand-in",
+      "lineSourceUrl": "https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/regular/cloud.svg",
+      "lineStatus": "stand-in",
+      "lineFetched": "2026-11-02",
+      "lineNote": "Phosphor's generic cloud icon (regular), standing in for the OneDrive cloud; Phosphor has no OneDrive logo"
     },
     {
       "id": "paypal",
@@ -412,7 +487,12 @@
       "monoSource": "Simple Icons (CC0) via theSVG mono",
       "monoSourceUrl": "https://thesvg.org/icons/paypal/mono.svg",
       "monoSourcePage": "https://thesvg.org/icon/paypal?variant=mono",
-      "monoFetched": "2026-11-02"
+      "monoFetched": "2026-11-02",
+      "line": "line/paypal.svg",
+      "lineSource": "Phosphor Icons regular (MIT): paypal-logo",
+      "lineSourceUrl": "https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/regular/paypal-logo.svg",
+      "lineSourcePage": "https://phosphoricons.com/?q=paypal-logo",
+      "lineFetched": "2026-11-02"
     },
     {
       "id": "stripe",
@@ -433,7 +513,12 @@
       "monoSource": "Simple Icons (CC0) via theSVG mono",
       "monoSourceUrl": "https://thesvg.org/icons/stripe/mono.svg",
       "monoSourcePage": "https://thesvg.org/icon/stripe?variant=mono",
-      "monoFetched": "2026-11-02"
+      "monoFetched": "2026-11-02",
+      "line": "line/stripe.svg",
+      "lineSource": "Phosphor Icons regular (MIT): stripe-logo",
+      "lineSourceUrl": "https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/regular/stripe-logo.svg",
+      "lineSourcePage": "https://phosphoricons.com/?q=stripe-logo",
+      "lineFetched": "2026-11-02"
     },
     {
       "id": "youtube",
@@ -454,7 +539,12 @@
       "monoSource": "Simple Icons (CC0) via theSVG mono",
       "monoSourceUrl": "https://thesvg.org/icons/youtube/mono.svg",
       "monoSourcePage": "https://thesvg.org/icon/youtube?variant=mono",
-      "monoFetched": "2026-11-02"
+      "monoFetched": "2026-11-02",
+      "line": "line/youtube.svg",
+      "lineSource": "Phosphor Icons regular (MIT): youtube-logo",
+      "lineSourceUrl": "https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/regular/youtube-logo.svg",
+      "lineSourcePage": "https://phosphoricons.com/?q=youtube-logo",
+      "lineFetched": "2026-11-02"
     },
     {
       "id": "facebook",
@@ -475,7 +565,12 @@
       "monoSource": "Simple Icons (CC0) via theSVG mono",
       "monoSourceUrl": "https://thesvg.org/icons/facebook/mono.svg",
       "monoSourcePage": "https://thesvg.org/icon/facebook?variant=mono",
-      "monoFetched": "2026-11-02"
+      "monoFetched": "2026-11-02",
+      "line": "line/facebook.svg",
+      "lineSource": "Phosphor Icons regular (MIT): facebook-logo",
+      "lineSourceUrl": "https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/regular/facebook-logo.svg",
+      "lineSourcePage": "https://phosphoricons.com/?q=facebook-logo",
+      "lineFetched": "2026-11-02"
     },
     {
       "id": "instagram",
@@ -496,7 +591,12 @@
       "monoSource": "Simple Icons (CC0) via theSVG mono",
       "monoSourceUrl": "https://thesvg.org/icons/instagram/mono.svg",
       "monoSourcePage": "https://thesvg.org/icon/instagram?variant=mono",
-      "monoFetched": "2026-11-02"
+      "monoFetched": "2026-11-02",
+      "line": "line/instagram.svg",
+      "lineSource": "Phosphor Icons regular (MIT): instagram-logo",
+      "lineSourceUrl": "https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/regular/instagram-logo.svg",
+      "lineSourcePage": "https://phosphoricons.com/?q=instagram-logo",
+      "lineFetched": "2026-11-02"
     },
     {
       "id": "linkedin",
@@ -517,7 +617,12 @@
       "monoSource": "Phosphor Icons fill (MIT), stand-in: Simple Icons has no mark",
       "monoSourceUrl": "https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/fill/linkedin-logo-fill.svg",
       "monoStatus": "stand-in",
-      "monoFetched": "2026-11-02"
+      "monoFetched": "2026-11-02",
+      "line": "line/linkedin.svg",
+      "lineSource": "Phosphor Icons regular (MIT): linkedin-logo",
+      "lineSourceUrl": "https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/regular/linkedin-logo.svg",
+      "lineSourcePage": "https://phosphoricons.com/?q=linkedin-logo",
+      "lineFetched": "2026-11-02"
     },
     {
       "id": "x",
@@ -538,7 +643,12 @@
       "monoSource": "Simple Icons (CC0) via theSVG mono",
       "monoSourceUrl": "https://thesvg.org/icons/x/mono.svg",
       "monoSourcePage": "https://thesvg.org/icon/x?variant=mono",
-      "monoFetched": "2026-11-02"
+      "monoFetched": "2026-11-02",
+      "line": "line/x.svg",
+      "lineSource": "Phosphor Icons regular (MIT): x-logo",
+      "lineSourceUrl": "https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/regular/x-logo.svg",
+      "lineSourcePage": "https://phosphoricons.com/?q=x-logo",
+      "lineFetched": "2026-11-02"
     },
     {
       "id": "reddit",
@@ -559,7 +669,12 @@
       "monoSource": "Simple Icons (CC0) via theSVG mono",
       "monoSourceUrl": "https://thesvg.org/icons/reddit/mono.svg",
       "monoSourcePage": "https://thesvg.org/icon/reddit?variant=mono",
-      "monoFetched": "2026-11-02"
+      "monoFetched": "2026-11-02",
+      "line": "line/reddit.svg",
+      "lineSource": "Phosphor Icons regular (MIT): reddit-logo",
+      "lineSourceUrl": "https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/regular/reddit-logo.svg",
+      "lineSourcePage": "https://phosphoricons.com/?q=reddit-logo",
+      "lineFetched": "2026-11-02"
     },
     {
       "id": "medium",
@@ -580,7 +695,12 @@
       "monoSource": "Simple Icons (CC0) via theSVG mono",
       "monoSourceUrl": "https://thesvg.org/icons/medium/mono.svg",
       "monoSourcePage": "https://thesvg.org/icon/medium?variant=mono",
-      "monoFetched": "2026-11-02"
+      "monoFetched": "2026-11-02",
+      "line": "line/medium.svg",
+      "lineSource": "Phosphor Icons regular (MIT): medium-logo",
+      "lineSourceUrl": "https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/regular/medium-logo.svg",
+      "lineSourcePage": "https://phosphoricons.com/?q=medium-logo",
+      "lineFetched": "2026-11-02"
     },
     {
       "id": "canva",
@@ -602,7 +722,13 @@
       "monoSource": "DS colour file, stand-in: the Canva wordmark path (the file holds no separate symbol), flattened to one colour and knocked out of a rounded square",
       "monoSourceUrl": "logo/canva.svg",
       "monoStatus": "stand-in",
-      "monoFetched": "2026-11-02"
+      "monoFetched": "2026-11-02",
+      "line": "line/canva.svg",
+      "lineSource": "Drawn in Phosphor's regular line style (256 grid, 16 stroke, round caps and joins), stand-in",
+      "lineSourceUrl": "https://phosphoricons.com/?q=logo",
+      "lineStatus": "stand-in",
+      "lineFetched": "2026-11-02",
+      "lineNote": "circle with an open C, after the Canva app mark; Phosphor has no Canva logo"
     },
     {
       "id": "zapier",
@@ -624,7 +750,13 @@
       "monoSource": "Simple Icons (CC0) via theSVG mono",
       "monoSourceUrl": "https://thesvg.org/icons/zapier/mono.svg",
       "monoSourcePage": "https://thesvg.org/icon/zapier?variant=mono",
-      "monoFetched": "2026-11-02"
+      "monoFetched": "2026-11-02",
+      "line": "line/zapier.svg",
+      "lineSource": "Drawn in Phosphor's regular line style (256 grid, 16 stroke, round caps and joins), stand-in",
+      "lineSourceUrl": "https://phosphoricons.com/?q=logo",
+      "lineStatus": "stand-in",
+      "lineFetched": "2026-11-02",
+      "lineNote": "the Zapier asterisk as eight spokes round an open centre; Phosphor has no Zapier logo"
     },
     {
       "id": "d2l-brightspace",
@@ -646,7 +778,13 @@
       "monoSource": "DS colour file, stand-in: the D2L letters and underline bar, flattened to one colour and knocked out of a rounded square",
       "monoSourceUrl": "logo/d2l-brightspace.svg",
       "monoStatus": "stand-in",
-      "monoFetched": "2026-11-02"
+      "monoFetched": "2026-11-02",
+      "line": "line/d2l-brightspace.svg",
+      "lineSource": "Drawn in Phosphor's regular line style (256 grid, 16 stroke, round caps and joins), stand-in",
+      "lineSourceUrl": "https://phosphoricons.com/?q=logo",
+      "lineStatus": "stand-in",
+      "lineFetched": "2026-11-02",
+      "lineNote": "the D2L letters and underline bar drawn as strokes; Phosphor has no D2L logo"
     },
     {
       "id": "cornerstone-ondemand",
@@ -668,7 +806,13 @@
       "monoSource": "DS colour file, stand-in: the Cornerstone symbol (the compact mark, not the long wordmark), flattened to one colour and knocked out of a rounded square",
       "monoSourceUrl": "logo/cornerstone-ondemand.svg",
       "monoStatus": "stand-in",
-      "monoFetched": "2026-11-02"
+      "monoFetched": "2026-11-02",
+      "line": "line/cornerstone-ondemand.svg",
+      "lineSource": "Drawn in Phosphor's regular line style (256 grid, 16 stroke, round caps and joins), stand-in",
+      "lineSourceUrl": "https://phosphoricons.com/?q=logo",
+      "lineStatus": "stand-in",
+      "lineFetched": "2026-11-02",
+      "lineNote": "circle with the four-point Cornerstone spark, as in the compact Cornerstone symbol; Phosphor has no Cornerstone logo"
     },
     {
       "id": "claude",
@@ -691,7 +835,13 @@
       "monoSource": "Simple Icons (CC0) via theSVG mono",
       "monoSourceUrl": "https://thesvg.org/icons/claude/mono.svg",
       "monoSourcePage": "https://thesvg.org/icon/claude?variant=mono",
-      "monoFetched": "2026-11-02"
+      "monoFetched": "2026-11-02",
+      "line": "line/claude.svg",
+      "lineSource": "Drawn in Phosphor's regular line style (256 grid, 16 stroke, round caps and joins), stand-in",
+      "lineSourceUrl": "https://phosphoricons.com/?q=logo",
+      "lineStatus": "stand-in",
+      "lineFetched": "2026-11-02",
+      "lineNote": "twelve rays of the Claude spark, long and short in turn; Phosphor has no Claude logo"
     },
     {
       "id": "claude-white",

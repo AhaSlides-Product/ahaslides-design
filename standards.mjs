@@ -871,6 +871,22 @@ const repoChecks = [];
   rchk('every mono logo is declared in logo/manifest.json with its source and is filled with currentColor only', monoProblems.length === 0,
     `logo/mono/<id>.svg is the flat one-colour mark: ${monoProblems.join(', ')}`);
 
+  const lineDir = join(root, 'logo', 'line');
+  const lineFiles = existsSync(lineDir) ? readdirSync(lineDir).filter(f => f.endsWith('.svg')).map(f => `line/${f}`) : [];
+  const declaredLines = logoEntries.filter(entry => entry.line).map(entry => entry.line);
+  const paintsOtherThanCurrentColor = svg => [...svg.matchAll(/\b(?:fill|stroke)="([^"]*)"/g)].map(match => match[1]).filter(paint => paint !== 'currentColor' && paint !== 'none');
+  const lineProblems = [
+    ...declaredLines.filter(file => !lineFiles.includes(file)).map(file => `${file} is declared but missing`),
+    ...lineFiles.filter(file => !declaredLines.includes(file)).map(file => `${file} has no manifest entry`),
+    ...logoEntries.filter(entry => entry.line && !(entry.lineSourceUrl && entry.lineFetched)).map(entry => `${entry.id}: line needs lineSourceUrl and lineFetched`),
+    ...lineFiles.filter(file => {
+      const svg = read(join(root, 'logo', file));
+      return coloursInSvg(svg).length > 0 || paintsOtherThanCurrentColor(svg).length > 0 || !svg.includes('currentColor') || !svg.includes('viewBox="0 0 256 256"');
+    }).map(file => `${file} must be drawn on the 256 grid in currentColor only`),
+  ];
+  rchk('every line logo is declared in logo/manifest.json with its source and is drawn in currentColor only', lineProblems.length === 0,
+    `logo/line/<id>.svg is the Phosphor-style outline mark: ${lineProblems.join(', ')}`);
+
   const PHOTO_SOURCES = ['drive', 'customer-love'];
   const imagesDir = join(root, 'marketing', 'images');
   const photosWithoutSource = existsSync(imagesDir)

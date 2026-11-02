@@ -3504,11 +3504,14 @@ function renderLogoPage() {
   const monoFigure = l => l.mono
     ? `<figure><span class="lg-mono" role="img" aria-label="${esc(l.name)} logo, mono" style="--lg-mono:url('../logo/${esc(l.mono)}')"></span><figcaption>Mono${l.monoStatus === 'stand-in' ? ` <span class="lg-standin" title="${esc(l.monoSource)}">stand-in</span>` : ''}</figcaption></figure>`
     : l.monoGap ? `<figure class="lg-mono-gap" title="${esc(l.monoGap)}"><span class="lg-mono lg-mono--none" aria-hidden="true"></span><figcaption>No mono yet</figcaption></figure>` : '';
-  const stage = l => (l.originalFile || l.mono)
-    ? `<div class="lg-stage lg-pair"><figure><img src="../logo/${esc(l.file)}" alt="${esc(l.name)} logo, one colour" loading="lazy"/><figcaption>One colour</figcaption></figure>${l.originalFile ? `<figure><img src="../logo/${esc(l.originalFile)}" alt="${esc(l.name)} logo, original colours" loading="lazy"/><figcaption>Original</figcaption></figure>` : ''}${monoFigure(l)}</div>`
+  const lineFigure = l => l.line
+    ? `<figure><span class="lg-mono" role="img" aria-label="${esc(l.name)} logo, line" style="--lg-mono:url('../logo/${esc(l.line)}')"></span><figcaption>Line${l.lineStatus === 'stand-in' ? ` <span class="lg-standin" title="${esc(l.lineNote || l.lineSource)}">stand-in</span>` : ''}</figcaption></figure>`
+    : '';
+  const stage = l => (l.originalFile || l.mono || l.line)
+    ? `<div class="lg-stage lg-pair${l.line ? ' lg-quad' : ''}"><figure><img src="../logo/${esc(l.file)}" alt="${esc(l.name)} logo, one colour" loading="lazy"/><figcaption>One colour</figcaption></figure>${l.originalFile ? `<figure><img src="../logo/${esc(l.originalFile)}" alt="${esc(l.name)} logo, original colours" loading="lazy"/><figcaption>Original</figcaption></figure>` : ''}${monoFigure(l)}${lineFigure(l)}</div>`
     : `<div class="lg-stage${LOGO_DARK_TILE.has(l.id) ? ' lg-dark' : ''}"><img${l.id.startsWith('ahaslides-logo') ? ' class="lg-lockup"' : ''} src="../logo/${esc(l.file)}" alt="${esc(l.name)} logo" loading="lazy"/></div>`;
   const cell = l =>
-    `<div class="lg" data-name="${esc(l.id)}" data-label="${esc(l.name.toLowerCase())}" role="button" tabindex="0" title="${esc(l.name)} — click to copy its id">${stage(l)}<span class="lgn">${esc(l.name)}</span>${download(l.file, l.originalFile ? `${l.name}, one colour` : '')}${l.originalFile ? download(l.originalFile, `${l.name}, original colours`) : ''}${l.mono ? download(l.mono, `${l.name}, mono`) : ''}</div>`;
+    `<div class="lg" data-name="${esc(l.id)}" data-label="${esc(l.name.toLowerCase())}" role="button" tabindex="0" title="${esc(l.name)} — click to copy its id">${stage(l)}<span class="lgn">${esc(l.name)}</span>${download(l.file, l.originalFile ? `${l.name}, one colour` : '')}${l.originalFile ? download(l.originalFile, `${l.name}, original colours`) : ''}${l.mono ? download(l.mono, `${l.name}, mono`) : ''}${l.line ? download(l.line, `${l.name}, line`) : ''}</div>`;
   const hoverDemo = BRAND_LOGO_HOVER_DEMO.map(id => LOGO_BRANDS.find(l => l.id === id)).filter(l => l && l.originalFile).map(l =>
     `<a class="brand-entry" href="#brand-logo-hover"><span class="brand-logo"><img class="brand-logo-rest" src="../logo/${esc(l.file)}" alt=""><img class="brand-logo-original" src="../logo/${esc(l.originalFile)}" alt=""></span><span>${esc(l.name)}</span></a>`).join('');
   const hoverCode = `<div class="code-tabs" data-open="false">
@@ -3524,7 +3527,7 @@ function renderLogoPage() {
   };
   const main = `
   <h1>Logo library</h1>
-  ${headline([`The AhaSlides logo and the ${LOGO_BRANDS.length} third-party brand logos the presenter app shows`, 'Each brand is the current official SVG, from theSVG or the Design System V3 Figma file, in two files, one colour (greyscale) and its original colours, plus a flat mono mark in logo/mono/ where one exists. In any interface a brand logo is one colour at rest and shows its own colours on hover and keyboard focus (colour rule 2.6); never redraw a brand mark or stand in a letter tile', 'Click a tile to copy its id, or use the download link'])}
+  ${headline([`The AhaSlides logo and the ${LOGO_BRANDS.length} third-party brand logos the presenter app shows`, 'Each brand is the current official SVG, from theSVG or the Design System V3 Figma file, in two files, one colour (greyscale) and its original colours, plus a flat mono mark in logo/mono/ and a Phosphor-style line mark in logo/line/ where one exists. In any interface a brand logo is one colour at rest and shows its own colours on hover and keyboard focus (colour rule 2.6); never redraw a brand mark or stand in a letter tile', 'Click a tile to copy its id, or use the download link'])}
   <p class="gen">◆ generated from logo/manifest.json (each Brands logo records its source URL, fetch date and where the presenter app shows it) — fetch files from ${esc(SITE)}/logo/&lt;file&gt;</p>
 
   <div id="logo-gallery">
@@ -3568,6 +3571,8 @@ function renderLogoPage() {
   <p class="body">Brand logos belong to their owners and stay unaltered. Each one ships twice: <code>logo/&lt;file&gt;</code> in one colour (greyscale) and <code>logo/original/&lt;file&gt;</code> in the brand&rsquo;s own colours, the file exactly as published at its source. The list is what the presenter app renders today; to add a brand, add it to the app first, then fetch its current SVG from theSVG or the brand&rsquo;s own press page into both places, record the source in <code>logo/manifest.json</code> and run <code>node recolour-art.mjs</code>.</p>
   <h3 class="tok-h3" id="mono">Mono logos</h3>
   <p class="body">A brand with a mono file also ships <code>logo/mono/&lt;id&gt;.svg</code>: the brand&rsquo;s flat one-colour mark, a single shape filled with <code>currentColor</code>, so it takes the colour of the text around it. Shown in <code>--aha-icon-default</code>, or <code>--aha-icon-inverse</code> on Vivid Pink. Inline the SVG, or paint it through a CSS mask where an <code>&lt;img&gt;</code> cannot inherit the colour. Shapes come from Simple Icons (CC0) through theSVG; a tile marked <b>stand-in</b> uses the Phosphor fill glyph, the DS icon or a shape derived from the brand&rsquo;s own colour file, because Simple Icons dropped that brand at its owner&rsquo;s request. A brand whose mark is a wordmark or a wide lockup (Zapier, Zoom, Canva, D2L, Cornerstone, OneDrive) is wrapped: one 24 &times; 24 rounded square, the mark knocked out of it, so it reads at 36 px beside the glyph marks. Each entry in <code>logo/manifest.json</code> records <code>mono</code>, <code>monoSource</code>, <code>monoSourceUrl</code> and <code>monoFetched</code>, or <code>monoGap</code> with the reason.</p>
+  <h3 class="tok-h3" id="line">Line logos</h3>
+  <p class="body">A brand with a line file also ships <code>logo/line/&lt;id&gt;.svg</code>: the brand&rsquo;s mark as an outline in Phosphor&rsquo;s Regular weight (256 grid, 16-unit stroke, round caps and joins), drawn in <code>currentColor</code> so it sits beside the DS line icons. Use it like the mono file: inline the SVG, or paint it through a CSS mask. Shapes are Phosphor&rsquo;s own <code>*-logo</code> icons (MIT) where Phosphor has the brand; a tile marked <b>stand-in</b> is drawn in the same line style because Phosphor has no logo for that brand. Each entry in <code>logo/manifest.json</code> records <code>line</code>, <code>lineSource</code>, <code>lineSourceUrl</code> and <code>lineFetched</code>, and a stand-in adds <code>lineStatus</code> and <code>lineNote</code>. Mono and line are two proposals for the same screens; colour rule 2.6 below is unchanged until one is chosen.</p>
   <h3 class="tok-h3" id="brand-logo-colour">Brand logo colour (rule 2.6)</h3>
   <p class="body">The same rule holds in every interface: the presenter app, website headers and menus, dialogs, import sources and connect buttons.</p>
   <ul class="lg-donts">
@@ -3633,6 +3638,8 @@ function renderLogoPage() {
   .lg-pair figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:6px}
   .lg-pair img{width:40px;height:40px}
   .lg-pair .lg-mono{width:40px;height:40px}
+  .lg-stage.lg-quad{flex-wrap:wrap;height:auto;min-height:104px;padding:10px 0;row-gap:8px}
+  .lg-quad figure{flex:0 0 calc(50% - 6px)}
   .lg-pair figcaption{font-size:11px;line-height:1.3;color:var(--aha-text-tertiary)}
   .brand-demo{display:flex;flex-direction:column;gap:2px;max-width:280px;padding:8px;margin:12px 0;border:1px solid var(--aha-border);border-radius:8px}
   .brand-entry{display:flex;align-items:center;gap:12px;padding:8px 12px;border-radius:6px;color:var(--aha-text-default);text-decoration:none;font-family:var(--aha-font-product);font-size:14px}
