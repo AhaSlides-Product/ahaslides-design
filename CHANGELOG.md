@@ -40,6 +40,12 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Fixed
 - `aha-button` is disabled by a disabled ancestor `<fieldset>`, like a native button (#511)
 
+## 0.670.0 — 2026-11-02
+### Added
+- `aha-input` passes `inputmode` and `dir` to its inner field, so `inputmode="decimal"` gives a number keypad on a text field and `dir="auto"` reads a right-to-left entry right to left, and gains a `select()` method that selects the field's text. Fields without the new attributes render unchanged (#520)
+- Revert: revert the PR; nothing else depends on the new attributes
+
+
 ## 0.660.0 — 2026-11-02
 ### Added
 - Logo library: the Claude mark (Brands, Integrations) in `logo/claude.svg` (greyscale on white), `logo/claude-white.svg` (white on Vivid Pink) and `logo/original/claude.svg` (as published), for AhaSlides × Claude co-brand lockups (#543)

@@ -53,6 +53,10 @@ test('aha-input is form-associated, submits on Enter, names itself and points at
     out.afterReset = await evaluate(`document.getElementById('external').value`);
     out.fieldAfterReset = await evaluate(inner('external', '.value'));
     out.fieldsetDisabled = await evaluate(inner('in-fieldset', '.disabled'));
+    out.typedKeyboard = await evaluate(inner('typed', '.inputMode'));
+    out.typedDirection = await evaluate(`getComputedStyle(${inner('typed', '')}).direction`);
+    await evaluate(`document.getElementById('typed').select()`);
+    out.typedSelection = await evaluate(`[${inner('typed', '.selectionStart')}, ${inner('typed', '.selectionEnd')}]`);
     return out;
   }, { readyExpr: '!!window.inputFormFixtureReady' });
 
@@ -77,6 +81,9 @@ test('aha-input is form-associated, submits on Enter, names itself and points at
   assert.equal(result.afterReset, 'Aha', 'form reset restores the initial value');
   assert.equal(result.fieldAfterReset, 'Aha');
   assert.equal(result.fieldsetDisabled, true, 'a disabled fieldset disables the inner field');
+  assert.equal(result.typedKeyboard, 'decimal', 'inputmode reaches the inner field');
+  assert.equal(result.typedDirection, 'rtl', 'dir="auto" reads a right-to-left entry right to left');
+  assert.deepEqual(result.typedSelection, [0, 5], 'select() selects the whole value');
 });
 
 test('aha-input source declares the form-association hooks', () => {
