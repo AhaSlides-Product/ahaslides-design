@@ -15,6 +15,9 @@
 <!-- status: error   ·   disabled / readonly -->
 <aha-counted-textarea status="error" maxlength="120" value="Too long" placeholder="Description"></aha-counted-textarea>
 
+<!-- dir="auto" reads a right-to-left answer right to left   ·   inputmode picks the phone keyboard -->
+<aha-counted-textarea dir="auto" maxlength="150" placeholder="Answer"></aha-counted-textarea>
+
 <script>
   // Plain DOM — no framework. Read e.detail.value off the composed CustomEvent.
   document.getElementById('desc').addEventListener('input', (e) => {

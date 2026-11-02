@@ -33,10 +33,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.772.0 — 2026-11-02
+## 0.801.0 — 2026-11-02
 ### Added
 - `aha-number-scale`: a row of tappable whole numbers for the audience phone, 0–10 by default for a Net Promoter Score (`min`, `max` for any short numeric rating). 48px numbers at least 44px wide, six per row when a phone is too narrow for one row, the pick filled with the deck accent, `low-label` / `high-label` under the scale, a radio group with arrow keys, Home and End (mirrored in right-to-left), `group-label`, `disabled`, `lock-key`, and a `change` event with `{value}` (#541)
 - Revert: revert the PR; the element is new and opt-in
+
+## 0.780.0 — 2026-11-02
+### Added
+- `aha-counted-textarea` passes `inputmode` and `dir` to its inner field, as `aha-counted-input` does: `dir="auto"` reads a right-to-left answer right to left. `aha-audience-field` documents it for the textarea. Fields without the new attributes render unchanged (#550)
+- Revert: revert the PR; nothing else depends on the new attributes
 
 ## 0.765.0 — 2026-11-02
 ### Added
