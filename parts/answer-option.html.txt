@@ -19,3 +19,13 @@
 
 <!-- revealed: an answer mark (white tick or cross on the answer disc) on every row; the correct row takes the green edge, my wrong pick the red ring -->
 <aha-answer-option revealed selected count="12" total="30" count-mode="percent">Juice</aha-answer-option>
+
+<!-- opt-in: letter chips, one Tab stop for the group (roving: Arrow keys, Home / End) and an inline Other row -->
+<div style="display:flex; flex-direction:column; gap:8px">
+  <aha-answer-option roving letter="A">Coffee</aha-answer-option>
+  <aha-answer-option roving letter="B">Tea</aha-answer-option>
+  <aha-answer-option roving letter="C" other other-placeholder="Type your answer" other-maxlength="250">Other (please specify)</aha-answer-option>
+</div>
+<script type="module">
+  document.querySelector('aha-answer-option[other]').addEventListener('other-input', (e) => console.log(e.detail.value));
+</script>
