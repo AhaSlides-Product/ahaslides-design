@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.702.0 — 2026-11-02
+### Added
+- Chart: `colors` now applies with either palette. On the default `palette="brand"` it replaces the `--aha-viz-series-*` series (and their tints) with the host's own colours, in series order, and keeps the brand ink, so an app screen can pass its own palette (a survey's answer colours, Yes / No). The host picks the hues; a chart without `colors` renders exactly as before, and `palette="deck"` is unchanged (#532)
+- Revert: revert the PR; only charts that set `colors` without `palette="deck"` change, and no shipped consumer does
+
 ## 0.701.0 — 2026-11-02
 ### Added
 - Paywall: `placement="left"` and `placement="right"` hang the popover 8px beside the anchor, vertically centred on it, with the arrow on the facing edge; top and bottom are unchanged, and `align` and `fitPaywall` still work only with top and bottom (#546)
