@@ -38,6 +38,16 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `aha-number-scale`: a row of tappable whole numbers for the audience phone, 0–10 by default for a Net Promoter Score (`min`, `max` for any short numeric rating). 48px numbers at least 44px wide, six per row when a phone is too narrow for one row, the pick filled with the deck accent, `low-label` / `high-label` under the scale, a radio group with arrow keys, Home and End (mirrored in right-to-left), `group-label`, `disabled`, `lock-key`, and a `change` event with `{value}` (#541)
 - Revert: revert the PR; the element is new and opt-in
 
+## 0.811.0 — 2026-11-02
+### Added
+- `<aha-palette-swatch>` (`@ahaslides-product/design/aha-palette-swatch`): a theme's colour palette as five rounded chips of rising heights, the presenter's theme-thumbnail palette. `colors` takes the theme's pipe-separated colours (first five; a shorter palette leaves later chips outlined), `label` gives it an accessible name, otherwise it is decorative. It fills its host's width at 152:33 (#519)
+- Revert: revert the PR; a new element only, nothing else imports it
+
+## 0.803.0 — 2026-11-02
+### Added
+- Chart: `type="nps"` draws the 0 to 10 answers of an NPS question as eleven columns under three brackets (Detractors 0 to 6, Passives 7 to 8, Promoters 9 to 10), each bracket with its count and share, plus the signed score (`NPS +26`, the displayed % promoters minus the displayed % detractors). With 0 responses it shows "No responses yet" and no stubs; under 480px the column counts go compact (18K). `data` is the 11 counts as an array or `{counts}`; `colors` takes the three bracket colours in the order detractor, passive, promoter, so a survey keeps its own hues (matched by position: a missing or invalid entry takes that bracket's default); without `colors` the brackets use the existing brand series and neutral (no new hue). `options.showScore` (default true) hides the score; on a narrow host the bracket names move to a key row under the chart. The text summary and data table list every rating and bracket, and the new copy keys (`typeNames.nps`, `npsDetractors`, `npsPassives`, `npsPromoters`, `npsScore`, `npsRating`, `npsSummary`) override through `strings`, in `en` and `vi`. Other chart types render exactly as before (#553)
+- Revert: revert the PR; only charts that set `type="nps"` change, and before it they fell back to a bar chart
+
 ## 0.802.0 — 2026-11-02
 ### Added
 - `<aha-answer-list>` opt-in wiring for the 0.627.0 row additions (#538), each off by default so existing lists render unchanged: `roving` (one Tab stop, Arrow keys, Home and End), `option-labels="alphabet|number"` (a letter chip per row, A … Z, AA; `answerOptionLabel` exported), an `options[]` entry with `other: true` (and `otherValue`) for the inline Other row, with `other-placeholder`, `other-input-label` and `other-maxlength`, and an `other-input` event carrying `detail.id` and `detail.value` (#542)
