@@ -1,7 +1,7 @@
 {
   "name": "Tooltip",
   "slug": "tooltip",
-  "environment": ["product"],
+  "environment": ["product", "web"],
   "group": "Data display",
   "tier": "leaf-lit",
   "badge": "shared web component",

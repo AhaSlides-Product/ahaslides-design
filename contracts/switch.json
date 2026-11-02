@@ -1,5 +1,5 @@
 {
-  "environment": ["product"],
+  "environment": ["product", "web"],
   "name": "Switch",
   "slug": "switch",
   "group": "Data entry",
