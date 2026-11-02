@@ -33,12 +33,36 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.860.0 — 2026-11-02
+## 0.880.0 — 2026-11-02
 ### Added
 - `aha-number-scale`: a row of tappable whole numbers for the audience phone, 0–10 by default for a Net Promoter Score (`min`, `max` for any short numeric rating). 48px numbers at least 44px wide, six per row whenever one row would squeeze a number under 44px (an 11-point scale under 524px), the pick filled with the deck accent, `low-label` / `high-label` under the scale, a radio group with arrow keys, Home and End (mirrored in right-to-left), `group-label`, `disabled`, `lock-key`, and a `change` event with `{value}` (#541)
 ### Fixed
 - `aha-list` `selectable`: a picker row's description reads in secondary text, so it passes 4.5:1 on the selected tint and the hover fill (the tertiary grey measured 3.18:1) (#541)
 - Revert: revert the PR; the element is new and opt-in, and the list fix is one CSS line
+
+## 0.857.2 — 2026-11-02
+
+### Fixed
+- `aha-tooltip`: a hidden tooltip no longer adds to the page's layout overflow. Its 9px hover bridge took a box while the bubble was hidden, so a tooltip at the right edge of the page gave the whole page a horizontal scrollbar; the bridge now exists only while the bubble is shown, and hover onto the bubble still works. (#564)
+
+## 0.857.0 — 2026-11-02
+### Added
+- `aha-icon` sizes 40, 48 and 64 with 3, 3.5 and 4px strokes (backed by the 40, 48 and 64 size tokens), for empty states and illustrations; static icon files are generated for the new sizes (#554)
+- `aha-button` forwards `aria-disabled` and `aria-labelledby` to its inner button and keeps both in sync when they change (#554)
+- `aha-button` gains a trailing icon: `<aha-icon slot="icon-end">` draws after the label, for buttons such as "Next →"; hidden on icon-only (#554)
+- `aha-input` gains `borderless` (no border or fill at rest or on hover, the DS border and focus ring on keyboard focus, error status keeps its border) for inline editing, and `monospace` (field text in `--aha-font-mono`) (#554)
+- `aha-collapse` `slot="extra"` now takes a button: a click inside it no longer toggles the panel (#554)
+- `<aha-stat-tile icon="…">`: an optional DS icon name shown before the label in the muted icon colour at 16px. Without it the tile renders exactly as before. (#554)
+- `<aha-dropdown loading>`: shows the DS spinner in place of the caret and blocks opening, as Button's `loading` does; the trigger carries `aria-busy`. (#554)
+- `<aha-dropdown>` items take an optional `testid`, rendered as `data-testid` on the row. (#554)
+- `aha-chart` grouped columns: `type="column"` with `{series, rows:[{label, values}]}` (or the line shape `{labels, series:[{label, values}]}`) draws one column per series side by side inside each row, with a series legend, value labels and a data table; up to 4 series (#554)
+- `aha-chart` attributes `x-title` and `y-title` on bar, column and line: one line of secondary text above (y) and under (x) the plot (#554)
+### Changed
+- `aha-chart` pie and donut fit a small host: a pie no longer keeps the 140px floor or overflows a host narrower than 320px, a host with a set height shortens it and swaps the callouts for the legend below 224px tall, and the legend wraps, is capped at half the width and scrolls inside the host. Only the first 4 slices have distinct fills (slices 5 and 6 repeat 2 and 3), now stated in the Chart contract (#554)
+### Fixed
+- `aha-button` is disabled by a disabled ancestor `<fieldset>`, like a native button (#554)
+- `aha-popover` no longer announces a default "More information" name: its panel is named only by `title`, so a popover without one adds no extra dialog name for screen readers (#554)
+- Revert: revert the PR; every addition is opt-in (new sizes, attributes, slots and data shape) and the pie, donut and fieldset changes only affect hosts that were already overflowing or sat in a disabled fieldset
 
 ## 0.856.1 — 2026-11-02
 
