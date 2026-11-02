@@ -15,8 +15,10 @@
   <aha-select id="role" width="content" value="editor" options='[{"label":"Editor","value":"editor"},{"label":"Viewer only","value":"viewer"}]'></aha-select>
   <aha-select id="country" show-search value="44" options='[{"label":"United Kingdom","value":"44","prefix":"🇬🇧","suffix":"+44","selectedLabel":"🇬🇧 +44"},{"label":"Viet Nam","value":"84","prefix":"🇻🇳","suffix":"+84","selectedLabel":"🇻🇳 +84"}]'></aha-select>
   <aha-select id="tags" mode="tags" separators=", ;" placeholder="name@example.com" values='["a@b.c"]'></aha-select>
+  <aha-card id="clip-card" style="display:block; width:280px; height:72px"><aha-select id="clipped" value="b" options='[{"label":"Alpha","value":"a"},{"label":"Beta","value":"b"},{"label":"Gamma","value":"g"},{"label":"Delta","value":"d"}]'></aha-select></aha-card>
   <script type="module">
     await import('../lib/aha-select.js');
+    await import('../lib/aha-card.js');
     await customElements.whenDefined('aha-select');
     window.selectOptionsFixtureReady = true;
   </script>

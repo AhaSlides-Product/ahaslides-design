@@ -39,7 +39,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `aha-select mode="tags"`: free-entry values as closable `aha-tag` chips before an inline field in the select's own chrome; `values` (array property or JSON attribute), `separators` (default `,;`; a pasted list also splits on new lines and tabs), Enter or leaving the field adds the text, Backspace in an empty field removes the last tag, exact duplicates are skipped, and `change` carries {values} (#574)
 - `aha-select` option fields `prefix` (leading text such as a flag emoji, hidden from assistive tech), `suffix` (trailing text in tertiary ink such as a dial code, matched by type-to-filter) and `selectedLabel` (what the closed trigger shows for that option, like antd optionLabelProp) (#574)
 - `aha-select width="content"`: the control is as wide as its longest option or placeholder, so it does not jump as the value changes (#574)
-- Revert: revert the PR; every attribute and option field is new and opt-in, and a select without them renders as before
+### Changed
+- `aha-select`'s open list now sits in the browser top layer (Popover API, `popover="manual"`) and is placed with `position:fixed` from the control, so an `overflow:hidden` card such as `aha-card`, a transform or a z-index ancestor no longer cuts it off; it opens above when there is more room there, stays 8px inside the viewport and follows scroll and resize, with a fixed-position fallback where the Popover API is missing. Same look and keyboard; `mode="tags"` has no list and is unchanged (#574)
+- Revert: revert the PR; every attribute and option field is new and opt-in, and a select without them renders as before; the top-layer list is the one default change and goes with the revert
 
 ## 0.903.0 — 2026-11-02
 ### Fixed

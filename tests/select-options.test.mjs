@@ -54,7 +54,7 @@ test('allow-clear, show-search, option description and popup-width work, and a p
       return { label: o.querySelector('.label').textContent, description: o.querySelector('.description').textContent, title: o.title }; })()`);
 
     out.width = await evaluate(`(() => {
-      const w = (id) => Math.round(document.getElementById(id).shadowRoot.querySelector('.listbox').getBoundingClientRect().width);
+      const w = (id) => { const el = document.getElementById(id); el.open = true; const width = Math.round(el.shadowRoot.querySelector('.listbox').getBoundingClientRect().width); el.open = false; return width; };
       return { match: w('match'), matchControl: Math.round(document.getElementById('match').getBoundingClientRect().width), fixed: w('fixed') }; })()`);
     return out;
   }, { readyExpr: '!!window.selectOptionsFixtureReady' });
@@ -117,6 +117,13 @@ test('loading, filter="off", width="content", rich options with a selected label
     await command('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Backspace', code: 'Backspace', windowsVirtualKeyCode: 8 });
     out.tags = await evaluate(`({ values: document.getElementById('tags').values, events: window.tagEvents,
       chips: [...${root('tags')}.querySelectorAll('aha-tag')].map((t) => t.textContent), placeholder: ${root('tags')}.querySelector('.input').placeholder })`);
+    out.clipped = await evaluate(`(() => { const el = document.getElementById('clipped'); el.scrollIntoView({ block: 'start' });
+      el.shadowRoot.querySelector('.trigger').click();
+      const list = el.shadowRoot.querySelector('.listbox'); const box = list.getBoundingClientRect();
+      const card = document.getElementById('clip-card').getBoundingClientRect();
+      const x = box.left + box.width / 2, y = box.bottom - 12;
+      const hit = el.shadowRoot.elementFromPoint(x, y);
+      return { topLayer: list.matches(':popover-open'), extendsPastCard: box.bottom > card.bottom, hitIsOption: !!hit && list.contains(hit) }; })()`);
     out.reattached = await evaluate(`(() => { const el = document.getElementById('tags'); el.values = ['kept@a.b', 'kept@c.d'];
       const parent = el.parentNode; el.remove(); parent.appendChild(el);
       return { values: el.values, chips: [...el.shadowRoot.querySelectorAll('aha-tag')].map((t) => t.textContent) }; })()`);
@@ -140,5 +147,6 @@ test('loading, filter="off", width="content", rich options with a selected label
     chips: ['a@b.c', 'x@y.z', 'p@q.r'],
     placeholder: '',
   });
+  assert.deepEqual(result.clipped, { topLayer: true, extendsPastCard: true, hitIsOption: true });
   assert.deepEqual(result.reattached, { values: ['kept@a.b', 'kept@c.d'], chips: ['kept@a.b', 'kept@c.d'] });
 });
