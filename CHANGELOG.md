@@ -33,12 +33,17 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.650.0 — 2026-11-02
+## 0.670.0 — 2026-11-02
 ### Added
 - `<aha-select>` opt-in `allow-clear`: a clear button beside the caret while a value is set; a click, or Delete / Backspace on the closed trigger, empties the value and emits `change` and a new `clear` event with `{value:''}`; `clear-label` names the button (#537)
 - `<aha-select>` opt-in `show-search`: type to filter the options (ARIA 1.2 combobox with list autocomplete, Arrow / Enter / Escape / Tab), a `search` event with `{query}` and an `empty-text` no-match row (#537)
 - `<aha-select>` option objects take `description` (a second, smaller line under the label) and `title` (the row's native tooltip); `popup-width="match | content | <length>"` sets the popup width (#537)
 - Revert: revert the PR; every addition is opt-in, so an existing `<aha-select>` renders unchanged
+
+## 0.660.0 — 2026-11-02
+### Added
+- Logo library: the Claude mark (Brands, Integrations) in `logo/claude.svg` (greyscale on white), `logo/claude-white.svg` (white on Vivid Pink) and `logo/original/claude.svg` (as published), for AhaSlides × Claude co-brand lockups (#543)
+- Revert: revert the PR; three asset files and one manifest entry pair
 
 ## 0.627.0 — 2026-11-02
 ### Added
