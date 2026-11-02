@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.912.0 — 2026-11-03
+### Added
+- `<aha-card interactive disabled>`: an inert card. It gets `aria-disabled="true"` and `tabindex="-1"` (out of the tab order), fires no click from the mouse, Enter, Space, `click()` or a dispatched click, loses the hover lift, and takes the DS disabled look (`bg-container-disabled`, `border-disabled`, `text-disabled`, as `aha-card-select`); no new token. Removing `disabled` restores everything; a card without `interactive` ignores it. Also a `disabled` property. (#NNN)
+- Revert: revert the PR; additive CSS rules and handlers in `lib/aha-card.js`, no existing behaviour changes
+
 ## 0.903.0 — 2026-11-02
 ### Fixed
 - `aha-rate size="lg"` wraps its stars onto further centred rows when the host is narrower than the row (8 to 10 stars at 360px) instead of overflowing; widths where they fit render as before. (#566)
