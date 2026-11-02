@@ -39,6 +39,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Fixed
 - `aha-loader` paints its overlay on `--aha-bg-container` instead of a fixed white, so it follows dark and course themes (#510)
 - `aha-checkbox` (tick, indeterminate bar), `aha-switch` (checked content) and `aha-tag` (solid, checked) take their foreground from `--aha-button-primary-text`; `aha-tabs`, `aha-radio` (button), `aha-breadcrumb`, `aha-pagination`, `aha-uploader`, `aha-screen-heading` and the checkable `aha-tag` hover colour text with `--aha-text-link`. Unthemed values are identical (`#FFFFFF` and primary) (#510)
+- The interactive-state colour-list check also waives a subtree that carries a course theme (`--aha-color-primary` set inline); contrast and focus are still measured, and the checkbox tick now carries its colour as `color` so the probe reads it
 - Revert: revert the PR; additive module and docs page, the loader change is one background value
 
 ## 0.599.0 — 2026-11-02
