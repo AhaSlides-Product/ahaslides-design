@@ -1,0 +1,21 @@
+<div class="pad">
+  <div class="lbl">Light deck — NPS 0–10, 9 picked</div>
+  <div class="row" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:640px;box-sizing:border-box">
+    <aha-number-scale data-probe value="9" group-label="How likely are you to recommend us to a friend?" low-label="Not at all likely" high-label="Extremely likely"></aha-number-scale>
+  </div>
+  <div class="lbl">Dark deck on a phone — applyDeck() with a white ink and a Vivid Pink accent, six per row</div>
+  <div class="row aud-dark" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:360px;box-sizing:border-box;padding:var(--aha-space-16);background:var(--aha-bg-dark);border-radius:var(--aha-radius-lg)">
+    <aha-number-scale value="3" group-label="How likely are you to recommend us to a friend?" low-label="Not at all likely" high-label="Extremely likely"></aha-number-scale>
+  </div>
+  <div class="lbl">1–5, locked after submitting</div>
+  <div class="row" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:360px;box-sizing:border-box">
+    <aha-number-scale min="1" max="5" value="4" disabled group-label="How clear was the talk?" low-label="Unclear" high-label="Very clear"></aha-number-scale>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element, so the preview can never drift from lib/ and qa measures what consumers get. -->
+<script type="module">
+  import '../lib/aha-number-scale.js';   // registers <aha-number-scale>
+  import { applyDeck } from '../lib/audience-deck.js';
+  for (const deck of document.querySelectorAll('.aud-dark')) applyDeck(deck, { textColour: '#FFFFFF', presentationColorPalette: ['#E70E68'] });
+</script>

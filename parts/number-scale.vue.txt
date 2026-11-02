@@ -1,0 +1,10 @@
+<script setup>
+import '@ahaslides-product/design/aha-number-scale';
+const emit = defineEmits(['score']);
+</script>
+
+<template>
+  <aha-number-scale group-label="How likely are you to recommend us to a friend?" lock-key="slide-42"
+    low-label="Not at all likely" high-label="Extremely likely"
+    @change="emit('score', $event.detail.value)" />
+</template>
