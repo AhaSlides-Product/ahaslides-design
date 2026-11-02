@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.609.0 — 2026-11-02
 ### Added
-- `aha-input` passes `inputmode` and `dir` to its inner field, so `inputmode="decimal"` gives a number keypad on a text field and `dir="auto"` reads a right-to-left entry right to left, and gains a `select()` method that selects the field's text. Fields without the new attributes render unchanged (#PR)
+- `aha-input` passes `inputmode` and `dir` to its inner field, so `inputmode="decimal"` gives a number keypad on a text field and `dir="auto"` reads a right-to-left entry right to left, and gains a `select()` method that selects the field's text. Fields without the new attributes render unchanged (#520)
 - Revert: revert the PR; nothing else depends on the new attributes
 
 ## 0.605.2 — 2026-11-02
