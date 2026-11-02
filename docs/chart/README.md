@@ -261,12 +261,22 @@ A balanced two-sided layout (one-sided, then an outline when narrow). Options: `
 <aha-chart type="nps" label="How likely are you to recommend us?" data='[2,1,0,3,2,4,6,9,14,18,21]'></aha-chart>
 ```
 
-- `data` is the 11 response counts for ratings 0 to 10, as an array or `{ counts: [...] }`. A missing or invalid count is 0.
+- `data` takes one of three shapes:
+  - the 11 response counts for ratings 0 to 10, as an array or `{ counts: [...] }`; a missing or invalid count is 0
+  - `{ ratings: [9, 10, 7, ...] }`, each response's rating (a number, or `{ score }`); anything that is not a whole number from 0 to 10 is skipped
+  - `{ promoters, passives, detractors }`, the bracket totals only, when the host has no per-score counts
+- Any of the object shapes may add `score`: the chart then shows the host's own NPS (rounded to a whole number) instead of computing it.
+- Bracket totals only: there is no per-score distribution, so the chart draws no columns. It draws one bar split into detractors, passives and promoters by share (the stacked bar look), the key row with each bracket's name, count and share, and the score.
+
+```html
+<aha-chart type="nps" label="How likely are you to recommend us?" data='{"promoters":30,"passives":10,"detractors":10,"score":42}'></aha-chart>
+```
+
 - One column per rating, coloured by its bracket. Under the columns a rule spans each bracket: detractors (0 to 6), passives (7 to 8) and promoters (9 to 10), with the bracket's name, count and share. Below 480px wide the names move into a key row under the rules.
 - The NPS score is the displayed promoter share minus the displayed detractor share, so it matches the rounded percentages beside it. It is signed (`NPS +26`, `NPS 0`), shows under the brackets and leads the summary. `options.showScore: false` hides it; with 0 responses it is hidden. Counts are rounded to whole numbers, and under 480px wide the counts above the columns use compact notation (`18K`).
 - Colours: `colors` sets the brackets in the order detractor, passive, promoter, on either palette, so the host passes its own NPS hues. Colours match by position: a missing or invalid entry keeps that bracket's default, never another bracket's colour. Without `colors` the brackets use the existing brand series: detractors series 2, passives the viz neutral, promoters series 1; on `palette="deck"`, if the deck has not set `--aha-viz-series-2`, detractors take the deck ink.
-- With 0 responses the bars, brackets and key are hidden and the chart shows "No responses yet".
-- Hovering a column or a bracket highlights that bracket. Text comes from `npsDetractors`, `npsPassives`, `npsPromoters`, `npsScore`, `npsRating` and `npsSummary` in `strings`.
+- With 0 responses, in any shape, the bars, brackets and key are hidden and the chart shows "No responses yet".
+- Hovering a column, a bracket or a segment of the bracket bar highlights that bracket. The data table has one row per rating, then one per bracket; with bracket totals only, just the bracket rows. Text comes from `npsDetractors`, `npsPassives`, `npsPromoters`, `npsScore`, `npsRating` and `npsSummary` in `strings`.
 
 ### `line`
 
