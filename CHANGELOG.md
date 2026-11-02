@@ -39,6 +39,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `aha-counted-input` takes `type="email" | "tel" | "url"`, and forwards `inputmode` and `autocomplete` to its inner field; without them it renders as before (#PR)
 - Revert: revert the PR; the element and the attributes are new and opt-in
 
+## 0.621.1 — 2026-11-02
+### Fixed
+- CHANGELOG: the 0.609.0 entry links its real PR number instead of the `(#PR)` placeholder that auto-merge shipped, which turned the standards gate red on master (#533)
+- Revert: revert the PR; changelog text only
+
 ## 0.621.0 — 2026-11-02
 ### Added
 - Rate: `character="number"` draws a numbers-only rating, cells 1 to `count` in place of the glyph. A cell is 32×32 and shrinks to 24 so ten fit a 360px phone (`size="sm"` 24×24), radius 8 (sm 6), gap 4. Empty is a 1px gray-40 outline with the number in text-default 14/600 (sm 12), filled is color-primary with a white number, and the fill sweeps in on hover and selection like the stars. Whole steps only: `allow-half` and `precision="exact"` are ignored (#530)
@@ -80,7 +85,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.609.0 — 2026-11-02
 ### Added
-- `aha-skeleton` takes optional `width` and `height` (a number is px, or a CSS length: px, rem, em, %, vw, vh, calc()), so a placeholder can match the real content; on a paragraph they size the stack and each row. Unset, every variant renders as before (#PR)
+- `aha-skeleton` takes optional `width` and `height` (a number is px, or a CSS length: px, rem, em, %, vw, vh, calc()), so a placeholder can match the real content; on a paragraph they size the stack and each row. Unset, every variant renders as before (#518)
 - Revert: revert the PR; the attributes are opt-in
 
 ## 0.605.2 — 2026-11-02
