@@ -18,9 +18,16 @@
 <aha-input status="error" value="not-an-email" placeholder="Email"></aha-input>
 <aha-input info-message="Use 8 or more characters" type="password" placeholder="Password"></aha-input>
 
+<!-- typed text: dir="auto" reads a right-to-left entry right to left · inputmode picks the phone keyboard
+     (decimal on a text field keeps partial input such as 1e) · select() selects the text -->
+<aha-input dir="auto" placeholder="Your answer"></aha-input>
+<aha-input inputmode="decimal" placeholder="Amount"></aha-input>
+<aha-input id="link" prefix="ahaslides.com/s/" value="team-pulse" readonly></aha-input>
+
 <script>
   // Plain DOM — no framework. Read e.detail.value off the composed CustomEvent.
   document.getElementById('ws').addEventListener('input', (e) => {
     console.log('value:', e.detail.value);
   });
+  document.getElementById('link').addEventListener('focusin', (e) => e.currentTarget.select());
 </script>
