@@ -1,0 +1,13 @@
+<script setup>
+import '@ahaslides-product/design/aha-audience-contact';
+const fields = JSON.stringify([
+  { id: 'name', kind: 'name', label: 'Name', required: true },
+  { id: 'email', kind: 'email', label: 'Email', required: true },
+]);
+const emit = defineEmits(['answer']);
+</script>
+
+<template>
+  <aha-audience-contact group-label="How can we reach you?" :fields="fields" lock-key="slide-42"
+    @change="emit('answer', $event.detail.value)" />
+</template>

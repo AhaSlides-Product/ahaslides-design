@@ -1,0 +1,175 @@
+{
+  "name": "Matrix",
+  "slug": "matrix",
+  "group": "Audience",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-matrix",
+  "summary": "A matrix question on the audience phone: one labelled group of answer rows per statement, a single or multiple pick per row, laid out top to bottom so a 360px phone never scrolls sideways.",
+  "highlights": [
+    "Rows x columns question on the audience phone",
+    "Single or multiple pick per row",
+    "Built from Answer option rows, 48px targets",
+    "Locks and restores the value after an iframe remount"
+  ],
+  "lead": "ONE custom element — <aha-matrix> — for a matrix question on the audience phone of a slide type or survey. Each row (a statement) is a labelled group of <aha-answer-option> rows, one per column, so the grid reads top to bottom on a phone; wider hosts flow the columns side by side. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) binds events through a ref; Vue binds the custom element natively.",
+  "tokensUsed": [
+    "text-default",
+    "color-primary",
+    "radius-default",
+    "space-8",
+    "space-24",
+    "weight-semibold"
+  ],
+  "spec": [
+    {
+      "label": "Row label",
+      "value": "16px / 24px, 600, deck ink; wraps, never truncates; dir=auto for right-to-left text"
+    },
+    {
+      "label": "Columns",
+      "value": "one Answer option row per column (min-height 48, radius 8, frosted surface); 8px between them; side by side only when each gets at least 200px, so a phone stacks them"
+    },
+    {
+      "label": "Rows",
+      "value": "24px between statement groups"
+    },
+    {
+      "label": "Pick",
+      "value": "radio rows (single, arrow keys move and pick inside one row) or checkbox rows (multiple); Tab moves to the next statement"
+    },
+    {
+      "label": "Locked",
+      "value": "disabled or a locked lock-key: every row shows the Answer option locked look, the picks stay at full strength"
+    }
+  ],
+  "props": [
+    {
+      "name": "ink",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck ink (xprops.slide.textColour) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "accent",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck accent (presentationColorPalette[0]) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "rows",
+      "type": "JSON [{id, label}] | string[]",
+      "default": "[]",
+      "desc": "The statements. A plain string's id is its index. Also the `rows` property"
+    },
+    {
+      "name": "columns",
+      "type": "JSON [{id, label}] | string[]",
+      "default": "[]",
+      "desc": "The answer scale shared by every row. A plain string's id is its index. Also the `columns` property"
+    },
+    {
+      "name": "selection-mode",
+      "type": "single | multiple",
+      "default": "single",
+      "desc": "One column per row (radio rows) or several (checkbox rows)"
+    },
+    {
+      "name": "value",
+      "type": "JSON {rowId: columnId[]}",
+      "default": "{}",
+      "desc": "The picks; rows with no pick are left out. Also the `value` property"
+    },
+    {
+      "name": "group-label",
+      "type": "string",
+      "default": "Matrix question",
+      "desc": "The accessible name of the whole question: pass the translated question"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Shows the locked look and ignores picks"
+    },
+    {
+      "name": "lock-key",
+      "type": "string",
+      "default": "—",
+      "desc": "The submission-lock key for this question: once a submission is locked under it, the element locks and restores the submitted value, including after an iframe remount"
+    },
+    {
+      "name": "change",
+      "type": "CustomEvent<{value, row, column}>",
+      "default": "—",
+      "desc": "Fires on every pick with the whole value and the row and column just picked"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Matrix",
+        "when": "several statements rated on the same set of answers (a satisfaction grid, a Likert block)"
+      },
+      {
+        "what": "Answer list",
+        "when": "one question with a fixed set of answers"
+      },
+      {
+        "what": "Not for",
+        "when": "a numeric 0-10 score (Number scale) or free text"
+      }
+    ],
+    "note": "Replaces a hand-built table of radio buttons, which scrolls sideways on a phone and loses the deck ink, the frosted surface and the submission lock. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font."
+  },
+  "surfaces": [
+    "audience"
+  ],
+  "reuse": {
+    "entry": "./aha-matrix",
+    "registers": "aha-matrix",
+    "exportsNamed": [
+      "AhaMatrix",
+      "defineAhaMatrix"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "matrix.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a version-pinned CDN import and plain HTML, for a build-less slide page."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "matrix.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "matrix.vue.txt"
+    }
+  ],
+  "preview": "matrix.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP), on the light-deck example with no deck applied (DS defaults).",
+    "ready": "!!(document.querySelector('aha-matrix[data-probe]')&&document.querySelector('aha-matrix[data-probe]').shadowRoot&&document.querySelector('aha-matrix[data-probe]').shadowRoot.querySelector('aha-answer-option')&&document.querySelector('aha-matrix[data-probe]').shadowRoot.querySelector('aha-answer-option').shadowRoot)",
+    "singleUI": true,
+    "measure": "(function(){var r=document.querySelector('aha-matrix[data-probe]').shadowRoot;function cs(n){return n?getComputedStyle(n):{}}var opts=r.querySelectorAll('aha-answer-option');var row=opts[0].shadowRoot.querySelector('.row');var picked=opts[1].shadowRoot.querySelector('.control');var lab=cs(r.querySelector('.row-label'));return{rowHeight:cs(row).height,rowRadius:cs(row).borderTopLeftRadius,ink:lab.color,labelSize:lab.fontSize,optionGap:cs(r.querySelector('.options')).rowGap,groupGap:cs(r.querySelector('.matrix')).rowGap,pickedControl:cs(picked).borderTopColor};})()",
+    "expect": {
+      "rowHeight": "48px",
+      "rowRadius": "8px",
+      "ink": "rgb(26, 26, 26)",
+      "labelSize": "16px",
+      "optionGap": "8px",
+      "groupGap": "24px",
+      "pickedControl": "rgb(231, 14, 104)"
+    }
+  },
+  "environment": [
+    "audience"
+  ]
+}

@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Matrix</title>
+</head>
+<body>
+  <div id="phone" style="width:360px">
+    <aha-matrix id="single" rows='[{"id":"venue","label":"Venue"},{"id":"talks","label":"Talks"}]'
+      columns='[{"id":"poor","label":"Poor"},{"id":"ok","label":"OK"},{"id":"great","label":"Great"}]'></aha-matrix>
+  </div>
+  <aha-matrix id="multiple" selection-mode="multiple" rows='["Planning"]' columns='["Docs","Slides"]'></aha-matrix>
+  <aha-matrix id="disabled" disabled value='{"0":["1"]}' rows='["Planning"]' columns='["Docs","Slides"]'></aha-matrix>
+  <div dir="rtl" style="width:900px"><aha-matrix id="rtl" rows='["A","B"]' columns='["x","y","z"]'></aha-matrix></div>
+  <script type="module">
+    await import('../lib/aha-matrix.js');
+    await customElements.whenDefined('aha-matrix');
+    await customElements.whenDefined('aha-answer-option');
+    window.matrixFixtureReady = !!document.querySelector('#single').shadowRoot?.querySelector('aha-answer-option')?.shadowRoot;
+  </script>
+</body>
+</html>

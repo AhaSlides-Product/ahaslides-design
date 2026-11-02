@@ -1,0 +1,26 @@
+<div class="pad">
+  <div class="lbl">Light deck — one pick per row</div>
+  <div class="row" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:640px;box-sizing:border-box">
+    <aha-matrix data-probe group-label="How was each part of the event?" value='{"venue":["ok"]}'
+      rows='[{"id":"venue","label":"Venue"},{"id":"talks","label":"Talks"}]'
+      columns='[{"id":"poor","label":"Poor"},{"id":"ok","label":"OK"},{"id":"great","label":"Great"}]'></aha-matrix>
+  </div>
+  <div class="lbl">Dark deck — applyDeck() with a white ink and a Vivid Pink accent, several picks per row</div>
+  <div class="row aud-dark" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:420px;box-sizing:border-box;padding:var(--aha-space-16);background:var(--aha-bg-dark);border-radius:var(--aha-radius-lg)">
+    <aha-matrix selection-mode="multiple" group-label="Which tools do you use for each task?" value='{"0":["0","1"]}'
+      rows='["Planning","Meetings"]' columns='["Docs","Slides","Chat"]'></aha-matrix>
+  </div>
+  <div class="lbl">Locked after submitting</div>
+  <div class="row" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:420px;box-sizing:border-box">
+    <aha-matrix disabled group-label="How was each part of the event?" value='{"venue":["great"],"talks":["ok"]}'
+      rows='[{"id":"venue","label":"Venue"},{"id":"talks","label":"Talks"}]'
+      columns='[{"id":"poor","label":"Poor"},{"id":"ok","label":"OK"},{"id":"great","label":"Great"}]'></aha-matrix>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element, so the preview can never drift from lib/ and qa measures what consumers get. -->
+<script type="module">
+  import '../lib/aha-matrix.js';   // registers <aha-matrix>
+  import { applyDeck } from '../lib/audience-deck.js';
+  for (const deck of document.querySelectorAll('.aud-dark')) applyDeck(deck, { textColour: '#FFFFFF', presentationColorPalette: ['#E70E68'] });
+</script>
