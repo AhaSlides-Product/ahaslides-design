@@ -1,0 +1,181 @@
+{
+  "name": "Number scale",
+  "slug": "number-scale",
+  "group": "Audience",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-number-scale",
+  "summary": "A row of tappable whole numbers on the audience phone — a Net Promoter Score 0–10 by default, or any short numeric rating — with the end labels under it.",
+  "highlights": [
+    "NPS 0–10 or any short numeric rating",
+    "48px tappable numbers, six per row on a phone",
+    "Radio group with arrow keys, mirrored in RTL",
+    "Locks and restores the score after an iframe remount"
+  ],
+  "lead": "ONE custom element — <aha-number-scale> — for a score the participant taps rather than drags (<aha-scale-slider> is the dragged scale). Framework-free, loaded by URL from the version-pinned CDN with tokens.css. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) binds events through a ref; Vue binds the custom element natively.",
+  "tokensUsed": [
+    "text-default",
+    "color-primary",
+    "white",
+    "radius-default",
+    "space-4",
+    "space-8",
+    "space-16",
+    "weight-semibold"
+  ],
+  "spec": [
+    {
+      "label": "Number",
+      "value": "height 48, radius 8, 1px ink hairline at 12% on the frosted surface; 16px / 24px, 600, deck ink"
+    },
+    {
+      "label": "Gap",
+      "value": "4px between numbers"
+    },
+    {
+      "label": "Layout",
+      "value": "one equal row while each number gets at least 40px; below that (an 11-point scale under 480px) six per row"
+    },
+    {
+      "label": "Pick",
+      "value": "filled with the deck accent, number in the accent ink; the keyboard focus ring is a 2px outline in the deck ink, offset 2px"
+    },
+    {
+      "label": "End labels",
+      "value": "14px / 20px, deck ink at 76%, under the numbers, low at the start and high at the end; also read out with the end numbers"
+    },
+    {
+      "label": "Locked",
+      "value": "disabled or a locked lock-key: the other numbers mute to 55%, the pick stays at full strength"
+    }
+  ],
+  "props": [
+    {
+      "name": "ink",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck ink (xprops.slide.textColour) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "accent",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck accent (presentationColorPalette[0]) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "min",
+      "type": "integer",
+      "default": "0",
+      "desc": "The first number"
+    },
+    {
+      "name": "max",
+      "type": "integer",
+      "default": "10",
+      "desc": "The last number"
+    },
+    {
+      "name": "value",
+      "type": "integer",
+      "default": "—",
+      "desc": "The picked number; also the `value` property (null before a pick)"
+    },
+    {
+      "name": "low-label / high-label",
+      "type": "string",
+      "default": "—",
+      "desc": "The end labels under the scale (\"Not at all likely\" / \"Extremely likely\"); pass translated text"
+    },
+    {
+      "name": "group-label",
+      "type": "string",
+      "default": "Score",
+      "desc": "The radio group's accessible name: pass the translated question"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Mutes the other numbers and ignores picks"
+    },
+    {
+      "name": "lock-key",
+      "type": "string",
+      "default": "—",
+      "desc": "The submission-lock key for this question: once a submission is locked under it, the element locks and restores the submitted value, including after an iframe remount"
+    },
+    {
+      "name": "change",
+      "type": "CustomEvent<{value}>",
+      "default": "—",
+      "desc": "Fires on every pick with the number"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Number scale",
+        "when": "a score of up to about 11 whole numbers the participant taps: NPS 0–10, a 1–5 or 1–10 rating shown as numbers"
+      },
+      {
+        "what": "Scale slider",
+        "when": "a wide or continuous range the participant drags"
+      },
+      {
+        "what": "Not for",
+        "when": "stars or faces (a rating), or a free number (an input)"
+      }
+    ],
+    "note": "Replaces a hand-built row of number buttons, which re-opens the radio keyboard contract, the deck ink, the frosted surface and the submission lock. NPS bands (detractor, passive, promoter) are not coloured: that is a colour-rules decision. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font."
+  },
+  "surfaces": [
+    "audience"
+  ],
+  "reuse": {
+    "entry": "./aha-number-scale",
+    "registers": "aha-number-scale",
+    "exportsNamed": [
+      "AhaNumberScale",
+      "defineAhaNumberScale"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "number-scale.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a version-pinned CDN import and plain HTML, for a build-less slide page."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "number-scale.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "number-scale.vue.txt"
+    }
+  ],
+  "preview": "number-scale.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP), on the light-deck example with no deck applied (DS defaults).",
+    "ready": "!!(document.querySelector('aha-number-scale[data-probe]')&&document.querySelector('aha-number-scale[data-probe]').shadowRoot&&document.querySelector('aha-number-scale[data-probe]').shadowRoot.querySelector('.number'))",
+    "singleUI": true,
+    "measure": "(function(){var r=document.querySelector('aha-number-scale[data-probe]').shadowRoot;function cs(n){return n?getComputedStyle(n):{}}var b=r.querySelectorAll('.number');var c=cs(b[0]);var p=cs(r.querySelector('.number[aria-checked=\"true\"]'));return{height:c.height,radius:c.borderTopLeftRadius,ink:c.color,size:c.fontSize,gap:cs(r.querySelector('.scale')).columnGap,picked:p.backgroundColor,pickedInk:p.color};})()",
+    "expect": {
+      "height": "48px",
+      "radius": "8px",
+      "ink": "rgb(26, 26, 26)",
+      "size": "16px",
+      "gap": "4px",
+      "picked": "rgb(231, 14, 104)",
+      "pickedInk": "rgb(255, 255, 255)"
+    }
+  },
+  "environment": [
+    "audience"
+  ]
+}

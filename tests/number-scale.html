@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Number scale</title>
+</head>
+<body>
+  <div style="width:360px"><aha-number-scale id="phone" low-label="Not at all likely" high-label="Extremely likely"></aha-number-scale></div>
+  <div style="width:720px"><aha-number-scale id="wide"></aha-number-scale></div>
+  <div dir="rtl" style="width:720px"><aha-number-scale id="rtl" value="5"></aha-number-scale></div>
+  <aha-number-scale id="locked" min="1" max="5" value="4" disabled></aha-number-scale>
+  <script type="module">
+    await import('../lib/aha-number-scale.js');
+    await customElements.whenDefined('aha-number-scale');
+    window.numberScaleFixtureReady = !!document.querySelector('#phone').shadowRoot?.querySelector('.number');
+  </script>
+</body>
+</html>
