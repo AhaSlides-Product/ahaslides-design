@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.902.0 — 2026-11-02
+## 0.906.0 — 2026-11-03
 ### Added
 - `<aha-chart type="nps">` takes two more data shapes beside the 11 per-score counts: `{ ratings: [...] }`, each response's 0 to 10 rating (a number or `{ score }`; anything else is skipped), drawn as the same 11 columns; and `{ promoters, passives, detractors }`, bracket totals only, drawn as one bar split by bracket share with the key row and the score, and no per-score columns. Any object shape may add `score` to show the host's own NPS instead of the computed one. The 11-count input renders exactly as before (#570)
 - Revert: revert the PR; the shapes are new and opt-in
