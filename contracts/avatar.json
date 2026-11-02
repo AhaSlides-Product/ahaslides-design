@@ -4,7 +4,7 @@
   "environment": ["product", "audience"],
   "group": "Data display",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-avatar",
   "summary": "Represent a person or entity with a photo, initials, or an icon — solo or in a stacked group.",
   "highlights": ["Represents a person or entity", "Photo, initials or icon", "Solo or stacked in a group"],

@@ -4,7 +4,7 @@
   "environment": ["product"],
   "group": "Data display",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-collapse",
   "summary": "A single expandable panel that hides secondary content until asked.",
   "highlights": ["Single expandable panel", "Hides secondary content until asked"],

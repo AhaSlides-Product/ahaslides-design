@@ -7,7 +7,7 @@
   ],
   "group": "AhaSlides surfaces",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-status-badge",
   "summary": "One 28px badge for a status or a due state: four styles (quiet, emphasis, alert, plain) with a dot, a 16px icon or no marker before the label.",
   "highlights": [

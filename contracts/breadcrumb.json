@@ -1,9 +1,10 @@
 {
   "name": "Breadcrumb",
   "slug": "breadcrumb",
+  "environment": ["product"],
   "group": "Navigation",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-breadcrumb",
   "summary": "A trail of ancestor links ending in the current page — and, at size=page-title, the page heading itself (there is no separate page-title component).",
   "highlights": ["Trail of ancestor links ending in the current page", "At size=page-title it becomes the page heading itself", "No separate page-title component"],

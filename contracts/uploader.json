@@ -4,7 +4,7 @@
   "slug": "uploader",
   "group": "Data entry",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-uploader",
   "summary": "Select files by clicking a drop zone or dragging onto it — then manage them as rows or picture tiles with per-item state.",
   "highlights": ["Select files by clicking or dragging onto a drop zone", "Manage them as rows or picture tiles", "Per-item state"],

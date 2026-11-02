@@ -3,7 +3,7 @@
   "slug": "input",
   "group": "Data entry",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "environment": ["product", "audience"],
   "element": "aha-input",
   "summary": "A single-line text field — names, search, numbers, short free text — with sizes, error status, affixes, a clear circled ✕ and a password reveal.",

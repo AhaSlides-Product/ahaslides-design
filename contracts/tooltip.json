@@ -4,7 +4,7 @@
   "environment": ["product"],
   "group": "Data display",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-tooltip",
   "summary": "A short, transient hint shown on mouse hover or keyboard focus of its trigger (not on click or tap).",
   "highlights": ["Short, transient hint", "Shown on mouse hover or keyboard focus of its trigger (not on click or tap)"],

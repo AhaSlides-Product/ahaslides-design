@@ -29,8 +29,8 @@ parts/*  (authored)    ─┘        │
 
 ## Architecture — hybrid, by tier
 
-- **Leaf primitives** (button, checkbox, input, tag, badge, switch) → ONE shared **Lit web component**,
-  imported unchanged by React and Vue. Same code + shadow-DOM CSS → zero drift, themed only by `--aha-*` tokens.
+- **Leaf primitives** (button, checkbox, input, tag, badge, switch) → ONE shared **standard, dependency-free web component** (Custom Elements + shadow DOM),
+  usable unchanged in plain HTML, React, Vue or any framework. Same code + shadow-DOM CSS → zero drift, themed only by `--aha-*` tokens.
 - **Composites** (table, form, datepicker, select-with-search) → **antd v6** (React) + **ant-design-vue v4** (Vue)
   wrappers, themed by the same tokens; residual drift caught by visual regression.
 
@@ -98,6 +98,25 @@ the release that built it.
 
 It's **additive** — bundled apps should keep importing per-element (above) so unused elements
 tree-shake out; `all.js` intentionally pulls the whole set.
+
+**Building a website or landing page with no build step** (pure HTML/CSS/JS)? Link the Marketing stylesheet
+next to the tokens, load the motion script once, then paste only each section's HTML from the
+[Websites tab](https://design.ahaslides.io/marketing/hero/index.html), never its `<style>` block:
+
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.595.0/lib/tokens.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.595.0/lib/marketing.css">
+<script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.595.0/lib/all.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.595.0/lib/marketing-motion.js"></script>
+
+<!-- then each section's HTML, in page order: Navigation, Hero, Logos, Features, … Footer -->
+```
+
+`lib/marketing.css` (about 196 KB, 21 KB gzipped) styles every section; `lib/marketing/<slug>.css`
+(`hero.css`, `faq.css`, …) styles one, for a page that uses only a few. Both are generated from
+`marketing/*.json` and render the same as the paste-and-run snippets. Webflow, or any page that cannot
+link a stylesheet: keep pasting the whole snippet, CSS included. Check the page with
+`node screen-lint.mjs --surface=website <file>` (`ds-class-without-css` reads the linked stylesheet).
 
 Only need one surface? Each has its own entry with just the elements it uses (plus the shared controls such as
 `<aha-button>`), same path and tag: `lib/audience.js` (also exports `applyDeck`), `lib/settings.js`, `lib/canvas.js`. A slide type's settings panel is checked with `node screen-lint.mjs --surface=settings <files>`, which hard-fails raw form controls, any `<aha-*>` tag `lib/settings.js` does not register, a `size="small"`/`"sm"`/`"large"`/`"lg"` settings field and `maxlength` on `<aha-input>` (use `<aha-counted-input>`). A whole website page is checked with `node screen-lint.mjs --surface=website <files>`: the product rules, the Marketing sections' own `min-width` breakpoints accepted in `@container`/`@media` conditions, a second `<h1>` and an `<img>` without alt hard-fail.

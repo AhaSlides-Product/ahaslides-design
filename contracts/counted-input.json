@@ -3,7 +3,7 @@
   "slug": "counted-input",
   "group": "Settings",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "environment": ["product", "audience"],
   "element": "aha-counted-input",
   "summary": "A single-line settings field whose character counter shows only while the field is focused and is hidden at rest — the shared CountedInput pattern for option/answer text.",

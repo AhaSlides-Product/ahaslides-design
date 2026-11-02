@@ -1,9 +1,10 @@
 {
   "name": "Screen heading",
   "slug": "screen-heading",
+  "environment": ["product"],
   "group": "AhaSlides surfaces",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-screen-heading",
   "summary": "A product page header — a title/greeting or a breadcrumb trail on the left, action buttons on the right, responsive across desktop / tablet / phone.",
   "highlights": ["Product page header", "Title, greeting or breadcrumb trail left; action buttons right", "Responsive across desktop, tablet and phone"],

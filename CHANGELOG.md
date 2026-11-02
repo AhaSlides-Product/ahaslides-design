@@ -33,13 +33,23 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.594.0 — 2026-11-02
+## 0.596.0 — 2026-11-02
 ### Added
 - `screen-lint` hard-fails three new rules on every surface: `status-hue-class` (a `text-red-*`, `bg-green-*`, `border-yellow-*`, `text-danger` or similar utility class painting status in a hue; error text stays the default ink in `<aha-field-error>` or `<aha-alert type="error">`), `foreign-icon-library` (`<font-awesome-icon>`, `fa fa-*`, `zmdi`, `material-icons` and other icon libraries; glyphs are `<aha-icon>`) and `brand-logo-colour` (a `logo/original/` file outside the Logo library hover pattern, or the kit's `icon-maintain-color`, colour rule 2.6). Escape with `ds-lint-allow: status-hue`, `icon` or `brand-logo (why)` (#495)
 - Icons `system-google-logo` (the Google G) and `system-microsoft-logo` (the four squares): one-colour brand glyphs drawn like `system-facebook-logo` and `system-linkedin-logo` (#495)
 ### Changed
 - Colour rule 2.6 and criterion C7: a Log in with Google or Log in with Microsoft button shows the brand's glyph from the icon library (`<aha-icon name="system-google-logo">`, default ink) at rest and the original colour logo (`logo/original/`) on hover and keyboard focus. Other third-party logos are unchanged (#495)
 - Revert: revert the PR; the icons and lint rules are additive
+
+## 0.595.0 — 2026-11-02
+### Added
+- `lib/marketing.css`: every website Marketing section's CSS in one generated stylesheet (`@ahaslides-product/design/marketing.css`), and `lib/marketing/<slug>.css` for one section. A no-build website page now links `tokens.css`, `marketing.css`, `all.js` and `marketing-motion.js` from a pinned tag and pastes only each section's HTML; it renders pixel-identical to the paste-and-run snippet at 1440, 768 and 375 px. Paste-and-run stays the Webflow route (#503)
+- `screen-lint --surface=website`: `ds-class-without-css` reads a linked `lib/marketing.css` or `lib/marketing/<slug>.css` as the page's CSS, so a page that links the stylesheet is checked against it (#503)
+### Changed
+- The Websites pages, `marketing.llms.txt`, `marketing.agent.json` (`consume.noBuild`), `llms.txt`, the README and website rule W1 document the linked-stylesheet recipe first, paste-and-run second (#503)
+- Docs: the leaf components are described as standard, dependency-free web components (Custom Elements + shadow DOM), usable in plain HTML, React, Vue or any framework, not as Lit components: the README, the site header label (now `HTML · React · Vue`), the agent feed overview, the Components page and 58 contract badges. No `lib/aha-*.js` file has ever imported Lit; the internal tier id `leaf-lit` is unchanged. The 16 of those contracts that had no `environment` now declare one and leave the environments baseline (#503)
+- Revert: revert the PR; the stylesheets are new generated files and the docs return to paste-and-run only, no section CSS or markup changes (#503)
+
 
 ## 0.593.0 — 2026-11-02
 ### Added

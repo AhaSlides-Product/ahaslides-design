@@ -4,7 +4,7 @@
   "group": "Settings",
   "environment": ["product"],
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-number-with-unit",
   "summary": "A 4ch digit input with the unit written IN FULL inline (rendered exactly as passed — \"seconds\", \"points\" — muted grey), a hover ▲/▼ stepper, a hard digit cap, clamp-on-change, and an error line — the settings field for a number that carries a unit.",
   "highlights": ["4ch digit input with the unit written in full, muted grey", "Hover stepper, hard digit cap, clamp-on-change, error line", "Settings field for a number that carries a unit"],

@@ -3,7 +3,7 @@
   "slug": "card-select",
   "group": "Settings",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-card-select",
   "environment": ["product"],
   "summary": "Single-select as an icon+label card grid — pick one of N options each shown as its own visual card, with roving radiogroup keyboard navigation. Two layouts: labelled tiles (stretch to fill `columns`) or compact 44px icon-only squares.",

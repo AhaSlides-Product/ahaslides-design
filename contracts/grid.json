@@ -1,9 +1,10 @@
 {
   "name": "Grid",
   "slug": "grid",
+  "environment": ["product"],
   "group": "Layout",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-grid",
   "summary": "A CSS-grid container — a fixed column count or a responsive auto-fit, with the DS gutter scale, track justify/align, and a responsive collapse.",
   "highlights": ["CSS-grid container", "Fixed column count or responsive auto-fit", "DS gutter scale, track alignment, responsive collapse"],

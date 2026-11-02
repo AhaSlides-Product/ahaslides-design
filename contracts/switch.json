@@ -4,7 +4,7 @@
   "slug": "switch",
   "group": "Data entry",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-switch",
   "summary": "A single setting that takes effect immediately — on or off.",
   "highlights": ["Single setting that takes effect immediately", "On or off"],

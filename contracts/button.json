@@ -4,7 +4,7 @@
   "environment": ["product", "audience"],
   "group": "General",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-button",
   "reuse": { "entry": "./aha-button", "registers": "aha-button", "exportsNamed": ["AhaButton", "defineAhaButton"] },
   "summary": "Trigger an action or navigation — the primary interactive control.",

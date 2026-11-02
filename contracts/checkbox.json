@@ -4,7 +4,7 @@
   "environment": ["product", "audience"],
   "group": "Forms",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-checkbox",
   "summary": "Let a user turn one or more independent options on or off.",
   "highlights": ["Turns one or more independent options on or off"],

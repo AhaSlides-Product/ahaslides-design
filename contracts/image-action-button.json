@@ -4,7 +4,7 @@
   "environment": ["product", "audience"],
   "group": "Settings",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-image-action-button",
   "summary": "The compact per-option image control — an image icon button with empty / loading / thumbnail states and a Change/Edit/Delete menu; it emits intents, the host owns the modals.",
   "highlights": ["Compact per-option image control", "Empty, loading and thumbnail states with a Change, Edit, Delete menu", "Emits intents; the host owns the modals"],

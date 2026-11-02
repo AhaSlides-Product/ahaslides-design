@@ -5,7 +5,7 @@
   "group": "Settings",
   "hubRef": "settings",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-settings-list",
   "summary": "A schema-driven group of settings rows — label left (with a \"?\" help tooltip), control right — reusing existing DS controls.",
   "highlights": ["Schema-driven group of settings rows", "Label left with “?” tooltip, control right", "Reuses existing DS controls"],
