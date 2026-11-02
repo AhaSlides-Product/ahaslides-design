@@ -16,7 +16,7 @@ All notable changes to `@ahaslides-product/design`, **newest first**.
   number and commits `chore(release): X.Y.Z` to master. Run the gate locally as `AUTO_VERSION=on npm run check`.
 
 The gate rejects an unfilled `(#129)` placeholder in every released entry: link the **real** PR number
-(under `## Unreleased`, `(#PR)` is fine; the release fills it in).
+(under `## Unreleased`, `(#514)` is fine; the release fills it in).
 
 **Format** — one entry per version:
 
@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.605.1 — 2026-11-02
 ### Fixed
-- `<aha-input>` built-in label (`label` attribute) is regular 400 in secondary ink (#4A4A4A), matching the Form label; it was semibold 600 in default ink. Size 14/21 and the 4px gap are unchanged. `<aha-counted-input>` and other fields that wrap `<aha-input>` follow. Group headers and SectionHeader stay semibold (#PR)
+- `<aha-input>` built-in label (`label` attribute) is regular 400 in secondary ink (#4A4A4A), matching the Form label; it was semibold 600 in default ink. Size 14/21 and the 4px gap are unchanged. `<aha-counted-input>` and other fields that wrap `<aha-input>` follow. Group headers and SectionHeader stay semibold (#514)
 - Revert: revert the PR; one CSS rule in `lib/aha-input.js`
 
 ## 0.605.0 — 2026-11-02
@@ -82,7 +82,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.596.2 — 2026-11-02
 ### Fixed
-- CHANGELOG: the 0.595.1 entry links its real PR number instead of the `(#PR)` placeholder that auto-merge shipped, which turned the standards gate red on master (#506)
+- CHANGELOG: the 0.595.1 entry links its real PR number instead of the `(#514)` placeholder that auto-merge shipped, which turned the standards gate red on master (#506)
 - Revert: revert the PR; changelog text only
 
 
