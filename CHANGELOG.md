@@ -33,11 +33,22 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.624.0 — 2026-11-02
+## 0.646.0 — 2026-11-02
 ### Added
 - `aha-counted-input` takes `type="email"`, `"url"` and `"password"` (masked), and passes `inputmode` and `dir` to its inner field: `inputmode="decimal"` gives a number keypad on a text field and keeps partial input such as `1e`, and `dir="auto"` reads a right-to-left answer right to left. `aha-audience-field` documents the new field options. Fields without the new values render unchanged (#539)
 - Revert: revert the PR; nothing else depends on the new values
 
+
+## 0.624.0 — 2026-11-02
+### Added
+- `palette="deck"` on `<aha-progress>` and `<aha-progressbar>`: the audience flavour of the bar. Track, fill, steps, ring and label take the shared `--aha-deck-*` ladder that `applyDeck()` writes (track ink at 12% with the 1px hairline and frost, fill the deck accent, label ink-secondary, the deck's own font), the same bar as `<aha-countdown>`, so it no longer shows a bright product track on a dark deck. `ink` / `accent` set the deck on one element. Without `palette` the bar renders as before (#528)
+- `DECK_VARIABLES` export from `audience-deck`: the deck ladder's private variables as bare declarations, for an element that offers the deck as an opt-in flavour; `DECK_STYLE` is built from it and unchanged (#528)
+- Revert: revert the PR; the attribute is opt-in, so no consumer changes render
+
+## 0.621.1 — 2026-11-02
+### Fixed
+- CHANGELOG: the 0.609.0 entry links its real PR number instead of the `(#PR)` placeholder that auto-merge shipped, which turned the standards gate red on master (#533)
+- Revert: revert the PR; changelog text only
 
 ## 0.621.0 — 2026-11-02
 ### Added
@@ -80,7 +91,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.609.0 — 2026-11-02
 ### Added
-- `aha-skeleton` takes optional `width` and `height` (a number is px, or a CSS length: px, rem, em, %, vw, vh, calc()), so a placeholder can match the real content; on a paragraph they size the stack and each row. Unset, every variant renders as before (#PR)
+- `aha-skeleton` takes optional `width` and `height` (a number is px, or a CSS length: px, rem, em, %, vw, vh, calc()), so a placeholder can match the real content; on a paragraph they size the stack and each row. Unset, every variant renders as before (#518)
 - Revert: revert the PR; the attributes are opt-in
 
 ## 0.605.2 — 2026-11-02
