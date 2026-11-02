@@ -16,7 +16,7 @@ All notable changes to `@ahaslides-product/design`, **newest first**.
   number and commits `chore(release): X.Y.Z` to master. Run the gate locally as `AUTO_VERSION=on npm run check`.
 
 The gate rejects an unfilled `(#129)` placeholder in every released entry: link the **real** PR number
-(under `## Unreleased`, `(#PR)` is fine; the release fills it in).
+(under `## Unreleased`, `(#523)` is fine; the release fills it in).
 
 **Format** — one entry per version:
 
