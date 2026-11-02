@@ -66,3 +66,27 @@ test('on a 360px phone the columns stack in one full-width column with no sidewa
   assert.deepEqual(result, { columns: 1, overflow: false, width: 360 });
 });
 
+
+test('each row is one Tab stop (the first option, then the pick), so a 2x3 matrix has two Tab stops, not six', { skip }, async () => {
+  const result = await evaluateInPage(fixture, `(() => {
+    const matrix = document.querySelector('#single');
+    const stops = () => [...matrix.shadowRoot.querySelectorAll('aha-answer-option')].filter((o) => o.shadowRoot.querySelector('.row').tabIndex === 0).map((o) => o.dataset.rowId + ':' + o.dataset.columnId);
+    const before = stops();
+    ${pick('single', 'venue', 'great')};
+    return { before, after: stops() };
+  })()`, ready);
+  assert.deepEqual(result.before, ['venue:poor', 'talks:poor']);
+  assert.deepEqual(result.after, ['venue:great', 'talks:poor']);
+});
+
+test('arrow keys stay inside one row and mirror in right-to-left', { skip }, async () => {
+  const result = await evaluateInPage(fixture, `(() => {
+    const options = (id, row) => [...document.querySelector('#' + id).shadowRoot.querySelectorAll('aha-answer-option')].filter((o) => o.dataset.rowId === row);
+    const press = (option, key) => option.shadowRoot.querySelector('.row').dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true, composed: true, cancelable: true }));
+    const picked = (id, row) => document.querySelector('#' + id).value[row]?.[0];
+    const ltr = options('single', 'venue'); press(ltr[0], 'ArrowRight');
+    const rtl = options('rtl', '0'); press(rtl[0], 'ArrowLeft');
+    return { ltr: picked('single', 'venue'), rtl: picked('rtl', '0'), otherRowUntouched: picked('single', 'talks') ?? null };
+  })()`, ready);
+  assert.deepEqual(result, { ltr: 'ok', rtl: '1', otherRowUntouched: null });
+});
