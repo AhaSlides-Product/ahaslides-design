@@ -33,6 +33,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.611.0 — 2026-11-02
+### Added
+- `palette="deck"` on `<aha-progress>` and `<aha-progressbar>`: the audience flavour of the bar. Track, fill, steps, ring and label take the shared `--aha-deck-*` ladder that `applyDeck()` writes (track ink at 12% with the 1px hairline and frost, fill the deck accent, label ink-secondary, the deck's own font), the same bar as `<aha-countdown>`, so it no longer shows a bright product track on a dark deck. `ink` / `accent` set the deck on one element. Without `palette` the bar renders as before (#PR)
+- `DECK_VARIABLES` export from `audience-deck`: the deck ladder's private variables as bare declarations, for an element that offers the deck as an opt-in flavour; `DECK_STYLE` is built from it and unchanged (#PR)
+- Revert: revert the PR; the attribute is opt-in, so no consumer changes render
+
 ## 0.605.2 — 2026-11-02
 ### Changed
 - Contracts Icon, Button, Tooltip, Tag, Avatar and Switch now declare the `web` environment, and Product lockup declares `product, web` (it leaves the environment baseline), so the Websites route lists all nine web components the Marketing sections use: aha-icon, aha-button, aha-tooltip, aha-tag, aha-segmented, aha-avatar, aha-product-lockup, aha-rate and aha-switch (#516)

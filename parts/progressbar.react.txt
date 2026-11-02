@@ -10,3 +10,6 @@ function QuizProgress({ current, total }) {
 }
 
 <aha-progressbar value={uploadedPercent} label="Uploading image" status={failed ? 'exception' : 'active'} />
+
+// Audience page: applyDeck() once on the root, then palette="deck" takes the deck ladder.
+<aha-progressbar palette="deck" value={page} max={pageCount} label="Survey progress" value-text={`Page ${page} of ${pageCount}`} />
