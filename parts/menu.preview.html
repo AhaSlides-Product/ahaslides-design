@@ -52,6 +52,18 @@
       {"key":"remove","label":"Remove access","description":"They lose access to this presentation","icon":"system-trash","danger":true}
     ]'>
   </aha-menu>
+
+  <div class="lbl">Overflow menu (rich row, testid, disabled, danger)</div>
+  <aha-menu value="rename"
+    items='[
+      {"key":"rename","label":"Rename","icon":"system-pencil-simple","testid":"menu-rename"},
+      {"key":"export","label":"Export to PDF","icon":"system-file-pdf","slot":"export","attrs":{"data-testid":"menu-export"}},
+      {"key":"duplicate","label":"Duplicate","icon":"system-copy","disabled":true},
+      {"type":"divider"},
+      {"key":"delete","label":"Delete","icon":"system-trash","danger":true,"testid":"menu-delete"}
+    ]'>
+    <span slot="export">Export to PDF <aha-tag color="primary">Pro</aha-tag></span>
+  </aha-menu>
 </div>
 
 <!-- Imports the REAL shipped element (../lib/aha-menu.js) + the icon library — no inlined copy, so
@@ -63,4 +75,5 @@
 <script type="module">
   import '../lib/icons.js';       // registers <aha-icon> so the leading/caret glyphs resolve from the DS library
   import '../lib/aha-menu.js';    // registers <aha-menu> — the shipped primitive, byte-identical to what consumers get
+  import '../lib/aha-tag.js';
 </script>
