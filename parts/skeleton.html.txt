@@ -15,7 +15,7 @@
     <aha-skeleton variant="paragraph" rows="3"></aha-skeleton>
     <div style="display:flex; gap:12px">
       <aha-skeleton variant="button"></aha-skeleton>       <!-- round for a pill: variant="button" round -->
-      <aha-skeleton variant="image" style="width:120px"></aha-skeleton>
+      <aha-skeleton variant="image" width="120" height="64"></aha-skeleton>   <!-- width / height: a number is px, or any CSS length like 50% -->
     </div>
   </div>
 </div>

@@ -6,7 +6,7 @@
     "slidetype",
     "system"
   ],
-  "count": 355,
+  "count": 362,
   "icons": {
     "filetype-course": {
       "family": "filetype",
@@ -961,6 +961,21 @@
         "grow"
       ]
     },
+    "system-arrows-split": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M5.8 11.85L3.6 14.05L1.4 11.85M14.6 11.85L12.4 14.05L10.2 11.85M8 0.85L8 4.15L3.6 8.55L3.6 14.05M8 4.15L12.4 8.55L12.4 14.05\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "branching",
+        "logic",
+        "branch",
+        "split",
+        "conditional",
+        "skip logic",
+        "paths"
+      ]
+    },
     "system-asterisk": {
       "family": "system",
       "viewBox": "0 0 16 16",
@@ -1386,6 +1401,20 @@
         "correct",
         "approved",
         "tick"
+      ]
+    },
+    "system-check-square": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M14 1.4H2C1.669 1.4 1.4 1.669 1.4 2V14C1.4 14.331 1.669 14.6 2 14.6H14C14.331 14.6 14.6 14.331 14.6 14V2C14.6 1.669 14.331 1.4 14 1.4Z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M5.25 8.55L6.9 10.2L10.75 6.35\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "checkbox",
+        "tick box",
+        "checked",
+        "select all that apply",
+        "multiple select",
+        "check square"
       ]
     },
     "system-check": {
@@ -2490,6 +2519,20 @@
         "flame"
       ]
     },
+    "system-flag": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M2.5 14.6L2.5 3.05M2.5 11.3c4.4 -3.811 7.7 3.811 12.1 0V3.05C10.2 6.861 6.9 -0.761 2.5 3.05\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "flag",
+        "report",
+        "mark",
+        "milestone",
+        "finish",
+        "goal"
+      ]
+    },
     "system-flow-arrow": {
       "family": "system",
       "viewBox": "0 0 16 16",
@@ -2792,6 +2835,20 @@
         "praise",
         "reaction",
         "congratulations"
+      ]
+    },
+    "system-hash": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M2.5 5.8L14.6 5.8M11.3 1.95L9.1 14.05M6.9 1.95L4.7 14.05M1.4 10.2L13.5 10.2\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "hash",
+        "number",
+        "numeric",
+        "pound sign",
+        "number rating",
+        "hashtag"
       ]
     },
     "system-heart-straight": {
@@ -3193,6 +3250,20 @@
         "winner"
       ]
     },
+    "system-megaphone": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M9.375 5.044V13.34a0.55 0.55 0 0 0 0.245 0.457l0.756 0.504a0.55 0.55 0 0 0 0.839 -0.325L12.125 10.544M1.125 13.294a0.55 0.55 0 0 0 0.904 0.421C5.632 10.692 9.375 10.544 9.375 10.544h2.75a2.75 2.75 0 0 0 0 -5.5H9.375S5.632 4.895 2.029 1.874A0.55 0.55 0 0 0 1.125 2.294Z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "megaphone",
+        "announcement",
+        "announce",
+        "broadcast",
+        "marketing",
+        "promotion"
+      ]
+    },
     "system-menu": {
       "family": "system",
       "viewBox": "0 0 16 16",
@@ -3371,6 +3442,21 @@
         "background music",
         "sound",
         "melody"
+      ]
+    },
+    "system-neutral-face": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<circle cx=\"5.375\" cy=\"6.5417\" r=\"0.875\" fill=\"currentColor\"/><circle cx=\"10.625\" cy=\"6.5417\" r=\"0.875\" fill=\"currentColor\"/><path d=\"M5.08333 10.625H10.9167M15 8C15 11.866 11.866 15 8 15C4.13401 15 1 11.866 1 8C1 4.13401 4.13401 1 8 1C11.866 1 15 4.13401 15 8Z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "neutral",
+        "meh",
+        "face",
+        "emoji",
+        "okay",
+        "sentiment",
+        "indifferent"
       ]
     },
     "system-note-filled": {
@@ -4258,6 +4344,20 @@
         "arrange",
         "templates",
         "collection"
+      ]
+    },
+    "system-star-filled": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M8.00012 12.1337L11.6853 14.3999C11.7809 14.458 11.8916 14.4864 12.0034 14.4815C12.1151 14.4767 12.2229 14.4388 12.3132 14.3727C12.4034 14.3067 12.472 14.2153 12.5104 14.1102C12.5487 14.0051 12.555 13.891 12.5285 13.7824L11.5264 9.55368L14.8062 6.72512C14.8898 6.65169 14.9501 6.55539 14.9796 6.44809C15.0091 6.34079 15.0066 6.2272 14.9722 6.12133C14.9379 6.01547 14.8734 5.92197 14.7865 5.85238C14.6997 5.78279 14.5944 5.74015 14.4836 5.72974L10.1795 5.37953L8.52139 1.36568C8.47912 1.26212 8.40696 1.17351 8.31412 1.11113C8.22129 1.04875 8.11197 1.01544 8.00012 1.01544C7.88828 1.01544 7.77896 1.04875 7.68612 1.11113C7.59329 1.17351 7.52113 1.26212 7.47886 1.36568L5.82079 5.37953L1.51667 5.72974C1.40512 5.73953 1.29893 5.78198 1.21136 5.85178C1.1238 5.92158 1.05875 6.01563 1.02433 6.12219C0.98991 6.22875 0.987655 6.34308 1.01785 6.45091C1.04804 6.55875 1.10933 6.65529 1.19408 6.72849L4.47386 9.55704L3.47174 13.7824C3.44524 13.891 3.45156 14.0051 3.48989 14.1102C3.52822 14.2153 3.59684 14.3067 3.68708 14.3727C3.77732 14.4388 3.88513 14.4767 3.99688 14.4815C4.10863 14.4864 4.2193 14.458 4.31492 14.3999L8.00012 12.1337Z\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "star",
+        "rated",
+        "rating",
+        "favourite",
+        "active star",
+        "filled star"
       ]
     },
     "system-star": {
