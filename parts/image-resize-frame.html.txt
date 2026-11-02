@@ -1,0 +1,21 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-image-resize-frame> is the SAME shared custom element React and Vue consume. It wraps your <img>;
+     click to select, drag a corner (or Tab to a handle and use the Arrow keys) to resize. It EMITS intents:
+     the host stores the width and owns the lightbox and the delete. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-image-resize-frame.js';   // registers <aha-image-resize-frame>
+</script>
+
+<div style="max-width:640px">
+  <aha-image-resize-frame id="frame" width="60">
+    <img src="https://picsum.photos/1200/675" alt="Team photo">
+  </aha-image-resize-frame>
+</div>
+
+<script type="module">
+  const frame = document.getElementById('frame');
+  frame.addEventListener('width-change', (e) => console.log('save width', e.detail.width));   // once per drag, on release
+  frame.addEventListener('preview', () => console.log('open your lightbox'));
+  frame.addEventListener('delete', () => frame.remove());
+</script>

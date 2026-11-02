@@ -38,6 +38,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `aha-number-scale`: a row of tappable whole numbers for the audience phone, 0–10 by default for a Net Promoter Score (`min`, `max` for any short numeric rating). 48px numbers at least 44px wide, six per row when a phone is too narrow for one row, the pick filled with the deck accent, `low-label` / `high-label` under the scale, a radio group with arrow keys, Home and End (mirrored in right-to-left), `group-label`, `disabled`, `lock-key`, and a `change` event with `{value}` (#541)
 - Revert: revert the PR; the element is new and opt-in
 
+## 0.813.0 — 2026-11-02
+### Added
+- `<aha-image-resize-frame>`: the editor's on-canvas image frame. Wraps your `<img>`; click to select (2px Vivid Pink outline, four corner handles), drag a corner or use the Arrow keys on a handle to resize by width percent (floor max(15%, 120px), never past the natural width), and a hover mask with Preview (secondary) and Delete (danger) buttons, both size md (`actions` slot replaces them); handles draw 12px with an invisible 24px hit zone (44px under a coarse pointer). Emits `preview`, `delete`, `select-change`, `width-input` and `width-change`; the host owns the lightbox and the data. Opt-in, existing tokens only (#549)
+
 ## 0.811.0 — 2026-11-02
 ### Added
 - `<aha-palette-swatch>` (`@ahaslides-product/design/aha-palette-swatch`): a theme's colour palette as five rounded chips of rising heights, the presenter's theme-thumbnail palette. `colors` takes the theme's pipe-separated colours (first five; a shorter palette leaves later chips outlined), `label` gives it an accessible name, otherwise it is decorative. It fills its host's width at 152:33 (#519)
