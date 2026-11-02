@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.629.0 — 2026-11-02
 ### Added
-- `aha-list` picker mode: the opt-in `selectable` attribute makes the `items` rows a single-choice listbox (rows `role="option"` with `aria-selected`; click, Enter or Space selects; ArrowUp, ArrowDown, Home and End move focus; one tab stop with a `:focus-visible` ring). `value` names the selected row's `key` (a row without `key` answers to its index), a row's `selected: true` is the initial pick, and the list emits a composed `select` with `{ key, index }`. The selected row takes the Menu's `bg-accent` tint. Without `selectable` the list is unchanged (#529)
+- `aha-list` picker mode: the opt-in `selectable` attribute makes the `items` rows a single-choice listbox (rows `role="option"` with `aria-selected`; click, Enter or Space selects; ArrowUp, ArrowDown, Home and End move focus; one tab stop with a `:focus-visible` ring; picker rows render no `actions` buttons, since a listbox option holds no controls). `value` names the selected row's `key` (a row without `key` answers to its index), a row's `selected: true` is the initial pick, and the list emits a composed `select` with `{ key, index }`. The selected row takes the Menu's `bg-accent` tint. Without `selectable` the list is unchanged (#529)
 - Revert: revert the PR; the attribute is opt-in and the default list renders as before
 
 ## 0.627.0 — 2026-11-02

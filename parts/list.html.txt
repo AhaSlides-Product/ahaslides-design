@@ -25,7 +25,8 @@
 </aha-list>
 
 <!-- Picker: `selectable` makes the rows a single-choice listbox. `value` = the picked row's key;
-     click or Enter/Space selects, arrows move. Emits `select` with { key, index }. -->
+     click or Enter/Space selects, arrows move. Emits `select` with { key, index }.
+     Picker rows render no action buttons: row `actions` are ignored with `selectable`. -->
 <aha-list id="survey-picker" bordered selectable value="csat" list-title="Pick a survey" style="max-width:360px;margin-top:16px"
   items='[
     {"key":"nps","title":"NPS survey","description":"1 question · 0 to 10 scale","avatar":"system-star"},

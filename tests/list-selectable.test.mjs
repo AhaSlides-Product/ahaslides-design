@@ -19,7 +19,7 @@ const page = `<!doctype html><body>
 <aha-list id="plain" list-title="Pick a survey" items="${items}"></aha-list>
 <script type="module">import '${lib}'; window.ready = true;</script>`;
 
-test('selectable turns item rows into a single-choice listbox; without it rows stay a plain list', { skip }, async () => {
+test('selectable turns item rows into a single-choice listbox with no controls inside options; without it rows stay a plain list with their actions', { skip }, async () => {
   const file = join(mkdtempSync(join(tmpdir(), 'list-selectable-')), 'page.html');
   writeFileSync(file, page);
   const result = await evaluateInPage(pathToFileURL(file).href, `(() => {
@@ -32,8 +32,7 @@ test('selectable turns item rows into a single-choice listbox; without it rows s
     picker.addEventListener('select', (e) => events.push(e.detail));
     const before = { role: root('picker').querySelector('.rows').getAttribute('role'), roles: rows('picker').map((r) => r.getAttribute('role')), selected: state('picker'), tabs: tabs('picker') };
     const firstRow = rows('picker')[0];
-    root('picker').querySelector('.act').click();
-    const actionClickSelects = events.length > 0;
+    const controlsInOptions = root('picker').querySelectorAll('[role="option"] button, [role="option"] .act').length;
     rows('picker')[2].click();
     const afterClick = { value: picker.getAttribute('value'), selected: state('picker'), focused: root('picker').activeElement === rows('picker')[2] };
     rows('picker')[2].dispatchEvent(new KeyboardEvent('keydown', { key: 'Home', bubbles: true }));
@@ -42,18 +41,18 @@ test('selectable turns item rows into a single-choice listbox; without it rows s
     const afterKeys = { value: picker.getAttribute('value'), selected: state('picker'), tabs: tabs('picker') };
     picker.setAttribute('value', 'nps');
     return {
-      before, actionClickSelects, afterClick, afterKeys, events,
+      before, controlsInOptions, afterClick, afterKeys, events,
       appSet: { selected: state('picker'), rebuilt: rows('picker')[0] !== firstRow },
-      plain: { role: root('plain').querySelector('.rows').getAttribute('role'), roles: rows('plain').map((r) => r.getAttribute('role')), selected: rows('plain').map((r) => r.hasAttribute('aria-selected')), tabbable: rows('plain').map((r) => r.hasAttribute('tabindex')) },
+      plain: { role: root('plain').querySelector('.rows').getAttribute('role'), roles: rows('plain').map((r) => r.getAttribute('role')), selected: rows('plain').map((r) => r.hasAttribute('aria-selected')), tabbable: rows('plain').map((r) => r.hasAttribute('tabindex')), actions: [...root('plain').querySelectorAll('.act')].map((b) => b.getAttribute('data-key')) },
     };
   })()`, { readyExpr: '!!window.ready && !!customElements.get("aha-list")' });
   assert.deepEqual(result, {
     before: { role: 'listbox', roles: ['option', 'option', 'option'], selected: ['false', 'true', 'false'], tabs: [-1, 0, -1] },
-    actionClickSelects: false,
+    controlsInOptions: 0,
     afterClick: { value: '2', selected: ['false', 'false', 'true'], focused: true },
     afterKeys: { value: 'csat', selected: ['false', 'true', 'false'], tabs: [-1, 0, -1] },
     events: [{ key: '2', index: 2 }, { key: 'csat', index: 1 }],
     appSet: { selected: ['true', 'false', 'false'], rebuilt: false },
-    plain: { role: 'list', roles: ['listitem', 'listitem', 'listitem'], selected: [false, false, false], tabbable: [false, false, false] },
+    plain: { role: 'list', roles: ['listitem', 'listitem', 'listitem'], selected: [false, false, false], tabbable: [false, false, false], actions: ['edit'] },
   });
 });
