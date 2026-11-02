@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.854.0 — 2026-11-02
 ### Added
-- `aha-submitted-card` takes an opt-in `size`: `sm` (24px glyph, 14px / 22px heading, 12px / 18px subtitle) and `lg` (20px / 28px heading, 16px / 24px subtitle) from the DS type scale; `md` and no `size` render exactly as before (#NNN)
+- `aha-submitted-card` takes an opt-in `size`: `sm` (24px glyph, 14px / 22px heading, 12px / 18px subtitle) and `lg` (20px / 28px heading, 16px / 24px subtitle) from the DS type scale; `md` and no `size` render exactly as before (#560)
 - Revert: revert the PR; the attribute is new and opt-in
 
 ## 0.837.0 — 2026-11-02
