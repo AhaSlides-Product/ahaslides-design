@@ -33,6 +33,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.904.0 — 2026-11-02
+### Added
+- `<aha-audience-date>` has a read-only `state` property, also on every `change` detail (`{ value, valid, state }`): `empty` (nothing typed, so a cleared answer), `partial` (a field blank or a year under 4 digits), `invalid` (all three typed but not a real date, such as 31/02) or `valid`. A host no longer reads the inner fields to tell a cleared date from a part-filled one (#PRNUM)
+- `<aha-audience-date status="error">` shows `error-message` at once in the element's own respondent error, for a host that blocks the page on its own check (a required answer, a part-filled date on Next). The host passes its message there instead of rendering a second error under the date, which showed the same message twice (#PRNUM)
+- Revert: revert the PR; `state` and `status` are new and opt-in, `value`, `valid` and the existing `change` keys are unchanged
+
 ## 0.897.1 — 2026-11-02
 ### Fixed
 - `<aha-input>` built-in label (`label` attribute) is regular 400 in secondary ink (#4A4A4A), matching the Form label; it was semibold 600 in default ink. Size 14/21 and the 4px gap are unchanged. `<aha-counted-input>` and other fields that wrap `<aha-input>` follow. Group headers and SectionHeader stay semibold (#514)

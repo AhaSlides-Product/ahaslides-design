@@ -7,6 +7,10 @@
   <div class="row aud-dark" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:360px;box-sizing:border-box;padding:var(--aha-space-16);background:var(--aha-bg-dark);border-radius:var(--aha-radius-lg)">
     <aha-audience-date format="MDY" separator="-" group-label="Start date"></aha-audience-date>
   </div>
+  <div class="lbl">Error from the host — status="error" with its own message, in the one error node</div>
+  <div class="row" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:360px;box-sizing:border-box">
+    <aha-audience-date status="error" error-message="This question is required" group-label="Date of birth"></aha-audience-date>
+  </div>
   <div class="lbl">Locked after submitting</div>
   <div class="row" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:360px;box-sizing:border-box">
     <aha-audience-date disabled format="YMD" separator="." value="2024-02-29" group-label="Start date"></aha-audience-date>
