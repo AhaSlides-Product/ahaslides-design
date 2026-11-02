@@ -24,6 +24,10 @@
 <aha-input inputmode="decimal" placeholder="Amount"></aha-input>
 <aha-input id="link" prefix="ahaslides.com/s/" value="team-pulse" readonly></aha-input>
 
+<!-- prefix-shrink: a long URL prefix truncates instead of squeezing the slug field (the field keeps 96px);
+     prefix-shrink="start" cuts the start so the end of the URL stays next to the field -->
+<aha-input prefix-shrink="start" prefix="https://presenter.ahaslides.com/survey/s/" value="team-pulse" monospace></aha-input>
+
 <script>
   // Plain DOM — no framework. Read e.detail.value off the composed CustomEvent.
   document.getElementById('ws').addEventListener('input', (e) => {

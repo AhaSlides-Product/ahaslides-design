@@ -20,10 +20,13 @@ const scenarios = String.raw`(async () => {
       tableRows: root.querySelectorAll('tbody tr').length,
       values: [...root.querySelectorAll('.col-slot .value-main')].map((node) => node.textContent),
       note: [...root.querySelectorAll('.empty-note')].filter((node) => !node.hidden).map((node) => node.textContent),
-      barVisibility: getComputedStyle(root.querySelector('.col-bar')).visibility,
+      barVisibility: (() => { const bar = root.querySelector('.col-bar'); return bar ? getComputedStyle(bar).visibility : null; })(),
+      columns: root.querySelectorAll('.col-bar').length,
+      segments: [...root.querySelectorAll('.nps-bar .stack-segment')].filter((node) => node.offsetWidth > 0).map((node) => node.style.width + ' ' + getComputedStyle(node).backgroundColor),
+      key: [...root.querySelectorAll('.nps-key-item')].filter((node) => node.offsetWidth > 0).map((node) => node.textContent),
     };
   };
-  return Object.fromEntries(['host', 'empty', 'plain', 'zero', 'short', 'invalid', 'narrow'].map((id) => [id, read(id)]));
+  return Object.fromEntries(['host', 'empty', 'plain', 'zero', 'short', 'invalid', 'narrow', 'ratings', 'brackets', 'hostScore', 'bracketsEmpty'].map((id) => [id, read(id)]));
 })()`;
 
 test('nps splits ratings into detractor, passive and promoter brackets, scores them, and takes host colours in that order', { skip }, async () => {
@@ -60,4 +63,25 @@ test('nps uses compact counts above the columns at narrow widths', { skip }, asy
   const { narrow, host } = await evaluateInPage(fixture, scenarios, { readyExpr: '!!window.npsFixtureReady', timeout: 45000 });
   assert.deepEqual(narrow.values.slice(8), ['1.2K', '3.4K', '18K']);
   assert.equal(host.values[10], '21');
+});
+
+test('nps counts raw 0 to 10 ratings into the per-score columns, skipping anything that is not one', { skip }, async () => {
+  const { ratings } = await evaluateInPage(fixture, scenarios, { readyExpr: '!!window.npsFixtureReady', timeout: 45000 });
+  assert.deepEqual(ratings.values, ['1', '0', '0', '1', '0', '0', '0', '0', '1', '1', '2']);
+  assert.deepEqual(ratings.brackets, ['1 / 8 Detractors 2 · 33%', '8 / 10 Passives 1 · 17%', '10 / 12 Promoters 3 · 50%']);
+  assert.equal(ratings.score, 'NPS +17');
+  assert.deepEqual(ratings.segments, []);
+});
+
+test('nps with bracket totals only draws one split bar, the key and the score, and no per-score columns', { skip }, async () => {
+  const { brackets, hostScore, bracketsEmpty } = await evaluateInPage(fixture, scenarios, { readyExpr: '!!window.npsFixtureReady', timeout: 45000 });
+  assert.equal(brackets.columns, 0);
+  assert.deepEqual(brackets.segments, ['20% rgb(200, 0, 0)', '20% rgb(100, 100, 100)', '60% rgb(0, 150, 0)']);
+  assert.deepEqual(brackets.key, ['Detractors10 · 20%', 'Passives10 · 20%', 'Promoters30 · 60%']);
+  assert.equal(brackets.score, 'NPS +40');
+  assert.equal(brackets.tableRows, 3);
+  assert.match(brackets.summary, /^NPS distribution\. NPS \+40\. Promoters: 30 · 60%\. Passives: 10 · 20%\. Detractors: 10 · 20%\. 50 responses\.$/);
+  assert.equal(hostScore.score, 'NPS +42');
+  assert.deepEqual(bracketsEmpty.note, ['No responses yet']);
+  assert.deepEqual(bracketsEmpty.segments, []);
 });
