@@ -33,6 +33,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.600.0 — 2026-11-02
+### Added
+- Course theme: `applyCourseTheme(root, theme)` and `courseThemeVars(theme)` from `@ahaslides-product/design/course-theme` re-skin every `<aha-*>` component inside a customer course theme. Inputs: primary, pageBg, surface, textBody, textHeading, accent, fontBody, fontHeading, radius. Every semantic colour token, the grey ramp, fonts and the radius ladder resolve inside the scope; text and labels are floored at 4.5:1 and fills and focus rings at 3:1 on every state. The default theme reproduces the DS values exactly. New tokens `--aha-course-text-heading` and `--aha-course-accent`. Docs: Foundations › Course theme, with a learner-page `--lp-*` mapping; feed `course-theme.agent.json` (#PR)
+### Fixed
+- `aha-loader` paints its overlay on `--aha-bg-container` instead of a fixed white, so it follows dark and course themes (#PR)
+- Revert: revert the PR; additive module and docs page, the loader change is one background value
+
 ## 0.596.2 — 2026-11-02
 ### Fixed
 - CHANGELOG: the 0.595.1 entry links its real PR number instead of the `(#PR)` placeholder that auto-merge shipped, which turned the standards gate red on master (#506)

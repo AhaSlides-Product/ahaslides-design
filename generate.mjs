@@ -276,6 +276,7 @@ let MARKETING = [];         // loaded marketing sections — drives the Websites
 let AUDIENCE = null;        // loaded audience library (audience/library.json) — drives the Audience nav + page; null = area absent
 let CANVAS_LIB = null;      // loaded canvas library (canvas/library.json) — drives the Canvas Library nav + page; null = area absent
 let CANVAS_DECK_TOKENS = null;   // canvas/deck-tokens.json — the Deck tokens page, listed under Foundations › Design tokens; null = page absent
+let COURSE_THEME = null;   // course-theme/course-theme.json — the Course theme page under Foundations › Design tokens; null = page absent
 let CANVAS_CSS = '';        // scoped CSS for the Canvas Library area (canvas/canvas.css)
 let AUD_CSS = '';           // scoped CSS for the Audience area (audience/audience.css)
 let NAV_LANDING = {};   // top-nav → each area's landing page (set once contracts/patterns load)
@@ -1090,7 +1091,8 @@ function sidebarNav(base, active, section) {
   if (section === 'foundations') {
     const tokenItems = TOKEN_PAGES.map(p =>
       `<a class="nav-item${active==='token:'+p.slug?' active':''}" href="${base}foundations/${p.slug}.html"><span>${esc(p.label)}</span><span class="nav-dot" title="live"></span></a>`).join('') +
-      (CANVAS_DECK_TOKENS ? `<a class="nav-item${active==='token:deck-tokens'?' active':''}" href="${base}deck-tokens/index.html"><span>Deck tokens</span><span class="nav-dot" title="live"></span></a>` : '');
+      (CANVAS_DECK_TOKENS ? `<a class="nav-item${active==='token:deck-tokens'?' active':''}" href="${base}deck-tokens/index.html"><span>Deck tokens</span><span class="nav-dot" title="live"></span></a>` : '') +
+      (COURSE_THEME ? `<a class="nav-item${active==='token:course-theme'?' active':''}" href="${base}course-theme/index.html"><span>Course theme</span><span class="nav-dot" title="live"></span></a>` : '');
     inner =
       `<div class="nav-group"><div class="nav-cat">Design tokens</div>${tokenItems}</div>` +
       `<div class="nav-group"><div class="nav-cat">Assets</div>` +
@@ -1814,6 +1816,74 @@ function renderDeckTokensPage(lib) {
     }
   </script>`;
   return docShell({ base: '../', active: 'token:deck-tokens', title: lib.title, section: 'foundations', main, extraCss: CANVAS_CSS });
+}
+
+const COURSE_THEME_CSS = `
+.ct-panels{ display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px }
+.ct-panel{ background:var(--aha-bg-layout); color:var(--aha-text-default); font-family:var(--aha-font-product); padding:16px; border-radius:var(--aha-radius-lg); display:grid; gap:12px; align-content:start; color-scheme:inherit }
+.ct-name{ font-size:12px; font-weight:600; color:var(--aha-text-secondary) }
+.ct-card{ background:var(--aha-bg-container); border:1px solid var(--aha-border-default); border-radius:var(--aha-radius-lg); padding:16px; display:grid; gap:12px }
+.ct-heading{ margin:0; font-family:var(--aha-font-display); font-size:20px; line-height:28px; font-weight:700; color:var(--aha-course-text-heading) }
+.ct-body{ margin:0; font-size:14px; line-height:22px }
+.ct-link{ color:var(--aha-text-link) }
+.ct-link:hover{ color:var(--aha-text-link-hover) }
+.ct-meta{ font-size:12px; color:var(--aha-text-tertiary); border-inline-start:3px solid var(--aha-course-accent); padding-inline-start:8px }
+.ct-stack{ display:grid; gap:8px }
+.ct-row{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; font-size:14px }
+.ct-measure{ display:grid; grid-template-columns:1fr auto; gap:2px 12px; margin:0; font-size:12px; color:var(--aha-text-secondary); border-top:1px solid var(--aha-split); padding-top:8px }
+.ct-measure dd{ margin:0; font-variant-numeric:tabular-nums; color:var(--aha-text-default) }
+`;
+
+function renderCourseThemePage(lib) {
+  const main = `<div class="canvas-lib">
+    <header class="cl-head">
+      <h1>${esc(lib.title)}</h1>
+      <p class="rule">${audMd(lib.rule)}</p>
+      <p class="why">${audMd(lib.why)}</p>
+      ${lib.shared ? `<div class="note" style="margin:0 0 18px">${audMd(lib.shared)}</div>` : ''}
+    </header>
+    <div class="cl-cards">${lib.sections.map(renderCanvasCard).join('\n')}</div>
+  </div>
+  <script src="../icons/registry.js"></script>
+  <script src="../icons/aha-icon.js"></script>
+  <script type="module">
+    import '../lib/all.js';
+    import { applyCourseTheme, contrastRatio } from '../lib/course-theming.js';
+    const PAIRS = [
+      ['Text on page', '--aha-text-default', '--aha-bg-layout'],
+      ['Link on card', '--aha-text-link', '--aha-bg-container'],
+      ['Label on primary', '--aha-button-primary-text', '--aha-button-primary-bg'],
+      ['Label on primary hover', '--aha-button-primary-text', '--aha-button-primary-bg-hover'],
+      ['Label on primary press', '--aha-button-primary-text', '--aha-button-primary-bg-press'],
+      ['Primary on card', '--aha-color-primary', '--aha-bg-container'],
+      ['Focus ring on page', '--aha-focus-ring', '--aha-bg-layout'],
+    ];
+    for (const panel of document.querySelectorAll('[data-course-theme]')) {
+      const vars = applyCourseTheme(panel, JSON.parse(panel.dataset.courseTheme));
+      const list = panel.querySelector('[data-course-measure]');
+      if (!list) continue;
+      list.replaceChildren(...PAIRS.flatMap(([label, ink, ground]) => {
+        const term = document.createElement('dt');
+        term.textContent = label;
+        const value = document.createElement('dd');
+        value.textContent = contrastRatio(vars[ink], vars[ground]).toFixed(2) + ':1';
+        return [term, value];
+      }));
+    }
+  </script>`;
+  return docShell({ base: '../', active: 'token:course-theme', title: lib.title, section: 'foundations', main, extraCss: CANVAS_CSS + COURSE_THEME_CSS });
+}
+
+function courseThemeAgentFeed(lib) {
+  return {
+    title: lib.title,
+    import: "import { applyCourseTheme, courseThemeVars } from '@ahaslides-product/design/course-theme'",
+    cdn: `https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@${CDN_REF}/lib/course-theming.js`,
+    rule: lib.rule,
+    why: lib.why,
+    reuse: lib.shared,
+    sections: lib.sections.map(({ name, element, kind, what, useWhen, notFor, rules, snippet }) => ({ name, element, kind, what, useWhen, notFor, rules, snippet: snippet ? withCdnRef(snippet) : undefined })),
+  };
 }
 
 const MARKETING_WIDTHS = [
@@ -3630,6 +3700,7 @@ MARKETING = existsSync(MDIR)
 AUDIENCE = existsSync(join(ADIR, 'library.json')) ? JSON.parse(read(join(ADIR, 'library.json'))) : null;
 CANVAS_LIB = existsSync(join(CANVAS_DIR, 'library.json')) ? JSON.parse(read(join(CANVAS_DIR, 'library.json'))) : null;
 CANVAS_DECK_TOKENS = existsSync(join(CANVAS_DIR, 'deck-tokens.json')) ? JSON.parse(read(join(CANVAS_DIR, 'deck-tokens.json'))) : null;
+COURSE_THEME = existsSync(join(root, 'course-theme', 'course-theme.json')) ? JSON.parse(read(join(root, 'course-theme', 'course-theme.json'))) : null;
 CANVAS_CSS = existsSync(join(CANVAS_DIR, 'canvas.css')) ? read(join(CANVAS_DIR, 'canvas.css')) : '';
 AUD_CSS = existsSync(join(ADIR, 'audience.css')) ? read(join(ADIR, 'audience.css')) : '';
 /* anti-slop — the DS-owned criteria store (surfaces → binary judge criteria). The single
@@ -3922,6 +3993,7 @@ const indexLines = [
   ...voiceRulesIndexLines(SITE),
   `>   ${SITE}/foundations/logo.html  logo library — two tabs: the AhaSlides logo set, and the third-party brand logos the presenter app shows (Google Slides, PowerPoint, Teams, Zoom, Excel, Word, PDF, Drive, OneDrive, Google, Microsoft, PayPal, Stripe, ChatGPT, YouTube, Facebook, Instagram, LinkedIn, X, Reddit, Medium), each the current SVG from thesvg.org; greyscale files at ${SITE}/logo/<file>.svg, original-colour files at ${SITE}/logo/original/<file>.svg, a copy-paste hover and focus pattern, index at ${SITE}/logo/manifest.json; never redraw a brand mark`,
   `>   ${SITE}/canvas/index.html  Canvas Library › Components — in-canvas presenter controls (<aha-button size="lg">, correct/incorrect count, status line, stepper, applyCanvasDeck, shortcut chip, <aha-tooltip size="lg">) with demos and rules; read before building a build-less slide's controls`,
+  `>   ${SITE}/course-theme/index.html  Foundations › Course theme — re-skin every <aha-*> component under a customer's course theme with applyCourseTheme(root, { primary, pageBg, surface, textBody, textHeading, accent, fontBody, fontHeading, radius }) from @ahaslides-product/design/course-theme; every state contrast-floored; machine feed ${SITE}/course-theme.agent.json`,
   `>   ${SITE}/deck-tokens/index.html  Foundations › Deck tokens — the one --aha-deck-* ladder the canvas and the audience phone share (@ahaslides-product/design/deck, written by applyDeck and applyCanvasDeck), plus the canvas container and modal tokens`,
   `>   ${SITE}/guidelines.llms.txt  composition patterns (settings, overlays, app shell…) — read before components`,
   `>   ${SITE}/<slug>.agent.json per-component machine feed (props, tokens, spec, opinion, install, snippets)`,
@@ -4020,6 +4092,12 @@ if (CANVAS_LIB) {
   mkdirSync(join(OUT, 'canvas'), { recursive: true });
   writeFileSync(join(OUT, 'canvas', 'index.html'), renderCanvasLibrary());
   console.log(`  ✓ canvas library: canvas/index.html (${CANVAS_LIB.sections.length} sections)`);
+}
+if (COURSE_THEME) {
+  mkdirSync(join(OUT, 'course-theme'), { recursive: true });
+  writeFileSync(join(OUT, 'course-theme', 'index.html'), renderCourseThemePage(COURSE_THEME));
+  writeFileSync(join(OUT, 'course-theme.agent.json'), JSON.stringify(courseThemeAgentFeed(COURSE_THEME), null, 2));
+  console.log(`  ✓ course theme: course-theme/index.html + course-theme.agent.json (${COURSE_THEME.sections.length} sections)`);
 }
 if (CANVAS_DECK_TOKENS) {
   mkdirSync(join(OUT, 'deck-tokens'), { recursive: true });

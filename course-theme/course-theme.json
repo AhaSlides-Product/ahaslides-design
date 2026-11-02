@@ -1,0 +1,170 @@
+{
+  "title": "Course theme",
+  "rule": "Inside a customer's course, every `<aha-*>` component takes its colours, fonts and radius from the course theme: call `applyCourseTheme(root, theme)` from `@ahaslides-product/design/course-theme` on the element that wraps the lesson, and every DS component inside it re-skins. Never restyle a DS component by hand to match a course, and never read a course colour straight into a component.",
+  "why": "A course theme is customer content (colour rule 9.1), so it is not held to the AhaSlides palette, but the DS components inside it still owe a readable result. `courseThemeVars` resolves the theme into the full `--aha-*` set, with every colour a component paints floored on every state: text and links 4.5:1, fills, focus rings and active borders 3:1, and every solid control's label 4.5:1 at rest, hover and press. The default theme (white surface, #1A1A1A text, Vivid Pink) reproduces the DS values exactly.",
+  "shared": "Reuses the deck theme primitive: the same `parseColour` and `writeDeckVars` helpers `applyDeck` uses for the audience phone. `applyDeck` itself does not fit a course: it themes only ink and accent for frosted deck controls, while a course needs the product surfaces, neutrals, borders, focus and fonts every product component reads.",
+  "sections": [
+    {
+      "name": "Course theme in use",
+      "element": "applyCourseTheme(element, theme)",
+      "kind": "Theme layer",
+      "what": "The same lesson card under three course themes: light with a green brand, dark with a violet brand, and a bright amber brand on white. Every control is the shipped DS component; the measured pairs under each card are read from the live values.",
+      "useWhen": "learner pages, course players and any surface that renders inside a theme the customer chose",
+      "notFor": "AhaSlides' own app screens (they use the DS theme as shipped), slide decks and the audience phone (they use the deck tokens and `applyDeck`).",
+      "demo": "<div class=\"ct-panels\">\n<div class=\"ct-panel\" data-course-theme='{\"primary\": \"#0B6E4F\", \"surface\": \"#FFFFFF\", \"pageBg\": \"#F2F7F5\", \"textBody\": \"#1B2B26\", \"textHeading\": \"#0B3D2E\", \"fontHeading\": \"ui-serif, Georgia, \\\"Times New Roman\\\", serif\", \"radius\": 4}'>\n  <div class=\"ct-name\">Light course · green brand</div>\n  <div class=\"ct-card\">\n    <h3 class=\"ct-heading\">Lesson 3: Check your kit</h3>\n    <p class=\"ct-body\">Read the steps, then answer. <a class=\"ct-link\" href=\"#lesson\">Open the safety guide</a></p>\n    <span class=\"ct-meta\">Module 2 · 6 min</span>\n    <aha-progress percent=\"40\"></aha-progress>\n    <div class=\"ct-stack\">\n      <aha-radio name=\"ct-q0\" value=\"a\" checked>Gloves and goggles</aha-radio>\n      <aha-radio name=\"ct-q0\" value=\"b\">Gloves only</aha-radio>\n      <aha-checkbox checked>Remind me tomorrow</aha-checkbox>\n      <label class=\"ct-row\"><aha-switch checked aria-label=\"Show hints\"></aha-switch><span>Show hints</span></label>\n      <aha-input placeholder=\"Your answer\"></aha-input>\n    </div>\n    <div class=\"ct-row\"><aha-tag color=\"primary\">Module 2</aha-tag><aha-tag>Quiz</aha-tag></div>\n    <aha-alert type=\"info\" heading=\"Tip\">You can retake this quiz once.</aha-alert>\n    <aha-tabs value=\"0\" type=\"line\"><div data-tab=\"Lesson\"></div><div data-tab=\"Notes\"></div><div data-tab=\"Quiz\"></div></aha-tabs>\n    <div class=\"ct-row ct-buttons\">\n      <aha-button variant=\"primary\">Submit</aha-button>\n      <aha-button variant=\"secondary\">Back</aha-button>\n      <aha-button variant=\"text\">Skip</aha-button>\n      <aha-button variant=\"primary\" disabled>Done</aha-button>\n    </div>\n    <dl class=\"ct-measure\" data-course-measure></dl>\n  </div>\n</div>\n<div class=\"ct-panel\" data-course-theme='{\"primary\": \"#7C5CFF\", \"surface\": \"#1B1D27\", \"pageBg\": \"#0F1016\", \"textBody\": \"#E8E8EE\", \"radius\": 12}'>\n  <div class=\"ct-name\">Dark course · violet brand</div>\n  <div class=\"ct-card\">\n    <h3 class=\"ct-heading\">Lesson 3: Check your kit</h3>\n    <p class=\"ct-body\">Read the steps, then answer. <a class=\"ct-link\" href=\"#lesson\">Open the safety guide</a></p>\n    <span class=\"ct-meta\">Module 2 · 6 min</span>\n    <aha-progress percent=\"40\"></aha-progress>\n    <div class=\"ct-stack\">\n      <aha-radio name=\"ct-q1\" value=\"a\" checked>Gloves and goggles</aha-radio>\n      <aha-radio name=\"ct-q1\" value=\"b\">Gloves only</aha-radio>\n      <aha-checkbox checked>Remind me tomorrow</aha-checkbox>\n      <label class=\"ct-row\"><aha-switch checked aria-label=\"Show hints\"></aha-switch><span>Show hints</span></label>\n      <aha-input placeholder=\"Your answer\"></aha-input>\n    </div>\n    <div class=\"ct-row\"><aha-tag color=\"primary\">Module 2</aha-tag><aha-tag>Quiz</aha-tag></div>\n    <aha-alert type=\"info\" heading=\"Tip\">You can retake this quiz once.</aha-alert>\n    <aha-tabs value=\"0\" type=\"line\"><div data-tab=\"Lesson\"></div><div data-tab=\"Notes\"></div><div data-tab=\"Quiz\"></div></aha-tabs>\n    <div class=\"ct-row ct-buttons\">\n      <aha-button variant=\"primary\">Submit</aha-button>\n      <aha-button variant=\"secondary\">Back</aha-button>\n      <aha-button variant=\"text\">Skip</aha-button>\n      <aha-button variant=\"primary\" disabled>Done</aha-button>\n    </div>\n    <dl class=\"ct-measure\" data-course-measure></dl>\n  </div>\n</div>\n<div class=\"ct-panel\" data-course-theme='{\"primary\": \"#FFB800\", \"surface\": \"#FFFFFF\", \"pageBg\": \"#FFF4D6\", \"textBody\": \"#2B2100\", \"accent\": \"#FF6B00\", \"radius\": 16}'>\n  <div class=\"ct-name\">Brand colour course · amber</div>\n  <div class=\"ct-card\">\n    <h3 class=\"ct-heading\">Lesson 3: Check your kit</h3>\n    <p class=\"ct-body\">Read the steps, then answer. <a class=\"ct-link\" href=\"#lesson\">Open the safety guide</a></p>\n    <span class=\"ct-meta\">Module 2 · 6 min</span>\n    <aha-progress percent=\"40\"></aha-progress>\n    <div class=\"ct-stack\">\n      <aha-radio name=\"ct-q2\" value=\"a\" checked>Gloves and goggles</aha-radio>\n      <aha-radio name=\"ct-q2\" value=\"b\">Gloves only</aha-radio>\n      <aha-checkbox checked>Remind me tomorrow</aha-checkbox>\n      <label class=\"ct-row\"><aha-switch checked aria-label=\"Show hints\"></aha-switch><span>Show hints</span></label>\n      <aha-input placeholder=\"Your answer\"></aha-input>\n    </div>\n    <div class=\"ct-row\"><aha-tag color=\"primary\">Module 2</aha-tag><aha-tag>Quiz</aha-tag></div>\n    <aha-alert type=\"info\" heading=\"Tip\">You can retake this quiz once.</aha-alert>\n    <aha-tabs value=\"0\" type=\"line\"><div data-tab=\"Lesson\"></div><div data-tab=\"Notes\"></div><div data-tab=\"Quiz\"></div></aha-tabs>\n    <div class=\"ct-row ct-buttons\">\n      <aha-button variant=\"primary\">Submit</aha-button>\n      <aha-button variant=\"secondary\">Back</aha-button>\n      <aha-button variant=\"text\">Skip</aha-button>\n      <aha-button variant=\"primary\" disabled>Done</aha-button>\n    </div>\n    <dl class=\"ct-measure\" data-course-measure></dl>\n  </div>\n</div>\n</div>",
+      "snippet": "<script type=\"module\">\n  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/all.js';\n  import { applyCourseTheme } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/course-theming.js';\n  applyCourseTheme(document.querySelector('.lesson'), {\n    primary: '#0B6E4F', surface: '#FFFFFF', pageBg: '#F2F7F5',\n    textBody: '#1B2B26', textHeading: '#0B3D2E', fontBody: 'system-ui, sans-serif', radius: 4,\n  });\n</script>"
+    },
+    {
+      "name": "Theme inputs",
+      "element": "courseThemeVars({ primary, pageBg, surface, textBody, textHeading, accent, fontBody, fontHeading, radius })",
+      "kind": "Tokens",
+      "what": "The minimum a customer theme may set. Every input is optional: an unset colour falls back to the DS light theme (or its dark twin when the surface is dark), an unset font or radius keeps the DS value.",
+      "useWhen": "mapping a course or learner-page theme onto the DS",
+      "notFor": "spacing, type scale, borders widths and shadows: those stay DS values.",
+      "rules": [
+        {
+          "label": "primary",
+          "value": "the brand colour: primary fill and its hover and press, links, focus ring, hover, focus and active borders, the selected tint. Shifted the least needed to pass its floors"
+        },
+        {
+          "label": "surface",
+          "value": "cards, inputs, menus, default buttons; every neutral is mixed on it"
+        },
+        {
+          "label": "pageBg",
+          "value": "the page behind the cards (`--aha-bg-layout`); defaults to the text colour at the DS layout grey share"
+        },
+        {
+          "label": "textBody",
+          "value": "body text and the whole neutral ladder: each DS grey is this ink at the share #1A1A1A has in that grey over white, so dark themes invert cleanly"
+        },
+        {
+          "label": "textHeading",
+          "value": "`--aha-course-text-heading`, for the course's own headings; floored 4.5:1"
+        },
+        {
+          "label": "accent",
+          "value": "`--aha-course-accent`, for the course's own highlights; floored 3:1. DS components never read it"
+        },
+        {
+          "label": "fontBody · fontHeading",
+          "value": "a CSS font-family list for `--aha-font-product` / `--aha-font-secondary` and `--aha-font-display`"
+        },
+        {
+          "label": "radius",
+          "value": "the default radius in px; the DS ladder scales from it (8 gives 4 · 6 · 8 · 12 · 16), clamped 0 to 16, pill stays round"
+        }
+      ]
+    },
+    {
+      "name": "Contrast floors",
+      "element": "COURSE_THEME_FLOORS",
+      "kind": "Rules",
+      "what": "What the layer guarantees whatever the trainer picks. A colour that fails is moved toward black or white, whichever reaches the floor in fewer steps; a colour that passes is used verbatim.",
+      "useWhen": "judging whether a course theme can break a component",
+      "notFor": "course content the trainer writes themselves (their images and own markup).",
+      "rules": [
+        {
+          "label": "Text",
+          "value": "`--aha-text-default` and `-secondary` 4.5:1 on the surface, the page and the hover tints"
+        },
+        {
+          "label": "Links",
+          "value": "4.5:1 on the surface; link hover also on the accent tint (on a grey or tint, text is ink: colour rule 6)"
+        },
+        {
+          "label": "Solid controls",
+          "value": "primary, positive and danger fills 3:1 on the surface and the page at rest, hover and press; the label (DS ink or white, whichever passes with the smaller shift) 4.5:1 on each"
+        },
+        {
+          "label": "Focus and borders",
+          "value": "focus ring, hover, focus and active borders, active icon 3:1 on the surface, the page and the hover tint"
+        },
+        {
+          "label": "Tertiary, placeholder",
+          "value": "never below the ratio the DS default ships (3.45:1 and 2.85:1 on white)"
+        },
+        {
+          "label": "Disabled",
+          "value": "not floored: WCAG exempts disabled controls"
+        }
+      ]
+    },
+    {
+      "name": "Mapping a learner page",
+      "element": "--lp-* → theme input → --aha-*",
+      "kind": "Mapping",
+      "what": "How the e-learning learner page contract (`--lp-*`, from `learner-page-sdk/src/tokens.ts`) feeds the layer. The DS does not read `--lp-*` itself: the app reads its own variables and passes the values in.",
+      "useWhen": "wiring aha-elearning's learner pages, or any product with its own theme variables",
+      "notFor": "reading a host's variables through the cascade: pass resolved values.",
+      "rules": [
+        {
+          "label": "--lp-color-primary",
+          "value": "`primary` → --aha-color-primary(-hover|-active), --aha-button-primary-*, --aha-btn-positive-*, --aha-text-link(-hover), --aha-focus-ring, --aha-border-hover|focus|active, --aha-icon-active, --aha-bg-accent"
+        },
+        {
+          "label": "--lp-color-page-bg",
+          "value": "`pageBg` → --aha-bg-layout"
+        },
+        {
+          "label": "--lp-color-surface",
+          "value": "`surface` → --aha-bg-base|container|elevated, --aha-button-default-bg, and the ground every neutral is mixed on"
+        },
+        {
+          "label": "--lp-color-text-body",
+          "value": "`textBody` → --aha-text-default and the whole neutral ladder: --aha-text-secondary|tertiary|placeholder|disabled, --aha-icon-*, --aha-border-*, --aha-bg-hover, --aha-gray-10…100"
+        },
+        {
+          "label": "--lp-color-text-heading",
+          "value": "`textHeading` → --aha-course-text-heading (course content only: DS components set their titles in --aha-text-default)"
+        },
+        {
+          "label": "--lp-color-accent",
+          "value": "`accent` → --aha-course-accent (course content only: a DS component has one brand colour)"
+        },
+        {
+          "label": "--lp-font-body",
+          "value": "`fontBody` → --aha-font-product, --aha-font-secondary (and --aha-font-display when no heading font)"
+        },
+        {
+          "label": "--lp-font-heading",
+          "value": "`fontHeading` → --aha-font-display"
+        },
+        {
+          "label": "--lp-radius",
+          "value": "`radius` → --aha-radius-xs|sm|default|lg|xl, scaled from the DS ladder (8 = DS), clamped 0 to 16; pill stays"
+        },
+        {
+          "label": "--lp-font-scale, --lp-space-*, --lp-width-*, --lp-border-width, --lp-shadow",
+          "value": "not themed: the DS type scale, spacing, hairline and elevation stay fixed so components keep their measured layout"
+        }
+      ]
+    },
+    {
+      "name": "Not themed",
+      "element": "left at DS values",
+      "kind": "Rules",
+      "what": "What a course theme does not change, and why.",
+      "useWhen": "checking what a theme can reach",
+      "notFor": "—",
+      "rules": [
+        {
+          "label": "Correct and wrong",
+          "value": "`--aha-answer-*` keep the DS green and red: their meaning cannot change per course (colour rule 11)"
+        },
+        {
+          "label": "Dark layers",
+          "value": "`--aha-bg-dark`, `-dark-raised`, `--aha-text-inverse`, `--aha-icon-inverse`, `--aha-bg-overlay`: tooltips and overlays stay dark on any theme"
+        },
+        {
+          "label": "Charts",
+          "value": "`--aha-viz-series-*` keep the DS series; the chart ink, neutral and tints follow the theme"
+        },
+        {
+          "label": "Layout",
+          "value": "spacing, type scale, border widths and shadows stay DS values"
+        }
+      ]
+    }
+  ]
+}
