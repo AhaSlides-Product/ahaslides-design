@@ -10,7 +10,7 @@
  *   focus      a keyboard-focused control must show an indicator that reaches 3:1 against the page
  *
  * Inside a subtree that carries a presenter's deck theme (inline `--aha-deck-*` variables, as set by
- * `applyDeck`) the colours are customer content, so the colour-list finding is waived there. Contrast
+ * `applyDeck`, or a course theme's `--aha-color-primary`) the colours are customer content, so the colour-list finding is waived there. Contrast
  * and focus are still measured.
  *
  * A contract's conformance block only pins resting values, so a hover that turns a label
@@ -191,7 +191,7 @@ function installProbe() {
     elements.forEach((el, index) => {
       if (!el.isConnected || !visible(el)) return;
       let deckThemed = false;
-      for (let n = el; n && !deckThemed; n = flatParent(n)) deckThemed = !!n.style && [...n.style].some(name => name.startsWith('--aha-deck-'));
+      for (let n = el; n && !deckThemed; n = flatParent(n)) deckThemed = !!n.style && [...n.style].some(name => name.startsWith('--aha-deck-') || name === '--aha-color-primary');
       const who = describe(el), label = (el.getAttribute('aria-label') || el.textContent || el.value || '').trim().replace(/\s+/g, ' ').slice(0, 32);
       const report = (kind, detail) => { if (!(kind === 'colour' && deckThemed)) findings.push({ kind, state, who, label, detail }); };
 
