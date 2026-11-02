@@ -37,7 +37,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ### Fixed
 
-- The 0.840.0 entry linked the placeholder `(#NNN)` instead of its pull request; it now links (#559). No code change. (#560)
+- The 0.840.0 entry linked the placeholder `(#NNN)` instead of its pull request; it now links (#559). No code change. (#561)
 
 ## 0.840.0 — 2026-11-02
 
