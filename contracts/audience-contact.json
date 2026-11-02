@@ -32,7 +32,7 @@
     },
     {
       "label": "Dial code",
-      "value": "with `dial-codes`, an 88px large (48px tall) Select sits before the phone field, 8px gap, and stays first in a right-to-left page; the phone value reads \"<code> <number>\". An entry with `country` reads flag and code closed (\"🇻🇳 +84\") and flag, country name and code in the open list (\"🇻🇳 Vietnam (+84)\"); the name is `name`, else Intl.DisplayNames in `locale`, else English"
+      "value": "with `dial-codes`, an 88px large (48px tall) Select (120px once an entry has a `country`, so the flag and a four-digit code fit) sits before the phone field, 8px gap, and stays first in a right-to-left page; the phone value reads \"<code> <number>\". An entry with `country` reads flag and code closed (\"🇻🇳 +84\") and flag, country name and code in the open list (\"🇻🇳 Vietnam (+84)\"); the name is `name`, else Intl.DisplayNames in `locale`, else English"
     },
     {
       "label": "Error",

@@ -196,11 +196,12 @@ test('a dial code with a country reads flag and code closed, flag, name in the l
     const english = rows();
     const closed = select.shadowRoot.querySelector('.value').textContent;
     el.setAttribute('locale', 'vi');
-    return { english, closed, vietnamese: rows(), value: el.value };
+    return { english, closed, width: Math.round(select.getBoundingClientRect().width), vietnamese: rows(), value: el.value };
   })()`, ready);
   assert.deepEqual(result, {
     english: ['\u{1F1FB}\u{1F1F3} Vietnam (+84)', '\u{1F1EC}\u{1F1E7} Britain (+44)', '+1'],
     closed: '\u{1F1FB}\u{1F1F3} +84',
+    width: 120,
     vietnamese: ['\u{1F1FB}\u{1F1F3} Việt Nam (+84)', '\u{1F1EC}\u{1F1E7} Britain (+44)', '+1'],
     value: { phone: '' },
   });
