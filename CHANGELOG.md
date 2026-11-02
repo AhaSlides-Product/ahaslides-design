@@ -16,7 +16,7 @@ All notable changes to `@ahaslides-product/design`, **newest first**.
   number and commits `chore(release): X.Y.Z` to master. Run the gate locally as `AUTO_VERSION=on npm run check`.
 
 The gate rejects an unfilled `(#129)` placeholder in every released entry: link the **real** PR number
-(under `## Unreleased`, `(#PR)` is fine; the release fills it in).
+(under `## Unreleased`, `(#518)` is fine; the release fills it in).
 
 **Format** — one entry per version:
 
@@ -38,6 +38,12 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `<aha-menu>` rows take an optional `testid` (rendered as `data-testid`, as in `<aha-dropdown>`), an `attrs` map that passes `data-*` and `aria-label` through to the row, and a `slot` name that projects rich light-DOM content (text with an `<aha-tag>`, say) in place of the label. Rows without them render unchanged. (#PRNUM)
 ### Fixed
 - `<aha-menu>` disabled rows now carry `aria-disabled="true"`, and a disabled danger row takes the disabled colour instead of the danger colour. (#PRNUM)
+- Revert: revert the PR; the new item fields are opt-in
+
+## 0.609.0 — 2026-11-02
+### Added
+- `aha-skeleton` takes optional `width` and `height` (a number is px, or a CSS length: px, rem, em, %, vw, vh, calc()), so a placeholder can match the real content; on a paragraph they size the stack and each row. Unset, every variant renders as before (#PR)
+- Revert: revert the PR; the attributes are opt-in
 
 ## 0.605.2 — 2026-11-02
 ### Changed
