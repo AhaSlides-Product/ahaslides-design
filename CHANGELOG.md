@@ -33,10 +33,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.665.0 — 2026-11-02
+## 0.675.0 — 2026-11-02
 ### Added
 - `<aha-segmented>` options take an optional `testid`, rendered as `data-testid` on that option's button, the same name `<aha-dropdown>` items use (#535). String options and options without `testid` render unchanged; icons (`icon`) and `ariaLabel` already worked.
 - Revert: revert the PR; `testid` is ignored by older releases
+
+## 0.670.0 — 2026-11-02
+### Added
+- `aha-input` passes `inputmode` and `dir` to its inner field, so `inputmode="decimal"` gives a number keypad on a text field and `dir="auto"` reads a right-to-left entry right to left, and gains a `select()` method that selects the field's text. Fields without the new attributes render unchanged (#520)
+- Revert: revert the PR; nothing else depends on the new attributes
+
 
 ## 0.660.0 — 2026-11-02
 ### Added
