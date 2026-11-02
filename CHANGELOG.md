@@ -38,6 +38,12 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `aha-dropdown` takes a `slot="trigger"` control that replaces the default button, so an icon-only `aha-button` makes a kebab (three-dot) menu. It gets `aria-haspopup` and `aria-expanded`, opens on click, Enter, Space and ArrowDown, and takes focus back on close. Without the slot the dropdown renders as before (#523)
 - Revert: revert the PR; nothing else uses the slot
 
+## 0.680.0 — 2026-11-02
+### Added
+- `aha-counted-input` takes `type="email"`, `"url"` and `"password"` (masked), and passes `inputmode` and `dir` to its inner field: `inputmode="decimal"` gives a number keypad on a text field and keeps partial input such as `1e`, and `dir="auto"` reads a right-to-left answer right to left. `aha-audience-field` documents the new field options. Fields without the new values render unchanged (#539)
+- Revert: revert the PR; nothing else depends on the new values
+
+
 ## 0.670.0 — 2026-11-02
 ### Added
 - `aha-input` passes `inputmode` and `dir` to its inner field, so `inputmode="decimal"` gives a number keypad on a text field and `dir="auto"` reads a right-to-left entry right to left, and gains a `select()` method that selects the field's text. Fields without the new attributes render unchanged (#520)
