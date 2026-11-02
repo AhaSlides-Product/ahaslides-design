@@ -38,6 +38,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `<aha-card interactive disabled>`: an inert card. It gets `aria-disabled="true"` and `tabindex="-1"` (out of the tab order), fires no click from the mouse, Enter, Space, `click()` or a dispatched click, loses the hover lift, and takes the DS disabled look (`bg-container-disabled`, `border-disabled`, `text-disabled`, as `aha-card-select`); no new token. Removing `disabled` restores everything; a card without `interactive` ignores it. Also a `disabled` property. (#575)
 - Revert: revert the PR; additive CSS rules and handlers in `lib/aha-card.js`, no existing behaviour changes
 
+## 0.912.0 — 2026-11-03
+### Fixed
+- **aha-popover** setting `open` to an empty string opens the popover, so `<aha-popover open>` in React 19 (which assigns `''` to the property) no longer closes it; `open = 'false'` closes it (#576)
+- Revert: revert the PR; one line in `lib/aha-popover.js`
+
 ## 0.911.0 — 2026-11-03
 ### Added
 - **aha-dropdown** `open` attribute and property (set it to open or close the panel from code) and composed `open` / `close` events on every user open and close; choosing an item fires `close` then `select`; setting `open` fires neither (#572)
