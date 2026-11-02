@@ -36,7 +36,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.621.0 — 2026-11-02
 
 ### Added
-- `<aha-image-preview>` (`@ahaslides-product/design/aha-image-preview`): a full-screen image lightbox the host opens with `open` (or `show()`), with an opt-in `toolbar` to zoom (1x to 5x), rotate and flip. Escape, the mask and the close button emit a cancelable `close` (`detail.source`), then `closed`. Same overlay as the `<aha-image>` preview; modal, with a Tab trap, scroll lock and focus back to the opener. Translatable accessible names via `close-label`, `zoom-in-label` and the rest. (#PR)
+- `<aha-image-preview>` (`@ahaslides-product/design/aha-image-preview`): a full-screen image lightbox the host opens with `open` (or `show()`), with an opt-in `toolbar` to zoom (1x to 5x), rotate and flip. Escape, the mask and the close button emit a cancelable `close` (`detail.source`), then `closed`. Same overlay as the `<aha-image>` preview; modal, with a Tab trap, scroll lock and focus back to the opener. Translatable accessible names via `close-label`, `zoom-in-label` and the rest. (#540)
 - Revert: revert the PR; a new element only, nothing else imports it.
 
 ## 0.618.0 — 2026-11-02
