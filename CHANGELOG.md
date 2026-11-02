@@ -33,13 +33,31 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.603.0 — 2026-11-02
+## 0.605.0 — 2026-11-02
 ### Added
 - `aha-icon` sizes 40, 48 and 64 with 3, 3.5 and 4px strokes (backed by the 40, 48 and 64 size tokens), for empty states and illustrations; static icon files are generated for the new sizes (#511)
 - `aha-button` forwards `aria-disabled` and `aria-labelledby` to its inner button and keeps both in sync when they change (#511)
 - `system-star-fill` icon, the filled twin of `system-star`, for course ratings (#511)
 ### Fixed
 - `aha-button` is disabled by a disabled ancestor `<fieldset>`, like a native button (#511)
+
+## 0.604.1 — 2026-11-02
+### Fixed
+- Security: text from attributes and JSON no longer renders as HTML in five elements. `aha-card` `card-title`, `aha-rate` `icon`, `aha-card-select` option `icon`, `aha-descriptions` `items` label and value, and `aha-tabs` panel `id` (in `aria-controls`) are now escaped, so a survey question title like `<img src=x onerror=…>` shows as literal text and creates no element. Light-DOM content of `aha-descriptions` keeps its markup. No visual change (#513)
+
+## 0.601.0 — 2026-11-02
+### Added
+- Chart: `<aha-chart type="pie">`, a solid pie with no centre hole. It is the donut renderer with the same slices, palette, labels, legend, tooltip, empty state and screen-reader summary (named "Pie chart"). `type="donut"` with `options.variant: "pie"` keeps working. Contract, all flavour files, docs and a Pie default snippet updated together.
+- Revert: revert the PR; `pie` is one new value in the chart type list that reuses the donut renderer, so existing donut and `variant: "pie"` markup is untouched (#508)
+
+## 0.600.0 — 2026-11-02
+### Added
+- Course theme: `applyCourseTheme(root, theme)` and `courseThemeVars(theme)` from `@ahaslides-product/design/course-theme` re-skin every `<aha-*>` component inside a customer course theme. Inputs: primary, pageBg, surface, textBody, textHeading, accent, fontBody, fontHeading, radius. Every semantic colour token, the grey ramp, fonts and the radius ladder resolve inside the scope; text and labels are floored at 4.5:1 and fills and focus rings at 3:1 on every state. The default theme reproduces the DS values exactly. New tokens `--aha-course-text-heading` and `--aha-course-accent`. Docs: Foundations › Course theme, with a learner-page `--lp-*` mapping; feed `course-theme.agent.json` (#510)
+### Fixed
+- `aha-loader` paints its overlay on `--aha-bg-container` instead of a fixed white, so it follows dark and course themes (#510)
+- `aha-checkbox` (tick, indeterminate bar), `aha-switch` (checked content) and `aha-tag` (solid, checked) take their foreground from `--aha-button-primary-text`; `aha-tabs`, `aha-radio` (button), `aha-breadcrumb`, `aha-pagination`, `aha-uploader`, `aha-screen-heading` and the checkable `aha-tag` hover colour text with `--aha-text-link`. Unthemed values are identical (`#FFFFFF` and primary) (#510)
+- The interactive-state colour-list check also waives a subtree that carries a course theme (`--aha-color-primary` set inline); contrast and focus are still measured, and the checkbox tick now carries its colour as `color` so the probe reads it
+- Revert: revert the PR; additive module and docs page, the loader change is one background value
 
 ## 0.599.0 — 2026-11-02
 ### Added
