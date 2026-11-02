@@ -83,3 +83,45 @@ test('on a 360px phone the three fields fit one line with no overflow', { skip }
   })()`, ready);
   assert.deepEqual(result, { lines: 1, overflow: false });
 });
+
+test('autocomplete is off unless the host sets birthday', { skip }, async () => {
+  const result = await evaluateInPage(fixture, `(() => {
+    ${typeHelpers}
+    const names = (id) => ['day', 'month', 'year'].map((part) => inner(document.querySelector(id), part).getAttribute('autocomplete'));
+    return { plain: names('#dmy'), birthday: names('#birthday') };
+  })()`, ready);
+  assert.deepEqual(result, { plain: ['off', 'off', 'off'], birthday: ['bday-day', 'bday-month', 'bday-year'] });
+});
+
+test('the input fills the whole box so a tap near the edge lands on it', { skip }, async () => {
+  const result = await evaluateInPage(fixture, `(() => {
+    ${typeHelpers}
+    const date = document.querySelector('#dmy');
+    const host = date.shadowRoot.querySelector('aha-counted-input[data-part="day"]');
+    const box = host.shadowRoot.querySelector('.wrap').getBoundingClientRect();
+    const field = inner(date, 'day').getBoundingClientRect();
+    return { leftGap: Math.round(field.left - box.left), rightGap: Math.round(box.right - field.right) };
+  })()`, ready);
+  assert.ok(result.leftGap <= 1 && result.rightGap <= 1, JSON.stringify(result));
+});
+
+test('an invalid date keeps the pink focus shadow and links the error to every input', { skip }, async () => {
+  const result = await evaluateInPage(fixture, `(() => {
+    ${typeHelpers}
+    const date = document.querySelector('#dmy');
+    type(date, 'day', '31'); type(date, 'month', '02'); type(date, 'year', '2026');
+    date.shadowRoot.querySelector('.date').dispatchEvent(new FocusEvent('focusout', { bubbles: true, relatedTarget: document.querySelector('#outside') }));
+    const day = date.shadowRoot.querySelector('aha-counted-input[data-part="day"]');
+    day.setAttribute('_focused', '');
+    const wrap = getComputedStyle(day.shadowRoot.querySelector('.wrap'));
+    const error = date.shadowRoot.querySelector('aha-field-error');
+    return {
+      status: day.getAttribute('status'),
+      shadow: wrap.boxShadow,
+      described: ['day', 'month', 'year'].map((part) => inner(date, part).ariaDescribedByElements?.[0] === error),
+    };
+  })()`, ready);
+  assert.equal(result.status, 'error');
+  assert.match(result.shadow, /rgba\(231, 14, 104, 0\.3\)/);
+  assert.deepEqual(result.described, [true, true, true]);
+});

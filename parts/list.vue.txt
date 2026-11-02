@@ -19,9 +19,18 @@ const items = computed(() => JSON.stringify(decks.value.map((d) => ({
   ],
 }))));
 const onAction = (e) => console.log(e.detail);   // { key, index }
+
+// Picker: `selectable` + `value` (the picked row's key); `select` fires with { key, index }.
+const picked = ref('csat');
+const surveys = JSON.stringify([
+  { key: 'nps', title: 'NPS survey', description: '1 question' },
+  { key: 'csat', title: 'CSAT survey', description: '3 questions' },
+]);
 </script>
 
 <template>
   <aha-list bordered list-title="Recent decks" :footer="`${decks.length} decks`"
     :items="items" @action="onAction" />
+  <aha-list bordered selectable list-title="Pick a survey" :value="picked"
+    :items="surveys" @select="(e) => (picked = e.detail.key)" />
 </template>

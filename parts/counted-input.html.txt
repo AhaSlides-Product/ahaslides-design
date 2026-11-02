@@ -13,6 +13,10 @@
 <!-- size: default only in a settings panel (large is the audience field's size)   ·   status: error   ·   disabled / readonly -->
 <aha-counted-input status="error" maxlength="80" value="Too long" placeholder="Answer"></aha-counted-input>
 
+<!-- type: email · url · password (masked)   ·   inputmode picks the phone keyboard (decimal keeps partial input such as 1e)   ·   dir="auto" for typed text -->
+<aha-counted-input type="email" maxlength="none" dir="auto" placeholder="name@example.com"></aha-counted-input>
+<aha-counted-input inputmode="decimal" maxlength="none" placeholder="Amount"></aha-counted-input>
+
 <script>
   // Plain DOM — no framework. Read e.detail.value off the composed CustomEvent.
   document.getElementById('opt').addEventListener('input', (e) => {

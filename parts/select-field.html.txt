@@ -11,6 +11,11 @@
 <aha-select id="theme" placeholder="Pick a theme"
   options='[{"label":"Light","value":"light"},{"label":"Dark","value":"dark"},{"label":"High contrast","value":"contrast"}]'></aha-select>
 
+<!-- Opt-in extras: allow-clear (an × empties the value), show-search (type to filter),
+     per-option description / title, popup-width="match | content | 280". -->
+<aha-select id="role" allow-clear show-search popup-width="content" placeholder="Pick a role"
+  options='[{"label":"Editor","value":"editor","description":"Edit and view results"},{"label":"Viewer","value":"viewer","description":"View results only"}]'></aha-select>
+
 <script>
   // Plain DOM — no framework. Read e.detail.value off the composed CustomEvent.
   document.getElementById('theme').addEventListener('change', (e) => {
