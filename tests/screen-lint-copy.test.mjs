@@ -58,3 +58,9 @@ test('a slash after a postfix ++ or -- is division, so a trailing comment is sti
   const lines = findingsOf(source, 'product').filter(f => f.rule === 'vague-error-copy').map(f => f.line);
   assert.deepEqual(lines, [4]);
 });
+
+test('a dash inside a stylesheet comment is not UI text, a dash in a content string still is', () => {
+  const source = '/* header — note */\n.a::after { content: "x — y"; }';
+  const lines = findingsOf(source, 'product', 'theme.css').filter(f => f.rule === 'no-dash-punctuation').map(f => f.line);
+  assert.deepEqual(lines, [2]);
+});
