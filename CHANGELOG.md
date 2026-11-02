@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.612.0 — 2026-11-02
+### Added
+- `<aha-segmented>` options take an optional `testid`, rendered as `data-testid` on that option's button, the same name `<aha-dropdown>` items use (#PRNUM). String options and options without `testid` render unchanged; icons (`icon`) and `ariaLabel` already worked.
+- Revert: revert the PR; `testid` is ignored by older releases
+
 ## 0.605.2 — 2026-11-02
 ### Changed
 - Contracts Icon, Button, Tooltip, Tag, Avatar and Switch now declare the `web` environment, and Product lockup declares `product, web` (it leaves the environment baseline), so the Websites route lists all nine web components the Marketing sections use: aha-icon, aha-button, aha-tooltip, aha-tag, aha-segmented, aha-avatar, aha-product-lockup, aha-rate and aha-switch (#516)
