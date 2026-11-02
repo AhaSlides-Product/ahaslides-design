@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Audience contact</title>
+</head>
+<body>
+  <div style="width:360px"><aha-audience-contact id="basic"></aha-audience-contact></div>
+  <div style="width:360px" dir="rtl"><aha-audience-contact id="full"
+    fields='[{"id":"name","kind":"name","label":"Name","required":true},{"id":"email","kind":"email","label":"Email"},{"id":"phone","kind":"phone","label":"Phone"},{"id":"role","kind":"text","label":"Role"}]'
+    dial-codes='[{"label":"+84","value":"+84"},{"label":"+44","value":"+44"}]'></aha-audience-contact></div>
+  <aha-audience-contact id="locked" disabled value='{"name":"Mai","email":"mai@example.com"}'></aha-audience-contact>
+  <button id="outside">outside</button>
+  <script type="module">
+    await import('../lib/aha-audience-contact.js');
+    await customElements.whenDefined('aha-audience-contact');
+    window.audienceContactFixtureReady = !!document.querySelector('#basic').shadowRoot?.querySelector('aha-counted-input')?.shadowRoot?.querySelector('.field');
+  </script>
+</body>
+</html>

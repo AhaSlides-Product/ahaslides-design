@@ -138,6 +138,12 @@
       "status": "available"
     },
     {
+      "ref": "audience-contact",
+      "as": "component",
+      "use": "a contact-details answer — <aha-audience-contact>: labelled name, email, phone and text fields (an <aha-audience-field> around an <aha-counted-input> each) with the right phone keyboard and autofill hint, email and phone left to right in a right-to-left page, an optional dial code, and a respondent <aha-field-error>; never hand-built inputs",
+      "status": "available"
+    },
+    {
       "ref": "scale-slider",
       "as": "component",
       "use": "scale input — <aha-scale-slider>: readout centred above an 8px rail inset 16px from the min/max labels, rail and filled portion both --aha-deck-stroke (ink 12%) with a 1px --aha-deck-stroke hairline",
