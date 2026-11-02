@@ -22,6 +22,7 @@
     "text-default",
     "text-secondary",
     "text-inverse",
+    "icon-muted",
     "radius-default",
     "radius-pill",
     "size-default",
@@ -43,6 +44,10 @@
     {
       "label": "Label",
       "value": "14/1.5 Regular #1A1A1A (text on Vivid Pink at 5% is black, colour rule 6.5)"
+    },
+    {
+      "label": "Label icon",
+      "value": "optional `icon`: a 16px DS icon in icon-muted #8A8A8A, 8px before the label, centred on the label line; without it the label is unchanged"
     },
     {
       "label": "Value",
@@ -97,6 +102,12 @@
       "type": "plain | accent",
       "default": "plain",
       "desc": "plain: white card with a border. accent: Vivid Pink at 5% card, for every tile in a report, image or read-only report page (colour rule 3.11), or the one highlighted panel colour rule 3.7 allows on an app screen"
+    },
+    {
+      "name": "icon",
+      "type": "DS icon name",
+      "default": "—",
+      "desc": "An icon shown before the label in the muted icon colour, 16px to match the label line. Omit it and the tile renders exactly as before"
     },
     {
       "name": "locale",
