@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tooltip at the right edge</title>
+<style>body{margin:0}.edge{display:flex;justify-content:flex-end}</style>
+</head>
+<body>
+  <div class="edge"><aha-tooltip id="edge" text="Copy link"><button type="button">Copy</button></aha-tooltip></div>
+  <script type="module">
+    import '../lib/aha-tooltip.js';
+    await customElements.whenDefined('aha-tooltip');
+    window.tooltipFixtureReady = true;
+  </script>
+</body>
+</html>
