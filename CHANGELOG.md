@@ -40,6 +40,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `<aha-select>` option objects take `description` (a second, smaller line under the label) and `title` (the row's native tooltip); `popup-width="match | content | <length>"` sets the popup width (#537)
 - Revert: revert the PR; every addition is opt-in, so an existing `<aha-select>` renders unchanged
 
+## 0.726.0 — 2026-11-02
+### Added
+- Chart: `strings` is now also a JSON attribute (`<aha-chart strings='{"emptyNote":"No answers yet"}'>`), so a static page or a framework binding can override any built-in text without a script. Every key of `chartStrings.en` is overridable, per key: type names, the empty-state note and summary, pager labels, legends, axis and tooltip text, summaries and live-region text, and the word-cloud and mind-map controls; the chart docs and contract list every key. Keys left out fall back to the locale's built-in copy (`en`, `vi`), then English; the `strings` property still wins over the attribute until the attribute changes. A chart without `strings` renders exactly as before (#545)
+- Revert: revert the PR; only charts that set the `strings` attribute change, and none shipped before it existed
+
 ## 0.725.0 — 2026-11-02
 ### Added
 - `<aha-menu>` rows take an optional `testid` (rendered as `data-testid`, as in `<aha-dropdown>`), an `attrs` map that passes `data-*` and `aria-label` through to the row, and a `slot` name that projects rich light-DOM content (text with an `<aha-tag>`, say) in place of the label. Rows without them render unchanged. (#526)
