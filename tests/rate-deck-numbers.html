@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rate on a deck and numbers only</title>
+<style>
+  #deck{ --aha-deck-stroke-chip:rgb(10, 20, 30); --aha-deck-ink:rgb(1, 2, 3); --aha-deck-accent-ink:rgb(4, 5, 6) }
+</style>
+</head>
+<body>
+  <aha-rate id="plain" value="2"></aha-rate>
+  <aha-rate id="deck-no-tokens" value="2" surface="deck"></aha-rate>
+  <div id="deck">
+    <aha-rate id="plain-in-deck" value="2"></aha-rate>
+    <aha-rate id="deck-star" value="2" surface="deck"></aha-rate>
+    <aha-rate id="deck-numbers" value="2" count="4" character="number" surface="deck"></aha-rate>
+  </div>
+  <aha-rate id="numbers" value="2" count="4" character="number" allow-half></aha-rate>
+  <script type="module">
+    await import('../lib/aha-rate.js');
+    await customElements.whenDefined('aha-rate');
+    window.rateFixtureReady = [...document.querySelectorAll('aha-rate')].every((host) => !!host.shadowRoot?.querySelector('.star'));
+  </script>
+</body>
+</html>
