@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.913.0 — 2026-11-03
 ### Fixed
-- **aha-popover** setting `open` to an empty string opens the popover, so `<aha-popover open>` in React 19 (which assigns `''` to the property) no longer closes it; `open = 'false'` closes it (#PR)
+- **aha-popover** setting `open` to an empty string opens the popover, so `<aha-popover open>` in React 19 (which assigns `''` to the property) no longer closes it; `open = 'false'` closes it (#576)
 - Revert: revert the PR; one line in `lib/aha-popover.js`
 
 ## 0.904.0 — 2026-11-02
