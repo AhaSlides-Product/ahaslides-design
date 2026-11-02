@@ -54,7 +54,7 @@ popover. *(`PAYWALL-02`, `PAYWALL-03`, `PAYWALL-04`)*
 | `requiredPlan` | `'essential'` or `'pro'`. Defaults to `'pro'`. Drives the unlock line + analytics plan prop. |
 | `placement` | Popover side: `'top'` (default), `'bottom'`, or `'left'` / `'right'` (beside the anchor, vertically centred). |
 | `width` | Popover width for longer copy; defaults to 300px, never past 82vw. |
-| `slot="body"` | Optional rich body: the same one sentence when it needs a link or emphasis. Replaces `body`; the unlock line and CTAs stay fixed. |
+| `slot="body"` | Optional rich body: the same one sentence when it needs a link or emphasis. Replaces `body`; the unlock line and CTAs stay fixed. Slot a link directly (`<a slot="body">`) so it reads white on the dark surface. |
 | `trigger` | `'click'` (default) or `'hover'`. |
 | `onUpgrade` | Optional. Runs *instead of* opening the pricing page (e.g. an in-app upgrade modal). Analytics still fires first. |
 

@@ -15,7 +15,7 @@ const page = `<!doctype html><body style="margin:0;font-family:sans-serif">
   <button>Gated</button>
 </aha-paywall>
 <aha-paywall id="left" style="position:absolute;top:900px;left:800px" feature-label="Left" placement="left" width="20rem" body="Hidden sentence." open>
-  <p slot="body">Rich body with <a href="#">a link</a>.</p>
+  <span slot="body">Rich body with </span><a id="body-link" slot="body" href="#">a link</a>
 </aha-paywall>
 <script type="module">import '${lib}'; window.ready = true;</script>`;
 
@@ -41,6 +41,7 @@ test('paywall placement left/right sits beside the anchor, width sets the popove
       };
     };
     const before = { plain: state('plain'), right: state('right'), left: state('left') };
+    before.linkColour = getComputedStyle(document.getElementById('body-link')).color;
     const live = document.getElementById('left');
     live.setAttribute('placement', 'right');
     live.setAttribute('width', '280');
@@ -59,6 +60,7 @@ test('paywall placement left/right sits beside the anchor, width sets the popove
   assert.equal(result.left.textBody, false);
   assert.equal(result.left.richBody, true);
   assert.equal(result.left.markAnchor, true, 'a body-slot child alone keeps the crown mark as the anchor');
+  assert.equal(result.linkColour, 'rgb(255, 255, 255)', 'a link slotted into the body takes the white body text');
   assert.equal(result.switched.width, 280, 'width changes on an open popover');
   assert.equal(result.switched.gapRight, 8, 'an open popover moves when placement changes');
   assert.ok(Math.abs(result.switched.centreOffset) <= 1, `an open side popover stays centred when its content grows (offset ${result.switched.centreOffset})`);

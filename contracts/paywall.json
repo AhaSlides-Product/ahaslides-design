@@ -16,7 +16,7 @@
     { "label": "Popover", "value": "dark grey surface #303030 (--aha-bg-dark-raised, grey-95: one step above black #1A1A1A), 300px wide (opt-in `width`, never past 82vw), 16px padding, radius 12; animates opacity + lift on open via the motion tokens" },
     { "label": "Anatomy", "value": "header (crown + title) · body (one sentence + \"Unlock with the <Plan> plan.\") · footer (Upgrade + See all plans)" },
     { "label": "Placement", "value": "top (default) or bottom, 8px from the anchor; opt-in left or right hangs the popover 8px beside the anchor, vertically centred on it, with the arrow on the facing edge" },
-    { "label": "Rich body", "value": "opt-in slot=\"body\" replaces the plain-text body when the one sentence needs a link or emphasis; the title, the unlock line and both CTAs stay baked in, and a slotted link inherits the white body text, underlined" },
+    { "label": "Rich body", "value": "opt-in slot=\"body\" replaces the plain-text body when the one sentence needs a link or emphasis; the title, the unlock line and both CTAs stay baked in, and a link slotted directly (<a slot=\"body\">) takes the white body text, underlined; a link nested inside another slotted element keeps the page's own link style" },
     { "label": "Buttons", "value": "TWO shared <aha-button>s — Upgrade (variant=positive, Vivid Pink) + See all plans (variant=secondary, re-themed for the dark surface through the --aha-button-default-* inputs: white label in every state, #8A8A8A border that turns white on hover, white focus ring); never hand-rolled" },
     { "label": "Analytics", "value": "paywall-shown on open · paywall-upgrade before Upgrade nav · paywall-plans before See-all-plans nav — all { feature, plan }" },
     { "label": "Behaviour", "value": "Upgrade opens ahaslides.com/pricing (new tab, noopener); See all plans opens plans-url; preventDefault either event to run your own flow. Esc / click-away close" }
@@ -37,7 +37,7 @@
     { "name": "upgrade-url", "type": "string (URL)", "default": "ahaslides.com/pricing", "desc": "Where Upgrade navigates (new tab, noopener)" },
     { "name": "plans-url", "type": "string (URL)", "default": "ahaslides.com/pricing", "desc": "Where See all plans navigates (new tab, noopener)" },
     { "name": "slot (default)", "type": "element", "default": "upgrade mark", "desc": "The gated affordance = the anchor; omit it to use the crown upgrade mark as the anchor" },
-    { "name": "slot=\"body\"", "type": "element", "default": "—", "desc": "Rich body content that replaces the body/description text: the one benefit sentence with a link or emphasis, still never a multi-paragraph body; the unlock line and CTAs stay fixed. A body-slot child alone keeps the crown mark as the anchor" },
+    { "name": "slot=\"body\"", "type": "element", "default": "—", "desc": "Rich body content that replaces the body/description text: the one benefit sentence with a link or emphasis, still never a multi-paragraph body; slot a link directly (<a slot=\"body\">) so it takes the white body text; the unlock line and CTAs stay fixed. A body-slot child alone keeps the crown mark as the anchor" },
     { "name": "paywall-shown / paywall-upgrade / paywall-plans", "type": "CustomEvent<{feature,plan}>", "default": "—", "desc": "Analytics contract; paywall-upgrade + paywall-plans are cancelable (preventDefault to run your own flow)" }
   ],
   "opinion": {
