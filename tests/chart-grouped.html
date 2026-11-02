@@ -1,0 +1,24 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../lib/tokens.css">
+<script type="module">
+import { defineAhaChart } from '../lib/aha-chart.js';
+defineAhaChart();
+window.groupedFixtureReady = true;
+</script>
+<div style="width:640px">
+  <aha-chart id="grouped" type="column" label="Sales" x-title="Quarter" y-title="Units sold"
+    data='{"series":["North","South","East"],"rows":[{"label":"Q1","values":[12,8,5]},{"label":"Q2","values":[20,14,9]},{"label":"Q3","values":[0,0,0]}]}'></aha-chart>
+</div>
+<div style="width:640px">
+  <aha-chart id="plain" type="column" label="Plain" data='[{"label":"A","value":4},{"label":"B","value":9}]'></aha-chart>
+</div>
+<div style="width:640px">
+  <aha-chart id="bar" type="bar" label="Bar" x-title="Votes" y-title="Option" data='[{"label":"A","value":4},{"label":"B","value":9}]'></aha-chart>
+</div>
+<div style="width:640px">
+  <aha-chart id="line" type="line" label="Line" x-title="Week" y-title="Sign-ups" data='{"labels":["W1","W2","W3"],"series":[{"label":"Free","values":[3,5,8]}]}'></aha-chart>
+</div>
+<div style="width:640px">
+  <aha-chart id="donutTitled" type="donut" label="Donut" x-title="Ignored" data='[{"label":"A","value":4},{"label":"B","value":9}]'></aha-chart>
+</div>
