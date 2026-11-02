@@ -1,7 +1,8 @@
 <!-- Paste-and-run: save as .html and open in a browser. No build step.
      ONE <aha-chart> draws Bar, Column, Stacked, Donut, Pie, Radial, Tree map, Quadrant, Bell curve, Radar,
      Word cloud and Mind map results. Type-specific settings go in .options (see chartOptionDefaults).
-     palette="brand" (default) on app screens like Report; palette="deck" + colors + ink on the presenting canvas. -->
+     palette="brand" (default) on app screens like Report; palette="deck" + colors + ink on the presenting canvas;
+     colors on its own swaps the brand series for the host's colours. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/canvas.js';   // registers <aha-chart> and the canvas controls
@@ -23,6 +24,10 @@
 <div style="display:flex; flex-direction:column; gap:var(--aha-space-40); max-width:880px">
   <!-- Report / any app screen: brand palette -->
   <aha-chart id="results" type="bar" sort="desc" label="Q4 priorities"></aha-chart>
+
+  <!-- App screen with the host's own series colours (a survey palette, Yes / No): colors works with palette="brand" too -->
+  <aha-chart type="column" colors="var(--aha-viz-series-2),var(--aha-viz-series-4)" label="Would you recommend us?"
+    data='[{"label":"Yes","value":41},{"label":"No","value":12}]'></aha-chart>
 
   <!-- Presenting canvas: the deck's palette and text colour; the chart stays transparent -->
   <div style="background:var(--aha-bg-dark); padding:var(--aha-space-24)">
