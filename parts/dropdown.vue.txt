@@ -22,6 +22,7 @@ function onSelect(e) { runAction(e.detail.key); }
 
 // a single-choice picker: `value` selects the row and the trigger shows its label
 const role = ref('editor');
+const menuOpen = ref(false);
 const roleItems = JSON.stringify([
   { key: 'editor', label: 'Editor', description: 'Edit and present' },
   { key: 'presenter', label: 'Presenter', description: 'Present only, cannot edit' },
@@ -29,6 +30,7 @@ const roleItems = JSON.stringify([
 </script>
 
 <template>
-  <aha-dropdown label="Actions" placement="bottomLeft" :items="items" @select="onSelect" />
+  <!-- @open / @close report every user open and close; :open drives it from code. The panel renders in the top layer, so a card cannot clip it. -->
+  <aha-dropdown label="Actions" placement="bottomLeft" :items="items" @select="onSelect" @open="menuOpen = true" @close="menuOpen = false" />
   <aha-dropdown :value="role" :items="roleItems" @select="role = $event.detail.key" />
 </template>
