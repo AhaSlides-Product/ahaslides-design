@@ -281,10 +281,11 @@ test('leaderboard: showWinner centres every tied rank 1 in a banner covering the
     const winner = root.querySelector('.winner');
     const box = winner.getBoundingClientRect();
     const list = root.querySelector('.viewport').getBoundingClientRect();
+    const avatarBeforeName = (() => { const person = root.querySelector('.winner-person:not([hidden])'); return person.querySelector('.winner-avatar').getBoundingClientRect().right <= person.querySelector('.winner-name').getBoundingClientRect().left; })();
     const names = [...root.querySelectorAll('.winner-person:not([hidden]) .winner-name')].map((name) => name.textContent);
     const sizes = { name: getComputedStyle(root.querySelector('.winner-name')).fontSize, score: getComputedStyle(root.querySelector('.winner-score')).fontSize,
       close: root.querySelector('.winner-close').getAttribute('size') };
-    const state = { hiddenBefore, phone, many, shown, sizes, attribute: host.hasAttribute('winner'), names, score: root.querySelector('.winner-score').textContent,
+    const state = { avatarBeforeName, hiddenBefore, phone, many, shown, sizes, attribute: host.hasAttribute('winner'), names, score: root.querySelector('.winner-score').textContent,
       announced: root.querySelector('.live').textContent, covers: box.top <= list.top && box.bottom >= list.bottom && box.width === list.width,
       you: winner.textContent.includes('(you)'), dim: getComputedStyle(winner).backgroundColor,
       reducedMotion: { pieces: root.querySelectorAll('.confetti .piece').length, confetti: getComputedStyle(root.querySelector('.confetti')).display, fade: getComputedStyle(winner).animationName, focus: getComputedStyle(root.querySelector('.winner-focus')).display },
@@ -316,7 +317,8 @@ test('leaderboard: showWinner centres every tied rank 1 in a banner covering the
   assert.deepEqual(result.afterClick, { hidden: true, attribute: false, closes: 1 });
   assert.deepEqual(result.afterEscape, { hidden: true, closes: 2 });
   assert.deepEqual(result.afterHide, { hidden: true, closes: 2 });
-  assert.deepEqual(result.sizes, { name: '48px', score: '64px', close: 'sm' });
+  assert.equal(result.avatarBeforeName, true);
+  assert.deepEqual(result.sizes, { name: '64px', score: '48px', close: 'sm' });
   assert.deepEqual(result.phone, { open: false, close: false, confetti: false, shown: false, openAfterCall: false });
   assert.deepEqual(result.many, { firstWinnerInside: true, scoreReachable: true, shown: 12 });
   assert.deepEqual(result.empty, { shown: false, attribute: false });
