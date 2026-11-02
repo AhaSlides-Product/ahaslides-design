@@ -38,6 +38,18 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `aha-dropdown` takes a `slot="trigger"` control that replaces the default button, so an icon-only `aha-button` makes a kebab (three-dot) menu. It gets `aria-haspopup` and `aria-expanded`, opens on click, Enter, Space and ArrowDown, and takes focus back on close. Without the slot the dropdown renders as before (#523)
 - Revert: revert the PR; nothing else uses the slot
 
+## 0.730.0 — 2026-11-02
+### Added
+- `<aha-select>` opt-in `allow-clear`: a clear button beside the caret while a value is set; a click, or Delete / Backspace on the closed trigger, empties the value and emits `change` and a new `clear` event with `{value:''}`; `clear-label` names the button (#537)
+- `<aha-select>` opt-in `show-search`: type to filter the options (ARIA 1.2 combobox with list autocomplete, Arrow / Enter / Escape / Tab), a `search` event with `{query}` and an `empty-text` no-match row (#537)
+- `<aha-select>` option objects take `description` (a second, smaller line under the label) and `title` (the row's native tooltip); `popup-width="match | content | <length>"` sets the popup width (#537)
+- Revert: revert the PR; every addition is opt-in, so an existing `<aha-select>` renders unchanged
+
+## 0.726.0 — 2026-11-02
+### Added
+- Chart: `strings` is now also a JSON attribute (`<aha-chart strings='{"emptyNote":"No answers yet"}'>`), so a static page or a framework binding can override any built-in text without a script. Every key of `chartStrings.en` is overridable, per key: type names, the empty-state note and summary, pager labels, legends, axis and tooltip text, summaries and live-region text, and the word-cloud and mind-map controls; the chart docs and contract list every key. Keys left out fall back to the locale's built-in copy (`en`, `vi`), then English; the `strings` property still wins over the attribute until the attribute changes. A chart without `strings` renders exactly as before (#545)
+- Revert: revert the PR; only charts that set the `strings` attribute change, and none shipped before it existed
+
 ## 0.725.0 — 2026-11-02
 ### Added
 - `<aha-menu>` rows take an optional `testid` (rendered as `data-testid`, as in `<aha-dropdown>`), an `attrs` map that passes `data-*` and `aria-label` through to the row, and a `slot` name that projects rich light-DOM content (text with an `<aha-tag>`, say) in place of the label. Rows without them render unchanged. (#526)
