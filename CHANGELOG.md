@@ -38,6 +38,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `aha-matrix`: a matrix question for the audience phone (rows × columns, one or several picks per row). Each statement is a labelled group of `aha-answer-option` rows, stacked on a 360px phone and side by side when there is room; `rows`, `columns`, `selection-mode`, `value` (`{rowId: columnId[]}`), `group-label`, `disabled`, `lock-key`, and a `change` event with `{value, row, column}` (#534)
 - Revert: revert the PR; the element is new and opt-in
 
+## 0.627.0 — 2026-11-02
+### Added
+- `<aha-answer-option>` opt-in additions, each off by default so existing rows render unchanged: `letter` shows an option letter chip (24px, filled in the deck accent mark on my pick) in place of the radio or checkbox; `roving` makes sibling rows one Tab stop with Arrow keys, Home and End; `other` is an inline editable "Other (please specify)" row that emits `other-input` (`detail.value`), with `other-value`, `other-placeholder`, `other-input-label`, `other-maxlength` and the `otherValue` property; `--aha-answer-option-surface(-hover|-disabled)` replace the row surface for a host whose rows sit on a panel of the same frosted surface (#538)
+- Revert: revert the PR; every addition is opt-in, so no consumer depends on it yet
+
 ## 0.624.0 — 2026-11-02
 ### Added
 - `palette="deck"` on `<aha-progress>` and `<aha-progressbar>`: the audience flavour of the bar. Track, fill, steps, ring and label take the shared `--aha-deck-*` ladder that `applyDeck()` writes (track ink at 12% with the 1px hairline and frost, fill the deck accent, label ink-secondary, the deck's own font), the same bar as `<aha-countdown>`, so it no longer shows a bright product track on a dark deck. `ink` / `accent` set the deck on one element. Without `palette` the bar renders as before (#528)
