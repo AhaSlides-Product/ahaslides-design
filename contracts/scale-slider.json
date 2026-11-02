@@ -32,7 +32,7 @@
     },
     {
       "label": "Rail",
-      "value": "8px high, 2px corners, 16px in from each side of the captions, --aha-deck-stroke (ink at 12%) with the 1px ink hairline; the filled part keeps the same height, corners and hairline"
+      "value": "8px high, 2px corners, 16px in from each side of the captions, --aha-deck-stroke (ink at 12%) with the 1px ink hairline; the filled part keeps the same height, corners and hairline. `track` swaps the rail to another rung of the deck ladder (--aha-deck-stroke-chip 20%, --aha-deck-line 24%); the hairline stays --aha-deck-stroke"
     },
     {
       "label": "Handle",
@@ -40,7 +40,7 @@
     },
     {
       "label": "Ends",
-      "value": "12px secondary-ink captions on a 16px line: low label left, high label right, each wrapping in its own half"
+      "value": "12px secondary-ink captions on a 16px line: low label left, high label right, each wrapping in its own half. The rail runs left to right in every direction, so in an RTL page the low label stays under the left (min) end, aligned outward, whatever the direction of its own text"
     }
   ],
   "props": [
@@ -91,6 +91,12 @@
       "type": "boolean",
       "default": "false",
       "desc": "A bare tap only previews; change fires on release after a real drag, or on a key"
+    },
+    {
+      "name": "track",
+      "type": "\"stroke\" | \"stroke-chip\" | \"line\"",
+      "default": "stroke",
+      "desc": "The rail's rung of the deck ladder: --aha-deck-stroke (ink at 12%), --aha-deck-stroke-chip (20%) or --aha-deck-line (24%). Opt in to a stronger rung where the default rail is too faint, for example on a dark deck"
     },
     {
       "name": "disabled",
