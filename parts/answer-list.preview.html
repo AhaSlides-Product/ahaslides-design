@@ -3,6 +3,10 @@
   <div class="row" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:420px;box-sizing:border-box">
     <aha-answer-list data-probe group-label="Which drink?" value="b" options='[{"id":"a","label":"Coffee"},{"id":"b","label":"Tea"},{"id":"c","label":"Juice"}]'></aha-answer-list>
   </div>
+  <div class="lbl">Opt-in: option-labels="alphabet", roving (one Tab stop) and an Other option</div>
+  <div class="row" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:420px;box-sizing:border-box">
+    <aha-answer-list roving option-labels="alphabet" other-placeholder="Type your answer" group-label="Which drink?" options='[{"id":"a","label":"Coffee"},{"id":"b","label":"Tea"},{"id":"other","label":"Other (please specify)","other":true}]'></aha-answer-list>
+  </div>
   <div class="lbl">Dark deck — applyDeck() with a white ink and a Vivid Pink accent</div>
   <div class="row aud-dark" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:420px;box-sizing:border-box;padding:var(--aha-space-16);background:var(--aha-bg-dark);border-radius:var(--aha-radius-lg)">
     <aha-answer-list selection-mode="multiple" revealed count-mode="percent" total="40" value='["a","b"]' counts='{"a":22,"b":13,"c":5}' options='[{"id":"a","label":"Coffee"},{"id":"b","label":"Tea","correct":true},{"id":"c","label":"Juice"}]'></aha-answer-list>

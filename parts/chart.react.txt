@@ -2,7 +2,7 @@ import '@ahaslides-product/design/aha-chart';   // registers <aha-chart>
 import { useEffect, useRef } from 'react';
 
 // Data is a JS property: set it through a ref so live updates re-use the drawn marks (they animate).
-// type: bar | column | stacked | donut | pie | radial | treemap | quadrant | bell | radar | wordcloud | mindmap
+// type: bar | column | stacked | donut | pie | radial | treemap | quadrant | bell | radar | wordcloud | mindmap | line | nps
 function ResultsChart({ type = 'bar', results, options, onCanvas, deckPalette, deckTextColour, seriesColours, locale, strings }) {
   const ref = useRef(null);
   useEffect(() => { ref.current.data = results; }, [results]);

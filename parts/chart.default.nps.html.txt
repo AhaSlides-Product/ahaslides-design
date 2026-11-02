@@ -1,0 +1,2 @@
+<aha-chart type="nps" label="How likely are you to recommend us?"
+  data='[2,1,0,3,2,4,6,9,14,18,21]'></aha-chart>
