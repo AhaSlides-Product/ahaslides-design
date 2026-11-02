@@ -1,0 +1,13 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-image-preview> is the SAME shared custom element React and Vue consume. The host owns
+     `open`: set it to show the lightbox; the element removes it on Escape, the mask or the close
+     button unless the host cancels the `close` event. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-button.js';
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-image-preview.js';   // registers <aha-image-preview>
+  document.getElementById('open').addEventListener('click', () => document.getElementById('lightbox').show());
+</script>
+
+<aha-button variant="secondary" id="open">Preview image</aha-button>
+<aha-image-preview id="lightbox" toolbar src="photo.jpg" alt="Uploaded image"></aha-image-preview>

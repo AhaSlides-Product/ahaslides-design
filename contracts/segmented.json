@@ -21,7 +21,7 @@
     { "label": "Block", "value": "full-width track, options flex-equal" }
   ],
   "props": [
-    { "name": "options", "type": "string | JSON array", "default": "—", "desc": "Pipe labels \"Day|Week|Month\" OR items [{value,label?,icon?,disabled?,ariaLabel?}]" },
+    { "name": "options", "type": "string | JSON array", "default": "—", "desc": "Pipe labels \"Day|Week|Month\" OR items [{value,label?,icon?,disabled?,ariaLabel?,testid?}] (`testid` is rendered as data-testid on that option's button)" },
     { "name": "value", "type": "string", "default": "first option", "desc": "Selected option value" },
     { "name": "size", "type": "'small' | 'medium' | 'large'", "default": "medium", "desc": "Height/padding/font/radius scale" },
     { "name": "block", "type": "boolean", "default": "false", "desc": "Full-width; options flex-equal" },

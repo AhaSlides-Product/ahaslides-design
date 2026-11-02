@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Host focus and in-place updates</title>
+<link rel="stylesheet" href="../lib/tokens.css">
+</head>
+<body>
+  <aha-button id="button" variant="secondary" size="md">Customise</aha-button>
+  <aha-button id="dot" variant="tertiary" icon-only size="sm" aria-label="Page 2" aria-current="page">2</aha-button>
+  <aha-button id="link" variant="primary" href="#next">Next</aha-button>
+  <aha-switch id="switch" aria-label="Required"></aha-switch>
+  <aha-select id="select" options='[{"value":"a","label":"A"},{"value":"b","label":"B"}]'></aha-select>
+  <script type="module">
+    await Promise.all(['aha-button', 'aha-switch', 'aha-select'].map((name) => import(`../lib/${name}.js`)));
+    await Promise.all(['aha-button', 'aha-switch', 'aha-select'].map((name) => customElements.whenDefined(name)));
+    window.hostFocusFixtureReady = true;
+  </script>
+</body>
+</html>

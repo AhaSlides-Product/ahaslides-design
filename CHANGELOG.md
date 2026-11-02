@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.762.0 — 2026-11-02
+## 0.857.0 — 2026-11-02
 ### Added
 - `aha-icon` sizes 40, 48 and 64 with 3, 3.5 and 4px strokes (backed by the 40, 48 and 64 size tokens), for empty states and illustrations; static icon files are generated for the new sizes (#554)
 - `aha-button` forwards `aria-disabled` and `aria-labelledby` to its inner button and keeps both in sync when they change (#554)
@@ -49,7 +49,84 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `aha-chart` pie and donut fit a small host: a pie no longer keeps the 140px floor or overflows a host narrower than 320px, a host with a set height shortens it and swaps the callouts for the legend below 224px tall, and the legend wraps, is capped at half the width and scrolls inside the host. Only the first 4 slices have distinct fills (slices 5 and 6 repeat 2 and 3), now stated in the Chart contract (#554)
 ### Fixed
 - `aha-button` is disabled by a disabled ancestor `<fieldset>`, like a native button (#554)
+- `aha-popover` no longer announces a default "More information" name: its panel is named only by `title`, so a popover without one adds no extra dialog name for screen readers (#554)
 - Revert: revert the PR; every addition is opt-in (new sizes, attributes, slots and data shape) and the pie, donut and fieldset changes only affect hosts that were already overflowing or sat in a disabled fieldset
+
+## 0.856.1 — 2026-11-02
+
+### Fixed
+
+- CHANGELOG: the 0.840.0 Show winner entry links its PR (#559) instead of a placeholder, so the standards gate passes on master (#561)
+
+## 0.855.0 — 2026-11-02
+### Added
+- `aha-button` `pressed`: a toggle button that is on (Bold in a toolbar, a selected filter) keeps its variant's press look, the same fill, edge and label as `:active`, and the inner button gets `aria-pressed="true"`. `pressed="false"` is the toggle when off: `aria-pressed="false"` and the rest look. An `aria-pressed` set on the host wins, and a disabled button draws no pressed look. No new colour: each variant reuses its existing press values (#547)
+- Button contract: a "Contextual theming" row names the existing hook for a button on a themed survey or deck: the `--aha-button-*` tokens (and `--aha-deck-ink` for tertiary-deck) set on any ancestor, all filled from a theme by `applyCanvasDeck` in `lib/canvas-deck.js` (#547)
+- Revert: revert the PR; `pressed` is opt-in and off by default, so existing buttons are unchanged
+
+## 0.840.0 — 2026-11-02
+
+### Changed
+
+- `<aha-leaderboard>` Show winner: the avatar now sits before the name on one line (the same order as the list rows, 16px apart, the avatar as tall as the name), and the name is bigger than the score: name 64px semibold with a 64px avatar, score 48px (below 340px: 32px name and avatar, 24px score). The pop order is avatar, name, score. The list rows are unchanged. (#559)
+
+## 0.837.0 — 2026-11-02
+### Changed
+- Canvas Library Leaderboard: each deck (light, dark and a new orange-accent deck with a tied first place) has a "Demo: show winner" button that replays the `showWinner()` reveal, so the banner, centre glow in `--aha-deck-accent`, count-up and confetti can be seen on the page; new Show winner rule row and `showWinner()` in the snippet. Docs and demo only, the component is unchanged (#556)
+- Revert: revert the PR; docs data only
+
+## 0.835.0 — 2026-11-02
+### Added
+- `aha-button` copies `aria-current` to its inner button and keeps it in step, so a pagination dot or step marked `aria-current="page"` is announced as current; `aria-keyshortcuts`, `aria-roledescription`, `aria-description` and `aria-busy` are forwarded the same way (#531)
+### Fixed
+- `aha-button`, `aha-switch` and `aha-select` delegate focus from the host, so `host.focus()` moves keyboard focus to the inner control (it did nothing before). `aha-input` already did; `aha-checkbox` is focusable on the host itself (#531)
+- `aha-button` updates its inner button in place when `variant`, `size`, `block`, `icon-only`, `loading`, `disabled` or `aria-label` change, so a focused button keeps keyboard focus; it was redrawn and focus dropped. A colour change on a variant swap now runs the button's existing 0.2s transition instead of snapping. Only a link that turns into a button (or back) is redrawn, and it takes focus with it (#531)
+- Revert: revert the PR; no API is removed
+
+## 0.813.0 — 2026-11-02
+### Added
+- `<aha-image-resize-frame>`: the editor's on-canvas image frame. Wraps your `<img>`; click to select (2px Vivid Pink outline, four corner handles), drag a corner or use the Arrow keys on a handle to resize by width percent (floor max(15%, 120px), never past the natural width), and a hover mask with Preview (secondary) and Delete (danger) buttons, both size md (`actions` slot replaces them); handles draw 12px with an invisible 24px hit zone (44px under a coarse pointer). Emits `preview`, `delete`, `select-change`, `width-input` and `width-change`; the host owns the lightbox and the data. Opt-in, existing tokens only (#549)
+
+## 0.811.0 — 2026-11-02
+### Added
+- `<aha-palette-swatch>` (`@ahaslides-product/design/aha-palette-swatch`): a theme's colour palette as five rounded chips of rising heights, the presenter's theme-thumbnail palette. `colors` takes the theme's pipe-separated colours (first five; a shorter palette leaves later chips outlined), `label` gives it an accessible name, otherwise it is decorative. It fills its host's width at 152:33 (#519)
+- Revert: revert the PR; a new element only, nothing else imports it
+
+## 0.803.0 — 2026-11-02
+### Added
+- Chart: `type="nps"` draws the 0 to 10 answers of an NPS question as eleven columns under three brackets (Detractors 0 to 6, Passives 7 to 8, Promoters 9 to 10), each bracket with its count and share, plus the signed score (`NPS +26`, the displayed % promoters minus the displayed % detractors). With 0 responses it shows "No responses yet" and no stubs; under 480px the column counts go compact (18K). `data` is the 11 counts as an array or `{counts}`; `colors` takes the three bracket colours in the order detractor, passive, promoter, so a survey keeps its own hues (matched by position: a missing or invalid entry takes that bracket's default); without `colors` the brackets use the existing brand series and neutral (no new hue). `options.showScore` (default true) hides the score; on a narrow host the bracket names move to a key row under the chart. The text summary and data table list every rating and bracket, and the new copy keys (`typeNames.nps`, `npsDetractors`, `npsPassives`, `npsPromoters`, `npsScore`, `npsRating`, `npsSummary`) override through `strings`, in `en` and `vi`. Other chart types render exactly as before (#553)
+- Revert: revert the PR; only charts that set `type="nps"` change, and before it they fell back to a bar chart
+
+## 0.802.0 — 2026-11-02
+### Added
+- `<aha-answer-list>` opt-in wiring for the 0.627.0 row additions (#538), each off by default so existing lists render unchanged: `roving` (one Tab stop, Arrow keys, Home and End), `option-labels="alphabet|number"` (a letter chip per row, A … Z, AA; `answerOptionLabel` exported), an `options[]` entry with `other: true` (and `otherValue`) for the inline Other row, with `other-placeholder`, `other-input-label` and `other-maxlength`, and an `other-input` event carrying `detail.id` and `detail.value` (#542)
+- Revert: revert the PR; every addition is opt-in
+
+## 0.800.1 — 2026-11-02
+### Fixed
+- `<aha-menu>` a row that is both `danger` and `disabled` now takes the disabled colour (text-disabled #B5B5B5) like every other disabled row; before, the danger ink won and the row looked enabled. (#552)
+- Revert: revert the PR; only the danger+disabled row colour changes
+
+## 0.800.0 — 2026-11-02
+### Added
+- `aha-dropdown` takes a `slot="trigger"` control that replaces the default button, so an icon-only `aha-button` makes a kebab (three-dot) menu. It gets `aria-haspopup` and `aria-expanded`, opens on click, Enter, Space and ArrowDown, and takes focus back on close. Without the slot the dropdown renders as before (#523)
+- Revert: revert the PR; nothing else uses the slot
+
+## 0.774.0 — 2026-11-02
+
+### Added
+- `<aha-image-preview>` (`@ahaslides-product/design/aha-image-preview`): a full-screen image lightbox the host opens with `open` (or `show()`), with an opt-in `toolbar` to zoom (1x to 5x), rotate and flip. Escape, the mask and the close button emit a cancelable `close` (`detail.source`), then `closed`. Same overlay as the `<aha-image>` preview; modal, with a Tab trap, scroll lock and focus back to the opener. Translatable accessible names via `close-label`, `zoom-in-label` and the rest. (#540)
+- Revert: revert the PR; a new element only, nothing else imports it.
+
+## 0.780.0 — 2026-11-02
+### Added
+- `aha-counted-textarea` passes `inputmode` and `dir` to its inner field, as `aha-counted-input` does: `dir="auto"` reads a right-to-left answer right to left. `aha-audience-field` documents it for the textarea. Fields without the new attributes render unchanged (#550)
+- Revert: revert the PR; nothing else depends on the new attributes
+
+## 0.765.0 — 2026-11-02
+### Added
+- `<aha-segmented>` options take an optional `testid`, rendered as `data-testid` on that option's button, the same name `<aha-dropdown>` items use (#535). String options and options without `testid` render unchanged; icons (`icon`) and `ariaLabel` already worked.
+- Revert: revert the PR; `testid` is ignored by older releases
 
 ## 0.761.0 — 2026-11-02
 ### Added
