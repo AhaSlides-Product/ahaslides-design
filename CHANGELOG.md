@@ -35,9 +35,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.899.0 — 2026-11-02
 ### Added
-- **aha-dropdown** `open` attribute and property (set it to open or close the panel from code) and composed `open` / `close` events on every user open and close; choosing an item fires `close` then `select`; setting `open` fires neither (#PR)
+- **aha-dropdown** `open` attribute and property (set it to open or close the panel from code) and composed `open` / `close` events on every user open and close; choosing an item fires `close` then `select`; setting `open` fires neither (#572)
 ### Fixed
-- **aha-dropdown** the open panel renders in the browser top layer at a position measured from the trigger, so a card or scroll area with overflow hidden no longer clips it; it follows scroll and resize, opens above when there is no room below and stays 8px inside the viewport (#PR)
+- **aha-dropdown** the open panel renders in the browser top layer at a position measured from the trigger, so a card or scroll area with overflow hidden no longer clips it; it follows scroll and resize, opens above when there is no room below and stays 8px inside the viewport (#572)
 
 ## 0.903.0 — 2026-11-02
 ### Fixed
