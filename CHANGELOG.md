@@ -33,6 +33,18 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.892.0 — 2026-11-02
+
+### Added
+
+- `aha-input` `type` accepts `url` and `tel` in the contract (the element already set them on the inner field), so typed consumers can pass them (#NNN)
+- `aha-popover` `aria-label`: names the dialog panel, wins over `title`, and is forwarded inside the shadow root (#NNN)
+
+### Fixed
+
+- `aha-popover` whose body is only an `<aha-menu>` or a `role="menu"` element no longer wraps the menu in an unnamed `role="dialog"`: the panel takes no role and the trigger wrapper reads `aria-haspopup="menu"`. A dialog popover with neither `title` nor `aria-label` logs one console warning the first time it opens (#NNN)
+- `aha-csat` names its feedback popover with `feedback-prompt`, else the `feedback-label` text (Feedback) (#NNN)
+
 ## 0.890.1 — 2026-11-02
 
 ### Fixed
