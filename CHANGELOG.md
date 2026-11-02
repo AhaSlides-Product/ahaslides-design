@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.610.0 — 2026-11-02
+### Added
+- `<aha-answer-option>` opt-in additions, each off by default so existing rows render unchanged: `letter` shows an option letter chip (24px, filled in the deck accent mark on my pick) in place of the radio or checkbox; `roving` makes sibling rows one Tab stop with Arrow keys, Home and End; `other` is an inline editable "Other (please specify)" row that emits `other-input` (`detail.value`), with `other-value`, `other-placeholder`, `other-input-label`, `other-maxlength` and the `otherValue` property; `--aha-answer-option-surface(-hover|-disabled)` replace the row surface for a host whose rows sit on a panel of the same frosted surface (#PR)
+- Revert: revert the PR; every addition is opt-in, so no consumer depends on it yet
+
 ## 0.605.2 — 2026-11-02
 ### Changed
 - Contracts Icon, Button, Tooltip, Tag, Avatar and Switch now declare the `web` environment, and Product lockup declares `product, web` (it leaves the environment baseline), so the Websites route lists all nine web components the Marketing sections use: aha-icon, aha-button, aha-tooltip, aha-tag, aha-segmented, aha-avatar, aha-product-lockup, aha-rate and aha-switch (#516)
