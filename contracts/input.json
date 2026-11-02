@@ -14,6 +14,7 @@
   "spec": [
     { "label": "Box", "value": "height 40 (default) · radius 8 · padding 0 12 · 240 wide, full width in a stacked setting row" },
     { "label": "Sizes", "value": "small 24 · default 40 · large 48 — all radius 8; a settings panel uses default only: small and large are for other product surfaces (large also the audience field), and screen-lint --surface=settings rejects both" },
+    { "label": "Label", "value": "optional `label` above the field, 4px gap · 14/21 regular 400 · --aha-text-secondary (#4A4A4A), the same as the Form label; disabled uses --aha-text-disabled" },
     { "label": "Rest border", "value": "1px #E3E3E3" },
     { "label": "Hover border", "value": "#E70E68 (color-primary)" },
     { "label": "Focus", "value": "#E70E68 border + 2px #E70E68@30% ring (on the persistent wrapper)" },

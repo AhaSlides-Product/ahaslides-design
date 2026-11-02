@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.605.1 — 2026-11-02
+### Fixed
+- `<aha-input>` built-in label (`label` attribute) is regular 400 in secondary ink (#4A4A4A), matching the Form label; it was semibold 600 in default ink. Size 14/21 and the 4px gap are unchanged. `<aha-counted-input>` and other fields that wrap `<aha-input>` follow. Group headers and SectionHeader stay semibold (#PR)
+- Revert: revert the PR; one CSS rule in `lib/aha-input.js`
+
 ## 0.605.0 — 2026-11-02
 ### Added
 - `screen-lint` hard-fails three new rules on every surface: `status-hue-class` (a `text-red-*`, `bg-green-*`, `border-yellow-*`, `text-danger` or similar utility class painting status in a hue; error text stays the default ink in `<aha-field-error>` or `<aha-alert type="error">`), `foreign-icon-library` (`<font-awesome-icon>`, `fa fa-*`, `zmdi`, `material-icons` and other icon libraries; glyphs are `<aha-icon>`) and `brand-logo-colour` (a `logo/original/` file outside the Logo library hover pattern, or the kit's `icon-maintain-color`, colour rule 2.6). Escape with `ds-lint-allow: status-hue`, `icon` or `brand-logo (why)` (#495)
