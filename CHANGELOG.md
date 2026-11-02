@@ -12,7 +12,7 @@ All notable changes to `@ahaslides-product/design`, **newest first**.
 - **On: the merge bumps it.** The entry heads as `## Unreleased` and the PR never touches a version
   file. On merge, `publish.yml` (`auto-version.mjs`) picks the number (an entry with only `### Fixed`
   is a patch, anything else a minor; a `Version-bump: patch|minor|major|none` line in the PR body
-  overrides it), turns the heading into `## X.Y.Z — YYYY-MM-DD`, fills each `(#PR)` with the real
+  overrides it), turns the heading into `## X.Y.Z — YYYY-MM-DD`, fills each `(#504)` with the real
   number and commits `chore(release): X.Y.Z` to master. Run the gate locally as `AUTO_VERSION=on npm run check`.
 
 The gate rejects an unfilled `(#129)` placeholder in every released entry: link the **real** PR number
@@ -36,7 +36,15 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.598.0 — 2026-11-02
 ### Added
 - Chart: `<aha-chart type="pie">`, a solid pie with no centre hole. It is the donut renderer with the same slices, palette, labels, legend, tooltip, empty state and screen-reader summary (named "Pie chart"). `type="donut"` with `options.variant: "pie"` keeps working. Contract, all flavour files, docs and a Pie default snippet updated together.
-- Revert: revert the PR; `pie` is one new value in the chart type list that reuses the donut renderer, so existing donut and `variant: "pie"` markup is untouched (#PR)
+- Revert: revert the PR; `pie` is one new value in the chart type list that reuses the donut renderer, so existing donut and `variant: "pie"` markup is untouched (#508)
+
+## 0.596.1 — 2026-11-02
+### Fixed
+- `screen-lint`: `no-dash-punctuation` no longer fires on dashes inside CSS, SCSS and Less comments; `min-width-trap` no longer fires on a `min-width` inside an `@media` or `@container` condition on the product, canvas, audience and settings surfaces (website keeps its on-scale breakpoint check); `chart-lib-import` now catches `@ant-design/plots` (allow a type `<aha-chart>` lacks with `ds-lint-allow: chart-lib-import (why)`) (#505)
+## 0.595.1 — 2026-11-02
+### Fixed
+- Features Marketing page: the Accent code pane of the Alternating screenshots layout wrote `aha-features--alternating-screenshots--accent`, which no CSS defines, so a pasted snippet rendered white. It now writes `aha-features--accent`; the state class of every Marketing section now comes from the section, then the layout (#508)
+- Revert: revert the PR; only the generated Accent code pane of one layout changes, no CSS or markup
 
 ## 0.595.0 — 2026-11-02
 ### Added

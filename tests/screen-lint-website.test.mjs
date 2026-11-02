@@ -15,12 +15,12 @@ test('the accepted breakpoints come from the shipped Marketing sections', () => 
   assert.deepEqual([...shipped].sort((a, b) => a - b), MARKETING_MIN_WIDTHS);
 });
 
-test('a shipped marketing breakpoint passes on website and still fails on product', () => {
+test('a shipped marketing breakpoint passes on website and on product', () => {
   const source = '@container aha-features (min-width:992px){ .a{margin:0} }';
   assert.deepEqual(rulesOf(source), []);
   assert.deepEqual(rulesOf('@container aha-numbers (min-width:768px) and (max-width:991px){ .a{margin:0} }'), []);
   assert.deepEqual(rulesOf('@media (min-width:768px){ .a{margin:0} }'), []);
-  assert.ok(rulesOf(source, 'product').includes('min-width-trap'));
+  assert.deepEqual(rulesOf(source, 'product'), []);
 });
 
 test('an off-scale breakpoint and a fixed min-width fail on website', () => {
