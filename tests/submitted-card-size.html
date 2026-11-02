@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Submitted card sizes</title></head>
+<body>
+  <div style="width:360px">
+    <aha-submitted-card id="plain" heading="Submitted: Tea" subtitle="Wait for the presenter"></aha-submitted-card>
+    <aha-submitted-card id="sm" size="sm" heading="Submitted: Tea" subtitle="Wait for the presenter"></aha-submitted-card>
+    <aha-submitted-card id="md" size="md" heading="Submitted: Tea" subtitle="Wait for the presenter"></aha-submitted-card>
+    <aha-submitted-card id="lg" size="lg" heading="Submitted: Tea" subtitle="Wait for the presenter"></aha-submitted-card>
+  </div>
+  <script type="module">
+    await import('../lib/aha-submitted-card.js');
+    await customElements.whenDefined('aha-submitted-card');
+    window.submittedCardFixtureReady = true;
+  </script>
+</body>
+</html>

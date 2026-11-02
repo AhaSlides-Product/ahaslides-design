@@ -30,8 +30,8 @@
     { "name": "status", "type": "default | active | success | warning | exception", "default": "default", "desc": "Fill colour (exception aliases error)" },
     { "name": "show-info", "type": "boolean", "default": "true", "desc": "Show the trailing percent/glyph label (set 'false' to hide)" },
     { "name": "palette", "type": "'product' | 'deck'", "default": "product", "desc": "deck on an audience page: track, fill and label follow the --aha-deck-* ladder applyDeck() writes; product (or no attribute) keeps the product colours" },
-    { "name": "ink", "type": "colour", "default": "—", "desc": "The deck ink (xprops.slide.textColour) for this element only, with palette=\"deck\"; normally inherited from applyDeck()" },
-    { "name": "accent", "type": "colour", "default": "—", "desc": "The deck accent (presentationColorPalette[0]) for this element only, with palette=\"deck\"; normally inherited from applyDeck()" }
+    { "name": "ink", "type": "colour", "default": "—", "desc": "The deck ink (xprops.slide.textColour) for this element only, and only with palette=\"deck\" (ignored without it); normally inherited from applyDeck()" },
+    { "name": "accent", "type": "colour", "default": "—", "desc": "The deck accent (presentationColorPalette[0]) for this element only, and only with palette=\"deck\" (ignored without it); normally inherited from applyDeck()" }
   ],
   "opinion": {
     "whenToUse": [
