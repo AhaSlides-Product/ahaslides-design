@@ -1,0 +1,22 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-image-resize-frame';   // registers <aha-image-resize-frame>
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<script setup>
+import { ref } from 'vue';
+const media = ref({ url: '/photo.jpg', alt: 'Team photo', width_pct: 60 });
+const previewOpen = ref(false);
+</script>
+
+<template>
+  <!-- emits intents; the host owns the width, the lightbox and the delete -->
+  <aha-image-resize-frame
+    :width="media.width_pct"
+    @width-change="media.width_pct = $event.detail.width"
+    @preview="previewOpen = true"
+    @delete="media = null"
+  >
+    <img :src="media.url" :alt="media.alt" />
+  </aha-image-resize-frame>
+</template>
