@@ -1,0 +1,13 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../lib/tokens.css">
+<script type="module">
+import { defineAhaChart } from '../lib/aha-chart.js';
+defineAhaChart();
+window.stringsFixtureReady = true;
+</script>
+<div style="width:640px">
+  <aha-chart id="own" type="donut" data='[]' strings='{"emptyNote":"No answers yet","typeNames":{"donut":"Answer split"}}'></aha-chart>
+  <aha-chart id="vi" type="donut" locale="vi" data='[]' strings='{"emptyNote":"Chưa có phiếu nào"}'></aha-chart>
+  <aha-chart id="broken" type="donut" data='[]' strings='{not json'></aha-chart>
+</div>
