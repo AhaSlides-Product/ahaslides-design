@@ -33,12 +33,17 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.890.0 — 2026-11-02
+## 0.891.0 — 2026-11-02
 ### Added
 - `aha-number-scale`: a row of tappable whole numbers for the audience phone, 0–10 by default for a Net Promoter Score (`min`, `max` for any short numeric rating). 48px numbers at least 44px wide, six per row whenever one row would squeeze a number under 44px (an 11-point scale under 524px), the pick filled with the deck accent, `low-label` / `high-label` under the scale, a radio group with arrow keys, Home and End (mirrored in right-to-left), `group-label`, `disabled`, `lock-key`, and a `change` event with `{value}` (#541)
 ### Fixed
 - `aha-list` `selectable`: a picker row's description reads in secondary text, so it passes 4.5:1 on the selected tint and the hover fill (the tertiary grey measured 3.18:1) (#541)
 - Revert: revert the PR; the element is new and opt-in, and the list fix is one CSS line
+
+## 0.884.0 — 2026-11-02
+### Added
+- `<aha-rate size="lg">` draws 32px stars inside a 44px hit area each (6px padding, gap 4), for touch surfaces; the focus ring and keyboard behaviour are unchanged and the default size is unchanged. With `character="number"` the cells become 44×44 (radius 12, number 16/600) and wrap onto a new row instead of shrinking. A custom `icon` character is drawn at 32px. No new colour values. (#555)
+- Revert: revert the PR; `size="lg"` falls back to the default 24px star, nothing else uses it
 
 ## 0.883.1 — 2026-11-02
 ### Fixed
