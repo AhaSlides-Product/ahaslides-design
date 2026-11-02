@@ -40,7 +40,7 @@ test('loading shows the spinner and blocks opening by click and keyboard; testid
       afterLoaded: state('busy'),
       testids: [...busy.shadowRoot.querySelectorAll('.item')].map((row) => row.getAttribute('data-testid')),
     };
-  })()`, { readyExpr: 'window.ready === true' });
+  })()`, { readyExpr: '!!window.ready' });
   assert.deepEqual(result.afterAttempt.busy, { spinner: true, caret: false, busy: 'true', open: false });
   assert.deepEqual(result.afterAttempt.idle, { spinner: false, caret: true, busy: null, open: true });
   assert.deepEqual(result.afterLoaded, { spinner: false, caret: true, busy: null, open: true });

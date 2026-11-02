@@ -25,7 +25,7 @@ test('option testid reaches the option button; options without it and string opt
   const result = await evaluateInPage(pathToFileURL(file).href, `(() => {
     const ids = (id) => [...document.getElementById(id).shadowRoot.querySelectorAll('.seg')].map((b) => b.getAttribute('data-testid'));
     return { rich: ids('rich'), plain: ids('plain') };
-  })()`, { readyExpr: 'window.ready === true' });
+  })()`, { readyExpr: '!!window.ready' });
   assert.deepEqual(result.rich, ['view-list', 'view-grid', null]);
   assert.deepEqual(result.plain, [null, null]);
 });
