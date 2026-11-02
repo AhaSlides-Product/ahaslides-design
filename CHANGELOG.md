@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.906.0 — 2026-11-02
 ### Added
-- `aha-color-picker` takes an opt-in `custom` attribute: a custom-colour row under the presets with an `<aha-input>` hex field (`#rgb` or `#rrggbb`, with or without the `#`, committed on Enter or blur and normalised to upper-case `#RRGGBB`; anything else shows an error line and fires nothing), a palette button that opens the browser's own colour picker, and a Pick from screen button for the EyeDropper API, each shown only where the browser supports it. Custom entry fires the same `change` event as a swatch; `detail` is now `{value, source}` with `source` one of `swatch`, `hex`, `native`, `eyedropper`. `normaliseHex` is exported. Without `custom` the picker renders and behaves as before (#NNN)
+- `aha-color-picker` takes an opt-in `custom` attribute: a custom-colour row under the presets with an `<aha-input>` hex field (`#rgb` or `#rrggbb`, with or without the `#`, committed on Enter or blur and normalised to upper-case `#RRGGBB`; anything else shows an error line and fires nothing), a palette button that opens the browser's own colour picker, and a Pick from screen button for the EyeDropper API, each shown only where the browser supports it. Custom entry fires the same `change` event as a swatch; `detail` is now `{value, source}` with `source` one of `swatch`, `hex`, `native`, `eyedropper`. `normaliseHex` is exported. Without `custom` the picker renders and behaves as before (#571)
 - Revert: revert the PR; the attribute is new and opt-in, and `detail.source` is an added field
 
 ## 0.903.0 — 2026-11-02
