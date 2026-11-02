@@ -33,6 +33,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.725.0 — 2026-11-02
+### Added
+- `<aha-menu>` rows take an optional `testid` (rendered as `data-testid`, as in `<aha-dropdown>`), an `attrs` map that passes `data-*` and `aria-label` through to the row, and a `slot` name that projects rich light-DOM content (text with an `<aha-tag>`, say) in place of the label. Rows without them render unchanged. (#526)
+### Fixed
+- `<aha-menu>` disabled rows now carry `aria-disabled="true"` beside the native `disabled`; the render is unchanged. (#526)
+- Revert: revert the PR; the new item fields are opt-in
+
+
 ## 0.702.0 — 2026-11-02
 ### Added
 - Chart: `colors` now applies with either palette. On the default `palette="brand"` it replaces the `--aha-viz-series-*` series (and their tints) with the host's own colours, in series order, and keeps the brand ink, so an app screen can pass its own palette (a survey's answer colours, Yes / No). The host picks the hues; a chart without `colors` renders exactly as before, and `palette="deck"` is unchanged (#532)
