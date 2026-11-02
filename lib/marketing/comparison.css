@@ -24,16 +24,16 @@
 .aha-comparison__column-head aha-tag{display:block;width:fit-content;margin:var(--aha-space-8) auto 0}
 .aha-comparison__column-name{display:block;font-size:var(--aha-size-l);font-weight:var(--aha-weight-semibold);color:var(--aha-text-default)}
 .aha-comparison__column-text{display:block;margin-top:var(--aha-space-8);font-size:var(--aha-size-sm);line-height:var(--aha-line-height-body);font-weight:var(--aha-weight-regular);color:var(--aha-text-secondary)}
-.aha-comparison__group th{padding:var(--aha-space-24) var(--aha-space-16) var(--aha-space-8);text-align:left;font-size:var(--aha-size-sm);font-weight:var(--aha-weight-semibold);letter-spacing:var(--aha-letter-spacing-subheadings);text-transform:uppercase;color:var(--aha-color-primary)}
+.aha-comparison__group th{padding:var(--aha-space-24) var(--aha-space-16) var(--aha-space-8);text-align:left;font-size:var(--aha-size-sm);font-weight:var(--aha-weight-semibold);letter-spacing:var(--aha-letter-spacing-subheadings);text-transform:uppercase;color:var(--aha-text-default)}
 .aha-comparison__table tbody tr:not(.aha-comparison__group) :is(th,td){height:var(--aha-space-60);padding:var(--aha-space-8) var(--aha-space-16);border-top:1px solid var(--aha-border-default);font-size:var(--aha-size-default);color:var(--aha-text-secondary);vertical-align:middle}
 .aha-comparison__table tbody tr:not(.aha-comparison__group) th{text-align:left;font-weight:var(--aha-weight-semibold);color:var(--aha-text-default)}
 .aha-comparison__table tbody tr:not(.aha-comparison__group):hover :is(th,td){background:var(--aha-gray-30)}
 .aha-comparison__mark{vertical-align:middle}
-.aha-comparison__mark--yes{color:var(--aha-color-primary)}
+.aha-comparison__mark--yes{color:var(--aha-text-default)}
 .aha-comparison__mark--no{color:var(--aha-icon-muted)}
-.aha-comparison__table .aha-comparison__col--highlight{box-shadow:inset var(--aha-space-2) 0 0 var(--aha-color-primary),inset calc(-1 * var(--aha-space-2)) 0 0 var(--aha-color-primary)}
-.aha-comparison__table thead .aha-comparison__col--highlight{border-radius:var(--aha-radius-default) var(--aha-radius-default) 0 0;box-shadow:inset var(--aha-space-2) var(--aha-space-2) 0 var(--aha-color-primary),inset calc(-1 * var(--aha-space-2)) 0 0 var(--aha-color-primary)}
-.aha-comparison__table .aha-comparison__col--last{border-radius:0 0 var(--aha-radius-default) var(--aha-radius-default);box-shadow:inset var(--aha-space-2) 0 0 var(--aha-color-primary),inset calc(-1 * var(--aha-space-2)) 0 0 var(--aha-color-primary),inset 0 calc(-1 * var(--aha-space-2)) 0 var(--aha-color-primary)}
+.aha-comparison__table .aha-comparison__col--highlight{box-shadow:inset var(--aha-space-2) 0 0 var(--aha-text-default),inset calc(-1 * var(--aha-space-2)) 0 0 var(--aha-text-default)}
+.aha-comparison__table thead .aha-comparison__col--highlight{border-radius:var(--aha-radius-default) var(--aha-radius-default) 0 0;box-shadow:inset var(--aha-space-2) var(--aha-space-2) 0 var(--aha-text-default),inset calc(-1 * var(--aha-space-2)) 0 0 var(--aha-text-default)}
+.aha-comparison__table .aha-comparison__col--last{border-radius:0 0 var(--aha-radius-default) var(--aha-radius-default);box-shadow:inset var(--aha-space-2) 0 0 var(--aha-text-default),inset calc(-1 * var(--aha-space-2)) 0 0 var(--aha-text-default),inset 0 calc(-1 * var(--aha-space-2)) 0 var(--aha-text-default)}
 .aha-comparison__cta{display:flex;justify-content:center;margin-top:var(--aha-section-space-group)}
 @container aha-comparison (max-width:767px){
   .aha-comparison__inner{--aha-web-gutter:var(--aha-space-24)}
