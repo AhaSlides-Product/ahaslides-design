@@ -33,6 +33,19 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.837.0 — 2026-11-02
+### Changed
+- Canvas Library Leaderboard: each deck (light, dark and a new orange-accent deck with a tied first place) has a "Demo: show winner" button that replays the `showWinner()` reveal, so the banner, centre glow in `--aha-deck-accent`, count-up and confetti can be seen on the page; new Show winner rule row and `showWinner()` in the snippet. Docs and demo only, the component is unchanged (#556)
+- Revert: revert the PR; docs data only
+
+## 0.835.0 — 2026-11-02
+### Added
+- `aha-button` copies `aria-current` to its inner button and keeps it in step, so a pagination dot or step marked `aria-current="page"` is announced as current; `aria-keyshortcuts`, `aria-roledescription`, `aria-description` and `aria-busy` are forwarded the same way (#531)
+### Fixed
+- `aha-button`, `aha-switch` and `aha-select` delegate focus from the host, so `host.focus()` moves keyboard focus to the inner control (it did nothing before). `aha-input` already did; `aha-checkbox` is focusable on the host itself (#531)
+- `aha-button` updates its inner button in place when `variant`, `size`, `block`, `icon-only`, `loading`, `disabled` or `aria-label` change, so a focused button keeps keyboard focus; it was redrawn and focus dropped. A colour change on a variant swap now runs the button's existing 0.2s transition instead of snapping. Only a link that turns into a button (or back) is redrawn, and it takes focus with it (#531)
+- Revert: revert the PR; no API is removed
+
 ## 0.813.0 — 2026-11-02
 ### Added
 - `<aha-image-resize-frame>`: the editor's on-canvas image frame. Wraps your `<img>`; click to select (2px Vivid Pink outline, four corner handles), drag a corner or use the Arrow keys on a handle to resize by width percent (floor max(15%, 120px), never past the natural width), and a hover mask with Preview (secondary) and Delete (danger) buttons, both size md (`actions` slot replaces them); handles draw 12px with an invisible 24px hit zone (44px under a coarse pointer). Emits `preview`, `delete`, `select-change`, `width-input` and `width-change`; the host owns the lightbox and the data. Opt-in, existing tokens only (#549)
