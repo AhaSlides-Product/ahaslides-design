@@ -102,7 +102,7 @@
   "spec": [
     {
       "label": "Types",
-      "value": "bar · column · stacked · donut (variant donut | pie) · radial · treemap · quadrant · bell · radar · wordcloud · mindmap · line"
+      "value": "bar · column · stacked · donut · pie · radial · treemap · quadrant · bell · radar · wordcloud · mindmap · line"
     },
     {
       "label": "Palette",
@@ -133,8 +133,8 @@
       "value": "correct = index (or data item correct:true): a 20px <aha-answer-mark> (white ✓ on a solid --aha-answer-correct disc) + bold ink label (colour rules 11.2, 11.3); correct-style=fill (default, as the mockup) paints the correct mark --aha-answer-correct in both palettes and the rest neutral; incorrect options are left unmarked; correct-style=indicator keeps palette colours (canvas.guide Job 1 / Job 2)"
     },
     {
-      "label": "Donut · radial · tree map",
-      "value": "6 slices max (the rest fold into \"Other (n)\") · donut ring 38% · slice 1 alone takes series 1 and later slices cycle series 2–4 (deck: the deck colours after the first), so the last slice never matches the first · 2px slice gap in --aha-viz-slice-gap (default the container white; on a deck the inverse ink) · leader-line callouts up to 5 slices from 480px wide, else a legend · radial 270° rings on a nice scale · squarified tree map with tint chips"
+      "label": "Donut · pie · radial · tree map",
+      "value": "6 slices max (the rest fold into \"Other (n)\") · donut ring 38% (pie: no hole) · slice 1 alone takes series 1 and later slices cycle series 2–4 (deck: the deck colours after the first), so the last slice never matches the first · 2px slice gap in --aha-viz-slice-gap (default the container white; on a deck the inverse ink) · leader-line callouts up to 5 slices from 480px wide, else a legend · radial 270° rings on a nice scale · squarified tree map with tint chips"
     },
     {
       "label": "Bell · radar · quadrant",
@@ -164,7 +164,7 @@
   "props": [
     {
       "name": "type",
-      "type": "'bar' | 'column' | 'stacked' | 'donut' | 'radial' | 'treemap' | 'quadrant' | 'bell' | 'radar' | 'wordcloud' | 'mindmap' | 'line'",
+      "type": "'bar' | 'column' | 'stacked' | 'donut' | 'pie' | 'radial' | 'treemap' | 'quadrant' | 'bell' | 'radar' | 'wordcloud' | 'mindmap' | 'line'",
       "default": "bar",
       "desc": "Chart type"
     },
@@ -178,7 +178,7 @@
       "name": "options",
       "type": "object property or JSON attribute",
       "default": "chartOptionDefaults[type]",
-      "desc": "Type-specific settings — donut {variant, labels, maxSize} · radial/quadrant {maxSize} · treemap {height} · bell {height, show*} · radar {height, form, grid, rings, scoreStyle, reveal, pace, show*, hollowCentre} · wordcloud {height, shape, maskSrc, rotation, colour, fontScale, removable, showTooltip, showCounts, group, foldDiacritics, maxWords} · mindmap {pageSize, maxDepth, maxBranches, editable} · column {reference: {value, label}} (a dashed reference line, label at the right end) · line {height, endLabels, format, rightFormat, zero} (format: number | compact | percent)"
+      "desc": "Type-specific settings — donut/pie {variant, labels, maxSize} · radial/quadrant {maxSize} · treemap {height} · bell {height, show*} · radar {height, form, grid, rings, scoreStyle, reveal, pace, show*, hollowCentre} · wordcloud {height, shape, maskSrc, rotation, colour, fontScale, removable, showTooltip, showCounts, group, foldDiacritics, maxWords} · mindmap {pageSize, maxDepth, maxBranches, editable} · column {reference: {value, label}} (a dashed reference line, label at the right end) · line {height, endLabels, format, rightFormat, zero} (format: number | compact | percent)"
     },
     {
       "name": "palette",
@@ -244,7 +244,7 @@
       "name": "legend",
       "type": "'on' | 'off'",
       "default": "auto",
-      "desc": "Auto: on for stacked, tree map, quadrant groups, multi-subject radar, and a donut without callouts"
+      "desc": "Auto: on for stacked, tree map, quadrant groups, multi-subject radar, and a donut or pie without callouts"
     },
     {
       "name": "tooltip",
@@ -255,14 +255,14 @@
     {
       "name": "max-items",
       "type": "number",
-      "default": "bar/column: all · donut/radial/treemap/stacked series: 6",
+      "default": "bar/column: all · donut/pie/radial/treemap/stacked series: 6",
       "desc": "Cap before the smallest fold into \"Other (n)\""
     },
     {
       "name": "responses",
       "type": "number",
       "default": "sum of values",
-      "desc": "Respondent count for the summary and the donut centre"
+      "desc": "Respondent count for the summary and the donut centre (a pie has no centre)"
     },
     {
       "name": "locale",
@@ -313,7 +313,7 @@
       },
       {
         "what": "Chart type: donut / pie",
-        "when": "type=\"donut\" (options.variant=\"pie\" for a solid pie with no centre hole) — part-to-whole of ONE question with few categories (up to 6 slices, the rest fold into \"Other (n)\"; up to 5 get leader-line callouts when the chart is at least 480px wide, otherwise a legend). Not for many slices or values close together (use bar)."
+        "when": "type=\"donut\" (a ring with the respondent total in the centre) or type=\"pie\" (a solid pie with no centre hole, same slices, palette, labels, legend and tooltip) — part-to-whole of ONE question with few categories (up to 6 slices, the rest fold into \"Other (n)\"; up to 5 get leader-line callouts when the chart is at least 480px wide, otherwise a legend). Not for many slices or values close together (use bar)."
       },
       {
         "what": "Chart type: radial",
@@ -505,6 +505,11 @@
       "type": "donut",
       "title": "Donut and pie",
       "file": "chart.default.donut.html.txt"
+    },
+    {
+      "type": "pie",
+      "title": "Pie",
+      "file": "chart.default.pie.html.txt"
     },
     {
       "type": "radial",
