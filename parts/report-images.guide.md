@@ -187,6 +187,11 @@ width `<aha-icon>` uses at that size.
 | `system-warning-circle` | a figure needs attention, or data is incomplete |
 | `system-hourglass-high` | pending: a source is still loading |
 | `system-circle-dashed`, `system-circle-half-dashed`, `system-check-circle` | not started, in progress, completed |
+| `system-cursor-click` | how-to and tutorial images: click here, marks the control to press on a screenshot |
+| `system-check` | how-to and tutorial images: check this, marks a setting to confirm on a screenshot |
+| `system-arrow-right` | how-to and tutorial images: next, points from one step to the next |
+
+The same set serves how-to and tutorial step images (for example a 1200×630 step image over a real screenshot): call the marks by their registry names rather than inlining registry paths.
 
 A glyph that is not in the set is added to `build-static-icons.mjs` from the registry, never
 drawn by hand.
