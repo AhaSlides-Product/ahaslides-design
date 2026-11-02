@@ -1,0 +1,134 @@
+{
+  "name": "Palette swatch",
+  "slug": "palette-swatch",
+  "group": "Data display",
+  "tier": "leaf",
+  "badge": "shared web component",
+  "element": "aha-palette-swatch",
+  "reuse": {
+    "entry": "./aha-palette-swatch",
+    "registers": "aha-palette-swatch",
+    "exportsNamed": [
+      "AhaPaletteSwatch",
+      "defineAhaPaletteSwatch"
+    ]
+  },
+  "summary": "A theme's colour palette shown as five rounded chips of rising heights, the presenter's theme-thumbnail palette.",
+  "lead": "ONE custom element, <aha-palette-swatch>, for showing a theme's colour palette inside a theme card or picker. Five rounded bars of rising heights sit on a 152:33 frame that fills the host's width; `colors` (pipe-separated) fills them in order. The colours are the theme's own data, not DS hues, so the element paints whatever the host passes; a palette shorter than five, or an invalid entry, leaves that chip outlined and unfilled. Decorative by default (aria-hidden); give it a `label` and it becomes role=\"img\" with that name. Shadow DOM built once; a `colors` change restyles the persistent chips in place.",
+  "codeNote": "Same element, same shadow-DOM CSS, identical render across frameworks. The chips are persistent nodes; a new `colors` value only changes their inline background. Defined once in @ahaslides-product/design.",
+  "tokensUsed": [
+    "gray-35",
+    "radius-xs"
+  ],
+  "spec": [
+    {
+      "label": "Frame",
+      "value": "width 100% of the host, aspect-ratio 152 / 33, 5-column grid, column gap 1.65% (2.5 of 152)"
+    },
+    {
+      "label": "Chips",
+      "value": "heights 81% · 57% · 96% · 72% · 48% of the frame, bottom-aligned; radius xs 4 on the top corners, plus the outer bottom corner on the first and last chip"
+    },
+    {
+      "label": "Stroke",
+      "value": "0.5px Gray 35 #EBEBEB on every chip, filled or not"
+    },
+    {
+      "label": "Fill",
+      "value": "the first five `colors` in order; a missing or invalid entry leaves that chip unfilled (stroke only)"
+    }
+  ],
+  "props": [
+    {
+      "name": "colors",
+      "type": "string",
+      "default": "\"\"",
+      "desc": "Pipe-separated CSS colours from the theme, e.g. \"#1A1A1A|#E70E68|#4A4A4A\"; the first five are used"
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "(none)",
+      "desc": "Accessible name. Set → role=\"img\" with this aria-label; unset → decorative (aria-hidden)"
+    },
+    {
+      "name": "::part(frame) / ::part(chip)",
+      "type": "part",
+      "default": "",
+      "desc": "Layout hooks only (position, margin); never restyle the chips"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Palette swatch",
+        "when": "a theme card, theme picker or theme gallery that previews the theme's colour palette"
+      },
+      {
+        "what": "Color picker",
+        "when": "the user picks ONE colour (use <aha-color-picker>, whose swatches are selectable controls)"
+      }
+    ],
+    "note": "The chips show a theme's own colours, so they take any colour the theme holds; they are a read-only preview, never a control. Put the click on the card that contains them, not on the chips."
+  },
+  "surfaces": [
+    "editor",
+    "dashboard"
+  ],
+  "environment": [
+    "product"
+  ],
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "palette-swatch.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a web component in an HTML file renders on open, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "palette-swatch.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "palette-swatch.vue.txt"
+    }
+  ],
+  "preview": "palette-swatch.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). The probe is 152px wide with five colours, so the third chip is the tallest and every chip carries the Gray 35 stroke.",
+    "ready": "!!(document.querySelector('aha-palette-swatch[data-probe]') && document.querySelector('aha-palette-swatch[data-probe]').shadowRoot && document.querySelector('aha-palette-swatch[data-probe]').shadowRoot.querySelectorAll('.chip').length===5)",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-palette-swatch[data-probe]');var sr=el.shadowRoot;var f=sr.querySelector('.frame');var ch=sr.querySelectorAll('.chip');var c1=getComputedStyle(ch[0]);var c2=getComputedStyle(ch[1]);return{frameHeight:getComputedStyle(f).height,chipStroke:c1.borderTopColor,chipRadius:c1.borderTopLeftRadius,firstFill:c1.backgroundColor,secondFill:c2.backgroundColor,frameHidden:f.getAttribute('aria-hidden')};})()",
+    "expect": {
+      "frameHeight": "33px",
+      "chipStroke": "rgb(235, 235, 235)",
+      "chipRadius": "4px",
+      "firstFill": "rgb(26, 26, 26)",
+      "secondFill": "rgb(231, 14, 104)",
+      "frameHidden": "true"
+    }
+  },
+  "selfCheck": [
+    {
+      "label": "five chips at rising heights, 152:33 frame",
+      "verdict": "PASS"
+    },
+    {
+      "label": "0.5px Gray 35 stroke, radius xs 4",
+      "verdict": "PASS"
+    },
+    {
+      "label": "short palette leaves later chips outlined",
+      "verdict": "PASS"
+    }
+  ],
+  "highlights": [
+    "Five rising chips filled from a theme's palette",
+    "Shorter palettes leave later chips outlined",
+    "Fills its host's width at a 152:33 ratio"
+  ]
+}

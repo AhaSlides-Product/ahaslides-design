@@ -637,6 +637,39 @@
       </div></div>
     </div>
   </section>
+  <section class="chart-type" aria-labelledby="chart-type-nps">
+    <h3 class="chart-type-title" id="chart-type-nps">NPS</h3>
+    <div class="aha-pg-seg chart-case-switch" role="radiogroup" aria-label="NPS cases">
+      <button type="button" class="aha-pg-opt active" role="radio" aria-checked="true" tabindex="0">Default</button>
+      <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">Host colours</button>
+      <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">Large counts</button>
+      <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">No responses</button>
+    </div>
+    <div class="chart-case">
+      <div class="lbl">Ratings 0 to 10 with detractor, passive and promoter brackets and the score</div>
+      <div class="chart-frame" role="group" aria-label="Ratings 0 to 10 with detractor, passive and promoter brackets and the score, 1280 by 720 stage"><div class="chart-stage">
+      <aha-chart type="nps" label="How likely are you to recommend us?" data='[2,1,0,3,2,4,6,9,14,18,21]'></aha-chart>
+      </div></div>
+    </div>
+    <div class="chart-case" hidden>
+      <div class="lbl">The host's own bracket colours, in the order detractor, passive, promoter</div>
+      <div class="chart-frame" role="group" aria-label="The host's own bracket colours, in the order detractor, passive, promoter, 1280 by 720 stage"><div class="chart-stage">
+      <aha-chart type="nps" label="How likely are you to recommend us?" colors="var(--aha-viz-series-4),var(--aha-viz-neutral),var(--aha-viz-series-3)" data='[2,1,0,3,2,4,6,9,14,18,21]'></aha-chart>
+      </div></div>
+    </div>
+    <div class="chart-case" hidden>
+      <div class="lbl">Large counts (compact under 480px wide)</div>
+      <div class="chart-frame" role="group" aria-label="Large counts, 1280 by 720 stage"><div class="chart-stage">
+      <aha-chart type="nps" label="How likely are you to recommend us?" data='[400,200,100,300,500,900,1200,2100,3400,9000,18000]'></aha-chart>
+      </div></div>
+    </div>
+    <div class="chart-case" hidden>
+      <div class="lbl">No responses yet</div>
+      <div class="chart-frame" role="group" aria-label="No responses yet, 1280 by 720 stage"><div class="chart-stage">
+      <aha-chart type="nps" label="NPS" data='[0,0,0,0,0,0,0,0,0,0,0]'></aha-chart>
+      </div></div>
+    </div>
+  </section>
 </div>
 
 <!-- Imports the REAL shipped element — no inlined copy, so the preview can never drift from lib/. -->

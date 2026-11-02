@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Counted textarea direction</title>
+</head>
+<body>
+  <aha-counted-textarea id="rtl" dir="auto" maxlength="60" value="مرحبا"></aha-counted-textarea>
+  <aha-counted-textarea id="plain" maxlength="60" value="مرحبا"></aha-counted-textarea>
+  <script type="module">
+    await import('../lib/aha-counted-textarea.js');
+    await customElements.whenDefined('aha-counted-textarea');
+    window.countedTextareaFixtureReady = true;
+  </script>
+</body>
+</html>

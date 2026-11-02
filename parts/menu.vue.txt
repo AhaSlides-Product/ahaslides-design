@@ -19,9 +19,19 @@ const items = computed(() => JSON.stringify([
   { type: 'divider' },
   { key: 'delete', label: 'Delete workspace', icon: 'system-trash', danger: true },
 ]));
+const moreItems = [
+  { key: 'rename', label: 'Rename', icon: 'system-pencil-simple', testid: 'menu-rename' },
+  { key: 'export', label: 'Export to PDF', icon: 'system-file-pdf', slot: 'export' },
+  { key: 'duplicate', label: 'Duplicate', icon: 'system-copy', disabled: true },
+  { key: 'delete', label: 'Delete', icon: 'system-trash', danger: true },
+];
 function onSelect(e) { view.value = e.detail.key; }
 </script>
 
 <template>
   <aha-menu :value="view" mode="vertical" :items="items" @select="onSelect" />
+  <!-- per-row extras: testid → data-testid, attrs (data-*, aria-label), slot for rich row content -->
+  <aha-menu :items="JSON.stringify(moreItems)" @select="onSelect">
+    <span slot="export">Export to PDF <aha-tag color="primary">Pro</aha-tag></span>
+  </aha-menu>
 </template>
