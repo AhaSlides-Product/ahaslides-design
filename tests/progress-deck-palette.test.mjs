@@ -18,7 +18,7 @@ const READ = `(() => {
     return { track: track.backgroundColor, border: track.borderTopWidth, fill: getComputedStyle(root.querySelector('.fill')).backgroundColor, label: getComputedStyle(root.querySelector('.info')).color };
   };
   const out = {};
-  for (const id of ['product', 'deck', 'deck-unflavoured', 'deck-success', 'bar', 'own-ink', 'stray-accent', 'toggle']) out[id] = readLine(id);
+  for (const id of ['product', 'themed', 'deck', 'deck-unflavoured', 'deck-success', 'bar', 'own-ink', 'stray-accent', 'toggle']) out[id] = readLine(id);
   const ring = shadowOf('own-circle');
   out['own-circle'] = { fill: getComputedStyle(ring.querySelector('.fill-c')).stroke, track: getComputedStyle(ring.querySelector('.track-c')).stroke, label: getComputedStyle(ring.querySelector('.center')).color };
   const steps = shadowOf('own-steps');
@@ -58,6 +58,7 @@ test('palette="deck" draws the bar from the deck ladder; without it the bar keep
   assert.deepEqual(productBar(bars.product), product);
   assert.deepEqual(productBar(bars['deck-unflavoured']), { ...product, fill: 'rgb(0, 163, 255)' }, 'inside an applyDeck() root without palette only the fill follows the inherited --aha-color-primary; the track stays product');
   assert.deepEqual(productBar(bars['stray-accent']), product, 'ink and accent without palette="deck" do not recolour the bar');
+  assert.equal(bars.themed.fill, 'rgb(51, 102, 153)', 'a consumer inline --aha-color-primary survives connect');
   for (const id of ['deck', 'bar']) {
     assert.match(bars[id].track, /^(rgba\(255, 255, 255, 0\.12\)|color\(srgb 1 1 1 \/ 0\.12\))$/, `${id} track is the deck ink at 12%`);
     assert.equal(bars[id].border, '1px', `${id} track has the hairline`);
