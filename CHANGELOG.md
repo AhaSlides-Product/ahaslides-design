@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.609.2 — 2026-11-02
 ### Fixed
-- CHANGELOG: the 0.609.0 entry links its real PR number instead of the `(#PR)` placeholder that auto-merge shipped (#525)
+- CHANGELOG: the 0.609.0 entry links its real PR number instead of the `(#PR)` placeholder that auto-merge shipped (#533)
 - Revert: revert the PR; only CHANGELOG text changes
 
 ## 0.609.1 — 2026-11-02
