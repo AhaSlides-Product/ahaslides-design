@@ -17,3 +17,10 @@
 <aha-answer-list selection-mode="multiple" revealed count-mode="percent" total="40"
   value='["a","b"]' counts='{"a":22,"b":13,"c":5}'
   options='[{"id":"a","label":"Coffee"},{"id":"b","label":"Tea","correct":true},{"id":"c","label":"Juice"}]'></aha-answer-list>
+
+<!-- opt-in: letter chips, one Tab stop for the list (Arrow keys, Home / End) and an inline Other row -->
+<aha-answer-list roving option-labels="alphabet" other-placeholder="Type your answer" other-maxlength="250"
+  options='[{"id":"a","label":"Coffee"},{"id":"b","label":"Tea"},{"id":"other","label":"Other (please specify)","other":true}]'></aha-answer-list>
+<script type="module">
+  document.querySelector('aha-answer-list[roving]').addEventListener('other-input', (e) => console.log(e.detail.id, e.detail.value));
+</script>

@@ -133,10 +133,46 @@
       "desc": "The radiogroup's accessible name: pass the translated question"
     },
     {
+      "name": "roving",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Opt-in. The rows become one Tab stop: Arrow keys move (and pick, in single mode), Home and End jump to the first and last open row, Space or Enter picks"
+    },
+    {
+      "name": "option-labels",
+      "type": "alphabet | number",
+      "default": "—",
+      "desc": "Opt-in. A letter chip on every row in list order: A … Z, AA, AB … or 1, 2, 3 (answerOptionLabel(style, index), exported from the same module). Visual only"
+    },
+    {
+      "name": "options[].other / options[].otherValue",
+      "type": "boolean / string",
+      "default": "false / —",
+      "desc": "Opt-in. The inline editable Other row: picked by a tap, Space or Enter, its text field replaces the label; otherValue seeds the text. Not combined with expandable or image"
+    },
+    {
+      "name": "other-placeholder / other-input-label / other-maxlength",
+      "type": "string / string / number",
+      "default": "the row text / the row text / —",
+      "desc": "The Other row's field placeholder, accessible name and maximum length"
+    },
+    {
+      "name": "--aha-answer-option-surface(-hover|-disabled)",
+      "type": "CSS custom property",
+      "default": "--aha-deck-surface ladder",
+      "desc": "Opt-in. Set on the list to replace every row's surface at rest, hover and locked; use an existing deck token"
+    },
+    {
       "name": "change",
       "type": "CustomEvent<{value}>",
       "default": "—",
       "desc": "Fires on every pick"
+    },
+    {
+      "name": "other-input",
+      "type": "CustomEvent",
+      "default": "—",
+      "desc": "Fires on every edit of an Other row's field; detail.id is the option id, detail.value the text. Never changes the pick"
     }
   ],
   "opinion": {
@@ -168,7 +204,8 @@
     "registers": "aha-answer-list",
     "exportsNamed": [
       "AhaAnswerList",
-      "defineAhaAnswerList"
+      "defineAhaAnswerList",
+      "answerOptionLabel"
     ]
   },
   "snippets": [
