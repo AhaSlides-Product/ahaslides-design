@@ -26,6 +26,14 @@
       <button style="font-family:var(--aha-font-product); font-size:14px; padding:6px 12px; border:1px solid var(--aha-border-default); border-radius:8px; background:#fff; cursor:pointer">Right · start</button>
     </aha-tooltip>
   </div>
+  <div class="lbl" style="margin-top:40px">Hover, keyboard focus and tap · named help button · open-change</div>
+  <div class="row" style="gap:48px; flex-wrap:wrap; align-items:center">
+    <label style="display:inline-flex; align-items:center; gap:6px; font-family:var(--aha-font-product); font-size:14px; color:var(--aha-text-default)">
+      Custom survey URL
+      <aha-tooltip id="tap-demo" help trigger="hover-tap" help-label="About custom survey URLs" placement="top" text="Share a memorable link instead of the generated code"></aha-tooltip>
+    </label>
+    <output id="tap-demo-log" style="font-family:var(--aha-font-product); font-size:12px; color:var(--aha-text-secondary)">open-change: not fired yet</output>
+  </div>
 </div>
 
 <!-- Imports the REAL shipped element (../lib/aha-tooltip.js) — no inlined copy, so the preview can
@@ -33,4 +41,10 @@
      contracts/tooltip.json → playground and drives this element's attributes live. -->
 <script type="module">
   import '../lib/aha-tooltip.js';   // registers <aha-tooltip> — the shipped primitive, byte-identical to consumers
+  const log = document.getElementById('tap-demo-log');
+  let reveals = 0;
+  document.getElementById('tap-demo').addEventListener('open-change', (event) => {
+    if (event.detail.open) reveals += 1;
+    log.textContent = `open-change: { open: ${event.detail.open} } · reveals ${reveals}`;
+  });
 </script>

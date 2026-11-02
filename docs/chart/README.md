@@ -299,9 +299,10 @@ All attributes are optional except that charts need `data`.
 | `max-items` | number | bar and column: all; donut, radial, tree map and stacked series: 6 | Cap before the smallest items fold into "Other (n)". |
 | `responses` | number | sum of the values | Respondent count for the summary and the donut centre. |
 | `locale` | BCP 47 tag | `<html lang>`, else `en` | Built-in copy (`en`, `vi`) and number formatting. |
+| `strings` | JSON object | — | Overrides any built-in text, key by key. See [Locale and strings](#locale-and-strings). |
 | `label` | string | the type name | The accessible name and the data-table caption. |
 
-Properties without an attribute form: `strings` (object, see [Locale](#locale-and-strings)) and `colors` as an array.
+`strings` and `colors` also work as properties (an object and an array). A property wins over its attribute until the attribute changes.
 
 Method: `chart.replay()` re-runs the entrance animation with the current data.
 
@@ -366,12 +367,29 @@ Built-in text (summaries, "Other", pager labels, word-cloud hints and so on) is 
 <aha-chart type="bar" locale="vi" data='[...]'></aha-chart>
 ```
 
-To use another language or reword anything, pass `strings`. Keys you leave out fall back to English; see `chartStrings.en` for every key and its `{placeholders}`.
+To use another language or reword anything, pass `strings`, as a property or as a JSON attribute. Keys you leave out fall back to the locale's built-in text, then to English. `{placeholders}` are filled in for you, and count keys take `{ one, other }` plural forms.
 
 ```js
 chart.setAttribute('locale', 'fr');
 chart.strings = { other: 'Autres', otherCount: 'Autres ({count})', nextPage: 'Page suivante' };
 ```
+
+```html
+<aha-chart type="donut" data='[]' strings='{"emptyNote":"No answers yet","emptySummary":"{type}. No answers yet."}'></aha-chart>
+```
+
+Every key you can override (the chart draws no other text):
+
+| Group | Keys |
+|---|---|
+| Type names (accessible name, table caption, summaries) | `typeNames.bar`, `.column`, `.stacked`, `.donut`, `.pie`, `.radial`, `.treemap`, `.quadrant`, `.bell`, `.radar`, `.wordcloud`, `.mindmap`, `.line` |
+| Shared labels and table headers | `other`, `otherCount`, `optionNumber`, `responses`, `responsesUnit`, `people`, `submissions`, `item`, `count`, `share`, `word`, `level`, `group`, `average`, `correct`, `rank`, `value`, `period`, `noValue` |
+| Empty state | `emptyNote` (the visible "No responses yet"), `emptySummary`, `lineEmpty`, `radarNoResponses` |
+| Pager | `page`, `rankPage`, `previousPage`, `nextPage` |
+| Summaries and the live region | `summary`, `leader`, `correctSummary`, `stackedSummary`, `signedSummary`, `referenceSummary`, `lineSummary`, `lineLatest`, `wordcloudSummary`, `wordcloudLeader`, `mindmapSummary`, `quadrantSummary`, `bellSummary`, `bellStatement`, `radarSummary`, `radarSubject`, `updated` |
+| Legends, axes and tooltips | `leftAxis`, `rightAxis`, `radialScale`, `quadrantTooManyGroups`, `bellLevel`, `bellAverage`, `radarAverage`, `radarSubjectFallback`, `radarMeta`, `radarScale` |
+| Word cloud controls | `wordcloudHidden`, `wordcloudUndo`, `wordcloudRestoreAll`, `wordcloudAllHidden`, `wordcloudHideHint`, `wordcloudHideHintTouch`, `wordcloudHideKey`, `wordcloudMerged` |
+| Mind map controls | `mindmapMore`, `mindmapLevel`, `mindmapChildren`, `mindmapCollapse`, `mindmapExpand`, `mindmapAdd`, `mindmapAddBranch`, `mindmapMaxBranches`, `mindmapNewIdea`, `mindmapEdit`, `mindmapEditHint`, `mindmapNotEmpty` |
 
 ## Events
 

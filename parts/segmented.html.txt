@@ -1,6 +1,6 @@
 <!-- Paste-and-run: save as .html and open in a browser. No build step.
      <aha-segmented> is the SAME shared custom element React and Vue consume.
-     `options` is pipe-separated labels OR a JSON array of {value,label?,icon?,disabled?,ariaLabel?};
+     `options` is pipe-separated labels OR a JSON array of {value,label?,icon?,disabled?,ariaLabel?,testid?};
      `size` is small|medium|large, `block` stretches full-width. Emits a composed `change` event. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
