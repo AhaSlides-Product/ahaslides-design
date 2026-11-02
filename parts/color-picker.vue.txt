@@ -7,6 +7,7 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 <script setup>
 import { ref } from 'vue';
 const colour = ref('#E70E68');
+const overlayColour = ref('#1A1A1A');
 </script>
 
 <template>
@@ -14,5 +15,11 @@ const colour = ref('#E70E68');
     :value.prop="colour"
     size="large"
     @change="colour = $event.detail.value"
+  />
+  <!-- any colour: hex field, browser picker, Pick from screen; $event.detail.source says which -->
+  <aha-color-picker
+    :value.prop="overlayColour"
+    custom
+    @change="overlayColour = $event.detail.value"
   />
 </template>

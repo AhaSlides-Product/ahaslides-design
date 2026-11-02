@@ -22,6 +22,12 @@
     <aha-input inputmode="decimal" value="1e" placeholder="Amount"></aha-input>
     <aha-input data-select-on-focus prefix="ahaslides.com/s/" value="team-pulse" readonly></aha-input>
   </div>
+  <div class="lbl">Prefix that shrinks (a long URL before a slug)</div>
+  <div class="row">
+    <aha-input prefix-shrink prefix="https://presenter.ahaslides.com/survey/s/" value="team-pulse"></aha-input>
+    <aha-input prefix-shrink="start" prefix="https://presenter.ahaslides.com/survey/s/" value="team-pulse"></aha-input>
+    <aha-input prefix-shrink prefix="aha.io/" value="team-pulse"></aha-input>
+  </div>
 </div>
 
 <!-- Imports the REAL shipped element (../lib/aha-input.js) + the icon library — no inlined copy, so

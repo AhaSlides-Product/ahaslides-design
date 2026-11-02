@@ -29,7 +29,7 @@ test('typing day, month and year gives an ISO value, strips non-digits and moves
     const day = inner(date, 'day');
     return { partial, value: date.value, last: events.at(-1), day: day.value, inputmode: day.getAttribute('inputmode'), focusAfterDay, order };
   })()`, ready);
-  assert.deepEqual(result, { partial: '', value: '2026-11-02', last: { value: '2026-11-02', valid: true }, day: '02', inputmode: 'numeric', focusAfterDay: 'month', order: 'day,month,year' });
+  assert.deepEqual(result, { partial: '', value: '2026-11-02', last: { value: '2026-11-02', valid: true, state: 'valid' }, day: '02', inputmode: 'numeric', focusAfterDay: 'month', order: 'day,month,year' });
 });
 
 test('format orders the fields and a value attribute fills them; an impossible date is empty and shows the error after leaving', { skip }, async () => {
@@ -124,4 +124,37 @@ test('an invalid date keeps the pink focus shadow and links the error to every i
   assert.equal(result.status, 'error');
   assert.match(result.shadow, /rgba\(231, 14, 104, 0\.3\)/);
   assert.deepEqual(result.described, [true, true, true]);
+});
+
+test('change carries state, so a host tells a cleared date from a part-filled or impossible one', { skip }, async () => {
+  const result = await evaluateInPage(fixture, `(() => {
+    ${typeHelpers}
+    const date = document.querySelector('#dmy');
+    const states = [];
+    date.addEventListener('change', (e) => states.push(e.detail.state));
+    type(date, 'day', '31'); type(date, 'month', '02'); type(date, 'year', '202');
+    type(date, 'year', '2026');
+    type(date, 'month', '01');
+    type(date, 'day', ''); type(date, 'month', ''); type(date, 'year', '');
+    return { states, property: date.state, value: date.value };
+  })()`, ready);
+  assert.deepEqual(result, {
+    states: ['partial', 'partial', 'partial', 'invalid', 'valid', 'partial', 'partial', 'empty'],
+    property: 'empty',
+    value: '',
+  });
+});
+
+test('status="error" shows the host message in the one error node at once, and lifts with the status', { skip }, async () => {
+  const result = await evaluateInPage(fixture, `(() => {
+    const date = document.querySelector('#dmy');
+    date.setAttribute('error-message', 'This question is required');
+    const error = date.shadowRoot.querySelector('aha-field-error');
+    const before = error.hidden;
+    date.setAttribute('status', 'error');
+    const shown = { hidden: error.hidden, text: error.textContent, nodes: date.shadowRoot.querySelectorAll('aha-field-error').length };
+    date.removeAttribute('status');
+    return { before, shown, after: error.hidden };
+  })()`, ready);
+  assert.deepEqual(result, { before: true, shown: { hidden: false, text: 'This question is required', nodes: 1 }, after: true });
 });
