@@ -33,12 +33,24 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.892.0 — 2026-11-02
+## 0.893.0 — 2026-11-02
 ### Added
 - `aha-number-scale`: a row of tappable whole numbers for the audience phone, 0–10 by default for a Net Promoter Score (`min`, `max` for any short numeric rating). 48px numbers at least 44px wide, six per row whenever one row would squeeze a number under 44px (an 11-point scale under 524px), the pick filled with the deck accent, `low-label` / `high-label` under the scale, a radio group with arrow keys, Home and End (mirrored in right-to-left), `group-label`, `disabled`, `lock-key`, and a `change` event with `{value}` (#541)
 ### Fixed
 - `aha-list` `selectable`: a picker row's description reads in secondary text, so it passes 4.5:1 on the selected tint and the hover fill (the tertiary grey measured 3.18:1) (#541)
 - Revert: revert the PR; the element is new and opt-in, and the list fix is one CSS line
+
+## 0.892.0 — 2026-11-02
+
+### Added
+
+- `aha-input` `type` accepts `url` and `tel` in the contract (the element already set them on the inner field), so typed consumers can pass them (#565)
+- `aha-popover` `aria-label`: names the dialog panel, wins over `title`, and is forwarded inside the shadow root (#565)
+
+### Fixed
+
+- `aha-popover` whose body is only an `<aha-menu>` or a `role="menu"` element no longer wraps the menu in an unnamed `role="dialog"`: the panel takes no role and the trigger wrapper reads `aria-haspopup="menu"`. A dialog popover with neither `title` nor `aria-label` logs one console warning the first time it opens (#565)
+- `aha-csat` names its feedback popover with `feedback-prompt`, else the `feedback-label` text (Feedback) (#565)
 
 ## 0.890.1 — 2026-11-02
 

@@ -25,20 +25,23 @@
     { "name": "open", "type": "boolean", "default": "false", "desc": "Controlled open state; reflected attribute" },
     { "name": "placement", "type": "top | bottom | left | right | top-start | top-end | bottom-start | bottom-end | left-start | left-end | right-start | right-end", "default": "bottom", "desc": "Side the panel anchors to. The 4 cardinal values align the panel to the trigger's leading edge; the 8 edge-aligned values (…-start / …-end) pin it to the trigger's start/end edge with the arrow offset near that edge (AntD naming)" },
     { "name": "trigger", "type": "click | hover | focus", "default": "click", "desc": "How the panel opens. Click closes on outside-click + Escape (focus returns); hover/focus track pointer/focus" },
-    { "name": "title", "type": "string", "default": "—", "desc": "Bold header rendered above the body (hidden when empty)" },
+    { "name": "title", "type": "string", "default": "—", "desc": "Bold header rendered above the body (hidden when empty); also names the dialog panel when there is no aria-label" },
+    { "name": "aria-label", "type": "string", "default": "—", "desc": "Accessible name of the dialog panel, forwarded inside the shadow root; wins over title. A dialog popover needs one of the two: an unnamed dialog logs one console warning the first time it opens. Not used when the body is only a menu (the menu carries its own aria-label)" },
     { "name": "content", "type": "string", "default": "—", "desc": "Text body alternative to slotted content (used when nothing is slotted)" },
     { "name": "arrow", "type": "boolean", "default": "false", "desc": "Show the pointer arrow at the panel edge" },
     { "name": "flip", "type": "boolean", "default": "false", "desc": "Opt-in collision handling: while open the panel is placed with position:fixed from measured rects. It opens on the roomier side when its own side lacks room (reported on the host as `flipped` and `data-flipped`=side, arrow included), is clamped 8px inside the viewport, re-measures on resize, scroll and panel resize. Where the browser has the Popover API the open panel is shown in the top layer (popover=\"manual\"), so no overflow, transform, filter, contain:paint or z-index ancestor can clip or cover it; without the API only an overflow:hidden/auto ancestor is escaped" },
     { "name": "[slot=trigger]", "type": "slotted element", "default": "—", "desc": "The element that toggles the panel" },
+    { "name": "[default slot]", "type": "slotted content", "default": "—", "desc": "The body. The panel is role=\"dialog\" named by aria-label or title; when the body is a single <aha-menu> or role=\"menu\" element the panel takes no role and its trigger wrapper reads aria-haspopup=\"menu\", so screen readers announce the menu (name it with aria-label on the menu) instead of an unnamed dialog around it" },
     { "name": "open / close", "type": "CustomEvent", "default": "—", "desc": "Composed events on show / hide" }
   ],
   "opinion": {
     "whenToUse": [
       { "what": "Popover", "when": "a small panel of rich or interactive content anchored to a control" },
       { "what": "Tooltip", "when": "a short, non-interactive hint on hover" },
-      { "what": "Modal", "when": "a focused task that should block the rest of the page" }
+      { "what": "Modal", "when": "a focused task that should block the rest of the page" },
+      { "what": "Dropdown", "when": "a menu of actions from a button: it builds the trigger, panel and menu in one element" }
     ],
-    "note": "Trigger on click for interactive content (Tooltip owns hover). Give it a short `title` and a one-line body; a long form belongs in a Modal. A click trigger closes on outside-click and Escape (focus returns to the trigger) — both built in. A trigger click bubbles: clicking one popover's trigger closes any other open click popover, and a host can listen to that click.",
+    "note": "Trigger on click for interactive content (Tooltip owns hover). Give it a short `title` and a one-line body; a long form belongs in a Modal. A popover with no visible title still needs an `aria-label` (it is a dialog). A popover that only hosts an <aha-menu> is not a dialog: it drops the role, and the menu's own aria-label names it. A click trigger closes on outside-click and Escape (focus returns to the trigger) — both built in. A trigger click bubbles: clicking one popover's trigger closes any other open click popover, and a host can listen to that click.",
     "dsv3": "COVERED — from the DS V3 Popover component-set ('the floating card popped by clicking or hovering'), matching the antd Popover matrix: a `title` header over a body (unlike the Tooltip's plain hint), the FULL 12-placement set — the 4 cardinal sides (top · bottom · left · right) PLUS the 8 edge-aligned ones (top-start, top-end, bottom-start, bottom-end, left-start, left-end, right-start, right-end — same side, aligned to the trigger's start/end edge with the arrow offset near that edge, AntD naming) — `trigger` (click · hover · focus) and a toggleable `arrow`. White elevated surface, standard 8 radius, soft ink shadow; title SemiBold text-default over a text-secondary body. Fade + 4px directional lift via the shared motion tokens on a persistent panel — no subtree rebuild on open/close."
   },
   "surfaces": ["editor", "dashboard", "settings"],
