@@ -12,7 +12,7 @@ All notable changes to `@ahaslides-product/design`, **newest first**.
 - **On: the merge bumps it.** The entry heads as `## Unreleased` and the PR never touches a version
   file. On merge, `publish.yml` (`auto-version.mjs`) picks the number (an entry with only `### Fixed`
   is a patch, anything else a minor; a `Version-bump: patch|minor|major|none` line in the PR body
-  overrides it), turns the heading into `## X.Y.Z — YYYY-MM-DD`, fills each `(#PR)` with the real
+  overrides it), turns the heading into `## X.Y.Z — YYYY-MM-DD`, fills each `(#504)` with the real
   number and commits `chore(release): X.Y.Z` to master. Run the gate locally as `AUTO_VERSION=on npm run check`.
 
 The gate rejects an unfilled `(#129)` placeholder in every released entry: link the **real** PR number
