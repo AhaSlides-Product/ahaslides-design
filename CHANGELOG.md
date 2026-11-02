@@ -37,7 +37,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Fixed
 - `<aha-progress>` and `<aha-progressbar>`: `ink` and `accent` now apply only with `palette="deck"`, as the contract says. Before, `<aha-progress accent="#000">` recoloured the product fill and ring. `palette` is now observed, so adding or removing it re-reads the attributes and removing it clears the inline deck variables (#548)
 - The deck-palette test uses a non-pink accent so it can tell the deck fill from the product fill, and covers own ink and accent, the ring, steps and attribute changes after connect
-- `tests/segmented-testid.test.mjs` waits for the component module before reading the shadow root, so it no longer fails on a race
+- `tests/segmented-testid.test.mjs`, `tests/dropdown-loading.test.mjs` and `tests/stat-tile-icon.test.mjs` wait for the component module before reading the shadow root, so they no longer fail on a race
 - Revert: revert the PR; the default render is unchanged and only a stray `ink` / `accent` without `palette` changes (it now does nothing)
 
 ## 0.857.0 — 2026-11-02
