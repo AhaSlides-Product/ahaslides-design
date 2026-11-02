@@ -1,6 +1,6 @@
 # `<aha-chart>` — the AhaSlides chart library
 
-One framework-free web component that draws twelve kinds of result and data chart: bar, column, stacked bar, donut and pie, radial, tree map, quadrant, bell curve, radar, word cloud, mind map and line.
+One framework-free web component that draws thirteen kinds of result and data chart: bar, column, stacked bar, donut and pie, radial, tree map, quadrant, bell curve, radar, word cloud, mind map, line and NPS distribution.
 
 Live examples, the playground and the "Choosing a chart" guide are on the hosted **[Charts tab](https://design.ahaslides.io/charts/index.html)**.
 
@@ -115,13 +115,14 @@ Pick the type from the shape of the data. Types that fold extras into "Other (n)
 | `radar` | Several criteria on the same scale (5, 10 or 100), comparing the profile of one or a few subjects | Rating scale | Criteria on unrelated scales (bar) |
 | `wordcloud` | Frequency of short free-text answers (up to 120 words, duplicates merged) | Word cloud | Exact counts (bar) |
 | `mindmap` | Grouped or hierarchical ideas (default 5 levels, 6 branches) | Brainstorm, Mind map | Quantities (bar, donut) |
+| `nps` | The 0 to 10 answers of a Net Promoter Score question, with detractor, passive and promoter brackets and the score | NPS survey questions, reports | Other rating scales (bell, column) |
 | `line` | How 1 to 4 figures moved over time, with end-value labels; a gap breaks the line; an optional right axis for a series in another unit | Reports, dashboards | A few categories (column); one figure against the last period (Stat tile) |
 
 A single headline number is a `Statistic` (a `Stat tile` when it is compared with the previous period). A time series is `type="line"`; an area or scatter chart is `@ant-design/plots` (`<aha-chart>` does not draw them).
 
 ## Default snippet per type
 
-Every chart type has one default snippet: the minimal `<aha-chart type="…">` markup and data shape that already renders the full intended look and behaviour (entrance animation, live-update motion, tooltip, auto legend, empty state, text summary, hidden data table, live-region announcement) with no opt-in attribute. Start from it and only add attributes or `options`; never strip behaviour from it. The 12 snippets are in `contracts/chart.json` (`typeDefaults`) and each type's "Show code" on the Charts page.
+Every chart type has one default snippet: the minimal `<aha-chart type="…">` markup and data shape that already renders the full intended look and behaviour (entrance animation, live-update motion, tooltip, auto legend, empty state, text summary, hidden data table, live-region announcement) with no opt-in attribute. Start from it and only add attributes or `options`; never strip behaviour from it. The 13 snippets are in `contracts/chart.json` (`typeDefaults`) and each type's "Show code" on the Charts page.
 
 Opt-in only (off until you set it): ranking (`sort="desc"`), Pick Answer (`correct`), `page-size`, `highlight-top`, `log-scale`, bell `showGrid` / `showYAxis` / `showMeanLine` / `showStepLabels`, radar `showTable` / `showScaleTicks` / `hollowCentre`, word cloud `showCounts` / `foldDiacritics` / `shape` / `rotation` / `maskSrc`, and an editable mind map (`editable`).
 
@@ -254,6 +255,19 @@ chart.options = { editable: true };
 
 A balanced two-sided layout (one-sided, then an outline when narrow). Options: `pageSize` (ideas shown before a "+N ideas" pager), `maxDepth` (default 5), `maxBranches` (default 6), `editable` (let people add and rename ideas).
 
+### `nps`
+
+```html
+<aha-chart type="nps" label="How likely are you to recommend us?" data='[2,1,0,3,2,4,6,9,14,18,21]'></aha-chart>
+```
+
+- `data` is the 11 response counts for ratings 0 to 10, as an array or `{ counts: [...] }`. A missing or invalid count is 0.
+- One column per rating, coloured by its bracket. Under the columns a rule spans each bracket: detractors (0 to 6), passives (7 to 8) and promoters (9 to 10), with the bracket's name, count and share. Below 480px wide the names move into a key row under the rules.
+- The NPS score is the displayed promoter share minus the displayed detractor share, so it matches the rounded percentages beside it. It is signed (`NPS +26`, `NPS 0`), shows under the brackets and leads the summary. `options.showScore: false` hides it; with 0 responses it is hidden. Counts are rounded to whole numbers, and under 480px wide the counts above the columns use compact notation (`18K`).
+- Colours: `colors` sets the brackets in the order detractor, passive, promoter, on either palette, so the host passes its own NPS hues. Colours match by position: a missing or invalid entry keeps that bracket's default, never another bracket's colour. Without `colors` the brackets use the existing brand series: detractors series 2, passives the viz neutral, promoters series 1; on `palette="deck"`, if the deck has not set `--aha-viz-series-2`, detractors take the deck ink.
+- With 0 responses the bars, brackets and key are hidden and the chart shows "No responses yet".
+- Hovering a column or a bracket highlights that bracket. Text comes from `npsDetractors`, `npsPassives`, `npsPromoters`, `npsScore`, `npsRating` and `npsSummary` in `strings`.
+
 ### `line`
 
 ```js
@@ -333,7 +347,7 @@ console.log(chartOptionDefaults.wordcloud);
 //   removable: true, showTooltip: true, showCounts: false, group: true, foldDiacritics: false, maxWords: 120 }
 ```
 
-Types with defaults: `donut` (also `pie`), `radial`, `treemap`, `quadrant`, `bell`, `radar`, `wordcloud`, `mindmap`, `line`.
+Types with defaults: `donut` (also `pie`), `radial`, `treemap`, `quadrant`, `bell`, `radar`, `wordcloud`, `mindmap`, `line`, `nps`.
 
 ## Palettes
 
@@ -382,13 +396,14 @@ Every key you can override (the chart draws no other text):
 
 | Group | Keys |
 |---|---|
-| Type names (accessible name, table caption, summaries) | `typeNames.bar`, `.column`, `.stacked`, `.donut`, `.pie`, `.radial`, `.treemap`, `.quadrant`, `.bell`, `.radar`, `.wordcloud`, `.mindmap`, `.line` |
+| Type names (accessible name, table caption, summaries) | `typeNames.bar`, `.column`, `.stacked`, `.donut`, `.pie`, `.radial`, `.treemap`, `.quadrant`, `.bell`, `.radar`, `.wordcloud`, `.mindmap`, `.line`, `.nps` |
 | Shared labels and table headers | `other`, `otherCount`, `optionNumber`, `responses`, `responsesUnit`, `people`, `submissions`, `item`, `count`, `share`, `word`, `level`, `group`, `average`, `correct`, `rank`, `value`, `period`, `noValue` |
 | Empty state | `emptyNote` (the visible "No responses yet"), `emptySummary`, `lineEmpty`, `radarNoResponses` |
 | Pager | `page`, `rankPage`, `previousPage`, `nextPage` |
 | Summaries and the live region | `summary`, `leader`, `correctSummary`, `stackedSummary`, `signedSummary`, `referenceSummary`, `lineSummary`, `lineLatest`, `wordcloudSummary`, `wordcloudLeader`, `mindmapSummary`, `quadrantSummary`, `bellSummary`, `bellStatement`, `radarSummary`, `radarSubject`, `updated` |
 | Legends, axes and tooltips | `leftAxis`, `rightAxis`, `radialScale`, `quadrantTooManyGroups`, `bellLevel`, `bellAverage`, `radarAverage`, `radarSubjectFallback`, `radarMeta`, `radarScale` |
 | Word cloud controls | `wordcloudHidden`, `wordcloudUndo`, `wordcloudRestoreAll`, `wordcloudAllHidden`, `wordcloudHideHint`, `wordcloudHideHintTouch`, `wordcloudHideKey`, `wordcloudMerged` |
+| NPS | `npsDetractors`, `npsPassives`, `npsPromoters`, `npsScore`, `npsRating`, `npsSummary` |
 | Mind map controls | `mindmapMore`, `mindmapLevel`, `mindmapChildren`, `mindmapCollapse`, `mindmapExpand`, `mindmapAdd`, `mindmapAddBranch`, `mindmapMaxBranches`, `mindmapNewIdea`, `mindmapEdit`, `mindmapEditHint`, `mindmapNotEmpty` |
 
 ## Events
@@ -422,7 +437,7 @@ Always set `label` to something meaningful, for example the question being answe
 
 ## Empty state
 
-With no responses (`data` empty or all zeros) the chart does not show placeholder bars. Every bar, column and stacked row keeps its track and shows a short coloured stub at its start; donut, pie and tree map keep their track and show the text "No responses yet" centred in the plot; the radar breathes its entrance effect until the first response arrives.
+With no responses (`data` empty or all zeros) the chart does not show placeholder bars. Every bar, column and stacked row keeps its track and shows a short coloured stub at its start; donut, pie and tree map keep their track and show the text "No responses yet" centred in the plot; line and NPS show the same text, and NPS draws no stubs; the radar breathes its entrance effect until the first response arrives.
 
 ## Browser support
 

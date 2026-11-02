@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Image resize frame hit zone</title>
+<style>body{ margin:0; padding:60px; font-family:sans-serif; width:600px }</style>
+</head>
+<body>
+  <aha-image-resize-frame id="frame" width="60" selected><div style="height:200px;background:#ccc"></div></aha-image-resize-frame>
+  <script type="module">
+    await import('../lib/aha-image-resize-frame.js');
+    await customElements.whenDefined('aha-image-resize-frame');
+    window.hitZoneFixtureReady = !!document.getElementById('frame').shadowRoot?.querySelector('.handle');
+  </script>
+</body>
+</html>
