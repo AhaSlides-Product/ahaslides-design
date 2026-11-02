@@ -37,6 +37,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - `aha-icon` sizes 40, 48 and 64 with 3, 3.5 and 4px strokes (backed by the 40, 48 and 64 size tokens), for empty states and illustrations; static icon files are generated for the new sizes (#511)
 - `aha-button` forwards `aria-disabled` and `aria-labelledby` to its inner button and keeps both in sync when they change (#511)
+- `system-star-fill` icon, the filled twin of `system-star`, for course ratings (#511)
 ### Fixed
 - `aha-button` is disabled by a disabled ancestor `<fieldset>`, like a native button (#511)
 

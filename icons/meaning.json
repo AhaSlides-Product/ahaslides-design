@@ -309,6 +309,7 @@
   "system-squares-four": ["grid", "apps", "dashboard", "gallery view", "tiles", "categories"],
   "system-stack-simple": ["layers", "stack", "levels", "arrange", "order"],
   "system-stack": ["layers", "stack", "levels", "arrange", "templates", "collection"],
+  "system-star-fill": ["star", "filled star", "rating", "rated", "favourite", "selected rating"],
   "system-star": ["star", "favourite", "rating", "rate", "highlight", "important"],
   "system-stop-share-screen": ["stop sharing", "end screen share", "stop presenting", "close share"],
   "system-stop": ["stop", "end", "stop recording", "finish", "halt"],
