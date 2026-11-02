@@ -1,0 +1,11 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-palette-swatch> is the SAME shared custom element React and Vue consume. It fills its
+     container's width; the colours are the theme's own palette. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-palette-swatch.js';   // registers <aha-palette-swatch>
+</script>
+
+<div style="width:152px">
+  <aha-palette-swatch colors="#1A1A1A|#E70E68|#4A4A4A|#D4D4D4|#FFFFFF" label="Theme palette"></aha-palette-swatch>
+</div>
