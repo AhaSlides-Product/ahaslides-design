@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Counted input types</title>
+</head>
+<body>
+  <aha-counted-input id="email" type="email" maxlength="none"></aha-counted-input>
+  <aha-counted-input id="url" type="url" maxlength="none"></aha-counted-input>
+  <aha-counted-input id="password" type="password" maxlength="none" value="secret"></aha-counted-input>
+  <aha-counted-input id="unknown" type="date" maxlength="none"></aha-counted-input>
+  <aha-counted-input id="decimal" inputmode="decimal" maxlength="none" value="1e"></aha-counted-input>
+  <aha-counted-input id="rtl" dir="auto" maxlength="60" value="مرحبا"></aha-counted-input>
+  <script type="module">
+    await import('../lib/aha-counted-input.js');
+    await customElements.whenDefined('aha-counted-input');
+    window.countedInputFixtureReady = true;
+  </script>
+</body>
+</html>
