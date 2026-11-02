@@ -30,3 +30,19 @@ function AhaSelect({ value, options, placeholder, size, status, disabled, onChan
   ]}
   onChange={setTheme}
 />
+
+// Free-entry tags (mode="tags"): the list is `values`, and change carries e.detail.values.
+function AhaTagsSelect({ values, placeholder, onChange }) {
+  const ref = useRef();
+  useEffect(() => {
+    const el = ref.current;
+    el.values = values || [];
+    const h = (e) => onChange?.(e.detail.values);
+    el.addEventListener('change', h);
+    return () => el.removeEventListener('change', h);
+  });
+  return <aha-select ref={ref} mode="tags" separators=", ;" placeholder={placeholder} />;
+}
+
+// Server search: show-search + filter="off" keeps every option you set; loading shows the spinner.
+// <aha-select show-search filter="off" loading={busy ? '' : undefined} ...> and listen for 'search' (e.detail.query).
