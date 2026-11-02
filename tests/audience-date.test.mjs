@@ -49,6 +49,19 @@ test('format orders the fields and a value attribute fills them; an impossible d
   assert.deepEqual(result, { order: 'month,day,year', separator: '-', filled: '2026-11-02', invalid: '', beforeLeave: true, afterLeave: false, status: 'error' });
 });
 
+test('a value set before connecting, and a typed answer, survive being attached and re-attached', { skip }, async () => {
+  const result = await evaluateInPage(fixture, `(() => {
+    const date = document.createElement('aha-audience-date');
+    date.value = '2026-11-02';
+    document.body.append(date);
+    const afterAttach = date.value;
+    date.remove();
+    document.body.append(date);
+    return { afterAttach, afterReattach: date.value };
+  })()`, ready);
+  assert.deepEqual(result, { afterAttach: '2026-11-02', afterReattach: '2026-11-02' });
+});
+
 test('disabled keeps a leap-day value and disables every field; the inner field change never leaks out', { skip }, async () => {
   const result = await evaluateInPage(fixture, `(() => {
     const date = document.querySelector('#locked');
