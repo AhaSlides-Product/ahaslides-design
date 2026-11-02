@@ -50,3 +50,21 @@ test('custom hex entry fires the picker change once with a normalised value; inv
   assert.equal(state.customShown, 'flex');
   assert.equal(state.presetShown, 'none');
 });
+
+test('Enter in the hex field commits one normalised change and leaves the panel open', { skip }, async () => {
+  const state = await withPage(fixture, async (command) => {
+    await inPage(command, `
+      const pick = document.getElementById('custom');
+      window.enterEvents = [];
+      pick.addEventListener('change', (e) => window.enterEvents.push(e.detail));
+      pick.open = true;
+      const field = pick.shadowRoot.querySelector('.hex').shadowRoot.querySelector('.field');
+      field.focus();
+      field.select();`);
+    await command('Input.insertText', { text: '123456' });
+    await command('Input.dispatchKeyEvent', { type: 'rawKeyDown', key: 'Enter', code: 'Enter', windowsVirtualKeyCode: 13 });
+    await command('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Enter', code: 'Enter', windowsVirtualKeyCode: 13 });
+    return inPage(command, `const pick = document.getElementById('custom'); return { events: window.enterEvents, value: pick.value, open: pick.open };`);
+  }, { readyExpr: '!!window.customFixtureReady' });
+  assert.deepEqual(state, { events: [{ value: '#123456', source: 'hex' }], value: '#123456', open: true });
+});
