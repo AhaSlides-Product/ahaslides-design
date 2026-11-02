@@ -33,11 +33,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.624.2 — 2026-11-02
+## 0.627.2 — 2026-11-02
 ### Fixed
 - `<aha-progress>` and `<aha-progressbar>`: `ink` and `accent` now apply only with `palette="deck"`, as the contract says. Before, `<aha-progress accent="#000">` recoloured the product fill and ring. `palette` is now observed, so adding or removing it re-reads the attributes and removing it clears the inline deck variables (#548)
 - The deck-palette test uses a non-pink accent so it can tell the deck fill from the product fill, and covers own ink and accent, the ring, steps and attribute changes after connect
 - Revert: revert the PR; the default render is unchanged and only a stray `ink` / `accent` without `palette` changes (it now does nothing)
+
+## 0.627.0 — 2026-11-02
+### Added
+- `<aha-answer-option>` opt-in additions, each off by default so existing rows render unchanged: `letter` shows an option letter chip (24px, filled in the deck accent mark on my pick) in place of the radio or checkbox; `roving` makes sibling rows one Tab stop with Arrow keys, Home and End; `other` is an inline editable "Other (please specify)" row that emits `other-input` (`detail.value`), with `other-value`, `other-placeholder`, `other-input-label`, `other-maxlength` and the `otherValue` property; `--aha-answer-option-surface(-hover|-disabled)` replace the row surface for a host whose rows sit on a panel of the same frosted surface (#538)
+- Revert: revert the PR; every addition is opt-in, so no consumer depends on it yet
 
 ## 0.624.0 — 2026-11-02
 ### Added
