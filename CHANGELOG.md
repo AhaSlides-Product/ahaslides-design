@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.595.1 — 2026-11-02
+### Fixed
+- Features Marketing page: the Accent code pane of the Alternating screenshots layout wrote `aha-features--alternating-screenshots--accent`, which no CSS defines, so a pasted snippet rendered white. It now writes `aha-features--accent`; the state class of every Marketing section now comes from the section, then the layout (#PR)
+- Revert: revert the PR; only the generated Accent code pane of one layout changes, no CSS or markup
+
 ## 0.595.0 — 2026-11-02
 ### Added
 - `lib/marketing.css`: every website Marketing section's CSS in one generated stylesheet (`@ahaslides-product/design/marketing.css`), and `lib/marketing/<slug>.css` for one section. A no-build website page now links `tokens.css`, `marketing.css`, `all.js` and `marketing-motion.js` from a pinned tag and pastes only each section's HTML; it renders pixel-identical to the paste-and-run snippet at 1440, 768 and 375 px. Paste-and-run stays the Webflow route (#503)
