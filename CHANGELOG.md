@@ -38,6 +38,13 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `<aha-menu>` a row that is both `danger` and `disabled` now takes the disabled colour (text-disabled #B5B5B5) like every other disabled row; before, the danger ink won and the row looked enabled. (#552)
 - Revert: revert the PR; only the danger+disabled row colour changes
 
+## 0.761.0 — 2026-11-02
+### Added
+- Tooltip: `trigger="hover-tap"` shows the bubble on mouse hover, keyboard focus and a touch tap. A tap toggles it, a tap elsewhere or Esc closes it; pointer type and `:focus-visible` decide, so a mouse click adds nothing and the focus a tap leaves behind never shows it (#536)
+- Tooltip: `open-change` event (bubbles, composed) with detail `{ open: boolean }` on every show and hide, from any trigger or the `open` attribute, never twice in a row for one state, so analytics can fire on the first reveal (#536)
+- Tooltip: `help-label` names the built-in `?` help button for screen readers; it stays "More info" when unset (#536)
+- Revert: revert the PR; all three are opt-in, and a tooltip without them renders and behaves as before
+
 ## 0.730.0 — 2026-11-02
 ### Added
 - `<aha-select>` opt-in `allow-clear`: a clear button beside the caret while a value is set; a click, or Delete / Backspace on the closed trigger, empties the value and emits `change` and a new `clear` event with `{value:''}`; `clear-label` names the button (#537)
