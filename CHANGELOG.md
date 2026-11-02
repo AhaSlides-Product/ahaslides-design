@@ -33,10 +33,57 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.885.0 — 2026-11-02
+## 0.897.0 — 2026-11-02
 ### Added
 - Logo library: a flat mono mark for 28 third-party brands in `logo/mono/<id>.svg`, one shape filled with `currentColor` so it takes the surrounding text colour (`--aha-icon-default` at rest). Shapes are Simple Icons (CC0) through theSVG; Microsoft, Teams, PowerPoint, Word, Excel, Slack, LinkedIn and PDF use a Phosphor fill or DS icon stand-in because Simple Icons dropped them; OneDrive, Canva, D2L and Cornerstone are stand-ins derived from the brand's own colour file (Cornerstone uses its symbol, not the wordmark). A wordmark or wide lockup (Zapier, Zoom, Canva, D2L, Cornerstone, OneDrive) is wrapped in the same 24 x 24 rounded square with the mark knocked out, so it reads at 36 px next to the glyph marks. Each entry in `logo/manifest.json` records `mono`, `monoSource`, `monoSourceUrl` and `monoFetched`; the Logo page shows the mono beside the one-colour and original files, with a download link. Proposal only: colour rule 2.6 is unchanged until the mock-up is approved (#557)
 - Revert: revert the PR; the new folder and manifest fields are additive
+
+## 0.896.0 — 2026-11-02
+### Added
+- `aha-audience-contact`: a contact-details answer for the audience phone. Each entry of the `fields` JSON list (`id`, `kind` name, email, phone or text, `label`, `required`, `placeholder`) is an `aha-audience-field` around an `aha-counted-input`, with the phone keyboard, autofill hint and text direction of its kind (email and phone stay left to right in a right-to-left page); an optional `dial-codes` list puts an `aha-select` before the phone field; a missing required field, a bad email or a bad phone shows its message in `aha-field-error variant="respondent"` after leaving the field or on `showErrors()`, linked to its input, with the warning glyph; required inputs carry `aria-required` and only `required: true` counts; a repeated field id is skipped with a console warning; the 88px dial code stays first in right-to-left, and the phone autofill is `tel` (`tel-national` with a dial picker). `group-label`, `optional-label` (default "(optional)"), `required-message` / `email-message` / `phone-message`, `disabled`, `lock-key`, `ink` / `accent`, and a `change` event with `{value, valid}` (#551)
+- `aha-counted-input` takes `type="tel"` and passes `autocomplete` to its inner field; without them it renders as before (#551)
+- Revert: revert the PR; the element and the two attributes are new and opt-in
+
+## 0.895.0 — 2026-11-02
+### Added
+- `aha-audience-date`: a date answer for the audience phone. Day, month and year `aha-counted-input` fields in the order `format` sets (DMY, MDY, YMD) with a `separator`, a numeric keypad, digits only and auto-advance; the value is ISO `YYYY-MM-DD`, or empty until the date is real; after leaving the group with a part-filled or impossible date, `error-message` shows in `aha-field-error variant="respondent"`. `birthday` opts into birthday autofill (autocomplete is off otherwise), `group-label`, `day-label` / `month-label` / `year-label`, placeholders, `disabled`, `lock-key`, and a `change` event with `{value, valid}`; each input points at the error through `aria-describedby`, the whole box is the tap target and the pink focus ring shows over the error border (#544)
+- Revert: revert the PR; the element and the attributes are new and opt-in
+
+## 0.894.0 — 2026-11-02
+### Added
+- `aha-matrix`: a matrix question for the audience phone (rows × columns, one or several picks per row). Each statement is a labelled group of `aha-answer-option` rows, stacked on a 360px phone and side by side when there is room; `rows`, `columns`, `selection-mode`, `value` (`{rowId: columnId[]}`), `group-label`, `disabled`, `lock-key`, and a `change` event with `{value, row, column}` (#534)
+- `aha-matrix` options use the roving Tab stop (one per row, Tab moves row to row, arrows move within a row). `aha-answer-option[roving]` now mirrors ArrowLeft and ArrowRight in right-to-left (#534)
+- Revert: revert the PR; the element is new and opt-in
+
+## 0.893.0 — 2026-11-02
+### Added
+- `aha-number-scale`: a row of tappable whole numbers for the audience phone, 0–10 by default for a Net Promoter Score (`min`, `max` for any short numeric rating). 48px numbers at least 44px wide, six per row whenever one row would squeeze a number under 44px (an 11-point scale under 524px), the pick filled with the deck accent, `low-label` / `high-label` under the scale, a radio group with arrow keys, Home and End (mirrored in right-to-left), `group-label`, `disabled`, `lock-key`, and a `change` event with `{value}` (#541)
+### Fixed
+- `aha-list` `selectable`: a picker row's description reads in secondary text, so it passes 4.5:1 on the selected tint and the hover fill (the tertiary grey measured 3.18:1) (#541)
+- Revert: revert the PR; the element is new and opt-in, and the list fix is one CSS line
+
+## 0.892.0 — 2026-11-02
+
+### Added
+
+- `aha-input` `type` accepts `url` and `tel` in the contract (the element already set them on the inner field), so typed consumers can pass them (#565)
+- `aha-popover` `aria-label`: names the dialog panel, wins over `title`, and is forwarded inside the shadow root (#565)
+
+### Fixed
+
+- `aha-popover` whose body is only an `<aha-menu>` or a `role="menu"` element no longer wraps the menu in an unnamed `role="dialog"`: the panel takes no role and the trigger wrapper reads `aria-haspopup="menu"`. A dialog popover with neither `title` nor `aria-label` logs one console warning the first time it opens (#565)
+- `aha-csat` names its feedback popover with `feedback-prompt`, else the `feedback-label` text (Feedback) (#565)
+
+## 0.890.1 — 2026-11-02
+
+### Fixed
+
+- `<aha-leaderboard>` Show winner: the list's scrollbar is hidden while the winner banner covers it, so its track no longer shows as light corners outside the banner's rounded corners on a dark deck (#562)
+
+## 0.884.0 — 2026-11-02
+### Added
+- `<aha-rate size="lg">` draws 32px stars inside a 44px hit area each (6px padding, gap 4), for touch surfaces; the focus ring and keyboard behaviour are unchanged and the default size is unchanged. With `character="number"` the cells become 44×44 (radius 12, number 16/600) and wrap onto a new row instead of shrinking. A custom `icon` character is drawn at 32px. No new colour values. (#555)
+- Revert: revert the PR; `size="lg"` falls back to the default 24px star, nothing else uses it
 
 ## 0.883.1 — 2026-11-02
 ### Fixed

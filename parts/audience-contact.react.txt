@@ -1,0 +1,19 @@
+import '@ahaslides-product/design/aha-audience-contact';
+import { useEffect, useRef } from 'react';
+
+const FIELDS = JSON.stringify([
+  { id: 'name', kind: 'name', label: 'Name', required: true },
+  { id: 'email', kind: 'email', label: 'Email', required: true },
+]);
+
+// React < 19: bind the custom event through a ref.
+export function ContactQuestion({ onAnswer }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const contact = ref.current;
+    const handle = (event) => onAnswer(event.detail.value, event.detail.valid);
+    contact.addEventListener('change', handle);
+    return () => contact.removeEventListener('change', handle);
+  }, [onAnswer]);
+  return <aha-audience-contact ref={ref} group-label="How can we reach you?" fields={FIELDS} lock-key="slide-42" />;
+}

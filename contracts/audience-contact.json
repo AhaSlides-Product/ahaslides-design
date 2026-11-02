@@ -1,0 +1,190 @@
+{
+  "name": "Audience contact",
+  "slug": "audience-contact",
+  "group": "Audience",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-audience-contact",
+  "summary": "A contact-details answer on the audience phone: name, email, phone and text fields, each labelled, with the right phone keyboard, autofill hint and text direction, and a respondent error for a missing or malformed entry.",
+  "highlights": [
+    "Name, email, phone and free-text fields from one JSON list",
+    "Phone keyboard, autofill hint and left-to-right email and phone in a right-to-left page",
+    "Optional dial-code Select in front of the phone field",
+    "Locks and restores the value after an iframe remount"
+  ],
+  "lead": "ONE custom element — <aha-audience-contact> — for the details a participant leaves on the audience phone. Each entry of `fields` is an <aha-audience-field> (label above, in the deck ink) around an <aha-counted-input> at size large, with <aha-field-error variant=\"respondent\"> under it, so it carries the same field look as every audience field; never a native form. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) binds events through a ref; Vue binds the custom element natively.",
+  "tokensUsed": [
+    "text-default",
+    "border-default",
+    "radius-default",
+    "space-8",
+    "white"
+  ],
+  "spec": [
+    {
+      "label": "Fields",
+      "value": "one per `fields` entry, stacked 16px apart, each a label (16px / 24px, deck ink) over a 48px Counted input at 16px / 24px; full width, no counter"
+    },
+    {
+      "label": "Kinds",
+      "value": "name: text, autofill name, direction auto. email: email keyboard, autofill email, left to right. phone: dial pad, autofill tel (tel-national once a dial-code Select sits in front), left to right. text: plain text, direction auto"
+    },
+    {
+      "label": "Dial code",
+      "value": "with `dial-codes`, an 88px large (48px tall) Select sits before the phone field, 8px gap, and stays first in a right-to-left page; the phone value reads \"<code> <number>\""
+    },
+    {
+      "label": "Error",
+      "value": "after leaving a field: an empty required field, an email that is not one or a phone with fewer than 5 or more than 15 digits shows its message with the warning glyph 8px below in <aha-field-error variant=\"respondent\" icon>, linked to the input through ariaDescribedByElements, and the field takes the error border; `showErrors()` shows every field's error at once"
+    },
+    {
+      "label": "Locked",
+      "value": "disabled or a locked lock-key: every field is disabled and the submitted answer is restored"
+    }
+  ],
+  "props": [
+    {
+      "name": "ink",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck ink (xprops.slide.textColour) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "accent",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck accent (presentationColorPalette[0]) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "fields",
+      "type": "JSON [{id, kind, label, required, placeholder}]",
+      "default": "a required name and a required email",
+      "desc": "The fields in order. `kind` is name, email, phone or text; `id` keys the value (a repeated id is skipped with a console warning); `label` is the translated visible label; only `required: true` makes a field required, and its input carries aria-required"
+    },
+    {
+      "name": "dial-codes",
+      "type": "JSON [{label, value}]",
+      "default": "—",
+      "desc": "Puts a country-code Select before every phone field; the first entry is chosen until the participant picks another"
+    },
+    {
+      "name": "dial-code-label",
+      "type": "string",
+      "default": "Country code",
+      "desc": "The Select's accessible name; pass translated text"
+    },
+    {
+      "name": "value",
+      "type": "JSON object",
+      "default": "{}",
+      "desc": "The answer keyed by field id, as an attribute (JSON) or the `value` property (object); `valid` is true when every required field is filled and every email and phone is real"
+    },
+    {
+      "name": "group-label",
+      "type": "string",
+      "default": "Contact details",
+      "desc": "The group's accessible name: pass the translated question"
+    },
+    {
+      "name": "optional-label",
+      "type": "string",
+      "default": "(optional)",
+      "desc": "Text added after the label of a field that is not required; pass translated text, or an empty value for none"
+    },
+    {
+      "name": "required-message / email-message / phone-message",
+      "type": "string",
+      "default": "This field is required / Enter a real email address / Enter a real phone number",
+      "desc": "The respondent errors; pass translated text"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Disables every field"
+    },
+    {
+      "name": "lock-key",
+      "type": "string",
+      "default": "—",
+      "desc": "The submission-lock key for this question: once a submission is locked under it, the element locks and restores the submitted answer, including after an iframe remount"
+    },
+    {
+      "name": "showErrors()",
+      "type": "method",
+      "default": "—",
+      "desc": "Shows every field's error at once, as on a submit attempt, and returns `valid`"
+    },
+    {
+      "name": "change",
+      "type": "CustomEvent<{value, valid}>",
+      "default": "—",
+      "desc": "Fires on every keystroke and dial-code pick with the answer object and whether it is valid"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Audience contact",
+        "when": "a question that asks for name, email or phone on the audience phone: a follow-up request, a prize draw"
+      },
+      {
+        "what": "Audience field",
+        "when": "a single labelled text, number or dropdown field"
+      },
+      {
+        "what": "Not for",
+        "when": "a login or sign-up form in the product"
+      }
+    ],
+    "note": "Replaces hand-built name, email and phone inputs, which re-open the field look, the phone keyboards, the right-to-left direction of an email or number, the validation and the submission lock. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element)."
+  },
+  "surfaces": [
+    "audience"
+  ],
+  "reuse": {
+    "entry": "./aha-audience-contact",
+    "registers": "aha-audience-contact",
+    "exportsNamed": [
+      "AhaAudienceContact",
+      "defineAhaAudienceContact"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "audience-contact.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a version-pinned CDN import and plain HTML, for a build-less slide page."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "audience-contact.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "audience-contact.vue.txt"
+    }
+  ],
+  "preview": "audience-contact.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP), on the light-deck example with no deck applied (DS defaults).",
+    "ready": "!!(document.querySelector('aha-audience-contact[data-probe]')&&document.querySelector('aha-audience-contact[data-probe]').shadowRoot&&document.querySelector('aha-audience-contact[data-probe]').shadowRoot.querySelector('aha-counted-input')&&document.querySelector('aha-audience-contact[data-probe]').shadowRoot.querySelector('aha-counted-input').shadowRoot)",
+    "singleUI": true,
+    "measure": "(function(){var r=document.querySelector('aha-audience-contact[data-probe]').shadowRoot;function cs(n){return n?getComputedStyle(n):{}}var f=r.querySelector('aha-counted-input');var w=f.shadowRoot.querySelector('.wrap');var t=cs(f.shadowRoot.querySelector('.field'));return{height:cs(w).height,radius:cs(w).borderTopLeftRadius,textSize:t.fontSize,ink:t.color,gap:cs(r.querySelector('.contact')).rowGap};})()",
+    "expect": {
+      "height": "48px",
+      "radius": "8px",
+      "textSize": "16px",
+      "ink": "rgb(26, 26, 26)",
+      "gap": "16px"
+    }
+  },
+  "environment": [
+    "audience"
+  ]
+}
