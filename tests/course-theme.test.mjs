@@ -78,3 +78,12 @@ test('a radius scales the DS ladder and is clamped', () => {
   assert.equal(courseThemeVars({ radius: 400 })['--aha-radius-default'], '16px');
   assert.equal(courseThemeVars({ radius: 'large' })['--aha-radius-default'], undefined);
 });
+
+test('primary-filled controls take the themed on-primary foreground and primary-coloured text takes the link token', () => {
+  const source = (name) => readFileSync(new URL(`../lib/${name}.js`, import.meta.url), 'utf8');
+  for (const name of ['aha-checkbox', 'aha-switch', 'aha-tag']) assert.match(source(name), /--aha-button-primary-text/, name);
+  for (const name of ['aha-tabs', 'aha-radio', 'aha-breadcrumb', 'aha-pagination', 'aha-uploader', 'aha-screen-heading']) {
+    assert.match(source(name), /color:var\(--aha-text-link,var\(--aha-color-primary/, name);
+  }
+  assert.equal(rootValues['--aha-text-link'], 'var(--aha-color-primary)');
+});
