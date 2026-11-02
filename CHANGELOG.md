@@ -37,6 +37,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - Logo library: a flat mono mark for 28 third-party brands in `logo/mono/<id>.svg`, one shape filled with `currentColor` so it takes the surrounding text colour (`--aha-icon-default` at rest). Shapes are Simple Icons (CC0) through theSVG; Microsoft, Teams, PowerPoint, Word, Excel, Slack, LinkedIn and PDF use a Phosphor fill or DS icon stand-in because Simple Icons dropped them; OneDrive, Canva, D2L and Cornerstone are stand-ins derived from the brand's own colour file (Cornerstone uses its symbol, not the wordmark). A wordmark or wide lockup (Zapier, Zoom, Canva, D2L, Cornerstone, OneDrive) is wrapped in the same 24 x 24 rounded square with the mark knocked out, so it reads at 36 px next to the glyph marks. Each entry in `logo/manifest.json` records `mono`, `monoSource`, `monoSourceUrl` and `monoFetched`; the Logo page shows the mono beside the one-colour and original files, with a download link. Proposal only: colour rule 2.6 is unchanged until the mock-up is approved (#557)
 - Revert: revert the PR; the new folder and manifest fields are additive
+### Fixed
+- `aha-list` `selectable`: a picker row's description reads in secondary text, so it passes 4.5:1 on the selected tint and the hover fill (the tertiary grey measured 3.18:1); the same line as #541, which master's render gate needs (#557)
+- Unit tests: the segmented testid, dropdown loading and stat-tile icon browser tests wait for the element to upgrade before reading its shadow root (#557)
 
 ## 0.857.2 — 2026-11-02
 

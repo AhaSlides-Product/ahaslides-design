@@ -11,7 +11,7 @@ const lib = pathToFileURL(fileURLToPath(new URL('../lib/aha-stat-tile.js', impor
 const page = `<!doctype html><body>
 <aha-stat-tile id="plain" label="Learners" value="10"></aha-stat-tile>
 <aha-stat-tile id="iconed" icon="system-user" label="Learners" value="10"></aha-stat-tile>
-<script type="module">import '${lib}'; window.ready = true;</script>`;
+<script type="module">import '${lib}'; await customElements.whenDefined('aha-stat-tile'); window.ready = true;</script>`;
 
 test('icon shows a muted 16px icon beside the label; without it the label row is unchanged', { skip }, async () => {
   const file = join(mkdtempSync(join(tmpdir(), 'stat-tile-icon-')), 'page.html');
@@ -25,7 +25,7 @@ test('icon shows a muted 16px icon beside the label; without it the label row is
       return { hidden: icon.hidden, name: icon.getAttribute('name'), size: icon.getAttribute('size'), display: getComputedStyle(label).display, text: label.textContent, height: label.getBoundingClientRect().height };
     };
     return { plain: read('plain'), iconed: read('iconed') };
-  })()`);
+  })()`, { readyExpr: '!!window.ready' });
   assert.deepEqual({ hidden: result.plain.hidden, name: result.plain.name, display: result.plain.display }, { hidden: true, name: null, display: 'block' });
   assert.deepEqual({ hidden: result.iconed.hidden, name: result.iconed.name, size: result.iconed.size, display: result.iconed.display }, { hidden: false, name: 'system-user', size: '16', display: 'flex' });
   assert.equal(result.iconed.text, 'Learners');
