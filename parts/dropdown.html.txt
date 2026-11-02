@@ -27,6 +27,14 @@
   ]'>
 </aha-dropdown>
 
+<!-- A kebab menu: slot="trigger" swaps the default button for your own control (give an icon-only one an aria-label) -->
+<aha-dropdown placement="bottomRight"
+  items='[{"key":"rename","label":"Rename","icon":"system-pencil-simple"},{"key":"delete","label":"Delete","icon":"system-trash","danger":true}]'>
+  <aha-button slot="trigger" variant="secondary" icon-only aria-label="More actions">
+    <aha-icon slot="icon" name="system-dots-three-vertical" size="16" decorative></aha-icon>
+  </aha-button>
+</aha-dropdown>
+
 <!-- value="editor" makes it a single-choice picker: the matching row is the brand-tinted selected one
      and the trigger shows its label (an explicit label wins). Choosing a row sets value and emits select. -->
 <aha-dropdown id="role" value="editor"

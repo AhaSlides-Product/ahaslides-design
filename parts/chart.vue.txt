@@ -4,7 +4,7 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
 // ResultsChart.vue — .prop binds data as a property, so live updates animate
 <script setup>
-// type: bar | column | stacked | donut | pie | radial | treemap | quadrant | bell | radar | wordcloud | mindmap
+// type: bar | column | stacked | donut | pie | radial | treemap | quadrant | bell | radar | wordcloud | mindmap | line | nps
 const props = defineProps({ type: String, results: [Array, Object], options: Object, onCanvas: Boolean, deckPalette: Array, deckTextColour: String, seriesColours: Array, locale: String, strings: Object });
 </script>
 

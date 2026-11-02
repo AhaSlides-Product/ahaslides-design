@@ -38,6 +38,30 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `aha-audience-date`: a date answer for the audience phone. Day, month and year `aha-counted-input` fields in the order `format` sets (DMY, MDY, YMD) with a `separator`, a numeric keypad, digits only and auto-advance; the value is ISO `YYYY-MM-DD`, or empty until the date is real; after leaving the group with a part-filled or impossible date, `error-message` shows in `aha-field-error variant="respondent"`. `birthday` opts into birthday autofill (autocomplete is off otherwise), `group-label`, `day-label` / `month-label` / `year-label`, placeholders, `disabled`, `lock-key`, and a `change` event with `{value, valid}`; each input points at the error through `aria-describedby`, the whole box is the tap target and the pink focus ring shows over the error border (#544)
 - Revert: revert the PR; the element and the attributes are new and opt-in
 
+- Chart: `type="nps"` draws the 0 to 10 answers of an NPS question as eleven columns under three brackets (Detractors 0 to 6, Passives 7 to 8, Promoters 9 to 10), each bracket with its count and share, plus the signed score (`NPS +26`, the displayed % promoters minus the displayed % detractors). With 0 responses it shows "No responses yet" and no stubs; under 480px the column counts go compact (18K). `data` is the 11 counts as an array or `{counts}`; `colors` takes the three bracket colours in the order detractor, passive, promoter, so a survey keeps its own hues (matched by position: a missing or invalid entry takes that bracket's default); without `colors` the brackets use the existing brand series and neutral (no new hue). `options.showScore` (default true) hides the score; on a narrow host the bracket names move to a key row under the chart. The text summary and data table list every rating and bracket, and the new copy keys (`typeNames.nps`, `npsDetractors`, `npsPassives`, `npsPromoters`, `npsScore`, `npsRating`, `npsSummary`) override through `strings`, in `en` and `vi`. Other chart types render exactly as before (#553)
+- Revert: revert the PR; only charts that set `type="nps"` change, and before it they fell back to a bar chart
+
+## 0.802.0 — 2026-11-02
+### Added
+- `<aha-answer-list>` opt-in wiring for the 0.627.0 row additions (#538), each off by default so existing lists render unchanged: `roving` (one Tab stop, Arrow keys, Home and End), `option-labels="alphabet|number"` (a letter chip per row, A … Z, AA; `answerOptionLabel` exported), an `options[]` entry with `other: true` (and `otherValue`) for the inline Other row, with `other-placeholder`, `other-input-label` and `other-maxlength`, and an `other-input` event carrying `detail.id` and `detail.value` (#542)
+- Revert: revert the PR; every addition is opt-in
+
+## 0.800.1 — 2026-11-02
+### Fixed
+- `<aha-menu>` a row that is both `danger` and `disabled` now takes the disabled colour (text-disabled #B5B5B5) like every other disabled row; before, the danger ink won and the row looked enabled. (#552)
+- Revert: revert the PR; only the danger+disabled row colour changes
+
+## 0.800.0 — 2026-11-02
+### Added
+- `aha-dropdown` takes a `slot="trigger"` control that replaces the default button, so an icon-only `aha-button` makes a kebab (three-dot) menu. It gets `aria-haspopup` and `aria-expanded`, opens on click, Enter, Space and ArrowDown, and takes focus back on close. Without the slot the dropdown renders as before (#523)
+- Revert: revert the PR; nothing else uses the slot
+
+## 0.774.0 — 2026-11-02
+
+### Added
+- `<aha-image-preview>` (`@ahaslides-product/design/aha-image-preview`): a full-screen image lightbox the host opens with `open` (or `show()`), with an opt-in `toolbar` to zoom (1x to 5x), rotate and flip. Escape, the mask and the close button emit a cancelable `close` (`detail.source`), then `closed`. Same overlay as the `<aha-image>` preview; modal, with a Tab trap, scroll lock and focus back to the opener. Translatable accessible names via `close-label`, `zoom-in-label` and the rest. (#540)
+- Revert: revert the PR; a new element only, nothing else imports it.
+
 ## 0.780.0 — 2026-11-02
 ### Added
 - `aha-counted-textarea` passes `inputmode` and `dir` to its inner field, as `aha-counted-input` does: `dir="auto"` reads a right-to-left answer right to left. `aha-audience-field` documents it for the textarea. Fields without the new attributes render unchanged (#550)
