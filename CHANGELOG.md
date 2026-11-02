@@ -33,12 +33,22 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.700.0 — 2026-11-02
+## 0.716.0 — 2026-11-02
 ### Added
 - Tooltip: `trigger="hover-tap"` shows the bubble on mouse hover, keyboard focus and a touch tap. A tap toggles it, a tap elsewhere or Esc closes it; pointer type and `:focus-visible` decide, so a mouse click adds nothing and the focus a tap leaves behind never shows it (#536)
 - Tooltip: `open-change` event (bubbles, composed) with detail `{ open: boolean }` on every show and hide, from any trigger or the `open` attribute, never twice in a row for one state, so analytics can fire on the first reveal (#536)
 - Tooltip: `help-label` names the built-in `?` help button for screen readers; it stays "More info" when unset (#536)
 - Revert: revert the PR; all three are opt-in, and a tooltip without them renders and behaves as before
+
+## 0.701.0 — 2026-11-02
+### Added
+- Paywall: `placement="left"` and `placement="right"` hang the popover 8px beside the anchor, vertically centred on it, with the arrow on the facing edge; top and bottom are unchanged, and `align` and `fitPaywall` still work only with top and bottom (#546)
+- Paywall: `width` sets the popover width as a CSS length (a bare number is px), never past 82vw; the default stays 300px (#546)
+- Paywall: `slot="body"` takes the benefit sentence as rich content (a link, emphasis) in place of the plain-text `body`; the title, the fixed unlock line and both CTAs stay baked in, a link slotted directly (`<a slot="body">`) takes the white body text, underlined, and a body-slot child alone keeps the crown mark as the anchor (#546)
+### Fixed
+- Paywall: an open popover moves to its new spot when `placement`, `align` or `width` changes; before, it stayed where it was until the next scroll or resize (#546)
+- Paywall: an open popover also re-places itself when its own size changes (fonts loading, a body slot filled or edited), so a top or side popover no longer drifts off the anchor (#546)
+- Revert: revert the PR; all three are opt-in, and a paywall without them renders and behaves as before
 
 ## 0.681.0 — 2026-11-02
 ### Added
