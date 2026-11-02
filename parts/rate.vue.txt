@@ -17,4 +17,7 @@ const score = ref(3);
   <!-- half-step + a custom DS character -->
   <aha-rate :value.prop="score" :count="5" allow-half @change="score = $event.detail.value" />
   <aha-rate :value.prop="score" icon="system-heart-straight" @change="score = $event.detail.value" />
+  <!-- numbers only (1..10), and on an audience deck -->
+  <aha-rate :value.prop="score" :count="10" character="number" @change="score = $event.detail.value" />
+  <aha-rate :value.prop="score" surface="deck" @change="score = $event.detail.value" />
 </template>
