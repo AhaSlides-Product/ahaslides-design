@@ -7,6 +7,7 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 <script setup>
 import { ref } from 'vue';
 const theme = ref('light');
+const recipients = ref([]);
 const options = [
   { label: 'Light', value: 'light' },
   { label: 'Dark', value: 'dark' },
@@ -19,5 +20,14 @@ const options = [
     :value="theme"
     :options.prop="options"
     @change="theme = $event.detail.value"
+  ></aha-select>
+
+  <!-- Free-entry tags: bind the list as a property; change carries $event.detail.values -->
+  <aha-select
+    mode="tags"
+    separators=", ;"
+    placeholder="name@example.com"
+    :values.prop="recipients"
+    @change="recipients = $event.detail.values"
   ></aha-select>
 </template>

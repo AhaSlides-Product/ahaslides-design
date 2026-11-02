@@ -33,6 +33,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.910.0 — 2026-11-03
+### Added
+- `aha-select` server search: `filter="off"` (with `show-search`) emits `search` with {query} on every keystroke but keeps every option the host sets, opens with no options yet, and keeps the picked option's label on the trigger after a new search replaces the options; `loading` puts a small `aha-spin` in place of the caret, marks the list `aria-busy` and shows `loading-text` (default "Loading…") while no option is listed (#574)
+- `aha-select mode="tags"`: free-entry values as closable `aha-tag` chips before an inline field in the select's own chrome; `values` (array property or JSON attribute), `separators` (default `,;`; a pasted list also splits on new lines and tabs), Enter or leaving the field adds the text, Backspace in an empty field removes the last tag, exact duplicates are skipped, and `change` carries {values} (#574)
+- `aha-select` option fields `prefix` (leading text such as a flag emoji, hidden from assistive tech), `suffix` (trailing text in tertiary ink such as a dial code, matched by type-to-filter) and `selectedLabel` (what the closed trigger shows for that option, like antd optionLabelProp) (#574)
+- `aha-select width="content"`: the control is as wide as its longest option or placeholder, so it does not jump as the value changes (#574)
+### Changed
+- `aha-select`'s open list now sits in the browser top layer (Popover API, `popover="manual"`) and is placed with `position:fixed` from the control, so an `overflow:hidden` card such as `aha-card`, a transform or a z-index ancestor no longer cuts it off; it opens above when there is more room there, stays 8px inside the viewport and follows scroll and resize, with a fixed-position fallback where the Popover API is missing. Same look and keyboard; `mode="tags"` has no list and is unchanged (#574)
+- Revert: revert the PR; every attribute and option field is new and opt-in, and a select without them renders as before; the top-layer list is the one default change and goes with the revert
+
 ## 0.909.0 — 2026-11-03
 ### Added
 - `aha-color-picker` takes an opt-in `custom` attribute: a custom-colour row under the presets with an `<aha-input>` hex field (`#rgb` or `#rrggbb`, with or without the `#`, committed on Enter or blur and normalised to upper-case `#RRGGBB`; anything else shows an error line and fires nothing), a palette button that opens the browser's own colour picker, and a Pick from screen button for the EyeDropper API, each shown only where the browser supports it. Custom entry fires the same `change` event as a swatch; `detail` is now `{value, source}` with `source` one of `swatch`, `hex`, `native`, `eyedropper`. `normaliseHex` is exported. Without `custom` the picker renders and behaves as before (#571)

@@ -30,6 +30,24 @@
       options='[{"label":"Editor","value":"editor","description":"Edit and view results"},{"label":"Viewer","value":"viewer","description":"View results only"}]'></aha-select>
   </div>
 
+  <div class="lbl">Opt-in: loading, server search (filter="off"), rich options with a selected label, width="content"</div>
+  <div class="row" style="align-items:flex-start; gap:12px; flex-wrap:wrap">
+    <aha-select loading show-search filter="off" placeholder="Search presentations" aria-label="Search presentations"></aha-select>
+    <aha-select show-search filter="off" placeholder="Search presentations" empty-text="No presentations found" aria-label="Presentation"
+      options='[{"label":"Quarterly review","value":"7"},{"label":"Kick-off","value":"9"}]'></aha-select>
+    <aha-select show-search width="content" value="44" aria-label="Country code"
+      options='[{"label":"United Kingdom","value":"44","prefix":"🇬🇧","suffix":"+44","selectedLabel":"🇬🇧 +44"},{"label":"Viet Nam","value":"84","prefix":"🇻🇳","suffix":"+84","selectedLabel":"🇻🇳 +84"},{"label":"United States","value":"1","prefix":"🇺🇸","suffix":"+1","selectedLabel":"🇺🇸 +1"}]'></aha-select>
+    <aha-select width="content" value="editor" aria-label="Role"
+      options='[{"label":"Editor","value":"editor","description":"Edit and view results"},{"label":"Viewer","value":"viewer","description":"View results only"}]'></aha-select>
+  </div>
+
+  <div class="lbl">Opt-in: mode="tags" (free entry)</div>
+  <div class="row" style="align-items:flex-start; gap:12px; flex-wrap:wrap">
+    <aha-select mode="tags" separators=", ;" placeholder="name@example.com" aria-label="Recipients" style="--aha-field-width:min(100%, 380px)"
+      values='["ana@example.com","binh@example.com"]'></aha-select>
+    <aha-select mode="tags" placeholder="Add a keyword" aria-label="Keywords" style="--aha-field-width:min(100%, 380px)"></aha-select>
+  </div>
+
   <div class="lbl">In a settings row</div>
   <aha-settings-list style="max-width:380px; display:block"
     schema='{"sections":[{"label":"Presentation","rows":[
