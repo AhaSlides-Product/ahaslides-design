@@ -121,6 +121,12 @@
       "type": "boolean",
       "default": "false",
       "desc": "Reflects/controls the themed listbox popup being open (also toggled by click/keyboard). aria-expanded stays in sync."
+    },
+    {
+      "name": "focus()",
+      "type": "method",
+      "default": "—",
+      "desc": "host.focus() moves keyboard focus to the trigger (the shadow root delegates focus)"
     }
   ],
   "opinion": {

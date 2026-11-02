@@ -29,7 +29,8 @@
     { "name": "off-text", "type": "string", "default": "—", "desc": "Text shown inside the track when off" },
     { "name": "on-icon", "type": "icon name", "default": "—", "desc": "DS icon shown inside the track when on (wins over on-text)" },
     { "name": "off-icon", "type": "icon name", "default": "—", "desc": "DS icon shown inside the track when off (wins over off-text)" },
-    { "name": "change", "type": "CustomEvent<{checked}>", "default": "—", "desc": "Composed event on toggle; read e.detail.checked" }
+    { "name": "change", "type": "CustomEvent<{checked}>", "default": "—", "desc": "Composed event on toggle; read e.detail.checked" },
+    { "name": "focus()", "type": "method", "default": "—", "desc": "host.focus() moves keyboard focus to the switch track (the shadow root delegates focus)" }
   ],
   "opinion": {
     "whenToUse": [
