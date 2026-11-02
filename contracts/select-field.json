@@ -167,7 +167,7 @@
       "name": "width",
       "type": "content",
       "default": "—",
-      "desc": "Opt-in. `content` sizes the control to its longest option (selectedLabel where set) or placeholder, so it does not jump as the value changes, and never wider than its container. Unset keeps --aha-field-width (240px)"
+      "desc": "Opt-in. `content` sizes the control to its longest option (selectedLabel where set) or placeholder, so it does not jump as the value changes, and never wider than its container; its list opens leftwards when it would otherwise leave the viewport. Unset keeps --aha-field-width (240px)"
     },
     {
       "name": "mode",

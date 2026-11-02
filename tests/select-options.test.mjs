@@ -96,7 +96,10 @@ test('loading, filter="off", width="content", rich options with a selected label
 
     out.width = await evaluate(`(() => { const el = document.getElementById('role'); const before = Math.round(el.getBoundingClientRect().width);
       el.value = 'viewer'; const after = Math.round(el.getBoundingClientRect().width);
-      return { before, after, narrowerThanDefault: before < 240 }; })()`);
+      el.style.cssText = 'position:fixed; right:0; top:0'; el.options = [{ label: 'Editor', value: 'editor' }, { label: 'Viewer only', value: 'viewer', description: 'Can see results but cannot change the deck or its settings' }];
+      el.shadowRoot.querySelector('.trigger').click();
+      const list = el.shadowRoot.querySelector('.listbox').getBoundingClientRect();
+      return { before, after, narrowerThanDefault: before < 240, listInView: list.left >= 0 && list.right <= document.documentElement.clientWidth }; })()`);
 
     out.country = await evaluate(`(() => { const r = ${root('country')}; const row = r.querySelector('.option');
       const search = r.querySelector('.search'); document.getElementById('country').shadowRoot.querySelector('.trigger').click();
@@ -124,6 +127,7 @@ test('loading, filter="off", width="content", rich options with a selected label
   assert.deepEqual(result.noResults, { open: true, empty: true });
   assert.equal(result.width.before, result.width.after);
   assert.equal(result.width.narrowerThanDefault, true);
+  assert.equal(result.width.listInView, true);
   assert.deepEqual(result.country, { trigger: '🇬🇧 +44', prefix: '🇬🇧', label: 'United Kingdom', suffix: '+44', matched: ['84'] });
   assert.equal(result.tagFocus, true);
   assert.deepEqual(result.typed, { values: ['a@b.c', 'x@y.z'], field: 'half' });
