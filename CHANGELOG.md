@@ -33,12 +33,18 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.891.0 — 2026-11-02
+## 0.892.0 — 2026-11-02
 ### Added
 - `aha-number-scale`: a row of tappable whole numbers for the audience phone, 0–10 by default for a Net Promoter Score (`min`, `max` for any short numeric rating). 48px numbers at least 44px wide, six per row whenever one row would squeeze a number under 44px (an 11-point scale under 524px), the pick filled with the deck accent, `low-label` / `high-label` under the scale, a radio group with arrow keys, Home and End (mirrored in right-to-left), `group-label`, `disabled`, `lock-key`, and a `change` event with `{value}` (#541)
 ### Fixed
 - `aha-list` `selectable`: a picker row's description reads in secondary text, so it passes 4.5:1 on the selected tint and the hover fill (the tertiary grey measured 3.18:1) (#541)
 - Revert: revert the PR; the element is new and opt-in, and the list fix is one CSS line
+
+## 0.890.1 — 2026-11-02
+
+### Fixed
+
+- `<aha-leaderboard>` Show winner: the list's scrollbar is hidden while the winner banner covers it, so its track no longer shows as light corners outside the banner's rounded corners on a dark deck (#562)
 
 ## 0.884.0 — 2026-11-02
 ### Added
