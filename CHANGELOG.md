@@ -35,8 +35,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.711.0 — 2026-11-02
 ### Added
-- `aha-audience-contact`: a contact-details answer for the audience phone. Each entry of the `fields` JSON list (`id`, `kind` name, email, phone or text, `label`, `required`, `placeholder`) is an `aha-audience-field` around an `aha-counted-input`, with the phone keyboard, autofill hint and text direction of its kind (email and phone stay left to right in a right-to-left page); an optional `dial-codes` list puts an `aha-select` before the phone field; a missing required field, a bad email or a bad phone shows its message in `aha-field-error variant="respondent"` after leaving the field. `group-label`, `optional-label`, `required-message` / `email-message` / `phone-message`, `disabled`, `lock-key`, `ink` / `accent`, and a `change` event with `{value, valid}` (#PR)
-- `aha-counted-input` takes `type="tel"` and passes `autocomplete` to its inner field; without them it renders as before (#PR)
+- `aha-audience-contact`: a contact-details answer for the audience phone. Each entry of the `fields` JSON list (`id`, `kind` name, email, phone or text, `label`, `required`, `placeholder`) is an `aha-audience-field` around an `aha-counted-input`, with the phone keyboard, autofill hint and text direction of its kind (email and phone stay left to right in a right-to-left page); an optional `dial-codes` list puts an `aha-select` before the phone field; a missing required field, a bad email or a bad phone shows its message in `aha-field-error variant="respondent"` after leaving the field. `group-label`, `optional-label`, `required-message` / `email-message` / `phone-message`, `disabled`, `lock-key`, `ink` / `accent`, and a `change` event with `{value, valid}` (#551)
+- `aha-counted-input` takes `type="tel"` and passes `autocomplete` to its inner field; without them it renders as before (#551)
 - Revert: revert the PR; the element and the two attributes are new and opt-in
 
 ## 0.681.0 — 2026-11-02
@@ -74,7 +74,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.621.1 — 2026-11-02
 ### Fixed
-- CHANGELOG: the 0.609.0 entry links its real PR number instead of the `(#PR)` placeholder that auto-merge shipped, which turned the standards gate red on master (#533)
+- CHANGELOG: the 0.609.0 entry links its real PR number instead of the `(#551)` placeholder that auto-merge shipped, which turned the standards gate red on master (#533)
 - Revert: revert the PR; changelog text only
 
 ## 0.621.0 — 2026-11-02
@@ -170,7 +170,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.596.2 — 2026-11-02
 ### Fixed
-- CHANGELOG: the 0.595.1 entry links its real PR number instead of the `(#PR)` placeholder that auto-merge shipped, which turned the standards gate red on master (#506)
+- CHANGELOG: the 0.595.1 entry links its real PR number instead of the `(#551)` placeholder that auto-merge shipped, which turned the standards gate red on master (#506)
 - Revert: revert the PR; changelog text only
 
 
