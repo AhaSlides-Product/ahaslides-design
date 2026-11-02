@@ -1,0 +1,14 @@
+import '@ahaslides-product/design/aha-audience-date';
+import { useEffect, useRef } from 'react';
+
+// React < 19: bind the custom event through a ref.
+export function DateQuestion({ format, onAnswer }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const date = ref.current;
+    const handle = (event) => onAnswer(event.detail.value, event.detail.valid);
+    date.addEventListener('change', handle);
+    return () => date.removeEventListener('change', handle);
+  }, [onAnswer]);
+  return <aha-audience-date ref={ref} group-label="When did you join?" format={format} lock-key="slide-42" />;
+}

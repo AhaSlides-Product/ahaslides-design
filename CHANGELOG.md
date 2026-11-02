@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.895.0 — 2026-11-02
+### Added
+- `aha-audience-date`: a date answer for the audience phone. Day, month and year `aha-counted-input` fields in the order `format` sets (DMY, MDY, YMD) with a `separator`, a numeric keypad, digits only and auto-advance; the value is ISO `YYYY-MM-DD`, or empty until the date is real; after leaving the group with a part-filled or impossible date, `error-message` shows in `aha-field-error variant="respondent"`. `birthday` opts into birthday autofill (autocomplete is off otherwise), `group-label`, `day-label` / `month-label` / `year-label`, placeholders, `disabled`, `lock-key`, and a `change` event with `{value, valid}`; each input points at the error through `aria-describedby`, the whole box is the tap target and the pink focus ring shows over the error border (#544)
+- Revert: revert the PR; the element and the attributes are new and opt-in
+
 ## 0.894.0 — 2026-11-02
 ### Added
 - `aha-matrix`: a matrix question for the audience phone (rows × columns, one or several picks per row). Each statement is a labelled group of `aha-answer-option` rows, stacked on a 360px phone and side by side when there is room; `rows`, `columns`, `selection-mode`, `value` (`{rowId: columnId[]}`), `group-label`, `disabled`, `lock-key`, and a `change` event with `{value, row, column}` (#534)
