@@ -1,0 +1,19 @@
+<!-- Paste-and-run: save as .html and open it. No build step, nothing to copy.
+     In a Developer Platform slide type, applyDeck() gives every audience element the deck's ink, accent
+     and font from the host's slide props (the host's --aha-* variables never reach the iframe). -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-matrix.js';   // registers <aha-matrix>
+  import { applyDeck } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/audience-deck.js';
+  applyDeck(document.documentElement, window.xprops?.slide ?? { textColour: '#1A1A1A', presentationColorPalette: ['#E70E68'] });
+  const matrix = document.querySelector('aha-matrix');
+  matrix.addEventListener('change', (event) => console.log('answers', event.detail.value));
+</script>
+
+<aha-matrix group-label="How was each part of the event?" lock-key="slide-42"
+  rows='[{"id":"venue","label":"Venue"},{"id":"talks","label":"Talks"},{"id":"food","label":"Food"}]'
+  columns='[{"id":"poor","label":"Poor"},{"id":"ok","label":"OK"},{"id":"great","label":"Great"}]'></aha-matrix>
+
+<!-- several picks per row -->
+<aha-matrix selection-mode="multiple" group-label="Which tools do you use for each task?"
+  rows='["Planning","Meetings"]' columns='["Docs","Slides","Chat"]'></aha-matrix>

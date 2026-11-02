@@ -20,7 +20,7 @@
   ],
   "props": [
     { "name": "name", "type": "string", "default": "—", "desc": "Registry glyph name, e.g. system-bell, slidetype-poll, filetype-course" },
-    { "name": "size", "type": "12 | 16 | 24 | 32", "default": "24", "desc": "On-grid pixel size. The runtime draws every stroke at the size's paired width: 12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px. An off-grid size takes the nearest on-grid stroke" },
+    { "name": "size", "type": "12 | 16 | 24 | 32 | 40 | 48 | 64", "default": "24", "desc": "On-grid pixel size. The runtime draws every stroke at the size's paired width: 12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px, 40px 3px, 48px 3.5px, 64px 4px. An off-grid size takes the nearest on-grid stroke" },
     { "name": "label", "type": "string", "default": "—", "desc": "Accessible name (role=img). Omit for a decorative icon" },
     { "name": "decorative", "type": "boolean", "default": "false", "desc": "aria-hidden — for an icon that only repeats adjacent text" }
   ],
@@ -30,7 +30,7 @@
       { "what": "-filled asset", "when": "a selected/active/on state — e.g. system-bookmark-simple-filled; a solid glyph survives greyscale" },
       { "what": "slide-type / file-type", "when": "labelling a slide kind or a file kind; file-type glyphs are one colour and follow the text colour like every other icon" }
     ],
-    "note": "Call by name from the registry — never inline an <svg>, never pull a second icon set (Lucide/Heroicons/FontAwesome/@ant-design/icons). Off-grid sizes (no 20px) aren't supported. Icon-only buttons need an aria-label (and a tooltip when the meaning isn't obvious). Search the library by meaning first (npm run icon-search <words>, or the Icon library search: \"help\" finds system-question, \"delete\" finds system-trash). Draw a glyph only when nothing fits, and then add the SVG under icons/svg with at least 3 meaning words in icons/meaning.json, re-run build-icons.mjs, and put an Icon search: line in the pull request naming what you searched and why each close match did not fit; the standards gate fails a new glyph that looks nearly identical to an existing one; the runtime applies the size\u2019s stroke (12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px) to every stroked element whatever the SVG carries, so do not set stroke-width in the SVG to match."
+    "note": "Call by name from the registry — never inline an <svg>, never pull a second icon set (Lucide/Heroicons/FontAwesome/@ant-design/icons). Off-grid sizes (no 20px) aren't supported. Icon-only buttons need an aria-label (and a tooltip when the meaning isn't obvious). Search the library by meaning first (npm run icon-search <words>, or the Icon library search: \"help\" finds system-question, \"delete\" finds system-trash). Draw a glyph only when nothing fits, and then add the SVG under icons/svg with at least 3 meaning words in icons/meaning.json, re-run build-icons.mjs, and put an Icon search: line in the pull request naming what you searched and why each close match did not fit; the standards gate fails a new glyph that looks nearly identical to an existing one; the runtime applies the size\u2019s stroke (12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px, 40px 3px, 48px 3.5px, 64px 4px) to every stroked element whatever the SVG carries, so do not set stroke-width in the SVG to match."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "reuse": { "entry": "./icons", "registers": "aha-icon", "exportsNamed": ["icons", "ICON_NAMES", "defineAhaIcon", "AhaIcon"] },
@@ -59,7 +59,7 @@
   "selfCheck": [
     { "label": "called by name from the registry (no inline svg)", "verdict": "PASS" },
     { "label": "362 names in the registry (Figma DS V3, Phosphor glyphs and the system-reveal set)", "verdict": "PASS" },
-    { "label": "on-grid size 12/16/24/32 only", "verdict": "PASS" },
+    { "label": "on-grid size 12/16/24/32/40/48/64 only", "verdict": "PASS" },
     { "label": "colour = currentColor / token, no hex at call site", "verdict": "PASS" },
     { "label": "state via -filled asset, not a thicker stroke", "verdict": "PASS" },
     { "label": "icon-only button has aria-label", "verdict": "PASS" }
