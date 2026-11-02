@@ -6,7 +6,7 @@
     "slidetype",
     "system"
   ],
-  "count": 362,
+  "count": 369,
   "icons": {
     "filetype-course": {
       "family": "filetype",
@@ -574,6 +574,20 @@
         "play",
         "embed video",
         "media"
+      ]
+    },
+    "system-address-book": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M3.6 1.4H13.5a0.55 0.55 0 0 1 0.55 0.55V14.05a0.55 0.55 0 0 1 -0.55 0.55H3.6a0.55 0.55 0 0 1 -0.55 -0.55V1.95A0.55 0.55 0 0 1 3.6 1.4ZM1.4 4.15H3.05M1.4 8H3.05M1.4 11.85H3.05M5.25 10.75a4.125 4.125 0 0 1 6.6 0M10.75 6.9a2.2 2.2 0 1 1 -2.2 -2.2A2.2 2.2 0 0 1 10.75 6.9Z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "address book",
+        "contacts",
+        "contact list",
+        "phonebook",
+        "contact details",
+        "directory"
       ]
     },
     "system-ai-credit": {
@@ -1236,6 +1250,20 @@
         "achievement"
       ]
     },
+    "system-chalkboard": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M0.85 12.95H15.15M1.4 12.95V3.05a0.55 0.55 0 0 1 0.55 -0.55H14.05a0.55 0.55 0 0 1 0.55 0.55V12.95M3.6 12.95V4.7H12.4V8.55M7.45 12.95V10.75H12.4V12.95\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "chalkboard",
+        "blackboard",
+        "classroom",
+        "teaching",
+        "teacher",
+        "lesson"
+      ]
+    },
     "system-chart-bar": {
       "family": "system",
       "viewBox": "0 0 16 16",
@@ -1387,6 +1415,20 @@
         "messages",
         "comments",
         "forum"
+      ]
+    },
+    "system-check-circle-filled": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M8 0.25A7.75 7.75 0 1 0 15.75 8 7.758 7.758 0 0 0 8 0.25Zm3.403 6.383 -4.173 4.173a0.596 0.596 0 0 1 -0.844 0l-1.788 -1.788a0.596 0.596 0 0 1 0.844 -0.844L6.808 9.542l3.751 -3.752a0.596 0.596 0 0 1 0.844 0.844Z\" fill=\"currentColor\"/>",
+      "recolorable": true,
+      "meaning": [
+        "success",
+        "done",
+        "complete",
+        "submitted",
+        "thank you",
+        "solid tick"
       ]
     },
     "system-check-circle": {
@@ -1693,6 +1735,20 @@
         "checked",
         "reviewed",
         "complete"
+      ]
+    },
+    "system-door": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M1.4 14.6H14.6M3.05 14.6V1.95a0.55 0.55 0 0 1 0.55 -0.55H12.4a0.55 0.55 0 0 1 0.55 0.55V14.6\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"9.925\" cy=\"8.275\" r=\"0.875\" fill=\"currentColor\"/>",
+      "recolorable": true,
+      "meaning": [
+        "door",
+        "welcome",
+        "entrance",
+        "enter",
+        "doorway",
+        "start screen"
       ]
     },
     "system-dots-three-vertical": {
@@ -2849,6 +2905,20 @@
         "pound sign",
         "number rating",
         "hashtag"
+      ]
+    },
+    "system-heart-straight-filled": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M8 14.4228L14.0142 8.32238C14.6454 7.69121 15 6.83515 15 5.94253C15 5.04991 14.6454 4.19386 14.0142 3.56268C13.3831 2.93151 12.527 2.57692 11.6344 2.57692C10.7418 2.57692 9.88571 2.93151 9.25454 3.56268L8 4.73107L6.74546 3.56268C6.11429 2.93151 5.25823 2.57692 4.36561 2.57692C3.473 2.57692 2.61694 2.93151 1.98577 3.56268C1.35459 4.19386 1 5.04991 1 5.94253C1 6.83515 1.35459 7.69121 1.98577 8.32238L8 14.4228Z\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "liked",
+        "love",
+        "favourite",
+        "selected heart",
+        "rating",
+        "solid heart"
       ]
     },
     "system-heart-straight": {
@@ -4223,6 +4293,20 @@
         "customise"
       ]
     },
+    "system-smiley-filled": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M8 0.25A7.75 7.75 0 1 0 15.75 8 7.758 7.758 0 0 0 8 0.25ZM5.317 5.615a0.894 0.894 0 1 1 -0.894 0.894A0.894 0.894 0 0 1 5.317 5.615Zm6.179 4.471c-0.767 1.326 -2.041 2.087 -3.496 2.087s-2.73 -0.76 -3.496 -2.087a0.596 0.596 0 1 1 1.031 -0.596c0.557 0.962 1.432 1.49 2.465 1.49s1.908 -0.529 2.465 -1.49a0.596 0.596 0 1 1 1.031 0.596ZM10.683 7.404a0.894 0.894 0 1 1 0.894 -0.894A0.894 0.894 0 0 1 10.683 7.404Z\" fill=\"currentColor\"/>",
+      "recolorable": true,
+      "meaning": [
+        "smiley",
+        "happy",
+        "selected smiley",
+        "rating",
+        "satisfied",
+        "solid face"
+      ]
+    },
     "system-smiley": {
       "family": "system",
       "viewBox": "0 0 16 16",
@@ -4580,6 +4664,20 @@
         "bad",
         "negative",
         "downvote"
+      ]
+    },
+    "system-thumbs-up-filled": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M4.76911 13.4426L13.1156 13.4426C13.3779 13.4425 13.6311 13.3467 13.8278 13.1732C14.0244 12.9997 14.151 12.7604 14.1838 12.5002L14.9916 6.03841C15.0106 5.88684 14.9973 5.73294 14.9523 5.58693C14.9074 5.44092 14.8319 5.30615 14.7309 5.19156C14.6298 5.07696 14.5056 4.98518 14.3663 4.92229C14.2271 4.85941 14.0761 4.82686 13.9233 4.82682H9.61546V3.21137C9.61546 2.64011 9.38853 2.09225 8.98459 1.68831C8.58065 1.28436 8.03279 1.05743 7.46153 1.05743L4.76911 6.44227V13.4426Z\" fill=\"currentColor\"/><path d=\"M4.76911 13.4426L13.1156 13.4426C13.3779 13.4425 13.6311 13.3467 13.8278 13.1732C14.0244 12.9997 14.151 12.7604 14.1838 12.5002L14.9916 6.03841C15.0106 5.88684 14.9973 5.73294 14.9523 5.58693C14.9074 5.44092 14.8319 5.30615 14.7309 5.19156C14.6298 5.07696 14.5056 4.98518 14.3663 4.92229C14.2271 4.85941 14.0761 4.82686 13.9233 4.82682H9.61546V3.21137C9.61546 2.64011 9.38853 2.09225 8.98459 1.68831C8.58065 1.28436 8.03279 1.05743 7.46153 1.05743L4.76911 6.44227H1.5382C1.39539 6.44227 1.25842 6.49901 1.15744 6.59999C1.05645 6.70098 0.999718 6.83794 0.999718 6.98076V12.9041C0.999718 13.0469 1.05645 13.1839 1.15744 13.2848C1.25842 13.3858 1.39539 13.4426 1.5382 13.4426H4.76911ZM4.76911 6.44227V13.4426\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "liked",
+        "thumbs up",
+        "approve",
+        "selected thumbs up",
+        "rating",
+        "solid thumbs up"
       ]
     },
     "system-thumbs-up": {

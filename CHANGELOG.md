@@ -38,6 +38,20 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `<aha-chart type="nps">` takes two more data shapes beside the 11 per-score counts: `{ ratings: [...] }`, each response's 0 to 10 rating (a number or `{ score }`; anything else is skipped), drawn as the same 11 columns; and `{ promoters, passives, detractors }`, bracket totals only, drawn as one bar split by bracket share with the key row and the score, and no per-score columns. Any object shape may add `score` to show the host's own NPS instead of the computed one. The 11-count input renders exactly as before (#570)
 - Revert: revert the PR; the shapes are new and opt-in
 
+## 0.905.0 — 2026-11-03
+### Added
+- `<aha-input prefix-shrink>`: a long text `prefix` (a URL before a slug) truncates with an ellipsis instead of pushing the field, and the field keeps at least 96px to type in. `prefix-shrink="start"` cuts the start of the prefix, so its end (`…/survey/s/`) stays next to the field. Opt-in: without it the prefix keeps its full width as before (#567)
+- Revert: revert the PR; CSS and the prefix markup in `lib/aha-input.js`, no consumer uses the attribute yet
+
+## 0.904.0 — 2026-11-02
+### Added
+- Seven icons for survey blocks and rating states, each with meaning words for `npm run icon-search`: `system-door` (welcome or start screen, an entrance; `system-sign-out` stays the leave or log out arrow), `system-chalkboard` (classroom and teaching), `system-address-book` (a contact list; `system-identification-card` stays one person's details), and the filled states `system-check-circle-filled`, `system-smiley-filled`, `system-heart-straight-filled` and `system-thumbs-up-filled`, so every rating icon (star, heart, thumbs up, smiley) now has a selected glyph beside its outline. The registry now holds 369 names (#568)
+- Revert: revert the PR; additive glyphs only, no existing icon changes
+
+## 0.903.0 — 2026-11-02
+### Fixed
+- `aha-rate size="lg"` wraps its stars onto further centred rows when the host is narrower than the row (8 to 10 stars at 360px) instead of overflowing; widths where they fit render as before. (#566)
+
 ## 0.897.1 — 2026-11-02
 ### Fixed
 - `<aha-input>` built-in label (`label` attribute) is regular 400 in secondary ink (#4A4A4A), matching the Form label; it was semibold 600 in default ink. Size 14/21 and the 4px gap are unchanged. `<aha-counted-input>` and other fields that wrap `<aha-input>` follow. Group headers and SectionHeader stay semibold (#514)
