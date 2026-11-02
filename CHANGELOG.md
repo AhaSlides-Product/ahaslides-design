@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.609.0 — 2026-11-02
+### Added
+- Seven icons for survey building, each with meaning words for `npm run icon-search`: `system-hash` (number rating), `system-arrows-split` (branching and skip logic), `system-check-square` (checkbox question, beside `system-minus-square`), `system-flag`, `system-megaphone` (announcement), `system-neutral-face` (the neutral point between `system-sad-face` and `system-smiley`) and `system-star-filled` (the filled state of `system-star` for rating stars, any size). The first four and the tick come from Phosphor Icons Regular (MIT) on the DS 16px grid with the 1.5 stroke; the registry now holds 362 names (#PR)
+- Revert: revert the PR; additive glyphs only, no existing icon changes
+
 ## 0.605.2 — 2026-11-02
 ### Changed
 - Contracts Icon, Button, Tooltip, Tag, Avatar and Switch now declare the `web` environment, and Product lockup declares `product, web` (it leaves the environment baseline), so the Websites route lists all nine web components the Marketing sections use: aha-icon, aha-button, aha-tooltip, aha-tag, aha-segmented, aha-avatar, aha-product-lockup, aha-rate and aha-switch (#516)
