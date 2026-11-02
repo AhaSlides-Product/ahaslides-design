@@ -38,6 +38,16 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `aha-counted-textarea` passes `inputmode` and `dir` to its inner field, as `aha-counted-input` does: `dir="auto"` reads a right-to-left answer right to left. `aha-audience-field` documents it for the textarea. Fields without the new attributes render unchanged (#550)
 - Revert: revert the PR; nothing else depends on the new attributes
 
+## 0.701.0 — 2026-11-02
+### Added
+- Paywall: `placement="left"` and `placement="right"` hang the popover 8px beside the anchor, vertically centred on it, with the arrow on the facing edge; top and bottom are unchanged, and `align` and `fitPaywall` still work only with top and bottom (#546)
+- Paywall: `width` sets the popover width as a CSS length (a bare number is px), never past 82vw; the default stays 300px (#546)
+- Paywall: `slot="body"` takes the benefit sentence as rich content (a link, emphasis) in place of the plain-text `body`; the title, the fixed unlock line and both CTAs stay baked in, a link slotted directly (`<a slot="body">`) takes the white body text, underlined, and a body-slot child alone keeps the crown mark as the anchor (#546)
+### Fixed
+- Paywall: an open popover moves to its new spot when `placement`, `align` or `width` changes; before, it stayed where it was until the next scroll or resize (#546)
+- Paywall: an open popover also re-places itself when its own size changes (fonts loading, a body slot filled or edited), so a top or side popover no longer drifts off the anchor (#546)
+- Revert: revert the PR; all three are opt-in, and a paywall without them renders and behaves as before
+
 ## 0.681.0 — 2026-11-02
 ### Added
 - `aha-list` picker mode: the opt-in `selectable` attribute makes the `items` rows a single-choice listbox (rows `role="option"` with `aria-selected`; click, Enter or Space selects; ArrowUp, ArrowDown, Home and End move focus; one tab stop with a `:focus-visible` ring; picker rows render no `actions` buttons, since a listbox option holds no controls). `value` names the selected row's `key` (a row without `key` answers to its index), a row's `selected: true` is the initial pick, and the list emits a composed `select` with `{ key, index }`. The selected row takes the Menu's `bg-accent` tint. Without `selectable` the list is unchanged (#529)
