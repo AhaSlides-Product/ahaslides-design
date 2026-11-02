@@ -6,10 +6,10 @@
   "tier": "leaf-lit",
   "badge": "shared web component",
   "element": "aha-list",
-  "summary": "A vertical list of uniform rows — avatar + title/description meta and trailing actions, with size, bordered and split options.",
-  "highlights": ["Vertical list of uniform rows", "Avatar, title and description meta, trailing actions", "Size, bordered and split options"],
-  "lead": "ONE custom element — <aha-list> — defined once, imported unchanged by React and Vue. Feed it structured rows via `items` (each { title, description?, avatar?, actions? } lays out a leading avatar, a title + description meta block, and a trailing actions cluster), or drop light-DOM children for plain free-form rows. Config: `size` (small · default · large row padding), `bordered` (outer container border), `split` (row dividers, on by default), `list-title` (header), `footer`, and a `loading` skeleton. Rows highlight on hover when interactive; the last row drops its divider. Zero drift — the same element, not two look-alikes. Emits a composed `action`.",
-  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper that listens for `action`; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
+  "summary": "A vertical list of uniform rows — avatar + title/description meta and trailing actions, with size, bordered and split options, and an opt-in single-choice picker mode.",
+  "highlights": ["Vertical list of uniform rows", "Avatar, title and description meta, trailing actions", "Size, bordered and split options", "Opt-in picker: selectable rows, select event, keyboard"],
+  "lead": "ONE custom element — <aha-list> — defined once, imported unchanged by React and Vue. Feed it structured rows via `items` (each { title, description?, avatar?, actions? } lays out a leading avatar, a title + description meta block, and a trailing actions cluster), or drop light-DOM children for plain free-form rows. Config: `size` (small · default · large row padding), `bordered` (outer container border), `split` (row dividers, on by default), `list-title` (header), `footer`, and a `loading` skeleton. Rows highlight on hover when interactive; the last row drops its divider. Add `selectable` to make the `items` rows a single-choice picker: a listbox of role=\"option\" rows with aria-selected, click or Enter/Space to select, arrow keys, Home and End to move, one tab stop with a focus ring; `value` names the selected row's `key`, and the list emits a composed `select` with { key, index }. Without `selectable` nothing changes. Zero drift — the same element, not two look-alikes. Emits a composed `action`, and `select` in picker mode.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper that listens for `action` (and `select` in picker mode); Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["bg-container", "border", "split", "radius-lg", "radius-sm", "radius-xs", "radius-pill", "text-default", "text-secondary", "text-tertiary", "bg-hover", "bg-accent", "color-primary", "color-error", "border-focus", "font-product"],
   "spec": [
     { "label": "Container", "value": "radius 12px · bg #FFFFFF · border 1px #E3E3E3 only when `bordered`" },
@@ -20,10 +20,12 @@
     { "label": "Action", "value": "28px icon button, text-tertiary #8A8A8A; danger hover error-tinted" },
     { "label": "Split", "value": "row dividers #F1F1F1, on by default; split=false drops them" },
     { "label": "Row hover", "value": "interactive rows → bg #F7F7F7, motion-fast ease-out (persistent node)" },
-    { "label": "Footer", "value": "padding 12/20 · 13/20 #8A8A8A · top divider" }
+    { "label": "Footer", "value": "padding 12/20 · 13/20 #8A8A8A · top divider" },
+    { "label": "Selected row", "value": "selectable only → bg-accent #E70E680D (the Menu's selected tint), hover keeps the tint; pointer cursor" },
+    { "label": "Focus", "value": "selectable only → 2px border-focus #E70E68 ring inset 2px on :focus-visible, one tab stop (roving)" }
   ],
   "props": [
-    { "name": "items", "type": "JSON array", "default": "[]", "desc": "Structured rows: { title, description?, avatar? (icon name), actions?:[{ key, icon, danger?, label? }] }" },
+    { "name": "items", "type": "JSON array", "default": "[]", "desc": "Structured rows: { key?, title, description?, avatar? (icon name), selected?, actions?:[{ key, icon, danger?, label? }] }. `key` and `selected` matter only with `selectable`" },
     { "name": "(children)", "type": "slot", "default": "—", "desc": "Free-form fallback — each light-DOM child renders as one plain row (used when `items` is empty)" },
     { "name": "size", "type": "'small' | 'default' | 'large'", "default": "default", "desc": "Row vertical padding scale (8 · 12 · 16)" },
     { "name": "bordered", "type": "boolean", "default": "false", "desc": "Draw the outer container border" },
@@ -31,13 +33,18 @@
     { "name": "list-title", "type": "string", "default": "—", "desc": "Renders an optional header row" },
     { "name": "footer", "type": "string", "default": "—", "desc": "Renders an optional footer row" },
     { "name": "loading", "type": "boolean", "default": "false", "desc": "Show shimmer skeleton rows in place of content" },
+    { "name": "selectable", "type": "boolean", "default": "false", "desc": "Picker mode for `items` rows: role=listbox, rows role=option with aria-selected, click or Enter/Space selects, ArrowUp/ArrowDown/Home/End move focus. Light-DOM rows are not selectable" },
+    { "name": "value", "type": "string", "default": "—", "desc": "With `selectable`: the selected row's `key` (a row without `key` answers to its index as a string). Set by the list on select; setting it re-marks rows without rebuilding. Unset → the first row with `selected: true`" },
+    { "name": "select", "type": "CustomEvent", "default": "—", "desc": "With `selectable`: composed event when a row is picked (click, Enter or Space), detail { key, index }. Fires after `value` is set; an action button click does not select" },
     { "name": "action", "type": "CustomEvent", "default": "—", "desc": "Composed event on a trailing action click, detail { key, index }" }
   ],
   "opinion": {
     "whenToUse": [
       { "what": "List", "when": "many uniform rows of the same shape (recent items, participants, feeds)" },
       { "what": "Table", "when": "multi-column records that need sorting or alignment" },
-      { "what": "Card", "when": "one titled group of mixed content" }
+      { "what": "Card", "when": "one titled group of mixed content" },
+      { "what": "List with selectable", "when": "pick one row from a list of rich rows (a survey, deck or template picker)" },
+      { "what": "Select or Dropdown", "when": "pick one value from a short list of plain labels in a compact control" }
     ],
     "note": "Keep rows to one shape — a title, optionally a description and a small trailing actions cluster. Reserve `bordered` for a standalone list; drop the border when the list sits inside a card. For dense multi-column data reach for the Table instead.",
     "dsv3": "COVERED — DS V3's measured set has no dedicated data-List container cell (search returns only list icons + the distinct Upload List Item primitive); the matrix follows antd List conventions over the DS token layer: size (small/default/large row padding), bordered (outer border), split (row dividers), optional header/footer, item content = optional avatar + title/description meta + trailing actions, and a loading state. Tokens: white surface, border #E3E3E3, split #F1F1F1, radius-lg 12, bg-accent avatar, color-primary glyph, color-error danger action, text-default/secondary/tertiary. Motion bound to the shared motion tokens on persistent nodes. A deliberate, documented extension — not a measured match."
@@ -73,7 +80,8 @@
     { "label": "avatar 36px pill bg-accent + color-primary glyph", "verdict": "PASS" },
     { "label": "title 600 #1A1A1A + description #8A8A8A meta", "verdict": "PASS" },
     { "label": "interactive row hover #F7F7F7 via motion tokens", "verdict": "PASS" },
-    { "label": "small size → 8px row vertical padding", "verdict": "PASS" }
+    { "label": "small size → 8px row vertical padding", "verdict": "PASS" },
+    { "label": "selectable → listbox, selected row bg-accent, select { key, index }, keyboard and focus ring; default unchanged", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
