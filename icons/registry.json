@@ -6,7 +6,7 @@
     "slidetype",
     "system"
   ],
-  "count": 354,
+  "count": 356,
   "icons": {
     "filetype-course": {
       "family": "filetype",
@@ -2710,6 +2710,20 @@
         "website"
       ]
     },
+    "system-google-logo": {
+      "family": "system",
+      "viewBox": "0 0 256 256",
+      "body": "<path d=\"M204.37,51.63A108,108,0,1,0,235.33,140V116H140a12,12,0,0,0,0,24h71.14A84,84,0,1,1,187.40,68.60a12,12,0,0,0,16.97-16.97Z\" fill=\"currentColor\"/>",
+      "recolorable": true,
+      "meaning": [
+        "google",
+        "log in with google",
+        "sign in with google",
+        "google account",
+        "single sign-on",
+        "brand"
+      ]
+    },
     "system-graduation-cap": {
       "family": "system",
       "viewBox": "0 0 16 16",
@@ -3219,6 +3233,20 @@
         "export to excel",
         "xlsx",
         "office"
+      ]
+    },
+    "system-microsoft-logo": {
+      "family": "system",
+      "viewBox": "0 0 256 256",
+      "body": "<path d=\"M28,20h84a8,8,0,0,1,8,8v84a8,8,0,0,1-8,8h-84a8,8,0,0,1-8-8v-84a8,8,0,0,1,8-8ZM144,20h84a8,8,0,0,1,8,8v84a8,8,0,0,1-8,8h-84a8,8,0,0,1-8-8v-84a8,8,0,0,1,8-8ZM28,136h84a8,8,0,0,1,8,8v84a8,8,0,0,1-8,8h-84a8,8,0,0,1-8-8v-84a8,8,0,0,1,8-8ZM144,136h84a8,8,0,0,1,8,8v84a8,8,0,0,1-8,8h-84a8,8,0,0,1-8-8v-84a8,8,0,0,1,8-8Z\" fill=\"currentColor\"/>",
+      "recolorable": true,
+      "meaning": [
+        "microsoft",
+        "log in with microsoft",
+        "sign in with microsoft",
+        "microsoft account",
+        "single sign-on",
+        "brand"
       ]
     },
     "system-minimise": {
