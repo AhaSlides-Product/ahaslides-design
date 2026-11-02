@@ -1,0 +1,18 @@
+import '@ahaslides-product/design/aha-matrix';
+import { useEffect, useRef } from 'react';
+
+// React < 19: bind the custom event through a ref.
+export function MatrixQuestion({ rows, columns, multiple, onAnswer }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const matrix = ref.current;
+    const handle = (event) => onAnswer(event.detail.value);
+    matrix.addEventListener('change', handle);
+    return () => matrix.removeEventListener('change', handle);
+  }, [onAnswer]);
+  return (
+    <aha-matrix ref={ref} group-label="How was each part of the event?" lock-key="slide-42"
+      selection-mode={multiple ? 'multiple' : 'single'}
+      rows={JSON.stringify(rows)} columns={JSON.stringify(columns)} />
+  );
+}

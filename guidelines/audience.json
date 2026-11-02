@@ -138,6 +138,12 @@
       "status": "available"
     },
     {
+      "ref": "matrix",
+      "as": "component",
+      "use": "a matrix question (several statements, one shared set of answers) — <aha-matrix>: one labelled group of <aha-answer-option> rows per statement, stacked on the phone, single or multiple pick per row, lock-key keeps the value across an iframe remount; never a hand-built table of radios",
+      "status": "available"
+    },
+    {
       "ref": "number-scale",
       "as": "component",
       "use": "a tapped numeric score (NPS 0–10, a 1–5 rating shown as numbers) — <aha-number-scale>: 48px numbers on the frosted surface, six per row on a phone, the pick filled with the deck accent, end labels under it, lock-key keeps the score across an iframe remount; never a hand-built row of number buttons",

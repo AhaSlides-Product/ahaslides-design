@@ -21,6 +21,23 @@
    }
   },
   {
+   "name": "Matrix",
+   "element": "<aha-matrix>",
+   "kind": "Answers",
+   "what": "A matrix question: one labelled group of answer rows per statement, sharing one set of columns, stacked top to bottom on the phone.",
+   "useWhen": "Several statements rated on the same answers (a satisfaction grid, a Likert block). Pass `rows`, `columns`, `selection-mode` and a `lock-key`; the value is `{rowId: columnId[]}`.",
+   "notFor": "One question with its own answers (`<aha-answer-list>`), a 0-10 score, or free text.",
+   "replaces": "Replaces a hand-built table of radio buttons, which scrolls sideways on a phone and re-opens the submission lock, the deck ink and the frosted surface",
+   "note": null,
+   "demoLight": "<aha-matrix group-label=\"Event\" value='{\"venue\":[\"ok\"]}' rows='[{\"id\":\"venue\",\"label\":\"Venue\"},{\"id\":\"talks\",\"label\":\"Talks\"}]' columns='[{\"id\":\"poor\",\"label\":\"Poor\"},{\"id\":\"ok\",\"label\":\"OK\"},{\"id\":\"great\",\"label\":\"Great\"}]'></aha-matrix>",
+   "demoDark": "<aha-matrix group-label=\"Event\" value='{\"venue\":[\"ok\"]}' rows='[{\"id\":\"venue\",\"label\":\"Venue\"},{\"id\":\"talks\",\"label\":\"Talks\"}]' columns='[{\"id\":\"poor\",\"label\":\"Poor\"},{\"id\":\"ok\",\"label\":\"OK\"},{\"id\":\"great\",\"label\":\"Great\"}]'></aha-matrix>",
+   "snippets": {
+    "html": "<!-- Paste-and-run: save as .html and open it. No build step, nothing to copy.\n     In a Developer Platform slide type, applyDeck() gives every audience element the deck's ink, accent\n     and font from the host's slide props (the host's --aha-* variables never reach the iframe). -->\n<!-- One tag for the whole audience set instead of the per-element import below (also exports applyDeck): -->\n<!-- <script type=\"module\" src=\"https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/audience.js\"></script> -->\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css\">\n<script type=\"module\">\n  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-matrix.js';   // registers <aha-matrix>\n  import { applyDeck } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/audience-deck.js';\n  applyDeck(document.documentElement, window.xprops?.slide ?? { textColour: '#1A1A1A', presentationColorPalette: ['#E70E68'] });\n  const matrix = document.querySelector('aha-matrix');\n  matrix.addEventListener('change', (event) => console.log('answers', event.detail.value));\n</script>\n\n<aha-matrix group-label=\"How was each part of the event?\" lock-key=\"slide-42\"\n  rows='[{\"id\":\"venue\",\"label\":\"Venue\"},{\"id\":\"talks\",\"label\":\"Talks\"},{\"id\":\"food\",\"label\":\"Food\"}]'\n  columns='[{\"id\":\"poor\",\"label\":\"Poor\"},{\"id\":\"ok\",\"label\":\"OK\"},{\"id\":\"great\",\"label\":\"Great\"}]'></aha-matrix>\n\n<!-- several picks per row -->\n<aha-matrix selection-mode=\"multiple\" group-label=\"Which tools do you use for each task?\"\n  rows='[\"Planning\",\"Meetings\"]' columns='[\"Docs\",\"Slides\",\"Chat\"]'></aha-matrix>\n",
+    "react": "import '@ahaslides-product/design/aha-matrix';\nimport { useEffect, useRef } from 'react';\n\n// React < 19: bind the custom event through a ref.\nexport function MatrixQuestion({ rows, columns, multiple, onAnswer }) {\n  const ref = useRef(null);\n  useEffect(() => {\n    const matrix = ref.current;\n    const handle = (event) => onAnswer(event.detail.value);\n    matrix.addEventListener('change', handle);\n    return () => matrix.removeEventListener('change', handle);\n  }, [onAnswer]);\n  return (\n    <aha-matrix ref={ref} group-label=\"How was each part of the event?\" lock-key=\"slide-42\"\n      selection-mode={multiple ? 'multiple' : 'single'}\n      rows={JSON.stringify(rows)} columns={JSON.stringify(columns)} />\n  );\n}",
+    "vue": "<script setup>\nimport '@ahaslides-product/design/aha-matrix';\ndefineProps({ rows: Array, columns: Array });\nconst emit = defineEmits(['answer']);\n</script>\n\n<template>\n  <aha-matrix group-label=\"How was each part of the event?\" lock-key=\"slide-42\"\n    :rows=\"JSON.stringify(rows)\" :columns=\"JSON.stringify(columns)\"\n    @change=\"emit('answer', $event.detail.value)\" />\n</template>"
+   }
+  },
+  {
    "name": "AnswerOption",
    "element": "<aha-answer-option>",
    "kind": "Answers",
