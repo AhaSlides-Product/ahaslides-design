@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.804.0 — 2026-11-02
 ### Added
-- `<aha-image-resize-frame>`: the editor's on-canvas image frame. Wraps your `<img>`; click to select (2px Vivid Pink outline, four corner handles), drag a corner or use the Arrow keys on a handle to resize by width percent (floor max(15%, 120px), never past the natural width), and a hover mask with Preview and Delete buttons (`actions` slot replaces them). Emits `preview`, `delete`, `select-change`, `width-input` and `width-change`; the host owns the lightbox and the data. Opt-in, existing tokens only (#549)
+- `<aha-image-resize-frame>`: the editor's on-canvas image frame. Wraps your `<img>`; click to select (2px Vivid Pink outline, four corner handles), drag a corner or use the Arrow keys on a handle to resize by width percent (floor max(15%, 120px), never past the natural width), and a hover mask with Preview (secondary) and Delete (danger) buttons, both size md (`actions` slot replaces them); handles draw 12px with an invisible 24px hit zone (44px under a coarse pointer). Emits `preview`, `delete`, `select-change`, `width-input` and `width-change`; the host owns the lightbox and the data. Opt-in, existing tokens only (#549)
 
 ## 0.800.1 — 2026-11-02
 ### Fixed

@@ -37,11 +37,11 @@
     },
     {
       "label": "Handles",
-      "value": "12×12 at each corner, 6px outside the edge; #FFFFFF fill, 1.5px #E70E68 border, radius 4, a 1px white 50% halo; nwse / nesw resize cursors; fade in with the selection (motion-fast, ease-out)"
+      "value": "12×12 at each corner, 6px outside the edge, with an invisible 24×24 hit zone (44×44 under a coarse pointer); #FFFFFF fill, 1.5px #E70E68 border, radius 4, a 1px white 50% halo; nwse / nesw resize cursors; fade in with the selection (motion-fast, ease-out)"
     },
     {
       "label": "Mask",
-      "value": "rgba(0,0,0,.5) (ink-a50) over the whole image, radius 8, two 36×36 secondary icon-only aha-buttons 12px apart; shown on hover (hover-capable pointers), keyboard focus inside, or while selected"
+      "value": "rgba(0,0,0,.5) (ink-a50) over the whole image, radius 8, two 36×36 icon-only aha-buttons 12px apart (Preview secondary, Delete danger, both size md); shown on hover (hover-capable pointers), keyboard focus inside, or while selected"
     },
     {
       "label": "Resize",
