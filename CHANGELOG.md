@@ -33,6 +33,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.905.0 — 2026-11-02
+### Added
+- `aha-audience-contact` dial codes take `country` (ISO 3166 alpha-2), plus optional `dial` and `name`: the closed Select reads flag and code ("🇻🇳 +84"), the open list flag, country name and code ("🇻🇳 Vietnam (+84)"); the name comes from `name`, else `Intl.DisplayNames` in the new `locale` attribute (else the nearest `lang`, else English). `label` defaults to the flag and code. (#NNN)
+- `aha-audience-contact` `strings` (JSON attribute or object property, as on `aha-chart`) overrides every built-in text: `groupLabel`, `optionalLabel`, `requiredMessage`, `emailMessage`, `phoneMessage`, `dialCodeLabel`, `nameLabel`, `emailLabel`, `phoneLabel`; English defaults unchanged, and the dedicated attributes still win. Exported as `contactStrings` with `countryName()`. (#NNN)
+- `aha-audience-contact` `testid="<prefix>"` stamps `data-testid` on each field (`<prefix>-<id>`), its text box (`-<id>-input`, or `-<id>-number` behind a dial code), the dial code Select (`-<id>-country`) and the error (`-<id>-error`); new parts `phone`, `dial-code`, `input`, `error`. (#NNN)
+
 ## 0.903.0 — 2026-11-02
 ### Fixed
 - `aha-rate size="lg"` wraps its stars onto further centred rows when the host is narrower than the row (8 to 10 stars at 360px) instead of overflowing; widths where they fit render as before. (#566)

@@ -159,3 +159,66 @@ test('isEmail is linear on a long run of dots and accepts what the old pattern a
   })()`, ready);
   assert.deepEqual(result, { hostile: false, fast: true, cases: [true, false, false, false, false] });
 });
+
+test('strings overrides every built-in text as on aha-chart; a dedicated attribute still wins', { skip }, async () => {
+  const result = await evaluateInPage(fixture, `(() => {
+    const el = document.createElement('aha-audience-contact');
+    el.setAttribute('fields', JSON.stringify([{ id: 'name', kind: 'name', required: true }, { id: 'email', kind: 'email' }, { id: 'phone', kind: 'phone' }]));
+    el.setAttribute('dial-codes', JSON.stringify([{ label: '+84', value: '+84' }]));
+    el.setAttribute('strings', JSON.stringify({ optionalLabel: '(không bắt buộc)', requiredMessage: 'Bắt buộc', phoneMessage: 'Số điện thoại không hợp lệ', nameLabel: 'Họ tên', dialCodeLabel: 'Mã quốc gia', groupLabel: 'Liên hệ' }));
+    el.setAttribute('email-message', 'Email sai');
+    document.body.append(el);
+    const r = el.shadowRoot;
+    const labels = [...r.querySelectorAll('aha-audience-field')].map((f) => f.getAttribute('label'));
+    el.value = { email: 'nope', phone: '+84 12' };
+    el.showErrors();
+    const errors = [...r.querySelectorAll('aha-field-error')].map((e) => e.getAttribute('message'));
+    const group = r.querySelector('.contact').getAttribute('aria-label');
+    const dial = r.querySelector('aha-select').getAttribute('aria-label');
+    el.strings = { optionalLabel: '' };
+    return { labels, errors, group, dial, after: [...r.querySelectorAll('aha-audience-field')].map((f) => f.getAttribute('label')) };
+  })()`, ready);
+  assert.deepEqual(result, {
+    labels: ['Họ tên', 'Email (không bắt buộc)', 'Phone (không bắt buộc)'],
+    errors: ['Bắt buộc', 'Email sai', 'Số điện thoại không hợp lệ'],
+    group: 'Liên hệ', dial: 'Mã quốc gia', after: ['Name', 'Email', 'Phone'],
+  });
+});
+
+test('a dial code with a country reads flag and code closed, flag, name in the locale and (code) in the list', { skip }, async () => {
+  const result = await evaluateInPage(fixture, `(() => {
+    const el = document.createElement('aha-audience-contact');
+    el.setAttribute('fields', JSON.stringify([{ id: 'phone', kind: 'phone' }]));
+    el.setAttribute('dial-codes', JSON.stringify([{ label: '\u{1F1FB}\u{1F1F3} +84', value: 'VN', country: 'VN' }, { value: 'GB', country: 'GB', dial: '+44', name: 'Britain' }, { label: '+1', value: '+1' }]));
+    document.body.append(el);
+    const select = el.shadowRoot.querySelector('aha-select');
+    const rows = () => [...select.shadowRoot.querySelectorAll('[role="option"] .label')].map((n) => n.textContent);
+    const english = rows();
+    const closed = select.shadowRoot.querySelector('.value').textContent;
+    el.setAttribute('locale', 'vi');
+    return { english, closed, vietnamese: rows(), value: el.value };
+  })()`, ready);
+  assert.deepEqual(result, {
+    english: ['\u{1F1FB}\u{1F1F3} Vietnam (+84)', '\u{1F1EC}\u{1F1E7} Britain (+44)', '+1'],
+    closed: '\u{1F1FB}\u{1F1F3} +84',
+    vietnamese: ['\u{1F1FB}\u{1F1F3} Việt Nam (+84)', '\u{1F1EC}\u{1F1E7} Britain (+44)', '+1'],
+    value: { phone: '' },
+  });
+});
+
+test('testid stamps data-testid on each field, its text box, the dial code and the error', { skip }, async () => {
+  const result = await evaluateInPage(fixture, `(() => {
+    const el = document.createElement('aha-audience-contact');
+    el.setAttribute('testid', 'contact-7');
+    el.setAttribute('fields', JSON.stringify([{ id: 'email', kind: 'email' }, { id: 'phone', kind: 'phone' }]));
+    el.setAttribute('dial-codes', JSON.stringify([{ label: '+84', value: '+84' }]));
+    document.body.append(el);
+    const ids = (root) => [...root.querySelectorAll('[data-testid]')].map((n) => n.getAttribute('data-testid'));
+    const inner = [...el.shadowRoot.querySelectorAll('aha-counted-input')].flatMap((input) => ids(input.shadowRoot));
+    return { outer: ids(el.shadowRoot), inner };
+  })()`, ready);
+  assert.deepEqual(result, {
+    outer: ['contact-7-email', 'contact-7-email-error', 'contact-7-phone', 'contact-7-phone-country', 'contact-7-phone-error'],
+    inner: ['contact-7-email-input', 'contact-7-phone-number'],
+  });
+});
