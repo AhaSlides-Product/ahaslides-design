@@ -33,6 +33,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.609.0 — 2026-11-02
+### Added
+- `aha-rank-list` `touch` attribute: the move up / down buttons become 44 x 44 side by side with 8px between them (the audience touch-targets rule), with an 18% ink press state and disabled buttons at 55% opacity (about 3.9:1 on white) instead of 40%. Off, the 24px stacked buttons render unchanged (#PR)
+- `aha-rank-list` `hide-caption` attribute: `group-label` still names the list for assistive technology (the list's aria-label) but the visible caption above the rows is hidden (#PR)
+- Revert: revert the PR; both attributes are opt-in and default off
+
 ## 0.605.2 — 2026-11-02
 ### Changed
 - Contracts Icon, Button, Tooltip, Tag, Avatar and Switch now declare the `web` environment, and Product lockup declares `product, web` (it leaves the environment baseline), so the Websites route lists all nine web components the Marketing sections use: aha-icon, aha-button, aha-tooltip, aha-tag, aha-segmented, aha-avatar, aha-product-lockup, aha-rate and aha-switch (#516)
