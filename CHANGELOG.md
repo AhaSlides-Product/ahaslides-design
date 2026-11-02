@@ -41,6 +41,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Pricing layouts: only the recommended plan's call to action is the primary Button; every other plan's is the secondary Button (#563)
 - Revert: revert the PR; it changes colours and button variants in the Marketing section markup and CSS only, with no API or token change
 
+## 0.857.2 — 2026-11-02
+
+### Fixed
+- `aha-tooltip`: a hidden tooltip no longer adds to the page's layout overflow. Its 9px hover bridge took a box while the bubble was hidden, so a tooltip at the right edge of the page gave the whole page a horizontal scrollbar; the bridge now exists only while the bubble is shown, and hover onto the bubble still works. (#564)
+
 ## 0.857.0 — 2026-11-02
 ### Added
 - `aha-icon` sizes 40, 48 and 64 with 3, 3.5 and 4px strokes (backed by the 40, 48 and 64 size tokens), for empty states and illustrations; static icon files are generated for the new sizes (#554)
