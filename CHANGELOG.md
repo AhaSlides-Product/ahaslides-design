@@ -16,7 +16,7 @@ All notable changes to `@ahaslides-product/design`, **newest first**.
   number and commits `chore(release): X.Y.Z` to master. Run the gate locally as `AUTO_VERSION=on npm run check`.
 
 The gate rejects an unfilled `(#129)` placeholder in every released entry: link the **real** PR number
-(under `## Unreleased`, `(#PR)` is fine; the release fills it in).
+(under `## Unreleased`, `(#518)` is fine; the release fills it in).
 
 **Format** — one entry per version:
 
@@ -33,11 +33,37 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.605.1 — 2026-11-02
+## 0.613.1 — 2026-11-02
 ### Fixed
 - `<aha-input>` built-in label (`label` attribute) is regular 400 in secondary ink (#4A4A4A), matching the Form label; it was semibold 600 in default ink. Size 14/21 and the 4px gap are unchanged. `<aha-counted-input>` and other fields that wrap `<aha-input>` follow. Group headers and SectionHeader stay semibold (#514)
 - `<aha-input size="large">` label is 16/24, matching the large field text (#514)
 - Revert: revert the PR; one CSS rule in `lib/aha-input.js`
+
+## 0.613.0 — 2026-11-02
+### Added
+- `aha-rank-list` `touch` attribute: the move up / down buttons become 44 x 44 side by side with 8px between them (the audience touch-targets rule), with an 18% ink press state and disabled buttons at 55% opacity (about 3.9:1 on white) instead of 40%. Off, the 24px stacked buttons render unchanged (#522)
+- `aha-rank-list` `hide-caption` attribute: `group-label` still names the list for assistive technology (the list's aria-label) but the visible caption above the rows is hidden (#522)
+- Revert: revert the PR; both attributes are opt-in and default off
+
+## 0.612.0 — 2026-11-02
+### Added
+- Seven icons for survey building, each with meaning words for `npm run icon-search`: `system-hash` (number rating), `system-arrows-split` (branching and skip logic), `system-check-square` (checkbox question, beside `system-minus-square`), `system-flag`, `system-megaphone` (announcement), `system-neutral-face` (the neutral point between `system-sad-face` and `system-smiley`) and `system-star-filled` (the filled state of `system-star` for rating stars, any size). The first four and the tick come from Phosphor Icons Regular (MIT) on the DS 16px grid with the 1.5 stroke; the registry now holds 362 names (#521)
+- Revert: revert the PR; additive glyphs only, no existing icon changes
+
+## 0.609.1 — 2026-11-02
+### Added
+- `lib/static-icons` gains `system-cursor-click`, `system-check` and `system-arrow-right` (click here, check this, next step), so how-to and tutorial step images take their marks from the DS instead of inlined registry paths; the report-image guideline and feeds now describe the set as status and how-to glyphs (#524)
+- Revert: revert the PR; additive, no existing glyph changes
+
+## 0.609.0 — 2026-11-02
+### Added
+- `aha-skeleton` takes optional `width` and `height` (a number is px, or a CSS length: px, rem, em, %, vw, vh, calc()), so a placeholder can match the real content; on a paragraph they size the stack and each row. Unset, every variant renders as before (#PR)
+- Revert: revert the PR; the attributes are opt-in
+
+## 0.605.2 — 2026-11-02
+### Changed
+- Contracts Icon, Button, Tooltip, Tag, Avatar and Switch now declare the `web` environment, and Product lockup declares `product, web` (it leaves the environment baseline), so the Websites route lists all nine web components the Marketing sections use: aha-icon, aha-button, aha-tooltip, aha-tag, aha-segmented, aha-avatar, aha-product-lockup, aha-rate and aha-switch (#516)
+- Revert: revert the PR; only `environment` metadata changes
 
 ## 0.605.0 — 2026-11-02
 ### Added

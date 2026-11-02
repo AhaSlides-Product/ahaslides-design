@@ -8,6 +8,8 @@ Glyphs (36): system-file-archive, system-file-c, system-file-cloud, system-file-
 
 Glyphs for courses and rich text (22): system-arrow-line-down, system-caret-circle-down, system-certificate, system-crop, system-device-tablet, system-flow-arrow, system-gauge, system-image-broken, system-map-pin, system-minus-circle, system-monitor, system-puzzle-piece, system-ruler, system-scroll, system-target, system-text-b, system-text-h-one, system-text-h-two, system-text-h-three, system-text-italic, system-text-strikethrough, system-text-underline. Same redraw (Phosphor Regular stroke source `raw/regular/<name>.svg`, scaled 1.1x about the centre onto 16x16, stroke 1.5); the name is `system-` plus the Phosphor name.
 
+Glyphs for survey building (5): system-arrows-split, system-flag, system-hash, system-megaphone, and the tick inside system-check-square (its frame is the DS `system-minus-square` frame). Same redraw (Phosphor Regular stroke source `raw/regular/<name>.svg`, scaled 1.1x onto 16x16, stroke 1.5); `system-megaphone` is scaled about the centre of its own outline rather than the 256 frame, so its stroke stays inside the 16 grid.
+
 Not derived from Phosphor (kept as drawn in Figma): system-file, system-files, system-file-arrow-down, system-file-arrow-up, system-file-audio, system-file-xls.
 
 ## Licence
