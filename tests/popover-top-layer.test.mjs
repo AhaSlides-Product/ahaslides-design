@@ -68,6 +68,14 @@ const scenarios = String.raw`(async () => {
     popover.open = false;
   }
 
+  const bare = document.querySelector('#right');
+  bare.open = '';
+  await frame();
+  out.emptyString = { open: bare.open, topLayer: report(bare).topLayer };
+  bare.open = 'false';
+  await frame();
+  out.falseString = bare.open;
+
   const scrolled = document.querySelector('#scrolled');
   scrolled.open = true;
   await frame();
@@ -120,6 +128,9 @@ test('flip popover renders in the top layer, unclipped and uncovered', { skip },
     assert.ok(fullyInViewport(result[side]), `${side}-edge panel stays 8px inside the viewport`);
     assert.equal(result[side].visiblePoints, 5, `${side}-edge panel is not clipped by its narrow container`);
   }
+
+  assert.deepEqual(result.emptyString, { open: true, topLayer: true }, "open = '' (React 19's value for a bare open) opens the panel");
+  assert.equal(result.falseString, false, "open = 'false' closes it");
 
   assert.equal(result.scroll.moved, 10, 'panel follows a 10px scroll');
   assert.equal(result.scroll.resizeMoved, 40, 'panel re-measures on resize');
