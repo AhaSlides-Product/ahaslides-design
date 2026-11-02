@@ -35,10 +35,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.608.0 — 2026-11-02
 ### Added
-- `aha-chart` grouped columns: `type="column"` with `{series, rows:[{label, values}]}` (or the line shape `{labels, series:[{label, values}]}`) draws one column per series side by side inside each row, with a series legend, value labels and a data table; up to 4 series (#NNN)
-- `aha-chart` attributes `x-title` and `y-title` on bar, column and line: one line of secondary text above (y) and under (x) the plot (#NNN)
+- `aha-chart` grouped columns: `type="column"` with `{series, rows:[{label, values}]}` (or the line shape `{labels, series:[{label, values}]}`) draws one column per series side by side inside each row, with a series legend, value labels and a data table; up to 4 series (#517)
+- `aha-chart` attributes `x-title` and `y-title` on bar, column and line: one line of secondary text above (y) and under (x) the plot (#517)
 ### Changed
-- `aha-chart` pie and donut fit a small host: a pie no longer keeps the 140px floor or overflows a host narrower than 320px, a host with a set height shortens it and swaps the callouts for the legend below 224px tall, and the legend wraps, is capped at half the width and scrolls inside the host. Only the first 4 slices have distinct fills (slices 5 and 6 repeat 2 and 3), now stated in the Chart contract (#NNN)
+- `aha-chart` pie and donut fit a small host: a pie no longer keeps the 140px floor or overflows a host narrower than 320px, a host with a set height shortens it and swaps the callouts for the legend below 224px tall, and the legend wraps, is capped at half the width and scrolls inside the host. Only the first 4 slices have distinct fills (slices 5 and 6 repeat 2 and 3), now stated in the Chart contract (#517)
 - Revert: revert the PR; the grouped data shape, the two attributes and the sizing are additive, and a host with no set height renders as before
 
 ## 0.605.2 — 2026-11-02
