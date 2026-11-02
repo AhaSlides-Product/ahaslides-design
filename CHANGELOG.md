@@ -33,11 +33,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.643.0 — 2026-11-02
+## 0.672.0 — 2026-11-02
 ### Added
 - `aha-audience-date`: a date answer for the audience phone. Day, month and year `aha-counted-input` fields in the order `format` sets (DMY, MDY, YMD) with a `separator`, a numeric keypad, digits only and auto-advance; the value is ISO `YYYY-MM-DD`, or empty until the date is real; after leaving the group with a part-filled or impossible date, `error-message` shows in `aha-field-error variant="respondent"`. `group-label`, `day-label` / `month-label` / `year-label`, placeholders, `disabled`, `lock-key`, and a `change` event with `{value, valid}` (#544)
 - `aha-counted-input` takes `type="email" | "tel" | "url"`, and forwards `inputmode` and `autocomplete` to its inner field; without them it renders as before (#544)
 - Revert: revert the PR; the element and the attributes are new and opt-in
+
+## 0.660.0 — 2026-11-02
+### Added
+- Logo library: the Claude mark (Brands, Integrations) in `logo/claude.svg` (greyscale on white), `logo/claude-white.svg` (white on Vivid Pink) and `logo/original/claude.svg` (as published), for AhaSlides × Claude co-brand lockups (#543)
+- Revert: revert the PR; three asset files and one manifest entry pair
 
 ## 0.627.0 — 2026-11-02
 ### Added
