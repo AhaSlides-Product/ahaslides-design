@@ -12,7 +12,7 @@
     "Bar, column (with negatives and a reference line), stacked, donut, radial, tree map, quadrant, bell curve, radar, word cloud, mind map, line",
     "Brand palette on app screens, deck palette on the canvas"
   ],
-  "lead": "ONE custom element — <aha-chart type=\"…\"> — draws every result chart with the same look wherever it is used: bar, column, stacked, donut (and pie), radial, treemap, quadrant, bell (answer distribution), radar, wordcloud, mindmap and line (1 to 4 series over time, with end-value labels and an optional twin axis). Where it lives decides its colours: palette=\"brand\" (default) for Report and any other app screen uses the --aha-viz-* brand chart palette; palette=\"deck\" on the presenting / audience canvas takes the deck's presentationColorPalette (`colors`) and text colour (`ink`), and derives any ink that sits on a fill from that fill's contrast. The chart never paints a background. Every variant of the reference mockup is an attribute or an `options` key: Poll, Pick Answer (`correct`) and Ranking (`sort=\"desc\"`), images on bar/column options, count / % / both, pagination (`page-size`), donut vs pie and callout / legend labels, the word-cloud shapes, image masks, rotation, colour modes and duplicate merging, the radar forms, grids, scales and eight entrance effects, the bell-curve statistics, an editable mind map, negative columns below a zero baseline and a dashed reference line on a column chart, and line gaps, end labels and twin axes. With 0 responses every bar and column shows a short coloured stub at its starting point — no placeholder bars — and donut, pie and tree map also show one short text, \"No responses yet\", in the chart's own ink, centred in the plot. Live data animates in place (marks grow, resize and re-rank on the --aha-motion-viz-* tokens; off under reduced motion; `replay()` re-runs the entrance), and every chart ships a text summary, a visually hidden data table and a polite live-region announcement when its data changes. Built-in copy follows `locale`, numbers use Intl for that locale, and the Presenter app can pass its own translations through `strings`.",
+  "lead": "ONE custom element — <aha-chart type=\"…\"> — draws every result chart with the same look wherever it is used: bar, column, stacked, donut (and pie), radial, treemap, quadrant, bell (answer distribution), radar, wordcloud, mindmap and line (1 to 4 series over time, with end-value labels and an optional twin axis). Where it lives decides its colours: palette=\"brand\" (default) for Report and any other app screen uses the --aha-viz-* brand chart palette, or the host's own series colours when `colors` is set; palette=\"deck\" on the presenting / audience canvas takes the deck's presentationColorPalette (`colors`) and text colour (`ink`), and derives any ink that sits on a fill from that fill's contrast. The chart never paints a background. Every variant of the reference mockup is an attribute or an `options` key: Poll, Pick Answer (`correct`) and Ranking (`sort=\"desc\"`), images on bar/column options, count / % / both, pagination (`page-size`), donut vs pie and callout / legend labels, the word-cloud shapes, image masks, rotation, colour modes and duplicate merging, the radar forms, grids, scales and eight entrance effects, the bell-curve statistics, an editable mind map, negative columns below a zero baseline and a dashed reference line on a column chart, and line gaps, end labels and twin axes. With 0 responses every bar and column shows a short coloured stub at its starting point — no placeholder bars — and donut, pie and tree map also show one short text, \"No responses yet\", in the chart's own ink, centred in the plot. Live data animates in place (marks grow, resize and re-rank on the --aha-motion-viz-* tokens; off under reduced motion; `replay()` re-runs the entrance), and every chart ships a text summary, a visually hidden data table and a polite live-region announcement when its data changes. Built-in copy follows `locale`, numbers use Intl for that locale, and the Presenter app can pass its own translations through `strings`.",
   "codeNote": "Set `data` (and `options`) as properties for live results — re-setting them animates the change; the `data` / `options` attributes take the same JSON for static pages. Interactive charts emit `wordcloud-hide` (a presenter hid words) and `mindmap-change` (an idea was added or renamed; detail.tree is the new tree). Result charts on app screens use this, not @ant-design/plots.",
   "tokensUsed": [
     "viz-ink",
@@ -106,7 +106,7 @@
     },
     {
       "label": "Palette",
-      "value": "brand = --aha-viz-series-1…6 → the four chart colours of the colour rules, in order: Vivid Pink · black · Vivid Pink at 30% · light grey #A8A8A8, then Vivid Pink · black again (past four series, add a dashed line or pattern and a written label); tints → Vivid Pink at 5% behind the pink series, gray-20 behind the black and grey series · Other / non-correct → icon-muted · correct → answer-correct (Correct green) in both palettes · deck = consumer colours + ink · transparent background · more than 6 bar/column options share series 1"
+      "value": "brand = --aha-viz-series-1…6 → the four chart colours of the colour rules, in order: Vivid Pink · black · Vivid Pink at 30% · light grey #A8A8A8, then Vivid Pink · black again (past four series, add a dashed line or pattern and a written label); tints → Vivid Pink at 5% behind the pink series, gray-20 behind the black and grey series · Other / non-correct → icon-muted · correct → answer-correct (Correct green) in both palettes · deck = consumer colours + ink · colors on palette=brand replaces the series (and their 16% tints) with the host's colours, keeping the brand ink · transparent background · more than 6 bar/column options share series 1"
     },
     {
       "label": "Ink",
@@ -190,7 +190,7 @@
       "name": "colors",
       "type": "string (comma-separated) or string[] property",
       "default": "—",
-      "desc": "The deck's presentationColorPalette (palette=deck)"
+      "desc": "Series colours from the host, in series order, with either palette: on palette=deck the deck's presentationColorPalette; on palette=brand a palette the host app owns (a survey's answer colours), in place of --aha-viz-series-*. Unset or no valid colour keeps the palette's own series. The host picks the hues; the chart only applies them"
     },
     {
       "name": "ink",
@@ -438,7 +438,7 @@
   },
   "selfCheck": [
     {
-      "label": "brand series from --aha-viz-series-*; deck series from colors",
+      "label": "brand series from --aha-viz-series-* unless colors is set; deck series from colors",
       "verdict": "PASS"
     },
     {
