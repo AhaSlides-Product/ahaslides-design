@@ -138,6 +138,12 @@
       "status": "available"
     },
     {
+      "ref": "audience-contact",
+      "as": "component",
+      "use": "a contact-details answer — <aha-audience-contact>: labelled name, email, phone and text fields (an <aha-audience-field> around an <aha-counted-input> each) with the right phone keyboard and autofill hint, email and phone left to right in a right-to-left page, an optional dial code, and a respondent <aha-field-error>; never hand-built inputs",
+      "status": "available"
+    },
+    {
       "ref": "audience-date",
       "as": "component",
       "use": "a date answer — <aha-audience-date>: day, month and year <aha-counted-input> fields in the question's order (format DMY | MDY | YMD) with a numeric keypad, an ISO YYYY-MM-DD value and a respondent <aha-field-error> for an impossible date; never a native date input or three hand-built inputs",

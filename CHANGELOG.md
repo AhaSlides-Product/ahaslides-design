@@ -33,6 +33,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.896.0 — 2026-11-02
+### Added
+- `aha-audience-contact`: a contact-details answer for the audience phone. Each entry of the `fields` JSON list (`id`, `kind` name, email, phone or text, `label`, `required`, `placeholder`) is an `aha-audience-field` around an `aha-counted-input`, with the phone keyboard, autofill hint and text direction of its kind (email and phone stay left to right in a right-to-left page); an optional `dial-codes` list puts an `aha-select` before the phone field; a missing required field, a bad email or a bad phone shows its message in `aha-field-error variant="respondent"` after leaving the field or on `showErrors()`, linked to its input, with the warning glyph; required inputs carry `aria-required` and only `required: true` counts; a repeated field id is skipped with a console warning; the 88px dial code stays first in right-to-left, and the phone autofill is `tel` (`tel-national` with a dial picker). `group-label`, `optional-label` (default "(optional)"), `required-message` / `email-message` / `phone-message`, `disabled`, `lock-key`, `ink` / `accent`, and a `change` event with `{value, valid}` (#551)
+- `aha-counted-input` takes `type="tel"` and passes `autocomplete` to its inner field; without them it renders as before (#551)
+- Revert: revert the PR; the element and the two attributes are new and opt-in
+
 ## 0.895.0 — 2026-11-02
 ### Added
 - `aha-audience-date`: a date answer for the audience phone. Day, month and year `aha-counted-input` fields in the order `format` sets (DMY, MDY, YMD) with a `separator`, a numeric keypad, digits only and auto-advance; the value is ISO `YYYY-MM-DD`, or empty until the date is real; after leaving the group with a part-filled or impossible date, `error-message` shows in `aha-field-error variant="respondent"`. `birthday` opts into birthday autofill (autocomplete is off otherwise), `group-label`, `day-label` / `month-label` / `year-label`, placeholders, `disabled`, `lock-key`, and a `change` event with `{value, valid}`; each input points at the error through `aria-describedby`, the whole box is the tap target and the pink focus ring shows over the error border (#544)
