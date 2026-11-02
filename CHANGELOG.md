@@ -38,6 +38,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `aha-number-scale`: a row of tappable whole numbers for the audience phone, 0–10 by default for a Net Promoter Score (`min`, `max` for any short numeric rating). 48px numbers at least 44px wide, six per row when a phone is too narrow for one row, the pick filled with the deck accent, `low-label` / `high-label` under the scale, a radio group with arrow keys, Home and End (mirrored in right-to-left), `group-label`, `disabled`, `lock-key`, and a `change` event with `{value}` (#541)
 - Revert: revert the PR; the element is new and opt-in
 
+## 0.765.0 — 2026-11-02
+### Added
+- `<aha-segmented>` options take an optional `testid`, rendered as `data-testid` on that option's button, the same name `<aha-dropdown>` items use (#535). String options and options without `testid` render unchanged; icons (`icon`) and `ariaLabel` already worked.
+- Revert: revert the PR; `testid` is ignored by older releases
+
 ## 0.761.0 — 2026-11-02
 ### Added
 - Tooltip: `trigger="hover-tap"` shows the bubble on mouse hover, keyboard focus and a touch tap. A tap toggles it, a tap elsewhere or Esc closes it; pointer type and `:focus-visible` decide, so a mouse click adds nothing and the focus a tap leaves behind never shows it (#536)
