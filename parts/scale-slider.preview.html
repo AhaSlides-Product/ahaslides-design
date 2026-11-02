@@ -7,6 +7,14 @@
   <div class="row aud-dark" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:420px;box-sizing:border-box;padding:var(--aha-space-16);background:var(--aha-bg-dark);border-radius:var(--aha-radius-lg)">
     <aha-scale-slider min="0" max="10" unset unset-hint="Drag to rate" low-label="Not at all" high-label="Completely"></aha-scale-slider>
   </div>
+  <div class="lbl">Dark deck, track="line": the rail on the deck ladder's 24% rung</div>
+  <div class="row aud-dark" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:420px;box-sizing:border-box;padding:var(--aha-space-16);background:var(--aha-bg-dark);border-radius:var(--aha-radius-lg)">
+    <aha-scale-slider track="line" min="1" max="5" value="2" low-label="Not at all" high-label="Completely"></aha-scale-slider>
+  </div>
+  <div class="lbl">Right-to-left page: the rail still runs left to right, each label sits under its own end</div>
+  <div class="row" dir="rtl" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:420px;box-sizing:border-box">
+    <aha-scale-slider min="1" max="5" value="2" low-label="Never" high-label="Always"></aha-scale-slider>
+  </div>
 </div>
 
 <!-- Imports the REAL shipped element, so the preview can never drift from lib/ and qa measures what consumers get. -->

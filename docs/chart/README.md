@@ -285,7 +285,7 @@ All attributes are optional except that charts need `data`.
 | `data` | JSON | none | The data. Also available as the `data` property. |
 | `options` | JSON object | `chartOptionDefaults[type]` | Type-specific settings. Also a property. |
 | `palette` | `brand`, `deck` | `brand` | Colour source. See [Palettes](#palettes). |
-| `colors` | comma-separated colours | none | Series colours when `palette="deck"`. Also a property taking an array. |
+| `colors` | comma-separated colours | none | Series colours from the host, in series order, with either palette. Also a property taking an array. |
 | `ink` | a CSS colour | `--aha-viz-ink` | Text colour when `palette="deck"`. |
 | `number-format` | `count`, `percent`, `both` | `both` | What each value shows. Percentages use largest-remainder rounding, so they total 100%. |
 | `sort` | `none`, `desc`, `asc` | `none` | Order. `desc` also shows rank numbers on a bar chart. An "Other" bucket always stays last. |
@@ -339,7 +339,7 @@ Types with defaults: `donut` (also `pie`), `radial`, `treemap`, `quadrant`, `bel
 
 | `palette` | Use it for | Colours come from |
 |---|---|---|
-| `brand` (default) | Dashboards, reports and any normal app screen | The `--aha-viz-series-1` to `--aha-viz-series-6` tokens from `tokens.css` (with built-in fallbacks if you skip it). More than six bar or column options share series 1. |
+| `brand` (default) | Dashboards, reports and any normal app screen | The `--aha-viz-series-1` to `--aha-viz-series-6` tokens from `tokens.css` (with built-in fallbacks if you skip it), or your own `colors` when set; the text stays the brand ink. More than six bar or column options share series 1. |
 | `deck` | A presentation or full-screen canvas with its own colour scheme | `colors`: your own list, in order. `ink`: your text colour. Text that sits on a fill picks a readable colour automatically. |
 
 ```html
@@ -351,6 +351,13 @@ Types with defaults: `donut` (also `pie`), `radial`, `treemap`, `quadrant`, `bel
 ```
 
 From JavaScript: `chart.colors = ['#E70E68', '#FFFFFF']`.
+
+On an app screen with its own palette (a survey's answer colours), set `colors` without `palette="deck"`: the series take your colours and the text keeps the brand ink. Your app picks the hues.
+
+```html
+<aha-chart type="column" colors="var(--aha-viz-series-2),var(--aha-viz-series-4)" label="Would you recommend us?"
+  data='[{"label":"Yes","value":41},{"label":"No","value":12}]'></aha-chart>
+```
 
 ## Locale and strings
 
