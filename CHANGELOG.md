@@ -33,10 +33,40 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.727.0 — 2026-11-02
+## 0.775.0 — 2026-11-02
 ### Added
 - Chart: `type="nps"` draws the 0 to 10 answers of an NPS question as eleven columns under three brackets (Detractors 0 to 6, Passives 7 to 8, Promoters 9 to 10), each bracket with its count and share, plus the signed score (`NPS +26`, the displayed % promoters minus the displayed % detractors). With 0 responses it shows "No responses yet" and no stubs; under 480px the column counts go compact (18K). `data` is the 11 counts as an array or `{counts}`; `colors` takes the three bracket colours in the order detractor, passive, promoter, so a survey keeps its own hues (matched by position: a missing or invalid entry takes that bracket's default); without `colors` the brackets use the existing brand series and neutral (no new hue). `options.showScore` (default true) hides the score; on a narrow host the bracket names move to a key row under the chart. The text summary and data table list every rating and bracket, and the new copy keys (`typeNames.nps`, `npsDetractors`, `npsPassives`, `npsPromoters`, `npsScore`, `npsRating`, `npsSummary`) override through `strings`, in `en` and `vi`. Other chart types render exactly as before (#553)
 - Revert: revert the PR; only charts that set `type="nps"` change, and before it they fell back to a bar chart
+
+## 0.774.0 — 2026-11-02
+
+### Added
+- `<aha-image-preview>` (`@ahaslides-product/design/aha-image-preview`): a full-screen image lightbox the host opens with `open` (or `show()`), with an opt-in `toolbar` to zoom (1x to 5x), rotate and flip. Escape, the mask and the close button emit a cancelable `close` (`detail.source`), then `closed`. Same overlay as the `<aha-image>` preview; modal, with a Tab trap, scroll lock and focus back to the opener. Translatable accessible names via `close-label`, `zoom-in-label` and the rest. (#540)
+- Revert: revert the PR; a new element only, nothing else imports it.
+
+## 0.780.0 — 2026-11-02
+### Added
+- `aha-counted-textarea` passes `inputmode` and `dir` to its inner field, as `aha-counted-input` does: `dir="auto"` reads a right-to-left answer right to left. `aha-audience-field` documents it for the textarea. Fields without the new attributes render unchanged (#550)
+- Revert: revert the PR; nothing else depends on the new attributes
+
+## 0.765.0 — 2026-11-02
+### Added
+- `<aha-segmented>` options take an optional `testid`, rendered as `data-testid` on that option's button, the same name `<aha-dropdown>` items use (#535). String options and options without `testid` render unchanged; icons (`icon`) and `ariaLabel` already worked.
+- Revert: revert the PR; `testid` is ignored by older releases
+
+## 0.761.0 — 2026-11-02
+### Added
+- Tooltip: `trigger="hover-tap"` shows the bubble on mouse hover, keyboard focus and a touch tap. A tap toggles it, a tap elsewhere or Esc closes it; pointer type and `:focus-visible` decide, so a mouse click adds nothing and the focus a tap leaves behind never shows it (#536)
+- Tooltip: `open-change` event (bubbles, composed) with detail `{ open: boolean }` on every show and hide, from any trigger or the `open` attribute, never twice in a row for one state, so analytics can fire on the first reveal (#536)
+- Tooltip: `help-label` names the built-in `?` help button for screen readers; it stays "More info" when unset (#536)
+- Revert: revert the PR; all three are opt-in, and a tooltip without them renders and behaves as before
+
+## 0.730.0 — 2026-11-02
+### Added
+- `<aha-select>` opt-in `allow-clear`: a clear button beside the caret while a value is set; a click, or Delete / Backspace on the closed trigger, empties the value and emits `change` and a new `clear` event with `{value:''}`; `clear-label` names the button (#537)
+- `<aha-select>` opt-in `show-search`: type to filter the options (ARIA 1.2 combobox with list autocomplete, Arrow / Enter / Escape / Tab), a `search` event with `{query}` and an `empty-text` no-match row (#537)
+- `<aha-select>` option objects take `description` (a second, smaller line under the label) and `title` (the row's native tooltip); `popup-width="match | content | <length>"` sets the popup width (#537)
+- Revert: revert the PR; every addition is opt-in, so an existing `<aha-select>` renders unchanged
 
 ## 0.726.0 — 2026-11-02
 ### Added
