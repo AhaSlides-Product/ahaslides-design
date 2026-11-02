@@ -74,14 +74,56 @@ test('disabled disables every field and keeps the value; inner change events nev
   assert.deepEqual(result, { value: { name: 'Mai', email: 'mai@example.com' }, disabled: true, leaked: 0 });
 });
 
-test('on a 360px phone, also right to left, the fields and the dial code fit with no overflow', { skip }, async () => {
+test('on a 360px phone, also right to left, the fields fit and the 88px dial code stays before the number', { skip }, async () => {
   const result = await evaluateInPage(fixture, `(() => {
     const full = document.querySelector('#full');
     const basic = document.querySelector('#basic');
     const phone = full.shadowRoot.querySelector('.phone');
     const input = phone.querySelector('aha-counted-input').getBoundingClientRect();
     const select = phone.querySelector('aha-select').getBoundingClientRect();
-    return { fullOverflow: full.scrollWidth > 360, basicOverflow: basic.scrollWidth > 360, sameLine: Math.abs(input.top - select.top) < 2, selectOnRight: select.left > input.left };
+    return { fullOverflow: full.scrollWidth > 360, basicOverflow: basic.scrollWidth > 360, sameLine: Math.abs(input.top - select.top) < 2, dialCodeFirst: select.right <= input.left, selectWidth: Math.round(select.width), selectHeight: Math.round(select.height) };
   })()`, ready);
-  assert.deepEqual(result, { fullOverflow: false, basicOverflow: false, sameLine: true, selectOnRight: true });
+  assert.deepEqual(result, { fullOverflow: false, basicOverflow: false, sameLine: true, dialCodeFirst: true, selectWidth: 88, selectHeight: 48 });
+});
+
+test('a shown error is linked to its input and carries the warning glyph; required inputs say so, optional labels get "(optional)"', { skip }, async () => {
+  const result = await evaluateInPage(fixture, `(() => {
+    ${helpers}
+    const el = document.querySelector('#full');
+    leave(el, 'name');
+    const error = el.shadowRoot.querySelector('aha-audience-field[data-field="name"] aha-field-error');
+    const described = (id) => (inner(el, id).ariaDescribedByElements || []).map((node) => node === el.shadowRoot.querySelector('aha-audience-field[data-field="' + id + '"] aha-field-error'));
+    const labels = [...el.shadowRoot.querySelectorAll('aha-audience-field')].map((f) => f.getAttribute('label'));
+    return { nameDescribed: described('name'), emailDescribed: described('email'), glyph: error.hasAttribute('icon'),
+      required: ['name', 'email'].map((id) => inner(el, id).getAttribute('aria-required')), labels };
+  })()`, ready);
+  assert.deepEqual(result, { nameDescribed: [true], emailDescribed: [], glyph: true, required: ['true', null], labels: ['Name', 'Email (optional)', 'Phone (optional)', 'Role (optional)'] });
+});
+
+test('only required: true makes a field required; repeated ids are skipped with a warning; autofill is tel without a dial picker', { skip }, async () => {
+  const result = await evaluateInPage(fixture, `(() => {
+    ${helpers}
+    const warnings = [];
+    const warn = console.warn; console.warn = (text) => warnings.push(String(text));
+    const el = document.createElement('aha-audience-contact');
+    el.setAttribute('fields', JSON.stringify([{ id: 'name', kind: 'name', required: 'false' }, { id: 'name', kind: 'email' }, { id: 'phone', kind: 'phone' }]));
+    document.body.append(el);
+    console.warn = warn;
+    const picker = document.querySelector('#full');
+    return { ids: [...el.shadowRoot.querySelectorAll('aha-counted-input')].map((f) => f.dataset.field), valid: el.valid, warned: warnings.length === 1 && warnings[0].includes('name'),
+      plainPhone: inner(el, 'phone').getAttribute('autocomplete'), pickerPhone: inner(picker, 'phone').getAttribute('autocomplete') };
+  })()`, ready);
+  assert.deepEqual(result, { ids: ['name', 'phone'], valid: true, warned: true, plainPhone: 'tel', pickerPhone: 'tel-national' });
+});
+
+test('showErrors reveals every field\'s error at once and returns whether the answer is valid', { skip }, async () => {
+  const result = await evaluateInPage(fixture, `(() => {
+    const el = document.createElement('aha-audience-contact');
+    document.body.append(el);
+    const errors = () => [...el.shadowRoot.querySelectorAll('aha-field-error')].map((e) => e.hidden ? '' : e.getAttribute('message'));
+    const before = errors();
+    const valid = el.showErrors();
+    return { before, valid, after: errors() };
+  })()`, ready);
+  assert.deepEqual(result, { before: ['', ''], valid: false, after: ['This field is required', 'This field is required'] });
 });

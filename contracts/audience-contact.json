@@ -28,15 +28,15 @@
     },
     {
       "label": "Kinds",
-      "value": "name: text, autofill name, direction auto. email: email keyboard, autofill email, left to right. phone: dial pad, autofill tel-national, left to right. text: plain text, direction auto"
+      "value": "name: text, autofill name, direction auto. email: email keyboard, autofill email, left to right. phone: dial pad, autofill tel (tel-national once a dial-code Select sits in front), left to right. text: plain text, direction auto"
     },
     {
       "label": "Dial code",
-      "value": "with `dial-codes`, a 112px large Select sits before the phone field, 8px gap; the phone value reads \"<code> <number>\""
+      "value": "with `dial-codes`, an 88px large (48px tall) Select sits before the phone field, 8px gap, and stays first in a right-to-left page; the phone value reads \"<code> <number>\""
     },
     {
       "label": "Error",
-      "value": "after leaving a field: an empty required field, an email that is not one or a phone with fewer than 5 or more than 15 digits shows its message 8px below in <aha-field-error variant=\"respondent\">, and the field takes the error border"
+      "value": "after leaving a field: an empty required field, an email that is not one or a phone with fewer than 5 or more than 15 digits shows its message with the warning glyph 8px below in <aha-field-error variant=\"respondent\" icon>, linked to the input through ariaDescribedByElements, and the field takes the error border; `showErrors()` shows every field's error at once"
     },
     {
       "label": "Locked",
@@ -60,7 +60,7 @@
       "name": "fields",
       "type": "JSON [{id, kind, label, required, placeholder}]",
       "default": "a required name and a required email",
-      "desc": "The fields in order. `kind` is name, email, phone or text; `id` keys the value; `label` is the translated visible label"
+      "desc": "The fields in order. `kind` is name, email, phone or text; `id` keys the value (a repeated id is skipped with a console warning); `label` is the translated visible label; only `required: true` makes a field required, and its input carries aria-required"
     },
     {
       "name": "dial-codes",
@@ -89,8 +89,8 @@
     {
       "name": "optional-label",
       "type": "string",
-      "default": "—",
-      "desc": "Text added after the label of a field that is not required, such as \"(optional)\"; pass translated text"
+      "default": "(optional)",
+      "desc": "Text added after the label of a field that is not required; pass translated text, or an empty value for none"
     },
     {
       "name": "required-message / email-message / phone-message",
@@ -109,6 +109,12 @@
       "type": "string",
       "default": "—",
       "desc": "The submission-lock key for this question: once a submission is locked under it, the element locks and restores the submitted answer, including after an iframe remount"
+    },
+    {
+      "name": "showErrors()",
+      "type": "method",
+      "default": "—",
+      "desc": "Shows every field's error at once, as on a submit attempt, and returns `valid`"
     },
     {
       "name": "change",
