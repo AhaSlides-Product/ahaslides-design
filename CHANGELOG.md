@@ -37,6 +37,12 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - `<aha-segmented>` options take an optional `testid`, rendered as `data-testid` on that option's button, the same name `<aha-dropdown>` items use (#PRNUM). String options and options without `testid` render unchanged; icons (`icon`) and `ariaLabel` already worked.
 - Revert: revert the PR; `testid` is ignored by older releases
+
+## 0.609.1 — 2026-11-02
+### Added
+- `lib/static-icons` gains `system-cursor-click`, `system-check` and `system-arrow-right` (click here, check this, next step), so how-to and tutorial step images take their marks from the DS instead of inlined registry paths; the report-image guideline and feeds now describe the set as status and how-to glyphs (#524)
+- Revert: revert the PR; additive, no existing glyph changes
+
 ## 0.609.0 — 2026-11-02
 ### Added
 - `aha-skeleton` takes optional `width` and `height` (a number is px, or a CSS length: px, rem, em, %, vw, vh, calc()), so a placeholder can match the real content; on a paragraph they size the stack and each row. Unset, every variant renders as before (#PR)
