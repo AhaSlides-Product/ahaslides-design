@@ -13,6 +13,18 @@
   </aha-list>
 </div>
 
+<div class="pad">
+  <div class="lbl">Selectable picker (click a row, or Tab in and use the arrow keys and Enter)</div>
+  <aha-list bordered selectable value="csat" list-title="Pick a survey"
+    style="display:block; max-width:360px"
+    items='[
+      {"key":"nps","title":"NPS survey","description":"1 question · 0 to 10 scale","avatar":"system-star"},
+      {"key":"csat","title":"CSAT survey","description":"3 questions · rating and comment","avatar":"system-star"},
+      {"key":"pulse","title":"Team pulse","description":"5 questions · anonymous","avatar":"system-user-circle"}
+    ]'>
+  </aha-list>
+</div>
+
 <!-- Imports the REAL shipped element (../lib/aha-list.js) + the icon library — no inlined copy, so
      the preview can never drift from lib/. The playground control bar (Size / Bordered / Split) is
      generated from contracts/list.json → playground and drives this element's attributes live. -->
