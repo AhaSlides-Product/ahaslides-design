@@ -3501,11 +3501,14 @@ const LOGO_GALLERY_JS = `
 `;
 function renderLogoPage() {
   const download = (file, label) => `<a class="lg-dl" href="../logo/${esc(file)}" download${label ? ` aria-label="${esc(label)}"` : ''}><span class="lg-file">${esc(file)}</span><span class="lg-arrow">&darr;</span></a>`;
+  const monoFigure = l => l.mono
+    ? `<figure><span class="lg-mono" role="img" aria-label="${esc(l.name)} logo, mono" style="--lg-mono:url('../logo/${esc(l.mono)}')"></span><figcaption>Mono${l.monoStatus === 'stand-in' ? ' <span class="lg-standin" title="${esc(l.monoSource)}">stand-in</span>' : ''}</figcaption></figure>`
+    : l.monoGap ? `<figure class="lg-mono-gap" title="${esc(l.monoGap)}"><span class="lg-mono lg-mono--none" aria-hidden="true"></span><figcaption>No mono yet</figcaption></figure>` : '';
   const stage = l => l.originalFile
-    ? `<div class="lg-stage lg-pair"><figure><img src="../logo/${esc(l.file)}" alt="${esc(l.name)} logo, one colour" loading="lazy"/><figcaption>One colour</figcaption></figure><figure><img src="../logo/${esc(l.originalFile)}" alt="${esc(l.name)} logo, original colours" loading="lazy"/><figcaption>Original</figcaption></figure></div>`
+    ? `<div class="lg-stage lg-pair"><figure><img src="../logo/${esc(l.file)}" alt="${esc(l.name)} logo, one colour" loading="lazy"/><figcaption>One colour</figcaption></figure><figure><img src="../logo/${esc(l.originalFile)}" alt="${esc(l.name)} logo, original colours" loading="lazy"/><figcaption>Original</figcaption></figure>${monoFigure(l)}</div>`
     : `<div class="lg-stage${LOGO_DARK_TILE.has(l.id) ? ' lg-dark' : ''}"><img${l.id.startsWith('ahaslides-logo') ? ' class="lg-lockup"' : ''} src="../logo/${esc(l.file)}" alt="${esc(l.name)} logo" loading="lazy"/></div>`;
   const cell = l =>
-    `<div class="lg" data-name="${esc(l.id)}" data-label="${esc(l.name.toLowerCase())}" role="button" tabindex="0" title="${esc(l.name)} — click to copy its id">${stage(l)}<span class="lgn">${esc(l.name)}</span>${download(l.file, l.originalFile ? `${l.name}, one colour` : '')}${l.originalFile ? download(l.originalFile, `${l.name}, original colours`) : ''}</div>`;
+    `<div class="lg" data-name="${esc(l.id)}" data-label="${esc(l.name.toLowerCase())}" role="button" tabindex="0" title="${esc(l.name)} — click to copy its id">${stage(l)}<span class="lgn">${esc(l.name)}</span>${download(l.file, l.originalFile ? `${l.name}, one colour` : '')}${l.originalFile ? download(l.originalFile, `${l.name}, original colours`) : ''}${l.mono ? download(l.mono, `${l.name}, mono`) : ''}</div>`;
   const hoverDemo = BRAND_LOGO_HOVER_DEMO.map(id => LOGO_BRANDS.find(l => l.id === id)).filter(l => l && l.originalFile).map(l =>
     `<a class="brand-entry" href="#brand-logo-hover"><span class="brand-logo"><img class="brand-logo-rest" src="../logo/${esc(l.file)}" alt=""><img class="brand-logo-original" src="../logo/${esc(l.originalFile)}" alt=""></span><span>${esc(l.name)}</span></a>`).join('');
   const hoverCode = `<div class="code-tabs" data-open="false">
@@ -3521,7 +3524,7 @@ function renderLogoPage() {
   };
   const main = `
   <h1>Logo library</h1>
-  ${headline([`The AhaSlides logo and the ${LOGO_BRANDS.length} third-party brand logos the presenter app shows`, 'Each brand is the current official SVG, from theSVG or the Design System V3 Figma file, in two files: one colour (greyscale) and its original colours. In any interface a brand logo is one colour at rest and shows its own colours on hover and keyboard focus (colour rule 2.6); never redraw a brand mark or stand in a letter tile', 'Click a tile to copy its id, or use the download link'])}
+  ${headline([`The AhaSlides logo and the ${LOGO_BRANDS.length} third-party brand logos the presenter app shows`, 'Each brand is the current official SVG, from theSVG or the Design System V3 Figma file, in two files, one colour (greyscale) and its original colours, plus a flat mono mark in logo/mono/ where one exists. In any interface a brand logo is one colour at rest and shows its own colours on hover and keyboard focus (colour rule 2.6); never redraw a brand mark or stand in a letter tile', 'Click a tile to copy its id, or use the download link'])}
   <p class="gen">◆ generated from logo/manifest.json (each Brands logo records its source URL, fetch date and where the presenter app shows it) — fetch files from ${esc(SITE)}/logo/&lt;file&gt;</p>
 
   <div id="logo-gallery">
@@ -3563,6 +3566,8 @@ function renderLogoPage() {
   <ul class="lg-donts">${LOGO_DONTS.map(d => `<li>${esc(d)}</li>`).join('')}</ul>
   <h3 class="tok-h3">Third-party marks</h3>
   <p class="body">Brand logos belong to their owners and stay unaltered. Each one ships twice: <code>logo/&lt;file&gt;</code> in one colour (greyscale) and <code>logo/original/&lt;file&gt;</code> in the brand&rsquo;s own colours, the file exactly as published at its source. The list is what the presenter app renders today; to add a brand, add it to the app first, then fetch its current SVG from theSVG or the brand&rsquo;s own press page into both places, record the source in <code>logo/manifest.json</code> and run <code>node recolour-art.mjs</code>.</p>
+  <h3 class="tok-h3" id="mono">Mono logos</h3>
+  <p class="body">A brand with a mono file also ships <code>logo/mono/&lt;id&gt;.svg</code>: the brand&rsquo;s flat one-colour mark, a single shape filled with <code>currentColor</code>, so it takes the colour of the text around it. Shown in <code>--aha-icon-default</code>, or <code>--aha-icon-inverse</code> on Vivid Pink. Inline the SVG, or paint it through a CSS mask where an <code>&lt;img&gt;</code> cannot inherit the colour. Shapes come from Simple Icons (CC0) through theSVG; a tile marked <b>stand-in</b> uses the Phosphor fill glyph or the DS icon because Simple Icons dropped that brand at its owner&rsquo;s request, and a brand with no mono yet keeps its greyscale file. Each entry in <code>logo/manifest.json</code> records <code>mono</code>, <code>monoSource</code>, <code>monoSourceUrl</code> and <code>monoFetched</code>, or <code>monoGap</code> with the reason.</p>
   <h3 class="tok-h3" id="brand-logo-colour">Brand logo colour (rule 2.6)</h3>
   <p class="body">The same rule holds in every interface: the presenter app, website headers and menus, dialogs, import sources and connect buttons.</p>
   <ul class="lg-donts">
@@ -3590,7 +3595,7 @@ function renderLogoPage() {
   #logo-search{flex:1 1 260px;min-width:220px;height:38px;margin-bottom:12px;padding:0 14px;font-family:var(--aha-font-product);font-size:14px;border:1px solid var(--aha-border-default,#D4D4D4);border-radius:8px;outline:none}
   #logo-search:focus{border-color:var(--aha-color-primary);box-shadow:0 0 0 3px var(--aha-focus-ring-soft)}
   .gal-count{font-size:12px;color:var(--aha-text-tertiary);font-family:Menlo,monospace;margin:0 0 12px auto}
-  .logo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:24px}
+  .logo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(176px,1fr));gap:10px;margin-bottom:24px}
   .lg-panel[hidden],.lg-sec[hidden]{display:none}
   .lg-sec-h{margin:20px 0 10px}
   .lg-sec:first-child .lg-sec-h{margin-top:4px}
@@ -3601,6 +3606,9 @@ function renderLogoPage() {
   .lg-stage.lg-dark{background:var(--aha-color-primary)}
   .lg-stage img{width:56px;height:56px;object-fit:contain;display:block}
   .lg-stage img.lg-lockup{width:100%;max-width:156px;height:60px}
+  .lg-mono{display:block;width:56px;height:56px;background:var(--aha-icon-default);-webkit-mask:var(--lg-mono) center/contain no-repeat;mask:var(--lg-mono) center/contain no-repeat}
+  .lg-mono--none{background:none;border:1px dashed var(--aha-border);border-radius:6px}
+  .lg-standin{font-size:10px;color:var(--aha-text-tertiary)}
   .lg .lgn{font-size:13px;line-height:1.3;color:var(--aha-text-default);text-align:center}
   .lg-dl{font-size:11px;color:var(--aha-text-tertiary);text-decoration:none;max-width:100%;display:flex;align-items:baseline;gap:4px;white-space:nowrap}
   .lg-file{min-width:0;overflow:hidden;text-overflow:ellipsis}
@@ -3624,6 +3632,7 @@ function renderLogoPage() {
   .lg-pair{gap:12px}
   .lg-pair figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:6px}
   .lg-pair img{width:40px;height:40px}
+  .lg-pair .lg-mono{width:40px;height:40px}
   .lg-pair figcaption{font-size:11px;line-height:1.3;color:var(--aha-text-tertiary)}
   .brand-demo{display:flex;flex-direction:column;gap:2px;max-width:280px;padding:8px;margin:12px 0;border:1px solid var(--aha-border);border-radius:8px}
   .brand-entry{display:flex;align-items:center;gap:12px;padding:8px 12px;border-radius:6px;color:var(--aha-text-default);text-decoration:none;font-family:var(--aha-font-product);font-size:14px}

@@ -113,7 +113,12 @@
       "section": "Sign-in",
       "environment": [
         "product"
-      ]
+      ],
+      "mono": "mono/google.svg",
+      "monoSource": "Simple Icons (CC0) via theSVG mono",
+      "monoSourceUrl": "https://thesvg.org/icons/google/mono.svg",
+      "monoSourcePage": "https://thesvg.org/icon/google?variant=mono",
+      "monoFetched": "2026-11-02"
     },
     {
       "id": "microsoft",
@@ -129,7 +134,12 @@
       "section": "Sign-in",
       "environment": [
         "product"
-      ]
+      ],
+      "mono": "mono/microsoft.svg",
+      "monoSource": "DS icon library, stand-in: Simple Icons has no mark",
+      "monoSourceUrl": "icons/svg/system/system-microsoft-logo.svg",
+      "monoStatus": "stand-in",
+      "monoFetched": "2026-11-02"
     },
     {
       "id": "google-slides",
@@ -145,7 +155,12 @@
       "section": "Integrations",
       "environment": [
         "product"
-      ]
+      ],
+      "mono": "mono/google-slides.svg",
+      "monoSource": "Simple Icons (CC0) via theSVG mono",
+      "monoSourceUrl": "https://thesvg.org/icons/google-slides/mono.svg",
+      "monoSourcePage": "https://thesvg.org/icon/google-slides?variant=mono",
+      "monoFetched": "2026-11-02"
     },
     {
       "id": "microsoft-powerpoint",
@@ -161,7 +176,12 @@
       "section": "Integrations",
       "environment": [
         "product"
-      ]
+      ],
+      "mono": "mono/microsoft-powerpoint.svg",
+      "monoSource": "Phosphor Icons fill (MIT), stand-in: Simple Icons has no mark",
+      "monoSourceUrl": "https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/fill/microsoft-powerpoint-logo-fill.svg",
+      "monoStatus": "stand-in",
+      "monoFetched": "2026-11-02"
     },
     {
       "id": "microsoft-teams",
@@ -177,7 +197,12 @@
       "section": "Integrations",
       "environment": [
         "product"
-      ]
+      ],
+      "mono": "mono/microsoft-teams.svg",
+      "monoSource": "Phosphor Icons fill (MIT), stand-in: Simple Icons has no mark",
+      "monoSourceUrl": "https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/fill/microsoft-teams-logo-fill.svg",
+      "monoStatus": "stand-in",
+      "monoFetched": "2026-11-02"
     },
     {
       "id": "zoom",
@@ -193,7 +218,12 @@
       "section": "Integrations",
       "environment": [
         "product"
-      ]
+      ],
+      "mono": "mono/zoom.svg",
+      "monoSource": "Simple Icons (CC0) via theSVG mono",
+      "monoSourceUrl": "https://thesvg.org/icons/zoom/mono.svg",
+      "monoSourcePage": "https://thesvg.org/icon/zoom?variant=mono",
+      "monoFetched": "2026-11-02"
     },
     {
       "id": "chatgpt",
@@ -209,7 +239,12 @@
       "section": "Integrations",
       "environment": [
         "product"
-      ]
+      ],
+      "mono": "mono/chatgpt.svg",
+      "monoSource": "Simple Icons (CC0) via theSVG mono",
+      "monoSourceUrl": "https://thesvg.org/icons/openai-chatgpt/mono.svg",
+      "monoSourcePage": "https://thesvg.org/icon/openai-chatgpt?variant=mono",
+      "monoFetched": "2026-11-02"
     },
     {
       "id": "slack",
@@ -225,7 +260,12 @@
       "section": "Integrations",
       "environment": [
         "web"
-      ]
+      ],
+      "mono": "mono/slack.svg",
+      "monoSource": "Phosphor Icons fill (MIT), stand-in: Simple Icons has no mark",
+      "monoSourceUrl": "https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/fill/slack-logo-fill.svg",
+      "monoStatus": "stand-in",
+      "monoFetched": "2026-11-02"
     },
     {
       "id": "model-context-protocol",
@@ -242,7 +282,12 @@
       "section": "Integrations",
       "environment": [
         "web"
-      ]
+      ],
+      "mono": "mono/model-context-protocol.svg",
+      "monoSource": "Simple Icons (CC0) via theSVG mono",
+      "monoSourceUrl": "https://thesvg.org/icons/model-context-protocol/mono.svg",
+      "monoSourcePage": "https://thesvg.org/icon/model-context-protocol?variant=mono",
+      "monoFetched": "2026-11-02"
     },
     {
       "id": "microsoft-excel",
@@ -258,7 +303,12 @@
       "section": "Import, export and cloud",
       "environment": [
         "product"
-      ]
+      ],
+      "mono": "mono/microsoft-excel.svg",
+      "monoSource": "Phosphor Icons fill (MIT), stand-in: Simple Icons has no mark",
+      "monoSourceUrl": "https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/fill/microsoft-excel-logo-fill.svg",
+      "monoStatus": "stand-in",
+      "monoFetched": "2026-11-02"
     },
     {
       "id": "microsoft-word",
@@ -274,7 +324,12 @@
       "section": "Import, export and cloud",
       "environment": [
         "product"
-      ]
+      ],
+      "mono": "mono/microsoft-word.svg",
+      "monoSource": "Phosphor Icons fill (MIT), stand-in: Simple Icons has no mark",
+      "monoSourceUrl": "https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/fill/microsoft-word-logo-fill.svg",
+      "monoStatus": "stand-in",
+      "monoFetched": "2026-11-02"
     },
     {
       "id": "pdf",
@@ -285,7 +340,15 @@
       "sourcePage": "https://www.figma.com/design/MwjvUjVI0HnfwD9EwPXRAy/Design-System-V3?node-id=53054-14916",
       "fetched": "2026-10-07",
       "usedIn": "components-v2/ai-chatbot/modals/UploadModalV2.vue:43,92 (pdfIcon in the Import slides intro); components-v2/presentation-editor/KickstartScreen.vue:76",
-      "section": "Import, export and cloud"
+      "section": "Import, export and cloud",
+      "mono": "mono/pdf.svg",
+      "monoSource": "Phosphor Icons fill (MIT), stand-in: Simple Icons has no mark",
+      "monoSourceUrl": "https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/fill/file-pdf-fill.svg",
+      "monoStatus": "stand-in",
+      "monoFetched": "2026-11-02",
+      "environment": [
+        "product"
+      ]
     },
     {
       "id": "google-drive",
@@ -301,7 +364,12 @@
       "section": "Import, export and cloud",
       "environment": [
         "product"
-      ]
+      ],
+      "mono": "mono/google-drive.svg",
+      "monoSource": "Simple Icons (CC0) via theSVG mono",
+      "monoSourceUrl": "https://thesvg.org/icons/google-drive/mono.svg",
+      "monoSourcePage": "https://thesvg.org/icon/google-drive?variant=mono",
+      "monoFetched": "2026-11-02"
     },
     {
       "id": "microsoft-onedrive",
@@ -317,7 +385,8 @@
       "section": "Import, export and cloud",
       "environment": [
         "product"
-      ]
+      ],
+      "monoGap": "Simple Icons and Phosphor have no OneDrive mark (Simple Icons removed the Microsoft family at the owner's request)"
     },
     {
       "id": "paypal",
@@ -333,7 +402,12 @@
       "section": "Payments",
       "environment": [
         "product"
-      ]
+      ],
+      "mono": "mono/paypal.svg",
+      "monoSource": "Simple Icons (CC0) via theSVG mono",
+      "monoSourceUrl": "https://thesvg.org/icons/paypal/mono.svg",
+      "monoSourcePage": "https://thesvg.org/icon/paypal?variant=mono",
+      "monoFetched": "2026-11-02"
     },
     {
       "id": "stripe",
@@ -349,7 +423,12 @@
       "section": "Payments",
       "environment": [
         "product"
-      ]
+      ],
+      "mono": "mono/stripe.svg",
+      "monoSource": "Simple Icons (CC0) via theSVG mono",
+      "monoSourceUrl": "https://thesvg.org/icons/stripe/mono.svg",
+      "monoSourcePage": "https://thesvg.org/icon/stripe?variant=mono",
+      "monoFetched": "2026-11-02"
     },
     {
       "id": "youtube",
@@ -365,7 +444,12 @@
       "section": "Community and social",
       "environment": [
         "product"
-      ]
+      ],
+      "mono": "mono/youtube.svg",
+      "monoSource": "Simple Icons (CC0) via theSVG mono",
+      "monoSourceUrl": "https://thesvg.org/icons/youtube/mono.svg",
+      "monoSourcePage": "https://thesvg.org/icon/youtube?variant=mono",
+      "monoFetched": "2026-11-02"
     },
     {
       "id": "facebook",
@@ -381,7 +465,12 @@
       "section": "Community and social",
       "environment": [
         "product"
-      ]
+      ],
+      "mono": "mono/facebook.svg",
+      "monoSource": "Simple Icons (CC0) via theSVG mono",
+      "monoSourceUrl": "https://thesvg.org/icons/facebook/mono.svg",
+      "monoSourcePage": "https://thesvg.org/icon/facebook?variant=mono",
+      "monoFetched": "2026-11-02"
     },
     {
       "id": "instagram",
@@ -397,7 +486,12 @@
       "section": "Community and social",
       "environment": [
         "product"
-      ]
+      ],
+      "mono": "mono/instagram.svg",
+      "monoSource": "Simple Icons (CC0) via theSVG mono",
+      "monoSourceUrl": "https://thesvg.org/icons/instagram/mono.svg",
+      "monoSourcePage": "https://thesvg.org/icon/instagram?variant=mono",
+      "monoFetched": "2026-11-02"
     },
     {
       "id": "linkedin",
@@ -413,7 +507,12 @@
       "section": "Community and social",
       "environment": [
         "product"
-      ]
+      ],
+      "mono": "mono/linkedin.svg",
+      "monoSource": "Phosphor Icons fill (MIT), stand-in: Simple Icons has no mark",
+      "monoSourceUrl": "https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/fill/linkedin-logo-fill.svg",
+      "monoStatus": "stand-in",
+      "monoFetched": "2026-11-02"
     },
     {
       "id": "x",
@@ -429,7 +528,12 @@
       "section": "Community and social",
       "environment": [
         "product"
-      ]
+      ],
+      "mono": "mono/x.svg",
+      "monoSource": "Simple Icons (CC0) via theSVG mono",
+      "monoSourceUrl": "https://thesvg.org/icons/x/mono.svg",
+      "monoSourcePage": "https://thesvg.org/icon/x?variant=mono",
+      "monoFetched": "2026-11-02"
     },
     {
       "id": "reddit",
@@ -445,7 +549,12 @@
       "section": "Community and social",
       "environment": [
         "product"
-      ]
+      ],
+      "mono": "mono/reddit.svg",
+      "monoSource": "Simple Icons (CC0) via theSVG mono",
+      "monoSourceUrl": "https://thesvg.org/icons/reddit/mono.svg",
+      "monoSourcePage": "https://thesvg.org/icon/reddit?variant=mono",
+      "monoFetched": "2026-11-02"
     },
     {
       "id": "medium",
@@ -461,7 +570,12 @@
       "section": "Community and social",
       "environment": [
         "product"
-      ]
+      ],
+      "mono": "mono/medium.svg",
+      "monoSource": "Simple Icons (CC0) via theSVG mono",
+      "monoSourceUrl": "https://thesvg.org/icons/medium/mono.svg",
+      "monoSourcePage": "https://thesvg.org/icon/medium?variant=mono",
+      "monoFetched": "2026-11-02"
     },
     {
       "id": "canva",
@@ -478,7 +592,8 @@
       "environment": [
         "web"
       ],
-      "sourceNote": "Canva's own developer site (canva.dev): the Canva wordmark inlined in its page header, extracted unchanged except viewBox trimmed to the artwork. canva.com and its brand page are behind a bot challenge from this box."
+      "sourceNote": "Canva's own developer site (canva.dev): the Canva wordmark inlined in its page header, extracted unchanged except viewBox trimmed to the artwork. canva.com and its brand page are behind a bot challenge from this box.",
+      "monoGap": "Simple Icons removed Canva at the owner's request; Phosphor has no Canva mark"
     },
     {
       "id": "zapier",
@@ -495,7 +610,12 @@
       "environment": [
         "web"
       ],
-      "sourceNote": "Zapier's official brand guidelines page, logo download zapier-logo_earth.svg (full-colour wordmark, no padding). The page offers no standalone symbol file."
+      "sourceNote": "Zapier's official brand guidelines page, logo download zapier-logo_earth.svg (full-colour wordmark, no padding). The page offers no standalone symbol file.",
+      "mono": "mono/zapier.svg",
+      "monoSource": "Simple Icons (CC0) via theSVG mono",
+      "monoSourceUrl": "https://thesvg.org/icons/zapier/mono.svg",
+      "monoSourcePage": "https://thesvg.org/icon/zapier?variant=mono",
+      "monoFetched": "2026-11-02"
     },
     {
       "id": "d2l-brightspace",
@@ -512,7 +632,8 @@
       "environment": [
         "web"
       ],
-      "sourceNote": "D2L's own site header logo (the D2L mark that fronts Brightspace); viewBox trimmed to the artwork (top 6 units were empty). No separate Brightspace product logo is published as SVG."
+      "sourceNote": "D2L's own site header logo (the D2L mark that fronts Brightspace); viewBox trimmed to the artwork (top 6 units were empty). No separate Brightspace product logo is published as SVG.",
+      "monoGap": "Neither Simple Icons nor Phosphor has a D2L mark"
     },
     {
       "id": "cornerstone-ondemand",
@@ -529,7 +650,8 @@
       "environment": [
         "web"
       ],
-      "sourceNote": "Cornerstone's own site header logo (horizontal Cornerstone wordmark), served from its CMS CDN."
+      "sourceNote": "Cornerstone's own site header logo (horizontal Cornerstone wordmark), served from its CMS CDN.",
+      "monoGap": "Neither Simple Icons nor Phosphor has a Cornerstone mark"
     },
     {
       "id": "claude",
@@ -547,7 +669,12 @@
         "web",
         "social-ads"
       ],
-      "sourceNote": "Anthropic's Claude mark as published on theSVG. The combined mark-and-wordmark file on theSVG draws the wordmark in white for dark surfaces only, so it has no greyscale-on-white form; the mark is the co-brand asset. Brand-use: Anthropic's own brand and press guidelines apply; use it only to name Claude as a partner or integration, unaltered."
+      "sourceNote": "Anthropic's Claude mark as published on theSVG. The combined mark-and-wordmark file on theSVG draws the wordmark in white for dark surfaces only, so it has no greyscale-on-white form; the mark is the co-brand asset. Brand-use: Anthropic's own brand and press guidelines apply; use it only to name Claude as a partner or integration, unaltered.",
+      "mono": "mono/claude.svg",
+      "monoSource": "Simple Icons (CC0) via theSVG mono",
+      "monoSourceUrl": "https://thesvg.org/icons/claude/mono.svg",
+      "monoSourcePage": "https://thesvg.org/icon/claude?variant=mono",
+      "monoFetched": "2026-11-02"
     },
     {
       "id": "claude-white",
