@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.904.0 — 2026-11-02
+### Added
+- Seven icons for survey blocks and rating states, each with meaning words for `npm run icon-search`: `system-door` (welcome or start screen, an entrance; `system-sign-out` stays the leave or log out arrow), `system-chalkboard` (classroom and teaching), `system-address-book` (a contact list; `system-identification-card` stays one person's details), and the filled states `system-check-circle-filled`, `system-smiley-filled`, `system-heart-straight-filled` and `system-thumbs-up-filled`, so every rating icon (star, heart, thumbs up, smiley) now has a selected glyph beside its outline. The registry now holds 369 names (#568)
+- Revert: revert the PR; additive glyphs only, no existing icon changes
+
 ## 0.903.0 — 2026-11-02
 ### Fixed
 - `aha-rate size="lg"` wraps its stars onto further centred rows when the host is narrower than the row (8 to 10 stars at 360px) instead of overflowing; widths where they fit render as before. (#566)
