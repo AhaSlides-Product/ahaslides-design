@@ -179,7 +179,7 @@
         {
           "id": "C1",
           "title": "One shared icon set — never mixed",
-          "test": "Every glyph comes from the single shared icon component (<aha-icon name> in the DS, the shared SVG Icon in an app) and one view uses the system-* outline family consistently — never mixed with @ant-design/icons, Lucide, Heroicons, FontAwesome, Material, Phosphor in a migrated repo, a hand-rolled inline <svg>, or a legacy fill/multicolour glyph."
+          "test": "Every glyph comes from the single shared icon component (<aha-icon name> in the DS, the shared SVG Icon in an app) and one view uses the system-* outline family consistently — never mixed with @ant-design/icons, Lucide, Heroicons, FontAwesome, Material, Phosphor in a migrated repo, a hand-rolled inline <svg>, or a legacy fill/multicolour glyph. An icon component or icon font from another library (<font-awesome-icon>, `fa fa-*`, `zmdi`, `material-icons` and the like) fails; `screen-lint` hard-fails it as `foreign-icon-library`."
         },
         {
           "id": "C2",
@@ -577,7 +577,7 @@
             "8.5",
             "11.1"
           ],
-          "test": "No red, yellow, amber, green or blue shows danger, warning, success or information, whether as text, an icon, a border or a dot. Status is shown with an icon, clear wording and an outline or a black fill. A rise is plain black with an up arrow; a fall is white on a black pill with a down arrow; never green and red. The one exception is a quiz answer: the correct green and wrong red (--aha-answer-*) mark a correct or wrong answer with a tick or cross disc (colour rules section 11) and pass; the same colours on a status, a toast, validation or a trend fail. A tinted status background is judged on the background surface (C5 there), not here."
+          "test": "No red, yellow, amber, green or blue shows danger, warning, success or information, whether as text, an icon, a border or a dot. Status is shown with an icon, clear wording and an outline or a black fill. A rise is plain black with an up arrow; a fall is white on a black pill with a down arrow; never green and red. The one exception is a quiz answer: the correct green and wrong red (--aha-answer-*) mark a correct or wrong answer with a tick or cross disc (colour rules section 11) and pass; the same colours on a status, a toast, validation or a trend fail. An error line in red text (a `text-red-*` utility class, `--aha-answer-wrong` as text) fails: error text stays the default ink in <aha-field-error> or <aha-alert type=\"error\"> with its DS icon; `screen-lint` hard-fails `status-hue-class`. A tinted status background is judged on the background surface (C5 there), not here."
         },
         {
           "id": "C6",
@@ -599,7 +599,7 @@
             "2.6",
             "7.4"
           ],
-          "test": "A third-party brand logo in any interface (presenter app, website header or menu, dialog, import source, connect button) is one colour at rest, greyscale (white on a Vivid Pink background), and shows its own brand colours only on hover and keyboard focus, from the Logo library's original-colour file, with the tool's name beside it. Brand colours at rest fail, except on a page that lists other products (Marketplace, an integrations directory), where each logo keeps its own colours in the DS white tile with a grey border, 32px at most, name beside it, and a tool not available yet is greyscale with a Coming soon tag (`<aha-tag color=\"primary\" bordered>`). Brand colour on anything beyond the logo (a button, tag, background or text) fails everywhere. Customer logos in a Trusted by strip are one colour, greyscale or Vivid Pink, one treatment per row. A file-type icon is one colour. The AhaSlides logo is the colour logo on white or the white logo on Vivid Pink, never an all-pink logo on white."
+          "test": "A third-party brand logo in any interface (presenter app, website header or menu, dialog, import source, connect button) is one colour at rest, greyscale (white on a Vivid Pink background), and shows its own brand colours only on hover and keyboard focus, from the Logo library's original-colour file, with the tool's name beside it. A Log in with Google or Log in with Microsoft button shows the brand's one-colour glyph from the icon library (<aha-icon name=\"system-google-logo\"> or system-microsoft-logo, default ink) at rest and the original colour logo (logo/original/) on hover and keyboard focus; a greyscale copy of the colour logo there fails. Brand colours at rest fail, except on a page that lists other products (Marketplace, an integrations directory), where each logo keeps its own colours in the DS white tile with a grey border, 32px at most, name beside it, and a tool not available yet is greyscale with a Coming soon tag (`<aha-tag color=\"primary\" bordered>`). Brand colour on anything beyond the logo (a button, tag, background or text) fails everywhere. Customer logos in a Trusted by strip are one colour, greyscale or Vivid Pink, one treatment per row. A file-type icon is one colour. The AhaSlides logo is the colour logo on white or the white logo on Vivid Pink, never an all-pink logo on white."
         },
         {
           "id": "C8",

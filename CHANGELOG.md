@@ -33,14 +33,24 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.605.0 — 2026-11-02
+### Added
+- `screen-lint` hard-fails three new rules on every surface: `status-hue-class` (a `text-red-*`, `bg-green-*`, `border-yellow-*`, `text-danger` or similar utility class painting status in a hue; error text stays the default ink in `<aha-field-error>` or `<aha-alert type="error">`), `foreign-icon-library` (`<font-awesome-icon>`, `fa fa-*`, `zmdi`, `material-icons` and other icon libraries; glyphs are `<aha-icon>`) and `brand-logo-colour` (a `logo/original/` file outside the Logo library hover pattern, or the kit's `icon-maintain-color`, colour rule 2.6). Escape with `ds-lint-allow: status-hue`, `icon` or `brand-logo (why)` (#495)
+- Icons `system-google-logo` (the Google G) and `system-microsoft-logo` (the four squares): one-colour brand glyphs drawn like `system-facebook-logo` and `system-linkedin-logo` (#495)
+### Changed
+- Colour rule 2.6 and criterion C7: a Log in with Google or Log in with Microsoft button shows the brand's glyph from the icon library (`<aha-icon name="system-google-logo">`, default ink) at rest and the original colour logo (`logo/original/`) on hover and keyboard focus. Other third-party logos are unchanged (#495)
+- Revert: revert the PR; the icons and lint rules are additive
+
 ## 0.604.1 — 2026-11-02
 ### Fixed
 - Security: text from attributes and JSON no longer renders as HTML in five elements. `aha-card` `card-title`, `aha-rate` `icon`, `aha-card-select` option `icon`, `aha-descriptions` `items` label and value, and `aha-tabs` panel `id` (in `aria-controls`) are now escaped, so a survey question title like `<img src=x onerror=…>` shows as literal text and creates no element. Light-DOM content of `aha-descriptions` keeps its markup. No visual change (#513)
+
 
 ## 0.601.0 — 2026-11-02
 ### Added
 - Chart: `<aha-chart type="pie">`, a solid pie with no centre hole. It is the donut renderer with the same slices, palette, labels, legend, tooltip, empty state and screen-reader summary (named "Pie chart"). `type="donut"` with `options.variant: "pie"` keeps working. Contract, all flavour files, docs and a Pie default snippet updated together.
 - Revert: revert the PR; `pie` is one new value in the chart type list that reuses the donut renderer, so existing donut and `variant: "pie"` markup is untouched (#508)
+
 
 ## 0.600.0 — 2026-11-02
 ### Added
@@ -51,9 +61,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - The interactive-state colour-list check also waives a subtree that carries a course theme (`--aha-color-primary` set inline); contrast and focus are still measured, and the checkbox tick now carries its colour as `color` so the probe reads it
 - Revert: revert the PR; additive module and docs page, the loader change is one background value
 
+
 ## 0.599.0 — 2026-11-02
 ### Added
 - Icons for course and rich-text UI, 22 one-colour glyphs from Phosphor Icons Regular (MIT) on the DS 16px grid with the 1.5 stroke: the rich-text toolbar set `system-text-b`, `system-text-italic`, `system-text-underline`, `system-text-strikethrough`, `system-text-h-one`, `system-text-h-two`, `system-text-h-three`; device preview `system-monitor` and `system-device-tablet` (beside `system-device-mobile`); and `system-arrow-line-down`, `system-caret-circle-down`, `system-certificate`, `system-crop`, `system-flow-arrow`, `system-gauge`, `system-image-broken`, `system-map-pin`, `system-minus-circle`, `system-puzzle-piece`, `system-ruler`, `system-scroll`, `system-target`. Each has meaning words for `npm run icon-search`; the registry now holds 353 names (#509)
+
 
 ## 0.597.0 — 2026-11-02
 ### Added
@@ -62,10 +74,12 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Shared components rule `text-and-colour` and its judge criterion name `<aha-text>` for visible text in place of AntD Typography (#507)
 - Revert: revert the PR; the element is a new file and nothing else imports it (#507)
 
+
 ## 0.596.2 — 2026-11-02
 ### Fixed
 - CHANGELOG: the 0.595.1 entry links its real PR number instead of the `(#PR)` placeholder that auto-merge shipped, which turned the standards gate red on master (#506)
 - Revert: revert the PR; changelog text only
+
 
 ## 0.596.1 — 2026-11-02
 ### Fixed
@@ -76,6 +90,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Features Marketing page: the Accent code pane of the Alternating screenshots layout wrote `aha-features--alternating-screenshots--accent`, which no CSS defines, so a pasted snippet rendered white. It now writes `aha-features--accent`; the state class of every Marketing section now comes from the section, then the layout (#504)
 - Revert: revert the PR; only the generated Accent code pane of one layout changes, no CSS or markup
 
+
 ## 0.595.0 — 2026-11-02
 ### Added
 - `lib/marketing.css`: every website Marketing section's CSS in one generated stylesheet (`@ahaslides-product/design/marketing.css`), and `lib/marketing/<slug>.css` for one section. A no-build website page now links `tokens.css`, `marketing.css`, `all.js` and `marketing-motion.js` from a pinned tag and pastes only each section's HTML; it renders pixel-identical to the paste-and-run snippet at 1440, 768 and 375 px. Paste-and-run stays the Webflow route (#503)
@@ -85,11 +100,13 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Docs: the leaf components are described as standard, dependency-free web components (Custom Elements + shadow DOM), usable in plain HTML, React, Vue or any framework, not as Lit components: the README, the site header label (now `HTML · React · Vue`), the agent feed overview, the Components page and 58 contract badges. No `lib/aha-*.js` file has ever imported Lit; the internal tier id `leaf-lit` is unchanged. The 16 of those contracts that had no `environment` now declare one and leave the environments baseline (#503)
 - Revert: revert the PR; the stylesheets are new generated files and the docs return to paste-and-run only, no section CSS or markup changes (#503)
 
+
 ## 0.593.0 — 2026-11-02
 ### Added
 - Guidelines can carry live examples: an optional `examples` array in a guideline JSON renders an Examples section on the guideline page (each example live, with a Show code toggle for its markup and CSS), and the same markup goes into the guideline's `.md` and agent feed. Guidelines without `examples` render unchanged.
 - Empty state guideline Examples: page scale (Session detail with no data), panel scale (Feedback tab), compact scale (Insights card under 240 px), plain `<aha-empty>` in a table body (do), the full pattern in a table row (don't), and the "No answer" caption on a repeated item (#411)
 - Revert: revert the PR; one new optional field and one render function in `generate.mjs`, no existing guideline, component or token changes (#411)
+
 ## 0.591.0 — 2026-11-01
 ### Added
 - Leaderboard: Show winner. `showWinner()` (or the `winner` attribute) covers the whole list with one rounded, frosted banner (deck modal fill, container stroke and radius) and reveals rank 1 in it, every tied rank 1 side by side, at once, however many people played: the banner fades in while a soft deck-accent glow blooms from its centre outward and fades, and the name, avatar and score scale in one after another at the centre with the score counting up from 0, while 120 pieces of confetti (rectangles, circles and streamers in the full-strength deck palette colours) burst once from the banner centre and both bottom corners and fall away; the winner stays until `hideWinner()`, the close ✕ in the banner's top-right corner or Esc, which fire `winner-close`, and `showWinner()` again shows it again with the reveal replayed. Translatable `winner-score-label` ("{score} points"), `winner-label` (announced politely) and `close-label`. Canvas (`size="stage"`) only: on `size="phone"` it does nothing and returns false; under reduced motion it appears with no glow, pop, count-up or confetti; does nothing with no entries or when nobody has scored (#490)
