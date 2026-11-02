@@ -140,7 +140,7 @@
     {
       "ref": "audience-contact",
       "as": "component",
-      "use": "a contact-details answer — <aha-audience-contact>: labelled name, email, phone and text fields (an <aha-audience-field> around an <aha-counted-input> each) with the right phone keyboard and autofill hint, email and phone left to right in a right-to-left page, an optional dial code, and a respondent <aha-field-error>; never hand-built inputs",
+      "use": "a contact-details answer — <aha-audience-contact>: labelled name, email, phone and text fields (an <aha-audience-field> around an <aha-counted-input> each) with the right phone keyboard and autofill hint, email and phone left to right in a right-to-left page, an optional dial code (flag and code closed, flag, country name and code in the list), every text overridable through `strings`, `testid` hooks, and a respondent <aha-field-error>; never hand-built inputs",
       "status": "available"
     },
     {

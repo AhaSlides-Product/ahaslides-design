@@ -33,6 +33,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.908.0 — 2026-11-03
+### Added
+- `aha-audience-contact` dial codes take `country` (ISO 3166 alpha-2), plus optional `dial` and `name`: the closed Select reads flag and code ("🇻🇳 +84"), the open list flag, country name and code ("🇻🇳 Vietnam (+84)"); the name comes from `name`, else `Intl.DisplayNames` in the new `locale` attribute (else the nearest `lang`, else English). `label` defaults to the flag and code, and the Select widens from 88px to 120px so the flag and a four-digit code fit. (#573)
+- `aha-audience-contact` `strings` (JSON attribute or object property, as on `aha-chart`) overrides every built-in text: `groupLabel`, `optionalLabel`, `requiredMessage`, `emailMessage`, `phoneMessage`, `dialCodeLabel`, `nameLabel`, `emailLabel`, `phoneLabel`; English defaults unchanged, and the dedicated attributes still win. Exported as `contactStrings` with `countryName()`. (#573)
+- `aha-audience-contact` `testid="<prefix>"` stamps `data-testid` on each field (`<prefix>-<id>`), its text box (`-<id>-input`, or `-<id>-number` behind a dial code), the dial code Select (`-<id>-country`) and the error (`-<id>-error`); new parts `phone`, `dial-code`, `input`, `error`. (#573)
+
 ## 0.907.0 — 2026-11-03
 ### Added
 - `<aha-audience-date>` has a read-only `state` property, also on every `change` detail (`{ value, valid, state }`): `empty` (nothing typed, so a cleared answer), `partial` (a field blank or a year under 4 digits), `invalid` (all three typed but not a real date, such as 31/02) or `valid`. A host no longer reads the inner fields to tell a cleared date from a part-filled one (#569)
