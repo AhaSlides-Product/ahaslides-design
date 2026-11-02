@@ -38,6 +38,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `<aha-menu>` a row that is both `danger` and `disabled` now takes the disabled colour (text-disabled #B5B5B5) like every other disabled row; before, the danger ink won and the row looked enabled. (#552)
 - Revert: revert the PR; only the danger+disabled row colour changes
 
+## 0.800.0 — 2026-11-02
+### Added
+- `aha-dropdown` takes a `slot="trigger"` control that replaces the default button, so an icon-only `aha-button` makes a kebab (three-dot) menu. It gets `aria-haspopup` and `aria-expanded`, opens on click, Enter, Space and ArrowDown, and takes focus back on close. Without the slot the dropdown renders as before (#523)
+- Revert: revert the PR; nothing else uses the slot
+
 ## 0.774.0 — 2026-11-02
 
 ### Added
