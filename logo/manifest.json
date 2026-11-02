@@ -223,7 +223,8 @@
       "monoSource": "Simple Icons (CC0) via theSVG mono",
       "monoSourceUrl": "https://thesvg.org/icons/zoom/mono.svg",
       "monoSourcePage": "https://thesvg.org/icon/zoom?variant=mono",
-      "monoFetched": "2026-11-02"
+      "monoFetched": "2026-11-02",
+      "monoNote": "The Simple Icons wordmark knocked out of the same rounded square as Zapier, so a wordmark reads at icon size"
     },
     {
       "id": "chatgpt",
@@ -386,7 +387,11 @@
       "environment": [
         "product"
       ],
-      "monoGap": "Simple Icons and Phosphor have no OneDrive mark (Simple Icons removed the Microsoft family at the owner's request)"
+      "mono": "mono/microsoft-onedrive.svg",
+      "monoSource": "DS colour file, stand-in: the three cloud pieces merged into one silhouette, knocked out of a rounded square",
+      "monoSourceUrl": "logo/microsoft-onedrive.svg",
+      "monoStatus": "stand-in",
+      "monoFetched": "2026-11-02"
     },
     {
       "id": "paypal",
@@ -593,7 +598,11 @@
         "web"
       ],
       "sourceNote": "Canva's own developer site (canva.dev): the Canva wordmark inlined in its page header, extracted unchanged except viewBox trimmed to the artwork. canva.com and its brand page are behind a bot challenge from this box.",
-      "monoGap": "Simple Icons removed Canva at the owner's request; Phosphor has no Canva mark"
+      "mono": "mono/canva.svg",
+      "monoSource": "DS colour file, stand-in: the Canva wordmark path (the file holds no separate symbol), flattened to one colour and knocked out of a rounded square",
+      "monoSourceUrl": "logo/canva.svg",
+      "monoStatus": "stand-in",
+      "monoFetched": "2026-11-02"
     },
     {
       "id": "zapier",
@@ -633,7 +642,11 @@
         "web"
       ],
       "sourceNote": "D2L's own site header logo (the D2L mark that fronts Brightspace); viewBox trimmed to the artwork (top 6 units were empty). No separate Brightspace product logo is published as SVG.",
-      "monoGap": "Neither Simple Icons nor Phosphor has a D2L mark"
+      "mono": "mono/d2l-brightspace.svg",
+      "monoSource": "DS colour file, stand-in: the D2L letters and underline bar, flattened to one colour and knocked out of a rounded square",
+      "monoSourceUrl": "logo/d2l-brightspace.svg",
+      "monoStatus": "stand-in",
+      "monoFetched": "2026-11-02"
     },
     {
       "id": "cornerstone-ondemand",
@@ -651,7 +664,11 @@
         "web"
       ],
       "sourceNote": "Cornerstone's own site header logo (horizontal Cornerstone wordmark), served from its CMS CDN.",
-      "monoGap": "Neither Simple Icons nor Phosphor has a Cornerstone mark"
+      "mono": "mono/cornerstone-ondemand.svg",
+      "monoSource": "DS colour file, stand-in: the Cornerstone symbol (the compact mark, not the long wordmark), flattened to one colour and knocked out of a rounded square",
+      "monoSourceUrl": "logo/cornerstone-ondemand.svg",
+      "monoStatus": "stand-in",
+      "monoFetched": "2026-11-02"
     },
     {
       "id": "claude",
