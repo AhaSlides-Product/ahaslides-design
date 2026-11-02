@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.727.0 — 2026-11-02
+## 0.762.0 — 2026-11-02
 ### Added
 - `aha-icon` sizes 40, 48 and 64 with 3, 3.5 and 4px strokes (backed by the 40, 48 and 64 size tokens), for empty states and illustrations; static icon files are generated for the new sizes (#554)
 - `aha-button` forwards `aria-disabled` and `aria-labelledby` to its inner button and keeps both in sync when they change (#554)
@@ -50,6 +50,20 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Fixed
 - `aha-button` is disabled by a disabled ancestor `<fieldset>`, like a native button (#554)
 - Revert: revert the PR; every addition is opt-in (new sizes, attributes, slots and data shape) and the pie, donut and fieldset changes only affect hosts that were already overflowing or sat in a disabled fieldset
+
+## 0.761.0 — 2026-11-02
+### Added
+- Tooltip: `trigger="hover-tap"` shows the bubble on mouse hover, keyboard focus and a touch tap. A tap toggles it, a tap elsewhere or Esc closes it; pointer type and `:focus-visible` decide, so a mouse click adds nothing and the focus a tap leaves behind never shows it (#536)
+- Tooltip: `open-change` event (bubbles, composed) with detail `{ open: boolean }` on every show and hide, from any trigger or the `open` attribute, never twice in a row for one state, so analytics can fire on the first reveal (#536)
+- Tooltip: `help-label` names the built-in `?` help button for screen readers; it stays "More info" when unset (#536)
+- Revert: revert the PR; all three are opt-in, and a tooltip without them renders and behaves as before
+
+## 0.730.0 — 2026-11-02
+### Added
+- `<aha-select>` opt-in `allow-clear`: a clear button beside the caret while a value is set; a click, or Delete / Backspace on the closed trigger, empties the value and emits `change` and a new `clear` event with `{value:''}`; `clear-label` names the button (#537)
+- `<aha-select>` opt-in `show-search`: type to filter the options (ARIA 1.2 combobox with list autocomplete, Arrow / Enter / Escape / Tab), a `search` event with `{query}` and an `empty-text` no-match row (#537)
+- `<aha-select>` option objects take `description` (a second, smaller line under the label) and `title` (the row's native tooltip); `popup-width="match | content | <length>"` sets the popup width (#537)
+- Revert: revert the PR; every addition is opt-in, so an existing `<aha-select>` renders unchanged
 
 ## 0.726.0 — 2026-11-02
 ### Added
