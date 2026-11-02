@@ -1,9 +1,9 @@
 <script setup>
 import '@ahaslides-product/design/aha-answer-option';
-defineProps({ label: String, selected: Boolean });
+defineProps({ label: String, letter: String, selected: Boolean });
 const emit = defineEmits(['pick']);
 </script>
 
 <template>
-  <aha-answer-option :selected="selected || null" @pick="emit('pick')">{{ label }}</aha-answer-option>
+  <aha-answer-option :letter="letter" roving :selected="selected || null" @pick="emit('pick')">{{ label }}</aha-answer-option>
 </template>
