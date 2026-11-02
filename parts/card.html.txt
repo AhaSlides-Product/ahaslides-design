@@ -28,3 +28,17 @@
   <aha-card bordered="false" card-title="Borderless">No outline.</aha-card>
   <aha-card card-title="Loading" loading style="width:240px"></aha-card>
 </div>
+
+<!-- Rich title: slot="title" wins over card-title (which is always plain text) -->
+<aha-card style="width:300px">
+  <span slot="title"><aha-icon name="system-chart-bar" size="16"></aha-icon> Customer satisfaction</span>
+  Results from 128 responses.
+</aha-card>
+
+<!-- A grid of clickable cards: interactive = role="button", Tab focus, Enter/Space fire click;
+     stretch = every card fills its grid cell, so a row shares one height -->
+<div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:16px">
+  <aha-card interactive stretch card-title="Onboarding survey" onclick="openSurvey('onboarding')">Five questions.</aha-card>
+  <aha-card interactive stretch card-title="Quarterly pulse" onclick="openSurvey('pulse')">Twelve questions about tools, workload and the team, sent every quarter.</aha-card>
+  <aha-card interactive stretch card-title="Exit interview" onclick="openSurvey('exit')">Eight questions.</aha-card>
+</div>

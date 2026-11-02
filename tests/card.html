@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Card title slot, interactive and stretch</title>
+</head>
+<body>
+  <aha-card id="interactive" interactive card-title="Customer satisfaction">Open the survey</aha-card>
+  <aha-card id="plain" card-title="Not interactive" tabindex="0">Static</aha-card>
+  <aha-card id="nested" interactive card-title="Nested control"><button id="nested-button">Inner</button></aha-card>
+  <aha-card id="author-role" interactive role="link" card-title="Author role">Link-like</aha-card>
+  <aha-card id="loading-interactive" interactive loading card-title="Loading">Busy</aha-card>
+  <aha-card id="rich-title" card-title="Attribute title"><span slot="title">Slot title</span>Body</aha-card>
+  <aha-card id="empty-title" card-title="">Body</aha-card>
+  <aha-card id="toggle-loading" card-title="Toggle">Body</aha-card>
+  <div id="grid" style="display:grid; grid-template-columns:repeat(2, 200px); gap:16px">
+    <aha-card stretch card-title="Short">One line.</aha-card>
+    <aha-card stretch card-title="Long">Many words that wrap across several lines in a narrow card so it grows taller than its neighbour.</aha-card>
+  </div>
+  <div id="flex" style="display:flex; gap:16px; width:416px">
+    <aha-card stretch card-title="Short" style="flex:1">One line.</aha-card>
+    <aha-card stretch card-title="Long" style="flex:1">Many words that wrap across several lines in a narrow card so it grows taller than its neighbour.</aha-card>
+  </div>
+  <script type="module">
+    window.clicks = {};
+    for (const card of document.querySelectorAll('aha-card')) {
+      window.clicks[card.id] = 0;
+      card.addEventListener('click', () => { window.clicks[card.id] += 1; });
+    }
+    await import('../lib/aha-card.js');
+    await customElements.whenDefined('aha-card');
+    window.cardFixtureReady = true;
+  </script>
+</body>
+</html>
