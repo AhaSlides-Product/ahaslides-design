@@ -33,6 +33,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.897.1 — 2026-11-02
+### Fixed
+- `<aha-input>` built-in label (`label` attribute) is regular 400 in secondary ink (#4A4A4A), matching the Form label; it was semibold 600 in default ink. Size 14/21 and the 4px gap are unchanged. `<aha-counted-input>` and other fields that wrap `<aha-input>` follow. Group headers and SectionHeader stay semibold (#514)
+- `<aha-input size="large">` label is 16/24, matching the large field text (#514)
+- Revert: revert the PR; one CSS rule in `lib/aha-input.js`
+
 ## 0.897.0 — 2026-11-02
 ### Added
 - `aha-submitted-card` takes an opt-in `size`: `sm` (24px glyph, 14px / 22px heading, 12px / 18px subtitle) and `lg` (20px / 28px heading, 16px / 24px subtitle) from the DS type scale; `md` and no `size` render exactly as before (#560)
