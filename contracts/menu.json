@@ -20,7 +20,7 @@
     { "label": "Submenu", "value": "caret rotates 90° + children expand inline (motion-mid), aria-expanded synced" },
     { "label": "Hover", "value": "bg-hover #F7F7F7 (motion-fast + ease-out, persistent node)" },
     { "label": "Selected", "value": "bg-accent #E70E680D fill + color-primary #E70E68 text" },
-    { "label": "Danger", "value": "color-error text (default ink #1A1A1A: the colour rules give status no hue), error-tinted hover" },
+    { "label": "Danger", "value": "color-error text (default ink #1A1A1A: the colour rules give status no hue), error-tinted hover; a disabled danger row takes the disabled colour like any disabled row" },
     { "label": "Disabled", "value": "text-disabled #B5B5B5, not-allowed, no hover; disabled + aria-disabled, never focused or activated, skipped by the arrow keys" },
     { "label": "Rich row", "value": "`slot` replaces the label with the named light-DOM child (the label is the fallback); the row grows to fit (min-height 36, 6px vertical padding); part=rich; text, tags and icons only, never a nested button or link" },
     { "label": "Row attributes", "value": "`testid` → data-testid; `attrs` passes data-* (not data-key) and aria-label; any other name is dropped" }
