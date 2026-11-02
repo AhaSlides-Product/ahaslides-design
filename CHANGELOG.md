@@ -33,13 +33,18 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.602.0 — 2026-11-02
+## 0.605.0 — 2026-11-02
 ### Added
 - `screen-lint` hard-fails three new rules on every surface: `status-hue-class` (a `text-red-*`, `bg-green-*`, `border-yellow-*`, `text-danger` or similar utility class painting status in a hue; error text stays the default ink in `<aha-field-error>` or `<aha-alert type="error">`), `foreign-icon-library` (`<font-awesome-icon>`, `fa fa-*`, `zmdi`, `material-icons` and other icon libraries; glyphs are `<aha-icon>`) and `brand-logo-colour` (a `logo/original/` file outside the Logo library hover pattern, or the kit's `icon-maintain-color`, colour rule 2.6). Escape with `ds-lint-allow: status-hue`, `icon` or `brand-logo (why)` (#495)
 - Icons `system-google-logo` (the Google G) and `system-microsoft-logo` (the four squares): one-colour brand glyphs drawn like `system-facebook-logo` and `system-linkedin-logo` (#495)
 ### Changed
 - Colour rule 2.6 and criterion C7: a Log in with Google or Log in with Microsoft button shows the brand's glyph from the icon library (`<aha-icon name="system-google-logo">`, default ink) at rest and the original colour logo (`logo/original/`) on hover and keyboard focus. Other third-party logos are unchanged (#495)
 - Revert: revert the PR; the icons and lint rules are additive
+
+## 0.604.1 — 2026-11-02
+### Fixed
+- Security: text from attributes and JSON no longer renders as HTML in five elements. `aha-card` `card-title`, `aha-rate` `icon`, `aha-card-select` option `icon`, `aha-descriptions` `items` label and value, and `aha-tabs` panel `id` (in `aria-controls`) are now escaped, so a survey question title like `<img src=x onerror=…>` shows as literal text and creates no element. Light-DOM content of `aha-descriptions` keeps its markup. No visual change (#513)
+
 
 ## 0.601.0 — 2026-11-02
 ### Added
