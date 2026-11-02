@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.599.0 — 2026-11-02
 ### Added
-- Icons for course and rich-text UI, 22 one-colour glyphs from Phosphor Icons Regular (MIT) on the DS 16px grid with the 1.5 stroke: the rich-text toolbar set `system-text-b`, `system-text-italic`, `system-text-underline`, `system-text-strikethrough`, `system-text-h-one`, `system-text-h-two`, `system-text-h-three`; device preview `system-monitor` and `system-device-tablet` (beside `system-device-mobile`); and `system-arrow-line-down`, `system-caret-circle-down`, `system-certificate`, `system-crop`, `system-flow-arrow`, `system-gauge`, `system-image-broken`, `system-map-pin`, `system-minus-circle`, `system-puzzle-piece`, `system-ruler`, `system-scroll`, `system-target`. Each has meaning words for `npm run icon-search`; the registry now holds 353 names (#NNN)
+- Icons for course and rich-text UI, 22 one-colour glyphs from Phosphor Icons Regular (MIT) on the DS 16px grid with the 1.5 stroke: the rich-text toolbar set `system-text-b`, `system-text-italic`, `system-text-underline`, `system-text-strikethrough`, `system-text-h-one`, `system-text-h-two`, `system-text-h-three`; device preview `system-monitor` and `system-device-tablet` (beside `system-device-mobile`); and `system-arrow-line-down`, `system-caret-circle-down`, `system-certificate`, `system-crop`, `system-flow-arrow`, `system-gauge`, `system-image-broken`, `system-map-pin`, `system-minus-circle`, `system-puzzle-piece`, `system-ruler`, `system-scroll`, `system-target`. Each has meaning words for `npm run icon-search`; the registry now holds 353 names (#509)
 
 ## 0.595.1 — 2026-11-02
 ### Fixed
