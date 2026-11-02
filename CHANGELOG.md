@@ -33,11 +33,21 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.613.1 — 2026-11-02
+## 0.616.1 — 2026-11-02
 ### Fixed
 - `<aha-input>` built-in label (`label` attribute) is regular 400 in secondary ink (#4A4A4A), matching the Form label; it was semibold 600 in default ink. Size 14/21 and the 4px gap are unchanged. `<aha-counted-input>` and other fields that wrap `<aha-input>` follow. Group headers and SectionHeader stay semibold (#514)
 - `<aha-input size="large">` label is 16/24, matching the large field text (#514)
 - Revert: revert the PR; one CSS rule in `lib/aha-input.js`
+
+## 0.616.0 — 2026-11-02
+### Added
+- Card: `slot="title"` takes a rich header title (text with an icon, tag or link) and wins over `card-title`, which stays plain text (escaped since 0.604.1, #513) (#527)
+- Card: `interactive` makes the whole card one keyboard-reachable button. The host gets `role="button"` and `tabindex="0"` (author values are kept), Enter and Space fire the native `click` event, the card lifts on hover like `hoverable`, and keyboard focus draws the DS focus ring (2px `--aha-focus-ring`, 2px offset). Keys pressed on a control inside the card are left to that control, and a `loading` card ignores Enter and Space (#527)
+- Card: `stretch` makes the card fill its grid or flex cell, so cards with uneven content in one row share one height; the body grows and the actions row sits at the bottom (#527)
+### Changed
+- Card builds its shadow DOM once and updates persistent nodes when `card-title` or `loading` changes; without the new slot or attributes it renders as before (#527)
+- Card: a light-DOM child that already carried `slot="title"` was never shown; it now renders as the header title (#527)
+- Revert: revert the PR; the slot and both attributes are opt-in, so existing cards are untouched
 
 ## 0.613.0 — 2026-11-02
 ### Added
