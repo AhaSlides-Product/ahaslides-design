@@ -33,12 +33,20 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.716.0 — 2026-11-02
+## 0.761.0 — 2026-11-02
 ### Added
 - Tooltip: `trigger="hover-tap"` shows the bubble on mouse hover, keyboard focus and a touch tap. A tap toggles it, a tap elsewhere or Esc closes it; pointer type and `:focus-visible` decide, so a mouse click adds nothing and the focus a tap leaves behind never shows it (#536)
 - Tooltip: `open-change` event (bubbles, composed) with detail `{ open: boolean }` on every show and hide, from any trigger or the `open` attribute, never twice in a row for one state, so analytics can fire on the first reveal (#536)
 - Tooltip: `help-label` names the built-in `?` help button for screen readers; it stays "More info" when unset (#536)
 - Revert: revert the PR; all three are opt-in, and a tooltip without them renders and behaves as before
+
+## 0.725.0 — 2026-11-02
+### Added
+- `<aha-menu>` rows take an optional `testid` (rendered as `data-testid`, as in `<aha-dropdown>`), an `attrs` map that passes `data-*` and `aria-label` through to the row, and a `slot` name that projects rich light-DOM content (text with an `<aha-tag>`, say) in place of the label. Rows without them render unchanged. (#526)
+### Fixed
+- `<aha-menu>` disabled rows now carry `aria-disabled="true"` beside the native `disabled`; the render is unchanged. (#526)
+- Revert: revert the PR; the new item fields are opt-in
+
 
 ## 0.702.0 — 2026-11-02
 ### Added
