@@ -275,3 +275,16 @@ test('a Tailwind answer background needs an answer class on the element', () => 
   assert.deepEqual(answerRulesOf('<div class="correct bg-[var(--aha-answer-correct)]">'), []);
   assert.deepEqual(answerRulesOf('<div class="p-2 bg-[var(--aha-answer-correct)]">'), ['answer-colour-context']);
 });
+
+test('a min-width inside an @media or @container condition is a breakpoint, not a trap', () => {
+  assert.ok(!rulesOf('@media (min-width: 640px) { .a { color: var(--aha-color-text); } }').includes('min-width-trap'));
+  assert.ok(!rulesOf('@container card (min-width: 480px) { .a { color: var(--aha-color-text); } }').includes('min-width-trap'));
+  assert.ok(rulesOf('@media (min-width: 640px) { .a { min-width: 480px; } }').includes('min-width-trap'));
+});
+
+test('the chart-lib import rule catches @ant-design/plots in TSX and honours its allow comment', () => {
+  const source = "import { Column, Pie } from '@ant-design/plots';";
+  assert.ok(lintHtml(source, { surface: 'product', path: 'Report.tsx' }).findings.some(f => f.rule === 'chart-lib-import'));
+  const allowed = `${source} /* ds-lint-allow: chart-lib-import (aha-chart has no stacked column) */`;
+  assert.ok(!lintHtml(allowed, { surface: 'product', path: 'Report.tsx' }).findings.some(f => f.rule === 'chart-lib-import'));
+});
