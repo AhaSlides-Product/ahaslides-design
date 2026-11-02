@@ -50,6 +50,14 @@
 <!-- Imports the REAL shipped element (../lib/aha-dropdown.js) + the icon library — no inlined copy, so
      the preview can never drift from lib/. The playground control bar (Placement / Content) is
      generated from contracts/dropdown.json → playground and drives this element's attributes live. -->
+<div class="pad">
+  <div class="lbl">Loading: the spinner replaces the caret and the menu cannot open</div>
+  <div class="row">
+    <aha-dropdown loading label="Saving"
+      items='[{"key":"retry","label":"Retry","testid":"retry-row"},{"key":"cancel","label":"Cancel"}]'>
+    </aha-dropdown>
+  </div>
+</div>
 <script type="module">
   import '../lib/icons.js';         // registers <aha-icon> so the caret + leading glyphs resolve from the DS library
   import '../lib/aha-button.js';    // the kebab trigger is an icon-only aha-button

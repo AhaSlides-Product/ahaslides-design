@@ -33,11 +33,54 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.835.1 — 2026-11-02
+## 0.857.1 — 2026-11-02
 ### Fixed
 - `<aha-input>` built-in label (`label` attribute) is regular 400 in secondary ink (#4A4A4A), matching the Form label; it was semibold 600 in default ink. Size 14/21 and the 4px gap are unchanged. `<aha-counted-input>` and other fields that wrap `<aha-input>` follow. Group headers and SectionHeader stay semibold (#514)
 - `<aha-input size="large">` label is 16/24, matching the large field text (#514)
+- Tests: the `aha-segmented` option testid test waits for the component to load, so it no longer fails on a slow runner (#514)
 - Revert: revert the PR; one CSS rule in `lib/aha-input.js`
+
+## 0.857.0 — 2026-11-02
+### Added
+- `aha-icon` sizes 40, 48 and 64 with 3, 3.5 and 4px strokes (backed by the 40, 48 and 64 size tokens), for empty states and illustrations; static icon files are generated for the new sizes (#554)
+- `aha-button` forwards `aria-disabled` and `aria-labelledby` to its inner button and keeps both in sync when they change (#554)
+- `aha-button` gains a trailing icon: `<aha-icon slot="icon-end">` draws after the label, for buttons such as "Next →"; hidden on icon-only (#554)
+- `aha-input` gains `borderless` (no border or fill at rest or on hover, the DS border and focus ring on keyboard focus, error status keeps its border) for inline editing, and `monospace` (field text in `--aha-font-mono`) (#554)
+- `aha-collapse` `slot="extra"` now takes a button: a click inside it no longer toggles the panel (#554)
+- `<aha-stat-tile icon="…">`: an optional DS icon name shown before the label in the muted icon colour at 16px. Without it the tile renders exactly as before. (#554)
+- `<aha-dropdown loading>`: shows the DS spinner in place of the caret and blocks opening, as Button's `loading` does; the trigger carries `aria-busy`. (#554)
+- `<aha-dropdown>` items take an optional `testid`, rendered as `data-testid` on the row. (#554)
+- `aha-chart` grouped columns: `type="column"` with `{series, rows:[{label, values}]}` (or the line shape `{labels, series:[{label, values}]}`) draws one column per series side by side inside each row, with a series legend, value labels and a data table; up to 4 series (#554)
+- `aha-chart` attributes `x-title` and `y-title` on bar, column and line: one line of secondary text above (y) and under (x) the plot (#554)
+### Changed
+- `aha-chart` pie and donut fit a small host: a pie no longer keeps the 140px floor or overflows a host narrower than 320px, a host with a set height shortens it and swaps the callouts for the legend below 224px tall, and the legend wraps, is capped at half the width and scrolls inside the host. Only the first 4 slices have distinct fills (slices 5 and 6 repeat 2 and 3), now stated in the Chart contract (#554)
+### Fixed
+- `aha-button` is disabled by a disabled ancestor `<fieldset>`, like a native button (#554)
+- `aha-popover` no longer announces a default "More information" name: its panel is named only by `title`, so a popover without one adds no extra dialog name for screen readers (#554)
+- Revert: revert the PR; every addition is opt-in (new sizes, attributes, slots and data shape) and the pie, donut and fieldset changes only affect hosts that were already overflowing or sat in a disabled fieldset
+
+## 0.856.1 — 2026-11-02
+
+### Fixed
+
+- CHANGELOG: the 0.840.0 Show winner entry links its PR (#559) instead of a placeholder, so the standards gate passes on master (#561)
+
+## 0.855.0 — 2026-11-02
+### Added
+- `aha-button` `pressed`: a toggle button that is on (Bold in a toolbar, a selected filter) keeps its variant's press look, the same fill, edge and label as `:active`, and the inner button gets `aria-pressed="true"`. `pressed="false"` is the toggle when off: `aria-pressed="false"` and the rest look. An `aria-pressed` set on the host wins, and a disabled button draws no pressed look. No new colour: each variant reuses its existing press values (#547)
+- Button contract: a "Contextual theming" row names the existing hook for a button on a themed survey or deck: the `--aha-button-*` tokens (and `--aha-deck-ink` for tertiary-deck) set on any ancestor, all filled from a theme by `applyCanvasDeck` in `lib/canvas-deck.js` (#547)
+- Revert: revert the PR; `pressed` is opt-in and off by default, so existing buttons are unchanged
+
+## 0.840.0 — 2026-11-02
+
+### Changed
+
+- `<aha-leaderboard>` Show winner: the avatar now sits before the name on one line (the same order as the list rows, 16px apart, the avatar as tall as the name), and the name is bigger than the score: name 64px semibold with a 64px avatar, score 48px (below 340px: 32px name and avatar, 24px score). The pop order is avatar, name, score. The list rows are unchanged. (#559)
+
+## 0.837.0 — 2026-11-02
+### Changed
+- Canvas Library Leaderboard: each deck (light, dark and a new orange-accent deck with a tied first place) has a "Demo: show winner" button that replays the `showWinner()` reveal, so the banner, centre glow in `--aha-deck-accent`, count-up and confetti can be seen on the page; new Show winner rule row and `showWinner()` in the snippet. Docs and demo only, the component is unchanged (#556)
+- Revert: revert the PR; docs data only
 
 ## 0.835.0 — 2026-11-02
 ### Added

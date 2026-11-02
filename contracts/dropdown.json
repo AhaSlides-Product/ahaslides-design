@@ -14,6 +14,7 @@
   "spec": [
     { "label": "Trigger", "value": "height 40 · radius 8 · white bg, 1px border #E3E3E3, SemiBold 600" },
     { "label": "Trigger hover", "value": "border-hover #E70E68 (motion-fast + ease-out)" },
+    { "label": "Loading", "value": "`loading` swaps the caret for the 16px DS spinner (aha-spin .7s linear, currentColor), cursor progress, aria-busy=true; the panel cannot open while it is set" },
     { "label": "Caret", "value": "<aha-icon name=\"system-caret-down\" size=16>, rotates 180° when open (motion-mid)" },
     { "label": "Panel", "value": "elevated white, radius 8, 4 padding, sized to content (width max-content), min-width 210 and max-width min(320px, 90vw), both including padding and border (the flyout too), a long label ellipsis, a long description wraps, soft shadow" },
     { "label": "Placement", "value": "bottomLeft · bottomRight · topLeft · topRight — anchors the persistent panel" },
@@ -35,7 +36,8 @@
   "props": [
     { "name": "label", "type": "string", "default": "Menu", "desc": "The trigger button text" },
     { "name": "value", "type": "string", "default": "—", "desc": "Makes the dropdown a single-choice picker: the leaf whose key equals this is the selected row (brand-tinted, semibold, no check mark) and, with no `label`, the trigger text. Choosing a leaf sets it, closes the panel and emits select. Leave it off for an action dropdown" },
-    { "name": "items", "type": "JSON list", "default": "[]", "desc": "Rows. Leaf {key,label,description?,icon?,disabled?,danger?}; submenu-parent {key,label,icon?,children:[…]} → adjacent flyout; rule {type:'divider'}; section {type:'group',label,children:[]}" },
+    { "name": "items", "type": "JSON list", "default": "[]", "desc": "Rows. Leaf {key,label,description?,icon?,disabled?,danger?,testid?} (`testid` is rendered as data-testid on the row); submenu-parent {key,label,icon?,children:[…]} → adjacent flyout; rule {type:'divider'}; section {type:'group',label,children:[]}" },
+    { "name": "loading", "type": "boolean", "default": "false", "desc": "Shows the DS spinner in place of the caret and blocks opening (click, keyboard and hover), as Button's loading does. The trigger carries aria-busy" },
     { "name": "placement", "type": "'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight'", "default": "bottomLeft", "desc": "Where the overlay opens relative to the trigger" },
     { "name": "trigger", "type": "'click' | 'hover'", "default": "click", "desc": "How the overlay is revealed" },
     { "name": "slot=\"trigger\"", "type": "element", "default": "the button", "desc": "Your own trigger control, such as an icon-only aha-button with an aria-label for a kebab (three-dot) menu. Opt-in: without it the default button renders unchanged." },
@@ -61,6 +63,10 @@
   "preview": "dropdown.preview.html",
   "playground": {
     "controls": [
+      { "prop": "loading", "label": "Loading", "default": null, "options": [
+        { "label": "Off", "value": null },
+        { "label": "On", "value": "true" }
+      ] },
       { "prop": "placement", "label": "Placement", "default": "bottomLeft", "options": [
         { "label": "Bottom-left", "value": "bottomLeft" },
         { "label": "Bottom-right", "value": "bottomRight" },
