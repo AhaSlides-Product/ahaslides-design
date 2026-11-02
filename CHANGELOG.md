@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.898.0 — 2026-11-02
+### Added
+- Seven icons for survey blocks and rating states, each with meaning words for `npm run icon-search`: `system-door` (welcome or start screen, an entrance; `system-sign-out` stays the leave or log out arrow), `system-chalkboard` (classroom and teaching), `system-address-book` (a contact list; `system-identification-card` stays one person's details), and the filled states `system-check-circle-filled`, `system-smiley-filled`, `system-heart-straight-filled` and `system-thumbs-up-filled`, so every rating icon (star, heart, thumbs up, smiley) now has a selected glyph beside its outline. The registry now holds 369 names (#NNN)
+- Revert: revert the PR; additive glyphs only, no existing icon changes
+
 ## 0.897.1 — 2026-11-02
 ### Fixed
 - `<aha-input>` built-in label (`label` attribute) is regular 400 in secondary ink (#4A4A4A), matching the Form label; it was semibold 600 in default ink. Size 14/21 and the 4px gap are unchanged. `<aha-counted-input>` and other fields that wrap `<aha-input>` follow. Group headers and SectionHeader stay semibold (#514)

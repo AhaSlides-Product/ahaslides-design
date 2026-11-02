@@ -85,6 +85,11 @@
    "first": "system-neutral-face",
    "second": "system-smiley",
    "reason": "Same face frame and eyes by design, as in the smiley, sad and angry face family; the mouth carries the meaning (a flat mouth is the neutral point of a sentiment scale, a smile is positive), so the two are never used for the same thing."
+  },
+  {
+   "first": "system-check-circle-filled",
+   "second": "system-smiley-filled",
+   "reason": "Same solid disc by design, as their outline twins share one circle; the knocked-out mark carries the meaning (a tick is success or a submitted form, a face is a selected smiley rating), so the two are never used for the same thing."
   }
  ]
 }
