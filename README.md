@@ -104,10 +104,10 @@ next to the tokens, load the motion script once, then paste only each section's 
 [Websites tab](https://design.ahaslides.io/marketing/hero/index.html), never its `<style>` block:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.595.0/lib/tokens.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.595.0/lib/marketing.css">
-<script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.595.0/lib/all.js"></script>
-<script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.595.0/lib/marketing-motion.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.598.0/lib/tokens.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.598.0/lib/marketing.css">
+<script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.598.0/lib/all.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.598.0/lib/marketing-motion.js"></script>
 
 <!-- then each section's HTML, in page order: Navigation, Hero, Logos, Features, … Footer -->
 ```

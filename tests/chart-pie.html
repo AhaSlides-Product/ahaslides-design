@@ -1,0 +1,14 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../lib/tokens.css">
+<script type="module">
+import { defineAhaChart } from '../lib/aha-chart.js';
+defineAhaChart();
+window.pieFixtureReady = true;
+</script>
+<div style="width:640px;height:400px">
+  <aha-chart id="pie" type="pie" label="Budget" data='[{"label":"Trips","value":34},{"label":"Insurance","value":27},{"label":"Courses","value":18}]'></aha-chart>
+</div>
+<div style="width:640px;height:400px">
+  <aha-chart id="donut" type="donut" label="Budget" data='[{"label":"Trips","value":34},{"label":"Insurance","value":27},{"label":"Courses","value":18}]'></aha-chart>
+</div>
