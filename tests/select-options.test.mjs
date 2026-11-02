@@ -42,6 +42,9 @@ test('allow-clear, show-search, option description and popup-width work, and a p
     await evaluate(`document.getElementById('search').shadowRoot.querySelector('.search').value = 'zzz'; document.getElementById('search').shadowRoot.querySelector('.search').dispatchEvent(new Event('input'))`);
     out.noMatch = await evaluate(`(() => { const e = ${root('search')}.querySelector('.empty'); return { shown: !e.hidden, text: e.textContent }; })()`);
     await evaluate(`document.getElementById('search').shadowRoot.querySelector('.search').value = 'gam'; document.getElementById('search').shadowRoot.querySelector('.search').dispatchEvent(new Event('input'))`);
+    out.composing = await evaluate(`(() => { const el = document.getElementById('search'); const before = el.value;
+      el.shadowRoot.querySelector('.search').dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', isComposing: true, bubbles: true, composed: true }));
+      return { unchanged: el.value === before, open: el.open }; })()`);
     await press('Enter', 'Enter', 13, '\r');
     out.picked = await evaluate(`({ value: document.getElementById('search').value, open: document.getElementById('search').open,
       searchShown: getComputedStyle(${root('search')}.querySelector('.search')).display !== 'none',
@@ -60,6 +63,7 @@ test('allow-clear, show-search, option description and popup-width work, and a p
   assert.deepEqual(result.clear, { shownBefore: true, value: '', events: ['change:', 'clear:'], shownAfter: false });
   assert.deepEqual(result.filtered, { focused: true, query: 'al', visible: ['a', 'ab'], active: 'a', activedescendant: true });
   assert.deepEqual(result.noMatch, { shown: true, text: 'No matches' });
+  assert.deepEqual(result.composing, { unchanged: true, open: true });
   assert.deepEqual(result.picked, { value: 'g', open: false, searchShown: false, allVisible: true });
   assert.deepEqual(result.rich, { label: 'Editor', description: 'Edit and view results', title: 'Can edit' });
   assert.equal(result.width.match, result.width.matchControl);
