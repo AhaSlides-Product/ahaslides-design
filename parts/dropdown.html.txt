@@ -9,6 +9,7 @@
 
 <!-- placement="bottomLeft" (default) | "bottomRight" | "topLeft" | "topRight"
      trigger="click" (default) | "hover"
+     open: reflects the panel state; set it to open or close from code (fires no event)
      value: key of the selected leaf (picker mode; omit for an action dropdown)
      items: leaf {key,label,description?,icon?,disabled?,danger?} · submenu-parent {key,label,icon?,children:[…]}
             (opens an adjacent flyout — hover / ArrowRight / Enter; ArrowLeft / Escape closes it)
@@ -47,6 +48,10 @@
 <script>
   document.getElementById('role').addEventListener('select', (e) => console.log('role', e.detail.key));
   // Opens on click, closes on outside-click / Escape (focus returns to the trigger); choosing an
-  // item emits a composed `select`.
-  document.getElementById('menu').addEventListener('select', (e) => console.log('action', e.detail.key));
+  // item emits a composed `select`. Every user open and close emits `open` / `close`; set the `open`
+  // attribute to drive it from code. The panel renders in the top layer, so a card cannot clip it.
+  const menu = document.getElementById('menu');
+  menu.addEventListener('select', (e) => console.log('action', e.detail.key));
+  menu.addEventListener('open', () => console.log('menu opened'));
+  menu.addEventListener('close', () => console.log('menu closed'));
 </script>
