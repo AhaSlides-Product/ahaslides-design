@@ -1,7 +1,7 @@
 {
   "name": "Button",
   "slug": "button",
-  "environment": ["product", "audience"],
+  "environment": ["product", "audience", "web"],
   "group": "General",
   "tier": "leaf-lit",
   "badge": "shared web component",

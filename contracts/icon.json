@@ -1,11 +1,11 @@
 {
   "name": "Icon",
   "slug": "icon",
-  "environment": ["product", "audience"],
+  "environment": ["product", "audience", "web"],
   "group": "General",
   "tier": "leaf-lit",
   "badge": "shared element + registry",
-  "environment": ["product", "audience"],
+  "environment": ["product", "audience", "web"],
   "element": "aha-icon",
   "summary": "One glyph set, called by name — 353 names in one registry, rendered by the shared <aha-icon>, never inline SVG.",
   "highlights": ["One glyph set, called by name", "353 names in one registry", "Rendered by <aha-icon>, never inline SVG"],
