@@ -78,6 +78,12 @@ const scenarios = String.raw`(async () => {
   dd.open = false;
   await settle();
   out.programmaticClosed = { open: dd.shadowRoot.querySelector('.dd').classList.contains('open'), events: log.length - eventsBeforeProgrammatic };
+  dd.open = '';
+  await frame();
+  out.emptyString = { open: dd.open, topLayer: report(dd).topLayer };
+  dd.open = 'false';
+  await settle();
+  out.falseString = dd.open;
   out.log = log;
 
   const edge = document.getElementById('edge');
@@ -117,6 +123,8 @@ test('dropdown panel escapes an overflow:hidden card in the top layer and report
   assert.equal(r.programmatic.topLayer, true, 'setting open shows the panel');
   assert.equal(r.programmatic.events, 0, 'setting open fires no event');
   assert.deepEqual(r.programmaticClosed, { open: false, events: 0 });
+  assert.deepEqual(r.emptyString, { open: true, topLayer: true }, "open = '' (React 19's value for a bare open) opens the panel");
+  assert.equal(r.falseString, false, "open = 'false' closes it");
   assert.ok(r.edge.rect.right <= r.edge.viewport - 8, 'panel stays 8px inside the right viewport edge');
   assert.equal(r.edge.visiblePoints, 4);
   assert.ok(r.low.rect.bottom <= r.low.triggerTop, 'opens above when there is no room below');
