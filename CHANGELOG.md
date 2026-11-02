@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.612.0 — 2026-11-02
 ### Added
-- `<aha-segmented>` options take an optional `testid`, rendered as `data-testid` on that option's button, the same name `<aha-dropdown>` items use (#PRNUM). String options and options without `testid` render unchanged; icons (`icon`) and `ariaLabel` already worked.
+- `<aha-segmented>` options take an optional `testid`, rendered as `data-testid` on that option's button, the same name `<aha-dropdown>` items use (#535). String options and options without `testid` render unchanged; icons (`icon`) and `ariaLabel` already worked.
 - Revert: revert the PR; `testid` is ignored by older releases
 
 ## 0.609.1 — 2026-11-02
