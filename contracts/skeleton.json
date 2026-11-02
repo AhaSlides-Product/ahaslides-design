@@ -8,7 +8,7 @@
   "element": "aha-skeleton",
   "summary": "A greyed placeholder that holds a component's shape while its content loads.",
   "highlights": ["Greyed placeholder", "Holds a component’s shape while content loads"],
-  "lead": "ONE custom element — <aha-skeleton> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens. The DS V3 Skeleton is a FAMILY of building blocks: `variant` picks the shape — text · paragraph (N rows, last one shorter) · title · avatar · button · input · image (a framed picture placeholder with a muted glyph). `rows` sets the paragraph line count, `round` softens button/input corners to the pill, `active` toggles the shimmer — an opacity PULSE (no gradient fill, per the no-gradient rule). Compose avatar + title + paragraph for the common list-item shape. Zero drift.",
+  "lead": "ONE custom element — <aha-skeleton> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens. The DS V3 Skeleton is a FAMILY of building blocks: `variant` picks the shape — text · paragraph (N rows, last one shorter) · title · avatar · button · input · image (a framed picture placeholder with a muted glyph). `rows` sets the paragraph line count, `round` softens button/input corners to the pill, `width` and `height` size the block to the real content (a number is px, or a CSS length), `active` toggles the shimmer — an opacity PULSE (no gradient fill, per the no-gradient rule). Compose avatar + title + paragraph for the common list-item shape. Zero drift.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin attribute wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
   "tokensUsed": ["gray-30", "gray-50", "radius-xs", "radius-default", "radius-pill"],
   "spec": [
@@ -19,6 +19,7 @@
     { "label": "Avatar", "value": "40×40 · radius pill" },
     { "label": "Button / Input", "value": "height 32 / 36 · radius default (8)" },
     { "label": "Image", "value": "height 96 · centred gray-50 image glyph · radius default" },
+    { "label": "Width / height", "value": "optional; a number is px, or a CSS length (px, rem, em, %, vw, vh, calc()); paragraph: width of the stack, height of each row; unset keeps the variant size" },
     { "label": "Round", "value": "corner-bearing variants soften to the pill" },
     { "label": "Motion", "value": "opacity pulse 1.6s (respects reduced-motion); active=false stops it" }
   ],
@@ -26,6 +27,8 @@
     { "name": "variant", "type": "text | paragraph | title | avatar | button | input | image", "default": "text", "desc": "Placeholder shape" },
     { "name": "rows", "type": "number", "default": "3", "desc": "Paragraph line count (last row is shorter); paragraph variant only" },
     { "name": "round", "type": "boolean", "default": "false", "desc": "Soften button/input/image corners to the pill" },
+    { "name": "width", "type": "number | string", "default": "—", "desc": "Block width: a number is px, or a CSS length such as 50%, 12rem; unset keeps the variant width (paragraph: width of the whole stack)" },
+    { "name": "height", "type": "number | string", "default": "—", "desc": "Block height: a number is px, or a CSS length such as 4rem; unset keeps the variant height (paragraph: height of each row)" },
     { "name": "active", "type": "boolean", "default": "true", "desc": "Animate the shimmer (set 'false' to freeze)" }
   ],
   "opinion": {
