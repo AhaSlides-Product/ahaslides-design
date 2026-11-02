@@ -24,3 +24,25 @@ export function ParticipantReport() {
     </>
   );
 }
+
+// Bottom sheet: placement="bottom" is the same element. A click on the gap, Esc, the ✕ or a swipe down emits `close`.
+export function DeckSheet({ deck, onClose }) {
+  const sheet = useRef(null);
+  useEffect(() => {
+    const element = sheet.current;
+    element.addEventListener('closed', onClose);
+    return () => element.removeEventListener('closed', onClose);
+  }, [onClose]);
+  return (
+    <aha-drawer ref={sheet} placement="bottom" heading={deck.title} open="">
+      <span slot="subtitle">{deck.slideCount} slides · Updated {deck.updated}</span>
+      <div slot="actions"><aha-button variant="secondary" size="sm">Edit</aha-button></div>
+      <p>Slides and the Start list go here; the layout is yours.</p>
+      <div slot="footer" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <aha-button variant="tertiary" size="sm">Previous</aha-button>
+        <span>3 of 24</span>
+        <aha-button variant="tertiary" size="sm">Next</aha-button>
+      </div>
+    </aha-drawer>
+  );
+}

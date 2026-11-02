@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { existsSync } from 'node:fs';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { evaluateInPage, resolveChrome, withPage } from '../cdp.mjs';
-import { shortcutPieces } from '../lib/shortcut-key.js';
+import { fillShortcutChip, shortcutPieces } from '../lib/shortcut-key.js';
 
 const fixture = pathToFileURL(fileURLToPath(new URL('./canvas-shortcut.html', import.meta.url))).href;
 const skip = existsSync(resolveChrome()) ? false : 'needs headless Chrome (set CHROME_BIN)';
@@ -17,6 +17,35 @@ test('shortcut keys follow the platform: glyphs on a Mac, words elsewhere, Enter
   assert.deepEqual(shortcutPieces('Mod+K', false), ['Ctrl K']);
   assert.deepEqual(shortcutPieces('Escape', true), ['Esc']);
   assert.deepEqual(shortcutPieces('', true), []);
+});
+
+test('a literal plus key: "+" alone, and a trailing "+" after the separator', () => {
+  assert.deepEqual(shortcutPieces('+', true), ['+']);
+  assert.deepEqual(shortcutPieces('+', false), ['+']);
+  assert.deepEqual(shortcutPieces('Ctrl++', false), ['Ctrl +']);
+  assert.deepEqual(shortcutPieces('Mod++', false), ['Ctrl +']);
+  assert.deepEqual(shortcutPieces('Mod++', true), ['⌘+']);
+  assert.deepEqual(shortcutPieces('Shift++', true), ['⇧+']);
+  assert.deepEqual(shortcutPieces('Mod+Shift+Z', true), ['⌘⇧Z']);
+  assert.deepEqual(shortcutPieces('Ctrl+K', false), ['Ctrl K']);
+  assert.deepEqual(shortcutPieces('K', false), ['K']);
+  assert.deepEqual(shortcutPieces('Ctrl+', false), ['Ctrl']);
+});
+
+test('the "+" chip is one square, visible chip', () => {
+  const classes = new Set();
+  const chip = { hidden: true, classList: { toggle: (name, on) => (on ? classes.add(name) : classes.delete(name)) }, replaceChildren() {} };
+  globalThis.document = { createTextNode: (text) => text };
+  try {
+    fillShortcutChip(chip, '+', false);
+    assert.equal(chip.hidden, false);
+    assert.ok(classes.has('square'));
+    fillShortcutChip(chip, 'Ctrl++', false);
+    assert.equal(chip.hidden, false);
+    assert.ok(!classes.has('square'));
+  } finally {
+    delete globalThis.document;
+  }
 });
 
 const deckVars = String.raw`(async () => {

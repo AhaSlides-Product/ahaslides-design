@@ -94,6 +94,8 @@ export const COPY_RULE_FIXTURES = [
       '<p>The most affordable and easy-to-use interactive presentation software on the planet</p>',
       '<h1>All-in-one interactive presentation platform</h1>',
       '<p>Save the world from Sleepy Meetings</p>',
+      '<p>AhaSlides is an interactive presentation tool</p>',
+      '<p>The live audience engagement platform for teachers</p>',
       '<p>Turn sleepy slides into engaging experiences</p>',
       '<p>Beat the attention gremlin</p>',
       '<meta-card title="AhaSlides, interactive presentation software"></meta-card>',
@@ -106,6 +108,7 @@ export const COPY_RULE_FIXTURES = [
       '<!-- interactive presentation software -->',
       '<code>interactive presentation software</code>',
       '<p>interactive presentation software</p> <!-- ds-lint-allow: retired-wording (quoting the old line in a changelog) -->',
+      '<title>AhaSlides - Interactive Presentation Tool</title> <!-- ds-lint-allow: retired-wording (14.2, keyword target: Google Ads landing page) -->',
     ],
   },
 ];

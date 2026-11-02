@@ -1,0 +1,8 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-leaderboard';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<template>
+  <aha-leaderboard size="phone" :me="meId" :entries="JSON.stringify(entries)" style="height: 320px"></aha-leaderboard>
+</template>

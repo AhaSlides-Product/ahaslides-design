@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Button focus ring on a brand surface</title>
+<style>
+  .brand-band{ background:#E70E68; padding:24px }
+  #page-override{ --aha-button-focus-ring:rgb(1, 2, 3) }
+</style>
+</head>
+<body>
+  <aha-button id="white-surface" variant="primary">Sign up</aha-button>
+  <div class="brand-band">
+    <aha-button id="brand-primary" variant="primary" surface="brand">Sign up</aha-button>
+    <aha-button id="brand-secondary" variant="secondary" surface="brand">Book a demo</aha-button>
+    <aha-button id="page-override" variant="secondary" surface="brand">Book a demo</aha-button>
+  </div>
+  <script type="module">
+    await import('../lib/aha-button.js');
+    await customElements.whenDefined('aha-button');
+    window.brandSurfaceFixtureReady = [...document.querySelectorAll('aha-button')].every((host) => !!host.shadowRoot?.querySelector('button'));
+  </script>
+</body>
+</html>

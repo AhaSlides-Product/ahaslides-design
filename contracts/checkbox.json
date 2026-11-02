@@ -15,12 +15,18 @@
     { "label": "Rest border", "value": "#E3E3E3" },
     { "label": "Hover border", "value": "#E70E68" },
     { "label": "Checked fill", "value": "#E70E68 + white 12px tick" },
-    { "label": "Label", "value": "Plus Jakarta 14/21; a multi-line label wraps and the box stays on the first line (box centre = centre of line 1)" }
+    { "label": "Label", "value": "Plus Jakarta 14/21; a multi-line label wraps and the box stays on the first line (box centre = centre of line 1)" },
+    {"label": "Help and locked", "value": "muted \"?\" or crown 6px after the label, aligned to its first line; locked = label keeps its colour, the crown replaces the \"?\""}
   ],
   "props": [
     { "name": "checked", "type": "boolean", "default": "false", "desc": "Controlled selection" },
     { "name": "indeterminate", "type": "boolean", "default": "false", "desc": "Mixed state for check-all" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Disables the control" },
+    {"name": "help", "type": "string", "default": "—", "desc": "Tooltip text. Shows the muted \"?\" after the label; hover or focus shows the tooltip, a click never selects or ticks. The text is also the option's accessible description"},
+    {"name": "locked", "type": "boolean", "default": "false", "desc": "Plan-gated option. The crown replaces the \"?\"; a click or Space anywhere on the option opens the DS paywall and never selects or ticks it (no change event)"},
+    {"name": "plan", "type": "'pro' | 'essential'", "default": "pro", "desc": "Locked only — the plan the paywall names"},
+    {"name": "feature-key", "type": "string", "default": "—", "desc": "Locked only — analytics key carried by the paywall events"},
+    {"name": "upgrade-body", "type": "string", "default": "—", "desc": "Locked only — the paywall body text"},
     { "name": "change", "type": "CustomEvent<{checked}>", "default": "—", "desc": "Composed event; read e.detail.checked" }
   ],
   "opinion": {
@@ -69,7 +75,9 @@
     { "label": "hover border color-primary", "verdict": "PASS" },
     { "label": "label 14/21 Plus Jakarta", "verdict": "PASS" },
     { "label": "multi-line label: box stays on line 1", "verdict": "PASS" },
-    { "label": "role=checkbox on host; Space toggles", "verdict": "PASS" }
+    { "label": "role=checkbox on host; Space toggles", "verdict": "PASS" },
+    {"label": "help: \"?\" after the label; a click never ticks", "verdict": "PASS"},
+    {"label": "locked: crown after the label; click or Space opens the paywall, never ticks, no change event", "verdict": "PASS"}
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, so there is a single render (no per-framework roots).",

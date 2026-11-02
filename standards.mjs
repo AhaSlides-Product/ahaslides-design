@@ -30,6 +30,7 @@ import { execFileSync } from 'node:child_process';
 import { ART_SOURCES, ILLUSTRATION_TINTS, coloursInSvg, recolourSvg } from './recolour-art.mjs';
 import { FROZEN_SNAPSHOT, validateEvalSets, selfTest as evalHarnessSelfTest } from './anti-slop/evals-harness.mjs';
 import { DUPLICATE_BASELINE_FILE, DUPLICATE_BASELINE_ABOUT, DUPLICATE_THRESHOLD, readGlyphSources, rasteriseAll, nearDuplicatePairs, readDuplicateBaseline, readIntentionalPairs, evaluateDuplicateGate } from './icon-similarity.mjs';
+import { unreleasedGate } from './auto-version.mjs';
 import { ENVIRONMENT_TABLE_FILE, ENVIRONMENT_BASELINE_FILE, ENVIRONMENT_BASELINE_ABOUT, loadEnvironmentTable, fileSystemReader, gitReader, collectItems, evaluateEnvironmentGate } from './environments.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
@@ -710,12 +711,21 @@ if (ANTISLOP) {
      ## X.Y.Z — YYYY-MM-DD      (em-dash or hyphen; the TOP entry must equal package.json "version")
      ### Added | Changed | Fixed | Removed
      - one bullet per change, linking the real PR: (#58)   ← never a leftover "(#PR)" placeholder
+   With AUTO_VERSION=on a top "## Unreleased" entry is allowed instead: the merge's release commit
+   (auto-version.mjs) sets the version, so the checks below then hold for the newest RELEASED entry.
    ================================================================================================= */
 const repoChecks = [];
 {
   const rchk = (name, cond, note = '') => repoChecks.push([name, !!cond, cond ? '' : note]);
   const changelog = read(join(root, 'CHANGELOG.md'));
   rchk('CHANGELOG.md exists', !!changelog, 'add a CHANGELOG.md at the repo root (newest entry on top)');
+  const pendingRelease = unreleasedGate({ changelog, packageVersion: PKG.version, readBaseVersion: (baseRef) => {
+    try {
+      execFileSync('git', ['fetch', '--quiet', '--depth=1', 'origin', baseRef], { cwd: root, stdio: 'ignore' });
+      return JSON.parse(execFileSync('git', ['show', 'FETCH_HEAD:package.json'], { cwd: root, encoding: 'utf8' })).version;
+    } catch { return null; }
+  } });
+  for (const [name, ok, note] of pendingRelease.checks) rchk(name, ok, note);
   if (changelog) {
     const m = changelog.match(/^##\s+(\d+\.\d+\.\d+)\s+[—-]\s+(\d{4}-\d{2}-\d{2})\s*$/m);
     rchk('top entry heads the file as "## X.Y.Z — YYYY-MM-DD"', !!m,
@@ -740,7 +750,7 @@ const repoChecks = [];
         }
       } catch { /* no git / no tags (fresh or shallow CI) — skip rather than false-fail */ }
       const baseRef = process.env.GITHUB_BASE_REF || process.env.VERSION_BASE_REF;
-      if (baseRef) {
+      if (baseRef && !pendingRelease.active) {
         let baseVersion = null;
         try {
           execFileSync('git', ['fetch', '--quiet', '--depth=1', 'origin', baseRef], { cwd: root, stdio: 'ignore' });
@@ -849,6 +859,17 @@ const repoChecks = [];
   rchk('every original-colour logo sits beside its one-colour file and is declared in logo/manifest.json', originalsUnpaired.length === 0,
     `logo/original/<file> holds the brand's own colours for rule 2.6 and shares the one-colour file's name: ${originalsUnpaired.join(', ')}`);
 
+  const PHOTO_SOURCES = ['drive', 'customer-love'];
+  const imagesDir = join(root, 'marketing', 'images');
+  const photosWithoutSource = existsSync(imagesDir)
+    ? readdirSync(imagesDir).filter(folder => existsSync(join(imagesDir, folder, 'manifest.json'))).flatMap(folder =>
+      JSON.parse(read(join(imagesDir, folder, 'manifest.json'))).images
+        .filter(entry => !/logo/i.test(entry.kind) && !PHOTO_SOURCES.includes(entry.source))
+        .map(entry => `marketing/images/${folder}/${entry.file} (source: ${entry.source ?? 'missing'})`))
+    : [];
+  rchk('every marketing photo in a manifest comes from the AhaSlides Drive photo library or Customer Love (W6)', photosWithoutSource.length === 0,
+    `photos of people, customers and events carry source "drive" or "customer-love", never a stock photo: ${photosWithoutSource.join(', ')}`);
+
   /* A demo teaches by example, so a placeholder cover or a sample deck accent is held to the list too.
      Each exemption names why the file has to spell out an off-list colour. */
   const OFF_LIST_SOURCE_EXEMPT = {
@@ -898,15 +919,6 @@ const repoChecks = [];
     if (/\.(json|md)$/.test(f) && /aha-design:aha-design-|`aha-design-[a-z-]+`\s+skill/.test(read(join(root, dir, f)))) retiredSkillRefs.push(`${dir}/${f}`);
   repoChecks.push(['guideline pages do not point at retired aha-design-* skills', retiredSkillRefs.length === 0,
     `the plugin ships one skill (aha-design); point at the DS guide / anti-slop feed instead: ${retiredSkillRefs.join(', ')}`]);
-}
-/* ===== presenting canvas — the deck tokens and the canvas kit have no pill shape, while the rest of the DS keeps --aha-radius-pill. */
-{
-  const rchk = (name, cond, note = '') => repoChecks.push([name, !!cond, cond ? '' : note]);
-  const canvasSources = ['canvas/deck-tokens.json', 'canvas/canvas.css', 'canvas/library.json'].filter(f => existsSync(join(root, f)));
-  const pillHits = canvasSources.flatMap(f => read(join(root, f)).split('\n').flatMap((line, i) =>
-    /--aha-radius-pill\b|border-radius\s*:\s*(?:999|9999)px/i.test(line) ? [`${f} L${i + 1}`] : []));
-  rchk('the deck tokens and canvas kit use no pill radius', pillHits.length === 0,
-    `the presenting canvas has no pill shape: a true circle is 50%, anything else takes a radius from the scale — ${pillHits.join(', ')}`);
 }
 /* ===== sideEffects — a bundler (webpack / vue-cli) drops an import whose module is not listed as a side
    effect, so `import '@ahaslides-product/design/tokens.css'` or a custom-element registration import

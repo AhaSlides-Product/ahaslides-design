@@ -1,4 +1,4 @@
-import '@ahaslides-product/design/illustrations';   // registers <aha-illustration> + loads the spot-art registry (20 illustrations)
+import '@ahaslides-product/design/illustrations';   // registers <aha-illustration> + loads every illustration
 
 // Call any illustration BY NAME — never inline an <svg>. Browse names in the Illustration library,
 // or read illustration.agent.json. Unlike <aha-icon>, an illustration has FIXED colours (pink

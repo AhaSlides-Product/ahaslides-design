@@ -206,6 +206,99 @@
         "id": 8,
         "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
       }
+    },
+    {
+      "id": 9,
+      "prompt": "Review this deck launch surface that opens when a deck row is clicked in My Files: `<aha-drawer placement=\"bottom\" open heading=\"Fire safety refresher\"><span slot=\"subtitle\">10 slides · Updated 2 days ago</span><div slot=\"actions\">…</div>…<div slot=\"footer\">‹ Previous · 3 of 24 · Next ›</div></aha-drawer>`.",
+      "files": [],
+      "label": "good-control",
+      "notes": "C4 — a list-launched surface is a bottom sheet, aha-drawer placement=bottom, not a side drawer",
+      "expected_output": "C4 PASSes. The surface opened from a list of objects is the DS bottom sheet, <aha-drawer placement=\"bottom\">, which brings the grab handle, the 48px closing gap, Esc, ✕ and swipe to close, and the full page under 768px; the Previous / Next navigation sits in the footer. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C4 is marked PASS",
+        "Cites aha-drawer placement=bottom as the list-launched surface"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C4": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-overlays-judge",
+        "id": 9,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 10,
+      "prompt": "Review this deck launch surface opened from a deck row: `<div style={{ position: 'fixed', left: 0, right: 0, bottom: 0, top: 48, background: '#fff', borderRadius: '16px 16px 0 0' }}><div className=\"grab\" />…</div>` with its own backdrop and a click handler for Esc.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C4 — a hand-built fixed div bottom sheet instead of aha-drawer placement=bottom",
+      "expected_output": "C4 FAILs. The sheet is hand-built from a fixed div, so it has no focus trap, scroll lock, focus return, swipe to close or phone full page. Fix: use <aha-drawer placement=\"bottom\"> with the title, subtitle, actions and footer slots. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C4 is marked FAIL",
+        "Cites the hand-built fixed div bottom sheet",
+        "Names <aha-drawer placement=\"bottom\"> as the fix"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C4": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-overlays-judge",
+        "id": 10,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 11,
+      "prompt": "Review this share drawer. Next to the \"Editors\" label at the drawer's left edge sits a hand-made help hint: `<span class=\"hint\">?<span class=\"bubble\" style=\"position:absolute; right:calc(100% + 8px)\">Editors can change slides and invite other people</span></span>` inside `<Drawer styles={{ body: { overflow: 'auto' } }}>`. The screenshot shows the bubble cut off at the drawer's left edge.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C8 — an overlay clipped by its panel: a hand-positioned bubble on a fixed side, cut off at the drawer edge",
+      "expected_output": "C8 FAILs. The help bubble is hand-positioned to the left of a trigger at the drawer's left edge, so the drawer's overflow cuts it off. Fix: use <aha-tooltip help text=\"…\">, which moves to the side with room inside the drawer and slides along it. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C8 is marked FAIL",
+        "Cites the bubble cut off at the drawer edge",
+        "Names <aha-tooltip> as the fix"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C8": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "DESY-413 — DS-authored case for the clipped-overlay criterion"
+      }
+    },
+    {
+      "id": 12,
+      "prompt": "Review this share drawer. The \"Editors\" label at the drawer's left edge has `<aha-tooltip help text=\"Editors can change slides and invite other people\"></aha-tooltip>` beside it; the drawer is a right-placed Drawer with responsive width and destroyOnClose. Screenshots of the open tooltip at 1280 and 375 show the whole bubble inside the drawer.",
+      "files": [],
+      "label": "good-control",
+      "notes": "C8 — the DS tooltip repositions inside its panel, nothing clipped",
+      "expected_output": "C8 PASSes: the DS tooltip repositions inside the drawer and the screenshots show the whole bubble. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C8 is marked PASS"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C8": "PASS"
+        }
+      },
+      "source": {
+        "authored": "DESY-413 — DS-authored good control for the clipped-overlay criterion"
+      }
     }
   ]
 }

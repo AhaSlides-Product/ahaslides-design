@@ -40,7 +40,7 @@ const imageMarkup = () => [
 
 test('a portrait placeholder is always inside a Vivid Pink frame, never a fill slot', () => {
   for (const [slug, html] of imageMarkup()) {
-    for (const part of html.split(/<!-- next -->|<li class="aha-features__row">/)) {
+    for (const part of html.split(/<!-- next -->|<li class="aha-features__row">|(?=<div [^>]*data-choice=)/)) {
       if (!part.includes('image-placeholder-tall.svg')) continue;
       assert.ok(part.includes('pink-frame'), `${slug}: portrait image not framed`);
       assert.ok(!part.includes('--fill'), `${slug}: portrait image fills its slot`);
@@ -49,6 +49,6 @@ test('a portrait placeholder is always inside a Vivid Pink frame, never a fill s
 });
 
 test('the portrait examples exist in Features and Cards', () => {
-  assert.ok(readJson('marketing/features.json').layouts.some(layout => layout.slug === 'alternating-mixed-screenshots'));
+  assert.ok(readJson('marketing/features.json').layouts.some(layout => layout.slug === 'alternating-screenshots' && layout.options.some(option => option.choices.some(choice => choice.value === 'pink-frame'))));
   assert.ok(readJson('marketing/cards.json').snippets.some(snippet => snippet.slug === 'portrait-row'));
 });

@@ -7,7 +7,7 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 // placement: bottomLeft | bottomRight | topLeft | topRight · trigger: click | hover
 // a submenu opens on hover / ArrowRight / Enter and closes on ArrowLeft / Escape (edge-collision flip)
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 const items = computed(() => JSON.stringify([
   { key: 'rename', label: 'Rename', icon: 'system-pencil-simple' },
   { key: 'export', label: 'Export', icon: 'system-export', children: [
@@ -19,8 +19,16 @@ const items = computed(() => JSON.stringify([
   { key: 'delete', label: 'Delete', icon: 'system-trash', danger: true },
 ]));
 function onSelect(e) { runAction(e.detail.key); }
+
+// a single-choice picker: `value` selects the row and the trigger shows its label
+const role = ref('editor');
+const roleItems = JSON.stringify([
+  { key: 'editor', label: 'Editor', description: 'Edit and present' },
+  { key: 'presenter', label: 'Presenter', description: 'Present only, cannot edit' },
+]);
 </script>
 
 <template>
   <aha-dropdown label="Actions" placement="bottomLeft" :items="items" @select="onSelect" />
+  <aha-dropdown :value="role" :items="roleItems" @select="role = $event.detail.key" />
 </template>

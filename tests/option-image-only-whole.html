@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Option image-only whole picture</title>
+</head>
+<body style="width:375px">
+  <aha-answer-option id="answer-portrait" image="data:image/svg+xml;utf8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27600%27 height=%27900%27 viewBox=%270 0 600 900%27%3E%3Crect width=%27600%27 height=%27900%27 fill=%27%236A1EBB%27/%3E%3C/svg%3E"></aha-answer-option>
+  <aha-answer-option id="answer-square" image="data:image/svg+xml;utf8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27800%27 height=%27800%27 viewBox=%270 0 800 800%27%3E%3Crect width=%27800%27 height=%27800%27 fill=%27%236A1EBB%27/%3E%3C/svg%3E"></aha-answer-option>
+  <aha-answer-option id="answer-landscape" image="data:image/svg+xml;utf8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%271200%27 height=%27600%27 viewBox=%270 0 1200 600%27%3E%3Crect width=%271200%27 height=%27600%27 fill=%27%236A1EBB%27/%3E%3C/svg%3E"></aha-answer-option>
+  <aha-rank-list id="rank" options='[{"id":"portrait","label":"","image":"data:image/svg+xml;utf8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27600%27 height=%27900%27 viewBox=%270 0 600 900%27%3E%3Crect width=%27600%27 height=%27900%27 fill=%27%236A1EBB%27/%3E%3C/svg%3E"},{"id":"square","label":"","image":"data:image/svg+xml;utf8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27800%27 height=%27800%27 viewBox=%270 0 800 800%27%3E%3Crect width=%27800%27 height=%27800%27 fill=%27%236A1EBB%27/%3E%3C/svg%3E"},{"id":"landscape","label":"","image":"data:image/svg+xml;utf8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%271200%27 height=%27600%27 viewBox=%270 0 1200 600%27%3E%3Crect width=%271200%27 height=%27600%27 fill=%27%236A1EBB%27/%3E%3C/svg%3E"}]'></aha-rank-list>
+  <script type="module">
+    await import('../lib/all.js');
+    await new Promise((done) => setTimeout(done, 300));
+    window.wholePictureReady = true;
+  </script>
+</body>
+</html>

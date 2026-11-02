@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CSAT opt-ins</title>
+<link rel="stylesheet" href="../lib/tokens.css">
+<style>body{margin:24px} aha-csat{display:block;margin-bottom:200px}</style>
+</head>
+<body>
+  <aha-csat id="plain" prompt="How did this go?" source="plain"></aha-csat>
+  <aha-csat id="any" prompt="How did this go?" source="any" feedback-on="any" confirmation="Thanks, feedback received"></aha-csat>
+  <aha-csat id="mixed" prompt="How did this go?" source="mixed" feedback-on="any" feedback-button feedback-placeholder="Tell us more" feedback-button-placeholder="Share your thoughts"></aha-csat>
+  <aha-csat id="hint" prompt="How did this go?" source="hint" feedback-on="any" feedback-button feedback-hint="What you write goes to the developer"></aha-csat>
+  <aha-csat id="stacked" prompt="How did this go?" source="stacked" layout="stacked" confirmation="Thanks, feedback received"></aha-csat>
+  <script type="module">
+    await import('../lib/aha-csat.js');
+    window.csatFixtureReady = true;
+  </script>
+</body>
+</html>

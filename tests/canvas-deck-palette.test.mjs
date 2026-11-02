@@ -49,3 +49,21 @@ test('readableTextInk is exported from the canvas entry', () => {
   if (canvasEntry) assert.equal(canvasEntry.readableTextInk('#FFAF09'), '#1A1A1A');
   assert.equal(readableTextInk('#FFAF09'), '#1A1A1A');
 });
+
+test('applyDeck writes the same palette pairs as applyCanvasDeck and removes them when the palette goes', async () => {
+  const { deckVars } = await import('../lib/audience-deck.js');
+  const palette = ['#FFAF09', '#4CAF50', 'not a colour', '#124345'];
+  const phone = deckVars({ ink: '#1A1A1A', accent: palette[0], palette });
+  const canvas = canvasDeckVars({ palette });
+  for (const name of Object.keys(canvas).filter((key) => key.startsWith('--aha-deck-palette-'))) assert.equal(phone[name], canvas[name], name);
+  assert.equal(phone['--aha-deck-palette-3'], undefined);
+  assert.equal(phone['--aha-deck-palette-4'], '#124345');
+  assert.equal(deckVars({ ink: '#1A1A1A', accent: palette[0] })['--aha-deck-palette-1'], undefined);
+});
+
+test('a light palette colour gets dark ink and a dark one white ink even on a white-ink deck', () => {
+  const vars = canvasDeckVars({ accent: '#E70E68', ink: '#FFFFFF', background: '#1A1A1A', palette: ['#FF4081', '#20E8B5', '#1E2A5E'] });
+  assert.equal(vars['--aha-deck-palette-1-ink'], '#1A1A1A');
+  assert.equal(vars['--aha-deck-palette-2-ink'], '#1A1A1A');
+  assert.equal(vars['--aha-deck-palette-3-ink'], '#FFFFFF');
+});

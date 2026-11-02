@@ -3,6 +3,7 @@ import '@ahaslides-product/design/aha-drawer';
 import '@ahaslides-product/design/aha-button';
 import { ref } from 'vue';
 const open = ref(false);
+const deckOpen = ref(false);
 </script>
 
 <template>
@@ -11,6 +12,19 @@ const open = ref(false);
     <p>Minh Anh answered 4 of 5 questions correctly.</p>
     <div slot="footer" style="display:flex;justify-content:flex-end">
       <aha-button variant="primary" @click="open = false">Done</aha-button>
+    </div>
+  </aha-drawer>
+
+  <!-- Bottom sheet: placement="bottom". A click on the gap, Esc, the ✕ or a swipe down emits `close`. -->
+  <aha-button variant="secondary" @click="deckOpen = true">Open deck</aha-button>
+  <aha-drawer placement="bottom" heading="Fire safety refresher" :open="deckOpen || null" @closed="deckOpen = false">
+    <span slot="subtitle">10 slides · Updated 2 days ago · Private</span>
+    <div slot="actions"><aha-button variant="secondary" size="sm">Edit</aha-button></div>
+    <p>Slides and the Start list go here; the layout is yours.</p>
+    <div slot="footer" style="display:flex;justify-content:space-between;align-items:center">
+      <aha-button variant="tertiary" size="sm">Previous</aha-button>
+      <span>3 of 24</span>
+      <aha-button variant="tertiary" size="sm">Next</aha-button>
     </div>
   </aha-drawer>
 </template>

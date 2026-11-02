@@ -3,6 +3,7 @@ import '@ahaslides-product/design/aha-tooltip';   // registers <aha-tooltip>
 // Attributes + slotted trigger only — no events — so React 18/19 can render it directly.
 // placement: top | bottom | left | right (centred) OR edge-aligned top-start | top-end |
 //   bottom-start | bottom-end | left-start | left-end | right-start | right-end
+//   (a preference: with no room inside its panel or the viewport it opens on the side that has room)
 // color: dark | brand · arrow: true|false · trigger: hover|focus|click · help: built-in ? trigger
 function AhaTooltip({ text, placement, color, arrow, trigger, help, children }) {
   return (

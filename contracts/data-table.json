@@ -1,6 +1,7 @@
 {
   "name": "Data table",
   "slug": "data-table",
+  "environment": ["product"],
   "group": "Data display",
   "tier": "composite-antd",
   "badge": "composite — shared React component",
@@ -95,6 +96,10 @@
       "value": "optional 18px SemiBold title left + actions right (Edit columns, Export…); wraps on a phone"
     },
     {
+      "label": "Empty",
+      "value": "no rows → <aha-empty> with the empty-table illustration at 64 px and the noData caption (\"No data\"); locale.emptyText replaces it"
+    },
+    {
       "label": "Pagination",
       "value": "brand-outlined active page + \"N / page\" size changer (10 per page by default)"
     },
@@ -174,7 +179,7 @@
       "name": "labels",
       "type": "Partial<typeof dataTableLabels>",
       "default": "English",
-      "desc": "UI copy override (i18n) — Reset, Apply, Freeze column, …"
+      "desc": "UI copy override (i18n) — Reset, Apply, Freeze column, noData (the empty caption), …"
     },
     {
       "name": "…",

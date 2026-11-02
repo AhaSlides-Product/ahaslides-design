@@ -51,7 +51,7 @@
     },
     {
       "label": "Long text (expandable)",
-      "value": "the same long-text treatment as the answer option: the label clamps to 4 lines, More is a Button link (size sm, underlined, in the deck ink) inside the row only when the text is cut, the 44 picture stays on the left of the text with an expand overlay on hover, and the move buttons and grip keep their place; a one-line option lines up with a default row"
+      "value": "the same long-text treatment as the answer option: the label clamps to 4 lines, More is a Button link (size sm, underlined, in the deck ink) inside the row only when the text is cut, the 44 picture stays after the text, before the move buttons, with an expand overlay on hover, and the move buttons and grip keep their place; a one-line option lines up with a default row"
     }
   ],
   "props": [
@@ -108,6 +108,12 @@
       "type": "string",
       "default": "More / View full option",
       "desc": "Translated More link and picture button name (expandable)"
+    },
+    {
+      "name": "expand-picture-label",
+      "type": "string",
+      "default": "View larger picture",
+      "desc": "Translated name of the full-picture overlay button that opens a picture large in a bottom sheet (rows that are not expandable)"
     },
     {
       "name": "change",

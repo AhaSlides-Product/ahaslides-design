@@ -8,15 +8,15 @@
   "element": "aha-number-with-unit",
   "summary": "A 4ch digit input with the unit written IN FULL inline (rendered exactly as passed — \"seconds\", \"points\" — muted grey), a hover ▲/▼ stepper, a hard digit cap, clamp-on-change, and an error line — the settings field for a number that carries a unit.",
   "highlights": ["4ch digit input with the unit written in full, muted grey", "Hover stepper, hard digit cap, clamp-on-change, error line", "Settings field for a number that carries a unit"],
-  "lead": "ONE custom element — <aha-number-with-unit> — for a number that carries a UNIT: a duration, points, a per-item count (SETTINGS-45). The unit is written IN FULL INSIDE the field as an inline suffix — rendered exactly as passed (`seconds`, `points`), muted grey via --aha-text-tertiary, never truncated to a short label — so it never reads as a selectable box beside the input. A hover-revealed ▲/▼ tertiary stepper nudges the value; a hard digit cap (`maxdigits`, default 4 — a 5th keystroke is ignored) and clamp-to-min/max on change AND blur keep it valid without deliberate misuse; an `errormessage` prop draws the error border/ring and the shared field error below (a 12px system-warning-circle glyph + the message, the same <aha-field-error icon> as Input and Counted textarea). The host is the accessible spinbutton (role=\"spinbutton\", aria-valuenow/min/max, ArrowUp/Down + PageUp/Down). Shadow-DOM CSS, themed only by --aha-* tokens; motion on persistent nodes. Zero drift — the same element in React and Vue.",
+  "lead": "ONE custom element — <aha-number-with-unit> — for a number that carries a UNIT: a duration, points, a per-item count (SETTINGS-45). The unit is written IN FULL INSIDE the field as an inline suffix — rendered exactly as passed (`seconds`, `points`), secondary ink via --aha-text-secondary, never truncated to a short label — so it never reads as a selectable box beside the input. A hover-revealed ▲/▼ tertiary stepper nudges the value; a hard digit cap (`maxdigits`, default 4 — a 5th keystroke is ignored) and clamp-to-min/max on change AND blur keep it valid without deliberate misuse; an `errormessage` prop draws the error border/ring and the shared field error below (a 12px system-warning-circle glyph + the message, the same <aha-field-error icon> as Input and Counted textarea). The host is the accessible spinbutton (role=\"spinbutton\", aria-valuenow/min/max, ArrowUp/Down + PageUp/Down); give it `aria-label`, `aria-labelledby` or `label` and the inner input becomes the named spinbutton while the host drops its role, so it is announced once. `increase-label` and `decrease-label` localise the stepper buttons (default Increase and Decrease). Shadow-DOM CSS, themed only by --aha-* tokens; motion on persistent nodes. Zero drift — the same element in React and Vue.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
-  "tokensUsed": ["border-default", "color-primary", "focus-ring-soft", "bg-container", "bg-container-disabled", "bg-accent", "text-default", "text-placeholder", "text-disabled", "icon-muted", "radius-default", "radius-xs", "border-error", "color-error", "border-disabled"],
+  "tokensUsed": ["border-default", "color-primary", "focus-ring-soft", "bg-container", "bg-container-disabled", "bg-accent", "text-default", "text-secondary", "text-disabled", "icon-muted", "radius-default", "radius-xs", "border-error", "color-error", "border-disabled"],
   "spec": [
     { "label": "Box", "value": "height 40 · radius 8 · digit input + stepper + inline unit; hugs its content in an inline row, fills the row width in a stacked row" },
     { "label": "Size", "value": "one size, 40 — a settings panel never takes a small or large field (settings rule field-size)" },
     { "label": "Digit", "value": "4ch, tabular-nums, 15px; grows only when a stacked row stretches the box, so the stepper and unit stay at the right edge" },
     { "label": "Order", "value": "field → stepper → unit (stepper sits LEFT of the unit); gaps field→stepper 6, stepper→unit 4" },
-    { "label": "Unit", "value": "14/21, letter-spacing 0.2px, #999999 (text-placeholder) inline suffix, rendered exactly as passed (the SHORT label, e.g. sec)" },
+    { "label": "Unit", "value": "14/21, letter-spacing 0.2px, #4A4A4A (text-secondary, 8.9:1 on white) inline suffix, rendered exactly as passed (the SHORT label, e.g. sec)" },
     { "label": "Stepper", "value": "▲/▼ tertiary (system-caret-up/down), revealed on hover/focus; disabled at min/max" },
     { "label": "Digit cap", "value": "maxDigits (default 4) — a keystroke past the cap is dropped; numeric only" },
     { "label": "Clamp", "value": "value clamps to min/max on change AND blur (immediate fallback)" },
@@ -34,6 +34,11 @@
     { "name": "maxdigits", "type": "number", "default": "4", "desc": "Hard digit cap — a keystroke past this many digits is ignored" },
     { "name": "errormessage", "type": "string", "default": "—", "desc": "Presence draws the error border/ring and the field error below (error glyph + message)" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Non-interactive; grey fill" },
+    { "name": "increase-label", "type": "string", "default": "Increase", "desc": "Accessible name of the stepper's increase button; set it to localise" },
+    { "name": "decrease-label", "type": "string", "default": "Decrease", "desc": "Accessible name of the stepper's decrease button; set it to localise" },
+    { "name": "aria-label", "type": "string", "default": "—", "desc": "Accessible name of the field; forwarded to the inner input, which then carries role=spinbutton and the host drops its role (announced once)" },
+    { "name": "aria-labelledby", "type": "string", "default": "—", "desc": "Id(s) of the element(s) naming the field; their text is forwarded to the inner input as its name" },
+    { "name": "label", "type": "string", "default": "—", "desc": "Plain-text accessible name when there is no aria-label (same name as aha-input; not drawn visibly here)" },
     { "name": "change", "type": "CustomEvent<{value}>", "default": "—", "desc": "Composed event on commit / stepper / arrow; read e.detail.value (clamped number)" }
   ],
   "opinion": {
@@ -63,7 +68,7 @@
     ]
   },
   "selfCheck": [
-    { "label": "unit is written IN FULL, rendered exactly as passed (seconds, points), muted grey inside the field", "verdict": "PASS" },
+    { "label": "unit is written IN FULL, rendered exactly as passed (seconds, points), #4A4A4A inside the field", "verdict": "PASS" },
     { "label": "hover ▲/▼ stepper, disabled at min/max; role=spinbutton + arrow keys", "verdict": "PASS" },
     { "label": "hard digit cap (maxDigits) — a 5th keystroke is dropped; numeric only", "verdict": "PASS" },
     { "label": "clamps to min/max on change AND blur", "verdict": "PASS" },
@@ -74,6 +79,6 @@
     "ready": "!!(document.querySelector('aha-number-with-unit[data-probe]') && document.querySelector('aha-number-with-unit[data-probe]').shadowRoot && document.querySelector('aha-number-with-unit[data-probe]').shadowRoot.querySelector('.wrap'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-number-with-unit[data-probe]');var r=el&&el.shadowRoot;var w=r&&r.querySelector('.wrap');var s=r&&r.querySelector('.stepper');var u=r&&r.querySelector('.unit');var m=r&&r.querySelector('.msg');var ws=w?getComputedStyle(w):null;var us=u?getComputedStyle(u):null;var ms=m?getComputedStyle(m):null;var order=(s&&u)?((s.compareDocumentPosition(u)&Node.DOCUMENT_POSITION_FOLLOWING)?'stepper-before-unit':'unit-before-stepper'):null;return{height:ws?ws.height:null,radius:ws?ws.borderTopLeftRadius:null,border:ws?ws.borderTopColor:null,unitColor:us?us.color:null,msgColor:ms?ms.color:null,childOrder:order};})()",
-    "expect": { "height": "40px", "radius": "8px", "border": "rgb(26, 26, 26)", "unitColor": "rgb(153, 153, 153)", "msgColor": "rgb(26, 26, 26)", "childOrder": "stepper-before-unit" }
+    "expect": { "height": "40px", "radius": "8px", "border": "rgb(26, 26, 26)", "unitColor": "rgb(74, 74, 74)", "msgColor": "rgb(26, 26, 26)", "childOrder": "stepper-before-unit" }
   }
 }

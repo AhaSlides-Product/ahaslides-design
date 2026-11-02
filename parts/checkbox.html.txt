@@ -8,6 +8,11 @@
 
 <aha-checkbox id="anon" checked>Let participants join anonymously</aha-checkbox>
 
+<!-- help="…" adds the "?" tooltip after the label. locked adds the crown paywall instead: a click or Space
+     opens it and the box never ticks. -->
+<aha-checkbox help="Participants appear as Guest 1, Guest 2…">Hide names</aha-checkbox>
+<aha-checkbox locked plan="pro" feature-key="export_results" upgrade-body="Export every response to a spreadsheet.">Export results</aha-checkbox>
+
 <script>
   // Plain DOM — no framework. Read e.detail.checked off the composed CustomEvent.
   document.getElementById('anon').addEventListener('change', (e) => {

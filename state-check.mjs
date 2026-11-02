@@ -178,6 +178,12 @@ function installProbe() {
     }
     return { changed, best };
   };
+  /* Colour rule 6.7 waives only an Alert or info box message link on Vivid Pink over #F3F3F3 or the branding fill #FEF3F7. */
+  const acceptedAlertLink = (carrier, type, painted, behind) => {
+    if (type !== 'text' || carrier.localName !== 'a' || hex(painted) !== '#E70E68' || !['#F3F3F3', '#FEF3F7'].includes(hex(behind))) return false;
+    for (let n = flatParent(carrier); n; n = flatParent(n)) if (n.localName === 'aha-alert' || n.localName === 'aha-info-box') return true;
+    return false;
+  };
   const pause = (ms) => new Promise(done => setTimeout(done, ms));
 
   const measure = async (state) => {
@@ -201,7 +207,7 @@ function installProbe() {
            screen-reader-only label); ink that only vanishes in a state is the defect. */
         if (state === 'rest' && got < 1.03) { drawnInvisible.add(carrier); continue; }
         if (drawnInvisible.has(carrier) && got < 1.03) continue;
-        if (got < need) report('contrast', `${type} ${hex(painted)} on ${hex(behind)} is ${got.toFixed(2)}:1, needs ${need}:1`);
+        if (got < need && !acceptedAlertLink(carrier, type, painted, behind)) report('contrast', `${type} ${hex(painted)} on ${hex(behind)} is ${got.toFixed(2)}:1, needs ${need}:1`);
         if (!onList(ink)) report('colour', `${type} ink ${hex(ink)} is not on the allowed colour list`);
       }
 

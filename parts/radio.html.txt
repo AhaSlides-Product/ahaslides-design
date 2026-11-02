@@ -30,6 +30,14 @@
     description="For solo creators getting started.">Essential</aha-radio>
 </div>
 
+<!-- help="…" adds the "?" tooltip after the label; locked adds the crown paywall instead (click or Space opens it, never selects).
+     Works on every variant — on a button the icon sits inside the pill. -->
+<div role="radiogroup" aria-label="Export" style="display:flex;flex-direction:column;gap:10px">
+  <aha-radio name="export" value="pdf" checked help="A print-ready file with every slide.">PDF</aha-radio>
+  <aha-radio name="export" value="video" locked plan="pro" feature-key="export_video"
+    upgrade-body="Export your deck as a video.">Video</aha-radio>
+</div>
+
 <script>
   // Plain DOM — no framework. Read e.detail.value off the composed CustomEvent.
   document.querySelectorAll('aha-radio[name="mode"]').forEach((r) => {

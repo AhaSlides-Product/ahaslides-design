@@ -1,10 +1,10 @@
 <div class="pad">
-  <div class="lbl">Editable questions — a Collapse per question ("N. prompt" header, hover or Tab into a question to reveal its delete, as OptionRow), the prompt field and its OptionRow choices inside, full-width secondary "Add option" and "Add question"</div>
+  <div class="lbl">Editable questions: a Collapse per question ("N. prompt" header, hover or Tab into a question to reveal its delete, as OptionRow), the prompt field and its OptionRow choices inside, full-width secondary "Add option" and "Add question"</div>
   <div class="row" style="display:block; max-width:383px">
     <aha-question-list data-probe label="Questions" help="Each question runs as its own round." min="1" max="10" minoptions="2" maxoptions="6" allowimage
       questions='[{"id":"q1","prompt":"Which planet has the most moons?","open":true,"options":[{"id":"o1","text":"Saturn","correct":true},{"id":"o2","text":"Jupiter"}]},{"id":"q2","prompt":"Largest ocean?","options":[{"id":"o3","text":"Pacific","correct":true},{"id":"o4","text":"Atlantic"}]}]'></aha-question-list>
   </div>
-  <div class="lbl">Header slots at every position and status lines — an Icon at the start, a time Tag before the prompt, a Tag after and at the end; a warning and an error card with a recoloured border</div>
+  <div class="lbl">Header slots at every position and status lines: an Icon at the start, a time Tag before the prompt, a Tag after and at the end; a warning and an error card with a recoloured border</div>
   <div class="row" style="display:block; max-width:383px">
     <aha-question-list label="Questions" min="1" max="10"
       questions='[{"id":"q1","prompt":"What colour is the sky on a clear day?"},{"id":"q2","prompt":"How many planets are there in the solar system?","status":{"message":"Only 2s after Q1. Their markers overlap on the canvas.","tone":"warning"}},{"id":"q3","prompt":"Capital of France?"},{"id":"q4","prompt":"Which of the following long-running scientific expeditions first reached the geographic South Pole, and in which year did the whole party return safely to their base camp?"}]'>
@@ -15,7 +15,15 @@
       <aha-icon slot="marker-q3" name="system-timer" size="16" aria-hidden="true"></aha-icon>
     </aha-question-list>
   </div>
-  <div class="lbl">At the minimum — one question, its delete disabled</div>
+  <div class="lbl">Host API for a slide's settings: notices with a link to a question, accordion (one open), a multi-line prompt, single correct answer, the current question highlighted</div>
+  <div class="row" style="display:block; max-width:383px">
+    <aha-question-list id="host-api" label="Questions" min="1" max="10" accordion multiline singlecorrect promptmaxlength="1000"
+      questions='[{"id":"h1","prompt":"What does compound interest earn you?","open":true,"options":[{"id":"h1a","text":"Interest earned on interest","correct":true},{"id":"h1b","text":"A fixed yearly fee"}]},{"id":"h2","prompt":"","current":true,"untitled":"Add your question","options":[{"id":"h2a","text":""},{"id":"h2b","text":""}]}]'>
+      <aha-tag slot="before-h1">00:23</aha-tag>
+      <aha-tag slot="before-h2">00:41</aha-tag>
+    </aha-question-list>
+  </div>
+  <div class="lbl">At the minimum: one question, its delete disabled</div>
   <div class="row" style="display:block; max-width:383px">
     <aha-question-list label="Questions" min="1" max="10"
       questions='[{"id":"q9","prompt":"Which planet has the most moons?","options":[{"id":"o9","text":"Saturn","correct":true},{"id":"o10","text":"Jupiter"}]}]'></aha-question-list>
@@ -28,4 +36,7 @@
 <script type="module">
   import '../lib/aha-tag.js';
   import '../lib/aha-question-list.js';   // registers <aha-question-list> — the shipped composite
+  await customElements.whenDefined('aha-question-list');
+  document.getElementById('host-api').notices = [{ tone: 'warning', paragraphs: [['Question ', { question: 'h2', label: '2' }, ' has no prompt yet.']] },
+    { tone: 'information', paragraphs: [['Questions ', { question: 'h1', label: '1' }, ' and ', { question: 'h2', label: '2' }, ' run on the same slide.']] }];
 </script>

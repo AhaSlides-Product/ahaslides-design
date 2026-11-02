@@ -34,9 +34,9 @@ for (const id of ['W9', 'W11', 'W12', 'W13', 'W14', 'W15', 'W17', 'W18', 'W19'])
   });
 }
 
-test('W1 puts the Logos strip directly below the hero, and the pass pages do', () => {
+test('W1 puts the Logos strip straight after the hero, and the pass pages do', () => {
   for (const list of [criteria, agentCriteria]) {
-    assert.match(list.find((criterion) => criterion.id === 'W1').test, /Logos strip is always the band directly below the hero/);
+    assert.match(list.find((criterion) => criterion.id === 'W1').test, /Logos strip always comes straight after the hero[^;]*hero's last child, with aha-logos--brand/);
   }
   const failing = evals.find((entry) => entry.expected.criteria.W1 === 'FAIL' && entry.files[0].path.includes('logos-mid-page'));
   assert.ok(failing, 'eval with Logos placed mid-page');
@@ -62,7 +62,7 @@ test('templates are a 3 by n grid on desktop and skip count balancing', () => {
 });
 
 test('W15: every content card link opens in a new tab with noopener and hidden text, calls to action do not', () => {
-  const linkClasses = ['aha-marketing-card__link', 'aha-testimonials__link', 'aha-features__more'];
+  const linkClasses = ['aha-marketing-card__link', 'aha-testimonials__link'];
   for (const slug of ['cards', 'testimonials', 'features']) {
     const raw = readFileSync(new URL(`../marketing/${slug}.json`, import.meta.url), 'utf8');
     const links = linkClasses.flatMap((name) => [...raw.matchAll(new RegExp(`<a class=\\\\"${name}\\\\"[^>]*>`, 'g'))].map((match) => match[0]));
@@ -76,6 +76,32 @@ test('W15: every content card link opens in a new tab with noopener and hidden t
   const page = readFileSync(new URL(`../anti-slop/evals/website/${failing.files[0].path}`, import.meta.url), 'utf8');
   assert.match(page, /aha-marketing-card__link" href="#t">/);
   assert.doesNotMatch(page, /target="_blank"/);
+});
+
+test('W15: section link-out buttons and off-site Footer links open in a new tab, AhaSlides links do not', () => {
+  for (const [slug, label] of [['testimonials', 'Read customer stories'], ['faq', 'Read the docs']]) {
+    const html = readJson(`marketing/${slug}.json`)[slug === 'faq' ? 'html' : 'layouts'];
+    const markup = typeof html === 'string' ? html : html.map((layout) => layout.html).join('');
+    assert.match(markup, new RegExp(`target="_blank" rel="noopener">${label}<span class="aha-[a-z]+__visually-hidden"> \\(opens in a new tab\\)`), label);
+  }
+  const footer = readJson('marketing/footer.json').html;
+  for (const anchor of footer.match(/<a [^>]*>/g)) {
+    const url = new URL(anchor.match(/href="([^"]+)"/)[1]);
+    const leaves = url.protocol === 'https:' && (!/(^|\.)ahaslides\.com$/.test(url.hostname) || ['help.ahaslides.com', 'status.ahaslides.com'].includes(url.hostname));
+    assert.equal(/target="_blank" rel="noopener"/.test(anchor), leaves, anchor);
+  }
+  assert.match(footer, /status\.ahaslides\.com\/" target="_blank" rel="noopener">System status<span class="aha-footer__visually-hidden">/);
+});
+
+test('W19: at most three testimonial cards and balanced quote lengths in every shipped layout', () => {
+  const quoteLengths = (html) => [...html.matchAll(/<blockquote[^>]*><p>(.*?)<\/p>/g)].map((match) => match[1].length);
+  for (const layout of readJson('marketing/testimonials.json').layouts) {
+    const cards = (layout.html.match(/<(figure|article)[^>]*class="aha-testimonials__card/g) || []).length;
+    assert.ok(cards <= 3, `${layout.slug}: ${cards} cards`);
+    const lengths = quoteLengths(layout.html);
+    if (lengths.length > 1) assert.ok(Math.max(...lengths) <= 1.5 * Math.min(...lengths), `${layout.slug}: ${lengths}`);
+    assert.ok(lengths.every((length) => length <= 160 + 30), `${layout.slug}: ${lengths}`);
+  }
 });
 
 test('the Cards grid and the Features icon grid balance by item count', () => {
@@ -92,8 +118,8 @@ test('the Steps row and the image-led grid keep their own layout', () => {
 });
 
 test('the Numbers centred stats balance by item count', () => {
-  assert.match(numbersCss, /\.aha-numbers--centred \.aha-numbers__stats:has\(>:nth-child\(2\):last-child\)\{grid-template-columns:repeat\(2,/);
-  assert.match(numbersCss, /\.aha-numbers--centred \.aha-numbers__stats:has\(>:nth-child\(4\):last-child\)\{grid-template-columns:repeat\(2,/);
+  assert.match(numbersCss, /\.aha-numbers--divided \.aha-numbers__stats:has\(>:nth-child\(2\):last-child\)\{grid-template-columns:repeat\(2,/);
+  assert.match(numbersCss, /\.aha-numbers--divided \.aha-numbers__stats:has\(>:nth-child\(4\):last-child\)\{grid-template-columns:repeat\(2,/);
   assert.match(numbersCss, /:nth-child\(3n\+2\):last-child:nth-child\(n\+5\)\)>:last-child\{grid-column:4 \/ span 2\}/);
 });
 
@@ -188,7 +214,7 @@ test('W14: the alternating row title is h4 semibold on the product face', () => 
 });
 
 test('W14: no Marketing section sets the display face; every heading inherits Plus Jakarta Sans', () => {
-  const marketing = ['cards', 'features', 'numbers', 'pricing', 'testimonials', 'faq', 'footer-banner', 'header'];
+  const marketing = ['cards', 'features', 'numbers', 'pricing', 'testimonials', 'faq', 'footer-banner', 'hero'];
   for (const slug of marketing) {
     assert.doesNotMatch(readFileSync(new URL(`../marketing/${slug}.json`, import.meta.url), 'utf8'), /--aha-font-display/, slug);
   }
@@ -208,15 +234,23 @@ test('W17: the FAQ title centres itself and symmetric headers carry the centre c
 });
 
 test('W18: every content section ships one call to action, aligned with its heading', () => {
-  for (const slug of ['alternating-screenshots', 'icon-grid', 'tabs-screenshots']) {
+  for (const slug of ['alternating-screenshots', 'icon-grid']) {
     assert.match(features.layouts.find((layout) => layout.slug === slug).html, /<div class="aha-features__cta"><aha-button variant="primary" size="xl" href="#sign-up">Sign up<\/aha-button><\/div>/, slug);
   }
-  assert.match(readJson('marketing/faq.json').html, /aha-faq__cta"><aha-button variant="secondary" size="xl" href="#docs">Read the docs/);
+  for (const slug of ['icon-list-photo', 'tabs-screenshots']) {
+    const html = features.layouts.find((layout) => layout.slug === slug).html;
+    assert.match(html, /<div class="aha-features__column">[\s\S]*<div class="aha-features__cta aha-features__cta--start"><aha-button variant="primary" size="xl" href="#sign-up">Sign up<\/aha-button><\/div>\n      <\/div>\n      <div class="aha-features__(visual|tabpanels)">/, slug);
+    assert.doesNotMatch(html, /\n    <div class="aha-features__cta">/, slug);
+  }
+  assert.match(featuresCss, /\.aha-features__cta--start\{justify-content:flex-start\}/);
+  assert.ok(featuresCss.indexOf('.aha-features__cta--start{') > featuresCss.indexOf('.aha-features__cta{display:flex'), 'start modifier must follow the base rule to win');
+  assert.ok(testimonialsCss.indexOf('.aha-testimonials__cta--start{') > testimonialsCss.indexOf('.aha-testimonials__cta{display:flex'), 'start modifier must follow the base rule to win');
+  assert.match(readJson('marketing/faq.json').html, /aha-faq__cta"><aha-button variant="secondary" size="xl" href="#docs" target="_blank" rel="noopener">Read the docs/);
   assert.match(featuresCss, /\.aha-features__cta\{display:flex;flex-wrap:wrap;justify-content:center/);
   assert.match(numbersCss, /\.aha-numbers__cta\{display:flex;flex-wrap:wrap;justify-content:center/);
   assert.match(testimonialsCss, /\.aha-testimonials__cta--start\{justify-content:flex-start\}/);
   for (const slug of ['faq', 'features', 'numbers', 'testimonials']) {
-    assert.doesNotMatch(marketingFile(slug), /href=\\"#(sign-up|case-studies|docs)\\"[^>]*target=/, slug);
+    assert.doesNotMatch(marketingFile(slug), /href=\\"#sign-up\\"[^>]*target=/, slug);
   }
   assert.doesNotMatch(sectionPage('fail-w18-missing-section-cta'), /aha-faq__cta/);
 });
@@ -238,11 +272,9 @@ test('W19: testimonial authors are left aligned and share a baseline through sub
   assert.equal(declarations(testimonialsCss, '.aha-testimonials__card--quote')['grid-template-rows'], 'subgrid');
 });
 
-test('W9: the motion script reveals with a stagger, drifts photos, counts numbers up and honours reduced motion', () => {
+test('W9: the motion script reveals with a stagger, fades photos in, counts numbers up and honours reduced motion', () => {
   const script = readFileSync(new URL('../lib/marketing-motion.js', import.meta.url), 'utf8');
   assert.match(script, /STAGGER_MILLISECONDS = 80/);
-  assert.match(script, /PARALLAX_RANGE_PIXELS = 48/);
-  assert.match(script, /PARALLAX_RANGE_FRACTION = 0\.06/);
   assert.match(script, /--aha-motion-viz-enter/);
   assert.match(script, /--aha-ease-out/);
   assert.match(script, /prefers-reduced-motion: reduce/);
@@ -256,15 +288,14 @@ test('W9: the motion script reveals with a stagger, drifts photos, counts number
   }
 });
 
-test('W9: parallax moves the image inside a clipping frame, never the frame, and never a screenshot', () => {
+test('W9: a framed photo only fades in, never scaled or moved, so no edge is cropped', () => {
   const script = readFileSync(new URL('../lib/marketing-motion.js', import.meta.url), 'utf8');
-  const selector = script.match(/const PARALLAX_SELECTOR = '([^']+)'/)[1];
+  const selector = script.match(/const PICTURE_SELECTOR = '([^']+)'/)[1];
   assert.deepEqual(selector.split(', '), ['.aha-features__frame > img', '.aha-testimonials__frame > img', '.aha-numbers__frame > img']);
   const style = script.match(/const STYLE = `([\s\S]*?)`;/)[1];
-  assert.match(style, /\[data-aha-parallax\]\{transform:translate3d\(0,var\(--aha-parallax-y,0px\),0\) scale\(calc\(\$\{PARALLAX_OVERSCAN\} \* var\(--aha-picture-enter\)\)\)/);
-  assert.match(style, /\.aha-motion-picture\{opacity:0;--aha-picture-enter:\$\{PICTURE_ENTER_SCALE\}/);
-  assert.match(script, /PICTURE_ENTER_SCALE = 1\.08/);
-  assert.match(script, /target\.parentElement\.getBoundingClientRect/);
+  assert.match(style, /\.aha-motion-picture\{opacity:0;transition:opacity /);
+  assert.doesNotMatch(script, /parallax|PICTURE_ENTER_SCALE|OVERSCAN|scale\(/i);
+  assert.doesNotMatch(style.match(/\.aha-motion-picture[^\n]*/g).join('\n'), /transform|scale/);
   for (const [file, css] of [['features', featuresCss], ['testimonials', testimonialsCss], ['numbers', numbersCss]]) {
     const frameSelector = `.aha-${file}__frame`;
     const frame = declarations(css, frameSelector);

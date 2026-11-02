@@ -10,13 +10,13 @@
   "highlights": ["Multi-line version of CountedInput", "Grows from minRows to maxRows, then scrolls", "Same focus-only character counter"],
   "lead": "ONE custom element — <aha-counted-textarea> — the multi-line sibling of CountedInput for descriptions and long answers. It autogrows from `minrows` to `maxrows` and then scrolls internally rather than growing unbounded (SETTINGS-21). Its character counter is REVEALED ONLY ON FOCUS and hidden at rest (SETTINGS-42): a persistent overlay pinned to the field's bottom-right — never a sibling beside the field — with the bottom padding always reserved so revealing it never shifts the text. Focus toggles an attribute on a persistent node, so the opacity transition actually fires. Shadow-DOM CSS, themed only by --aha-* tokens; emits composed `input` / `change`. Zero drift — the same element in React and Vue.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
-  "tokensUsed": ["border-default", "border-hover", "color-primary", "focus-ring-soft", "bg-container", "bg-container-secondary", "bg-container-disabled", "text-default", "text-tertiary", "text-placeholder", "text-disabled", "radius-default", "border-error", "color-error", "border-disabled"],
+  "tokensUsed": ["border-default", "border-hover", "color-primary", "focus-ring-soft", "bg-container", "bg-container-secondary", "bg-container-disabled", "text-default", "text-secondary", "text-placeholder", "text-disabled", "radius-default", "border-error", "color-error", "border-disabled"],
   "spec": [
     { "label": "Box", "value": "radius 8 · padding 6 12 · resize off · 240 wide, full width in a stacked setting row" },
     { "label": "Autogrow", "value": "minrows (default 2) → maxrows (default 5); beyond maxrows scrolls internally, never grows unbounded" },
     { "label": "Rest border", "value": "1px #E3E3E3 (border-default)" },
     { "label": "Focus", "value": "#E70E68 (color-primary) border + soft 2px ring (focus-ring-soft, 30% #E70E68); hover #E70E68 border" },
-    { "label": "Counter", "value": "12/18 #8A8A8A, overlay bottom-right; opacity 0 at rest → 1 on focus; 22px bottom gutter reserved; counts the characters left (126 for 24 of 150), as the settings lab does; at size touch 12/12 on no fill, a 16px gutter" },
+    { "label": "Counter", "value": "12/18 #4A4A4A (text-secondary, 8.9:1 on white), overlay bottom-right; opacity 0 at rest → 1 on focus; 22px bottom gutter reserved; counts the characters left (126 for 24 of 150), as the settings lab does; at size touch 12/12 on no fill, a 16px gutter" },
     { "label": "Reveal", "value": "focus-only (:host([_focused][_counted])) — hidden at rest; space always reserved (no shift)" },
     { "label": "Error", "value": "#1A1A1A border + error-tinted ring; sets aria-invalid" },
     { "label": "Error message", "value": "below the field, 4px gap · 12×12 system-warning-circle + text at --aha-size-sm 12/18 · #1A1A1A (text-negative)" },
@@ -81,6 +81,6 @@
     "ready": "!!(document.querySelector('aha-counted-textarea[data-probe]') && document.querySelector('aha-counted-textarea[data-probe]').shadowRoot && document.querySelector('aha-counted-textarea[data-probe]').shadowRoot.querySelector('.wrap'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-counted-textarea[data-probe]');var r=el&&el.shadowRoot;var w=r&&r.querySelector('.wrap');var f=r&&r.querySelector('.field');var c=r&&r.querySelector('.counter');var ws=w?getComputedStyle(w):null;var fs=f?getComputedStyle(f):null;var cs=c?getComputedStyle(c):null;return{radius:ws?ws.borderTopLeftRadius:null,border:ws?ws.borderTopColor:null,fontSize:fs?fs.fontSize:null,lineHeight:fs?fs.lineHeight:null,counterColor:cs?cs.color:null};})()",
-    "expect": { "radius": "8px", "border": "rgb(26, 26, 26)", "fontSize": "14px", "lineHeight": "21px", "counterColor": "rgb(138, 138, 138)" }
+    "expect": { "radius": "8px", "border": "rgb(26, 26, 26)", "fontSize": "14px", "lineHeight": "21px", "counterColor": "rgb(74, 74, 74)" }
   }
 }

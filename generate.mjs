@@ -22,6 +22,7 @@ import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync, rmSync
 import { anchorHeadings, buildSearchIndex, searchHeaderHtml, SEARCH_CSS, SEARCH_JS, SEARCH_GLYPHS } from './docs-search.mjs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { collectUnstyledHooks } from './lib/collect-unstyled-hooks.js';
 import { antdBaseTheme, dsAntdTheme } from './lib/antd-base-theme.js';
 import { ILLUSTRATION_TINTS } from './recolour-art.mjs';
 import { loadEnvironmentTable, routeLines, withRouteHeader } from './environments.mjs';
@@ -370,7 +371,74 @@ function tokenVars(t) {
   /* chart motion: slower than UI state changes because the eye has to follow data moving. */
   L.push(Object.entries(t.effect.blur).filter(([k]) => !k.startsWith('$')).map(([k, value]) => `--aha-blur-${k}:${value}px;`).join(' '));
   L.push(`--aha-motion-viz-enter:.6s; --aha-motion-viz-update:.4s; --aha-motion-viz-reorder:.35s; --aha-motion-viz-stagger:40ms; --aha-ease-viz:cubic-bezier(0.2,0.7,0.4,1);`);
-  return `:root{\n  ${L.join('\n  ')}\n}`;
+  const sectionLevels = Object.entries(t.sectionSpace).filter(([k]) => !k.startsWith('$'));
+  const sectionVars = (step) => sectionLevels.map(([level, steps]) => `--aha-section-space-${level}:${cssValue(`sectionSpace.${level}.${step}`, `${steps[step]}px`)};`).join(' ');
+  L.push(sectionVars('desktop'));
+  /* unnamed @container: every element steps the levels by its nearest container's width, so no section switches them itself */
+  const sectionSteps = [['tablet', 767], ['phone', 479]].map(([step, width]) => `@container (max-width:${width}px){:where(*){${sectionVars(step)}}}`).join('\n');
+  return `:root{\n  ${L.join('\n  ')}\n}\n${sectionSteps}${sectionAdjacencyCss()}${logosInsideBrandHeroCss()}`;
+}
+
+/* The Footer's top rule is a divider, so it keeps its top padding after any surface. */
+const SECTIONS_KEEPING_TOP_SPACE = new Set(['footer']);
+/* Logos is the last group of a same-surface section above it; after a surface change it is a section of its own. */
+const SECTIONS_JOINING_THE_SECTION_ABOVE = new Set(['logos']);
+/* With tabs the Page header ends on its tab rule, a divider, so only the no-tabs variant ends on Section padding. */
+const SECTION_BOTTOM_SPACE_MODIFIER = new Map([['aha-header-section-page-header', 'no-tabs']]);
+const SECTION_SURFACE_MODIFIERS = ['accent', 'brand'];
+/* The standalone Cards band pads its own header or grid, not a __inner wrapper. */
+const STEPS_BAND_ROOT = 'aha-marketing-cards';
+function marketingSectionSurfaces() {
+  const rootClassOf = (html) => (String(html || '').match(/^\s*<\w+[^>]*\bclass="([\w-]+)/) || [])[1];
+  const sections = [];
+  for (const b of MARKETING) {
+    const css = (b.baseCss || '') + (b.css || '') + (b.layouts || []).map(layout => layout.css || '').join('');
+    if (!css.includes('--aha-section-space-block')) continue;
+    const layoutRoots = b.stateClass ? [{ root: b.stateClass, states: [...(b.states || []), ...(b.layouts || []).flatMap(layout => layout.states || [])] }]
+      : (b.layouts || []).some(layout => layout.states) ? b.layouts.map(layout => ({ root: String(layout.class).split(' ')[0], states: layout.states }))
+      : [{ root: rootClassOf(b.html), states: b.states }];
+    const classText = (b.layouts || []).map(layout => layout.class || '').join(' ') + ' ' + (b.html || '');
+    for (const { root, states } of layoutRoots) {
+      if (!root) continue;
+      const surfaces = new Set((states || []).map(state => state.modifier).filter(Boolean));
+      for (const modifier of SECTION_SURFACE_MODIFIERS) if (classText.includes(`${root}--${modifier}`)) surfaces.add(modifier);
+      if (!sections.some(section => section.root === root)) sections.push({ root, surfaces: [...surfaces], keepsTopSpace: SECTIONS_KEEPING_TOP_SPACE.has(b.slug), joinsSectionAbove: SECTIONS_JOINING_THE_SECTION_ABOVE.has(b.slug), bottomSpaceModifier: SECTION_BOTTOM_SPACE_MODIFIER.get(root) });
+    }
+  }
+  return sections;
+}
+/* Two neighbouring sections on one surface read as one space, so the second drops its top Section padding;
+   a surface change is the divider, so both sides keep theirs. Direct siblings, or with one snippet's trailing init script between. */
+function sectionAdjacencyCss() {
+  const sections = marketingSectionSurfaces();
+  if (!sections.length) return '';
+  const onSurface = (surface, list, requiredModifierOf = () => '') => list.filter(section => surface ? section.surfaces.includes(surface) : true)
+    .map(section => {
+      const { root, surfaces } = section, required = requiredModifierOf(section);
+      const surfaceSelector = surface ? `.${root}--${surface}` : surfaces.length ? `.${root}:not(${surfaces.map(modifier => `.${root}--${modifier}`).join(',')})` : `.${root}`;
+      return required ? `${surfaceSelector}.${root}--${required}` : surfaceSelector;
+    });
+  const followerGroups = [
+    [sections.filter(section => !section.keepsTopSpace && !section.joinsSectionAbove && section.root !== STEPS_BAND_ROOT), '>[class*="__inner"]{padding-top:0}'],
+    [sections.filter(section => section.root === STEPS_BAND_ROOT), '>:is(.aha-marketing-cards__header,.aha-marketing-cards__grid):first-child{padding-top:0}'],
+    [sections.filter(section => section.joinsSectionAbove), '>:first-child{margin-top:calc(var(--aha-section-space-group) - var(--aha-section-space-block));padding-top:0}'],
+  ];
+  return followerGroups.map(([followers, declaration]) => ['', ...SECTION_SURFACE_MODIFIERS].map(surface => {
+    const before = onSurface(surface, sections, section => section.bottomSpaceModifier), after = onSurface(surface, followers);
+    return before.length && after.length ? ['+', '+script+'].map(between => `\n:is(${before.join(',')})${between}:is(${after.join(',')})${declaration}`).join('') : '';
+  }).join('')).join('');
+}
+
+/* A Vivid Pink Logos strip nested as the last child of a Vivid Pink hero lies inside the hero's Splash box,
+   so it drops its own flat fill and the Splash runs behind it with no seam; it pulls up to one Group only where the hero ends on Section padding. */
+const HERO_ROOT_PREFIX = 'aha-header-section-';
+function logosInsideBrandHeroCss() {
+  const heroes = marketingSectionSurfaces().filter(section => section.root.startsWith(HERO_ROOT_PREFIX) && section.surfaces.includes('brand'));
+  if (!heroes.length) return '';
+  const hero = `:is(${heroes.map(section => `.${section.root}--brand`).join(',')})`;
+  const heroEndingOnSectionPadding = `:is(${heroes.map(section => `.${section.root}--brand${section.bottomSpaceModifier ? `.${section.root}--${section.bottomSpaceModifier}` : ''}`).join(',')})`;
+  return `\n${hero}>.aha-logos--brand{background:none;box-shadow:none}` +
+    `\n${heroEndingOnSectionPadding}>.aha-logos--brand>:first-child{margin-top:calc(var(--aha-section-space-group) - var(--aha-section-space-block));padding-top:0}`;
 }
 
 /* ===== structural shell styles — AntD docs IA (sticky header + left nav + main),
@@ -1189,6 +1257,8 @@ function playgroundBar(c, group) {
 // A preview places a grouped toggle bar next to the badge it controls with a `<!--pg:GROUP-->` marker.
 const previewWithBars = (c) => part(c.preview).replace(/<!--pg:([\w-]+)-->/g, (_, group) => playgroundBar(c, group));
 
+const libraryDocsLink = (sec) => sec.docs ? `<p class="docs-link"><a href="${esc(sec.docs.href)}">${esc(sec.docs.label)}</a></p>` : '';
+
 const docPagePath = (c) => c.docPage || `${c.slug}/index.html`;
 
 /* Charts — its OWN top-level area, one self-contained page (charts/index.html), built like the Settings
@@ -1224,7 +1294,7 @@ function renderChartsPage(c) {
     <div class="hub-body">${sections.map(x => x.html).join('\n\n  ')}</div>
   </div>
   ${hubAnchorScript(anchorItems)}`;
-  return docShell({ base: '../', active: 'charts', title: c.name, section: 'charts', main, extraCss: HUB_ANCHOR_CSS + '.hub-body h2,.hub-body .chart-type-title{scroll-margin-top:84px}', noSidebar: true });
+  return docShell({ base: '../', active: 'charts', title: c.name, section: 'charts', main, extraCss: HUB_ANCHOR_CSS + '.hub-body h2,.hub-body .chart-type-title{scroll-margin-top:84px}' + CHART_STAGE_CSS, noSidebar: true });
 }
 
 function mergedSections(host) {
@@ -1253,12 +1323,13 @@ function renderHtml(c) {
   const preview = previewWithBars(c);
   const isSettings = SETTINGS_SLUGS.has(c.slug);  // settings-panel family → its OWN Settings area
   const isPattern = !isSettings && PATTERN_SLUGS.has(c.slug);   // AhaSlides-composed → Patterns area
-  const area = isSettings ? 'settings' : isPattern ? 'patterns' : 'components';
+  const area = c.libraryArea || (isSettings ? 'settings' : isPattern ? 'patterns' : 'components');
   const main = `
   <h1>${esc(c.name)}</h1>
   ${headline(c.highlights, esc(c.summary))}
   <!-- generated from contracts/${c.slug}.json + tokens.canonical.json — do not edit by hand -->
   ${c.pageToggle ? playgroundBar({ playground: c.pageToggle }) : ''}
+  ${c.libraryArea ? `<p class="hub-back">Part of the <a href="../canvas/index.html#${esc(c.name)}">Canvas Library</a> and the <a href="../audience/index.html#${esc(c.name)}">Audience Library</a>: the full contract is here, the library pages show it on the canvas and on the phone.</p>` : ''}
   ${c.hubRef ? `<p class="hub-back">Also on the standalone <a href="../${esc(c.hubRef)}/index.html">Settings page</a> — the whole settings surface, including this component, inline on one page.</p>` : ''}
 
   <h2>Examples</h2>
@@ -1277,7 +1348,7 @@ function renderHtml(c) {
 
   <h2>Spec</h2>
   <div class="spec-line">${specList(c.spec)}</div>${mergedSections(c)}`;
-  return docShell({ base: '../', active: c.slug, title: c.name, section: area, main });
+  return docShell({ base: '../', active: c.slug, title: c.name, section: area, main, noSidebar: Boolean(c.libraryArea) });
 }
 
 // Hidden conformance harness (composites): mounts both framework tiers with the token layer,
@@ -1507,7 +1578,12 @@ const MARKETING_COMPONENTS_CAT = 'Components';
 const isMarketingComponent = (b) => b.kind === 'component';
 const marketingCardItems = (card) => String(card.html || '').split('\n<!-- next -->\n').map(html => `    <li>\n${html.split('\n').map(line => '      ' + line).join('\n')}\n    </li>`).join('\n');
 const marketingCardGridClass = (card) => 'aha-marketing-cards__grid' + (card.gridClass ? ' ' + card.gridClass : '');
-const marketingCardSnippet = (b, card) => `<style>\n${b.baseCss || ''}${card.css || ''}</style>\n<section class="aha-marketing-cards">\n  <ul class="${marketingCardGridClass(card)}">\n${marketingCardItems(card)}\n  </ul>\n</section>\n`;
+const marketingCardHeaderHtml = (card) => card.header ? `  <header class="aha-marketing-cards__header aha-marketing-cards__header--center">
+    <h2 class="aha-marketing-cards__title">${card.header.title}</h2>
+    <p class="aha-marketing-cards__lead">${card.header.lead}</p>
+  </header>\n` : '';
+const marketingCardCtaHtml = (card) => card.header?.cta ? `  <div class="aha-marketing-cards__cta"><aha-button variant="primary" size="xl" href="${card.header.cta.href}">${card.header.cta.label}</aha-button></div>\n` : '';
+const marketingCardSnippet = (b, card) => `<style>\n${b.baseCss || ''}${card.css || ''}</style>\n<section class="aha-marketing-cards">\n${marketingCardHeaderHtml(card)}  <ul class="${marketingCardGridClass(card)}">\n${marketingCardItems(card)}\n  </ul>\n${marketingCardCtaHtml(card)}</section>\n`;
 function composeMarketingComponent(b) {
   if (!b.snippets) return b;
   const grid = b.snippets.filter(card => !card.demo).map(card => `    <li>\n${card.html.split('\n').map(line => '      ' + line).join('\n')}\n    </li>`).join('\n');
@@ -1518,7 +1594,9 @@ const marketingSnippet = (b) => withBuildSite(`<style>\n${b.css || ''}\n</style>
 const marketingPreviewAssets = (b, snippet) => b.imagePath ? snippet.replaceAll(`${SITE}/marketing/`, '../').replaceAll(`${SITE}/logo/`, '../../logo/') : snippet;
 const marketingFeatureCardCss = () => {
   const cards = JSON.parse(read(join(MDIR, 'cards.json')));
-  return (cards.baseCss || '') + (cards.snippets.find(card => card.slug === 'feature')?.css || '');
+  return (cards.baseCss || '') + ['feature', 'step']
+    .map(slug => cards.snippets.find(card => card.slug === slug)?.css || '')
+    .join('');
 };
 const marketingLayoutSnippet = (b, layout) => withBuildSite(`<style>\n${b.baseCss || ''}${layout.cards ? marketingFeatureCardCss() : ''}${layout.css || ''}</style>\n${layout.html || ''}\n`);
 function composeMarketingLayouts(b) {
@@ -1593,7 +1671,7 @@ function renderAudienceCard(sec) {
     <dl class="callout">
       <div class="use"><dt>Use when</dt><dd>${audMd(sec.useWhen)}</dd></div>
       <div class="not"><dt>Not for</dt><dd>${audMd(sec.notFor)}</dd></div>
-    </dl>${replaces}${note}
+    </dl>${replaces}${note}${libraryDocsLink(sec)}
   </header>
   <div class="decks">
     <div class="deck light"><span class="deck-lbl">Light deck</span><div class="deck-body">${sec.demoLight}</div></div>
@@ -1672,6 +1750,7 @@ function renderCanvasCard(sec) {
       <div class="use"><dt>Use when</dt><dd>${audMd(sec.useWhen)}</dd></div>
       <div class="not"><dt>Not for</dt><dd>${audMd(sec.notFor)}</dd></div>
     </dl>
+    ${libraryDocsLink(sec)}
   </header>
   <div class="cl-demo">${sec.demo}</div>
   ${rules ? `<div class="cl-rules"><h3>Rules</h3><dl>${rules}</dl></div>` : ''}
@@ -1749,9 +1828,9 @@ const MARKETING_BREAKPOINT_CSS = `
 function marketingBreakpointPreview(b) {
   const options = JSON.stringify(MARKETING_WIDTHS.map(([label, width]) => ({ value: String(width), label: `${label} ${width}` })));
   return `<div class="mbp" data-default="${MARKETING_DEFAULT_WIDTH}">
-    <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="Preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented>${marketingStateSwitch(b, b)}<span class="mbp-label" aria-live="polite"></span></div>
+    <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="Preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented>${marketingStateSwitch(b, b)}${b.options ? marketingOptionSwitches(b) : ''}<span class="mbp-label" aria-live="polite"></span></div>
     <div class="mbp-viewport" role="region" tabindex="0" aria-label="${esc(b.name)} preview, scrolls inside"><div class="mbp-sizer"><iframe class="mbp-frame" title="${esc(b.name)} preview" scrolling="no"></iframe></div></div>
-    <template class="mbp-doc"><style>${tokenVars(TOK)}</style>${marketingSnippet(b)}</template>
+    <template class="mbp-doc"><style>${tokenVars(TOK)}</style>${marketingSnippet(b.choiceHtml ? { ...b, html: b.choiceHtml } : b)}</template>
   </div>
   <script type="module">
   import '../../lib/aha-segmented.js';
@@ -1859,6 +1938,11 @@ function marketingCodeToggle(file, code, lead = '', extraPanes = []) {
 }
 const marketingLayoutStates = (b, layout) => layout.states || b.states;
 const marketingLayoutStateClass = (b, layout) => layout.stateClass || layout.class || b.stateClass;
+const marketingDefaultState = (b, layout) => {
+  const states = marketingLayoutStates(b, layout);
+  const initial = states && (states.find(state => state.default) || states[0]);
+  return initial?.modifier ? { className: marketingLayoutStateClass(b, layout), modifier: initial.modifier, modifiers: states.map(state => state.modifier).filter(Boolean) } : null;
+};
 const marketingHasStates = (b, layout) => marketingLayoutStates(b, layout)?.length > 1;
 function marketingStateSwitch(b, layout) {
   if (!marketingHasStates(b, layout)) return '';
@@ -1867,15 +1951,18 @@ function marketingStateSwitch(b, layout) {
   const initial = (states.find(state => state.default) || states[0]).modifier;
   return `<aha-segmented class="mbp-state" aria-label="${esc(layout.name)} surface" options="${esc(options)}" value="${esc(initial)}" data-class="${esc(marketingLayoutStateClass(b, layout))}" data-modifiers="${esc(JSON.stringify(states.map(state => state.modifier).filter(Boolean)))}"></aha-segmented>`;
 }
-const stripStateVariantHooks = (code) => code.replace(/(<aha-button\b[^>]*?)\sdata-variant-[a-z0-9-]+="[^"]*"/g, '$1');
+const STATE_HOOK = /\sdata-(?:variant|surface)-[a-z0-9-]+="[^"]*"/g;
+const stripStateVariantHooks = (code) => code.replace(/<aha-button\b[^>]*>/g, (tag) => tag.replace(STATE_HOOK, ''));
 const resolveDefaultStateVariants = (b, layout, code) => {
-  const defaultState = marketingLayoutStates(b, layout)?.find(state => state.default);
+  const defaultState = marketingLayoutStates(b, layout)?.find(state => !state.modifier);
   return defaultState?.modifier ? marketingStateVariants(code, defaultState.modifier) : stripStateVariantHooks(code);
 };
 const marketingStateVariants = (code, modifier) => code.replace(/<aha-button\b[^>]*>/g, (tag) => {
   const variant = tag.match(new RegExp(`\\sdata-variant-${modifier}="([^"]+)"`));
-  const stripped = tag.replace(/\sdata-variant-[a-z0-9-]+="[^"]*"/g, '');
-  return variant ? stripped.replace(/\svariant="[^"]*"/, ` variant="${variant[1]}"`) : stripped;
+  const surface = tag.match(new RegExp(`\\sdata-surface-${modifier}="([^"]+)"`));
+  let resolved = tag.replace(STATE_HOOK, '');
+  if (variant) resolved = resolved.replace(/\svariant="[^"]*"/, ` variant="${variant[1]}"`);
+  return surface ? resolved.replace(/\s*>$/, ` surface="${surface[1]}">`) : resolved;
 });
 const marketingStatePanes = (b, layout, snippet) => {
   const states = marketingLayoutStates(b, layout);
@@ -1939,6 +2026,7 @@ function marketingChoiceHtml(layout, chosen) {
   return html.replace(new RegExp(`class="([^"]*\\b${layout.class}\\b[^"]*)"`), (match, classes) => `class="${classes}${modifiers}"`);
 }
 function bakeMarketingOptions(b) {
+  if (b.options && !b.layouts) return { ...b, choiceHtml: b.html, html: marketingChoiceHtml({ ...b, choiceHtml: b.html }, marketingDefaultChoices(b)) };
   if (!b.layouts?.some(layout => layout.options)) return b;
   return { ...b, layouts: b.layouts.map(layout => {
     if (!layout.options) return layout;
@@ -2003,9 +2091,10 @@ const MARKETING_LAYOUT_PREVIEW_SCRIPT = `<script type="module">
     });
   })();
   </script>`;
-const MARKETING_LAYOUT_STATE_SCRIPT = `<script type="module">
-  (function(){
-    function carriers(doc,prefix,modifiers){
+const marketingLayoutPreviewScript = (b) => b.previewModules?.length
+  ? MARKETING_LAYOUT_PREVIEW_SCRIPT.replace(JSON.stringify(MARKETING_FRAME_MODULES), JSON.stringify([...MARKETING_FRAME_MODULES, ...b.previewModules]))
+  : MARKETING_LAYOUT_PREVIEW_SCRIPT;
+const MARKETING_STATE_CARRIERS_JS = `function carriers(doc,prefix,modifiers){
       var found=[];
       doc.querySelectorAll('[class*="'+prefix+'"]').forEach(function(el){
         [].slice.call(el.classList).forEach(function(token){
@@ -2017,7 +2106,10 @@ const MARKETING_LAYOUT_STATE_SCRIPT = `<script type="module">
       });
       if(!found.length){var root=doc.querySelector('.'+prefix);if(root)found.push({el:root,prefix:prefix});}
       return found;
-    }
+    }`;
+const MARKETING_LAYOUT_STATE_SCRIPT = `<script type="module">
+  (function(){
+    ${MARKETING_STATE_CARRIERS_JS}
     document.querySelectorAll('.mfv,.mbp').forEach(function(root){
       var seg=root.querySelector('.mbp-state');
       if(!seg)return;
@@ -2050,6 +2142,8 @@ const MARKETING_LAYOUT_VARIANT_SCRIPT = `<script type="module">
           if(!button.hasAttribute('data-base-variant'))button.setAttribute('data-base-variant',button.getAttribute('variant')||'');
           var next=button.getAttribute('data-variant-'+(current||'default'));
           button.setAttribute('variant',next||button.getAttribute('data-base-variant'));
+          var surface=button.getAttribute('data-surface-'+(current||'default'));
+          if(surface)button.setAttribute('surface',surface);else button.removeAttribute('surface');
         });
       }
       frame.addEventListener('load',apply);
@@ -2138,7 +2232,8 @@ const SECTION_GALLERY_CSS = `
 @media (prefers-reduced-motion:reduce){.sg-thumb{transition:none}}`;
 function sectionGalleryCard(item, pageName) {
   const frameWidth = item.frameWidth || SECTION_GALLERY_FRAME.width;
-  return `<li data-search="${esc(item.searchText.toLowerCase())}"><a class="sg-card" href="#${esc(item.slug)}"><div class="sg-thumb"><iframe class="sg-frame" title="${esc(item.name)} thumbnail" data-frame-width="${frameWidth}" style="width:${frameWidth}px;height:${Math.round(frameWidth * SECTION_GALLERY_FRAME.height / SECTION_GALLERY_FRAME.width)}px" tabindex="-1" aria-hidden="true" scrolling="no"></iframe></div><span class="sg-caption"><b>${esc(item.name)}</b> · ${esc(pageName)}</span></a></li>`;
+  const state = item.defaultState ? ` data-state-class="${esc(item.defaultState.className)}" data-state-modifier="${esc(item.defaultState.modifier)}" data-state-modifiers="${esc(JSON.stringify(item.defaultState.modifiers))}"` : '';
+  return `<li data-search="${esc(item.searchText.toLowerCase())}"><a class="sg-card" href="#${esc(item.slug)}"${state}><div class="sg-thumb"><iframe class="sg-frame" title="${esc(item.name)} thumbnail" data-frame-width="${frameWidth}" style="width:${frameWidth}px;height:${Math.round(frameWidth * SECTION_GALLERY_FRAME.height / SECTION_GALLERY_FRAME.width)}px" tabindex="-1" aria-hidden="true" scrolling="no"></iframe></div><span class="sg-caption"><b>${esc(item.name)}</b> · ${esc(pageName)}</span></a></li>`;
 }
 function sectionGallerySlots(b, items, noun) {
   const options = JSON.stringify([{ value: 'grid', label: 'Grid', icon: 'system-squares-four' }, { value: 'list', label: 'List', icon: 'system-rows' }]);
@@ -2177,11 +2272,22 @@ const SECTION_GALLERY_SCRIPT = `<script type="module">
       var template=el&&el.tagName!=='H2'&&el.querySelector('.mbp-doc');
       return template?template.innerHTML:'';
     }
+    ${MARKETING_STATE_CARRIERS_JS}
+    function applyDefaultState(doc,prefix,modifier,modifiers){
+      carriers(doc,prefix,modifiers).forEach(function(carrier){modifiers.forEach(function(name){carrier.el.classList.remove(carrier.prefix+'--'+name);});carrier.el.classList.add(carrier.prefix+'--'+modifier);});
+      doc.querySelectorAll('aha-button').forEach(function(button){
+        var variant=button.getAttribute('data-variant-'+modifier),surface=button.getAttribute('data-surface-'+modifier);
+        if(variant)button.setAttribute('variant',variant);
+        if(surface)button.setAttribute('surface',surface);
+      });
+    }
     function load(frame){
       if(frame.dataset.loaded)return;
       frame.dataset.loaded='1';
       var slug=frame.closest('.sg-card').getAttribute('href').slice(1);
       frame.srcdoc='<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width='+frame.dataset.frameWidth+'"><style>'+fonts+'html,body{margin:0;overflow:hidden}body{font-family:var(--aha-font-product)}</style></head><body>'+docFor(slug)+'<scr'+'ipt type="module">'+imports+'</scr'+'ipt></body></html>';
+      var card=frame.closest('.sg-card');
+      if(card.dataset.stateModifier)frame.addEventListener('load',function(){applyDefaultState(frame.contentDocument,card.dataset.stateClass,card.dataset.stateModifier,JSON.parse(card.dataset.stateModifiers));});
     }
     var seen=new IntersectionObserver(function(entries){
       entries.forEach(function(entry){if(entry.isIntersecting){load(entry.target);seen.unobserve(entry.target);}});
@@ -2253,7 +2359,7 @@ const SECTION_GALLERY_SCRIPT = `<script type="module">
   })();
   </script>`;
 function renderMarketingLayoutsHtml(b) {
-  const gallery = b.layouts.length > 1 ? sectionGallerySlots(b, b.layouts.map(layout => ({ slug: layout.slug, name: layout.name, searchText: `${layout.name} ${layout.useFor || ''}` })), 'layouts') : { open: '', close: '' };
+  const gallery = b.layouts.length > 1 ? sectionGallerySlots(b, b.layouts.map(layout => ({ slug: layout.slug, name: layout.name, searchText: `${layout.name} ${layout.useFor || ''}`, defaultState: marketingDefaultState(b, layout) })), 'layouts') : { open: '', close: '' };
   const galleryCss = b.layouts.length > 1 ? SECTION_GALLERY_CSS : '';
   const [intro, ...details] = b.highlights?.length ? b.highlights : [b.summary];
   const main = `
@@ -2264,11 +2370,11 @@ function renderMarketingLayoutsHtml(b) {
 ${marketingGuidanceHtml(b)}  ${docFold('Which is which', `<p class="body">${esc(b.layoutsIntro || `Each section copies the layout of one Untitled UI ${b.layoutKind || b.name.toLowerCase()} section, and nothing else of it. Class names carry the layout, not the Untitled UI number.`)}</p>
   <ul class="highlights">${b.layouts.map(layout => `<li><b>${esc(layout.name)}</b>: ${layout.reference ? `Untitled UI ${esc(layout.reference)}, ` : ''}<code>${esc(layout.class || layout.classes || `aha-${b.slug}--${layout.slug}`)}</code>${layout.useFor ? `. Use for: ${esc(layout.useFor)}` : ''}</li>`).join('')}</ul>`)}
 
-${gallery.open}${b.layouts.map(layout => `  <h2 id="${esc(layout.slug)}">${esc(layout.name)}</h2>
+${gallery.open}${b.layouts.map(layout => `  ${(layout.formerSlugs || []).map(slug => `<span id="${esc(slug)}"></span>`).join('')}<h2 id="${esc(layout.slug)}">${esc(layout.name)}</h2>
   ${marketingLayoutIntroHtml(layout)}
   <div class="marketing-stage">${marketingLayoutPreview(b, layout)}</div>
   ${marketingCodeToggle(marketingHasStates(b, layout) ? marketingLayoutStates(b, layout).find(state => !state.modifier).label : `${layout.slug}.html`, resolveDefaultStateVariants(b, layout, marketingLayoutSnippet(b, layout)), '', marketingStatePanes(b, layout, marketingLayoutSnippet(b, layout)).concat(marketingOptionPanes(b, layout)))}`).join('\n\n')}${gallery.close}
-  ${MARKETING_LAYOUT_PREVIEW_SCRIPT}${b.layouts.some(layout => marketingHasStates(b, layout)) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}${b.layouts.some(layout => marketingHasStates(b, layout) && /\sdata-variant-[a-z0-9-]+=/.test(layout.html || '')) ? `\n  ${MARKETING_LAYOUT_VARIANT_SCRIPT}` : ''}${b.reviews ? `\n  ${MARKETING_LAYOUT_REVIEWS_SCRIPT}` : ''}${b.layouts.some(layout => layout.options) ? `\n  ${MARKETING_LAYOUT_OPTION_SCRIPT}` : ''}
+  ${marketingLayoutPreviewScript(b)}${b.layouts.some(layout => marketingHasStates(b, layout)) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}${b.layouts.some(layout => marketingHasStates(b, layout) && /\sdata-(?:variant|surface)-[a-z0-9-]+=/.test(layout.html || '')) ? `\n  ${MARKETING_LAYOUT_VARIANT_SCRIPT}` : ''}${b.reviews ? `\n  ${MARKETING_LAYOUT_REVIEWS_SCRIPT}` : ''}${b.layouts.some(layout => layout.options) ? `\n  ${MARKETING_LAYOUT_OPTION_SCRIPT}` : ''}
 
 ${b.video ? `  ${docFold(`${b.video.label} (optional, off by default)`, `<p class="body">${esc(b.video.howToTurnOn.replaceAll('{{c}}', '<layout class>'))} Layouts with the slot: ${b.layouts.filter(layout => b.video.layouts.includes(layout.slug)).map(layout => `${esc(layout.name)} (<code>${esc(layout.class)}</code>)`).join(', ')}.</p>
   ${marketingCodeToggle('video.html', b.video.html, 'Replaces the layout image.')}
@@ -2303,7 +2409,7 @@ ${b.snippets ? cardsGallery.open + b.snippets.map(card => `<h2${cardsGallery.ope
   <div class="marketing-stage">${marketingBreakpointPreview(b)}</div>
 
   <h2>Paste-and-run HTML</h2>
-  ${marketingCodeToggle(marketingHasStates(b, b) ? b.states.find(state => !state.modifier).label : `${b.slug}.html`, marketingSnippet(b), 'Paste into any page. It reads only the shared <code>--aha-*</code> tokens.', marketingStatePanes(b, b, marketingSnippet(b)))}${marketingHasStates(b, b) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}`}
+  ${marketingCodeToggle(marketingHasStates(b, b) ? b.states.find(state => !state.modifier).label : `${b.slug}.html`, marketingSnippet(b), 'Paste into any page. It reads only the shared <code>--aha-*</code> tokens.', [...marketingStatePanes(b, b, marketingSnippet(b)), ...(b.options ? marketingOptionPanes(b, b) : [])])}${marketingHasStates(b, b) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}${b.options ? `\n  ${MARKETING_LAYOUT_OPTION_SCRIPT.replace(".querySelectorAll('.mfv')", ".querySelectorAll('.mbp')")}` : ''}`}
 
   <h2>Load the tokens once</h2>
   ${marketingCodeToggle('head', `<link rel="stylesheet" href="${SITE}/variables.css">`, 'Add this to the page <code>&lt;head&gt;</code> before the block.')}${details.length ? `
@@ -2334,7 +2440,7 @@ Bind the page to the shared token layer (${SITE}/variables.css), then paste the 
 ## Paste-and-run HTML
 \`\`\`html
 ${marketingSnippet(b)}\`\`\`
-`;
+${b.options && !b.layouts ? marketingOptionPanes(b, b).map(pane => `\n## ${pane.label}\n\`\`\`html\n${pane.code}\`\`\`\n`).join('') : ''}`;
 }
 function renderMarketingAgent(b) {
   return JSON.stringify({
@@ -2356,6 +2462,7 @@ function renderMarketingAgent(b) {
       html: b.video.html, css: b.video.css,
       layouts: b.layouts.filter(layout => b.video.layouts.includes(layout.slug)).map(layout => ({ slug: layout.slug, class: layout.class })),
     } } : {}),
+    ...(b.options && !b.layouts ? marketingOptionsAgent(b, b) : {}),
     html: b.html || '', css: b.css || '',
   }, null, 2) + '\n';
 }
@@ -2365,10 +2472,14 @@ function renderMarketingLlms(blocks) {
   for (const b of blocks) s += `- [${b.name}](marketing/${b.slug}/${b.slug}.md)${environmentTag(b)} — ${b.summary}\n`;
   return s;
 }
+/* A renamed Marketing page keeps a stub at its old URL. */
+const MARKETING_REDIRECTS = {
+  header: 'hero/index.html',
+};
 /* Old landing/ URLs are still linked from outside the site, so each keeps a stub forwarding to its new home. */
 const LANDING_REDIRECTS = {
-  '': 'marketing/header/index.html',
-  hero: 'marketing/header/index.html',
+  '': 'marketing/hero/index.html',
+  hero: 'marketing/hero/index.html',
   button: 'button/index.html',
   link: 'button/index.html',
   fonts: 'foundations/typography.html',
@@ -2577,6 +2688,13 @@ const HUB_ANCHOR_CSS = `
     .hub-anchor{display:none}
   }`;
 
+const CHART_STAGE_CSS = `
+  .doc-main-inner{max-width:none}
+  @media (max-width:1799px){
+    .hub-layout{grid-template-columns:1fr}
+    .hub-anchor{position:static;max-height:none}
+  }`;
+
 /* ===== Settings — its OWN standalone area, and ONE self-contained page (settings/index.html).
    Everything an agent needs lives INLINE here: the composition pattern (surfaces, the full rule text,
    composed-of) from guidelines/settings.json, the schema-driven settings-list component with a LIVE
@@ -2738,7 +2856,7 @@ function renderDesignMd(t, cs) {
   const vizValue = (path, hex) => (aliasOf(path) ? `var(${aliasOf(path).cssVar}) = ${hex}` : hex);
   const viz    = [['viz-ink', vizValue('color.viz.ink', c.viz.ink)], ['viz-ink-inverse', vizValue('color.viz.inkInverse', c.viz.inkInverse)], ['viz-neutral', vizValue('color.viz.neutral', c.viz.neutral)],
     ...Object.keys(c.viz.series).map(k => [`viz-series-${k}`, vizValue(`color.viz.series.${k}`, c.viz.series[k])]), ...Object.keys(c.viz.tint).map(k => [`viz-tint-${k}`, vizValue(`color.viz.tint.${k}`, c.viz.tint[k])])];
-  const comps = cs.map(x => `- **${x.name}** (${x.tier}) — ${x.summary}`).join('\n');
+  const comps = cs.filter(x => !x.libraryArea).map(x => `- **${x.name}** (${x.tier}) — ${x.summary}`).join('\n');
   const answerTable = tbl(answerTokenEntries(c).map(([cssVar, value]) => [cssVar.replace(/^--aha-/, ''), value]));
   return `# AhaSlides Design System — design.md
 > Machine-readable visual language for AI design + code tools. Generated from tokens.canonical.json — do not edit by hand.
@@ -2747,7 +2865,7 @@ function renderDesignMd(t, cs) {
 ## Brand
 Vivid Pink \`${c.primary}\` is the one primary colour (buttons, links, focus, the main chart series); Darker Pink \`${c.primaryHover}\` is hover and press; ink is warm gray \`${c.textDefault}\`.
 The page background is **white**; light grey is for surfaces inside or beside the white page (cards, sidebars, input fields, table headers, the editor workspace), never a whole page or a full-width section; Vivid Pink at 5% \`${c.bgAccent}\` is for hover and selected states plus at most one highlighted panel per screen; black backgrounds are for full-screen presenting and video or image viewers only, and there is no dark mode; no gradients on fills (AI-affordance border-only exception). Every colour and background rule, tagged by environment: ${SITE}/colour-rules.md.
-Pink text, links included, sits on white only (4.51:1); the secondary and tertiary Button label on its pale pink hover and active fill is Darker Pink (4.66:1): a component cannot see the surface it sits on, so on Vivid Pink at 5% or on grey the screen sets \`--aha-text-link\` and \`--aha-text-link-hover\` to the default ink \`${c.textDefault}\` on that container (both tokens cascade into Button \`link\`) and the link stays underlined (a Button \`text-link\` has no underline at rest, so that screen also sets \`--aha-text-link-decoration: underline\`); on a dark surface it sets them to white; on Vivid Pink, text is solid white. Links are Vivid Pink \`${c.textLink}\`, underlined at rest (Button \`text-link\` has no underline at rest and is underlined on hover, press and keyboard focus), Darker Pink \`${c.textLinkHover}\` on hover.
+Pink text, links included, sits on white only (4.51:1); the secondary and tertiary Button label on its pale pink hover and active fill is Darker Pink (4.66:1): a component cannot see the surface it sits on, so on Vivid Pink at 5% or on grey the screen sets \`--aha-text-link\` and \`--aha-text-link-hover\` to the default ink \`${c.textDefault}\` on that container (both tokens cascade into Button \`link\`) and the link stays underlined (a Button \`text-link\` has no underline at rest, so that screen also sets \`--aha-text-link-decoration: underline\`); on a dark surface it sets them to white; on Vivid Pink, text is solid white. The one exception is an inline link in an Alert or info box message: the DS text-link in Vivid Pink on the alert grey (4.06:1 on the alert grey, 4.16:1 on the branding fill, recorded exception, colour rule 6.7). Links are Vivid Pink \`${c.textLink}\`, underlined at rest (Button \`text-link\` has no underline at rest and is underlined on hover, press and keyboard focus), Darker Pink \`${c.textLinkHover}\` on hover.
 Status carries no colour: success \`${c.success}\` · warning \`${c.warning}\` · error \`${c.error}\` · info \`${c.info}\` are the default ink (the same \`${c.textDefault}\` as body text), shown with an icon, clear wording and an outline or a dark fill. Never red, amber, green or blue. The one green and one red in the token set (\`--aha-answer-*\`, below) mark a correct or wrong answer and nothing else: never a status, an alert, validation, a rise or a fall.
 Purple \`${P.logoPurple}\` (\`--aha-logo-purple\`) is the logo only: never text, buttons, links, states, charts or backgrounds in the product.
 The correct and wrong answer pair (\`--aha-answer-*\`) is the only other colour, for marking an answer correct or wrong and nothing else; text stays the default ink (${SITE}/colour-rules.md, section 11). No other colour exists in the token set. Photos and customer or presenter content (deck themes, deck-palette charts) are exempt. Black is \`${P.black}\`, the same value as grey 100 and the default ink (\`--aha-black\` aliases \`--aha-gray-100\`); a pure, zero-value black is never painted solid, only as a transparency for a shadow, a scrim or an ink alpha. The dark surface \`--aha-bg-dark\` is black and \`--aha-bg-dark-raised\` is grey 95 \`${c.bgDarkRaised}\`, one step above it.
@@ -3079,7 +3197,7 @@ function renderIndex() {
 
 /* ===== For developers — install steps and agent feeds ===== */
 function renderGetStarted(cs) {
-  const live = cs.filter(c => !c.docPage).length;
+  const live = cs.filter(c => !c.docPage && !c.libraryArea).length;
   const planned = [...COMPONENTS_CATALOG, ...PATTERNS_CATALOG].reduce((n,g)=>n+g.items.length,0);
   const main = `
   <h1>For developers</h1>
@@ -3483,7 +3601,7 @@ function expandMarketingData(rawSection) {
   if (!b.dataFile) return b;
   const data = JSON.parse(read(join(MDIR, b.dataFile)));
   const items = data.items.map(item => b.itemHtml.replace(/\{\{(\w+)\}\}/g, (_, key) => esc(item[key]))).join('');
-  return { ...b, html: b.html.replaceAll('{{items}}', items) };
+  return { ...b, html: b.html.replaceAll('{{items}}', items), ...(b.choiceHtml ? { choiceHtml: b.choiceHtml.replaceAll('{{items}}', items) } : {}) };
 }
 const expandMarketingAssets = (b) => {
   if (!b.imagePath) return b;
@@ -3533,7 +3651,7 @@ if (GUIDELINES.length) {
 }
 if (MARKETING.length) {
   RAW_FEEDS.push(
-    { name: 'marketing.llms.txt',  file: 'marketing.llms.txt',  page: 'marketing-llms-txt',  desc: 'One entry per marketing section (Header) for the AhaSlides marketing sites, paste-and-run and token-bound.' },
+    { name: 'marketing.llms.txt',  file: 'marketing.llms.txt',  page: 'marketing-llms-txt',  desc: 'One entry per marketing section (Hero) for the AhaSlides marketing sites, paste-and-run and token-bound.' },
     { name: 'marketing.agent.json', file: 'marketing.agent.json', page: 'marketing-agent-json', desc: 'Machine feed: every marketing section with its summary, paste-and-run html/css, and how to consume it.' },
   );
 }
@@ -3550,11 +3668,11 @@ if (ANTISLOP) {
   );
 }
 
-writeFileSync(join(OUT, 'variables.css'), '/* Generated from tokens.canonical.json — do not edit by hand. */\n' + tokenVars(TOK) + '\n');
+writeFileSync(join(OUT, 'variables.css'), '/* Generated from tokens.canonical.json. Do not edit by hand. */\n' + tokenVars(TOK) + '\n');
 
 /* Importable token layer for real consumers: @ahaslides-product/design/tokens.css + /tokens */
 mkdirSync(join(root, 'lib'), { recursive: true });
-writeFileSync(join(root, 'lib', 'tokens.css'), '/* @ahaslides-product/design/tokens.css — generated from tokens.canonical.json. */\n' + tokenVars(TOK) + '\n');
+writeFileSync(join(root, 'lib', 'tokens.css'), '/* @ahaslides-product/design/tokens.css, generated from tokens.canonical.json. */\n' + tokenVars(TOK) + '\n');
 writeFileSync(join(root, 'lib', 'tokens.js'),
   '// @ahaslides-product/design/tokens — the canonical design tokens (generated from tokens.canonical.json).\n' +
   'export const tokens = ' + JSON.stringify(TOK, null, 2) + ';\n' +
@@ -3576,7 +3694,8 @@ writeFileSync(join(root, 'lib', 'all.js'),
   `// ONE import registers every shared <aha-*> element. Load the token layer separately:\n` +
   `//   <link rel="stylesheet" href=".../lib/tokens.css">   or   import '${PKGNAME}/tokens.css'\n` +
   `// Bundled apps should prefer per-element imports for tree-shaking; this suits CDN / no-build pages.\n` +
-  ELEMENT_MODULES.map(f => `import './${f}';`).join('\n') + '\n');
+  // the catalogue entry draws every name; aha-illustration.js alone has no art
+  [...ELEMENT_MODULES, 'illustrations.js'].sort().map(f => `import './${f}';`).join('\n') + '\n');
 console.log(`  ✓ lib/all.js — all-in-one entry (${ELEMENT_MODULES.length} elements)`);
 
 /* Per-surface entries — lib/audience.js, lib/settings.js, lib/canvas.js. ONE <script> registers the
@@ -3623,7 +3742,7 @@ for (const [surface, entry] of Object.entries(SURFACE_ENTRIES)) {
 
 const settingsElementTags = [...SURFACE_ENTRIES.settings.closure]
   .filter(f => ELEMENT_MODULES.includes(f))
-  .map(f => ({ 'icons.js': 'aha-icon', 'illustrations.js': 'aha-illustration' })[f] ?? f.replace(/\.js$/, ''))
+  .map(f => ({ 'icons.js': 'aha-icon' })[f] ?? f.replace(/\.js$/, ''))
   .sort();
 writeFileSync(join(root, 'lib', 'settings-elements.js'),
   `// ${PKGNAME}/settings — the <aha-*> tags lib/settings.js registers (generated by generate.mjs; do not edit by hand).\n` +
@@ -3645,6 +3764,20 @@ writeFileSync(join(root, 'lib', 'marketing-breakpoints.js'),
   `export const MARKETING_MIN_WIDTHS = ${JSON.stringify([...marketingMinWidths].sort((a, b) => a - b))};\n`);
 console.log(`  ✓ lib/marketing-breakpoints.js — ${marketingMinWidths.size} marketing min-width breakpoints`);
 
+const removedMarketingClasses = JSON.parse(readFileSync(join(MDIR, 'data', 'removed-layouts.json'), 'utf8')).classes.slice().sort();
+writeFileSync(join(root, 'lib', 'marketing-removed-layouts.js'),
+  `// ${PKGNAME}/screen-lint — Marketing section and layout classes earlier releases shipped and the DS no longer has (generated by generate.mjs from marketing/data/removed-layouts.json; do not edit by hand).\n` +
+  `// screen-lint --surface=website fails a page that still uses one.\n` +
+  `export const MARKETING_REMOVED_CLASSES = ${JSON.stringify(removedMarketingClasses)};\n`);
+console.log(`  ✓ lib/marketing-removed-layouts.js — ${removedMarketingClasses.length} removed Marketing classes`);
+
+const unstyledMarketingHooks = collectUnstyledHooks(readdirSync(MDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(readFileSync(join(MDIR, f), 'utf8'))));
+writeFileSync(join(root, 'lib', 'marketing-unstyled-hooks.js'),
+  `// ${PKGNAME}/screen-lint — the Marketing class names the shipped snippets use as markup hooks with no CSS rule of their own (generated by generate.mjs from marketing/*.json; do not edit by hand).\n` +
+  `// screen-lint --surface=website does not report these as ds-class-without-css.\n` +
+  `export const MARKETING_UNSTYLED_HOOKS = ${JSON.stringify(unstyledMarketingHooks)};\n`);
+console.log(`  ✓ lib/marketing-unstyled-hooks.js — ${unstyledMarketingHooks.length} unstyled Marketing hooks`);
+
 /* Ship the real component modules INTO the site (dist/lib) so a doc-page preview can
    ESM-import the SHIPPED element (../lib/<name>.js) — resolves both locally and on
    GitHub Pages under the project path. Without this, lib/ isn't deployed and every
@@ -3657,6 +3790,8 @@ cpSync(join(root, 'lib'), join(OUT, 'lib'), { recursive: true });
    component previews — silently falls back to -apple-system instead of the brand face. */
 cpSync(join(root, 'fonts'), join(OUT, 'fonts'), { recursive: true });
 cpSync(join(root, 'logo'), join(OUT, 'logo'), { recursive: true });
+mkdirSync(join(OUT, 'brand'), { recursive: true });
+cpSync(join(root, 'brand', 'ahaslides-brand-guidelines-v2.3.pdf'), join(OUT, 'brand', 'ahaslides-brand-guidelines-v2.3.pdf'));
 cpSync(join(root, 'marketing-assets'), join(OUT, 'marketing-assets'), { recursive: true });
 cpSync(join(root, FAVICON_FOLDER, 'favicon.ico'), join(OUT, ROOT_FAVICON_FILE));
 cpSync(join(root, 'backgrounds'), join(OUT, 'backgrounds'), { recursive: true });
@@ -3747,6 +3882,7 @@ const indexLines = [
   `>   import { lintHtml } from '@ahaslides-product/design/screen-lint';`,
   `>   lintHtml(html, { surface: 'product' | 'canvas' }) → { findings: [{ rule, line, message, severity }] }`,
   '>   Opt out per line, per rule: ds-lint-allow: <rule-id>[,<rule-id>] (<reason>) — a bare ds-lint-allow suppresses nothing and warns.',
+  '>   A DS gap is never an opt-out reason: before writing ds-lint-allow (DS gap) or hand-assembling what a DS component does, read that component\'s agent.json at the LATEST release (top of CHANGELOG.md) and bump your pinned version; what is still missing is added to the DS (contract + lib/, released), never built in the consumer.',
   '',
   ...routeLines(ENVIRONMENTS, SITE),
   ...patternIndexLines(),
@@ -3754,6 +3890,7 @@ const indexLines = [
   '',
 ];
 const fullDocs = [];
+const libraryIndexLines = [];
 for (const c of contracts) {
   const d = join(OUT, c.slug); mkdirSync(d, { recursive: true });
   if (c.docPage) {
@@ -3769,10 +3906,11 @@ for (const c of contracts) {
   writeFileSync(join(d, `${c.slug}.agent.json`), agentJson);       // alongside the doc page
   writeFileSync(join(OUT, `${c.slug}.agent.json`), agentJson);     // flat canonical URL agents fetch
   writeFileSync(join(OUT, `${c.slug}.llms.txt`), renderLlms(c));
-  indexLines.push(`- [${c.name}](${c.slug}/${c.slug}.md) — ${c.tier}${environmentTag(c)} — ${c.summary}${settingsHubPointer(c) ? ' (Settings pattern: read the Settings hub first)' : ''}`);
+  (c.libraryArea ? libraryIndexLines : indexLines).push(`- [${c.name}](${c.slug}/${c.slug}.md) — ${c.tier}${environmentTag(c)} — ${c.summary}${settingsHubPointer(c) ? ' (Settings pattern: read the Settings hub first)' : ''}`);
   fullDocs.push(md);
   console.log(`  ✓ ${c.slug}: index.html · ${c.slug}.md · ${c.slug}.agent.json · ${c.slug}.llms.txt`);
 }
+if (libraryIndexLines.length) indexLines.push('', '## Canvas and Audience Library components', '', ...libraryIndexLines);
 writeFileSync(join(OUT, 'llms.txt'), indexLines.join('\n') + '\n');
 // Full-context feed ends with the changelog, so an agent reading the whole thing knows what
 // changed per release (and which version these docs describe).
@@ -3809,6 +3947,10 @@ if (MARKETING.length) {
   }
   writeFileSync(join(OUT, 'marketing.llms.txt'), renderMarketingLlms(MARKETING));
   writeFileSync(join(OUT, 'marketing.agent.json'), JSON.stringify(MARKETING.map(b => JSON.parse(renderMarketingAgent(b))), null, 2) + '\n');
+}
+for (const [slug, target] of Object.entries(MARKETING_REDIRECTS)) {
+  const d = join(OUT, 'marketing', slug); mkdirSync(d, { recursive: true });
+  writeFileSync(join(d, 'index.html'), redirectStub('../' + target));
 }
 for (const [slug, target] of Object.entries(LANDING_REDIRECTS)) {
   const d = join(OUT, 'landing', slug); mkdirSync(d, { recursive: true });

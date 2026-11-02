@@ -18,7 +18,8 @@
     { "label": "Disabled", "value": "#F1F1F1 fill · #EBEBEB border" },
     { "label": "Label", "value": "Plus Jakarta 14/21 (small: 13/20)" },
     { "label": "Button variant", "value": "segmented pill · 32px (small 24) · regular 400 label · hover = brand text, grey border · checked = brand border + brand text on white · disabled checked = darker grey fill (btn-disabled-bg) · shared edge collapsed" },
-    { "label": "Card variant", "value": "bordered card · dot + title + optional description · checked = brand border + bg-accent fill (16px pad, small 12px)" }
+    { "label": "Card variant", "value": "bordered card · dot + title + optional description · checked = brand border + bg-accent fill (16px pad, small 12px)" },
+    {"label": "Help and locked", "value": "muted \"?\" (aha-tooltip help) or crown (aha-paywall) 6px after the label text in all three variants; the button variant keeps the icon inside the pill; locked = label keeps its colour, the crown replaces the \"?\""}
   ],
   "props": [
     { "name": "checked", "type": "boolean", "default": "false", "desc": "Controlled selection" },
@@ -29,6 +30,11 @@
     { "name": "size", "type": "'default' | 'small'", "default": "default", "desc": "default = 16px ring / 32px button; small = 14px ring / 24px button" },
     { "name": "direction", "type": "'horizontal' | 'vertical'", "default": "horizontal", "desc": "How a group flows; in button variant also picks which edges the connected pills round + share" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Disables the control" },
+    {"name": "help", "type": "string", "default": "—", "desc": "Tooltip text. Shows the muted \"?\" after the label; hover or focus shows the tooltip, a click never selects or ticks. The text is also the option's accessible description"},
+    {"name": "locked", "type": "boolean", "default": "false", "desc": "Plan-gated option. The crown replaces the \"?\"; a click or Space anywhere on the option opens the DS paywall and never selects or ticks it (no change event)"},
+    {"name": "plan", "type": "'pro' | 'essential'", "default": "pro", "desc": "Locked only — the plan the paywall names"},
+    {"name": "feature-key", "type": "string", "default": "—", "desc": "Locked only — analytics key carried by the paywall events"},
+    {"name": "upgrade-body", "type": "string", "default": "—", "desc": "Locked only — the paywall body text"},
     { "name": "change", "type": "CustomEvent<{value, checked}>", "default": "—", "desc": "Composed event; read e.detail.value" }
   ],
   "opinion": {
@@ -78,7 +84,9 @@
     { "label": "card variant = bordered tile, whole card selectable; checked brand border + bg-accent fill", "verdict": "PASS" },
     { "label": "card description = secondary line under the title (text-secondary)", "verdict": "PASS" },
     { "label": "disabled = #F1F1F1 fill / #EBEBEB border, not-allowed", "verdict": "PASS" },
-    { "label": "roving arrow-key nav; change event composed", "verdict": "PASS" }
+    { "label": "roving arrow-key nav; change event composed", "verdict": "PASS" },
+    {"label": "help: \"?\" after the label in dot, card and button variants; a click never selects", "verdict": "PASS"},
+    {"label": "locked: crown after the label; click or Space opens the paywall, never selects, no change event; arrows skip it", "verdict": "PASS"}
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, so there is a single render (no per-framework roots).",

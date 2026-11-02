@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hand-positioned hint in a panel | AhaSlides</title>
+<link rel="stylesheet" href="../../../lib/tokens.css">
+<style>
+  .panel{ position:relative; width:320px; max-width:100%; height:240px; overflow:auto; padding:var(--aha-space-8, 8px); box-sizing:border-box }
+  .hint{ position:relative; display:inline-block }
+  .hint-bubble{ position:absolute; bottom:calc(100% + 8px); left:0; width:240px; padding:var(--aha-space-8, 8px) }
+</style>
+</head>
+<body>
+  <main>
+    <section class="panel" aria-label="Share settings">
+      <span class="hint">Editors
+        <span class="hint-bubble" role="tooltip">Editors can change slides and invite other people</span>
+      </span>
+    </section>
+  </main>
+</body>
+</html>
