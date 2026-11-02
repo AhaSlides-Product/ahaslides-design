@@ -43,7 +43,7 @@
     },
     {
       "label": "Move",
-      "value": "24px up / down buttons with 16px carets (system-caret-up / -down) in the deck ink, disabled at the ends, 4px from a 24 × 32 system-drag grip in the secondary ink for the pointer"
+      "value": "24px up / down buttons with 16px carets (system-caret-up / -down) in the deck ink, disabled at the ends (opt-in `touch`: 44 × 44 side by side, 8px apart, disabled at 55% opacity), 4px from a 24 × 32 system-drag grip in the secondary ink for the pointer"
     },
     {
       "label": "Drag",
@@ -90,6 +90,18 @@
       "type": "string",
       "default": "Order the options",
       "desc": "The list's accessible name and a muted 12px caption above the rows: pass the translated question"
+    },
+    {
+      "name": "hide-caption",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Keeps group-label as the list's accessible name (aria-label) but hides the visible caption above the rows"
+    },
+    {
+      "name": "touch",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Finger-sized move buttons for the audience phone: 44 x 44 side by side with 8px between them (touch-targets rule), 8px corners, an 18% ink press state, and disabled buttons at 55% opacity (about 3.9:1 on white) instead of 40%. Off, the 24px stacked buttons render unchanged"
     },
     {
       "name": "disabled",
