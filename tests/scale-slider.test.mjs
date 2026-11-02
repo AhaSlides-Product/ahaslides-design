@@ -46,3 +46,23 @@ test('the hover ring is gated behind a real pointer and never applies in a touch
     assert.equal(result.appliesHere, false, 'this non-hover rendering context must not paint the ring');
   }
 });
+
+test('in a right-to-left page the low label sits flush under the left (min) end and the high label under the right end', { skip }, async () => {
+  const result = await evaluateInPage(fixture, `(() => {
+    const root = document.querySelector('#rtl-slider').shadowRoot;
+    const textBox = (selector) => { const range = document.createRange(); range.selectNodeContents(root.querySelector(selector)); return range.getBoundingClientRect(); };
+    const ends = root.querySelector('.ends').getBoundingClientRect();
+    const rail = root.querySelector('.rail').getBoundingClientRect();
+    const low = textBox('.low');
+    const high = textBox('.high');
+    return { lowFromLeft: Math.round(low.left - ends.left), highFromRight: Math.round(ends.right - high.right), lowIsLeftOfHigh: low.right < high.left, railLeftOfCentre: rail.left < (ends.left + ends.right) / 2 };
+  })()`, { readyExpr: '!!window.scaleSliderFixtureReady' });
+  assert.deepEqual(result, { lowFromLeft: 0, highFromRight: 0, lowIsLeftOfHigh: true, railLeftOfCentre: true });
+});
+
+test('track="line" paints the rail with the deck ladder 24% rung, while the default stays on the 12% stroke', { skip }, async () => {
+  const alpha = (id) => `(() => { const colour = getComputedStyle(document.querySelector('#${id}').shadowRoot.querySelector('.rail')).backgroundColor; return Number((/\\/\\s*([\\d.]+)\\)$/.exec(colour) || /rgba\\([^)]*,\\s*([\\d.]+)\\)$/.exec(colour) || [0, 1])[1]); })()`;
+  const line = await evaluateInPage(fixture, alpha('line-track-slider'), { readyExpr: '!!window.scaleSliderFixtureReady' });
+  const stroke = await evaluateInPage(fixture, alpha('default-track-slider'), { readyExpr: '!!window.scaleSliderFixtureReady' });
+  assert.deepEqual({ line, stroke }, { line: 0.24, stroke: 0.12 });
+});
