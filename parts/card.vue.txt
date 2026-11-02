@@ -18,4 +18,16 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
   <aha-card card-title="Weekly digest" size="small">A small card tightens its padding.</aha-card>
   <aha-card card-title="Borderless" bordered="false">No outline.</aha-card>
   <aha-card card-title="Loading" loading />
+
+  <!-- Rich title: slot="title" wins over card-title (which is always plain text) -->
+  <aha-card>
+    <span slot="title"><aha-icon name="system-chart-bar" size="16" /> Customer satisfaction</span>
+    Results from 128 responses.
+  </aha-card>
+
+  <!-- interactive: Tab-reachable, Enter/Space fire click · stretch: cards in a grid row share one height -->
+  <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:16px">
+    <aha-card v-for="survey in surveys" :key="survey.id" interactive stretch
+      :card-title="survey.name" @click="openSurvey(survey.id)">{{ survey.summary }}</aha-card>
+  </div>
 </template>
