@@ -35,8 +35,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.904.0 — 2026-11-02
 ### Added
-- `<aha-audience-date>` has a read-only `state` property, also on every `change` detail (`{ value, valid, state }`): `empty` (nothing typed, so a cleared answer), `partial` (a field blank or a year under 4 digits), `invalid` (all three typed but not a real date, such as 31/02) or `valid`. A host no longer reads the inner fields to tell a cleared date from a part-filled one (#PRNUM)
-- `<aha-audience-date status="error">` shows `error-message` at once in the element's own respondent error, for a host that blocks the page on its own check (a required answer, a part-filled date on Next). The host passes its message there instead of rendering a second error under the date, which showed the same message twice (#PRNUM)
+- `<aha-audience-date>` has a read-only `state` property, also on every `change` detail (`{ value, valid, state }`): `empty` (nothing typed, so a cleared answer), `partial` (a field blank or a year under 4 digits), `invalid` (all three typed but not a real date, such as 31/02) or `valid`. A host no longer reads the inner fields to tell a cleared date from a part-filled one (#569)
+- `<aha-audience-date status="error">` shows `error-message` at once in the element's own respondent error, for a host that blocks the page on its own check (a required answer, a part-filled date on Next). The host passes its message there instead of rendering a second error under the date, which showed the same message twice (#569)
 - Revert: revert the PR; `state` and `status` are new and opt-in, `value`, `valid` and the existing `change` keys are unchanged
 
 ## 0.897.1 — 2026-11-02
