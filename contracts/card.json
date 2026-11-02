@@ -21,8 +21,8 @@
     { "label": "Bordered=false", "value": "border-color transparent — a flat surface" },
     { "label": "Hover (hoverable)", "value": "border #E70E68 + shadow, motion-mid ease-out on a persistent node" },
     { "label": "Title slot", "value": "slot=\"title\" renders rich content in the header (16/24 SemiBold #1A1A1A); wins over card-title, which is always plain text" },
-    { "label": "Interactive", "value": "role=button + tabindex=0 on the host (author values kept); Enter on keydown, Space on keyup fire click; hover as hoverable; keyboard focus ring 2px #E70E68 at 2px offset, radius 12" },
-    { "label": "Stretch", "value": "host and card height 100% of the grid or flex cell; body grows so the actions row sits at the bottom" },
+    { "label": "Interactive", "value": "role=button + tabindex=0 on the host (author values kept); Enter on keydown, Space on keyup fire click, not while loading; hover as hoverable; keyboard focus ring 2px #E70E68 at 2px offset, radius 12 (leave 4px of room: an overflow:hidden parent clips it)" },
+    { "label": "Stretch", "value": "the card fills the height its grid or flex cell stretches the host to; body grows so the actions row sits at the bottom" },
     { "label": "Loading", "value": "body → shimmer skeleton bars (aria-busy), motion-slow sweep" }
   ],
   "props": [
@@ -30,8 +30,8 @@
     { "name": "size", "type": "'default' | 'small'", "default": "default", "desc": "Padding density of header/body/actions" },
     { "name": "bordered", "type": "boolean-ish", "default": "true", "desc": "Set bordered=\"false\" for a flat, outline-less surface" },
     { "name": "hoverable", "type": "boolean", "default": "false", "desc": "Lift the card (border + shadow) on hover" },
-    { "name": "interactive", "type": "boolean", "default": "false", "desc": "The whole card is one button: role=\"button\" and tabindex=\"0\" (unless set), Enter and Space fire the native click event, hover lift and the DS focus ring. Listen for click; keep other controls out of an interactive card" },
-    { "name": "stretch", "type": "boolean", "default": "false", "desc": "Fill the grid or flex cell height so cards in a row share one height; the body grows and the actions row sits at the bottom" },
+    { "name": "interactive", "type": "boolean", "default": "false", "desc": "The whole card is one button: role=\"button\" and tabindex=\"0\" (unless set), Enter and Space fire the native click event (not while loading), hover lift and the DS focus ring. Listen for click; keep other controls (extra, actions) out of an interactive card, since its whole content is the button's name" },
+    { "name": "stretch", "type": "boolean", "default": "false", "desc": "Fill the height of its grid or flex cell so cards in a row share one height; the body grows and the actions row sits at the bottom. The parent must stretch its items (the grid and flex default)" },
     { "name": "loading", "type": "boolean", "default": "false", "desc": "Swap the body for a shimmer skeleton while content loads" },
     { "name": "cover", "type": "slot", "default": "—", "desc": "Full-bleed image/media above the header" },
     { "name": "title", "type": "slot", "default": "—", "desc": "Rich header title (text with an icon, tag or link); shows the header and wins over card-title" },

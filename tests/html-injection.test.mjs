@@ -50,7 +50,7 @@ globalThis.customElements = { get: () => undefined, define: () => {} };
 globalThis.document = { createElement: () => inertNode() };
 
 const cases = [
-  { module: '../lib/aha-card.js', exportName: 'AhaCard', attributes: { 'card-title': PAYLOAD } },
+  { module: '../lib/aha-card.js', exportName: 'AhaCard', attributes: { 'card-title': PAYLOAD }, via: 'text' },
   { module: '../lib/aha-rate.js', exportName: 'AhaRate', attributes: { icon: PAYLOAD } },
   { module: '../lib/aha-card-select.js', exportName: 'AhaCardSelect', attributes: { options: JSON.stringify([{ value: 'a', label: 'A', icon: PAYLOAD }]) } },
   { module: '../lib/aha-descriptions.js', exportName: 'AhaDescriptions', attributes: { items: JSON.stringify([{ label: 'Question', value: PAYLOAD }]) } },
@@ -60,7 +60,7 @@ const cases = [
   },
 ];
 
-for (const { module, exportName, attributes, what, setup } of cases) {
+for (const { module, exportName, attributes, what, setup, via = 'markup' } of cases) {
   test(`${exportName} renders ${what || Object.keys(attributes).join(', ')} as literal text`, async () => {
     const { [exportName]: Element } = await import(module);
     const element = new Element();
@@ -71,8 +71,9 @@ for (const { module, exportName, attributes, what, setup } of cases) {
     element.connectedCallback();
     const html = recordedHtml.join('\n');
     assert.ok(!/<img/i.test(html), `markup creates an <img> element: ${html}`);
-    const escapedInMarkup = html.includes('&lt;img src=x onerror=&quot;alert(1)&quot;&gt;');
-    const setAsText = recordedText.some((text) => text.includes(PAYLOAD) || text.includes(BREAKOUT));
-    assert.ok(escapedInMarkup || setAsText, 'payload is missing as literal text');
+    const literal = via === 'text'
+      ? recordedText.some((text) => text.includes(PAYLOAD))
+      : html.includes('&lt;img src=x onerror=&quot;alert(1)&quot;&gt;');
+    assert.ok(literal, `payload is missing as literal text (${via})`);
   });
 }
