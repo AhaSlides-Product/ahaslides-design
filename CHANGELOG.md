@@ -39,6 +39,13 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `aha-counted-input` takes `type="tel"` and passes `autocomplete` to its inner field; without them it renders as before (#551)
 - Revert: revert the PR; the element and the two attributes are new and opt-in
 
+## 0.730.0 — 2026-11-02
+### Added
+- `<aha-select>` opt-in `allow-clear`: a clear button beside the caret while a value is set; a click, or Delete / Backspace on the closed trigger, empties the value and emits `change` and a new `clear` event with `{value:''}`; `clear-label` names the button (#537)
+- `<aha-select>` opt-in `show-search`: type to filter the options (ARIA 1.2 combobox with list autocomplete, Arrow / Enter / Escape / Tab), a `search` event with `{query}` and an `empty-text` no-match row (#537)
+- `<aha-select>` option objects take `description` (a second, smaller line under the label) and `title` (the row's native tooltip); `popup-width="match | content | <length>"` sets the popup width (#537)
+- Revert: revert the PR; every addition is opt-in, so an existing `<aha-select>` renders unchanged
+
 ## 0.726.0 — 2026-11-02
 ### Added
 - Chart: `strings` is now also a JSON attribute (`<aha-chart strings='{"emptyNote":"No answers yet"}'>`), so a static page or a framework binding can override any built-in text without a script. Every key of `chartStrings.en` is overridable, per key: type names, the empty-state note and summary, pager labels, legends, axis and tooltip text, summaries and live-region text, and the word-cloud and mind-map controls; the chart docs and contract list every key. Keys left out fall back to the locale's built-in copy (`en`, `vi`), then English; the `strings` property still wins over the attribute until the attribute changes. A chart without `strings` renders exactly as before (#545)
