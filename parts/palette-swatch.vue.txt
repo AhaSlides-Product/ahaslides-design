@@ -1,0 +1,11 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-palette-swatch';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// ThemePalette.vue
+<script setup>
+defineProps({ palette: { type: Array, default: () => [] } });
+</script>
+<template>
+  <aha-palette-swatch :colors="palette.join('|')" />
+</template>
