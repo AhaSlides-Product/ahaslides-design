@@ -38,6 +38,17 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `aha-number-scale`: a row of tappable whole numbers for the audience phone, 0–10 by default for a Net Promoter Score (`min`, `max` for any short numeric rating). 48px numbers at least 44px wide, six per row when a phone is too narrow for one row, the pick filled with the deck accent, `low-label` / `high-label` under the scale, a radio group with arrow keys, Home and End (mirrored in right-to-left), `group-label`, `disabled`, `lock-key`, and a `change` event with `{value}` (#541)
 - Revert: revert the PR; the element is new and opt-in
 
+## 0.800.0 — 2026-11-02
+### Added
+- `aha-dropdown` takes a `slot="trigger"` control that replaces the default button, so an icon-only `aha-button` makes a kebab (three-dot) menu. It gets `aria-haspopup` and `aria-expanded`, opens on click, Enter, Space and ArrowDown, and takes focus back on close. Without the slot the dropdown renders as before (#523)
+- Revert: revert the PR; nothing else uses the slot
+
+## 0.774.0 — 2026-11-02
+
+### Added
+- `<aha-image-preview>` (`@ahaslides-product/design/aha-image-preview`): a full-screen image lightbox the host opens with `open` (or `show()`), with an opt-in `toolbar` to zoom (1x to 5x), rotate and flip. Escape, the mask and the close button emit a cancelable `close` (`detail.source`), then `closed`. Same overlay as the `<aha-image>` preview; modal, with a Tab trap, scroll lock and focus back to the opener. Translatable accessible names via `close-label`, `zoom-in-label` and the rest. (#540)
+- Revert: revert the PR; a new element only, nothing else imports it.
+
 ## 0.780.0 — 2026-11-02
 ### Added
 - `aha-counted-textarea` passes `inputmode` and `dir` to its inner field, as `aha-counted-input` does: `dir="auto"` reads a right-to-left answer right to left. `aha-audience-field` documents it for the textarea. Fields without the new attributes render unchanged (#550)

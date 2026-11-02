@@ -1,0 +1,18 @@
+<div class="pad">
+  <div class="lbl">The host opens it from any trigger; with toolbar it zooms, rotates and flips</div>
+  <div class="row">
+    <aha-button variant="secondary" id="ip-open-tools">Preview with toolbar</aha-button>
+    <aha-button variant="secondary" id="ip-open-plain">Preview, image only</aha-button>
+  </div>
+  <aha-image-preview data-probe id="ip-tools" toolbar alt="Sample image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='150'%3E%3Crect width='240' height='150' fill='%238A8A8A'/%3E%3Ccircle cx='180' cy='40' r='60' fill='%23E70E68' opacity='0.7'/%3E%3C/svg%3E"></aha-image-preview>
+  <aha-image-preview id="ip-plain" alt="Sample image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='150'%3E%3Crect width='240' height='150' fill='%238A8A8A'/%3E%3Ccircle cx='180' cy='40' r='60' fill='%23E70E68' opacity='0.7'/%3E%3C/svg%3E"></aha-image-preview>
+</div>
+
+<!-- Imports the REAL shipped element (../lib/aha-image-preview.js) — no inlined copy, so the preview can never drift from lib/. -->
+<script type="module">
+  import '../lib/aha-button.js';
+  import '../lib/aha-image-preview.js';
+  for (const [button, preview] of [['ip-open-tools', 'ip-tools'], ['ip-open-plain', 'ip-plain']]) {
+    document.getElementById(button).addEventListener('click', () => document.getElementById(preview).show());
+  }
+</script>
