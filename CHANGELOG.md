@@ -33,6 +33,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.600.0 — 2026-11-02
+### Added
+- Course theme: `applyCourseTheme(root, theme)` and `courseThemeVars(theme)` from `@ahaslides-product/design/course-theme` re-skin every `<aha-*>` component inside a customer course theme. Inputs: primary, pageBg, surface, textBody, textHeading, accent, fontBody, fontHeading, radius. Every semantic colour token, the grey ramp, fonts and the radius ladder resolve inside the scope; text and labels are floored at 4.5:1 and fills and focus rings at 3:1 on every state. The default theme reproduces the DS values exactly. New tokens `--aha-course-text-heading` and `--aha-course-accent`. Docs: Foundations › Course theme, with a learner-page `--lp-*` mapping; feed `course-theme.agent.json` (#510)
+### Fixed
+- `aha-loader` paints its overlay on `--aha-bg-container` instead of a fixed white, so it follows dark and course themes (#510)
+- `aha-checkbox` (tick, indeterminate bar), `aha-switch` (checked content) and `aha-tag` (solid, checked) take their foreground from `--aha-button-primary-text`; `aha-tabs`, `aha-radio` (button), `aha-breadcrumb`, `aha-pagination`, `aha-uploader`, `aha-screen-heading` and the checkable `aha-tag` hover colour text with `--aha-text-link`. Unthemed values are identical (`#FFFFFF` and primary) (#510)
+- The interactive-state colour-list check also waives a subtree that carries a course theme (`--aha-color-primary` set inline); contrast and focus are still measured, and the checkbox tick now carries its colour as `color` so the probe reads it
+- Revert: revert the PR; additive module and docs page, the loader change is one background value
+
 ## 0.599.0 — 2026-11-02
 ### Added
 - Icons for course and rich-text UI, 22 one-colour glyphs from Phosphor Icons Regular (MIT) on the DS 16px grid with the 1.5 stroke: the rich-text toolbar set `system-text-b`, `system-text-italic`, `system-text-underline`, `system-text-strikethrough`, `system-text-h-one`, `system-text-h-two`, `system-text-h-three`; device preview `system-monitor` and `system-device-tablet` (beside `system-device-mobile`); and `system-arrow-line-down`, `system-caret-circle-down`, `system-certificate`, `system-crop`, `system-flow-arrow`, `system-gauge`, `system-image-broken`, `system-map-pin`, `system-minus-circle`, `system-puzzle-piece`, `system-ruler`, `system-scroll`, `system-target`. Each has meaning words for `npm run icon-search`; the registry now holds 353 names (#509)
