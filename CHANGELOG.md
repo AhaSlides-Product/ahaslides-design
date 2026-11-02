@@ -41,6 +41,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `aha-button` updates its inner button in place when `variant`, `size`, `block`, `icon-only`, `loading`, `disabled` or `aria-label` change, so a focused button keeps keyboard focus; it was redrawn and focus dropped. A colour change on a variant swap now runs the button's existing 0.2s transition instead of snapping. Only a link that turns into a button (or back) is redrawn, and it takes focus with it (#531)
 - Revert: revert the PR; no API is removed
 
+## 0.681.0 — 2026-11-02
+### Added
+- `aha-list` picker mode: the opt-in `selectable` attribute makes the `items` rows a single-choice listbox (rows `role="option"` with `aria-selected`; click, Enter or Space selects; ArrowUp, ArrowDown, Home and End move focus; one tab stop with a `:focus-visible` ring; picker rows render no `actions` buttons, since a listbox option holds no controls). `value` names the selected row's `key` (a row without `key` answers to its index), a row's `selected: true` is the initial pick, and the list emits a composed `select` with `{ key, index }`. The selected row takes the Menu's `bg-accent` tint. Without `selectable` the list is unchanged (#529)
+- Revert: revert the PR; the attribute is opt-in and the default list renders as before
+
 ## 0.680.0 — 2026-11-02
 ### Added
 - `aha-counted-input` takes `type="email"`, `"url"` and `"password"` (masked), and passes `inputmode` and `dir` to its inner field: `inputmode="decimal"` gives a number keypad on a text field and keeps partial input such as `1e`, and `dir="auto"` reads a right-to-left answer right to left. `aha-audience-field` documents the new field options. Fields without the new values render unchanged (#539)
