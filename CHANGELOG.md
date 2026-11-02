@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.604.1 — 2026-11-02
+### Fixed
+- Security: text from attributes and JSON no longer renders as HTML in five elements. `aha-card` `card-title`, `aha-rate` `icon`, `aha-card-select` option `icon`, `aha-descriptions` `items` label and value, and `aha-tabs` panel `id` (in `aria-controls`) are now escaped, so a survey question title like `<img src=x onerror=…>` shows as literal text and creates no element. Light-DOM content of `aha-descriptions` keeps its markup. No visual change (#PR)
+
 ## 0.600.0 — 2026-11-02
 ### Added
 - Course theme: `applyCourseTheme(root, theme)` and `courseThemeVars(theme)` from `@ahaslides-product/design/course-theme` re-skin every `<aha-*>` component inside a customer course theme. Inputs: primary, pageBg, surface, textBody, textHeading, accent, fontBody, fontHeading, radius. Every semantic colour token, the grey ramp, fonts and the radius ladder resolve inside the scope; text and labels are floored at 4.5:1 and fills and focus rings at 3:1 on every state. The default theme reproduces the DS values exactly. New tokens `--aha-course-text-heading` and `--aha-course-accent`. Docs: Foundations › Course theme, with a learner-page `--lp-*` mapping; feed `course-theme.agent.json` (#510)

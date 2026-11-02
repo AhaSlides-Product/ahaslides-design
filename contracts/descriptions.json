@@ -22,7 +22,7 @@
     { "label": "Layout", "value": "horizontal (label : value) · vertical (label over value)" }
   ],
   "props": [
-    { "name": "items", "type": "JSON [{label,value,span?}]", "default": "—", "desc": "The items, as a JSON tree. Alternative to light-DOM children" },
+    { "name": "items", "type": "JSON [{label,value,span?}]", "default": "—", "desc": "The items, as a JSON tree; label and value render as plain text. Alternative to light-DOM children, whose content keeps its markup" },
     { "name": "desc-title", "type": "string", "default": "—", "desc": "Renders an optional header row" },
     { "name": "column", "type": "number", "default": "2 (vertical 3)", "desc": "Label/value pairs per row" },
     { "name": "bordered", "type": "boolean attr", "default": "false", "desc": "Ruled table with cell borders + tinted label column" },
