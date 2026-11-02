@@ -107,7 +107,7 @@ Pick the type from the shape of the data. Types that fold extras into "Other (n)
 | `bar` | Counts across categorical options: long labels, many options, ranking (`sort="desc"`), image options | Poll, Ranking, Pick Answer | Part-to-whole of one question (donut); time series (line) |
 | `column` | The same comparison with a few short options; turns into bars when the labels do not fit. Negative values (net change) draw below a zero baseline, and `options.reference` adds a dashed target or average line | Poll, Pick Answer correct reveal, reports | Long labels or many options (bar); part-to-whole (donut) |
 | `stacked` | Composition of several groups or statements side by side, each row split by the same series (up to 6) | Grouped results | A single question (donut) |
-| `donut` / pie | Part-to-whole of one question with few categories (up to 6; `variant: 'pie'` for no centre hole) | Poll, Split the points | Many slices or close values (bar) |
+| `donut` / `pie` | Part-to-whole of one question with few categories (up to 6); `pie` is the same chart with no centre hole | Poll, Split the points | Many slices or close values (bar) |
 | `radial` | A few shares or percentages shown compactly as rings (up to 6) | Split the points | Many items or exact comparison (bar) |
 | `treemap` | Part-to-whole across many categories of very different size (up to 6 tiles) | Poll, Split the points | Precise comparison of close values (bar) |
 | `quadrant` | Items scored on two axes, such as effort against impact (four labelled quadrants, up to three colour groups) | — | One-dimensional scores (bar) |
@@ -171,14 +171,14 @@ chart.data = {
 };
 ```
 
-### `donut`
+### `donut` and `pie`
 
 ```html
 <aha-chart type="donut" label="Budget"
   data='[{"label":"Trips","value":34},{"label":"Insurance","value":27},{"label":"Courses","value":18}]'></aha-chart>
 ```
 
-`[{ label, value }]`. Options: `variant` (`'donut'` or `'pie'`), `labels` (`'auto'` and others), `maxSize` (pixels). With room (480px wide or more) up to five slices get leader-line callouts; otherwise a legend is shown.
+`<aha-chart type="pie">` is the donut with no centre hole: same slices, palette, labels, legend, tooltip, empty state and screen-reader summary ("Pie chart"). `[{ label, value }]`. Options: `labels` (`'auto'` and others), `maxSize` (pixels). With room (480px wide or more) up to five slices get leader-line callouts; otherwise a legend is shown.
 
 ### `radial`
 
@@ -332,7 +332,7 @@ console.log(chartOptionDefaults.wordcloud);
 //   removable: true, showTooltip: true, showCounts: false, group: true, foldDiacritics: false, maxWords: 120 }
 ```
 
-Types with defaults: `donut`, `radial`, `treemap`, `quadrant`, `bell`, `radar`, `wordcloud`, `mindmap`, `line`.
+Types with defaults: `donut` (also `pie`), `radial`, `treemap`, `quadrant`, `bell`, `radar`, `wordcloud`, `mindmap`, `line`.
 
 ## Palettes
 

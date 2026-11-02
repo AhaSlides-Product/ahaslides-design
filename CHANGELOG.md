@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.598.0 — 2026-11-02
+### Added
+- Chart: `<aha-chart type="pie">`, a solid pie with no centre hole. It is the donut renderer with the same slices, palette, labels, legend, tooltip, empty state and screen-reader summary (named "Pie chart"). `type="donut"` with `options.variant: "pie"` keeps working. Contract, all flavour files, docs and a Pie default snippet updated together.
+- Revert: revert the PR; `pie` is one new value in the chart type list that reuses the donut renderer, so existing donut and `variant: "pie"` markup is untouched (#PR)
+
 ## 0.595.0 — 2026-11-02
 ### Added
 - `lib/marketing.css`: every website Marketing section's CSS in one generated stylesheet (`@ahaslides-product/design/marketing.css`), and `lib/marketing/<slug>.css` for one section. A no-build website page now links `tokens.css`, `marketing.css`, `all.js` and `marketing-motion.js` from a pinned tag and pastes only each section's HTML; it renders pixel-identical to the paste-and-run snippet at 1440, 768 and 375 px. Paste-and-run stays the Webflow route (#503)
