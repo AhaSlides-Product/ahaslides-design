@@ -16,7 +16,7 @@ All notable changes to `@ahaslides-product/design`, **newest first**.
   number and commits `chore(release): X.Y.Z` to master. Run the gate locally as `AUTO_VERSION=on npm run check`.
 
 The gate rejects an unfilled `(#129)` placeholder in every released entry: link the **real** PR number
-(under `## Unreleased`, `(#PR)` is fine; the release fills it in).
+(under `## Unreleased`, `(#518)` is fine; the release fills it in).
 
 **Format** — one entry per version:
 
@@ -33,11 +33,49 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.611.0 — 2026-11-02
+## 0.621.0 — 2026-11-02
 ### Added
 - `palette="deck"` on `<aha-progress>` and `<aha-progressbar>`: the audience flavour of the bar. Track, fill, steps, ring and label take the shared `--aha-deck-*` ladder that `applyDeck()` writes (track ink at 12% with the 1px hairline and frost, fill the deck accent, label ink-secondary, the deck's own font), the same bar as `<aha-countdown>`, so it no longer shows a bright product track on a dark deck. `ink` / `accent` set the deck on one element. Without `palette` the bar renders as before (#528)
 - `DECK_VARIABLES` export from `audience-deck`: the deck ladder's private variables as bare declarations, for an element that offers the deck as an opt-in flavour; `DECK_STYLE` is built from it and unchanged (#528)
 - Revert: revert the PR; the attribute is opt-in, so no consumer changes render
+
+## 0.618.0 — 2026-11-02
+### Added
+- `aha-scale-slider` takes an optional `track` (`stroke`, `stroke-chip` or `line`) that puts its rail on that rung of the deck ladder (ink at 12%, 20% or 24%), so a rail can read on a dark deck. Unset, the rail stays on `--aha-deck-stroke` exactly as before (#525)
+### Fixed
+- `aha-scale-slider` in a right-to-left page: the low and high labels collapsed towards the middle and sat under the wrong ends, because each label is `dir="auto"` and aligned by its own text. They now sit under the rail's left (min) and right (max) ends, aligned outward; a left-to-right page with left-to-right labels renders as before (#525)
+- Revert: revert the PR; `track` is opt-in and the label fix changes only labels whose direction differs from the rail's
+
+## 0.616.0 — 2026-11-02
+### Added
+- Card: `slot="title"` takes a rich header title (text with an icon, tag or link) and wins over `card-title`, which stays plain text (escaped since 0.604.1, #513) (#527)
+- Card: `interactive` makes the whole card one keyboard-reachable button. The host gets `role="button"` and `tabindex="0"` (author values are kept), Enter and Space fire the native `click` event, the card lifts on hover like `hoverable`, and keyboard focus draws the DS focus ring (2px `--aha-focus-ring`, 2px offset). Keys pressed on a control inside the card are left to that control, and a `loading` card ignores Enter and Space (#527)
+- Card: `stretch` makes the card fill its grid or flex cell, so cards with uneven content in one row share one height; the body grows and the actions row sits at the bottom (#527)
+### Changed
+- Card builds its shadow DOM once and updates persistent nodes when `card-title` or `loading` changes; without the new slot or attributes it renders as before (#527)
+- Card: a light-DOM child that already carried `slot="title"` was never shown; it now renders as the header title (#527)
+- Revert: revert the PR; the slot and both attributes are opt-in, so existing cards are untouched
+
+## 0.613.0 — 2026-11-02
+### Added
+- `aha-rank-list` `touch` attribute: the move up / down buttons become 44 x 44 side by side with 8px between them (the audience touch-targets rule), with an 18% ink press state and disabled buttons at 55% opacity (about 3.9:1 on white) instead of 40%. Off, the 24px stacked buttons render unchanged (#522)
+- `aha-rank-list` `hide-caption` attribute: `group-label` still names the list for assistive technology (the list's aria-label) but the visible caption above the rows is hidden (#522)
+- Revert: revert the PR; both attributes are opt-in and default off
+
+## 0.612.0 — 2026-11-02
+### Added
+- Seven icons for survey building, each with meaning words for `npm run icon-search`: `system-hash` (number rating), `system-arrows-split` (branching and skip logic), `system-check-square` (checkbox question, beside `system-minus-square`), `system-flag`, `system-megaphone` (announcement), `system-neutral-face` (the neutral point between `system-sad-face` and `system-smiley`) and `system-star-filled` (the filled state of `system-star` for rating stars, any size). The first four and the tick come from Phosphor Icons Regular (MIT) on the DS 16px grid with the 1.5 stroke; the registry now holds 362 names (#521)
+- Revert: revert the PR; additive glyphs only, no existing icon changes
+
+## 0.609.1 — 2026-11-02
+### Added
+- `lib/static-icons` gains `system-cursor-click`, `system-check` and `system-arrow-right` (click here, check this, next step), so how-to and tutorial step images take their marks from the DS instead of inlined registry paths; the report-image guideline and feeds now describe the set as status and how-to glyphs (#524)
+- Revert: revert the PR; additive, no existing glyph changes
+
+## 0.609.0 — 2026-11-02
+### Added
+- `aha-skeleton` takes optional `width` and `height` (a number is px, or a CSS length: px, rem, em, %, vw, vh, calc()), so a placeholder can match the real content; on a paragraph they size the stack and each row. Unset, every variant renders as before (#PR)
+- Revert: revert the PR; the attributes are opt-in
 
 ## 0.605.2 — 2026-11-02
 ### Changed
