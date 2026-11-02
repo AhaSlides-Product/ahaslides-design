@@ -12,7 +12,7 @@ const items = JSON.stringify([
   { key: 'rename', label: 'Rename', testid: 'row-rename' },
   { key: 'export', label: 'Export', slot: 'export', attrs: { 'data-track': 'export', 'aria-label': 'Export to PDF', onclick: 'x', 'data-key': 'forged' } },
   { key: 'copy', label: 'Copy', disabled: true },
-  { key: 'delete', label: 'Delete', disabled: true },
+  { key: 'delete', label: 'Delete', disabled: true, danger: true },
   { key: 'plain', label: 'Plain' },
 ]).replace(/"/g, '&quot;');
 
@@ -20,7 +20,7 @@ const page = `<!doctype html><body>
 <aha-menu id="menu" items="${items}"><b slot="export">Export <i>Pro</i></b></aha-menu>
 <script type="module">import '${libUrl}'; window.ready = true;</script>`;
 
-test('row testid, attrs and slot reach the row; disabled rows are aria-disabled and skipped by the arrow keys', { skip }, async () => {
+test('row testid, attrs and slot reach the row; disabled rows are aria-disabled, skipped by the arrow keys and greyed even when danger', { skip }, async () => {
   const file = join(mkdtempSync(join(tmpdir(), 'menu-extras-')), 'page.html');
   writeFileSync(file, page);
   const result = await evaluateInPage(pathToFileURL(file).href, `(() => {
@@ -38,6 +38,7 @@ test('row testid, attrs and slot reach the row; disabled rows are aria-disabled 
       projected: slot && slot.assignedElements().map((el) => el.textContent).join(),
       disabled: [copy, remove].map((row) => row.disabled && row.getAttribute('aria-disabled')),
       afterDown,
+      disabledDangerInk: getComputedStyle(remove).color === getComputedStyle(copy).color,
       plainUnchanged: !plain.hasAttribute('data-testid') && !plain.hasAttribute('aria-disabled') && !plain.querySelector('slot'),
     };
   })()`, { readyExpr: '!!window.ready && !!customElements.get("aha-menu")' });
@@ -48,5 +49,6 @@ test('row testid, attrs and slot reach the row; disabled rows are aria-disabled 
   assert.equal(result.projected, 'Export Pro');
   assert.deepEqual(result.disabled, ['true', 'true']);
   assert.equal(result.afterDown, 'plain');
+  assert.equal(result.disabledDangerInk, true);
   assert.equal(result.plainUnchanged, true);
 });
