@@ -1,0 +1,32 @@
+import '@ahaslides-product/design/aha-image-resize-frame'; // registers <aha-image-resize-frame>
+import { useRef, useEffect } from 'react';
+
+// React 18 needs a thin wrapper for the custom events; React 19 can use <aha-image-resize-frame> directly.
+function AhaImageResizeFrame({ src, alt, width, onWidthChange, onPreview, onDelete }) {
+  const ref = useRef();
+  useEffect(() => {
+    const el = ref.current;
+    const handlers = {
+      'width-change': (e) => onWidthChange?.(e.detail.width),
+      preview: () => onPreview?.(),
+      delete: () => onDelete?.(),
+    };
+    Object.entries(handlers).forEach(([name, fn]) => el.addEventListener(name, fn));
+    return () => Object.entries(handlers).forEach(([name, fn]) => el.removeEventListener(name, fn));
+  }, [onWidthChange, onPreview, onDelete]);
+  return (
+    <aha-image-resize-frame ref={ref} width={width ?? 100}>
+      <img src={src} alt={alt} />
+    </aha-image-resize-frame>
+  );
+}
+
+// usage: the host owns the width (undo history) and the lightbox
+<AhaImageResizeFrame
+  src={media.url}
+  alt={media.alt}
+  width={media.width_pct}
+  onWidthChange={(width_pct) => commitMedia({ ...media, width_pct })}
+  onPreview={() => setPreviewOpen(true)}
+  onDelete={() => commitMedia(null)}
+/>

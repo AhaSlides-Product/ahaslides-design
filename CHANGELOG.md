@@ -33,11 +33,103 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.701.1 — 2026-11-02
+## 0.813.1 — 2026-11-02
 ### Fixed
 - `<aha-input>` built-in label (`label` attribute) is regular 400 in secondary ink (#4A4A4A), matching the Form label; it was semibold 600 in default ink. Size 14/21 and the 4px gap are unchanged. `<aha-counted-input>` and other fields that wrap `<aha-input>` follow. Group headers and SectionHeader stay semibold (#514)
 - `<aha-input size="large">` label is 16/24, matching the large field text (#514)
 - Revert: revert the PR; one CSS rule in `lib/aha-input.js`
+
+## 0.813.0 — 2026-11-02
+### Added
+- `<aha-image-resize-frame>`: the editor's on-canvas image frame. Wraps your `<img>`; click to select (2px Vivid Pink outline, four corner handles), drag a corner or use the Arrow keys on a handle to resize by width percent (floor max(15%, 120px), never past the natural width), and a hover mask with Preview (secondary) and Delete (danger) buttons, both size md (`actions` slot replaces them); handles draw 12px with an invisible 24px hit zone (44px under a coarse pointer). Emits `preview`, `delete`, `select-change`, `width-input` and `width-change`; the host owns the lightbox and the data. Opt-in, existing tokens only (#549)
+
+## 0.811.0 — 2026-11-02
+### Added
+- `<aha-palette-swatch>` (`@ahaslides-product/design/aha-palette-swatch`): a theme's colour palette as five rounded chips of rising heights, the presenter's theme-thumbnail palette. `colors` takes the theme's pipe-separated colours (first five; a shorter palette leaves later chips outlined), `label` gives it an accessible name, otherwise it is decorative. It fills its host's width at 152:33 (#519)
+- Revert: revert the PR; a new element only, nothing else imports it
+
+## 0.803.0 — 2026-11-02
+### Added
+- Chart: `type="nps"` draws the 0 to 10 answers of an NPS question as eleven columns under three brackets (Detractors 0 to 6, Passives 7 to 8, Promoters 9 to 10), each bracket with its count and share, plus the signed score (`NPS +26`, the displayed % promoters minus the displayed % detractors). With 0 responses it shows "No responses yet" and no stubs; under 480px the column counts go compact (18K). `data` is the 11 counts as an array or `{counts}`; `colors` takes the three bracket colours in the order detractor, passive, promoter, so a survey keeps its own hues (matched by position: a missing or invalid entry takes that bracket's default); without `colors` the brackets use the existing brand series and neutral (no new hue). `options.showScore` (default true) hides the score; on a narrow host the bracket names move to a key row under the chart. The text summary and data table list every rating and bracket, and the new copy keys (`typeNames.nps`, `npsDetractors`, `npsPassives`, `npsPromoters`, `npsScore`, `npsRating`, `npsSummary`) override through `strings`, in `en` and `vi`. Other chart types render exactly as before (#553)
+- Revert: revert the PR; only charts that set `type="nps"` change, and before it they fell back to a bar chart
+
+## 0.802.0 — 2026-11-02
+### Added
+- `<aha-answer-list>` opt-in wiring for the 0.627.0 row additions (#538), each off by default so existing lists render unchanged: `roving` (one Tab stop, Arrow keys, Home and End), `option-labels="alphabet|number"` (a letter chip per row, A … Z, AA; `answerOptionLabel` exported), an `options[]` entry with `other: true` (and `otherValue`) for the inline Other row, with `other-placeholder`, `other-input-label` and `other-maxlength`, and an `other-input` event carrying `detail.id` and `detail.value` (#542)
+- Revert: revert the PR; every addition is opt-in
+
+## 0.800.1 — 2026-11-02
+### Fixed
+- `<aha-menu>` a row that is both `danger` and `disabled` now takes the disabled colour (text-disabled #B5B5B5) like every other disabled row; before, the danger ink won and the row looked enabled. (#552)
+- Revert: revert the PR; only the danger+disabled row colour changes
+
+## 0.800.0 — 2026-11-02
+### Added
+- `aha-dropdown` takes a `slot="trigger"` control that replaces the default button, so an icon-only `aha-button` makes a kebab (three-dot) menu. It gets `aria-haspopup` and `aria-expanded`, opens on click, Enter, Space and ArrowDown, and takes focus back on close. Without the slot the dropdown renders as before (#523)
+- Revert: revert the PR; nothing else uses the slot
+
+## 0.774.0 — 2026-11-02
+
+### Added
+- `<aha-image-preview>` (`@ahaslides-product/design/aha-image-preview`): a full-screen image lightbox the host opens with `open` (or `show()`), with an opt-in `toolbar` to zoom (1x to 5x), rotate and flip. Escape, the mask and the close button emit a cancelable `close` (`detail.source`), then `closed`. Same overlay as the `<aha-image>` preview; modal, with a Tab trap, scroll lock and focus back to the opener. Translatable accessible names via `close-label`, `zoom-in-label` and the rest. (#540)
+- Revert: revert the PR; a new element only, nothing else imports it.
+
+## 0.780.0 — 2026-11-02
+### Added
+- `aha-counted-textarea` passes `inputmode` and `dir` to its inner field, as `aha-counted-input` does: `dir="auto"` reads a right-to-left answer right to left. `aha-audience-field` documents it for the textarea. Fields without the new attributes render unchanged (#550)
+- Revert: revert the PR; nothing else depends on the new attributes
+
+## 0.765.0 — 2026-11-02
+### Added
+- `<aha-segmented>` options take an optional `testid`, rendered as `data-testid` on that option's button, the same name `<aha-dropdown>` items use (#535). String options and options without `testid` render unchanged; icons (`icon`) and `ariaLabel` already worked.
+- Revert: revert the PR; `testid` is ignored by older releases
+
+## 0.761.0 — 2026-11-02
+### Added
+- Tooltip: `trigger="hover-tap"` shows the bubble on mouse hover, keyboard focus and a touch tap. A tap toggles it, a tap elsewhere or Esc closes it; pointer type and `:focus-visible` decide, so a mouse click adds nothing and the focus a tap leaves behind never shows it (#536)
+- Tooltip: `open-change` event (bubbles, composed) with detail `{ open: boolean }` on every show and hide, from any trigger or the `open` attribute, never twice in a row for one state, so analytics can fire on the first reveal (#536)
+- Tooltip: `help-label` names the built-in `?` help button for screen readers; it stays "More info" when unset (#536)
+- Revert: revert the PR; all three are opt-in, and a tooltip without them renders and behaves as before
+
+## 0.730.0 — 2026-11-02
+### Added
+- `<aha-select>` opt-in `allow-clear`: a clear button beside the caret while a value is set; a click, or Delete / Backspace on the closed trigger, empties the value and emits `change` and a new `clear` event with `{value:''}`; `clear-label` names the button (#537)
+- `<aha-select>` opt-in `show-search`: type to filter the options (ARIA 1.2 combobox with list autocomplete, Arrow / Enter / Escape / Tab), a `search` event with `{query}` and an `empty-text` no-match row (#537)
+- `<aha-select>` option objects take `description` (a second, smaller line under the label) and `title` (the row's native tooltip); `popup-width="match | content | <length>"` sets the popup width (#537)
+- Revert: revert the PR; every addition is opt-in, so an existing `<aha-select>` renders unchanged
+
+## 0.726.0 — 2026-11-02
+### Added
+- Chart: `strings` is now also a JSON attribute (`<aha-chart strings='{"emptyNote":"No answers yet"}'>`), so a static page or a framework binding can override any built-in text without a script. Every key of `chartStrings.en` is overridable, per key: type names, the empty-state note and summary, pager labels, legends, axis and tooltip text, summaries and live-region text, and the word-cloud and mind-map controls; the chart docs and contract list every key. Keys left out fall back to the locale's built-in copy (`en`, `vi`), then English; the `strings` property still wins over the attribute until the attribute changes. A chart without `strings` renders exactly as before (#545)
+- Revert: revert the PR; only charts that set the `strings` attribute change, and none shipped before it existed
+
+## 0.725.0 — 2026-11-02
+### Added
+- `<aha-menu>` rows take an optional `testid` (rendered as `data-testid`, as in `<aha-dropdown>`), an `attrs` map that passes `data-*` and `aria-label` through to the row, and a `slot` name that projects rich light-DOM content (text with an `<aha-tag>`, say) in place of the label. Rows without them render unchanged. (#526)
+### Fixed
+- `<aha-menu>` disabled rows now carry `aria-disabled="true"` beside the native `disabled`; the render is unchanged. (#526)
+- Revert: revert the PR; the new item fields are opt-in
+
+
+## 0.702.0 — 2026-11-02
+### Added
+- Chart: `colors` now applies with either palette. On the default `palette="brand"` it replaces the `--aha-viz-series-*` series (and their tints) with the host's own colours, in series order, and keeps the brand ink, so an app screen can pass its own palette (a survey's answer colours, Yes / No). The host picks the hues; a chart without `colors` renders exactly as before, and `palette="deck"` is unchanged (#532)
+- Revert: revert the PR; only charts that set `colors` without `palette="deck"` change, and no shipped consumer does
+
+## 0.701.0 — 2026-11-02
+### Added
+- Paywall: `placement="left"` and `placement="right"` hang the popover 8px beside the anchor, vertically centred on it, with the arrow on the facing edge; top and bottom are unchanged, and `align` and `fitPaywall` still work only with top and bottom (#546)
+- Paywall: `width` sets the popover width as a CSS length (a bare number is px), never past 82vw; the default stays 300px (#546)
+- Paywall: `slot="body"` takes the benefit sentence as rich content (a link, emphasis) in place of the plain-text `body`; the title, the fixed unlock line and both CTAs stay baked in, a link slotted directly (`<a slot="body">`) takes the white body text, underlined, and a body-slot child alone keeps the crown mark as the anchor (#546)
+### Fixed
+- Paywall: an open popover moves to its new spot when `placement`, `align` or `width` changes; before, it stayed where it was until the next scroll or resize (#546)
+- Paywall: an open popover also re-places itself when its own size changes (fonts loading, a body slot filled or edited), so a top or side popover no longer drifts off the anchor (#546)
+- Revert: revert the PR; all three are opt-in, and a paywall without them renders and behaves as before
+
+## 0.681.0 — 2026-11-02
+### Added
+- `aha-list` picker mode: the opt-in `selectable` attribute makes the `items` rows a single-choice listbox (rows `role="option"` with `aria-selected`; click, Enter or Space selects; ArrowUp, ArrowDown, Home and End move focus; one tab stop with a `:focus-visible` ring; picker rows render no `actions` buttons, since a listbox option holds no controls). `value` names the selected row's `key` (a row without `key` answers to its index), a row's `selected: true` is the initial pick, and the list emits a composed `select` with `{ key, index }`. The selected row takes the Menu's `bg-accent` tint. Without `selectable` the list is unchanged (#529)
+- Revert: revert the PR; the attribute is opt-in and the default list renders as before
 
 ## 0.680.0 — 2026-11-02
 ### Added

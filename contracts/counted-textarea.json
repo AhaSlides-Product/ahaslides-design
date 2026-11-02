@@ -28,6 +28,8 @@
     { "name": "placeholder", "type": "string", "default": "—", "desc": "Hint shown when empty" },
     { "name": "aria-label", "type": "string", "default": "—", "desc": "Accessible name, forwarded to the inner field (a placeholder is not a label); <aha-audience-field> sets it from its label" },
     { "name": "maxlength", "type": "number", "default": "150", "desc": "Character cap (settings-lab default 150); drives the focus-only counter (shows the characters left). Pass `none` to drop the cap and hide the counter" },
+    { "name": "inputmode", "type": "none | text | decimal | numeric | tel | search | email | url", "default": "—", "desc": "Passed to the inner field: picks the phone keyboard" },
+    { "name": "dir", "type": "auto | ltr | rtl", "default": "—", "desc": "Passed to the inner field. Set dir=\"auto\" on any field for text people type, so an Arabic or Hebrew answer reads right to left; the counter and the field keep their place" },
     { "name": "minrows", "type": "number", "default": "2", "desc": "Rows shown at rest — the field never shrinks below this" },
     { "name": "maxrows", "type": "number", "default": "5", "desc": "Rows the field grows to before it scrolls internally instead of growing" },
     { "name": "size", "type": "default | large | touch", "default": "default", "desc": "large sets 16px text on a 24px line and nothing else (no fixed height: the box still autogrows between minrows and maxrows); touch is a 16px-text phone field: 16px text, padding 12 16, radius 8. Both are audience-field sizes (inside <aha-audience-field>): a settings panel uses default, and screen-lint --surface=settings rejects large" },
