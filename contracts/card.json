@@ -6,11 +6,11 @@
   "tier": "leaf-lit",
   "badge": "shared web component",
   "element": "aha-card",
-  "summary": "A surface that groups related content — cover, title, body and footer actions — in default/small size, bordered or flat, with a hover lift and a loading skeleton.",
-  "highlights": ["Surface that groups related content", "Cover, title, body and footer actions", "Default or small, bordered or flat, hover lift, loading skeleton"],
-  "lead": "ONE custom element — <aha-card> — defined once, imported unchanged by React and Vue. The DS V3 Card is a family, not a single box: slot=\"cover\" adds a full-bleed image, `card-title` renders the header with slot=\"extra\" for a right-aligned action, the default slot is the body, slot=\"actions\" is a ruled-off footer row. `size` (default · small) tunes the padding, `bordered=\"false\"` drops the outline, `hoverable` lifts the card on hover, and `loading` swaps the body for a shimmer skeleton. Shadow-DOM CSS themed only by --aha-* tokens — zero drift, the same element in every framework.",
+  "summary": "A surface that groups related content — cover, title, body and footer actions — in default/small size, bordered or flat, with a hover lift, an opt-in keyboard-reachable clickable mode, equal-height stretch in a grid and a loading skeleton.",
+  "highlights": ["Surface that groups related content", "Cover, title, body and footer actions", "Default or small, bordered or flat, hover lift, loading skeleton", "Opt-in clickable card reachable by keyboard; equal heights in a grid"],
+  "lead": "ONE custom element — <aha-card> — defined once, imported unchanged by React and Vue. The DS V3 Card is a family, not a single box: slot=\"cover\" adds a full-bleed image, `card-title` renders the header as plain text (slot=\"title\" takes a rich title instead and wins over the attribute) with slot=\"extra\" for a right-aligned action, the default slot is the body, slot=\"actions\" is a ruled-off footer row. `size` (default · small) tunes the padding, `bordered=\"false\"` drops the outline, `hoverable` lifts the card on hover, `interactive` makes the whole card one keyboard-reachable button (role=\"button\", tabindex=\"0\", Enter and Space fire click, the DS focus ring on keyboard focus), `stretch` fills the grid or flex cell so cards in a row share one height, and `loading` swaps the body for a shimmer skeleton. Shadow-DOM CSS themed only by --aha-* tokens — zero drift, the same element in every framework.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["bg-container", "border", "border-hover", "split", "radius-lg", "radius-sm", "text-default", "text-secondary", "ink-a10", "bg-hover", "font-product", "motion-mid", "motion-slow", "ease-out"],
+  "tokensUsed": ["bg-container", "border", "border-hover", "focus-ring", "split", "radius-lg", "radius-sm", "text-default", "text-secondary", "ink-a10", "bg-hover", "font-product", "motion-mid", "motion-slow", "ease-out"],
   "spec": [
     { "label": "Container", "value": "border 1px #E3E3E3 · radius 12px · bg #FFFFFF" },
     { "label": "Cover", "value": "full-bleed media above the header, no inset; hidden when the slot is empty" },
@@ -20,15 +20,21 @@
     { "label": "Small size", "value": "header 8/12 · body 12 · actions 8/12 (antd Card size=small)" },
     { "label": "Bordered=false", "value": "border-color transparent — a flat surface" },
     { "label": "Hover (hoverable)", "value": "border #E70E68 + shadow, motion-mid ease-out on a persistent node" },
+    { "label": "Title slot", "value": "slot=\"title\" renders rich content in the header (16/24 SemiBold #1A1A1A); wins over card-title, which is always plain text" },
+    { "label": "Interactive", "value": "role=button + tabindex=0 on the host (author values kept); Enter on keydown, Space on keyup fire click; hover as hoverable; keyboard focus ring 2px #E70E68 at 2px offset, radius 12" },
+    { "label": "Stretch", "value": "host and card height 100% of the grid or flex cell; body grows so the actions row sits at the bottom" },
     { "label": "Loading", "value": "body → shimmer skeleton bars (aria-busy), motion-slow sweep" }
   ],
   "props": [
-    { "name": "card-title", "type": "string", "default": "—", "desc": "Renders the header row; omit for a bare body" },
+    { "name": "card-title", "type": "string", "default": "—", "desc": "Renders the header row as plain text (never markup); omit for a bare body" },
     { "name": "size", "type": "'default' | 'small'", "default": "default", "desc": "Padding density of header/body/actions" },
     { "name": "bordered", "type": "boolean-ish", "default": "true", "desc": "Set bordered=\"false\" for a flat, outline-less surface" },
     { "name": "hoverable", "type": "boolean", "default": "false", "desc": "Lift the card (border + shadow) on hover" },
+    { "name": "interactive", "type": "boolean", "default": "false", "desc": "The whole card is one button: role=\"button\" and tabindex=\"0\" (unless set), Enter and Space fire the native click event, hover lift and the DS focus ring. Listen for click; keep other controls out of an interactive card" },
+    { "name": "stretch", "type": "boolean", "default": "false", "desc": "Fill the grid or flex cell height so cards in a row share one height; the body grows and the actions row sits at the bottom" },
     { "name": "loading", "type": "boolean", "default": "false", "desc": "Swap the body for a shimmer skeleton while content loads" },
     { "name": "cover", "type": "slot", "default": "—", "desc": "Full-bleed image/media above the header" },
+    { "name": "title", "type": "slot", "default": "—", "desc": "Rich header title (text with an icon, tag or link); shows the header and wins over card-title" },
     { "name": "extra", "type": "slot", "default": "—", "desc": "Right-aligned header action (a link or button)" },
     { "name": "actions", "type": "slot", "default": "—", "desc": "Ruled-off footer row of actions" }
   ],
@@ -38,7 +44,7 @@
       { "what": "List", "when": "many uniform rows of the same shape" },
       { "what": "Descriptions", "when": "read-only label/value pairs about one entity" }
     ],
-    "note": "Titles are sentence case and name the group — 'Live results', not 'LIVE RESULTS'. Keep one idea per card; reach for hoverable only when the whole card is clickable. Use a cover for a media-led card, footer actions for card-level operations, and loading while the body fetches.",
+    "note": "Titles are sentence case and name the group — 'Live results', not 'LIVE RESULTS'. Keep one idea per card; reach for interactive when the whole card is clickable (it adds the keyboard path hoverable lacks) and keep other controls out of it; use stretch for a grid of cards with uneven content. Use a cover for a media-led card, footer actions for card-level operations, and loading while the body fetches.",
     "dsv3": "COVERED — enumerated from the DS V3 Card component-set taxonomy (Card + Card_Image_Wrapper for the cover, Card_Meta_Wrapper for the title/body meta, plus size/bordered/hoverable states matching antd Card). DS V3's measured set has no Card cell, so px/rgb are derived from the token layer (radius-lg, border, border-hover, split, bg-container, text-default/secondary, ink-a10) + antd Card conventions (16/24 header + 20 body default; 8/12 header + 12 body small). A deliberate, documented extension — not a measured match."
   },
   "surfaces": ["editor", "dashboard", "settings"],
@@ -62,6 +68,10 @@
       { "prop": "hoverable", "label": "Hoverable", "default": "off", "options": [
         { "label": "Off", "value": null },
         { "label": "On", "value": "" }
+      ] },
+      { "prop": "interactive", "label": "Interactive", "default": "off", "options": [
+        { "label": "Off", "value": null },
+        { "label": "On", "value": "" }
       ] }
     ]
   },
@@ -72,6 +82,9 @@
     { "label": "hover lifts via motion tokens (persistent node)", "verdict": "PASS" },
     { "label": "small size tightens header/body padding; bordered=false flattens outline", "verdict": "PASS" },
     { "label": "loading swaps body for shimmer skeleton (aria-busy)", "verdict": "PASS" },
+    { "label": "title slot wins over card-title; card-title is plain text", "verdict": "PASS" },
+    { "label": "interactive: role=button, tabindex=0, Enter/Space click, focus ring 2px #E70E68", "verdict": "PASS" },
+    { "label": "stretch fills the grid cell; actions row sits at the bottom", "verdict": "PASS" },
     { "label": "body 14/22 #4A4A4A", "verdict": "PASS" }
   ],
   "conformance": {

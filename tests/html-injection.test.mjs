@@ -4,8 +4,9 @@ import assert from 'node:assert/strict';
 const PAYLOAD = '<img src=x onerror="alert(1)">';
 const BREAKOUT = `"><img src=x onerror="alert(1)">`;
 const recordedHtml = [];
+const recordedText = [];
 
-// Any node the render touches: innerHTML writes are recorded, every other read or call is a no-op.
+// Any node the render touches: innerHTML and textContent writes are recorded, every other read or call is a no-op.
 function inertNode() {
   const node = new Proxy(function inert() {}, {
     get: (_target, key) => {
@@ -14,7 +15,11 @@ function inertNode() {
       if (key === 'length') return 0;
       return node;
     },
-    set: (_target, key, value) => { if (key === 'innerHTML') recordedHtml.push(String(value)); return true; },
+    set: (_target, key, value) => {
+      if (key === 'innerHTML') recordedHtml.push(String(value));
+      if (key === 'textContent') recordedText.push(String(value));
+      return true;
+    },
     apply: () => node,
   });
   return node;
@@ -62,9 +67,12 @@ for (const { module, exportName, attributes, what, setup } of cases) {
     for (const [name, value] of Object.entries(attributes)) element.setAttribute(name, value);
     setup?.(element);
     recordedHtml.length = 0;
+    recordedText.length = 0;
     element.connectedCallback();
     const html = recordedHtml.join('\n');
     assert.ok(!/<img/i.test(html), `markup creates an <img> element: ${html}`);
-    assert.ok(html.includes('&lt;img src=x onerror=&quot;alert(1)&quot;&gt;'), 'payload is missing as literal text');
+    const escapedInMarkup = html.includes('&lt;img src=x onerror=&quot;alert(1)&quot;&gt;');
+    const setAsText = recordedText.some((text) => text.includes(PAYLOAD) || text.includes(BREAKOUT));
+    assert.ok(escapedInMarkup || setAsText, 'payload is missing as literal text');
   });
 }
