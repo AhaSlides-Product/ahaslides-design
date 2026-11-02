@@ -37,7 +37,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - `<aha-menu>` rows take an optional `testid` (rendered as `data-testid`, as in `<aha-dropdown>`), an `attrs` map that passes `data-*` and `aria-label` through to the row, and a `slot` name that projects rich light-DOM content (text with an `<aha-tag>`, say) in place of the label. Rows without them render unchanged. (#526)
 ### Fixed
-- `<aha-menu>` disabled rows now carry `aria-disabled="true"`, and a disabled danger row takes the disabled colour instead of the danger colour. (#526)
+- `<aha-menu>` disabled rows now carry `aria-disabled="true"` beside the native `disabled`; the render is unchanged. (#526)
 - Revert: revert the PR; the new item fields are opt-in
 
 ## 0.618.0 — 2026-11-02

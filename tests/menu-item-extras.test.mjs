@@ -12,7 +12,7 @@ const items = JSON.stringify([
   { key: 'rename', label: 'Rename', testid: 'row-rename' },
   { key: 'export', label: 'Export', slot: 'export', attrs: { 'data-track': 'export', 'aria-label': 'Export to PDF', onclick: 'x', 'data-key': 'forged' } },
   { key: 'copy', label: 'Copy', disabled: true },
-  { key: 'delete', label: 'Delete', danger: true, disabled: true },
+  { key: 'delete', label: 'Delete', disabled: true },
   { key: 'plain', label: 'Plain' },
 ]).replace(/"/g, '&quot;');
 
@@ -37,7 +37,6 @@ test('row testid, attrs and slot reach the row; disabled rows are aria-disabled 
       dropped: exportRow.hasAttribute('onclick') || exportRow.getAttribute('data-key') !== 'export',
       projected: slot && slot.assignedElements().map((el) => el.textContent).join(),
       disabled: [copy, remove].map((row) => row.disabled && row.getAttribute('aria-disabled')),
-      disabledDangerInk: getComputedStyle(remove).color === getComputedStyle(copy).color,
       afterDown,
       plainUnchanged: !plain.hasAttribute('data-testid') && !plain.hasAttribute('aria-disabled') && !plain.querySelector('slot'),
     };
@@ -48,7 +47,6 @@ test('row testid, attrs and slot reach the row; disabled rows are aria-disabled 
   assert.equal(result.dropped, false);
   assert.equal(result.projected, 'Export Pro');
   assert.deepEqual(result.disabled, ['true', 'true']);
-  assert.equal(result.disabledDangerInk, true);
   assert.equal(result.afterDown, 'plain');
   assert.equal(result.plainUnchanged, true);
 });

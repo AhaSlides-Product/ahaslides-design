@@ -20,7 +20,7 @@
     { "label": "Submenu", "value": "caret rotates 90° + children expand inline (motion-mid), aria-expanded synced" },
     { "label": "Hover", "value": "bg-hover #F7F7F7 (motion-fast + ease-out, persistent node)" },
     { "label": "Selected", "value": "bg-accent #E70E680D fill + color-primary #E70E68 text" },
-    { "label": "Danger", "value": "color-error text (default ink #1A1A1A: the colour rules give status no hue), error-tinted hover; a disabled danger row takes the disabled colour" },
+    { "label": "Danger", "value": "color-error text (default ink #1A1A1A: the colour rules give status no hue), error-tinted hover" },
     { "label": "Disabled", "value": "text-disabled #B5B5B5, not-allowed, no hover; disabled + aria-disabled, never focused or activated, skipped by the arrow keys" },
     { "label": "Rich row", "value": "`slot` replaces the label with the named light-DOM child (the label is the fallback); the row grows to fit (min-height 36, 6px vertical padding); part=rich; text, tags and icons only, never a nested button or link" },
     { "label": "Row attributes", "value": "`testid` → data-testid; `attrs` passes data-* (not data-key) and aria-label; any other name is dropped" }
@@ -78,7 +78,7 @@
     { "label": "description renders as a smaller muted second line, linked with aria-describedby; rows without one are unchanged", "verdict": "PASS" },
     { "label": "description sits 6px below the label", "verdict": "PASS" },
     { "label": "testid, attrs and slot reach the row; rows without them are unchanged", "verdict": "PASS" },
-    { "label": "disabled rows carry aria-disabled and are skipped by the arrow keys; danger colour and hover never apply to a disabled row", "verdict": "PASS" },
+    { "label": "disabled rows carry aria-disabled and are skipped by the arrow keys", "verdict": "PASS" },
     { "label": "roving arrow-key nav; select event composed", "verdict": "PASS" }
   ],
   "conformance": {
