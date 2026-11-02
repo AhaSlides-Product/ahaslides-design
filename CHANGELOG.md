@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.607.0 — 2026-11-02
+## 0.608.0 — 2026-11-02
 ### Added
 - `aha-chart` grouped columns: `type="column"` with `{series, rows:[{label, values}]}` (or the line shape `{labels, series:[{label, values}]}`) draws one column per series side by side inside each row, with a series legend, value labels and a data table; up to 4 series (#NNN)
 - `aha-chart` attributes `x-title` and `y-title` on bar, column and line: one line of secondary text above (y) and under (x) the plot (#NNN)
