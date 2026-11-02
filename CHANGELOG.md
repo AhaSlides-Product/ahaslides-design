@@ -33,11 +33,22 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.621.0 — 2026-11-02
+## 0.641.0 — 2026-11-02
 
 ### Added
 - `<aha-image-preview>` (`@ahaslides-product/design/aha-image-preview`): a full-screen image lightbox the host opens with `open` (or `show()`), with an opt-in `toolbar` to zoom (1x to 5x), rotate and flip. Escape, the mask and the close button emit a cancelable `close` (`detail.source`), then `closed`. Same overlay as the `<aha-image>` preview; modal, with a Tab trap, scroll lock and focus back to the opener. Translatable accessible names via `close-label`, `zoom-in-label` and the rest. (#540)
 - Revert: revert the PR; a new element only, nothing else imports it.
+
+## 0.621.1 — 2026-11-02
+### Fixed
+- CHANGELOG: the 0.609.0 entry links its real PR number instead of the `(#PR)` placeholder that auto-merge shipped, which turned the standards gate red on master (#533)
+- Revert: revert the PR; changelog text only
+
+## 0.621.0 — 2026-11-02
+### Added
+- Rate: `character="number"` draws a numbers-only rating, cells 1 to `count` in place of the glyph. A cell is 32×32 and shrinks to 24 so ten fit a 360px phone (`size="sm"` 24×24), radius 8 (sm 6), gap 4. Empty is a 1px gray-40 outline with the number in text-default 14/600 (sm 12), filled is color-primary with a white number, and the fill sweeps in on hover and selection like the stars. Whole steps only: `allow-half` and `precision="exact"` are ignored (#530)
+- Rate: `surface="deck"` for an audience or canvas deck. The empty star or icon and the number cell outline take `--aha-deck-stroke-chip` (the deck ink at 20%, as radio and checkbox outlines), the number `--aha-deck-ink`, a number on a fill `--aha-deck-accent-ink`, and the focus ring `--aha-deck-ink`, all from the ladder `applyDeck` and `applyDeckTokens` write. The filled star stays `color-primary`, which `applyDeck` already sets to the deck accent. With no deck tokens on the page it renders as before (#530)
+- Revert: revert the PR; both are opt-in attributes, and a Rate without them renders unchanged
 
 ## 0.618.0 — 2026-11-02
 ### Added
@@ -74,7 +85,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.609.0 — 2026-11-02
 ### Added
-- `aha-skeleton` takes optional `width` and `height` (a number is px, or a CSS length: px, rem, em, %, vw, vh, calc()), so a placeholder can match the real content; on a paragraph they size the stack and each row. Unset, every variant renders as before (#PR)
+- `aha-skeleton` takes optional `width` and `height` (a number is px, or a CSS length: px, rem, em, %, vw, vh, calc()), so a placeholder can match the real content; on a paragraph they size the stack and each row. Unset, every variant renders as before (#518)
 - Revert: revert the PR; the attributes are opt-in
 
 ## 0.605.2 — 2026-11-02
