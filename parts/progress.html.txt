@@ -2,7 +2,8 @@
      <aha-progress> is the SAME shared custom element React and Vue consume — here in its
      native form. Theming comes only from the --aha-* tokens in tokens.css.
      type: line (default) | circle · size: default | small · steps: N (segmented line) ·
-     status: default | active | success | warning | exception · show-info="false" hides the label. -->
+     status: default | active | success | warning | exception · show-info="false" hides the label ·
+     palette="deck" on an audience page: the deck ladder from applyDeck() (or ink / accent on the element). -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';       // <aha-icon> for the status glyph
@@ -16,4 +17,5 @@
   <aha-progress size="small" percent="50"></aha-progress>
   <aha-progress steps="5" percent="60"></aha-progress>
   <aha-progress type="circle" percent="75"></aha-progress>
+  <aha-progress palette="deck" ink="#FFFFFF" accent="#E70E68" percent="40" style="background:var(--aha-bg-dark); padding:8px"></aha-progress>
 </div>
