@@ -19,7 +19,7 @@ const page = `<!doctype html><body style="margin:0;font-family:sans-serif">
 </aha-paywall>
 <script type="module">import '${lib}'; window.ready = true;</script>`;
 
-test('paywall placement left/right sits beside the anchor, width sets the popover width, slot="body" replaces the text body; an open popover follows placement and width changes', { skip }, async () => {
+test('paywall placement left/right sits beside the anchor, width sets the popover width, slot="body" replaces the text body; an open popover follows placement, width and content-size changes', { skip }, async () => {
   const file = join(mkdtempSync(join(tmpdir(), 'paywall-side-')), 'page.html');
   writeFileSync(file, page);
   const result = await evaluateInPage(pathToFileURL(file).href, `new Promise((resolve) => setTimeout(() => {
@@ -44,6 +44,7 @@ test('paywall placement left/right sits beside the anchor, width sets the popove
     const live = document.getElementById('left');
     live.setAttribute('placement', 'right');
     live.setAttribute('width', '280');
+    live.querySelector('[slot=body]').append(' A second clause makes the body wrap onto more lines than before.');
     setTimeout(() => resolve({ ...before, switched: state('left') }), 300);
   }, 400))`, { readyExpr: '!!window.ready && !!customElements.get("aha-paywall")' });
 
@@ -60,4 +61,5 @@ test('paywall placement left/right sits beside the anchor, width sets the popove
   assert.equal(result.left.markAnchor, true, 'a body-slot child alone keeps the crown mark as the anchor');
   assert.equal(result.switched.width, 280, 'width changes on an open popover');
   assert.equal(result.switched.gapRight, 8, 'an open popover moves when placement changes');
+  assert.ok(Math.abs(result.switched.centreOffset) <= 1, `an open side popover stays centred when its content grows (offset ${result.switched.centreOffset})`);
 });

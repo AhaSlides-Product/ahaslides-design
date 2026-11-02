@@ -40,6 +40,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Paywall: `slot="body"` takes the benefit sentence as rich content (a link, emphasis) in place of the plain-text `body`; the title, the fixed unlock line and both CTAs stay baked in, and a body-slot child alone keeps the crown mark as the anchor (#546)
 ### Fixed
 - Paywall: an open popover moves to its new spot when `placement`, `align` or `width` changes; before, it stayed where it was until the next scroll or resize (#546)
+- Paywall: an open popover also re-places itself when its own size changes (fonts loading, a body slot filled or edited), so a top or side popover no longer drifts off the anchor (#546)
 - Revert: revert the PR; all three are opt-in, and a paywall without them renders and behaves as before
 
 ## 0.624.0 — 2026-11-02
