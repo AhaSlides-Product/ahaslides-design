@@ -37,13 +37,13 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ### Added
 
-- `aha-input` `type` accepts `url` and `tel` in the contract (the element already set them on the inner field), so typed consumers can pass them (#NNN)
-- `aha-popover` `aria-label`: names the dialog panel, wins over `title`, and is forwarded inside the shadow root (#NNN)
+- `aha-input` `type` accepts `url` and `tel` in the contract (the element already set them on the inner field), so typed consumers can pass them (#565)
+- `aha-popover` `aria-label`: names the dialog panel, wins over `title`, and is forwarded inside the shadow root (#565)
 
 ### Fixed
 
-- `aha-popover` whose body is only an `<aha-menu>` or a `role="menu"` element no longer wraps the menu in an unnamed `role="dialog"`: the panel takes no role and the trigger wrapper reads `aria-haspopup="menu"`. A dialog popover with neither `title` nor `aria-label` logs one console warning the first time it opens (#NNN)
-- `aha-csat` names its feedback popover with `feedback-prompt`, else the `feedback-label` text (Feedback) (#NNN)
+- `aha-popover` whose body is only an `<aha-menu>` or a `role="menu"` element no longer wraps the menu in an unnamed `role="dialog"`: the panel takes no role and the trigger wrapper reads `aria-haspopup="menu"`. A dialog popover with neither `title` nor `aria-label` logs one console warning the first time it opens (#565)
+- `aha-csat` names its feedback popover with `feedback-prompt`, else the `feedback-label` text (Feedback) (#565)
 
 ## 0.890.1 — 2026-11-02
 
