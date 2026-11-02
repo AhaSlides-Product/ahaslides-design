@@ -33,10 +33,17 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.618.0 — 2026-11-02
+## 0.621.0 — 2026-11-02
 ### Added
 - `aha-list` picker mode: the opt-in `selectable` attribute makes the `items` rows a single-choice listbox (rows `role="option"` with `aria-selected`; click, Enter or Space selects; ArrowUp, ArrowDown, Home and End move focus; one tab stop with a `:focus-visible` ring). `value` names the selected row's `key` (a row without `key` answers to its index), a row's `selected: true` is the initial pick, and the list emits a composed `select` with `{ key, index }`. The selected row takes the Menu's `bg-accent` tint. Without `selectable` the list is unchanged (#529)
 - Revert: revert the PR; the attribute is opt-in and the default list renders as before
+
+## 0.618.0 — 2026-11-02
+### Added
+- `aha-scale-slider` takes an optional `track` (`stroke`, `stroke-chip` or `line`) that puts its rail on that rung of the deck ladder (ink at 12%, 20% or 24%), so a rail can read on a dark deck. Unset, the rail stays on `--aha-deck-stroke` exactly as before (#525)
+### Fixed
+- `aha-scale-slider` in a right-to-left page: the low and high labels collapsed towards the middle and sat under the wrong ends, because each label is `dir="auto"` and aligned by its own text. They now sit under the rail's left (min) and right (max) ends, aligned outward; a left-to-right page with left-to-right labels renders as before (#525)
+- Revert: revert the PR; `track` is opt-in and the label fix changes only labels whose direction differs from the rail's
 
 ## 0.616.0 — 2026-11-02
 ### Added
