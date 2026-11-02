@@ -70,6 +70,21 @@
    "first": "system-caret-circle-down",
    "second": "system-minus-circle",
    "reason": "Same circle frame by design, as in the Phosphor set both come from; the inner mark carries the meaning (a down caret opens a reveal, a minus marks not applicable), so the two are never used for the same thing."
+  },
+  {
+   "first": "system-check-square",
+   "second": "system-minus-square",
+   "reason": "Same square frame by design, as in the minus, plus and x square family; the inner mark carries the meaning (a tick marks a checked box or a checkbox question, a minus marks a partial selection), so the two are never used for the same thing."
+  },
+  {
+   "first": "system-neutral-face",
+   "second": "system-sad-face",
+   "reason": "Same face frame and eyes by design, as in the smiley, sad and angry face family; the mouth carries the meaning (a flat mouth is the neutral point of a sentiment scale, a frown is negative), so the two are never used for the same thing."
+  },
+  {
+   "first": "system-neutral-face",
+   "second": "system-smiley",
+   "reason": "Same face frame and eyes by design, as in the smiley, sad and angry face family; the mouth carries the meaning (a flat mouth is the neutral point of a sentiment scale, a smile is positive), so the two are never used for the same thing."
   }
  ]
 }
