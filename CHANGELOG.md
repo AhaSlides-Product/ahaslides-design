@@ -33,11 +33,18 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.618.0 — 2026-11-02
+## 0.621.0 — 2026-11-02
 ### Added
 - Rate: `character="number"` draws a numbers-only rating, cells 1 to `count` in place of the glyph. A cell is 32×32 and shrinks to 24 so ten fit a 360px phone (`size="sm"` 24×24), radius 8 (sm 6), gap 4. Empty is a 1px gray-40 outline with the number in text-default 14/600 (sm 12), filled is color-primary with a white number, and the fill sweeps in on hover and selection like the stars. Whole steps only: `allow-half` and `precision="exact"` are ignored (#530)
 - Rate: `surface="deck"` for an audience or canvas deck. The empty star or icon and the number cell outline take `--aha-deck-stroke-chip` (the deck ink at 20%, as radio and checkbox outlines), the number `--aha-deck-ink`, a number on a fill `--aha-deck-accent-ink`, and the focus ring `--aha-deck-ink`, all from the ladder `applyDeck` and `applyDeckTokens` write. The filled star stays `color-primary`, which `applyDeck` already sets to the deck accent. With no deck tokens on the page it renders as before (#530)
 - Revert: revert the PR; both are opt-in attributes, and a Rate without them renders unchanged
+
+## 0.618.0 — 2026-11-02
+### Added
+- `aha-scale-slider` takes an optional `track` (`stroke`, `stroke-chip` or `line`) that puts its rail on that rung of the deck ladder (ink at 12%, 20% or 24%), so a rail can read on a dark deck. Unset, the rail stays on `--aha-deck-stroke` exactly as before (#525)
+### Fixed
+- `aha-scale-slider` in a right-to-left page: the low and high labels collapsed towards the middle and sat under the wrong ends, because each label is `dir="auto"` and aligned by its own text. They now sit under the rail's left (min) and right (max) ends, aligned outward; a left-to-right page with left-to-right labels renders as before (#525)
+- Revert: revert the PR; `track` is opt-in and the label fix changes only labels whose direction differs from the rail's
 
 ## 0.616.0 — 2026-11-02
 ### Added
