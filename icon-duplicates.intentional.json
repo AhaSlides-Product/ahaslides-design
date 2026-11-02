@@ -65,6 +65,11 @@
    "first": "slidetype-youtube",
    "second": "system-youtube-logo",
    "reason": "Same YouTube mark in two families: slidetype-youtube is the 24px stroke slide-type glyph, system-youtube-logo is the Phosphor bold fill that matches the other system-*-logo social glyphs. Social-media rows use the system family (colour rule 2.6a)."
+  },
+  {
+   "first": "system-caret-circle-down",
+   "second": "system-minus-circle",
+   "reason": "Same circle frame by design, as in the Phosphor set both come from; the inner mark carries the meaning (a down caret opens a reveal, a minus marks not applicable), so the two are never used for the same thing."
   }
  ]
 }

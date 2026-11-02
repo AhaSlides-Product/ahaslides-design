@@ -6,7 +6,7 @@
     "slidetype",
     "system"
   ],
-  "count": 333,
+  "count": 355,
   "icons": {
     "filetype-course": {
       "family": "filetype",
@@ -770,6 +770,20 @@
         "left"
       ]
     },
+    "system-arrow-line-down": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M8 1.4L8 11.85M3.05 6.9L8 11.85L12.95 6.9M1.95 14.05L14.05 14.05\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "continue",
+        "scroll down",
+        "next section",
+        "arrow to line",
+        "move down",
+        "jump down"
+      ]
+    },
     "system-arrow-right-big": {
       "family": "system",
       "viewBox": "0 0 16 16",
@@ -1126,6 +1140,20 @@
         "collection"
       ]
     },
+    "system-caret-circle-down": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M1.4 8A6.6 6.6 0 1 1 14.6 8A6.6 6.6 0 1 1 1.4 8ZM5.25 6.9L8 9.65L10.75 6.9\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "reveal",
+        "expand",
+        "show more",
+        "dropdown",
+        "accordion",
+        "caret circle"
+      ]
+    },
     "system-caret-down": {
       "family": "system",
       "viewBox": "0 0 16 16",
@@ -1177,6 +1205,20 @@
         "collapse",
         "close",
         "less"
+      ]
+    },
+    "system-certificate": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M3.6 8 L6.9 8 M3.6 5.8 L6.9 5.8 M9.1 7.175 A3.025 3.025 0 1 1 15.15 7.175 A3.025 3.025 0 1 1 9.1 7.175 ZM10.2 11.85 L1.4 11.85 A0.55 0.55 0 0 1 0.85 11.3 L0.85 2.5 A0.55 0.55 0 0 1 1.4 1.95 L13.5 1.95 A0.55 0.55 0 0 1 14.05 2.5 L14.05 4.842 M10.2 9.508 L10.2 14.05 L12.125 12.95 L14.05 14.05 L14.05 9.508\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "certificate",
+        "award",
+        "credential",
+        "completion",
+        "diploma",
+        "achievement"
       ]
     },
     "system-chart-bar": {
@@ -1513,6 +1555,19 @@
         "purchase"
       ]
     },
+    "system-crop": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M3.6 0.85L3.6 12.4L15.15 12.4M0.85 3.6L3.6 3.6M5.8 3.6L12.4 3.6L12.4 10.2M12.4 12.4L12.4 15.15\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "crop",
+        "trim image",
+        "cut image",
+        "resize image",
+        "edit image"
+      ]
+    },
     "system-crown-badge-fill": {
       "family": "system",
       "viewBox": "0 0 16 16",
@@ -1581,6 +1636,20 @@
         "device",
         "audience view",
         "cell"
+      ]
+    },
+    "system-device-tablet": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M13.5 2.5L13.5 13.5A1.1 1.1 0 0 1 12.4 14.6L3.6 14.6A1.1 1.1 0 0 1 2.5 13.5L2.5 2.5A1.1 1.1 0 0 1 3.6 1.4L12.4 1.4A1.1 1.1 0 0 1 13.5 2.5ZM2.5 3.6L13.5 3.6M2.5 12.4L13.5 12.4\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "tablet",
+        "ipad",
+        "device",
+        "tablet view",
+        "preview",
+        "screen"
       ]
     },
     "system-document-check": {
@@ -2421,6 +2490,20 @@
         "flame"
       ]
     },
+    "system-flow-arrow": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M0.8 11.086 A2.057 2.057 0 1 1 4.914 11.086 A2.057 2.057 0 1 1 0.8 11.086 ZM13.143 2.857 L15.2 4.914 L13.143 6.971 M4.914 11.086 C10.571 11.086 7.486 4.914 13.143 4.914 L15.2 4.914\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "process",
+        "flow",
+        "steps",
+        "workflow",
+        "sequence",
+        "path"
+      ]
+    },
     "system-folder-2": {
       "family": "system",
       "viewBox": "0 0 16 16",
@@ -2556,6 +2639,20 @@
         "options",
         "narrow down",
         "lines"
+      ]
+    },
+    "system-gauge": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M0.85 11.3L0.85 9.728C0.85 5.776 4.023 2.514 7.975 2.5A7.15 7.15 0 0 1 15.15 9.65L15.15 11.3A0.55 0.55 0 0 1 14.6 11.85L1.4 11.85A0.55 0.55 0 0 1 0.85 11.3ZM8 2.5L8 4.7M6.35 11.85L10.75 5.8M12.95 8.55L15.066 8.55M0.946 8.55L3.05 8.55\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "gauge",
+        "score",
+        "performance",
+        "speed",
+        "meter",
+        "dashboard"
       ]
     },
     "system-gear": {
@@ -2749,6 +2846,19 @@
         "identity",
         "contact",
         "badge"
+      ]
+    },
+    "system-image-broken": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M6.35 13.5L1.95 13.5A0.55 0.55 0 0 1 1.4 12.95L1.4 3.05A0.55 0.55 0 0 1 1.95 2.5L14.05 2.5A0.55 0.55 0 0 1 14.6 3.05L14.6 5.25L11.3 6.35L10.2 9.1L7.45 10.2ZM8.669 13.5L9.215 11.864L11.896 10.793L12.967 8.111L14.603 7.565L14.603 12.95A0.55 0.55 0 0 1 14.053 13.5ZM1.4 10.797L5.136 7.061A0.55 0.55 0 0 1 5.914 7.061L8.595 9.742\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "broken image",
+        "image failed",
+        "missing image",
+        "image error",
+        "no image"
       ]
     },
     "system-image-square": {
@@ -3055,6 +3165,20 @@
         "explore"
       ]
     },
+    "system-map-pin": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M5.8 6.35A2.2 2.2 0 1 1 10.2 6.35A2.2 2.2 0 1 1 5.8 6.35ZM13.5 6.35C13.5 11.3 8 15.15 8 15.15S2.5 11.3 2.5 6.35A5.5 5.5 0 0 1 13.5 6.35Z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "map pin",
+        "location",
+        "marker",
+        "hotspot",
+        "place",
+        "label point"
+      ]
+    },
     "system-medal": {
       "family": "system",
       "viewBox": "0 0 16 16",
@@ -3139,6 +3263,20 @@
         "send to bottom"
       ]
     },
+    "system-minus-circle": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M5.25 8L10.75 8M1.4 8A6.6 6.6 0 1 1 14.6 8A6.6 6.6 0 1 1 1.4 8Z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "not applicable",
+        "skipped",
+        "removed",
+        "minus",
+        "none",
+        "excluded"
+      ]
+    },
     "system-minus-square": {
       "family": "system",
       "viewBox": "0 0 16 16",
@@ -3178,6 +3316,20 @@
         "return payment",
         "cash back",
         "reimburse"
+      ]
+    },
+    "system-monitor": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M13.5 12.4L2.5 12.4A1.1 1.1 0 0 1 1.4 11.3L1.4 3.6A1.1 1.1 0 0 1 2.5 2.5L13.5 2.5A1.1 1.1 0 0 1 14.6 3.6L14.6 11.3A1.1 1.1 0 0 1 13.5 12.4ZM10.2 14.6L5.8 14.6\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "monitor",
+        "desktop",
+        "computer",
+        "screen",
+        "desktop view",
+        "display"
       ]
     },
     "system-music-notes-simple": {
@@ -3600,6 +3752,20 @@
         "pinned"
       ]
     },
+    "system-puzzle-piece": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M4.425 14.6 A0.55 0.55 0 0 1 3.875 14.05 L3.875 11.115 A1.925 1.925 0 1 1 3.875 7.635 L3.875 4.7 A0.55 0.55 0 0 1 4.425 4.15 L7.635 4.15 A1.925 1.925 0 1 1 11.114 4.15 L14.325 4.15 A0.55 0.55 0 0 1 14.875 4.7 L14.875 7.635 A1.925 1.925 0 1 0 14.875 11.115 L14.875 14.05 A0.55 0.55 0 0 1 14.325 14.6 Z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "puzzle",
+        "block",
+        "plugin",
+        "module",
+        "component",
+        "add-on"
+      ]
+    },
     "system-qa": {
       "family": "system",
       "viewBox": "0 0 16 16",
@@ -3780,6 +3946,20 @@
         "table rows"
       ]
     },
+    "system-ruler": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M1.011 10.589L10.589 1.011A0.55 0.55 0 0 1 11.367 1.011L14.989 4.634A0.55 0.55 0 0 1 14.989 5.411L5.411 14.989A0.55 0.55 0 0 1 4.633 14.989L1.011 11.367A0.55 0.55 0 0 1 1.011 10.589ZM8 3.6L10.2 5.8M5.8 5.8L8 8M3.6 8L5.8 10.2\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "ruler",
+        "measure",
+        "size",
+        "dimensions",
+        "spacing",
+        "width"
+      ]
+    },
     "system-sad-face": {
       "family": "system",
       "viewBox": "0 0 16 16",
@@ -3819,6 +3999,20 @@
         "screen corners",
         "crop",
         "fit"
+      ]
+    },
+    "system-scroll": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M13.5 11.3 L13.5 3.6 A1.65 1.65 0 0 0 11.85 1.95 L2.5 1.95 M6.9 6.35 L11.3 6.35 M6.9 8.55 L11.3 8.55 M1.4 4.7 S0.85 4.288 0.85 3.6 A1.65 1.65 0 0 1 4.15 3.6 L4.15 12.4 A1.65 1.65 0 0 0 7.45 12.4 C7.45 11.713 6.9 11.3 6.9 11.3 L14.6 11.3 S15.15 11.713 15.15 12.4 A1.65 1.65 0 0 1 13.5 14.05 L5.8 14.05\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "scroll",
+        "lesson",
+        "document",
+        "script",
+        "story",
+        "empty content"
       ]
     },
     "system-seal-check": {
@@ -4133,6 +4327,104 @@
         "keyword"
       ]
     },
+    "system-target": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M8 8L14.6 1.4M12.667 3.333A6.592 6.592 0 1 0 13.957 5.154M10.333 5.667A3.3 3.3 0 1 0 11.296 7.812\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "target",
+        "goal",
+        "objective",
+        "aim",
+        "pass mark",
+        "focus"
+      ]
+    },
+    "system-text-b": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M4.7 7.45L10.2 7.45A2.75 2.75 0 0 1 10.2 12.95L4.7 12.95L4.7 2.5L9.375 2.5A2.475 2.475 0 0 1 9.375 7.45\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "bold",
+        "strong",
+        "text bold",
+        "format",
+        "rich text",
+        "weight"
+      ]
+    },
+    "system-text-h-one": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M1.95 3.05L1.95 11.3M9.1 7.175L1.95 7.175M9.1 3.05L9.1 11.3M14.6 13.5L14.6 6.9L12.95 8\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "heading 1",
+        "h1",
+        "title",
+        "large heading",
+        "rich text",
+        "heading"
+      ]
+    },
+    "system-text-h-three": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M1.125 2.775 L1.125 11.025 M8.275 6.9 L1.125 6.9 M8.275 2.775 L8.275 11.025 M11.575 6.625 L14.875 6.625 L12.95 9.375 A1.925 1.925 0 1 1 11.575 12.648\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "heading 3",
+        "h3",
+        "small heading",
+        "subheading",
+        "rich text",
+        "heading"
+      ]
+    },
+    "system-text-h-two": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M1.125 2.775 L1.125 11.025 M8.275 6.9 L1.125 6.9 M8.275 2.775 L8.275 11.025 M14.875 13.225 L11.575 13.225 L14.543 9.268 A1.65 1.65 0 1 0 11.669 7.725\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "heading 2",
+        "h2",
+        "subtitle",
+        "medium heading",
+        "rich text",
+        "heading"
+      ]
+    },
+    "system-text-italic": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M9.65 3.05L6.35 12.95M3.6 12.95L9.1 12.95M6.9 3.05L12.4 3.05\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "italic",
+        "emphasis",
+        "slanted",
+        "text italic",
+        "format",
+        "rich text"
+      ]
+    },
+    "system-text-strikethrough": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M1.95 8L14.05 8M4.448 5.8A1.768 1.768 0 0 1 4.364 5.25C4.364 3.731 5.876 2.5 8 2.5C9.581 2.5 10.767 3.179 11.3 4.15M4.15 10.75C4.15 12.269 5.874 13.5 8 13.5S11.85 12.269 11.85 10.75C11.85 9.116 10.364 8.481 8.715 8\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "strikethrough",
+        "strike",
+        "crossed out",
+        "delete text",
+        "format",
+        "rich text"
+      ]
+    },
     "system-text-t": {
       "family": "system",
       "viewBox": "0 0 16 16",
@@ -4145,6 +4437,20 @@
         "type",
         "add text",
         "heading"
+      ]
+    },
+    "system-text-underline": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M3.6 14.6L12.4 14.6M11.85 3.05L11.85 8.55A3.85 3.85 0 0 1 4.15 8.55L4.15 3.05\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "underline",
+        "text underline",
+        "format",
+        "rich text",
+        "emphasis",
+        "line under"
       ]
     },
     "system-thumb-up-down": {
