@@ -1,0 +1,60 @@
+<div class="pad">
+  <div class="lbl">Body, default 14/1.5</div>
+  <aha-text data-probe-body>Work through each lesson in order. Your progress saves as you go.</aha-text>
+
+  <div class="lbl">Sizes · 12 · 14 · 16 · 18 · 20 · 24 · 32</div>
+  <aha-flex vertical gap="8">
+    <aha-text size="sm">Caption 12, letter-spacing 0.3px</aha-text>
+    <aha-text>Body 14</aha-text>
+    <aha-text size="l">Body large 16</aha-text>
+    <aha-text size="h6">Subheading 18</aha-text>
+    <aha-text size="xl">Subheading 20</aha-text>
+    <aha-text size="h4">Heading 24</aha-text>
+    <aha-text size="h3">Heading 32</aha-text>
+  </aha-flex>
+
+  <div class="lbl">Weights · regular 400 · semibold 600</div>
+  <aha-flex gap="16" wrap>
+    <aha-text>Regular 400</aha-text>
+    <aha-text weight="semibold">Semibold 600</aha-text>
+  </aha-flex>
+
+  <div class="lbl">Tones · default · secondary · tertiary · disabled · inverse</div>
+  <aha-flex gap="16" wrap align="center">
+    <aha-text>Default</aha-text>
+    <aha-text tone="secondary">Secondary</aha-text>
+    <aha-text tone="tertiary">Tertiary</aha-text>
+    <aha-text tone="disabled">Disabled</aha-text>
+    <span style="padding:4px 8px; border-radius:var(--aha-radius-xs,4px); background:var(--aha-text-default,#1A1A1A)"><aha-text tone="inverse">Inverse</aha-text></span>
+  </aha-flex>
+
+  <div class="lbl">Headings · level 1-6 (role heading, aria-level)</div>
+  <aha-flex vertical gap="8">
+    <aha-text level="1">Level 1 · 32</aha-text>
+    <aha-text level="2" data-probe>Level 2 · 24</aha-text>
+    <aha-text level="3">Level 3 · 20</aha-text>
+    <aha-text level="4">Level 4 · 18</aha-text>
+    <aha-text level="5">Level 5 · 16</aha-text>
+    <aha-text level="6">Level 6 · 14</aha-text>
+    <aha-text level="3" size="l" tone="secondary">Level 3, size l, secondary</aha-text>
+  </aha-flex>
+
+  <div class="lbl">Paragraph · as="p"</div>
+  <div style="max-width:480px">
+    <aha-text as="p">A paragraph is a block with no margin. Space paragraphs with the container gap, never a margin on the text.</aha-text>
+  </div>
+
+  <div class="lbl">Ellipsis · one line, and lines="2"</div>
+  <aha-flex vertical gap="8" style="max-width:280px">
+    <aha-text ellipsis weight="semibold">Introduction to live quizzes for large classrooms</aha-text>
+    <aha-text as="p" lines="2" tone="secondary" data-probe-clamp>A long lesson description that is clamped to two lines. When the text is cut, the full text shows in the tooltip, so nothing is lost for a reader who needs it.</aha-text>
+  </aha-flex>
+</div>
+
+<!-- Imports the REAL shipped element (../lib/aha-text.js) — no inlined copy, so the preview can
+     never drift from lib/. The playground control bar (Size / Weight / Tone) is generated from
+     contracts/text.json → playground and drives this element's attributes live. -->
+<script type="module">
+  import '../lib/aha-flex.js';
+  import '../lib/aha-text.js';   // registers <aha-text> — the shipped primitive, byte-identical to consumers
+</script>

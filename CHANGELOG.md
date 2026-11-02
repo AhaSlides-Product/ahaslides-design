@@ -38,6 +38,26 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Chart: `<aha-chart type="pie">`, a solid pie with no centre hole. It is the donut renderer with the same slices, palette, labels, legend, tooltip, empty state and screen-reader summary (named "Pie chart"). `type="donut"` with `options.variant: "pie"` keeps working. Contract, all flavour files, docs and a Pie default snippet updated together.
 - Revert: revert the PR; `pie` is one new value in the chart type list that reuses the donut renderer, so existing donut and `variant: "pie"` markup is untouched (#508)
 
+## 0.600.0 — 2026-11-02
+### Added
+- Course theme: `applyCourseTheme(root, theme)` and `courseThemeVars(theme)` from `@ahaslides-product/design/course-theme` re-skin every `<aha-*>` component inside a customer course theme. Inputs: primary, pageBg, surface, textBody, textHeading, accent, fontBody, fontHeading, radius. Every semantic colour token, the grey ramp, fonts and the radius ladder resolve inside the scope; text and labels are floored at 4.5:1 and fills and focus rings at 3:1 on every state. The default theme reproduces the DS values exactly. New tokens `--aha-course-text-heading` and `--aha-course-accent`. Docs: Foundations › Course theme, with a learner-page `--lp-*` mapping; feed `course-theme.agent.json` (#510)
+### Fixed
+- `aha-loader` paints its overlay on `--aha-bg-container` instead of a fixed white, so it follows dark and course themes (#510)
+- `aha-checkbox` (tick, indeterminate bar), `aha-switch` (checked content) and `aha-tag` (solid, checked) take their foreground from `--aha-button-primary-text`; `aha-tabs`, `aha-radio` (button), `aha-breadcrumb`, `aha-pagination`, `aha-uploader`, `aha-screen-heading` and the checkable `aha-tag` hover colour text with `--aha-text-link`. Unthemed values are identical (`#FFFFFF` and primary) (#510)
+- The interactive-state colour-list check also waives a subtree that carries a course theme (`--aha-color-primary` set inline); contrast and focus are still measured, and the checkbox tick now carries its colour as `color` so the probe reads it
+- Revert: revert the PR; additive module and docs page, the loader change is one background value
+
+## 0.599.0 — 2026-11-02
+### Added
+- Icons for course and rich-text UI, 22 one-colour glyphs from Phosphor Icons Regular (MIT) on the DS 16px grid with the 1.5 stroke: the rich-text toolbar set `system-text-b`, `system-text-italic`, `system-text-underline`, `system-text-strikethrough`, `system-text-h-one`, `system-text-h-two`, `system-text-h-three`; device preview `system-monitor` and `system-device-tablet` (beside `system-device-mobile`); and `system-arrow-line-down`, `system-caret-circle-down`, `system-certificate`, `system-crop`, `system-flow-arrow`, `system-gauge`, `system-image-broken`, `system-map-pin`, `system-minus-circle`, `system-puzzle-piece`, `system-ruler`, `system-scroll`, `system-target`. Each has meaning words for `npm run icon-search`; the registry now holds 353 names (#509)
+
+## 0.597.0 — 2026-11-02
+### Added
+- `<aha-text>` (`@ahaslides-product/design/aha-text`): body copy, captions, paragraphs and in-page headings on the DS type scale, the replacement for antd Typography (Title, Text, Paragraph). `size` (12 · 14 · 16 · 18 · 20 · 24 · 32), `weight` (regular / semibold), `tone` (default, secondary, tertiary, disabled, inverse, inherit; no status hue), `level` 1-6 (role heading with aria-level), `as="p"`, `ellipsis` and `lines` (multi-line clamp, full text as the title when cut) (#507)
+### Changed
+- Shared components rule `text-and-colour` and its judge criterion name `<aha-text>` for visible text in place of AntD Typography (#507)
+- Revert: revert the PR; the element is a new file and nothing else imports it (#507)
+
 ## 0.596.2 — 2026-11-02
 ### Fixed
 - CHANGELOG: the 0.595.1 entry links its real PR number instead of the `(#PR)` placeholder that auto-merge shipped, which turned the standards gate red on master (#506)
@@ -46,6 +66,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.596.1 — 2026-11-02
 ### Fixed
 - `screen-lint`: `no-dash-punctuation` no longer fires on dashes inside CSS, SCSS and Less comments; `min-width-trap` no longer fires on a `min-width` inside an `@media` or `@container` condition on the product, canvas, audience and settings surfaces (website keeps its on-scale breakpoint check); `chart-lib-import` now catches `@ant-design/plots` (allow a type `<aha-chart>` lacks with `ds-lint-allow: chart-lib-import (why)`) (#505)
+
 ## 0.595.1 — 2026-11-02
 ### Fixed
 - Features Marketing page: the Accent code pane of the Alternating screenshots layout wrote `aha-features--alternating-screenshots--accent`, which no CSS defines, so a pasted snippet rendered white. It now writes `aha-features--accent`; the state class of every Marketing section now comes from the section, then the layout (#504)

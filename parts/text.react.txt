@@ -1,0 +1,21 @@
+import '@ahaslides-product/design/aha-text';   // registers <aha-text>
+
+// antd Typography → <aha-text>:
+//   <Title level={2}>                → <aha-text level="2">
+//   <Text type="secondary">          → <aha-text tone="secondary">
+//   <Text strong>                    → <aha-text weight="semibold">
+//   <Text style={{ fontSize: token.fontSizeSM }}> → <aha-text size="sm">
+//   <Text type="danger">             → <aha-text> plus a status icon or words (no status hue)
+//   <Paragraph>                      → <aha-text as="p">
+//   <Text ellipsis>                  → <aha-text ellipsis>
+//   <Paragraph ellipsis={{ rows: 2 }}> → <aha-text as="p" lines="2">
+//   <Typography.Link href>           → <aha-button variant="text-link" href>
+function LessonHeader({ title, updated, truncate }) {
+  return (
+    <aha-flex vertical gap="4">
+      <aha-text level="2">Lessons</aha-text>
+      <aha-text weight="semibold" ellipsis={truncate || undefined}>{title}</aha-text>
+      <aha-text size="sm" tone="secondary">Updated {updated}</aha-text>
+    </aha-flex>
+  );
+}
