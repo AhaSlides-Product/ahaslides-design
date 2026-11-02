@@ -35,10 +35,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.603.0 — 2026-11-02
 ### Added
-- `aha-icon` sizes 40, 48 and 64 with 3, 3.5 and 4px strokes (backed by the 40, 48 and 64 size tokens), for empty states and illustrations; static icon files are generated for the new sizes (#PR)
-- `aha-button` forwards `aria-disabled` and `aria-labelledby` to its inner button and keeps both in sync when they change (#PR)
+- `aha-icon` sizes 40, 48 and 64 with 3, 3.5 and 4px strokes (backed by the 40, 48 and 64 size tokens), for empty states and illustrations; static icon files are generated for the new sizes (#511)
+- `aha-button` forwards `aria-disabled` and `aria-labelledby` to its inner button and keeps both in sync when they change (#511)
 ### Fixed
-- `aha-button` is disabled by a disabled ancestor `<fieldset>`, like a native button (#PR)
+- `aha-button` is disabled by a disabled ancestor `<fieldset>`, like a native button (#511)
 
 ## 0.599.0 — 2026-11-02
 ### Added
