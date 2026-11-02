@@ -1,0 +1,12 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../lib/tokens.css">
+<script type="module">
+import { defineAhaChart } from '../lib/aha-chart.js';
+defineAhaChart();
+window.colorsFixtureReady = true;
+</script>
+<div style="width:640px">
+  <aha-chart id="host" type="column" colors="rgb(10, 20, 30), rgb(40, 50, 60)" data='[{"label":"Yes","value":41},{"label":"No","value":12}]'></aha-chart>
+  <aha-chart id="brand" type="column" data='[{"label":"Yes","value":41},{"label":"No","value":12}]'></aha-chart>
+</div>

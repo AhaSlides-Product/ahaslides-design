@@ -285,7 +285,7 @@ All attributes are optional except that charts need `data`.
 | `data` | JSON | none | The data. Also available as the `data` property. |
 | `options` | JSON object | `chartOptionDefaults[type]` | Type-specific settings. Also a property. |
 | `palette` | `brand`, `deck` | `brand` | Colour source. See [Palettes](#palettes). |
-| `colors` | comma-separated colours | none | Series colours when `palette="deck"`. Also a property taking an array. |
+| `colors` | comma-separated colours | none | Series colours from the host, in series order, with either palette. Also a property taking an array. |
 | `ink` | a CSS colour | `--aha-viz-ink` | Text colour when `palette="deck"`. |
 | `number-format` | `count`, `percent`, `both` | `both` | What each value shows. Percentages use largest-remainder rounding, so they total 100%. |
 | `sort` | `none`, `desc`, `asc` | `none` | Order. `desc` also shows rank numbers on a bar chart. An "Other" bucket always stays last. |
@@ -299,9 +299,10 @@ All attributes are optional except that charts need `data`.
 | `max-items` | number | bar and column: all; donut, radial, tree map and stacked series: 6 | Cap before the smallest items fold into "Other (n)". |
 | `responses` | number | sum of the values | Respondent count for the summary and the donut centre. |
 | `locale` | BCP 47 tag | `<html lang>`, else `en` | Built-in copy (`en`, `vi`) and number formatting. |
+| `strings` | JSON object | — | Overrides any built-in text, key by key. See [Locale and strings](#locale-and-strings). |
 | `label` | string | the type name | The accessible name and the data-table caption. |
 
-Properties without an attribute form: `strings` (object, see [Locale](#locale-and-strings)) and `colors` as an array.
+`strings` and `colors` also work as properties (an object and an array). A property wins over its attribute until the attribute changes.
 
 Method: `chart.replay()` re-runs the entrance animation with the current data.
 
@@ -338,7 +339,7 @@ Types with defaults: `donut` (also `pie`), `radial`, `treemap`, `quadrant`, `bel
 
 | `palette` | Use it for | Colours come from |
 |---|---|---|
-| `brand` (default) | Dashboards, reports and any normal app screen | The `--aha-viz-series-1` to `--aha-viz-series-6` tokens from `tokens.css` (with built-in fallbacks if you skip it). More than six bar or column options share series 1. |
+| `brand` (default) | Dashboards, reports and any normal app screen | The `--aha-viz-series-1` to `--aha-viz-series-6` tokens from `tokens.css` (with built-in fallbacks if you skip it), or your own `colors` when set; the text stays the brand ink. More than six bar or column options share series 1. |
 | `deck` | A presentation or full-screen canvas with its own colour scheme | `colors`: your own list, in order. `ink`: your text colour. Text that sits on a fill picks a readable colour automatically. |
 
 ```html
@@ -351,6 +352,13 @@ Types with defaults: `donut` (also `pie`), `radial`, `treemap`, `quadrant`, `bel
 
 From JavaScript: `chart.colors = ['#E70E68', '#FFFFFF']`.
 
+On an app screen with its own palette (a survey's answer colours), set `colors` without `palette="deck"`: the series take your colours and the text keeps the brand ink. Your app picks the hues.
+
+```html
+<aha-chart type="column" colors="var(--aha-viz-series-2),var(--aha-viz-series-4)" label="Would you recommend us?"
+  data='[{"label":"Yes","value":41},{"label":"No","value":12}]'></aha-chart>
+```
+
 ## Locale and strings
 
 Built-in text (summaries, "Other", pager labels, word-cloud hints and so on) is available in English (`en`) and Vietnamese (`vi`). Numbers are formatted with `Intl` for the locale.
@@ -359,12 +367,29 @@ Built-in text (summaries, "Other", pager labels, word-cloud hints and so on) is 
 <aha-chart type="bar" locale="vi" data='[...]'></aha-chart>
 ```
 
-To use another language or reword anything, pass `strings`. Keys you leave out fall back to English; see `chartStrings.en` for every key and its `{placeholders}`.
+To use another language or reword anything, pass `strings`, as a property or as a JSON attribute. Keys you leave out fall back to the locale's built-in text, then to English. `{placeholders}` are filled in for you, and count keys take `{ one, other }` plural forms.
 
 ```js
 chart.setAttribute('locale', 'fr');
 chart.strings = { other: 'Autres', otherCount: 'Autres ({count})', nextPage: 'Page suivante' };
 ```
+
+```html
+<aha-chart type="donut" data='[]' strings='{"emptyNote":"No answers yet","emptySummary":"{type}. No answers yet."}'></aha-chart>
+```
+
+Every key you can override (the chart draws no other text):
+
+| Group | Keys |
+|---|---|
+| Type names (accessible name, table caption, summaries) | `typeNames.bar`, `.column`, `.stacked`, `.donut`, `.pie`, `.radial`, `.treemap`, `.quadrant`, `.bell`, `.radar`, `.wordcloud`, `.mindmap`, `.line` |
+| Shared labels and table headers | `other`, `otherCount`, `optionNumber`, `responses`, `responsesUnit`, `people`, `submissions`, `item`, `count`, `share`, `word`, `level`, `group`, `average`, `correct`, `rank`, `value`, `period`, `noValue` |
+| Empty state | `emptyNote` (the visible "No responses yet"), `emptySummary`, `lineEmpty`, `radarNoResponses` |
+| Pager | `page`, `rankPage`, `previousPage`, `nextPage` |
+| Summaries and the live region | `summary`, `leader`, `correctSummary`, `stackedSummary`, `signedSummary`, `referenceSummary`, `lineSummary`, `lineLatest`, `wordcloudSummary`, `wordcloudLeader`, `mindmapSummary`, `quadrantSummary`, `bellSummary`, `bellStatement`, `radarSummary`, `radarSubject`, `updated` |
+| Legends, axes and tooltips | `leftAxis`, `rightAxis`, `radialScale`, `quadrantTooManyGroups`, `bellLevel`, `bellAverage`, `radarAverage`, `radarSubjectFallback`, `radarMeta`, `radarScale` |
+| Word cloud controls | `wordcloudHidden`, `wordcloudUndo`, `wordcloudRestoreAll`, `wordcloudAllHidden`, `wordcloudHideHint`, `wordcloudHideHintTouch`, `wordcloudHideKey`, `wordcloudMerged` |
+| Mind map controls | `mindmapMore`, `mindmapLevel`, `mindmapChildren`, `mindmapCollapse`, `mindmapExpand`, `mindmapAdd`, `mindmapAddBranch`, `mindmapMaxBranches`, `mindmapNewIdea`, `mindmapEdit`, `mindmapEditHint`, `mindmapNotEmpty` |
 
 ## Events
 

@@ -1,0 +1,11 @@
+<script setup>
+import '@ahaslides-product/design/aha-image-preview';   // registers <aha-image-preview>
+defineProps({ src: String, alt: String });
+const open = defineModel('open', { type: Boolean, default: false });
+</script>
+
+<template>
+  <!-- Controlled: cancel the element's own close and let the v-model drive `open`. -->
+  <aha-image-preview :src="src" :alt="alt" toolbar :open="open || null"
+    @close.prevent="open = false"></aha-image-preview>
+</template>
