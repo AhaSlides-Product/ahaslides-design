@@ -1,10 +1,6 @@
 {
   "name": "@ahaslides-product/design",
-<<<<<<< HEAD
   "version": "0.642.0",
-=======
-  "version": "0.624.0",
->>>>>>> origin/master
   "description": "AhaSlides design system for agents — single source of truth (tokens + component contracts) → generated docs, llms.txt, design.md, and per-component agent feeds. Hybrid: shared web-component primitives + antd/ant-design-vue composites.",
   "type": "module",
   "publishConfig": {
