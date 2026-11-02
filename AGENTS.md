@@ -39,6 +39,8 @@ Before you open a PR, add your change to the **top** of `CHANGELOG.md` and bump 
 - one short bullet per change, written for a consumer (#<PR-number>)
 ```
 
+**While the repo variable `AUTO_VERSION` is `on`, the merge sets the version instead:** head the entry `## Unreleased` (bullets end in `(#PR)` or the real number) and never touch `package.json` or `agent/.claude-plugin/plugin.json`; on merge `publish.yml` (`auto-version.mjs`) picks the number, dates the entry, fills the PR numbers and commits `chore(release): X.Y.Z`. A `Version-bump: patch|minor|major|none` line in the PR body overrides its pick. Run the gate locally as `AUTO_VERSION=on npm run check`. Off (the default), `## Unreleased` fails the gate.
+
 Pre-1.0 bump rule: a new component/prop/token/export → **MINOR** (`0.x.0`); a fix with no API change → **PATCH** (`0.0.x`); a breaking change → MINOR too (until 1.0), and say so in the bullet. The top version must equal `package.json` → `version`. **Publishing is automatic:** on merge to `master`, `publish.yml` ships the new `version` to GitHub Packages and creates the matching `v<version>` tag — you never tag or publish by hand, and a merge that bumped the version is a live release. So a correct `version` bump is the whole job. Each release then opens or refreshes one `ds/auto-bump` PR per consumer app in `.github/ds-consumers.json` (add an app there, one line); the app's team merges it.
 
 A red gate means the work isn't done. **Fix it — don't work around it.** To add a component, copy an existing one of your tier: **Icon** / **Checkbox** (leaf), **Table** (composite), then follow `CONTRIBUTING.md`.
@@ -53,7 +55,7 @@ Every contract, guideline and website section and brand asset declares `"environ
 
 ## Claude Code: the DS agent plugin
 
-This repo is also a Claude Code plugin marketplace. `agent/` is the `ahaslides-design` plugin (skills `aha-design` and `settings-design`, the mandatory runbook for any settings UI, + hooks), released with every version: `/plugin marketplace add AhaSlides-Product/ahaslides-design`, then enable `ahaslides-design@ahaslides-design` (settings.json snippet in `README.md`, "Agent plugin"). Changing it: every release bumps `package.json` and `agent/.claude-plugin/plugin.json` to the same version, keep rules in `anti-slop/` and `guidelines/` (the skill points at them), and run `npm run generate` so `agent/anti-slop/criteria.json` stays the store's copy. `standards.mjs` gates all three; the hook suites run in `npm test`.
+This repo is also a Claude Code plugin marketplace. `agent/` is the `ahaslides-design` plugin (skills `aha-design` and `settings-design`, the mandatory runbook for any settings UI, + hooks), released with every version: `/plugin marketplace add AhaSlides-Product/ahaslides-design`, then enable `ahaslides-design@ahaslides-design` (settings.json snippet in `README.md`, "Agent plugin"). Changing it: every release bumps `package.json` and `agent/.claude-plugin/plugin.json` to the same version (by hand, or by the release commit while `AUTO_VERSION` is on), keep rules in `anti-slop/` and `guidelines/` (the skill points at them), and run `npm run generate` so `agent/anti-slop/criteria.json` stays the store's copy. `standards.mjs` gates all three; the hook suites run in `npm test`.
 
 ## House non-negotiables (detail in the `aha-design` skill)
 
