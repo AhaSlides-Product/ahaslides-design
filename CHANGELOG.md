@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.598.0 — 2026-11-02
+## 0.600.0 — 2026-11-02
 ### Added
 - `screen-lint` hard-fails three new rules on every surface: `status-hue-class` (a `text-red-*`, `bg-green-*`, `border-yellow-*`, `text-danger` or similar utility class painting status in a hue; error text stays the default ink in `<aha-field-error>` or `<aha-alert type="error">`), `foreign-icon-library` (`<font-awesome-icon>`, `fa fa-*`, `zmdi`, `material-icons` and other icon libraries; glyphs are `<aha-icon>`) and `brand-logo-colour` (a `logo/original/` file outside the Logo library hover pattern, or the kit's `icon-maintain-color`, colour rule 2.6). Escape with `ds-lint-allow: status-hue`, `icon` or `brand-logo (why)` (#495)
 - Icons `system-google-logo` (the Google G) and `system-microsoft-logo` (the four squares): one-colour brand glyphs drawn like `system-facebook-logo` and `system-linkedin-logo` (#495)
@@ -41,12 +41,18 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Colour rule 2.6 and criterion C7: a Log in with Google or Log in with Microsoft button shows the brand's glyph from the icon library (`<aha-icon name="system-google-logo">`, default ink) at rest and the original colour logo (`logo/original/`) on hover and keyboard focus. Other third-party logos are unchanged (#495)
 - Revert: revert the PR; the icons and lint rules are additive
 
+## 0.596.2 — 2026-11-02
+### Fixed
+- CHANGELOG: the 0.595.1 entry links its real PR number instead of the `(#PR)` placeholder that auto-merge shipped, which turned the standards gate red on master (#506)
+- Revert: revert the PR; changelog text only
+
+
 ## 0.596.1 — 2026-11-02
 ### Fixed
 - `screen-lint`: `no-dash-punctuation` no longer fires on dashes inside CSS, SCSS and Less comments; `min-width-trap` no longer fires on a `min-width` inside an `@media` or `@container` condition on the product, canvas, audience and settings surfaces (website keeps its on-scale breakpoint check); `chart-lib-import` now catches `@ant-design/plots` (allow a type `<aha-chart>` lacks with `ds-lint-allow: chart-lib-import (why)`) (#505)
 ## 0.595.1 — 2026-11-02
 ### Fixed
-- Features Marketing page: the Accent code pane of the Alternating screenshots layout wrote `aha-features--alternating-screenshots--accent`, which no CSS defines, so a pasted snippet rendered white. It now writes `aha-features--accent`; the state class of every Marketing section now comes from the section, then the layout (#PR)
+- Features Marketing page: the Accent code pane of the Alternating screenshots layout wrote `aha-features--alternating-screenshots--accent`, which no CSS defines, so a pasted snippet rendered white. It now writes `aha-features--accent`; the state class of every Marketing section now comes from the section, then the layout (#504)
 - Revert: revert the PR; only the generated Accent code pane of one layout changes, no CSS or markup
 
 
