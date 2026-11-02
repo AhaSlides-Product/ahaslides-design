@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.884.0 — 2026-11-02
+### Added
+- `<aha-rate size="lg">` draws 32px stars inside a 44px hit area each (6px padding, gap 4), for touch surfaces; the focus ring and keyboard behaviour are unchanged and the default size is unchanged. With `character="number"` the cells become 44×44 (radius 12, number 16/600) and wrap onto a new row instead of shrinking. A custom `icon` character is drawn at 32px. No new colour values. (#555)
+- Revert: revert the PR; `size="lg"` falls back to the default 24px star, nothing else uses it
+
 ## 0.883.1 — 2026-11-02
 ### Fixed
 - `<aha-progress>` and `<aha-progressbar>`: `ink` and `accent` now apply only with `palette="deck"`, as the contract says. Before, `<aha-progress accent="#000">` recoloured the product fill and ring. `palette` is now observed, so adding or removing it re-reads the attributes and removing it clears the inline deck variables (#548)
