@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.617.0 — 2026-11-02
+### Added
+- `<aha-answer-list>` opt-in wiring for the 0.616.0 row additions, each off by default so existing lists render unchanged: `roving` (one Tab stop, Arrow keys, Home and End), `option-labels="alphabet|number"` (a letter chip per row, A … Z, AA; `answerOptionLabel` exported), an `options[]` entry with `other: true` (and `otherValue`) for the inline Other row, with `other-placeholder`, `other-input-label` and `other-maxlength`, and an `other-input` event carrying `detail.id` and `detail.value` (#PR)
+- Revert: revert the PR; every addition is opt-in
+
 ## 0.616.0 — 2026-11-02
 ### Added
 - `<aha-answer-option>` opt-in additions, each off by default so existing rows render unchanged: `letter` shows an option letter chip (24px, filled in the deck accent mark on my pick) in place of the radio or checkbox; `roving` makes sibling rows one Tab stop with Arrow keys, Home and End; `other` is an inline editable "Other (please specify)" row that emits `other-input` (`detail.value`), with `other-value`, `other-placeholder`, `other-input-label`, `other-maxlength` and the `otherValue` property; `--aha-answer-option-surface(-hover|-disabled)` replace the row surface for a host whose rows sit on a panel of the same frosted surface (#538)
