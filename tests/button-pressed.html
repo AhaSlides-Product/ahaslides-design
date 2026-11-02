@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Button pressed toggle</title>
+<link rel="stylesheet" href="../lib/tokens.css">
+<style>aha-button::part(button){ transition:none }</style>
+</head>
+<body>
+  <aha-button id="rest" variant="secondary">Bold</aha-button>
+  <aha-button id="on" variant="secondary" pressed>Bold</aha-button>
+  <aha-button id="off" variant="secondary" pressed="false">Bold</aha-button>
+  <aha-button id="mixed" variant="secondary" pressed aria-pressed="mixed">Bold</aha-button>
+  <aha-button id="disabled" variant="secondary" pressed disabled>Bold</aha-button>
+  <aha-button id="primary" variant="primary" pressed>Bold</aha-button>
+  <script type="module">
+    await import('../lib/aha-button.js');
+    await customElements.whenDefined('aha-button');
+    window.pressedFixtureReady = true;
+  </script>
+</body>
+</html>
