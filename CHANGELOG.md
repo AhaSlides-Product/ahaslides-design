@@ -38,7 +38,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Fixed
 
 - `<aha-leaderboard>` Show winner: the list's scrollbar is hidden while the winner banner covers it, so its track no longer shows as light corners outside the banner's rounded corners on a dark deck (#562)
-- Tests: the `aha-segmented` option testid test waits for the element to load before reading it, so it no longer fails at random in CI (#562)
+- Tests: the `aha-segmented` option testid, `aha-stat-tile` icon and `aha-dropdown` loading tests wait for the element to load before reading it, so it no longer fails at random in CI (#562)
 
 ## 0.857.2 — 2026-11-02
 
