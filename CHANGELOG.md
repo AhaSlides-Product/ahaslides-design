@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.616.0 — 2026-11-02
 ### Added
-- `<aha-answer-option>` opt-in additions, each off by default so existing rows render unchanged: `letter` shows an option letter chip (24px, filled in the deck accent mark on my pick) in place of the radio or checkbox; `roving` makes sibling rows one Tab stop with Arrow keys, Home and End; `other` is an inline editable "Other (please specify)" row that emits `other-input` (`detail.value`), with `other-value`, `other-placeholder`, `other-input-label`, `other-maxlength` and the `otherValue` property; `--aha-answer-option-surface(-hover|-disabled)` replace the row surface for a host whose rows sit on a panel of the same frosted surface (#PR)
+- `<aha-answer-option>` opt-in additions, each off by default so existing rows render unchanged: `letter` shows an option letter chip (24px, filled in the deck accent mark on my pick) in place of the radio or checkbox; `roving` makes sibling rows one Tab stop with Arrow keys, Home and End; `other` is an inline editable "Other (please specify)" row that emits `other-input` (`detail.value`), with `other-value`, `other-placeholder`, `other-input-label`, `other-maxlength` and the `otherValue` property; `--aha-answer-option-surface(-hover|-disabled)` replace the row surface for a host whose rows sit on a panel of the same frosted surface (#538)
 - Revert: revert the PR; every addition is opt-in, so no consumer depends on it yet
 
 ## 0.613.0 — 2026-11-02
