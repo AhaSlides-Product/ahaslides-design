@@ -1,9 +1,10 @@
 {
   "name": "User info",
   "slug": "user-info",
+  "environment": ["product"],
   "group": "Data display",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-user-info",
   "summary": "A person/identity row — an avatar next to a name, with an optional email underneath.",
   "highlights": ["Person or identity row", "Avatar beside a name", "Optional email underneath"],

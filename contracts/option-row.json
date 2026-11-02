@@ -4,7 +4,7 @@
   "environment": ["product"],
   "group": "Settings",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component — composite",
+  "badge": "shared web component — composite",
   "element": "aha-option-row",
   "summary": "The repeatable option/answer row — one bordered row with an inside drag handle, a borderless counted textarea, an optional correct toggle (circle or square) and per-option image, and a floating delete revealed on hover or focus; marking correct paints the whole card in the correct-answer green (SETTINGS-20/34/23/39).",
   "highlights": ["Repeatable option or answer row", "Drag handle, borderless counted textarea, optional correct toggle, per-option image", "Marking correct paints the whole card in the correct-answer green"],

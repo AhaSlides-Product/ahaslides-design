@@ -4,7 +4,7 @@
   "environment": ["product", "audience"],
   "group": "Data display",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-list",
   "summary": "A vertical list of uniform rows — avatar + title/description meta and trailing actions, with size, bordered and split options.",
   "highlights": ["Vertical list of uniform rows", "Avatar, title and description meta, trailing actions", "Size, bordered and split options"],

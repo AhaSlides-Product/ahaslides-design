@@ -19,6 +19,10 @@ https://design.ahaslides.io/llms.txt
 It lists every component and links each machine feed (`<slug>.agent.json`), the visual language
 (`design.md`), and the icon catalogue (`icons.agent.json`).
 
+Two generated stylesheets sit beside them: `tokens.css` (the `--aha-*` token layer) and
+`marketing.css` (every website Marketing section's CSS; `marketing/<slug>.css` holds one section), so a
+no-build page links them and pastes only the section HTML. Never edit either by hand.
+
 ## Two hosts, two jobs
 
 | You want to… | Host | URL shape |

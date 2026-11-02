@@ -1,9 +1,10 @@
 {
   "name": "Spin",
   "slug": "spin",
+  "environment": ["product"],
   "group": "Feedback",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-spin",
   "summary": "A brand-coloured spinner for an indeterminate wait — loading a page, a panel, or results.",
   "highlights": ["Brand-coloured spinner", "For an indeterminate wait", "Page, panel or results loading"],

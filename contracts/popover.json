@@ -4,7 +4,7 @@
   "environment": ["product", "audience"],
   "group": "Overlays",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-popover",
   "summary": "Anchor a floating card of rich content — a title, a body, and an optional arrow — to a trigger.",
   "highlights": ["Floating card of rich content", "Title, body and optional arrow", "Anchored to a trigger"],

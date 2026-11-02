@@ -7,7 +7,7 @@
     "audience"
   ],
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-select",
   "summary": "Pick one value from a short, known set — a lightweight native-select-backed field that embeds anywhere.",
   "highlights": [

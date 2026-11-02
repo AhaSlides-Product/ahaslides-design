@@ -4,7 +4,7 @@
   "environment": ["product", "audience"],
   "group": "Feedback",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-alert",
   "summary": "An inline, contextual feedback banner — info, success, warning, error, or branding — in regular/small sizes, with an optional full-width banner mode and a trailing action.",
   "highlights": ["Inline, contextual feedback banner", "Info, success, warning, error or branding tone", "Regular or small, with optional banner mode and trailing action"],

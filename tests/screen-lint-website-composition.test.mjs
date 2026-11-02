@@ -88,6 +88,14 @@ test('every shipped marketing snippet, html with the catalogue css, has no ds-cl
     assert.deepEqual(rulesOf(`<style>${catalogueCss}</style>${node.html}`).filter((rule) => rule === 'ds-class-without-css'), [], label);
 });
 
+test('a linked lib/marketing.css counts as the page CSS: shipped section HTML passes, a class the sheet does not style fails', () => {
+  const faq = JSON.parse(readFileSync(new URL('../marketing/faq.json', import.meta.url), 'utf8')).html;
+  const linked = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v1.0.0/lib/marketing.css">';
+  assert.deepEqual(rulesOf(`${linked}${faq}`).filter((rule) => rule === 'ds-class-without-css'), []);
+  assert.ok(rulesOf(`${linked}<style>main{display:block}</style>${faq}<div class="aha-faq__invented"></div>`).includes('ds-class-without-css'));
+  assert.ok(rulesOf(`<link rel="stylesheet" href="../lib/marketing/faq.css"><div class="aha-faq"><div class="aha-faq__invented"></div></div>`).includes('ds-class-without-css'));
+});
+
 test('a Step card in an ordinary grid fails even when another Steps row exists on the page', () => {
   const ring = '<span class="aha-marketing-card__number">1</span>';
   const page = `<div class="aha-marketing-cards__grid aha-marketing-cards__grid--row"><div class="aha-marketing-card--step">${ring}</div></div><div class="aha-marketing-cards__grid"><div class="aha-marketing-card--step">${ring}</div></div>`;

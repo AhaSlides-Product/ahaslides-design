@@ -1,9 +1,10 @@
 {
   "name": "Result",
   "slug": "result",
+  "environment": ["product"],
   "group": "Feedback",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-result",
   "summary": "A full-block outcome state — success, error, info, warning, 404, 403 or 500 — with an icon, title and actions.",
   "highlights": ["Full-block outcome state", "Success, error, info, warning, 404, 403 or 500", "Icon, title and actions"],

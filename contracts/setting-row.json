@@ -4,7 +4,7 @@
   "environment": ["product"],
   "group": "Settings",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-setting-row",
   "summary": "ONE setting — a label (with an optional \"?\" help) plus a slotted DS control; inline (label-left / control-right) by default, or stacked (label above, control full-width) for a wide control.",
   "highlights": ["One setting: label, optional “?” help, slotted DS control", "Inline by default, label left and control right", "Stacked for a wide control"],

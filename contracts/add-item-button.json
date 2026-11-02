@@ -7,7 +7,7 @@
   ],
   "group": "Settings",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-add-item-button",
   "summary": "The full-width \"+ Add\" affordance that sits under a settings list (OptionRow / QuestionList) — the DS secondary Button at full width, appending a new item.",
   "highlights": [

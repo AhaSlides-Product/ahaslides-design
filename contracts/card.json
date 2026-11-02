@@ -1,9 +1,10 @@
 {
   "name": "Card",
   "slug": "card",
+  "environment": ["product"],
   "group": "Data display",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-card",
   "summary": "A surface that groups related content — cover, title, body and footer actions — in default/small size, bordered or flat, with a hover lift and a loading skeleton.",
   "highlights": ["Surface that groups related content", "Cover, title, body and footer actions", "Default or small, bordered or flat, hover lift, loading skeleton"],

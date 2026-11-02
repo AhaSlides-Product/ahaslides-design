@@ -3,7 +3,7 @@
   "slug": "mode-field",
   "group": "Settings",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-mode-field",
   "environment": ["product"],
   "summary": "A labelled field with an inline exclusive mode control whose body swaps in place — the settings field for a control that has two-or-more mutually-exclusive modes.",
