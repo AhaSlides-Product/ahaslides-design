@@ -33,11 +33,18 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.726.1 — 2026-11-02
+## 0.730.1 — 2026-11-02
 ### Fixed
 - `<aha-progress>` and `<aha-progressbar>`: `ink` and `accent` now apply only with `palette="deck"`, as the contract says. Before, `<aha-progress accent="#000">` recoloured the product fill and ring. `palette` is now observed, so adding or removing it re-reads the attributes and removing it clears the inline deck variables (#548)
 - The deck-palette test uses a non-pink accent so it can tell the deck fill from the product fill, and covers own ink and accent, the ring, steps and attribute changes after connect
 - Revert: revert the PR; the default render is unchanged and only a stray `ink` / `accent` without `palette` changes (it now does nothing)
+
+## 0.730.0 — 2026-11-02
+### Added
+- `<aha-select>` opt-in `allow-clear`: a clear button beside the caret while a value is set; a click, or Delete / Backspace on the closed trigger, empties the value and emits `change` and a new `clear` event with `{value:''}`; `clear-label` names the button (#537)
+- `<aha-select>` opt-in `show-search`: type to filter the options (ARIA 1.2 combobox with list autocomplete, Arrow / Enter / Escape / Tab), a `search` event with `{query}` and an `empty-text` no-match row (#537)
+- `<aha-select>` option objects take `description` (a second, smaller line under the label) and `title` (the row's native tooltip); `popup-width="match | content | <length>"` sets the popup width (#537)
+- Revert: revert the PR; every addition is opt-in, so an existing `<aha-select>` renders unchanged
 
 ## 0.726.0 — 2026-11-02
 ### Added
