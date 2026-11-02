@@ -3,7 +3,7 @@ import '@ahaslides-product/design/aha-menu';    // registers <aha-menu>
 import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper for the composed `select` event; React 19 can bind onSelect directly.
-function AhaMenu({ items, value, mode, onSelect }) {
+function AhaMenu({ items, value, mode, onSelect, children }) {
   const ref = useRef();
   useEffect(() => {
     const el = ref.current;
@@ -11,7 +11,7 @@ function AhaMenu({ items, value, mode, onSelect }) {
     el.addEventListener('select', h);
     return () => el.removeEventListener('select', h);
   });
-  return <aha-menu ref={ref} value={value} mode={mode} items={JSON.stringify(items)} />;
+  return <aha-menu ref={ref} value={value} mode={mode} items={JSON.stringify(items)}>{children}</aha-menu>;
 }
 
 // usage — icons, a titled group, a submenu, a danger action; mode: vertical | inline | horizontal
@@ -32,3 +32,16 @@ function AhaMenu({ items, value, mode, onSelect }) {
   ]}
   onSelect={setView}
 />
+
+// per-row extras — testid → data-testid, attrs (data-*, aria-label), slot for rich row content
+<AhaMenu
+  items={[
+    { key: 'rename', label: 'Rename', icon: 'system-pencil-simple', testid: 'menu-rename' },
+    { key: 'export', label: 'Export to PDF', icon: 'system-file-pdf', slot: 'export' },
+    { key: 'duplicate', label: 'Duplicate', icon: 'system-copy', disabled: true },
+    { key: 'delete', label: 'Delete', icon: 'system-trash', danger: true },
+  ]}
+  onSelect={runAction}
+>
+  <span slot="export">Export to PDF <aha-tag color="primary">Pro</aha-tag></span>
+</AhaMenu>

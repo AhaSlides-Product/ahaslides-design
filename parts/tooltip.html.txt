@@ -30,4 +30,17 @@
     Shuffle options
     <aha-tooltip help text="Randomise the order options appear in for each participant"></aha-tooltip>
   </label>
+
+  <!-- hover-tap: hover and keyboard focus as above, plus a touch tap toggles it (a tap elsewhere or Esc closes it).
+       help-label names the ? button for screen readers ("More info" when unset). open-change reports each show and hide. -->
+  <label style="display:inline-flex; align-items:center; gap:6px; font-family:'Plus Jakarta Sans',sans-serif">
+    Custom survey URL
+    <aha-tooltip id="url-help" help trigger="hover-tap" help-label="About custom survey URLs"
+                 text="Share a memorable link instead of the generated code"></aha-tooltip>
+  </label>
 </div>
+<script>
+  document.getElementById('url-help').addEventListener('open-change', (event) => {
+    if (event.detail.open) console.log('tooltip revealed');
+  });
+</script>

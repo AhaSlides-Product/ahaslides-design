@@ -31,9 +31,9 @@ test('on a 360px phone the eleven numbers wrap to six per row with no overflow; 
     const rows = (id) => new Set([...document.querySelector(id).shadowRoot.querySelectorAll('.number')].map((n) => Math.round(n.getBoundingClientRect().top))).size;
     const phone = document.querySelector('#phone');
     const first = phone.shadowRoot.querySelector('.number').getBoundingClientRect();
-    return { phoneRows: rows('#phone'), wideRows: rows('#wide'), overflow: phone.scrollWidth > 360, height: first.height, wideEnough: first.width >= 40 };
+    return { phoneRows: rows('#phone'), wideRows: rows('#wide'), overflow: phone.scrollWidth > 360, height: first.height, wideEnough: first.width >= 40, minWidth: Math.min(...[...document.querySelector('#narrow').shadowRoot.querySelectorAll('.number')].map((n) => n.getBoundingClientRect().width)) >= 44 };
   })()`, ready);
-  assert.deepEqual(result, { phoneRows: 2, wideRows: 1, overflow: false, height: 48, wideEnough: true });
+  assert.deepEqual(result, { phoneRows: 2, wideRows: 1, overflow: false, height: 48, wideEnough: true, minWidth: true });
 });
 
 test('arrow keys move and pick, mirrored in right-to-left; Home and End jump to the ends', { skip }, async () => {

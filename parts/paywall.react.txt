@@ -39,6 +39,17 @@ export function CustomUrlSetting() {
         body="Add your logo and colours to every deck."
         required-plan="pro"
         align="start" />
+
+      {/* Beside the anchor, wider, with a rich body: placement="left|right", width, slot="body" */}
+      <aha-paywall
+        feature-key="custom_survey_url"
+        feature-label="Custom survey URL"
+        required-plan="pro"
+        placement="right"
+        width="360">
+        <button>Survey link</button>
+        <span slot="body">Share a memorable link instead of the generated code. </span><a slot="body" href="https://help.ahaslides.com">How it works</a>
+      </aha-paywall>
     </>
   );
 }
