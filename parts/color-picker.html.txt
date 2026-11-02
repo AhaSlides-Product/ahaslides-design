@@ -1,7 +1,9 @@
 <!-- Paste-and-run: save as .html and open in a browser. No build step.
      <aha-color-picker> is the SAME shared custom element React and Vue consume.
      Defaults to 12 presets; override with swatches="#hex|#hex". size = small|default|large,
-     disabled greys the control. The swatch matching value is ringed + checked. Emits a composed `change`. -->
+     disabled greys the control. The swatch matching value is ringed + checked. Emits a composed `change`.
+     `custom` adds a hex field, the browser colour picker and Pick from screen (each only where supported);
+     custom entry fires the same `change`, with e.detail.source = 'swatch' | 'hex' | 'native' | 'eyedropper'. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';          // <aha-icon> — the selected-swatch check glyph
@@ -12,11 +14,15 @@
 <aha-color-picker value="#E70E68" size="small"></aha-color-picker>
 <aha-color-picker value="#1A1A1A" size="large"></aha-color-picker>
 <aha-color-picker value="#E70E68" disabled></aha-color-picker>
+<aha-color-picker id="any" value="#1A1A1A" custom></aha-color-picker>
 <aha-color-picker value="#DB005B" swatches="#DB005B|#E70E68|#1A1A1A|#8A8A8A"></aha-color-picker>
 
 <script>
   // Plain DOM — no framework. Read e.detail.value off the composed CustomEvent.
   document.getElementById('pick').addEventListener('change', (e) => {
     console.log('colour:', e.detail.value);
+  });
+  document.getElementById('any').addEventListener('change', (e) => {
+    console.log('colour:', e.detail.value, 'from', e.detail.source);   // custom entry is always upper-case #RRGGBB
   });
 </script>
