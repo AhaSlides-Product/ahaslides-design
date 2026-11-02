@@ -16,7 +16,7 @@ All notable changes to `@ahaslides-product/design`, **newest first**.
   number and commits `chore(release): X.Y.Z` to master. Run the gate locally as `AUTO_VERSION=on npm run check`.
 
 The gate rejects an unfilled `(#129)` placeholder in every released entry: link the **real** PR number
-(under `## Unreleased`, `(#PR)` is fine; the release fills it in).
+(under `## Unreleased`, `(#522)` is fine; the release fills it in).
 
 **Format** — one entry per version:
 
@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.609.0 — 2026-11-02
 ### Added
-- `aha-rank-list` `touch` attribute: the move up / down buttons become 44 x 44 side by side with 8px between them (the audience touch-targets rule), with an 18% ink press state and disabled buttons at 55% opacity (about 3.9:1 on white) instead of 40%. Off, the 24px stacked buttons render unchanged (#PR)
+- `aha-rank-list` `touch` attribute: the move up / down buttons become 44 x 44 side by side with 8px between them (the audience touch-targets rule), with an 18% ink press state and disabled buttons at 55% opacity (about 3.9:1 on white) instead of 40%. Off, the 24px stacked buttons render unchanged (#522)
 - `aha-rank-list` `hide-caption` attribute: `group-label` still names the list for assistive technology (the list's aria-label) but the visible caption above the rows is hidden (#PR)
 - Revert: revert the PR; both attributes are opt-in and default off
 
