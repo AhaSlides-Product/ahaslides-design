@@ -38,6 +38,17 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `<aha-palette-swatch>` (`@ahaslides-product/design/aha-palette-swatch`): a theme's colour palette as five rounded chips of rising heights, the presenter's theme-thumbnail palette. `colors` takes the theme's pipe-separated colours (first five; a shorter palette leaves later chips outlined), `label` gives it an accessible name, otherwise it is decorative. It fills its host's width at 152:33 (#519)
 - Revert: revert the PR; a new element only, nothing else imports it
 
+## 0.624.0 — 2026-11-02
+### Added
+- `palette="deck"` on `<aha-progress>` and `<aha-progressbar>`: the audience flavour of the bar. Track, fill, steps, ring and label take the shared `--aha-deck-*` ladder that `applyDeck()` writes (track ink at 12% with the 1px hairline and frost, fill the deck accent, label ink-secondary, the deck's own font), the same bar as `<aha-countdown>`, so it no longer shows a bright product track on a dark deck. `ink` / `accent` set the deck on one element. Without `palette` the bar renders as before (#528)
+- `DECK_VARIABLES` export from `audience-deck`: the deck ladder's private variables as bare declarations, for an element that offers the deck as an opt-in flavour; `DECK_STYLE` is built from it and unchanged (#528)
+- Revert: revert the PR; the attribute is opt-in, so no consumer changes render
+
+## 0.621.1 — 2026-11-02
+### Fixed
+- CHANGELOG: the 0.609.0 entry links its real PR number instead of the `(#PR)` placeholder that auto-merge shipped, which turned the standards gate red on master (#533)
+- Revert: revert the PR; changelog text only
+
 ## 0.621.0 — 2026-11-02
 ### Added
 - Rate: `character="number"` draws a numbers-only rating, cells 1 to `count` in place of the glyph. A cell is 32×32 and shrinks to 24 so ten fit a 360px phone (`size="sm"` 24×24), radius 8 (sm 6), gap 4. Empty is a 1px gray-40 outline with the number in text-default 14/600 (sm 12), filled is color-primary with a white number, and the fill sweeps in on hover and selection like the stars. Whole steps only: `allow-half` and `precision="exact"` are ignored (#530)
@@ -79,7 +90,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.609.0 — 2026-11-02
 ### Added
-- `aha-skeleton` takes optional `width` and `height` (a number is px, or a CSS length: px, rem, em, %, vw, vh, calc()), so a placeholder can match the real content; on a paragraph they size the stack and each row. Unset, every variant renders as before (#PR)
+- `aha-skeleton` takes optional `width` and `height` (a number is px, or a CSS length: px, rem, em, %, vw, vh, calc()), so a placeholder can match the real content; on a paragraph they size the stack and each row. Unset, every variant renders as before (#518)
 - Revert: revert the PR; the attributes are opt-in
 
 ## 0.605.2 — 2026-11-02
