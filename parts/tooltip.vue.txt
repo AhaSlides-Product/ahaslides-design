@@ -5,7 +5,8 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 // Component.vue — placement: top|bottom|left|right (centred) OR edge-aligned
 //   top-start|top-end|bottom-start|bottom-end|left-start|left-end|right-start|right-end
 //   (a preference: with no room inside its panel or the viewport it opens on the side that has room)
-//   · color: dark|brand · arrow: true|false · trigger: hover|focus|click · help: built-in ? trigger
+//   · color: dark|brand · arrow: true|false · trigger: hover|focus|click|hover-tap (adds a touch tap) · help: built-in ? trigger
+//   · help-label: the ? button's accessible name ("More info" when unset) · @open-change: detail { open } on every show and hide
 <template>
   <aha-tooltip text="Copy share link" placement="bottom-start" color="brand">
     <button aria-label="Copy share link">Share</button>
@@ -17,4 +18,9 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
     Shuffle options
     <aha-tooltip help text="Randomise the order options appear in for each participant" />
   </label>
+
+  <!-- hover-tap: a touch tap toggles it too; a named ? button; analytics on reveal -->
+  <aha-tooltip help trigger="hover-tap" help-label="About custom survey URLs"
+               text="Share a memorable link instead of the generated code"
+               @open-change="(event) => event.detail.open && track('tooltip_revealed')" />
 </template>

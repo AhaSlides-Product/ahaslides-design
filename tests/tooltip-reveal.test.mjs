@@ -14,6 +14,8 @@ const scenarios = String.raw`(async () => {
   const tip = document.querySelector('#tip');
   const trigger = document.querySelector('#trigger');
   const out = {};
+  const announced = [];
+  tip.addEventListener('open-change', (event) => announced.push(event.detail.open));
 
   pointer(tip, 'pointerenter', 'mouse'); await frame();
   out.mouseHover = visible(tip);
@@ -32,6 +34,7 @@ const scenarios = String.raw`(async () => {
   out.keyboardFocus = trigger.matches(':focus-visible') ? visible(tip) : 'not-focus-visible';
   trigger.blur(); await frame();
   out.afterBlur = visible(tip);
+  out.openChanges = announced.join(',');
 
   const focusTip = document.querySelector('#focus-tip');
   document.querySelector('#focus-trigger').dispatchEvent(new FocusEvent('focusin', { bubbles: true, composed: true })); await frame();
@@ -43,10 +46,35 @@ const scenarios = String.raw`(async () => {
   const helpTip = document.querySelector('#help-tip');
   pointer(helpTip, 'pointerenter', 'mouse'); await frame();
   out.helpHover = visible(helpTip);
+  out.helpLabel = helpTip.shadowRoot.querySelector('.help').getAttribute('aria-label');
+  out.customHelpLabel = document.querySelector('#labelled-help-tip').shadowRoot.querySelector('.help').getAttribute('aria-label');
+
+  const tapTip = document.querySelector('#tap-tip');
+  const tapTrigger = document.querySelector('#tap-trigger');
+  const press = (target, pointerType) => {
+    target.dispatchEvent(new PointerEvent('pointerdown', { pointerType, bubbles: true, composed: true }));
+    target.dispatchEvent(new PointerEvent('click', { pointerType, detail: 1, bubbles: true, composed: true }));
+  };
+  pointer(tapTip, 'pointerenter', 'touch');
+  press(tapTrigger, 'touch'); await frame();
+  out.tapOpens = visible(tapTip);
+  press(document.querySelector('#elsewhere'), 'touch'); await frame();
+  out.tapElsewhereCloses = visible(tapTip);
+  press(tapTrigger, 'touch'); await frame();
+  press(tapTrigger, 'touch'); await frame();
+  out.secondTapCloses = visible(tapTip);
+  pointer(tapTip, 'pointerenter', 'mouse');
+  press(tapTrigger, 'mouse'); await frame();
+  out.tapModeMouseHover = visible(tapTip);
+  pointer(tapTip, 'pointerleave', 'mouse'); await frame();
+  out.tapModeMouseLeave = visible(tapTip);
+  tapTrigger.focus(); await frame();
+  out.tapModeKeyboardFocus = tapTrigger.matches(':focus-visible') ? visible(tapTip) : 'not-focus-visible';
+  tapTrigger.blur();
   return out;
 })()`;
 
-test('tooltip reveals on mouse hover and keyboard focus, never on touch or pointer focus', { skip }, async () => {
+test('tooltip reveals on mouse hover and keyboard focus, never on touch or pointer focus; hover-tap adds a touch tap', { skip }, async () => {
   const result = await evaluateInPage(fixture, scenarios, { readyExpr: '!!window.tooltipFixtureReady', timeout: 45000 });
   assert.equal(result.mouseHover, true);
   assert.equal(result.mouseLeave, false);
@@ -57,4 +85,13 @@ test('tooltip reveals on mouse hover and keyboard focus, never on touch or point
   assert.equal(result.focusTriggerAnyFocus, true);
   assert.equal(result.focusTriggerHoverOnly, false);
   assert.equal(result.helpHover, true);
+  assert.equal(result.openChanges, 'true,false,true,false');
+  assert.equal(result.helpLabel, 'More info');
+  assert.equal(result.customHelpLabel, 'About survey URLs');
+  assert.equal(result.tapOpens, true);
+  assert.equal(result.tapElsewhereCloses, false);
+  assert.equal(result.secondTapCloses, false);
+  assert.equal(result.tapModeMouseHover, true);
+  assert.equal(result.tapModeMouseLeave, false);
+  assert.equal(result.tapModeKeyboardFocus, true);
 });

@@ -1,0 +1,23 @@
+<div class="pad">
+  <div class="lbl">Five colours, at the 152px width of a theme card</div>
+  <div style="width:152px">
+    <aha-palette-swatch data-probe colors="#1A1A1A|#E70E68|#4A4A4A|#D4D4D4|#FFFFFF"></aha-palette-swatch>
+  </div>
+</div>
+<div class="pad">
+  <div class="lbl">Three colours: the last two chips stay outlined</div>
+  <div style="width:152px">
+    <aha-palette-swatch colors="#1A1A1A|#E70E68|#4A4A4A"></aha-palette-swatch>
+  </div>
+</div>
+<div class="pad">
+  <div class="lbl">Fills a wider host at the same ratio</div>
+  <div style="width:304px">
+    <aha-palette-swatch colors="#1A1A1A|#E70E68|#4A4A4A|#D4D4D4|#FFFFFF" label="Theme palette"></aha-palette-swatch>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element (../lib/aha-palette-swatch.js) — no inlined copy, so the preview can never drift from lib/. -->
+<script type="module">
+  import '../lib/aha-palette-swatch.js';
+</script>

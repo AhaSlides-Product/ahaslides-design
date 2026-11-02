@@ -1,0 +1,184 @@
+{
+  "name": "Image preview",
+  "slug": "image-preview",
+  "group": "Data display",
+  "tier": "leaf",
+  "badge": "shared web component",
+  "element": "aha-image-preview",
+  "reuse": {
+    "entry": "./aha-image-preview",
+    "registers": "aha-image-preview",
+    "exportsNamed": [
+      "AhaImagePreview",
+      "defineAhaImagePreview"
+    ]
+  },
+  "summary": "A full-screen image lightbox the host opens with `open`, with an opt-in zoom, rotate and flip toolbar.",
+  "lead": "ONE custom element, <aha-image-preview>, for showing an image full screen from any trigger: an eye button on an image's hover mask, a menu item, a thumbnail. It is the same overlay <aha-image> opens on click, as its own element with no frame, so the host owns `open`. Escape, a click on the mask or the close button emit a cancelable `close` (detail.source) and then remove `open`; `closed` fires once it is gone. `toolbar` adds a white bar of six icon buttons: zoom out, zoom in (1x to 5x in 0.5 steps, each disabled at its limit), rotate left, rotate right, flip horizontally, flip vertically. The view resets on every open and on a new `src`. While open it is a modal dialog: Tab is trapped, page scroll is locked and focus goes back to the opener.",
+  "codeNote": "Same element, same shadow-DOM CSS, identical render across frameworks. The toolbar is <aha-button variant=\"tertiary\" icon-only> with system icons, and the view is one CSS transform on the image. Defined once in @ahaslides-product/design.",
+  "tokensUsed": [
+    "bg-overlay",
+    "bg-container",
+    "bg-hover",
+    "icon-muted",
+    "text-default",
+    "border-focus",
+    "radius-lg",
+    "radius-sm",
+    "radius-default",
+    "space-20",
+    "space-16",
+    "space-4",
+    "motion-mid",
+    "motion-fast",
+    "ease-out",
+    "ease-in-out",
+    "font-product"
+  ],
+  "spec": [
+    {
+      "label": "Mask",
+      "value": "fixed full screen, Overlay rgba(0,0,0,.4), 32px padding, fades over motion mid"
+    },
+    {
+      "label": "Image",
+      "value": "up to 90vw by 90vh, object-fit contain, radius lg 12; the panel scales .96 to 1 on open"
+    },
+    {
+      "label": "Close",
+      "value": "20 by 20 white button, radius sm 6, system-x 16, 11px from the top and 15px from the right of the image"
+    },
+    {
+      "label": "Toolbar",
+      "value": "white bar 16px above the bottom edge, radius default 8, 4px padding and gap, six tertiary icon-only small buttons"
+    },
+    {
+      "label": "Zoom",
+      "value": "1x to 5x in 0.5 steps; zoom out is disabled at 1x and zoom in at 5x"
+    }
+  ],
+  "props": [
+    {
+      "name": "src",
+      "type": "string",
+      "default": "''",
+      "desc": "the image to show"
+    },
+    {
+      "name": "alt",
+      "type": "string",
+      "default": "''",
+      "desc": "the image's alternative text"
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "default": "false",
+      "desc": "shows the lightbox; the host owns it (or calls show() / close())"
+    },
+    {
+      "name": "toolbar",
+      "type": "boolean",
+      "default": "false",
+      "desc": "adds the zoom, rotate and flip bar"
+    },
+    {
+      "name": "label · close-label · zoom-in-label · zoom-out-label · rotate-left-label · rotate-right-label · flip-horizontal-label · flip-vertical-label",
+      "type": "string",
+      "default": "English",
+      "desc": "accessible names, for a translated host"
+    },
+    {
+      "name": "close (event)",
+      "type": "CustomEvent",
+      "default": "",
+      "desc": "cancelable; detail.source is escape, mask, close-button or method; cancel it to keep the lightbox open"
+    },
+    {
+      "name": "closed (event)",
+      "type": "Event",
+      "default": "",
+      "desc": "fires after open is removed"
+    },
+    {
+      "name": "::part(preview) · ::part(preview-panel) · ::part(preview-img) · ::part(preview-close) · ::part(toolbar)",
+      "type": "part",
+      "default": "",
+      "desc": "style hooks"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Image preview",
+        "when": "a host opens an image full screen from its own trigger, or needs zoom, rotate or flip"
+      },
+      {
+        "what": "Image",
+        "when": "a framed image that opens its own preview on click (use <aha-image preview>)"
+      }
+    ],
+    "note": "Keep `open` with the host and listen for `close`; never toggle the lightbox from inside the image. Turn the toolbar on only where people inspect the image itself (an uploaded image in an editor), not for a decorative picture."
+  },
+  "surfaces": [
+    "editor",
+    "dashboard"
+  ],
+  "environment": [
+    "product"
+  ],
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "image-preview.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a web component in an HTML file renders on open, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "image-preview.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "image-preview.vue.txt"
+    }
+  ],
+  "preview": "image-preview.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). The probe has a toolbar and stays closed; the shadow styles compute whether or not it is open.",
+    "ready": "!!(document.querySelector('aha-image-preview[data-probe]') && document.querySelector('aha-image-preview[data-probe]').shadowRoot && document.querySelector('aha-image-preview[data-probe]').shadowRoot.querySelectorAll('[data-tool]').length===6)",
+    "singleUI": true,
+    "measure": "(function(){var sr=document.querySelector('aha-image-preview[data-probe]').shadowRoot;var c=getComputedStyle(sr.querySelector('.pv-close'));var i=getComputedStyle(sr.querySelector('.pv-img'));var b=getComputedStyle(sr.querySelector('.bar'));var m=getComputedStyle(sr.querySelector('.pv'));return{closeWidth:c.width,closeFill:c.backgroundColor,imageRadius:i.borderTopLeftRadius,barDisplay:b.display,barRadius:b.borderTopLeftRadius,maskPadding:m.paddingTop,zoomOutDisabled:String(sr.querySelector('[data-tool=\"zoom-out\"]').hasAttribute('disabled'))};})()",
+    "expect": {
+      "closeWidth": "20px",
+      "closeFill": "rgb(255, 255, 255)",
+      "imageRadius": "12px",
+      "barDisplay": "flex",
+      "barRadius": "8px",
+      "maskPadding": "32px",
+      "zoomOutDisabled": "true"
+    }
+  },
+  "selfCheck": [
+    {
+      "label": "controlled open, cancelable close then closed",
+      "verdict": "PASS"
+    },
+    {
+      "label": "overlay, panel and close match the aha-image preview",
+      "verdict": "PASS"
+    },
+    {
+      "label": "zoom limits disable their buttons",
+      "verdict": "PASS"
+    }
+  ],
+  "highlights": [
+    "Opened by the host from any trigger",
+    "Opt-in zoom, rotate and flip toolbar",
+    "Modal: Tab trap, scroll lock, focus back to the opener"
+  ]
+}

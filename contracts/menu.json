@@ -8,7 +8,7 @@
   "element": "aha-menu",
   "summary": "A list of selectable options — a side nav, a settings list, an overflow menu — with icons, groups, submenus and danger actions.",
   "highlights": ["List of selectable options", "For side navs, settings lists and overflow menus", "Icons, groups, submenus and danger actions"],
-  "lead": "ONE custom element — <aha-menu> — defined once, imported unchanged by React and Vue. Feed it an `items` tree and a `value` (the selected key). The DS V3 Menu is a family, not a flat list: rows carry leading icons, a group title splits sections, a divider rules them off, a submenu expands inline, an item can be disabled or a red danger action, and a leaf can carry a `description` — a smaller muted second line under the label, for a role picker or a setting that needs one line of explanation. Three `mode`s: `vertical` (compact popover list, default), `inline` (indented sidebar tree), `horizontal` (top nav bar). The selected row is brand-tinted; hover, selection, submenu expand and the caret all animate via the shared motion tokens on PERSISTENT nodes — a class toggles, the subtree is never rebuilt on a state change. Emits a composed `select`.",
+  "lead": "ONE custom element — <aha-menu> — defined once, imported unchanged by React and Vue. Feed it an `items` tree and a `value` (the selected key). The DS V3 Menu is a family, not a flat list: rows carry leading icons, a group title splits sections, a divider rules them off, a submenu expands inline, an item can be disabled or a red danger action, and a leaf can carry a `description` — a smaller muted second line under the label, for a role picker or a setting that needs one line of explanation. Each row can also carry a `testid` (rendered as `data-testid`), an `attrs` map that passes `data-*` and `aria-label` through to the row, and a `slot` name that projects rich light-DOM content (text with a tag, say) in place of the label. Three `mode`s: `vertical` (compact popover list, default), `inline` (indented sidebar tree), `horizontal` (top nav bar). The selected row is brand-tinted; hover, selection, submenu expand and the caret all animate via the shared motion tokens on PERSISTENT nodes — a class toggles, the subtree is never rebuilt on a state change. Emits a composed `select`.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper that listens for `select`; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["border", "bg-container", "bg-hover", "bg-accent", "weight-regular", "weight-semibold", "text-default", "text-secondary", "text-tertiary", "text-disabled", "size-sm", "color-primary", "color-error", "border-focus", "split", "radius-default"],
   "spec": [
@@ -20,14 +20,17 @@
     { "label": "Submenu", "value": "caret rotates 90° + children expand inline (motion-mid), aria-expanded synced" },
     { "label": "Hover", "value": "bg-hover #F7F7F7 (motion-fast + ease-out, persistent node)" },
     { "label": "Selected", "value": "bg-accent #E70E680D fill + color-primary #E70E68 text" },
-    { "label": "Danger", "value": "color-error #1A1A1A text, error-tinted hover" },
-    { "label": "Disabled", "value": "text-disabled #B5B5B5, not-allowed" }
+    { "label": "Danger", "value": "color-error text (default ink #1A1A1A: the colour rules give status no hue), error-tinted hover; a disabled danger row takes the disabled colour like any disabled row" },
+    { "label": "Disabled", "value": "text-disabled #B5B5B5, not-allowed, no hover; disabled + aria-disabled, never focused or activated, skipped by the arrow keys" },
+    { "label": "Rich row", "value": "`slot` replaces the label with the named light-DOM child (the label is the fallback); the row grows to fit (min-height 36, 6px vertical padding); part=rich; text, tags and icons only, never a nested button or link" },
+    { "label": "Row attributes", "value": "`testid` → data-testid; `attrs` passes data-* (not data-key) and aria-label; any other name is dropped" }
   ],
   "props": [
-    { "name": "items", "type": "JSON tree", "default": "[]", "desc": "Rows. Leaf {key,label,description?,icon?,disabled?,danger?}; submenu {key,label,icon?,children:[]}; section {type:'group',label,children:[]}; rule {type:'divider'}" },
+    { "name": "items", "type": "JSON tree", "default": "[]", "desc": "Rows. Leaf {key,label,description?,icon?,disabled?,danger?,testid?,attrs?,slot?}; submenu {key,label,icon?,children:[],testid?,attrs?,slot?}; section {type:'group',label,children:[]}; rule {type:'divider'}. `testid` is rendered as data-testid; `attrs` passes data-* and aria-label to the row; `slot` projects the light-DOM child with that slot name in place of the label" },
     { "name": "value", "type": "string", "default": "—", "desc": "The selected item's key (brand-tinted row)" },
     { "name": "mode", "type": "'vertical' | 'inline' | 'horizontal'", "default": "vertical", "desc": "Layout: compact list · indented sidebar tree · top nav bar" },
     { "name": "borderless", "type": "boolean", "default": "false", "desc": "Drop the container's border, radius, fill and padding, for a side nav inside a surface that already frames it (a settings modal's left column). Rows, group titles and dividers are unchanged" },
+    { "name": "slot=\"<name>\"", "type": "light-DOM child", "default": "—", "desc": "Rich content for the row whose `slot` field matches: text, an <aha-tag>, an <aha-icon>. Never a button or link (the row is a button)" },
     { "name": "select", "type": "CustomEvent", "default": "—", "desc": "Composed event on selection, detail { key }" }
   ],
   "opinion": {
@@ -74,6 +77,8 @@
     { "label": "submenu expands inline on a persistent node (aria-expanded synced)", "verdict": "PASS" },
     { "label": "description renders as a smaller muted second line, linked with aria-describedby; rows without one are unchanged", "verdict": "PASS" },
     { "label": "description sits 6px below the label", "verdict": "PASS" },
+    { "label": "testid, attrs and slot reach the row; rows without them are unchanged", "verdict": "PASS" },
+    { "label": "disabled rows carry aria-disabled and are skipped by the arrow keys", "verdict": "PASS" },
     { "label": "roving arrow-key nav; select event composed", "verdict": "PASS" }
   ],
   "conformance": {

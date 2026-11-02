@@ -1,0 +1,237 @@
+{
+  "name": "Image resize frame",
+  "slug": "image-resize-frame",
+  "group": "Data display",
+  "tier": "leaf",
+  "badge": "shared web component",
+  "element": "aha-image-resize-frame",
+  "reuse": {
+    "entry": "./aha-image-resize-frame",
+    "registers": "aha-image-resize-frame",
+    "exportsNamed": [
+      "AhaImageResizeFrame",
+      "defineAhaImageResizeFrame"
+    ]
+  },
+  "summary": "The on-canvas image frame for an editor: click to select, four corner handles resize the image by width percent (drag or keyboard), a hover mask carries Preview and Delete; it emits intents, the host owns the lightbox and the data.",
+  "lead": "ONE custom element — <aha-image-resize-frame> — the editor's on-canvas image. It wraps the host's own <img>; the element itself is the 100% reference and the frame takes `width` percent of it. Click (or Enter / Space on the focused frame) selects it: a 2px Vivid Pink outline and four 12px corner handles appear; clicking outside or Escape deselects. Dragging any handle resizes (left handles grow leftward); each handle is a role=\"slider\" that the Arrow keys move by `step` and Home / End jump to the floor and ceiling. The width never drops below max(`min-width` %, `min-width-px`) and never upscales past the image's natural width. Hover, keyboard focus or selection reveals a 50% ink mask with icon-only Preview (system-eye) and Delete (system-trash) buttons; the `actions` slot replaces them. It owns no lightbox and no confirm: it emits `preview`, `delete`, `select-change`, `width-input` (live) and `width-change` (committed). Shadow-DOM CSS, themed only by --aha-* tokens, built once.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. Store `width` from `width-change` (it fires once per drag, on release, and per key press) and write it back; React (< 19) via a thin ref wrapper; Vue binds the custom element natively.",
+  "tokensUsed": [
+    "color-primary",
+    "white",
+    "white-a50",
+    "ink-a50",
+    "radius-default",
+    "radius-xs",
+    "motion-fast",
+    "ease-out"
+  ],
+  "spec": [
+    {
+      "label": "Frame",
+      "value": "inline-block at `width`% of the host, radius 8; the slotted <img> fills it (display:block, width 100%, radius 8)"
+    },
+    {
+      "label": "Selected",
+      "value": "2px #E70E68 outline at offset 0 (color-primary); keyboard focus on the frame draws the same 2px ring at offset 2"
+    },
+    {
+      "label": "Handles",
+      "value": "12×12 at each corner, 6px outside the edge, with an invisible 24×24 hit zone (44×44 under a coarse pointer); #FFFFFF fill, 1.5px #E70E68 border, radius 4, a 1px white 50% halo; nwse / nesw resize cursors; fade in with the selection (motion-fast, ease-out)"
+    },
+    {
+      "label": "Mask",
+      "value": "rgba(0,0,0,.5) (ink-a50) over the whole image, radius 8, two 36×36 icon-only aha-buttons 12px apart (Preview secondary, Delete danger, both size md); shown on hover (hover-capable pointers), keyboard focus inside, or while selected"
+    },
+    {
+      "label": "Resize",
+      "value": "drag a corner: width = start width ± pointer delta, as a whole percent of the host; floor max(15%, 120px), ceiling min(natural width, host width); one `width-change` on release"
+    },
+    {
+      "label": "Keyboard",
+      "value": "Tab to the frame; Enter / Space selects; Tab to a handle; Arrow Right / Up +step, Arrow Left / Down −step, Home floor, End ceiling; Escape deselects and returns focus to the frame"
+    },
+    {
+      "label": "Disabled",
+      "value": "no selection, no mask, no handles; the frame leaves the tab order"
+    }
+  ],
+  "props": [
+    {
+      "name": "width",
+      "type": "number (percent)",
+      "default": "100",
+      "desc": "The frame's width as a percent of the host; the element writes it back on every committed resize"
+    },
+    {
+      "name": "selected",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Shows the outline, the handles and the mask; set by click / Enter and cleared by an outside click or Escape"
+    },
+    {
+      "name": "min-width",
+      "type": "number (percent)",
+      "default": "15",
+      "desc": "Floor as a percent of the host"
+    },
+    {
+      "name": "min-width-px",
+      "type": "number",
+      "default": "120",
+      "desc": "Floor in pixels; the larger of the two floors wins, unless the image is narrower than it"
+    },
+    {
+      "name": "step",
+      "type": "number (percent)",
+      "default": "5",
+      "desc": "Arrow-key resize step"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Display only: no selection, mask or handles"
+    },
+    {
+      "name": "label / resize-label / preview-label / delete-label",
+      "type": "string",
+      "default": "Image / Resize image / Preview image / Delete image",
+      "desc": "Accessible names for the frame group, the handles and the two default buttons (localise them)"
+    },
+    {
+      "name": "slot (default)",
+      "type": "<img>",
+      "default": "—",
+      "desc": "The image; its natural width caps the resize"
+    },
+    {
+      "name": "slot=\"actions\"",
+      "type": "elements",
+      "default": "Preview + Delete",
+      "desc": "Replaces the mask's two default buttons"
+    },
+    {
+      "name": "preview / delete",
+      "type": "CustomEvent",
+      "default": "—",
+      "desc": "From the default mask buttons; the host opens its lightbox or removes the image"
+    },
+    {
+      "name": "select-change",
+      "type": "CustomEvent<{selected}>",
+      "default": "—",
+      "desc": "Selection turned on or off"
+    },
+    {
+      "name": "width-input / width-change",
+      "type": "CustomEvent<{width}>",
+      "default": "—",
+      "desc": "Live width during a drag / the committed width on release or key press"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Image resize frame",
+        "when": "an image placed on an editing canvas whose display width the author sets"
+      },
+      {
+        "what": "Image",
+        "when": "a read-only image with no editing"
+      },
+      {
+        "what": "Image action button",
+        "when": "a per-option image cell with Change, Edit and Delete"
+      }
+    ],
+    "note": "Width only, in percent of the column, never a free aspect-ratio drag and never an upscale past the image's natural size. Commit on release, not on every pointer move. The frame emits intents; the host owns the lightbox, the delete and the undo history.",
+    "dsv3": "NEW — the aha-survey classic editor's hand-made CanvasImageEditor (select, four corner handles, hover mask with Preview and Delete) mapped into the DS on existing tokens. Two values moved to the nearest token: mask 45% ink → ink-a50 (50%), handle halo white 60% → white-a50 (50%). The crop and focal-point editor is not part of it."
+  },
+  "surfaces": [
+    "editor"
+  ],
+  "environment": [
+    "product"
+  ],
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "image-resize-frame.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a web component in an HTML file renders on open, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "image-resize-frame.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "image-resize-frame.vue.txt"
+    }
+  ],
+  "preview": "image-resize-frame.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "ready": "!!(document.querySelector('aha-image-resize-frame[data-probe]') && document.querySelector('aha-image-resize-frame[data-probe]').shadowRoot && document.querySelector('aha-image-resize-frame[data-probe]').shadowRoot.querySelector('.handle'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-image-resize-frame[data-probe]');var r=el&&el.shadowRoot;var f=r&&r.querySelector('.frame');var h=r&&r.querySelector('.handle');if(!f||!h)return{};var fs=getComputedStyle(f),hs=getComputedStyle(h),ms=getComputedStyle(r.querySelector('.mask'));return{outline:fs.outlineColor,radius:fs.borderTopLeftRadius,handle:hs.width,handleBorder:hs.borderTopColor,handleRadius:hs.borderTopLeftRadius,mask:ms.backgroundColor};})()",
+    "expect": {
+      "outline": "rgb(231, 14, 104)",
+      "radius": "8px",
+      "handle": "12px",
+      "handleBorder": "rgb(231, 14, 104)",
+      "handleRadius": "4px",
+      "mask": "rgba(0, 0, 0, 0.5)"
+    }
+  },
+  "selfCheck": [
+    {
+      "label": "click selects; outside click and Escape deselect",
+      "verdict": "PASS"
+    },
+    {
+      "label": "four corner handles, drag resizes as a percent, never below the floor or past the natural width",
+      "verdict": "PASS"
+    },
+    {
+      "label": "handles are role=slider with Arrow, Home and End keys; frame reachable by Tab, Enter / Space selects",
+      "verdict": "PASS"
+    },
+    {
+      "label": "hover mask with Preview and Delete as icon-only aha-buttons by icon name; actions slot replaces them",
+      "verdict": "PASS"
+    },
+    {
+      "label": "existing tokens only; mask, handles and outline fade on motion-fast",
+      "verdict": "PASS"
+    }
+  ],
+  "highlights": [
+    "Click to select, four corner resize handles",
+    "Arrow keys resize from any handle (role=slider)",
+    "Hover mask with Preview and Delete, replaceable through a slot"
+  ],
+  "playground": {
+    "controls": [
+      {
+        "prop": "selected",
+        "label": "Selected",
+        "default": "false",
+        "options": [
+          {
+            "label": "No",
+            "value": "false"
+          },
+          {
+            "label": "Yes",
+            "value": "true"
+          }
+        ]
+      }
+    ]
+  }
+}
