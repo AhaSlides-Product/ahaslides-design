@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.604.1 — 2026-11-02
 ### Fixed
-- Security: text from attributes and JSON no longer renders as HTML in five elements. `aha-card` `card-title`, `aha-rate` `icon`, `aha-card-select` option `icon`, `aha-descriptions` `items` label and value, and `aha-tabs` panel `id` (in `aria-controls`) are now escaped, so a survey question title like `<img src=x onerror=…>` shows as literal text and creates no element. Light-DOM content of `aha-descriptions` keeps its markup. No visual change (#PR)
+- Security: text from attributes and JSON no longer renders as HTML in five elements. `aha-card` `card-title`, `aha-rate` `icon`, `aha-card-select` option `icon`, `aha-descriptions` `items` label and value, and `aha-tabs` panel `id` (in `aria-controls`) are now escaped, so a survey question title like `<img src=x onerror=…>` shows as literal text and creates no element. Light-DOM content of `aha-descriptions` keeps its markup. No visual change (#513)
 
 ## 0.601.0 — 2026-11-02
 ### Added
