@@ -33,16 +33,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.621.1 — 2026-11-02
+## 0.621.2 — 2026-11-02
 ### Fixed
-<<<<<<< HEAD
 - `<aha-input>` built-in label (`label` attribute) is regular 400 in secondary ink (#4A4A4A), matching the Form label; it was semibold 600 in default ink. Size 14/21 and the 4px gap are unchanged. `<aha-counted-input>` and other fields that wrap `<aha-input>` follow. Group headers and SectionHeader stay semibold (#514)
 - `<aha-input size="large">` label is 16/24, matching the large field text (#514)
 - Revert: revert the PR; one CSS rule in `lib/aha-input.js`
-=======
+
+## 0.621.1 — 2026-11-02
+### Fixed
 - CHANGELOG: the 0.609.0 entry links its real PR number instead of the `(#PR)` placeholder that auto-merge shipped, which turned the standards gate red on master (#533)
 - Revert: revert the PR; changelog text only
->>>>>>> origin/master
 
 ## 0.621.0 — 2026-11-02
 ### Added
