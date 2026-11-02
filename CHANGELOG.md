@@ -33,10 +33,23 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.863.0 — 2026-11-02
+## 0.884.0 — 2026-11-02
 ### Added
 - `<aha-rate size="lg">` draws 32px stars inside a 44px hit area each (6px padding, gap 4), for touch surfaces; the focus ring and keyboard behaviour are unchanged and the default size is unchanged. With `character="number"` the cells become 44×44 (radius 12, number 16/600) and wrap onto a new row instead of shrinking. A custom `icon` character is drawn at 32px. No new colour values. (#555)
 - Revert: revert the PR; `size="lg"` falls back to the default 24px star, nothing else uses it
+
+## 0.883.1 — 2026-11-02
+### Fixed
+- `<aha-progress>` and `<aha-progressbar>`: `ink` and `accent` now apply only with `palette="deck"`, as the contract says. Before, `<aha-progress accent="#000">` recoloured the product fill and ring. `palette` is now observed, so adding or removing it re-reads the attributes and removing it clears the inline deck variables (#548)
+- The deck-palette test uses a non-pink accent so it can tell the deck fill from the product fill, and covers own ink and accent, the ring, steps and attribute changes after connect
+- `tests/segmented-testid.test.mjs`, `tests/dropdown-loading.test.mjs` and `tests/stat-tile-icon.test.mjs` wait for the component module before reading the shadow root, so they no longer fail on a race
+- `<aha-list selectable>`: the row description uses `--aha-text-secondary` (#4A4A4A), not `--aha-text-tertiary` (#8A8A8A, 3.18 to 3.45:1), so picker rows meet the 4.5:1 interactive-state contrast gate, as `aha-select` option descriptions already do; lists without `selectable` are unchanged
+- Revert: revert the PR; the default render is unchanged and only a stray `ink` / `accent` without `palette` changes (it now does nothing)
+
+## 0.857.2 — 2026-11-02
+
+### Fixed
+- `aha-tooltip`: a hidden tooltip no longer adds to the page's layout overflow. Its 9px hover bridge took a box while the bubble was hidden, so a tooltip at the right edge of the page gave the whole page a horizontal scrollbar; the bridge now exists only while the bubble is shown, and hover onto the bubble still works. (#564)
 
 ## 0.857.0 — 2026-11-02
 ### Added
