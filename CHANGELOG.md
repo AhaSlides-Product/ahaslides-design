@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.614.0 — 2026-11-02
 ### Added
-- `aha-matrix`: a matrix question for the audience phone (rows × columns, one or several picks per row). Each statement is a labelled group of `aha-answer-option` rows, stacked on a 360px phone and side by side when there is room; `rows`, `columns`, `selection-mode`, `value` (`{rowId: columnId[]}`), `group-label`, `disabled`, `lock-key`, and a `change` event with `{value, row, column}` (#PR)
+- `aha-matrix`: a matrix question for the audience phone (rows × columns, one or several picks per row). Each statement is a labelled group of `aha-answer-option` rows, stacked on a 360px phone and side by side when there is room; `rows`, `columns`, `selection-mode`, `value` (`{rowId: columnId[]}`), `group-label`, `disabled`, `lock-key`, and a `change` event with `{value, row, column}` (#534)
 - Revert: revert the PR; the element is new and opt-in
 
 ## 0.609.0 — 2026-11-02
