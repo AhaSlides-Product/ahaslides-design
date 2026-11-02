@@ -33,10 +33,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.645.0 — 2026-11-02
+## 0.674.0 — 2026-11-02
 ### Added
 - `aha-number-scale`: a row of tappable whole numbers for the audience phone, 0–10 by default for a Net Promoter Score (`min`, `max` for any short numeric rating). 48px numbers, six per row when a phone is too narrow for one row, the pick filled with the deck accent, `low-label` / `high-label` under the scale, a radio group with arrow keys, Home and End (mirrored in right-to-left), `group-label`, `disabled`, `lock-key`, and a `change` event with `{value}` (#541)
 - Revert: revert the PR; the element is new and opt-in
+
+## 0.660.0 — 2026-11-02
+### Added
+- Logo library: the Claude mark (Brands, Integrations) in `logo/claude.svg` (greyscale on white), `logo/claude-white.svg` (white on Vivid Pink) and `logo/original/claude.svg` (as published), for AhaSlides × Claude co-brand lockups (#543)
+- Revert: revert the PR; three asset files and one manifest entry pair
 
 ## 0.627.0 — 2026-11-02
 ### Added
