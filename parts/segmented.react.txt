@@ -3,7 +3,7 @@ import '@ahaslides-product/design/icons';           // registers <aha-icon> (lea
 import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper; React 19 can use <aha-segmented> directly.
-// `options` is a pipe-string OR a JSON array of {value,label?,icon?,disabled?,ariaLabel?}.
+// `options` is a pipe-string OR a JSON array of {value,label?,icon?,disabled?,ariaLabel?,testid?}.
 function AhaSegmented({ options, value, size, block, disabled, onChange }) {
   const ref = useRef();
   useEffect(() => {

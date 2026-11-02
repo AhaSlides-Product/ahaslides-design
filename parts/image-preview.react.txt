@@ -1,0 +1,14 @@
+import { useEffect, useRef } from 'react';
+import '@ahaslides-product/design/aha-image-preview';   // registers <aha-image-preview>
+
+// Controlled: the parent owns `open`; the element asks to close with a cancelable `close` event.
+export function ImageLightbox({ src, alt, open, onOpenChange }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const element = ref.current;
+    const handleClose = (event) => { event.preventDefault(); onOpenChange(false); };
+    element.addEventListener('close', handleClose);
+    return () => element.removeEventListener('close', handleClose);
+  }, [onOpenChange]);
+  return <aha-image-preview ref={ref} src={src} alt={alt} toolbar="" open={open ? '' : undefined} />;
+}
