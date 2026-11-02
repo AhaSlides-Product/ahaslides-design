@@ -7,6 +7,10 @@
   <div class="row" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:420px;box-sizing:border-box">
     <div style="display:flex;flex-direction:column;gap:8px"><aha-answer-option expandable image="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23E70E68' fill-opacity='.15'/%3E%3Ccircle cx='200' cy='130' r='60' fill='%23E70E68'/%3E%3Crect x='120' y='210' width='160' height='24' rx='12' fill='%231A1A1A' fill-opacity='.7'/%3E%3C/svg%3E">Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday Monday</aha-answer-option><aha-answer-option expandable>Short option</aha-answer-option><aha-answer-option>Default row, unchanged</aha-answer-option></div>
   </div>
+  <div class="lbl">Opt-in: letter chips, roving (one Tab stop: Arrow keys, Home / End) and an inline Other row</div>
+  <div class="row" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:420px;box-sizing:border-box">
+    <div class="pick-demo" style="display:flex;flex-direction:column;gap:8px"><aha-answer-option roving letter="A" selected>Coffee</aha-answer-option><aha-answer-option roving letter="B">Tea</aha-answer-option><aha-answer-option roving letter="C" other other-placeholder="Type your answer">Other (please specify)</aha-answer-option></div>
+  </div>
   <div class="lbl">Dark deck — applyDeck() with a white ink and a Vivid Pink accent</div>
   <div class="row aud-dark" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:420px;box-sizing:border-box;padding:var(--aha-space-16);background:var(--aha-bg-dark);border-radius:var(--aha-radius-lg)">
     <div style="display:flex;flex-direction:column;gap:8px"><aha-answer-option revealed correct count="13" total="40" count-mode="percent">Tea</aha-answer-option><aha-answer-option revealed selected count="22" total="40" count-mode="percent">Coffee</aha-answer-option></div>
@@ -18,4 +22,7 @@
   import '../lib/aha-answer-option.js';   // registers <aha-answer-option>
   import { applyDeck } from '../lib/audience-deck.js';
   for (const deck of document.querySelectorAll('.aud-dark')) applyDeck(deck, { textColour: '#FFFFFF', presentationColorPalette: ['#E70E68'] });
+  for (const row of document.querySelectorAll('.pick-demo aha-answer-option')) row.addEventListener('pick', () => {
+    for (const sibling of row.parentNode.children) sibling.toggleAttribute('selected', sibling === row);
+  });
 </script>
