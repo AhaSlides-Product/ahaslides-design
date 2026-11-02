@@ -35,9 +35,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.607.0 — 2026-11-02
 ### Added
-- `aha-input` gains `borderless` (no border or fill at rest or on hover, the DS border and focus ring on keyboard focus, error status keeps its border) for inline editing, and `monospace` (field text in `--aha-font-mono`) (#PR)
-- `aha-button` gains a trailing icon: `<aha-icon slot="icon-end">` draws after the label, for buttons such as "Next →"; hidden on icon-only (#PR)
-- `aha-collapse` `slot="extra"` now takes a button: a click inside it no longer toggles the panel (#PR)
+- `aha-input` gains `borderless` (no border or fill at rest or on hover, the DS border and focus ring on keyboard focus, error status keeps its border) for inline editing, and `monospace` (field text in `--aha-font-mono`) (#515)
+- `aha-button` gains a trailing icon: `<aha-icon slot="icon-end">` draws after the label, for buttons such as "Next →"; hidden on icon-only (#515)
+- `aha-collapse` `slot="extra"` now takes a button: a click inside it no longer toggles the panel (#515)
 - Revert: revert the PR; the new attributes and slot are additive and the collapse change only skips the toggle for clicks inside the extra slot
 
 ## 0.605.0 — 2026-11-02
