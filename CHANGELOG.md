@@ -38,6 +38,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Logo library: a flat mono mark for 24 third-party brands in `logo/mono/<id>.svg`, one shape filled with `currentColor` so it takes the surrounding text colour (`--aha-icon-default` at rest). Shapes are Simple Icons (CC0) through theSVG; Microsoft, Teams, PowerPoint, Word, Excel, Slack, LinkedIn and PDF use a Phosphor fill or DS icon stand-in because Simple Icons dropped them; OneDrive, Canva, D2L and Cornerstone have no mono yet (`monoGap`). Each entry in `logo/manifest.json` records `mono`, `monoSource`, `monoSourceUrl` and `monoFetched`; the Logo page shows the mono beside the one-colour and original files, with a download link. Proposal only: colour rule 2.6 is unchanged until the mock-up is approved (#PR)
 - Revert: revert the PR; the new folder and manifest fields are additive
 
+## 0.837.0 — 2026-11-02
+### Changed
+- Canvas Library Leaderboard: each deck (light, dark and a new orange-accent deck with a tied first place) has a "Demo: show winner" button that replays the `showWinner()` reveal, so the banner, centre glow in `--aha-deck-accent`, count-up and confetti can be seen on the page; new Show winner rule row and `showWinner()` in the snippet. Docs and demo only, the component is unchanged (#556)
+- Revert: revert the PR; docs data only
+
 ## 0.835.0 — 2026-11-02
 ### Added
 - `aha-button` copies `aria-current` to its inner button and keeps it in step, so a pagination dot or step marked `aria-current="page"` is announced as current; `aria-keyshortcuts`, `aria-roledescription`, `aria-description` and `aria-busy` are forwarded the same way (#531)
