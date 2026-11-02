@@ -5,6 +5,7 @@
 <script type="module">
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';      // registers <aha-icon> for leading + caret glyphs
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-menu.js';   // registers <aha-menu>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-tag.js';    // registers <aha-tag> for the slotted Pro chip
 </script>
 
 <!-- mode="vertical" (default) | "inline" (sidebar tree) | "horizontal" (top nav bar) -->
@@ -29,6 +30,19 @@
     {"key":"editor","label":"Editor","description":"Edit and present"},
     {"key":"presenter","label":"Presenter","description":"Present only, cannot edit"}
   ]'>
+</aha-menu>
+
+<!-- per-row extras: testid → data-testid; attrs passes data-* and aria-label; slot projects
+     rich content (text, a tag) in place of the label; disabled rows are skipped by the arrow keys -->
+<aha-menu id="more"
+  items='[
+    {"key":"rename","label":"Rename","icon":"system-pencil-simple","testid":"menu-rename"},
+    {"key":"export","label":"Export to PDF","icon":"system-file-pdf","slot":"export"},
+    {"key":"duplicate","label":"Duplicate","icon":"system-copy","disabled":true},
+    {"type":"divider"},
+    {"key":"delete","label":"Delete","icon":"system-trash","danger":true,"attrs":{"data-testid":"menu-delete"}}
+  ]'>
+  <span slot="export">Export to PDF <aha-tag color="primary">Pro</aha-tag></span>
 </aha-menu>
 
 <script>
