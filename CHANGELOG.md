@@ -33,6 +33,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.607.0 — 2026-11-02
+### Added
+- `aha-input` gains `borderless` (no border or fill at rest or on hover, the DS border and focus ring on keyboard focus, error status keeps its border) for inline editing, and `monospace` (field text in `--aha-font-mono`) (#PR)
+- `aha-button` gains a trailing icon: `<aha-icon slot="icon-end">` draws after the label, for buttons such as "Next →"; hidden on icon-only (#PR)
+- `aha-collapse` `slot="extra"` now takes a button: a click inside it no longer toggles the panel (#PR)
+- Revert: revert the PR; the new attributes and slot are additive and the collapse change only skips the toggle for clicks inside the extra slot
+
 ## 0.605.0 — 2026-11-02
 ### Added
 - `screen-lint` hard-fails three new rules on every surface: `status-hue-class` (a `text-red-*`, `bg-green-*`, `border-yellow-*`, `text-danger` or similar utility class painting status in a hue; error text stays the default ink in `<aha-field-error>` or `<aha-alert type="error">`), `foreign-icon-library` (`<font-awesome-icon>`, `fa fa-*`, `zmdi`, `material-icons` and other icon libraries; glyphs are `<aha-icon>`) and `brand-logo-colour` (a `logo/original/` file outside the Logo library hover pattern, or the kit's `icon-maintain-color`, colour rule 2.6). Escape with `ds-lint-allow: status-hue`, `icon` or `brand-logo (why)` (#495)

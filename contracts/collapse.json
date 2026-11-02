@@ -108,7 +108,7 @@
       "name": "extra",
       "type": "slot",
       "default": "—",
-      "desc": "A trailing header accessory (a tag, a count, an icon)"
+      "desc": "A trailing header accessory (a tag, a count, an icon, or a button such as Edit or Delete). A click inside it never toggles the panel, so a button here runs only its own action; it sits in the header after the title, before the caret when icon-position is end"
     },
     {
       "name": "toggle",
