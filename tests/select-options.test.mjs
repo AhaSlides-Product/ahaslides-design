@@ -117,6 +117,9 @@ test('loading, filter="off", width="content", rich options with a selected label
     await command('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Backspace', code: 'Backspace', windowsVirtualKeyCode: 8 });
     out.tags = await evaluate(`({ values: document.getElementById('tags').values, events: window.tagEvents,
       chips: [...${root('tags')}.querySelectorAll('aha-tag')].map((t) => t.textContent), placeholder: ${root('tags')}.querySelector('.input').placeholder })`);
+    out.reattached = await evaluate(`(() => { const el = document.getElementById('tags'); el.values = ['kept@a.b', 'kept@c.d'];
+      const parent = el.parentNode; el.remove(); parent.appendChild(el);
+      return { values: el.values, chips: [...el.shadowRoot.querySelectorAll('aha-tag')].map((t) => t.textContent) }; })()`);
     return out;
   }, { readyExpr: '!!window.selectOptionsFixtureReady' });
 
@@ -137,4 +140,5 @@ test('loading, filter="off", width="content", rich options with a selected label
     chips: ['a@b.c', 'x@y.z', 'p@q.r'],
     placeholder: '',
   });
+  assert.deepEqual(result.reattached, { values: ['kept@a.b', 'kept@c.d'], chips: ['kept@a.b', 'kept@c.d'] });
 });
