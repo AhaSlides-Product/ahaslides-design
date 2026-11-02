@@ -154,6 +154,8 @@
       <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">Reference line</button>
       <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">Value on the line</button>
       <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">Signed decimals on the line</button>
+      <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">Grouped</button>
+      <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">Axis titles</button>
     </div>
     <div class="chart-case">
       <div class="lbl">Poll</div>
@@ -258,6 +260,20 @@
       <div class="chart-frame" role="group" aria-label="A value too wide for its bar goes beyond the line instead of spilling out of the bar, 1280 by 720 stage"><div class="chart-stage">
       <aha-chart type="column" label="Net revenue retention change" options='{"reference":{"value":-1,"label":"Average"}}'
         data='[{"label":"Q1","value":2.4},{"label":"Q2","value":-1.2},{"label":"Q3","value":3.1},{"label":"Q4","value":-3.6},{"label":"Q1","value":1.8},{"label":"Q2","value":-0.4}]'></aha-chart>
+      </div></div>
+    </div>
+    <div class="chart-case" hidden>
+      <div class="lbl">Grouped: one column per series, side by side</div>
+      <div class="chart-frame" role="group" aria-label="Grouped, 1280 by 720 stage"><div class="chart-stage">
+      <aha-chart type="column" label="Units sold by region"
+        data='{"series":["North","South","East"],"rows":[{"label":"Q1","values":[12,8,5]},{"label":"Q2","values":[20,14,9]},{"label":"Q3","values":[16,18,11]},{"label":"Q4","values":[24,15,13]}]}'></aha-chart>
+      </div></div>
+    </div>
+    <div class="chart-case" hidden>
+      <div class="lbl">Axis titles above and below the plot</div>
+      <div class="chart-frame" role="group" aria-label="Axis titles, 1280 by 720 stage"><div class="chart-stage">
+      <aha-chart type="column" label="Units sold by region" x-title="Quarter" y-title="Units sold"
+        data='{"series":["North","South"],"rows":[{"label":"Q1","values":[12,8]},{"label":"Q2","values":[20,14]},{"label":"Q3","values":[16,18]}]}'></aha-chart>
       </div></div>
     </div>
   </section>
