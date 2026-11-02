@@ -24,7 +24,9 @@
     "space-2",
     "space-12",
     "space-16",
-    "space-48"
+    "space-48",
+    "radius-sm",
+    "space-24"
   ],
   "spec": [
     {
@@ -46,6 +48,22 @@
     {
       "label": "Long text (expandable)",
       "value": "label clamps to 4 lines; More is a Button link (size sm, underlined, in the deck ink) under the text inside the card, only when the text is cut; the 44 picture stays after the text exactly as on a default row (same size, 12 gap, 8 radius) and a 50% black overlay with a 24 expand arrow shows on hover and keyboard focus; a one-line option lines up pixel for pixel with a default row"
+    },
+    {
+      "label": "Letter chip (letter)",
+      "value": "opt-in: a 24px chip (6px corners, 14/600 tabular, deck ink, 1px ink-at-20% border) replaces the radio or checkbox control and carries the pick: filled with the deck accent mark and a white letter on my pick; hidden from assistive technology, the row keeps its radio or checkbox role"
+    },
+    {
+      "label": "Roving focus (roving)",
+      "value": "opt-in: the sibling rows are one Tab stop (the last focused open row, else the first pick, else the first open row); Arrow keys move (and pick, in single mode), Home and End jump to the first and last open row, Space or Enter picks; without it every open row stays its own Tab stop"
+    },
+    {
+      "label": "Other row (other)",
+      "value": "opt-in: the slotted text names the row (\"Other (please specify)\"); once it is my pick by a tap, Space or Enter, an inline text field (16/600, deck ink, no box) replaces the label and takes focus, an arrow-key pick leaves focus on the row; the radio or checkbox role sits on the control, the field is a sibling with its own label; Enter returns focus to the control"
+    },
+    {
+      "label": "Row surface override",
+      "value": "--aha-answer-option-surface, -surface-hover and -surface-disabled replace the frosted surface at rest, hover and locked; unset, the row keeps the --aha-deck-surface ladder (80 / 60 / 50%)"
     }
   ],
   "props": [
@@ -95,7 +113,7 @@
       "name": "selection-mode",
       "type": "single | multiple",
       "default": "single",
-      "desc": "Radio or checkbox control; arrow keys move between sibling rows (and pick, in single mode)"
+      "desc": "Radio or checkbox control; arrow keys move between sibling rows (and pick, in single mode); add roving for one Tab stop and Home / End"
     },
     {
       "name": "count / total / count-mode",
@@ -110,10 +128,46 @@
       "desc": "Translated names for the verdict mark (<aha-answer-mark>)"
     },
     {
+      "name": "letter",
+      "type": "string",
+      "default": "—",
+      "desc": "Opt-in. The option letter (A, B, C) in a 24px chip in place of the radio or checkbox; the chip fills with the deck accent mark on my pick. Visual only: hidden from assistive technology"
+    },
+    {
+      "name": "roving",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Opt-in. Put it on every sibling row: the group becomes one Tab stop, Arrow keys move (and pick, in single mode), Home and End jump to the first and last open row, Space or Enter picks"
+    },
+    {
+      "name": "other",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Opt-in. The Other row: the slotted text is its name; once picked, an inline text field replaces the label. Not combined with expandable or image"
+    },
+    {
+      "name": "other-value / other-placeholder / other-input-label / other-maxlength",
+      "type": "string / string / string / number",
+      "default": "— / the row text / the row text / —",
+      "desc": "other only: the field's text (also the otherValue property), placeholder, accessible name and maximum length"
+    },
+    {
+      "name": "--aha-answer-option-surface(-hover|-disabled)",
+      "type": "CSS custom property",
+      "default": "--aha-deck-surface ladder",
+      "desc": "Opt-in. The row surface at rest, hover and locked, for a host whose rows sit on a panel of the same frosted surface; inherits through <aha-answer-list>. Use an existing deck token"
+    },
+    {
       "name": "pick",
       "type": "CustomEvent",
       "default": "—",
       "desc": "Fires when tapped (or Enter / Space) while the row is open"
+    },
+    {
+      "name": "other-input",
+      "type": "CustomEvent",
+      "default": "—",
+      "desc": "other only: fires on every edit of the field; detail.value is the text. It never picks or unpicks the row"
     },
     {
       "name": "more-label / expand-label",

@@ -15,6 +15,13 @@
     <aha-input clearable value="Clear me" placeholder="Type to clear"></aha-input>
     <aha-input type="password" prefix-icon="system-lock" value="secret123"></aha-input>
   </div>
+  <div class="lbl">Typed text: direction, keyboard and select</div>
+  <div class="row">
+    <aha-input dir="auto" value="مرحبا بالجميع" placeholder="Your answer"></aha-input>
+    <aha-input dir="auto" value="Hello everyone" placeholder="Your answer"></aha-input>
+    <aha-input inputmode="decimal" value="1e" placeholder="Amount"></aha-input>
+    <aha-input data-select-on-focus prefix="ahaslides.com/s/" value="team-pulse" readonly></aha-input>
+  </div>
 </div>
 
 <!-- Imports the REAL shipped element (../lib/aha-input.js) + the icon library — no inlined copy, so
@@ -23,4 +30,5 @@
 <script type="module">
   import '../lib/icons.js';       // registers <aha-icon> so the prefix/clear/reveal glyphs resolve from the DS library
   import '../lib/aha-input.js';   // registers <aha-input> — the shipped primitive, byte-identical to what consumers get
+  for (const field of document.querySelectorAll('aha-input[data-select-on-focus]')) field.addEventListener('focusin', () => field.select());
 </script>
