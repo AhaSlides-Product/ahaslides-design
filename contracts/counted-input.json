@@ -25,7 +25,9 @@
   "props": [
     { "name": "value", "type": "string", "default": "\"\"", "desc": "Controlled text value" },
     { "name": "placeholder", "type": "string", "default": "—", "desc": "Hint shown when empty" },
-    { "name": "type", "type": "text | number", "default": "text", "desc": "number gives a numeric field (numeric keypad on a phone); pair with maxlength=\"none\"" },
+    { "name": "type", "type": "text | number | email | tel | url", "default": "text", "desc": "number gives a numeric field (numeric keypad on a phone); pair with maxlength=\"none\". email, tel and url give the matching phone keyboard and browser checks" },
+    { "name": "inputmode", "type": "string", "default": "—", "desc": "Forwarded to the inner field: the phone keyboard to show (numeric, decimal, tel, email, url) while the type stays text" },
+    { "name": "autocomplete", "type": "string", "default": "—", "desc": "Forwarded to the inner field: the autofill hint (name, email, tel-national, organization, bday-day…)" },
     { "name": "aria-label", "type": "string", "default": "—", "desc": "Accessible name, forwarded to the inner field (a placeholder is not a label); <aha-audience-field> sets it from its label" },
     { "name": "maxlength", "type": "number", "default": "100", "desc": "Character cap (settings-lab default 100); drives the focus-only counter (shows the characters left). Pass `none` to drop the cap and hide the counter" },
     { "name": "size", "type": "small | default | large | touch", "default": "default", "desc": "Control height — small 32 · default 40 · large 48 with 16px text on a 24px line · touch 56 (16px text, 16px side padding); radius stays 8. A settings panel uses default only: small is for other surfaces, large and touch belong to the audience field inside <aha-audience-field>, and screen-lint --surface=settings rejects small and large" },
