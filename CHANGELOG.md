@@ -38,6 +38,43 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - **aha-popover** setting `open` to an empty string opens the popover, so `<aha-popover open>` in React 19 (which assigns `''` to the property) no longer closes it; `open = 'false'` closes it (#576)
 - Revert: revert the PR; one line in `lib/aha-popover.js`
 
+## 0.910.0 — 2026-11-03
+### Added
+- `aha-select` server search: `filter="off"` (with `show-search`) emits `search` with {query} on every keystroke but keeps every option the host sets, opens with no options yet, and keeps the picked option's label on the trigger after a new search replaces the options; `loading` puts a small `aha-spin` in place of the caret, marks the list `aria-busy` and shows `loading-text` (default "Loading…") while no option is listed (#574)
+- `aha-select mode="tags"`: free-entry values as closable `aha-tag` chips before an inline field in the select's own chrome; `values` (array property or JSON attribute), `separators` (default `,;`; a pasted list also splits on new lines and tabs), Enter or leaving the field adds the text, Backspace in an empty field removes the last tag, exact duplicates are skipped, and `change` carries {values} (#574)
+- `aha-select` option fields `prefix` (leading text such as a flag emoji, hidden from assistive tech), `suffix` (trailing text in tertiary ink such as a dial code, matched by type-to-filter) and `selectedLabel` (what the closed trigger shows for that option, like antd optionLabelProp) (#574)
+- `aha-select width="content"`: the control is as wide as its longest option or placeholder, so it does not jump as the value changes (#574)
+### Changed
+- `aha-select`'s open list now sits in the browser top layer (Popover API, `popover="manual"`) and is placed with `position:fixed` from the control, so an `overflow:hidden` card such as `aha-card`, a transform or a z-index ancestor no longer cuts it off; it opens above when there is more room there, stays 8px inside the viewport and follows scroll and resize, with a fixed-position fallback where the Popover API is missing. Same look and keyboard; `mode="tags"` has no list and is unchanged (#574)
+- Revert: revert the PR; every attribute and option field is new and opt-in, and a select without them renders as before; the top-layer list is the one default change and goes with the revert
+
+## 0.909.0 — 2026-11-03
+### Added
+- `aha-color-picker` takes an opt-in `custom` attribute: a custom-colour row under the presets with an `<aha-input>` hex field (`#rgb` or `#rrggbb`, with or without the `#`, committed on Enter or blur and normalised to upper-case `#RRGGBB`; anything else shows an error line and fires nothing), a palette button that opens the browser's own colour picker, and a Pick from screen button for the EyeDropper API, each shown only where the browser supports it. Custom entry fires the same `change` event as a swatch; `detail` is now `{value, source}` with `source` one of `swatch`, `hex`, `native`, `eyedropper`. `normaliseHex` is exported. Without `custom` the picker renders and behaves as before (#571)
+- Revert: revert the PR; the attribute is new and opt-in, and `detail.source` is an added field
+
+## 0.908.0 — 2026-11-03
+### Added
+- `aha-audience-contact` dial codes take `country` (ISO 3166 alpha-2), plus optional `dial` and `name`: the closed Select reads flag and code ("🇻🇳 +84"), the open list flag, country name and code ("🇻🇳 Vietnam (+84)"); the name comes from `name`, else `Intl.DisplayNames` in the new `locale` attribute (else the nearest `lang`, else English). `label` defaults to the flag and code, and the Select widens from 88px to 120px so the flag and a four-digit code fit. (#573)
+- `aha-audience-contact` `strings` (JSON attribute or object property, as on `aha-chart`) overrides every built-in text: `groupLabel`, `optionalLabel`, `requiredMessage`, `emailMessage`, `phoneMessage`, `dialCodeLabel`, `nameLabel`, `emailLabel`, `phoneLabel`; English defaults unchanged, and the dedicated attributes still win. Exported as `contactStrings` with `countryName()`. (#573)
+- `aha-audience-contact` `testid="<prefix>"` stamps `data-testid` on each field (`<prefix>-<id>`), its text box (`-<id>-input`, or `-<id>-number` behind a dial code), the dial code Select (`-<id>-country`) and the error (`-<id>-error`); new parts `phone`, `dial-code`, `input`, `error`. (#573)
+
+## 0.907.0 — 2026-11-03
+### Added
+- `<aha-audience-date>` has a read-only `state` property, also on every `change` detail (`{ value, valid, state }`): `empty` (nothing typed, so a cleared answer), `partial` (a field blank or a year under 4 digits), `invalid` (all three typed but not a real date, such as 31/02) or `valid`. A host no longer reads the inner fields to tell a cleared date from a part-filled one (#569)
+- `<aha-audience-date status="error">` shows `error-message` at once in the element's own respondent error, for a host that blocks the page on its own check (a required answer, a part-filled date on Next). The host passes its message there instead of rendering a second error under the date, which showed the same message twice (#569)
+- Revert: revert the PR; `state` and `status` are new and opt-in, `value`, `valid` and the existing `change` keys are unchanged
+
+## 0.906.0 — 2026-11-03
+### Added
+- `<aha-chart type="nps">` takes two more data shapes beside the 11 per-score counts: `{ ratings: [...] }`, each response's 0 to 10 rating (a number or `{ score }`; anything else is skipped), drawn as the same 11 columns; and `{ promoters, passives, detractors }`, bracket totals only, drawn as one bar split by bracket share with the key row and the score, and no per-score columns. Any object shape may add `score` to show the host's own NPS instead of the computed one. The 11-count input renders exactly as before (#570)
+- Revert: revert the PR; the shapes are new and opt-in
+
+## 0.905.0 — 2026-11-03
+### Added
+- `<aha-input prefix-shrink>`: a long text `prefix` (a URL before a slug) truncates with an ellipsis instead of pushing the field, and the field keeps at least 96px to type in. `prefix-shrink="start"` cuts the start of the prefix, so its end (`…/survey/s/`) stays next to the field. Opt-in: without it the prefix keeps its full width as before (#567)
+- Revert: revert the PR; CSS and the prefix markup in `lib/aha-input.js`, no consumer uses the attribute yet
+
 ## 0.904.0 — 2026-11-02
 ### Added
 - Seven icons for survey blocks and rating states, each with meaning words for `npm run icon-search`: `system-door` (welcome or start screen, an entrance; `system-sign-out` stays the leave or log out arrow), `system-chalkboard` (classroom and teaching), `system-address-book` (a contact list; `system-identification-card` stays one person's details), and the filled states `system-check-circle-filled`, `system-smiley-filled`, `system-heart-straight-filled` and `system-thumbs-up-filled`, so every rating icon (star, heart, thumbs up, smiley) now has a selected glyph beside its outline. The registry now holds 369 names (#568)

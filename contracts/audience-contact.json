@@ -9,8 +9,8 @@
   "highlights": [
     "Name, email, phone and free-text fields from one JSON list",
     "Phone keyboard, autofill hint and left-to-right email and phone in a right-to-left page",
-    "Optional dial-code Select in front of the phone field",
-    "Locks and restores the value after an iframe remount"
+    "Optional dial-code Select: flag and code closed, country name in the list",
+    "Translatable through `strings`, `testid` hooks, and a lock that restores the answer after an iframe remount"
   ],
   "lead": "ONE custom element — <aha-audience-contact> — for the details a participant leaves on the audience phone. Each entry of `fields` is an <aha-audience-field> (label above, in the deck ink) around an <aha-counted-input> at size large, with <aha-field-error variant=\"respondent\"> under it, so it carries the same field look as every audience field; never a native form. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) binds events through a ref; Vue binds the custom element natively.",
@@ -32,7 +32,7 @@
     },
     {
       "label": "Dial code",
-      "value": "with `dial-codes`, an 88px large (48px tall) Select sits before the phone field, 8px gap, and stays first in a right-to-left page; the phone value reads \"<code> <number>\""
+      "value": "with `dial-codes`, an 88px large (48px tall) Select (120px once an entry has a `country`, so the flag and a four-digit code fit) sits before the phone field, 8px gap, and stays first in a right-to-left page; the phone value reads \"<code> <number>\". An entry with `country` reads flag and code closed (\"🇻🇳 +84\") and flag, country name and code in the open list (\"🇻🇳 Vietnam (+84)\"); the name is `name`, else Intl.DisplayNames in `locale`, else English"
     },
     {
       "label": "Error",
@@ -41,6 +41,14 @@
     {
       "label": "Locked",
       "value": "disabled or a locked lock-key: every field is disabled and the submitted answer is restored"
+    },
+    {
+      "label": "Copy",
+      "value": "every built-in text is a key of `contactStrings.en`, overridable through `strings`: groupLabel (\"Contact details\"), optionalLabel (\"(optional)\"), requiredMessage, emailMessage, phoneMessage, dialCodeLabel (\"Country code\"), nameLabel, emailLabel, phoneLabel; a dedicated attribute wins over `strings`, and a field's own `label` wins over the kind label"
+    },
+    {
+      "label": "Test hooks",
+      "value": "`testid=\"<prefix>\"` stamps data-testid <prefix>-<id> on the field, <prefix>-<id>-input on its text box (<prefix>-<id>-number on a phone box behind a dial code), <prefix>-<id>-country on the dial code Select and <prefix>-<id>-error on the error; every field and text box also carries data-field=\"<id>\". Parts: contact, field and its kind (field name, field phone…), phone, dial-code, input, error"
     }
   ],
   "props": [
@@ -64,15 +72,15 @@
     },
     {
       "name": "dial-codes",
-      "type": "JSON [{label, value}]",
+      "type": "JSON [{label?, value, country?, dial?, name?}]",
       "default": "—",
-      "desc": "Puts a country-code Select before every phone field; the first entry is chosen until the participant picks another"
+      "desc": "Puts a country-code Select before every phone field; the first entry is chosen until the participant picks another. `value` is what the phone value starts with (a dial code, or a country code so countries sharing +1 stay apart). With `country` (ISO 3166 alpha-2) the closed Select shows the flag and dial code and the list shows flag, country name and (dial code); `dial` is the code (else the `+…` in `label`), `name` the country name (else Intl.DisplayNames in `locale`); `label` defaults to the flag and dial code"
     },
     {
       "name": "dial-code-label",
       "type": "string",
       "default": "Country code",
-      "desc": "The Select's accessible name; pass translated text"
+      "desc": "The Select's accessible name; pass translated text (or `strings.dialCodeLabel`)"
     },
     {
       "name": "value",
@@ -84,19 +92,37 @@
       "name": "group-label",
       "type": "string",
       "default": "Contact details",
-      "desc": "The group's accessible name: pass the translated question"
+      "desc": "The group's accessible name: pass the translated question (else aria-label, else `strings.groupLabel`)"
     },
     {
       "name": "optional-label",
       "type": "string",
       "default": "(optional)",
-      "desc": "Text added after the label of a field that is not required; pass translated text, or an empty value for none"
+      "desc": "Text added after the label of a field that is not required; pass translated text, or an empty value for none. Wins over `strings.optionalLabel`"
     },
     {
       "name": "required-message / email-message / phone-message",
       "type": "string",
       "default": "This field is required / Enter a real email address / Enter a real phone number",
-      "desc": "The respondent errors; pass translated text"
+      "desc": "The respondent errors; pass translated text. Each wins over the same key in `strings`"
+    },
+    {
+      "name": "strings",
+      "type": "JSON object | object property",
+      "default": "contactStrings.en",
+      "desc": "Overrides any built-in text, as on aha-chart: groupLabel, optionalLabel, requiredMessage, emailMessage, phoneMessage, dialCodeLabel, nameLabel, emailLabel, phoneLabel; a missing key keeps the English default"
+    },
+    {
+      "name": "locale",
+      "type": "BCP 47 tag",
+      "default": "nearest lang, else en",
+      "desc": "The language of the country names in the dial-code list"
+    },
+    {
+      "name": "testid",
+      "type": "string",
+      "default": "—",
+      "desc": "Prefix for data-testid hooks: <prefix>-<id> (field), -<id>-input (text box), -<id>-number (phone box behind a dial code), -<id>-country (dial code Select), -<id>-error; the text boxes sit in the field's shadow root, which Playwright's getByTestId reaches"
     },
     {
       "name": "disabled",
@@ -148,7 +174,9 @@
     "registers": "aha-audience-contact",
     "exportsNamed": [
       "AhaAudienceContact",
-      "defineAhaAudienceContact"
+      "defineAhaAudienceContact",
+      "contactStrings",
+      "countryName"
     ]
   },
   "snippets": [

@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Color picker custom entry</title>
+<link rel="stylesheet" href="../lib/tokens.css">
+</head>
+<body>
+  <aha-color-picker id="preset" value="#E70E68"></aha-color-picker>
+  <aha-color-picker id="custom" value="#E70E68" custom></aha-color-picker>
+  <script type="module">
+    await import('../lib/icons.js');
+    await import('../lib/aha-color-picker.js');
+    await customElements.whenDefined('aha-color-picker');
+    window.customFixtureReady = true;
+  </script>
+</body>
+</html>

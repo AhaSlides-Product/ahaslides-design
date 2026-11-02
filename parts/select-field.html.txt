@@ -1,7 +1,7 @@
 <!-- Paste-and-run: save as .html and open in a browser. No build step.
-     <aha-select> is the SAME shared custom element React and Vue consume. It's a styled control
-     backed by a NATIVE <select>, so it inherits the OS keyboard model + a11y for free. Pass the
-     `options` as JSON and an optional `placeholder`; it emits a composed `change` event. -->
+     <aha-select> is the SAME shared custom element React and Vue consume: a themed combobox with
+     the full keyboard model built in. Pass the `options` as JSON and an optional `placeholder`;
+     it emits a composed `change` event. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';       // <aha-icon> — the trailing caret
@@ -16,9 +16,32 @@
 <aha-select id="role" allow-clear show-search popup-width="content" placeholder="Pick a role"
   options='[{"label":"Editor","value":"editor","description":"Edit and view results"},{"label":"Viewer","value":"viewer","description":"View results only"}]'></aha-select>
 
+<!-- Server search: show-search + filter="off" keeps every option the host sets; loading shows the spinner. -->
+<aha-select id="deck" show-search filter="off" placeholder="Search presentations" empty-text="No presentations found"></aha-select>
+
+<!-- Rich options: a leading prefix, a trailing suffix, and a compact selectedLabel on the closed trigger. -->
+<aha-select id="dial" width="content" value="44" aria-label="Country code"
+  options='[{"label":"United Kingdom","value":"44","prefix":"🇬🇧","suffix":"+44","selectedLabel":"🇬🇧 +44"},{"label":"Viet Nam","value":"84","prefix":"🇻🇳","suffix":"+84","selectedLabel":"🇻🇳 +84"}]'></aha-select>
+
+<!-- Free-entry tags: comma, semicolon or space adds a tag; change carries e.detail.values. -->
+<aha-select id="recipients" mode="tags" separators=", ;" placeholder="name@example.com" aria-label="Recipients" style="--aha-field-width:100%"></aha-select>
+
 <script>
   // Plain DOM — no framework. Read e.detail.value off the composed CustomEvent.
   document.getElementById('theme').addEventListener('change', (e) => {
     console.log('theme:', e.detail.value);
+  });
+  // Stand-in for a server call: swap in your own fetch.
+  const searchPresentations = (query) => new Promise((resolve) => setTimeout(() => resolve(
+    [{ label: 'Quarterly review', value: '7' }, { label: 'Kick-off', value: '9' }]
+      .filter((o) => o.label.toLowerCase().includes(query.toLowerCase()))), 400));
+  const deck = document.getElementById('deck');
+  deck.addEventListener('search', async (e) => {
+    deck.setAttribute('loading', '');
+    deck.options = await searchPresentations(e.detail.query);
+    deck.removeAttribute('loading');
+  });
+  document.getElementById('recipients').addEventListener('change', (e) => {
+    console.log('recipients:', e.detail.values);
   });
 </script>

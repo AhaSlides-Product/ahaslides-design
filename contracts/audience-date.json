@@ -5,11 +5,11 @@
   "tier": "leaf-lit",
   "badge": "shared web component",
   "element": "aha-audience-date",
-  "summary": "A date answer on the audience phone: day, month and year fields in the order the question sets, with a numeric keypad, an ISO value and a respondent error for an impossible date.",
+  "summary": "A date answer on the audience phone: day, month and year fields in the order the question sets, with a numeric keypad, an ISO value, a state that tells empty from part-filled, impossible and valid, and one respondent error.",
   "highlights": [
-    "Day, month, year in DMY, MDY or YMD order",
-    "Numeric keypad on a phone; browser autofill is off unless the host sets birthday",
-    "ISO YYYY-MM-DD value, empty until the date is real",
+    "Day, month, year in DMY, MDY or YMD order, on a numeric keypad; autofill only with birthday",
+    "ISO YYYY-MM-DD value, and a state: empty, partial, invalid or valid",
+    "One error node; a host's own error goes in it through status=\"error\"",
     "Locks and restores the value after an iframe remount"
   ],
   "lead": "ONE custom element — <aha-audience-date> — for a date the participant types on the audience phone. It is three <aha-counted-input> fields with <aha-field-error variant=\"respondent\"> under them, so it carries the same field look as every audience field; never a native date picker, which looks different on every phone and cannot take the deck colours. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font.",
@@ -35,8 +35,12 @@
       "value": "digits only, 2 for day and month and 4 for year; a full day or month moves focus to the next field"
     },
     {
+      "label": "State",
+      "value": "empty (nothing typed), partial (a field blank or a year under 4 digits), invalid (all three typed, not a real date) or valid; on the state property and every change"
+    },
+    {
       "label": "Error",
-      "value": "after leaving the group with a part-filled or impossible date: the fields take the error border and <aha-field-error variant=\"respondent\"> shows the message 8px below, in the default ink"
+      "value": "after leaving the group with a part-filled or impossible date, or at once when the host sets status=\"error\": the fields take the error border and <aha-field-error variant=\"respondent\"> shows error-message 8px below, in the default ink. It is the only error node, so a host never renders a second one under the date"
     },
     {
       "label": "Locked",
@@ -72,7 +76,7 @@
       "name": "value",
       "type": "YYYY-MM-DD",
       "default": "''",
-      "desc": "The date; '' until the three fields make a real date. Also the `value` property; `valid` is true when it is set"
+      "desc": "The date; '' until the three fields make a real date. Also the `value` property; `valid` is true when it is set, and `state` says why it is empty"
     },
     {
       "name": "group-label",
@@ -96,7 +100,13 @@
       "name": "error-message",
       "type": "string",
       "default": "Enter a real date",
-      "desc": "The respondent error shown after leaving the group with a part-filled or impossible date"
+      "desc": "The respondent error: shown after leaving the group with a part-filled or impossible date, or at once with status=\"error\". A host that validates the page itself passes its translated message here"
+    },
+    {
+      "name": "status",
+      "type": "'' | error",
+      "default": "''",
+      "desc": "error shows error-message at once, without waiting for the participant to leave the group: for a host that blocks the page on its own check (a required answer, a part-filled date on Next). Never render a second error under the element"
     },
     {
       "name": "birthday",
@@ -117,10 +127,16 @@
       "desc": "The submission-lock key for this question: once a submission is locked under it, the element locks and restores the submitted value, including after an iframe remount"
     },
     {
+      "name": "state",
+      "type": "'empty' | 'partial' | 'invalid' | 'valid'",
+      "default": "'empty'",
+      "desc": "Read-only property. empty: nothing typed (a cleared answer); partial: a field is blank or the year has fewer than 4 digits; invalid: all three typed but not a real date, such as 31/02; valid: value is set"
+    },
+    {
       "name": "change",
-      "type": "CustomEvent<{value, valid}>",
+      "type": "CustomEvent<{value, valid, state}>",
       "default": "—",
-      "desc": "Fires on every keystroke with the ISO value ('' while not a real date) and whether it is valid"
+      "desc": "Fires on every keystroke with the ISO value ('' while not a real date), whether it is valid, and the state: 'empty' after a clear, 'partial', 'invalid' or 'valid'"
     }
   ],
   "opinion": {
