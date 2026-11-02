@@ -22,3 +22,4 @@ function AhaRate({ value, count = 5, allowHalf, size, precision, icon, character
 <AhaRate value={4} icon="system-heart-straight" onChange={setScore} />
 <AhaRate value={7} count={10} character="number" onChange={setScore} />   // numbers only
 <AhaRate value={score} surface="deck" onChange={setScore} />                // on an audience deck
+<AhaRate value={score} size="lg" onChange={setScore} />                  // 44px tap target per star

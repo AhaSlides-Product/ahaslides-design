@@ -1,0 +1,17 @@
+import '@ahaslides-product/design/aha-number-scale';
+import { useEffect, useRef } from 'react';
+
+// React < 19: bind the custom event through a ref.
+export function NpsQuestion({ onScore }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const scale = ref.current;
+    const handle = (event) => onScore(event.detail.value);
+    scale.addEventListener('change', handle);
+    return () => scale.removeEventListener('change', handle);
+  }, [onScore]);
+  return (
+    <aha-number-scale ref={ref} group-label="How likely are you to recommend us to a friend?" lock-key="slide-42"
+      low-label="Not at all likely" high-label="Extremely likely" />
+  );
+}

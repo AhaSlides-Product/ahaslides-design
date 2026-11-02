@@ -1,0 +1,10 @@
+<script setup>
+import '@ahaslides-product/design/aha-audience-date';
+defineProps({ format: String });
+const emit = defineEmits(['answer']);
+</script>
+
+<template>
+  <aha-audience-date group-label="When did you join?" :format="format" lock-key="slide-42"
+    @change="emit('answer', $event.detail.value)" />
+</template>

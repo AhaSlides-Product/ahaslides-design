@@ -1,0 +1,21 @@
+<div class="pad">
+  <div class="lbl">Light deck — day, month, year</div>
+  <div class="row" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:360px;box-sizing:border-box">
+    <aha-audience-date data-probe group-label="When did you join?" value="2026-11-02"></aha-audience-date>
+  </div>
+  <div class="lbl">Dark deck — applyDeck() with a white ink, month first with a dash</div>
+  <div class="row aud-dark" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:360px;box-sizing:border-box;padding:var(--aha-space-16);background:var(--aha-bg-dark);border-radius:var(--aha-radius-lg)">
+    <aha-audience-date format="MDY" separator="-" group-label="Start date"></aha-audience-date>
+  </div>
+  <div class="lbl">Locked after submitting</div>
+  <div class="row" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:360px;box-sizing:border-box">
+    <aha-audience-date disabled format="YMD" separator="." value="2024-02-29" group-label="Start date"></aha-audience-date>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element, so the preview can never drift from lib/ and qa measures what consumers get. -->
+<script type="module">
+  import '../lib/aha-audience-date.js';   // registers <aha-audience-date>
+  import { applyDeck } from '../lib/audience-deck.js';
+  for (const deck of document.querySelectorAll('.aud-dark')) applyDeck(deck, { textColour: '#FFFFFF', presentationColorPalette: ['#E70E68'] });
+</script>

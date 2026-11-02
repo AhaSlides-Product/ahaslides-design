@@ -1,0 +1,11 @@
+<script setup>
+import '@ahaslides-product/design/aha-matrix';
+defineProps({ rows: Array, columns: Array });
+const emit = defineEmits(['answer']);
+</script>
+
+<template>
+  <aha-matrix group-label="How was each part of the event?" lock-key="slide-42"
+    :rows="JSON.stringify(rows)" :columns="JSON.stringify(columns)"
+    @change="emit('answer', $event.detail.value)" />
+</template>
