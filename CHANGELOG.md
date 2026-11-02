@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.901.0 — 2026-11-02
 ### Added
-- `<aha-input prefix-shrink>`: a long text `prefix` (a URL before a slug) truncates with an ellipsis instead of pushing the field, and the field keeps at least 96px to type in. `prefix-shrink="start"` cuts the start of the prefix, so its end (`…/survey/s/`) stays next to the field. Opt-in: without it the prefix keeps its full width as before (#NNN)
+- `<aha-input prefix-shrink>`: a long text `prefix` (a URL before a slug) truncates with an ellipsis instead of pushing the field, and the field keeps at least 96px to type in. `prefix-shrink="start"` cuts the start of the prefix, so its end (`…/survey/s/`) stays next to the field. Opt-in: without it the prefix keeps its full width as before (#567)
 - Revert: revert the PR; CSS and the prefix markup in `lib/aha-input.js`, no consumer uses the attribute yet
 
 ## 0.897.1 — 2026-11-02
