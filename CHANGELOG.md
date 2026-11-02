@@ -12,7 +12,7 @@ All notable changes to `@ahaslides-product/design`, **newest first**.
 - **On: the merge bumps it.** The entry heads as `## Unreleased` and the PR never touches a version
   file. On merge, `publish.yml` (`auto-version.mjs`) picks the number (an entry with only `### Fixed`
   is a patch, anything else a minor; a `Version-bump: patch|minor|major|none` line in the PR body
-  overrides it), turns the heading into `## X.Y.Z — YYYY-MM-DD`, fills each `(#PR)` with the real
+  overrides it), turns the heading into `## X.Y.Z — YYYY-MM-DD`, fills each `(#504)` with the real
   number and commits `chore(release): X.Y.Z` to master. Run the gate locally as `AUTO_VERSION=on npm run check`.
 
 The gate rejects an unfilled `(#129)` placeholder in every released entry: link the **real** PR number
@@ -39,6 +39,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Changed
 - Shared components rule `text-and-colour` and its judge criterion name `<aha-text>` for visible text in place of AntD Typography (#PR)
 - Revert: revert the PR; the element is a new file and nothing else imports it (#PR)
+
+## 0.595.1 — 2026-11-02
+### Fixed
+- Features Marketing page: the Accent code pane of the Alternating screenshots layout wrote `aha-features--alternating-screenshots--accent`, which no CSS defines, so a pasted snippet rendered white. It now writes `aha-features--accent`; the state class of every Marketing section now comes from the section, then the layout (#PR)
+- Revert: revert the PR; only the generated Accent code pane of one layout changes, no CSS or markup
 
 ## 0.595.0 — 2026-11-02
 ### Added

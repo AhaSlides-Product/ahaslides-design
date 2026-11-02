@@ -1943,7 +1943,7 @@ function marketingCodeToggle(file, code, lead = '', extraPanes = []) {
     </div></div>`;
 }
 const marketingLayoutStates = (b, layout) => layout.states || b.states;
-const marketingLayoutStateClass = (b, layout) => layout.stateClass || layout.class || b.stateClass;
+const marketingLayoutStateClass = (b, layout) => layout.stateClass || b.stateClass || layout.class;
 const marketingDefaultState = (b, layout) => {
   const states = marketingLayoutStates(b, layout);
   const initial = states && (states.find(state => state.default) || states[0]);
