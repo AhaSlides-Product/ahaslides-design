@@ -13,8 +13,10 @@
   "tokensUsed": ["color-primary", "color-primary-hover", "color-primary-active", "bg-dark-raised", "text-inverse", "text-secondary", "radius-lg", "radius-pill", "button-positive-bg", "button-default-border", "button-default-text", "button-focus-ring", "focus-ring"],
   "spec": [
     { "label": "Upgrade mark", "value": "16×16 Vivid Pink circle (--aha-color-primary) + white crown — a focusable control with Default/Hover/Active states; the custom mark, not a Phosphor crown" },
-    { "label": "Popover", "value": "dark grey surface #303030 (--aha-bg-dark-raised, grey-95: one step above black #1A1A1A), 300px wide, 16px padding, radius 12; animates opacity + lift on open via the motion tokens" },
+    { "label": "Popover", "value": "dark grey surface #303030 (--aha-bg-dark-raised, grey-95: one step above black #1A1A1A), 300px wide (opt-in `width`, never past 82vw), 16px padding, radius 12; animates opacity + lift on open via the motion tokens" },
     { "label": "Anatomy", "value": "header (crown + title) · body (one sentence + \"Unlock with the <Plan> plan.\") · footer (Upgrade + See all plans)" },
+    { "label": "Placement", "value": "top (default) or bottom, 8px from the anchor; opt-in left or right hangs the popover 8px beside the anchor, vertically centred on it, with the arrow on the facing edge" },
+    { "label": "Rich body", "value": "opt-in slot=\"body\" replaces the plain-text body when the one sentence needs a link or emphasis; the title, the unlock line and both CTAs stay baked in, and a link slotted directly (<a slot=\"body\">) takes the white body text, underlined; a link nested inside another slotted element keeps the page's own link style" },
     { "label": "Buttons", "value": "TWO shared <aha-button>s — Upgrade (variant=positive, Vivid Pink) + See all plans (variant=secondary, re-themed for the dark surface through the --aha-button-default-* inputs: white label in every state, #8A8A8A border that turns white on hover, white focus ring); never hand-rolled" },
     { "label": "Analytics", "value": "paywall-shown on open · paywall-upgrade before Upgrade nav · paywall-plans before See-all-plans nav — all { feature, plan }" },
     { "label": "Behaviour", "value": "Upgrade opens ahaslides.com/pricing (new tab, noopener); See all plans opens plans-url; preventDefault either event to run your own flow. Esc / click-away close" }
@@ -26,7 +28,8 @@
     { "name": "body", "type": "string", "default": "—", "desc": "Exactly one sentence describing the benefit of unlocking; ends with a period" },
     { "name": "description", "type": "string", "default": "—", "desc": "Popover description override; falls back to body" },
     { "name": "required-plan", "type": "essential | pro", "default": "pro", "desc": "Drives the unlock line and the analytics plan prop" },
-    { "name": "placement", "type": "top | bottom", "default": "top", "desc": "Popover side relative to the anchor" },
+    { "name": "placement", "type": "top | bottom | left | right", "default": "top", "desc": "Popover side relative to the anchor. left/right sit the popover 8px beside the anchor, vertically centred on it; `align` applies to top/bottom only, and fitPaywall picks top or bottom" },
+    { "name": "width", "type": "CSS length (a bare number is px)", "default": "300px", "desc": "Popover width for longer copy or a rich body; never past 82vw. The --aha-paywall-width custom property on the host does the same" },
     { "name": "align", "type": "center | start | end", "default": "center", "desc": "Which popover edge sits on the anchor: center (default) centres it, start puts its left edge on the anchor's left with the arrow under the anchor, end mirrors that on the right. Use start/end for an anchor near a panel edge; `fitPaywall(el)` (exported) picks align and placement from the room around the anchor and slides the popover back inside the viewport through `--aha-paywall-shift`. <aha-setting-row> and <aha-settings-item> call it before the popover opens" },
     { "name": "trigger", "type": "click | hover", "default": "click", "desc": "How the popover opens; click-away + Escape close a click popover" },
     { "name": "cta-label", "type": "string", "default": "Upgrade", "desc": "The positive CTA verb; override only with a clear reason" },
@@ -34,6 +37,7 @@
     { "name": "upgrade-url", "type": "string (URL)", "default": "ahaslides.com/pricing", "desc": "Where Upgrade navigates (new tab, noopener)" },
     { "name": "plans-url", "type": "string (URL)", "default": "ahaslides.com/pricing", "desc": "Where See all plans navigates (new tab, noopener)" },
     { "name": "slot (default)", "type": "element", "default": "upgrade mark", "desc": "The gated affordance = the anchor; omit it to use the crown upgrade mark as the anchor" },
+    { "name": "slot=\"body\"", "type": "element", "default": "—", "desc": "Rich body content that replaces the body/description text: the one benefit sentence with a link or emphasis, still never a multi-paragraph body; slot a link directly (<a slot=\"body\">) so it takes the white body text; the unlock line and CTAs stay fixed. A body-slot child alone keeps the crown mark as the anchor" },
     { "name": "paywall-shown / paywall-upgrade / paywall-plans", "type": "CustomEvent<{feature,plan}>", "default": "—", "desc": "Analytics contract; paywall-upgrade + paywall-plans are cancelable (preventDefault to run your own flow)" }
   ],
   "opinion": {
@@ -68,7 +72,9 @@
       ] },
       { "prop": "placement", "label": "Placement", "default": "bottom", "options": [
         { "label": "Bottom", "value": "bottom" },
-        { "label": "Top", "value": "top" }
+        { "label": "Top", "value": "top" },
+        { "label": "Left", "value": "left" },
+        { "label": "Right", "value": "right" }
       ] },
       { "prop": "align", "label": "Align", "default": "center", "options": [
         { "label": "Center", "value": "center" },
@@ -83,7 +89,10 @@
     { "label": "one-sentence body + fixed unlock line (PAYWALL-03)", "verdict": "PASS" },
     { "label": "Upgrade (positive) + See all plans (secondary) — both shared <aha-button> (PAYWALL-04)", "verdict": "PASS" },
     { "label": "PAYWALL_SHOWN + PAYWALL_UPGRADE_CLICKED events (PAYWALL-06)", "verdict": "PASS" },
-    { "label": "requiredPlan essential|pro drives unlock line + analytics (PAYWALL-07)", "verdict": "PASS" }
+    { "label": "requiredPlan essential|pro drives unlock line + analytics (PAYWALL-07)", "verdict": "PASS" },
+    { "label": "placement left/right centres the popover beside the anchor; top/bottom unchanged", "verdict": "PASS" },
+    { "label": "width opt-in; 300px default kept", "verdict": "PASS" },
+    { "label": "slot=\"body\" replaces the text body only; unlock line + CTAs stay baked in", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured against the RENDERED shadow-DOM UI (getComputedStyle via headless CDP). The [data-probe] paywall is shown OPEN so the popover — dark surface, radius, crown mark, and the two shared <aha-button> CTAs — is measurable. The Upgrade button's Vivid Pink is read from inside aha-button's own shadow root (the primitive it reuses).",
