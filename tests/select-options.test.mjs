@@ -69,3 +69,68 @@ test('allow-clear, show-search, option description and popup-width work, and a p
   assert.equal(result.width.match, result.width.matchControl);
   assert.equal(result.width.fixed, 180);
 });
+
+test('loading, filter="off", width="content", rich options with a selected label, and mode="tags" work when opted in', { skip }, async () => {
+  const result = await withPage(fixture, async (command) => {
+    const evaluate = async (expression) => (await command('Runtime.evaluate', { expression, returnByValue: true, awaitPromise: true })).result.value;
+    const type = async (text) => command('Input.insertText', { text });
+    const out = {};
+    const root = (id) => `document.getElementById('${id}').shadowRoot`;
+
+    out.loadingClosed = await evaluate(`({ spin: getComputedStyle(${root('server')}.querySelector('.spin')).display !== 'none',
+      caret: getComputedStyle(${root('server')}.querySelector('.caret')).display !== 'none' })`);
+    await evaluate(`window.serverQueries = []; document.getElementById('server').addEventListener('search', (e) => window.serverQueries.push(e.detail.query));
+      document.getElementById('server').shadowRoot.querySelector('.trigger').click()`);
+    out.loadingOpen = await evaluate(`({ open: document.getElementById('server').open, busy: ${root('server')}.querySelector('.listbox').getAttribute('aria-busy'),
+      loadingRow: !${root('server')}.querySelector('.loading').hidden, text: ${root('server')}.querySelector('.loading').textContent,
+      empty: !${root('server')}.querySelector('.empty').hidden })`);
+    await type('qz');
+    await evaluate(`(() => { const el = document.getElementById('server'); el.options = [{ label: 'Quarterly review', value: '7' }, { label: 'Kick-off', value: '9' }]; el.removeAttribute('loading'); })()`);
+    out.unfiltered = await evaluate(`({ queries: window.serverQueries, visible: [...${root('server')}.querySelectorAll('.option:not([hidden])')].map((o) => o.dataset.value),
+      loadingRow: !${root('server')}.querySelector('.loading').hidden, busy: ${root('server')}.querySelector('.listbox').hasAttribute('aria-busy'),
+      query: ${root('server')}.querySelector('.search').value })`);
+    await evaluate(`${root('server')}.querySelector('.option[data-value="9"]').click(); document.getElementById('server').options = [{ label: 'Other', value: '1' }]`);
+    out.keptLabel = await evaluate(`({ value: document.getElementById('server').value, shown: ${root('server')}.querySelector('.value').textContent })`);
+    await evaluate(`document.getElementById('server').options = []; document.getElementById('server').shadowRoot.querySelector('.trigger').click()`);
+    out.noResults = await evaluate(`({ open: document.getElementById('server').open, empty: !${root('server')}.querySelector('.empty').hidden })`);
+
+    out.width = await evaluate(`(() => { const el = document.getElementById('role'); const before = Math.round(el.getBoundingClientRect().width);
+      el.value = 'viewer'; const after = Math.round(el.getBoundingClientRect().width);
+      return { before, after, narrowerThanDefault: before < 240 }; })()`);
+
+    out.country = await evaluate(`(() => { const r = ${root('country')}; const row = r.querySelector('.option');
+      const search = r.querySelector('.search'); document.getElementById('country').shadowRoot.querySelector('.trigger').click();
+      search.value = '+84'; search.dispatchEvent(new Event('input'));
+      return { trigger: r.querySelector('.value').textContent, prefix: row.querySelector('.prefix').textContent, label: row.querySelector('.label').textContent,
+        suffix: row.querySelector('.suffix').textContent, matched: [...r.querySelectorAll('.option:not([hidden])')].map((o) => o.dataset.value) }; })()`);
+    await evaluate(`window.tagEvents = []; document.getElementById('tags').addEventListener('change', (e) => window.tagEvents.push(e.detail.values)); document.getElementById('tags').focus()`);
+    out.tagFocus = await evaluate(`${root('tags')}.activeElement === ${root('tags')}.querySelector('.input')`);
+    await type('x@y.z ');
+    await type('half');
+    out.typed = await evaluate(`({ values: document.getElementById('tags').values, field: ${root('tags')}.querySelector('.input').value })`);
+    await evaluate(`(() => { const input = ${root('tags')}.querySelector('.input'); input.value = ''; const data = new DataTransfer();
+      data.setData('text/plain', 'p@q.r\\ns@t.u, a@b.c'); input.dispatchEvent(new ClipboardEvent('paste', { clipboardData: data, bubbles: true, cancelable: true })); })()`);
+    await command('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Backspace', code: 'Backspace', windowsVirtualKeyCode: 8 });
+    await command('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Backspace', code: 'Backspace', windowsVirtualKeyCode: 8 });
+    out.tags = await evaluate(`({ values: document.getElementById('tags').values, events: window.tagEvents,
+      chips: [...${root('tags')}.querySelectorAll('aha-tag')].map((t) => t.textContent), placeholder: ${root('tags')}.querySelector('.input').placeholder })`);
+    return out;
+  }, { readyExpr: '!!window.selectOptionsFixtureReady' });
+
+  assert.deepEqual(result.loadingClosed, { spin: true, caret: false });
+  assert.deepEqual(result.loadingOpen, { open: true, busy: 'true', loadingRow: true, text: 'Loading…', empty: false });
+  assert.deepEqual(result.unfiltered, { queries: ['qz'], visible: ['7', '9'], loadingRow: false, busy: false, query: 'qz' });
+  assert.deepEqual(result.keptLabel, { value: '9', shown: 'Kick-off' });
+  assert.deepEqual(result.noResults, { open: true, empty: true });
+  assert.equal(result.width.before, result.width.after);
+  assert.equal(result.width.narrowerThanDefault, true);
+  assert.deepEqual(result.country, { trigger: '🇬🇧 +44', prefix: '🇬🇧', label: 'United Kingdom', suffix: '+44', matched: ['84'] });
+  assert.equal(result.tagFocus, true);
+  assert.deepEqual(result.typed, { values: ['a@b.c', 'x@y.z'], field: 'half' });
+  assert.deepEqual(result.tags, {
+    values: ['a@b.c', 'x@y.z', 'p@q.r'],
+    events: [['a@b.c', 'x@y.z'], ['a@b.c', 'x@y.z', 'p@q.r', 's@t.u'], ['a@b.c', 'x@y.z', 'p@q.r']],
+    chips: ['a@b.c', 'x@y.z', 'p@q.r'],
+    placeholder: '',
+  });
+});

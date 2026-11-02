@@ -11,6 +11,10 @@
   <aha-select id="rich" options='[{"label":"Editor","value":"editor","description":"Edit and view results","title":"Can edit"}]'></aha-select>
   <aha-select id="match" popup-width="match" style="--aha-field-width:300px" options='[{"label":"A","value":"a"}]'></aha-select>
   <aha-select id="fixed" popup-width="180" options='[{"label":"A much longer option label than the control","value":"a"}]'></aha-select>
+  <aha-select id="server" show-search filter="off" loading placeholder="Search presentations"></aha-select>
+  <aha-select id="role" width="content" value="editor" options='[{"label":"Editor","value":"editor"},{"label":"Viewer only","value":"viewer"}]'></aha-select>
+  <aha-select id="country" show-search value="44" options='[{"label":"United Kingdom","value":"44","prefix":"🇬🇧","suffix":"+44","selectedLabel":"🇬🇧 +44"},{"label":"Viet Nam","value":"84","prefix":"🇻🇳","suffix":"+84","selectedLabel":"🇻🇳 +84"}]'></aha-select>
+  <aha-select id="tags" mode="tags" separators=", ;" placeholder="name@example.com" values='["a@b.c"]'></aha-select>
   <script type="module">
     await import('../lib/aha-select.js');
     await customElements.whenDefined('aha-select');

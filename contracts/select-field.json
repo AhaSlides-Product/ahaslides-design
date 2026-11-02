@@ -9,13 +9,13 @@
   "tier": "leaf-lit",
   "badge": "shared web component",
   "element": "aha-select",
-  "summary": "Pick one value from a short, known set — a lightweight native-select-backed field that embeds anywhere.",
+  "summary": "Pick one value from a short, known set (or type free-entry tags) — a lightweight themed combobox field that embeds anywhere.",
   "highlights": [
     "Pick one value from a short, known set",
-    "Lightweight native-select-backed field",
-    "Embeds anywhere"
+    "Lightweight themed combobox, embeds anywhere",
+    "Opt-in search, server loading and free-entry tags"
   ],
-  "lead": "ONE custom element — <aha-select> — defined once, imported unchanged by React and Vue. It is the LEAF counterpart to the composite Select: instead of a popup + virtualised list, it is a styled control backed by a NATIVE <select>, so it inherits the OS keyboard model, focus and a11y for free — no custom listbox, no roving to hand-roll. CSS lives in the shadow DOM, so both frameworks render byte-identical pixels; theming comes only from --aha-* tokens. Use it to pick one value from a short set and — crucially — to embed a select in a shadow-DOM row (aha-settings-list's control.type \"select\"), where the composite can't reach. The open dropdown is a fully THEMED role=\"listbox\" popup (DS surface, radius 8, elevation shadow, 40px option rows with Select's #F7F7F7 hover row and brand-tint selected row) — not the browser's native <select> list; it's an accessible combobox (Arrow/Home/End, typeahead, Enter/Escape, outside-click).",
+  "lead": "ONE custom element — <aha-select> — defined once, imported unchanged by React and Vue. It is the LEAF counterpart to the composite Select: instead of a virtualised list, it is a styled combobox trigger over a themed listbox with the full keyboard contract built in. CSS lives in the shadow DOM, so both frameworks render byte-identical pixels; theming comes only from --aha-* tokens. Use it to pick one value from a short set and — crucially — to embed a select in a shadow-DOM row (aha-settings-list's control.type \"select\"), where the composite can't reach. The open dropdown is a fully THEMED role=\"listbox\" popup (DS surface, radius 8, elevation shadow, 40px option rows with Select's #F7F7F7 hover row and brand-tint selected row) — not the browser's native <select> list; it's an accessible combobox (Arrow/Home/End, typeahead, Enter/Escape, outside-click).",
   "tokensUsed": [
     "color-primary",
     "border-default",
@@ -63,15 +63,15 @@
     },
     {
       "label": "Opt-in extras",
-      "value": "allow-clear: 16px system-x-circle, text-tertiary #8A8A8A, hover text-default; show-search: the text field sits over the value at the trigger's own font size, no-match row 14/22 text-tertiary; option description 12/18 text-secondary #4A4A4A under the label; popup-width match | content | length"
+      "value": "allow-clear: 16px system-x-circle, text-tertiary #8A8A8A, hover text-default; show-search: the text field sits over the value at the trigger's own font size, no-match row 14/22 text-tertiary; option description 12/18 text-secondary #4A4A4A under the label; popup-width match | content | length; loading: a small aha-spin replaces the caret and a 40px loading row (14/22 text-tertiary) stands in for the no-match row; option prefix (leading text such as a flag) and suffix (trailing 14/22 text-tertiary, such as a dial code); width=\"content\": as wide as the longest option label; mode=\"tags\": closable aha-tag chips (20px) and an inline field in the same 40 / 32 / 48 / 56 chrome, wrapping onto new rows"
     }
   ],
   "props": [
     {
       "name": "options",
-      "type": "{ label, value, disabled?, description?, title? }[]",
+      "type": "{ label, value, disabled?, description?, title?, prefix?, suffix?, selectedLabel? }[]",
       "default": "[]",
-      "desc": "The selectable set — a JSON `options` attribute or an `.options` property. Optional per option: `disabled`, `description` (a second, smaller line under the label, 12/18 text-secondary) and `title` (the row's native tooltip)"
+      "desc": "The selectable set — a JSON `options` attribute or an `.options` property. Optional per option: `disabled`, `description` (a second, smaller line under the label, 12/18 text-secondary), `title` (the row's native tooltip), `prefix` (leading text in the row, such as a flag emoji; hidden from assistive tech), `suffix` (trailing text in tertiary ink, such as a dial code; type-to-filter matches it too) and `selectedLabel` (what the closed trigger shows for this option instead of `label`, like antd optionLabelProp: \"🇬🇧 +44\" for a row reading \"🇬🇧 United Kingdom +44\")"
     },
     {
       "name": "value",
@@ -137,7 +137,7 @@
       "name": "empty-text",
       "type": "string",
       "default": "No matches",
-      "desc": "The row shown when show-search filters out every option"
+      "desc": "The row shown when show-search filters out every option, or when filter=\"off\" has no options to list"
     },
     {
       "name": "popup-width",
@@ -146,10 +146,52 @@
       "desc": "Opt-in popup width. `match` is exactly the control's width; `content` is as wide as the longest option with no control-width minimum (capped at 90vw); a number is pixels (\"280\") and any CSS length works (\"20rem\"). Unset keeps the default: at least the control's width, growing with content to 320px"
     },
     {
-      "name": "change",
-      "type": "CustomEvent<{value}>",
+      "name": "loading",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Opt-in. A small aha-spin replaces the caret, the listbox is aria-busy, and while no option is listed the open popup shows `loading-text` instead of `empty-text`. The popup may open with no options while loading"
+    },
+    {
+      "name": "loading-text",
+      "type": "string",
+      "default": "Loading…",
+      "desc": "The row shown in the open popup while `loading` is set and no option is listed"
+    },
+    {
+      "name": "filter",
+      "type": "off",
       "default": "—",
-      "desc": "Composed event; read e.detail.value"
+      "desc": "Opt-in, with show-search. `off` stops the list filtering by the typed text: every keystroke still emits `search` with {query}, so the host loads matching options from a server and sets `.options`. The popup opens with no options yet (showing `empty-text`, or `loading-text` while loading), and the picked option's label stays on the trigger after a later search replaces the options"
+    },
+    {
+      "name": "width",
+      "type": "content",
+      "default": "—",
+      "desc": "Opt-in. `content` sizes the control to its longest option (selectedLabel where set) or placeholder, so it does not jump as the value changes, and never wider than its container. Unset keeps --aha-field-width (240px)"
+    },
+    {
+      "name": "mode",
+      "type": "tags",
+      "default": "—",
+      "desc": "Opt-in. `tags` turns the field into free-entry values: each value is a closable aha-tag chip before an inline text field, in the same field chrome (size, status, error-message, disabled, placeholder and aria-label apply). Typing a separator, Enter, a paste or leaving the field adds the text (trimmed; an exact duplicate is skipped); Backspace in an empty field removes the last tag; a chip's × removes it. There is no popup and `options` / `value` are not used"
+    },
+    {
+      "name": "values",
+      "type": "string[]",
+      "default": "[]",
+      "desc": "mode=\"tags\" only: the tags, as a `.values` array property or a JSON `values` attribute (controlled; setting it emits no event)"
+    },
+    {
+      "name": "separators",
+      "type": "string",
+      "default": ",;",
+      "desc": "mode=\"tags\" only: the characters that split typed or pasted text into tags; include a space to split on spaces. A pasted list also splits on new lines and tabs"
+    },
+    {
+      "name": "change",
+      "type": "CustomEvent<{value}> | CustomEvent<{values}>",
+      "default": "—",
+      "desc": "Composed event; read e.detail.value. In mode=\"tags\" it fires after every add or remove with e.detail.values (the whole list)"
     },
     {
       "name": "clear",
@@ -161,7 +203,7 @@
       "name": "search",
       "type": "CustomEvent<{query}>",
       "default": "—",
-      "desc": "Composed event on every keystroke in show-search mode; read e.detail.query (for example to load options from a server)"
+      "desc": "Composed event on every keystroke in show-search mode; read e.detail.query. With filter=\"off\" the list is not filtered, so this is how the host loads options from a server"
     },
     {
       "name": "open",
@@ -173,31 +215,31 @@
       "name": "focus()",
       "type": "method",
       "default": "—",
-      "desc": "host.focus() moves keyboard focus to the trigger (the shadow root delegates focus)"
+      "desc": "host.focus() moves keyboard focus to the trigger (the shadow root delegates focus); in mode=\"tags\" to the text field"
     }
   ],
   "opinion": {
     "whenToUse": [
       {
         "what": "Select field (this leaf)",
-        "when": "one value from a short, known set, or a select inside a shadow-DOM surface like a settings row; add show-search when the list is long enough to scan by typing, allow-clear when empty is a valid answer"
+        "when": "one value from a short, known set, or a select inside a shadow-DOM surface like a settings row; add show-search when the list is long enough to scan by typing, allow-clear when empty is a valid answer, show-search with filter=\"off\" and loading for options searched on a server, and mode=\"tags\" for a free-entry list such as email recipients"
       },
       {
         "what": "Select (composite)",
-        "when": "multiple/tags, async loading with a virtualised list, or option groups"
+        "when": "several values picked from a list, a virtualised list, or option groups"
       },
       {
         "what": "Radio",
         "when": "2–5 mutually-exclusive options all worth showing at once"
       }
     ],
-    "note": "Pre-select the recommended default rather than leaving it empty. Keep option labels short and sentence case; keep product nouns — Q&A, Word cloud. This is the leaf half of the hybrid — reach for the composite Select the moment you need tags, multiple values or a virtualised list; type-to-filter is the opt-in show-search here.",
-    "dsv3": "COVERED — the DS V3 select chrome measured against the Select component set on fileKey MwjvUjVI0HnfwD9EwPXRAy: control 40 · radius 8 · 1px border #E3E3E3 (border-default), size axis small 32 / default 40 / large 48, brand #E70E68 focus border + soft 2px ring (focus-ring-soft, 30% #E70E68), #999999 placeholder, status error #1A1A1A / warning #1A1A1A. This is the native-<select>-backed LEAF form of that chrome (the composite Select carries the popup/search/tags axes). Token layer: white surface, rest border border-default #E3E3E3, hover border color-primary #E70E68, disabled bg-container-disabled #F1F1F1 / border-disabled #EBEBEB. a11y: a native <select> carries the full OS keyboard + AT contract for free — no custom listbox/roving to hand-roll; the border/focus transition lives on a PERSISTENT wrapper (a `_focused` attribute toggles; the <option> list repopulates in place, the transition node is never rebuilt). The trailing caret is summoned by name via <aha-icon name=\"system-caret-down\">, never an inline glyph."
+    "note": "Pre-select the recommended default rather than leaving it empty. Keep option labels short and sentence case; keep product nouns — Q&A, Word cloud. This is the leaf half of the hybrid — reach for the composite Select the moment you need several values picked from a list, option groups or a virtualised list; type-to-filter is the opt-in show-search here, server search adds filter=\"off\" and loading, and free-entry tags are mode=\"tags\".",
+    "dsv3": "COVERED — the DS V3 select chrome measured against the Select component set on fileKey MwjvUjVI0HnfwD9EwPXRAy: control 40 · radius 8 · 1px border #E3E3E3 (border-default), size axis small 32 / default 40 / large 48, brand #E70E68 focus border + soft 2px ring (focus-ring-soft, 30% #E70E68), #999999 placeholder, status error #1A1A1A / warning #1A1A1A. This is the LEAF form of that chrome (the composite Select carries the virtualised list and option groups). Token layer: white surface, rest border border-default #E3E3E3, hover border color-primary #E70E68, disabled bg-container-disabled #F1F1F1 / border-disabled #EBEBEB. a11y: a button role=combobox over a role=listbox with Arrow/Home/End, typeahead, Enter and Escape; the border/focus transition lives on the PERSISTENT trigger and the open fade on the persistent listbox, which repopulates in place. The trailing caret is summoned by name via <aha-icon name=\"system-caret-down\">, never an inline glyph."
   },
   "a11y": {
     "role": "the trigger is a <button role=\"combobox\" aria-haspopup=\"listbox\" aria-expanded> controlling a themed role=\"listbox\"; with show-search the open popup is driven from an <input role=\"combobox\" aria-autocomplete=\"list\"> carrying aria-activedescendant",
-    "keyboard": "Space / Enter / Arrow keys open; Arrow / Home / End move and typeahead jumps in the list; Enter picks; Escape closes without closing a surrounding drawer or modal; Tab closes. show-search: typing filters, Arrow Up/Down move, Enter picks. allow-clear: Delete / Backspace on the closed trigger clears",
-    "note": "The clear button is tabindex=-1 so the field stays one tab stop; Delete / Backspace is its keyboard path, and it carries an aria-label (clear-label)."
+    "keyboard": "Space / Enter / Arrow keys open; Arrow / Home / End move and typeahead jumps in the list; Enter picks; Escape closes without closing a surrounding drawer or modal; Tab closes. show-search: typing filters, Arrow Up/Down move, Enter picks. allow-clear: Delete / Backspace on the closed trigger clears. mode=\"tags\": the text field is the tab stop, Enter or a separator adds a tag, Backspace in an empty field removes the last, each chip's × is a button",
+    "note": "The clear button is tabindex=-1 so the field stays one tab stop; Delete / Backspace is its keyboard path, and it carries an aria-label (clear-label). While loading, the listbox is aria-busy. An option prefix is aria-hidden, so a flag emoji is not read before the country name. In mode=\"tags\" the chips sit in a role=\"list\"."
   },
   "surfaces": [
     "editor",
@@ -294,7 +336,7 @@
       "verdict": "PASS"
     },
     {
-      "label": "native <select> — OS keyboard + AT for free",
+      "label": "combobox trigger + themed listbox with the full keyboard contract",
       "verdict": "PASS"
     }
   ],
