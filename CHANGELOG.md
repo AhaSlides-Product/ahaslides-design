@@ -35,9 +35,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.615.0 — 2026-11-02
 ### Added
-- Tooltip: `trigger="hover-tap"` shows the bubble on mouse hover, keyboard focus and a touch tap. A tap toggles it, a tap elsewhere or Esc closes it; pointer type and `:focus-visible` decide, so a mouse click adds nothing and the focus a tap leaves behind never shows it (#PR)
-- Tooltip: `open-change` event (bubbles, composed) with detail `{ open: boolean }` on every show and hide, from any trigger or the `open` attribute, never twice in a row for one state, so analytics can fire on the first reveal (#PR)
-- Tooltip: `help-label` names the built-in `?` help button for screen readers; it stays "More info" when unset (#PR)
+- Tooltip: `trigger="hover-tap"` shows the bubble on mouse hover, keyboard focus and a touch tap. A tap toggles it, a tap elsewhere or Esc closes it; pointer type and `:focus-visible` decide, so a mouse click adds nothing and the focus a tap leaves behind never shows it (#536)
+- Tooltip: `open-change` event (bubbles, composed) with detail `{ open: boolean }` on every show and hide, from any trigger or the `open` attribute, never twice in a row for one state, so analytics can fire on the first reveal (#536)
+- Tooltip: `help-label` names the built-in `?` help button for screen readers; it stays "More info" when unset (#536)
 - Revert: revert the PR; all three are opt-in, and a tooltip without them renders and behaves as before
 
 ## 0.612.0 — 2026-11-02
