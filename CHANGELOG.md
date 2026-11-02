@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.596.1 — 2026-11-02
 ### Fixed
-- `screen-lint`: `no-dash-punctuation` no longer fires on dashes inside CSS, SCSS and Less comments; `min-width-trap` no longer fires on a `min-width` inside an `@media` or `@container` condition on the product, canvas, audience and settings surfaces (website keeps its on-scale breakpoint check); `chart-lib-import` now catches `@ant-design/plots` (allow a type `<aha-chart>` lacks with `ds-lint-allow: chart-lib-import (why)`) (#PRNUM)
+- `screen-lint`: `no-dash-punctuation` no longer fires on dashes inside CSS, SCSS and Less comments; `min-width-trap` no longer fires on a `min-width` inside an `@media` or `@container` condition on the product, canvas, audience and settings surfaces (website keeps its on-scale breakpoint check); `chart-lib-import` now catches `@ant-design/plots` (allow a type `<aha-chart>` lacks with `ds-lint-allow: chart-lib-import (why)`) (#505)
 
 ## 0.595.0 — 2026-11-02
 ### Added
