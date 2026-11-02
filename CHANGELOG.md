@@ -33,11 +33,91 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.851.0 — 2026-11-02
+## 0.894.0 — 2026-11-02
 ### Added
 - `aha-matrix`: a matrix question for the audience phone (rows × columns, one or several picks per row). Each statement is a labelled group of `aha-answer-option` rows, stacked on a 360px phone and side by side when there is room; `rows`, `columns`, `selection-mode`, `value` (`{rowId: columnId[]}`), `group-label`, `disabled`, `lock-key`, and a `change` event with `{value, row, column}` (#534)
 - `aha-matrix` options use the roving Tab stop (one per row, Tab moves row to row, arrows move within a row). `aha-answer-option[roving]` now mirrors ArrowLeft and ArrowRight in right-to-left (#534)
 - Revert: revert the PR; the element is new and opt-in
+
+## 0.893.0 — 2026-11-02
+### Added
+- `aha-number-scale`: a row of tappable whole numbers for the audience phone, 0–10 by default for a Net Promoter Score (`min`, `max` for any short numeric rating). 48px numbers at least 44px wide, six per row whenever one row would squeeze a number under 44px (an 11-point scale under 524px), the pick filled with the deck accent, `low-label` / `high-label` under the scale, a radio group with arrow keys, Home and End (mirrored in right-to-left), `group-label`, `disabled`, `lock-key`, and a `change` event with `{value}` (#541)
+### Fixed
+- `aha-list` `selectable`: a picker row's description reads in secondary text, so it passes 4.5:1 on the selected tint and the hover fill (the tertiary grey measured 3.18:1) (#541)
+- Revert: revert the PR; the element is new and opt-in, and the list fix is one CSS line
+
+## 0.892.0 — 2026-11-02
+
+### Added
+
+- `aha-input` `type` accepts `url` and `tel` in the contract (the element already set them on the inner field), so typed consumers can pass them (#565)
+- `aha-popover` `aria-label`: names the dialog panel, wins over `title`, and is forwarded inside the shadow root (#565)
+
+### Fixed
+
+- `aha-popover` whose body is only an `<aha-menu>` or a `role="menu"` element no longer wraps the menu in an unnamed `role="dialog"`: the panel takes no role and the trigger wrapper reads `aria-haspopup="menu"`. A dialog popover with neither `title` nor `aria-label` logs one console warning the first time it opens (#565)
+- `aha-csat` names its feedback popover with `feedback-prompt`, else the `feedback-label` text (Feedback) (#565)
+
+## 0.890.1 — 2026-11-02
+
+### Fixed
+
+- `<aha-leaderboard>` Show winner: the list's scrollbar is hidden while the winner banner covers it, so its track no longer shows as light corners outside the banner's rounded corners on a dark deck (#562)
+
+## 0.884.0 — 2026-11-02
+### Added
+- `<aha-rate size="lg">` draws 32px stars inside a 44px hit area each (6px padding, gap 4), for touch surfaces; the focus ring and keyboard behaviour are unchanged and the default size is unchanged. With `character="number"` the cells become 44×44 (radius 12, number 16/600) and wrap onto a new row instead of shrinking. A custom `icon` character is drawn at 32px. No new colour values. (#555)
+- Revert: revert the PR; `size="lg"` falls back to the default 24px star, nothing else uses it
+
+## 0.883.1 — 2026-11-02
+### Fixed
+- `<aha-progress>` and `<aha-progressbar>`: `ink` and `accent` now apply only with `palette="deck"`, as the contract says. Before, `<aha-progress accent="#000">` recoloured the product fill and ring. `palette` is now observed, so adding or removing it re-reads the attributes and removing it clears the inline deck variables (#548)
+- The deck-palette test uses a non-pink accent so it can tell the deck fill from the product fill, and covers own ink and accent, the ring, steps and attribute changes after connect
+- `tests/segmented-testid.test.mjs`, `tests/dropdown-loading.test.mjs` and `tests/stat-tile-icon.test.mjs` wait for the component module before reading the shadow root, so they no longer fail on a race
+- `<aha-list selectable>`: the row description uses `--aha-text-secondary` (#4A4A4A), not `--aha-text-tertiary` (#8A8A8A, 3.18 to 3.45:1), so picker rows meet the 4.5:1 interactive-state contrast gate, as `aha-select` option descriptions already do; lists without `selectable` are unchanged
+- Revert: revert the PR; the default render is unchanged and only a stray `ink` / `accent` without `palette` changes (it now does nothing)
+
+## 0.857.2 — 2026-11-02
+
+### Fixed
+- `aha-tooltip`: a hidden tooltip no longer adds to the page's layout overflow. Its 9px hover bridge took a box while the bubble was hidden, so a tooltip at the right edge of the page gave the whole page a horizontal scrollbar; the bridge now exists only while the bubble is shown, and hover onto the bubble still works. (#564)
+
+## 0.857.0 — 2026-11-02
+### Added
+- `aha-icon` sizes 40, 48 and 64 with 3, 3.5 and 4px strokes (backed by the 40, 48 and 64 size tokens), for empty states and illustrations; static icon files are generated for the new sizes (#554)
+- `aha-button` forwards `aria-disabled` and `aria-labelledby` to its inner button and keeps both in sync when they change (#554)
+- `aha-button` gains a trailing icon: `<aha-icon slot="icon-end">` draws after the label, for buttons such as "Next →"; hidden on icon-only (#554)
+- `aha-input` gains `borderless` (no border or fill at rest or on hover, the DS border and focus ring on keyboard focus, error status keeps its border) for inline editing, and `monospace` (field text in `--aha-font-mono`) (#554)
+- `aha-collapse` `slot="extra"` now takes a button: a click inside it no longer toggles the panel (#554)
+- `<aha-stat-tile icon="…">`: an optional DS icon name shown before the label in the muted icon colour at 16px. Without it the tile renders exactly as before. (#554)
+- `<aha-dropdown loading>`: shows the DS spinner in place of the caret and blocks opening, as Button's `loading` does; the trigger carries `aria-busy`. (#554)
+- `<aha-dropdown>` items take an optional `testid`, rendered as `data-testid` on the row. (#554)
+- `aha-chart` grouped columns: `type="column"` with `{series, rows:[{label, values}]}` (or the line shape `{labels, series:[{label, values}]}`) draws one column per series side by side inside each row, with a series legend, value labels and a data table; up to 4 series (#554)
+- `aha-chart` attributes `x-title` and `y-title` on bar, column and line: one line of secondary text above (y) and under (x) the plot (#554)
+### Changed
+- `aha-chart` pie and donut fit a small host: a pie no longer keeps the 140px floor or overflows a host narrower than 320px, a host with a set height shortens it and swaps the callouts for the legend below 224px tall, and the legend wraps, is capped at half the width and scrolls inside the host. Only the first 4 slices have distinct fills (slices 5 and 6 repeat 2 and 3), now stated in the Chart contract (#554)
+### Fixed
+- `aha-button` is disabled by a disabled ancestor `<fieldset>`, like a native button (#554)
+- `aha-popover` no longer announces a default "More information" name: its panel is named only by `title`, so a popover without one adds no extra dialog name for screen readers (#554)
+- Revert: revert the PR; every addition is opt-in (new sizes, attributes, slots and data shape) and the pie, donut and fieldset changes only affect hosts that were already overflowing or sat in a disabled fieldset
+
+## 0.856.1 — 2026-11-02
+
+### Fixed
+
+- CHANGELOG: the 0.840.0 Show winner entry links its PR (#559) instead of a placeholder, so the standards gate passes on master (#561)
+
+## 0.855.0 — 2026-11-02
+### Added
+- `aha-button` `pressed`: a toggle button that is on (Bold in a toolbar, a selected filter) keeps its variant's press look, the same fill, edge and label as `:active`, and the inner button gets `aria-pressed="true"`. `pressed="false"` is the toggle when off: `aria-pressed="false"` and the rest look. An `aria-pressed` set on the host wins, and a disabled button draws no pressed look. No new colour: each variant reuses its existing press values (#547)
+- Button contract: a "Contextual theming" row names the existing hook for a button on a themed survey or deck: the `--aha-button-*` tokens (and `--aha-deck-ink` for tertiary-deck) set on any ancestor, all filled from a theme by `applyCanvasDeck` in `lib/canvas-deck.js` (#547)
+- Revert: revert the PR; `pressed` is opt-in and off by default, so existing buttons are unchanged
+
+## 0.840.0 — 2026-11-02
+
+### Changed
+
+- `<aha-leaderboard>` Show winner: the avatar now sits before the name on one line (the same order as the list rows, 16px apart, the avatar as tall as the name), and the name is bigger than the score: name 64px semibold with a 64px avatar, score 48px (below 340px: 32px name and avatar, 24px score). The pop order is avatar, name, score. The list rows are unchanged. (#559)
 
 ## 0.837.0 — 2026-11-02
 ### Changed

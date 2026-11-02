@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Button end icon, input borderless and monospace, collapse extra</title>
+<link rel="stylesheet" href="../lib/tokens.css">
+</head>
+<body>
+  <aha-button id="next" variant="primary">Next<aha-icon slot="icon-end" name="system-arrow-right" size="16" decorative></aha-icon></aha-button>
+  <aha-input id="plain" value="Plain"></aha-input>
+  <aha-input id="borderless" borderless value="Borderless"></aha-input>
+  <aha-input id="borderless-error" borderless status="error" value="Bad"></aha-input>
+  <aha-input id="mono" monospace value="abc-123"></aha-input>
+  <aha-collapse id="panel">
+    <span slot="header">Row</span>
+    <aha-button id="extra-action" slot="extra" size="sm" variant="tertiary">Edit</aha-button>
+    Body
+  </aha-collapse>
+  <script type="module">
+    await import('../lib/icons.js');
+    await import('../lib/aha-button.js');
+    await import('../lib/aha-input.js');
+    await import('../lib/aha-collapse.js');
+    window.controlsFixtureReady = true;
+  </script>
+</body>
+</html>

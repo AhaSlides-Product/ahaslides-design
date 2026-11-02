@@ -212,6 +212,23 @@
    }
   },
   {
+   "name": "NumberScale",
+   "element": "<aha-number-scale>",
+   "kind": "Answers",
+   "what": "A row of tappable whole numbers (0–10 by default) with the end labels under it: the Net Promoter Score question.",
+   "useWhen": "A score the participant taps: NPS 0–10, or a short rating shown as numbers (`min`, `max`). Pass `low-label`, `high-label`, `group-label` and a `lock-key`.",
+   "notFor": "A wide or continuous range the participant drags (`<aha-scale-slider>`), stars or faces, or a free number.",
+   "replaces": "Replaces a hand-built row of number buttons, which re-opens the radio keyboard contract, the deck ink, the frosted surface and the submission lock",
+   "note": null,
+   "demoLight": "<aha-number-scale group-label=\"Recommend\" value=\"9\" low-label=\"Not at all likely\" high-label=\"Extremely likely\"></aha-number-scale>",
+   "demoDark": "<aha-number-scale group-label=\"Recommend\" value=\"9\" low-label=\"Not at all likely\" high-label=\"Extremely likely\"></aha-number-scale>",
+   "snippets": {
+    "html": "<!-- Paste-and-run: save as .html and open it. No build step, nothing to copy.\n     In a Developer Platform slide type, applyDeck() gives every audience element the deck's ink, accent\n     and font from the host's slide props (the host's --aha-* variables never reach the iframe). -->\n<!-- One tag for the whole audience set instead of the per-element import below (also exports applyDeck): -->\n<!-- <script type=\"module\" src=\"https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/audience.js\"></script> -->\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css\">\n<script type=\"module\">\n  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-number-scale.js';   // registers <aha-number-scale>\n  import { applyDeck } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/audience-deck.js';\n  applyDeck(document.documentElement, window.xprops?.slide ?? { textColour: '#1A1A1A', presentationColorPalette: ['#E70E68'] });\n  const scale = document.querySelector('aha-number-scale');\n  scale.addEventListener('change', (event) => console.log('score', event.detail.value));\n</script>\n\n<!-- Net Promoter Score: 0–10 is the default range -->\n<aha-number-scale group-label=\"How likely are you to recommend us to a friend?\" lock-key=\"slide-42\"\n  low-label=\"Not at all likely\" high-label=\"Extremely likely\"></aha-number-scale>\n\n<!-- a 1–5 rating shown as numbers -->\n<aha-number-scale min=\"1\" max=\"5\" group-label=\"How clear was the talk?\" low-label=\"Unclear\" high-label=\"Very clear\"></aha-number-scale>\n",
+    "react": "import '@ahaslides-product/design/aha-number-scale';\nimport { useEffect, useRef } from 'react';\n\n// React < 19: bind the custom event through a ref.\nexport function NpsQuestion({ onScore }) {\n  const ref = useRef(null);\n  useEffect(() => {\n    const scale = ref.current;\n    const handle = (event) => onScore(event.detail.value);\n    scale.addEventListener('change', handle);\n    return () => scale.removeEventListener('change', handle);\n  }, [onScore]);\n  return (\n    <aha-number-scale ref={ref} group-label=\"How likely are you to recommend us to a friend?\" lock-key=\"slide-42\"\n      low-label=\"Not at all likely\" high-label=\"Extremely likely\" />\n  );\n}",
+    "vue": "<script setup>\nimport '@ahaslides-product/design/aha-number-scale';\nconst emit = defineEmits(['score']);\n</script>\n\n<template>\n  <aha-number-scale group-label=\"How likely are you to recommend us to a friend?\" lock-key=\"slide-42\"\n    low-label=\"Not at all likely\" high-label=\"Extremely likely\"\n    @change=\"emit('score', $event.detail.value)\" />\n</template>"
+   }
+  },
+  {
    "name": "Chip",
    "element": "<aha-audience-chip>",
    "kind": "Input",

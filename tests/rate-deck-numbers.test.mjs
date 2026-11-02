@@ -52,3 +52,15 @@ test('character="number" draws numbered cells and steps in whole numbers even wi
   assert.equal(result.deckDigit, 'rgb(1, 2, 3)');
   assert.equal(result.deckFilledDigit, 'rgb(4, 5, 6)');
 });
+
+test('size="lg" gives every star and every number cell a 44px hit area, and the default stays 24px', { skip }, async () => {
+  const sizes = await evaluate(`Object.fromEntries(['regular', 'large', 'large-numbers'].map((id) => {
+    const star = document.getElementById(id).shadowRoot.querySelector('.star');
+    const box = star.getBoundingClientRect();
+    const glyph = star.querySelector('.base').getBoundingClientRect();
+    return [id, { width: box.width, height: box.height, glyphWidth: glyph.width }];
+  }))`);
+  assert.deepEqual(sizes.regular, { width: 24, height: 24, glyphWidth: 24 });
+  assert.deepEqual(sizes.large, { width: 44, height: 44, glyphWidth: 32 });
+  assert.deepEqual(sizes['large-numbers'], { width: 44, height: 44, glyphWidth: 44 });
+});

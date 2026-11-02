@@ -144,6 +144,12 @@
       "status": "available"
     },
     {
+      "ref": "number-scale",
+      "as": "component",
+      "use": "a tapped numeric score (NPS 0–10, a 1–5 rating shown as numbers) — <aha-number-scale>: 48px numbers on the frosted surface, six per row on a phone, the pick filled with the deck accent, end labels under it, lock-key keeps the score across an iframe remount; never a hand-built row of number buttons",
+      "status": "available"
+    },
+    {
       "ref": "scale-slider",
       "as": "component",
       "use": "scale input — <aha-scale-slider>: readout centred above an 8px rail inset 16px from the min/max labels, rail and filled portion both --aha-deck-stroke (ink 12%) with a 1px --aha-deck-stroke hairline",
