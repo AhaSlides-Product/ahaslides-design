@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.727.0 — 2026-11-02
+### Added
+- Chart: `type="nps"` draws the 0 to 10 answers of an NPS question as eleven columns under three brackets (Detractors 0 to 6, Passives 7 to 8, Promoters 9 to 10), each bracket with its count and share, plus the score (`NPS {score}`, % promoters minus % detractors). `data` is the 11 counts as an array or `{counts}`; `colors` takes the three bracket colours in the order detractor, passive, promoter, so a survey keeps its own hues; without `colors` the brackets use the existing brand series and neutral (no new hue). `options.showScore` (default true) hides the score; on a narrow host the bracket names move to a key row under the chart. The text summary and data table list every rating and bracket, and the new copy keys (`typeNames.nps`, `npsDetractors`, `npsPassives`, `npsPromoters`, `npsScore`, `npsRating`, `npsSummary`) override through `strings`, in `en` and `vi`. Other chart types render exactly as before (#553)
+- Revert: revert the PR; only charts that set `type="nps"` change, and before it they fell back to a bar chart
+
 ## 0.726.0 — 2026-11-02
 ### Added
 - Chart: `strings` is now also a JSON attribute (`<aha-chart strings='{"emptyNote":"No answers yet"}'>`), so a static page or a framework binding can override any built-in text without a script. Every key of `chartStrings.en` is overridable, per key: type names, the empty-state note and summary, pager labels, legends, axis and tooltip text, summaries and live-region text, and the word-cloud and mind-map controls; the chart docs and contract list every key. Keys left out fall back to the locale's built-in copy (`en`, `vi`), then English; the `strings` property still wins over the attribute until the attribute changes. A chart without `strings` renders exactly as before (#545)
