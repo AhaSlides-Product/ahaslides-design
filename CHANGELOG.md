@@ -35,8 +35,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.643.0 — 2026-11-02
 ### Added
-- `aha-audience-date`: a date answer for the audience phone. Day, month and year `aha-counted-input` fields in the order `format` sets (DMY, MDY, YMD) with a `separator`, a numeric keypad, digits only and auto-advance; the value is ISO `YYYY-MM-DD`, or empty until the date is real; after leaving the group with a part-filled or impossible date, `error-message` shows in `aha-field-error variant="respondent"`. `group-label`, `day-label` / `month-label` / `year-label`, placeholders, `disabled`, `lock-key`, and a `change` event with `{value, valid}` (#PR)
-- `aha-counted-input` takes `type="email" | "tel" | "url"`, and forwards `inputmode` and `autocomplete` to its inner field; without them it renders as before (#PR)
+- `aha-audience-date`: a date answer for the audience phone. Day, month and year `aha-counted-input` fields in the order `format` sets (DMY, MDY, YMD) with a `separator`, a numeric keypad, digits only and auto-advance; the value is ISO `YYYY-MM-DD`, or empty until the date is real; after leaving the group with a part-filled or impossible date, `error-message` shows in `aha-field-error variant="respondent"`. `group-label`, `day-label` / `month-label` / `year-label`, placeholders, `disabled`, `lock-key`, and a `change` event with `{value, valid}` (#544)
+- `aha-counted-input` takes `type="email" | "tel" | "url"`, and forwards `inputmode` and `autocomplete` to its inner field; without them it renders as before (#544)
 - Revert: revert the PR; the element and the attributes are new and opt-in
 
 ## 0.621.1 — 2026-11-02
