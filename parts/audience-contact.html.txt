@@ -12,4 +12,5 @@
 
 <aha-audience-contact group-label="How can we reach you?" lock-key="slide-42"
   fields='[{"id":"name","kind":"name","label":"Name","required":true},{"id":"email","kind":"email","label":"Email","required":true},{"id":"phone","kind":"phone","label":"Phone"}]'
-  optional-label="(optional)"></aha-audience-contact>
+  dial-codes='[{"value":"GB","country":"GB","dial":"+44"},{"value":"US","country":"US","dial":"+1"}]'
+  strings='{"optionalLabel":"(optional)"}' testid="contact"></aha-audience-contact>
