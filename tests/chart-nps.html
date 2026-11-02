@@ -1,0 +1,12 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../lib/tokens.css">
+<script type="module">
+import { defineAhaChart } from '../lib/aha-chart.js';
+defineAhaChart();
+window.npsFixtureReady = true;
+</script>
+<div style="width:900px">
+  <aha-chart id="host" type="nps" colors="rgb(200, 0, 0), rgb(100, 100, 100), rgb(0, 150, 0)" data='[2,1,0,3,2,4,6,9,14,18,21]'></aha-chart>
+  <aha-chart id="empty" type="nps" data='{"counts":[0,0,0,0,0,0,0,0,0,0,0]}'></aha-chart>
+</div>
