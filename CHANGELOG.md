@@ -35,10 +35,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.597.0 — 2026-11-02
 ### Added
-- `<aha-text>` (`@ahaslides-product/design/aha-text`): body copy, captions, paragraphs and in-page headings on the DS type scale, the replacement for antd Typography (Title, Text, Paragraph). `size` (12 · 14 · 16 · 18 · 20 · 24 · 32), `weight` (regular / semibold), `tone` (default, secondary, tertiary, disabled, inverse, inherit; no status hue), `level` 1-6 (role heading with aria-level), `as="p"`, `ellipsis` and `lines` (multi-line clamp, full text as the title when cut) (#PR)
+- `<aha-text>` (`@ahaslides-product/design/aha-text`): body copy, captions, paragraphs and in-page headings on the DS type scale, the replacement for antd Typography (Title, Text, Paragraph). `size` (12 · 14 · 16 · 18 · 20 · 24 · 32), `weight` (regular / semibold), `tone` (default, secondary, tertiary, disabled, inverse, inherit; no status hue), `level` 1-6 (role heading with aria-level), `as="p"`, `ellipsis` and `lines` (multi-line clamp, full text as the title when cut) (#507)
 ### Changed
-- Shared components rule `text-and-colour` and its judge criterion name `<aha-text>` for visible text in place of AntD Typography (#PR)
-- Revert: revert the PR; the element is a new file and nothing else imports it (#PR)
+- Shared components rule `text-and-colour` and its judge criterion name `<aha-text>` for visible text in place of AntD Typography (#507)
+- Revert: revert the PR; the element is a new file and nothing else imports it (#507)
 
 ## 0.595.1 — 2026-11-02
 ### Fixed
