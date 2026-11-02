@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.604.1 — 2026-11-02
+### Fixed
+- Security: text from attributes and JSON no longer renders as HTML in five elements. `aha-card` `card-title`, `aha-rate` `icon`, `aha-card-select` option `icon`, `aha-descriptions` `items` label and value, and `aha-tabs` panel `id` (in `aria-controls`) are now escaped, so a survey question title like `<img src=x onerror=…>` shows as literal text and creates no element. Light-DOM content of `aha-descriptions` keeps its markup. No visual change (#513)
+
 ## 0.601.0 — 2026-11-02
 ### Added
 - Chart: `<aha-chart type="pie">`, a solid pie with no centre hole. It is the donut renderer with the same slices, palette, labels, legend, tooltip, empty state and screen-reader summary (named "Pie chart"). `type="donut"` with `options.variant: "pie"` keeps working. Contract, all flavour files, docs and a Pie default snippet updated together.
