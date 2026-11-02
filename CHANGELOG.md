@@ -33,10 +33,22 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.612.0 — 2026-11-02
+## 0.616.0 — 2026-11-02
 ### Added
 - `<aha-segmented>` options take an optional `testid`, rendered as `data-testid` on that option's button, the same name `<aha-dropdown>` items use (#535). String options and options without `testid` render unchanged; icons (`icon`) and `ariaLabel` already worked.
 - Revert: revert the PR; `testid` is ignored by older releases
+=======
+
+## 0.613.0 — 2026-11-02
+### Added
+- `aha-rank-list` `touch` attribute: the move up / down buttons become 44 x 44 side by side with 8px between them (the audience touch-targets rule), with an 18% ink press state and disabled buttons at 55% opacity (about 3.9:1 on white) instead of 40%. Off, the 24px stacked buttons render unchanged (#522)
+- `aha-rank-list` `hide-caption` attribute: `group-label` still names the list for assistive technology (the list's aria-label) but the visible caption above the rows is hidden (#522)
+- Revert: revert the PR; both attributes are opt-in and default off
+
+## 0.612.0 — 2026-11-02
+### Added
+- Seven icons for survey building, each with meaning words for `npm run icon-search`: `system-hash` (number rating), `system-arrows-split` (branching and skip logic), `system-check-square` (checkbox question, beside `system-minus-square`), `system-flag`, `system-megaphone` (announcement), `system-neutral-face` (the neutral point between `system-sad-face` and `system-smiley`) and `system-star-filled` (the filled state of `system-star` for rating stars, any size). The first four and the tick come from Phosphor Icons Regular (MIT) on the DS 16px grid with the 1.5 stroke; the registry now holds 362 names (#521)
+- Revert: revert the PR; additive glyphs only, no existing icon changes
 
 ## 0.609.1 — 2026-11-02
 ### Added
