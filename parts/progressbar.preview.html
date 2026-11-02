@@ -7,10 +7,17 @@
     <aha-progressbar value="2" max="4" steps="4" label="Setup steps" value-text="Step 2 of 4"></aha-progressbar>
     <aha-progressbar value="45" type="circle" size="small" label="Poll turnout"></aha-progressbar>
   </div>
+  <div class="lbl">Audience: palette="deck" on a dark deck (applyDeck() with a white ink and a Vivid Pink accent)</div>
+  <div class="aud-dark" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:360px;box-sizing:border-box;padding:var(--aha-space-16);background:var(--aha-bg-dark);border-radius:var(--aha-radius-lg)">
+    <aha-progressbar palette="deck" value="2" max="5" label="Survey progress" value-text="Page 2 of 5"></aha-progressbar>
+    <aha-progressbar palette="deck" value="2" max="5" show-info="false" label="Survey progress" value-text="Page 2 of 5"></aha-progressbar>
+  </div>
 </div>
 
 <!-- Imports the REAL shipped elements — no inlined copy, so the preview can never drift from lib/. -->
 <script type="module">
   import '../lib/icons.js';
   import '../lib/aha-progressbar.js';
+  import { applyDeck } from '../lib/audience-deck.js';
+  for (const deck of document.querySelectorAll('.aud-dark')) applyDeck(deck, { textColour: '#FFFFFF', presentationColorPalette: ['#E70E68'] });
 </script>
