@@ -1,4 +1,5 @@
 {
+  "environment": ["product", "web"],
   "name": "Product lockup",
   "slug": "product-lockup",
   "group": "Navigation",
