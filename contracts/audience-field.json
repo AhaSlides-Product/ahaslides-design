@@ -62,14 +62,14 @@
       "name": "(slot)",
       "type": "element",
       "default": "—",
-      "desc": "One DS field: <aha-counted-input size=\"lg\">, <aha-counted-input type=\"number\" maxlength=\"none\" size=\"lg\">, <aha-counted-textarea size=\"lg\"> or <aha-select size=\"lg\">"
+      "desc": "One DS field: <aha-counted-input size=\"lg\">, <aha-counted-input type=\"number\" maxlength=\"none\" size=\"lg\">, <aha-counted-input type=\"email\" | \"url\" | \"password\" size=\"lg\">, <aha-counted-input inputmode=\"decimal\" maxlength=\"none\" size=\"lg\"> (a number keypad that keeps partial input), <aha-counted-textarea size=\"lg\"> or <aha-select size=\"lg\">"
     }
   ],
   "opinion": {
     "whenToUse": [
       {
         "what": "Counted input",
-        "when": "a short line (a name, a word); type=\"number\" for a number"
+        "when": "a short line (a name, a word); type=\"number\" for a number, inputmode=\"decimal\" for a number the answer validates itself, type=\"email\", \"url\" or \"password\" for those; dir=\"auto\" on every typed answer so a right-to-left answer reads right to left"
       },
       {
         "what": "Counted textarea",
