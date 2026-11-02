@@ -33,6 +33,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.603.0 — 2026-11-02
+### Added
+- `aha-icon` sizes 40, 48 and 64 with 3, 3.5 and 4px strokes (backed by the 40, 48 and 64 size tokens), for empty states and illustrations; static icon files are generated for the new sizes (#PR)
+- `aha-button` forwards `aria-disabled` and `aria-labelledby` to its inner button and keeps both in sync when they change (#PR)
+### Fixed
+- `aha-button` is disabled by a disabled ancestor `<fieldset>`, like a native button (#PR)
+
 ## 0.599.0 — 2026-11-02
 ### Added
 - Icons for course and rich-text UI, 22 one-colour glyphs from Phosphor Icons Regular (MIT) on the DS 16px grid with the 1.5 stroke: the rich-text toolbar set `system-text-b`, `system-text-italic`, `system-text-underline`, `system-text-strikethrough`, `system-text-h-one`, `system-text-h-two`, `system-text-h-three`; device preview `system-monitor` and `system-device-tablet` (beside `system-device-mobile`); and `system-arrow-line-down`, `system-caret-circle-down`, `system-certificate`, `system-crop`, `system-flow-arrow`, `system-gauge`, `system-image-broken`, `system-map-pin`, `system-minus-circle`, `system-puzzle-piece`, `system-ruler`, `system-scroll`, `system-target`. Each has meaning words for `npm run icon-search`; the registry now holds 353 names (#509)

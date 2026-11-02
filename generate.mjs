@@ -3567,7 +3567,7 @@ function renderIconsLlms() {
   for (const [k, v] of Object.entries(ICONS.icons)) (byFam[v.family] || (byFam[v.family] = [])).push(k);
   let s = `# AhaSlides Icons — call by name\n\n> ${ICONS.count} glyphs, generated from ${ICONS.$generatedFrom}. Render with the shared <aha-icon> element — NEVER hand-author or inline an <svg>.\n\n`;
   s += 'Usage: `<aha-icon name="system-bell" size={16} label="Notifications" />`\n';
-  s += '- size: 12 | 16 | 24 | 32 (only); the runtime draws the paired stroke: 12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px. Colour follows currentColor — set it on the wrapper.\n';
+  s += '- size: 12 | 16 | 24 | 32 | 40 | 48 | 64 (only); the runtime draws the paired stroke: 12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px, 40px 3px, 48px 3.5px, 64px 4px. Colour follows currentColor — set it on the wrapper.\n';
   s += '- omit `label` and add `decorative` for an icon that only repeats adjacent text.\n';
   s += '- filled/active state → pick the `-filled` asset (e.g. system-bookmark-simple-filled).\n\n';
   s += `Static images (a report PNG for Slack, email or an export) cannot run <aha-icon>: take the status glyphs as single-colour SVG files, same names, from https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@${CDN_REF}/lib/static-icons/<ink>/<size>/<name>.svg (ink: ink #1A1A1A or white; size 12, 16, 24, 32; the list is lib/static-icons/manifest.json). Rules: ${SITE}/guidelines/report-images/report-images.md\n\n`;
@@ -3583,7 +3583,7 @@ function renderIconsAgentJson() {
   return JSON.stringify({
     generatedFrom: ICONS.$generatedFrom, element: 'aha-icon',
     usage: '<aha-icon name="system-bell" size={16} label="Notifications" />',
-    rules: { sizes: [12, 16, 24, 32], strokeByPixelSize: { 12: 1, 16: 1.5, 24: 2, 32: 2.5 }, colour: 'currentColor (set on wrapper)', decorative: 'add `decorative`, drop `label`', filledState: 'use the -filled asset', reuseFirst: 'match your need against each icon\'s meaning words before drawing a glyph; a new glyph that looks nearly identical to an existing one fails the build' },
+    rules: { sizes: [12, 16, 24, 32, 40, 48, 64], strokeByPixelSize: { 12: 1, 16: 1.5, 24: 2, 32: 2.5, 40: 3, 48: 3.5, 64: 4 }, colour: 'currentColor (set on wrapper)', decorative: 'add `decorative`, drop `label`', filledState: 'use the -filled asset', reuseFirst: 'match your need against each icon\'s meaning words before drawing a glyph; a new glyph that looks nearly identical to an existing one fails the build' },
     search: { command: 'npm run icon-search <words>', inAnApp: 'node node_modules/@ahaslides-product/design/icon-search.mjs <words>', hosted: `${SITE}/icons/index.html?q=<words>`, fields: 'icons.<name>.meaning' },
     families: ICONS.families, count: ICONS.count,
     names: Object.keys(ICONS.icons).sort(),
