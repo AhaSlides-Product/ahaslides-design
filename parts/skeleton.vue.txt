@@ -11,5 +11,6 @@ const loading = ref(true);
 
 <template>
   <aha-skeleton v-if="loading" variant="paragraph" rows="3" />
+  <!-- size to the real content: <aha-skeleton variant="image" width="100%" height="180" /> -->
   <CardBody v-else>{{ body }}</CardBody>
 </template>
