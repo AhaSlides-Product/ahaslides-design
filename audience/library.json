@@ -21,6 +21,23 @@
    }
   },
   {
+   "name": "AudienceDate",
+   "element": "<aha-audience-date>",
+   "kind": "Answers",
+   "what": "A date answer: day, month and year fields in the question's order, a numeric keypad, an ISO value and a respondent error for an impossible date.",
+   "useWhen": "A date question: a birthday, a start date. Pass `format` (DMY, MDY or YMD), `separator`, `group-label` and a `lock-key`; the value is `YYYY-MM-DD` once the date is real.",
+   "notFor": "A date in the product (the Date picker), a time of day or a date range.",
+   "replaces": "Replaces a native date input or three hand-built inputs, which re-open the field look, the numeric keypad, the date check and the submission lock",
+   "note": null,
+   "demoLight": "<aha-audience-date group-label=\"When did you join?\" value=\"2026-11-02\"></aha-audience-date>",
+   "demoDark": "<aha-audience-date group-label=\"When did you join?\" value=\"2026-11-02\"></aha-audience-date>",
+   "snippets": {
+    "html": "<!-- Paste-and-run: save as .html and open it. No build step, nothing to copy.\n     In a Developer Platform slide type, applyDeck() gives every audience element the deck's ink, accent\n     and font from the host's slide props (the host's --aha-* variables never reach the iframe). -->\n<!-- One tag for the whole audience set instead of the per-element import below (also exports applyDeck): -->\n<!-- <script type=\"module\" src=\"https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/audience.js\"></script> -->\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css\">\n<script type=\"module\">\n  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-audience-date.js';   // registers <aha-audience-date>\n  import { applyDeck } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/audience-deck.js';\n  applyDeck(document.documentElement, window.xprops?.slide ?? { textColour: '#1A1A1A', presentationColorPalette: ['#E70E68'] });\n  const date = document.querySelector('aha-audience-date');\n  date.addEventListener('change', (event) => console.log('date', event.detail.value, event.detail.valid));\n</script>\n\n<aha-audience-date group-label=\"When did you join?\" format=\"DMY\" lock-key=\"slide-42\"></aha-audience-date>\n\n<!-- month first, with a dash between the fields -->\n<aha-audience-date group-label=\"Start date\" format=\"MDY\" separator=\"-\" value=\"2026-11-02\"></aha-audience-date>",
+    "react": "import '@ahaslides-product/design/aha-audience-date';\nimport { useEffect, useRef } from 'react';\n\n// React < 19: bind the custom event through a ref.\nexport function DateQuestion({ format, onAnswer }) {\n  const ref = useRef(null);\n  useEffect(() => {\n    const date = ref.current;\n    const handle = (event) => onAnswer(event.detail.value, event.detail.valid);\n    date.addEventListener('change', handle);\n    return () => date.removeEventListener('change', handle);\n  }, [onAnswer]);\n  return <aha-audience-date ref={ref} group-label=\"When did you join?\" format={format} lock-key=\"slide-42\" />;\n}",
+    "vue": "<script setup>\nimport '@ahaslides-product/design/aha-audience-date';\ndefineProps({ format: String });\nconst emit = defineEmits(['answer']);\n</script>\n\n<template>\n  <aha-audience-date group-label=\"When did you join?\" :format=\"format\" lock-key=\"slide-42\"\n    @change=\"emit('answer', $event.detail.value)\" />\n</template>"
+   }
+  },
+  {
    "name": "AnswerOption",
    "element": "<aha-answer-option>",
    "kind": "Answers",
@@ -387,7 +404,10 @@
   },
   {
    "name": "Leaderboard",
-   "docs": { "href": "../leaderboard/index.html", "label": "Full Leaderboard docs: props, API and code" },
+   "docs": {
+    "href": "../leaderboard/index.html",
+    "label": "Full Leaderboard docs: props, API and code"
+   },
    "element": "<aha-leaderboard>",
    "kind": "Results",
    "what": "The ranked list on the phone: every participant, one row each, scrolling inside the board; the participant's own row carries \"(you)\" after the name and is scrolled into view.",

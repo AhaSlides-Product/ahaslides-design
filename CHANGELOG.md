@@ -33,6 +33,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.643.0 — 2026-11-02
+### Added
+- `aha-audience-date`: a date answer for the audience phone. Day, month and year `aha-counted-input` fields in the order `format` sets (DMY, MDY, YMD) with a `separator`, a numeric keypad, digits only and auto-advance; the value is ISO `YYYY-MM-DD`, or empty until the date is real; after leaving the group with a part-filled or impossible date, `error-message` shows in `aha-field-error variant="respondent"`. `group-label`, `day-label` / `month-label` / `year-label`, placeholders, `disabled`, `lock-key`, and a `change` event with `{value, valid}` (#PR)
+- `aha-counted-input` takes `type="email" | "tel" | "url"`, and forwards `inputmode` and `autocomplete` to its inner field; without them it renders as before (#PR)
+- Revert: revert the PR; the element and the attributes are new and opt-in
+
 ## 0.621.0 — 2026-11-02
 ### Added
 - Rate: `character="number"` draws a numbers-only rating, cells 1 to `count` in place of the glyph. A cell is 32×32 and shrinks to 24 so ten fit a 360px phone (`size="sm"` 24×24), radius 8 (sm 6), gap 4. Empty is a 1px gray-40 outline with the number in text-default 14/600 (sm 12), filled is color-primary with a white number, and the fill sweeps in on hover and selection like the stars. Whole steps only: `allow-half` and `precision="exact"` are ignored (#530)

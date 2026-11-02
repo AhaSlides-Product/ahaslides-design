@@ -138,6 +138,12 @@
       "status": "available"
     },
     {
+      "ref": "audience-date",
+      "as": "component",
+      "use": "a date answer — <aha-audience-date>: day, month and year <aha-counted-input> fields in the question's order (format DMY | MDY | YMD) with a numeric keypad, an ISO YYYY-MM-DD value and a respondent <aha-field-error> for an impossible date; never a native date input or three hand-built inputs",
+      "status": "available"
+    },
+    {
       "ref": "scale-slider",
       "as": "component",
       "use": "scale input — <aha-scale-slider>: readout centred above an 8px rail inset 16px from the min/max labels, rail and filled portion both --aha-deck-stroke (ink 12%) with a 1px --aha-deck-stroke hairline",

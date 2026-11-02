@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Audience date</title>
+</head>
+<body>
+  <div style="width:360px"><aha-audience-date id="dmy"></aha-audience-date></div>
+  <aha-audience-date id="mdy" format="MDY" separator="-" value="2026-11-02"></aha-audience-date>
+  <aha-audience-date id="locked" disabled value="2024-02-29"></aha-audience-date>
+  <button id="outside">outside</button>
+  <script type="module">
+    await import('../lib/aha-audience-date.js');
+    await customElements.whenDefined('aha-audience-date');
+    window.audienceDateFixtureReady = !!document.querySelector('#dmy').shadowRoot?.querySelector('aha-counted-input')?.shadowRoot?.querySelector('.field');
+  </script>
+</body>
+</html>

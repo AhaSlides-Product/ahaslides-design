@@ -1,0 +1,184 @@
+{
+  "name": "Audience date",
+  "slug": "audience-date",
+  "group": "Audience",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-audience-date",
+  "summary": "A date answer on the audience phone: day, month and year fields in the order the question sets, with a numeric keypad, an ISO value and a respondent error for an impossible date.",
+  "highlights": [
+    "Day, month, year in DMY, MDY or YMD order",
+    "Numeric keypad and autofill hints on a phone",
+    "ISO YYYY-MM-DD value, empty until the date is real",
+    "Locks and restores the value after an iframe remount"
+  ],
+  "lead": "ONE custom element — <aha-audience-date> — for a date the participant types on the audience phone. It is three <aha-counted-input> fields with <aha-field-error variant=\"respondent\"> under them, so it carries the same field look as every audience field; never a native date picker, which looks different on every phone and cannot take the deck colours. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) binds events through a ref; Vue binds the custom element natively.",
+  "tokensUsed": [
+    "text-default",
+    "border-default",
+    "radius-default",
+    "space-8",
+    "white"
+  ],
+  "spec": [
+    {
+      "label": "Fields",
+      "value": "three Counted input fields at size large (48px, 16px / 24px text), no counter; day and month take 2 shares of the row, year 3"
+    },
+    {
+      "label": "Separator",
+      "value": "16px / 24px, deck ink at 76%, 8px each side; hidden from assistive technology"
+    },
+    {
+      "label": "Typing",
+      "value": "digits only, 2 for day and month and 4 for year; a full day or month moves focus to the next field"
+    },
+    {
+      "label": "Error",
+      "value": "after leaving the group with a part-filled or impossible date: the fields take the error border and <aha-field-error variant=\"respondent\"> shows the message 8px below, in the default ink"
+    },
+    {
+      "label": "Locked",
+      "value": "disabled or a locked lock-key: every field is disabled and the submitted date is restored"
+    }
+  ],
+  "props": [
+    {
+      "name": "ink",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck ink (xprops.slide.textColour) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "accent",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck accent (presentationColorPalette[0]) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "format",
+      "type": "DMY | MDY | YMD",
+      "default": "DMY",
+      "desc": "The order of the day, month and year fields"
+    },
+    {
+      "name": "separator",
+      "type": "string",
+      "default": "/",
+      "desc": "The character between the fields"
+    },
+    {
+      "name": "value",
+      "type": "YYYY-MM-DD",
+      "default": "''",
+      "desc": "The date; '' until the three fields make a real date. Also the `value` property; `valid` is true when it is set"
+    },
+    {
+      "name": "group-label",
+      "type": "string",
+      "default": "Date",
+      "desc": "The group's accessible name: pass the translated question"
+    },
+    {
+      "name": "day-label / month-label / year-label",
+      "type": "string",
+      "default": "Day / Month / Year",
+      "desc": "Each field's accessible name; pass translated text"
+    },
+    {
+      "name": "day-placeholder / month-placeholder / year-placeholder",
+      "type": "string",
+      "default": "DD / MM / YYYY",
+      "desc": "Each field's placeholder; pass translated text"
+    },
+    {
+      "name": "error-message",
+      "type": "string",
+      "default": "Enter a real date",
+      "desc": "The respondent error shown after leaving the group with a part-filled or impossible date"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Disables every field"
+    },
+    {
+      "name": "lock-key",
+      "type": "string",
+      "default": "—",
+      "desc": "The submission-lock key for this question: once a submission is locked under it, the element locks and restores the submitted value, including after an iframe remount"
+    },
+    {
+      "name": "change",
+      "type": "CustomEvent<{value, valid}>",
+      "default": "—",
+      "desc": "Fires on every keystroke with the ISO value ('' while not a real date) and whether it is valid"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Audience date",
+        "when": "a date question on the audience phone or a survey respondent page: a birthday, a start date"
+      },
+      {
+        "what": "Date picker",
+        "when": "a date in the product (editor, settings, reports)"
+      },
+      {
+        "what": "Not for",
+        "when": "a time of day or a date range"
+      }
+    ],
+    "note": "Replaces a native <input type=\"date\"> or three hand-built inputs, which re-open the field look, the numeric keypad, the date check and the submission lock. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font."
+  },
+  "surfaces": [
+    "audience"
+  ],
+  "reuse": {
+    "entry": "./aha-audience-date",
+    "registers": "aha-audience-date",
+    "exportsNamed": [
+      "AhaAudienceDate",
+      "defineAhaAudienceDate"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "audience-date.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a version-pinned CDN import and plain HTML, for a build-less slide page."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "audience-date.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "audience-date.vue.txt"
+    }
+  ],
+  "preview": "audience-date.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP), on the light-deck example with no deck applied (DS defaults).",
+    "ready": "!!(document.querySelector('aha-audience-date[data-probe]')&&document.querySelector('aha-audience-date[data-probe]').shadowRoot&&document.querySelector('aha-audience-date[data-probe]').shadowRoot.querySelector('aha-counted-input')&&document.querySelector('aha-audience-date[data-probe]').shadowRoot.querySelector('aha-counted-input').shadowRoot)",
+    "singleUI": true,
+    "measure": "(function(){var r=document.querySelector('aha-audience-date[data-probe]').shadowRoot;function cs(n){return n?getComputedStyle(n):{}}var f=r.querySelector('aha-counted-input');var w=f.shadowRoot.querySelector('.wrap');var t=cs(f.shadowRoot.querySelector('.field'));return{height:cs(w).height,radius:cs(w).borderTopLeftRadius,textSize:t.fontSize,ink:t.color,gap:cs(r.querySelector('.parts')).columnGap};})()",
+    "expect": {
+      "height": "48px",
+      "radius": "8px",
+      "textSize": "16px",
+      "ink": "rgb(26, 26, 26)",
+      "gap": "8px"
+    }
+  },
+  "environment": [
+    "audience"
+  ]
+}
