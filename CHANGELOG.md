@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.609.0 — 2026-11-02
+### Added
+- `<aha-palette-swatch>` (`@ahaslides-product/design/aha-palette-swatch`): a theme's colour palette as five rounded chips of rising heights, the presenter's theme-thumbnail palette. `colors` takes the theme's pipe-separated colours (first five; a shorter palette leaves later chips outlined), `label` gives it an accessible name, otherwise it is decorative. It fills its host's width at 152:33 (#PR)
+- Revert: revert the PR; a new element only, nothing else imports it
+
 ## 0.605.2 — 2026-11-02
 ### Changed
 - Contracts Icon, Button, Tooltip, Tag, Avatar and Switch now declare the `web` environment, and Product lockup declares `product, web` (it leaves the environment baseline), so the Websites route lists all nine web components the Marketing sections use: aha-icon, aha-button, aha-tooltip, aha-tag, aha-segmented, aha-avatar, aha-product-lockup, aha-rate and aha-switch (#516)
