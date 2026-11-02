@@ -23,3 +23,16 @@
   <div>Quizzes</div>
   <div>Word cloud</div>
 </aha-list>
+
+<!-- Picker: `selectable` makes the rows a single-choice listbox. `value` = the picked row's key;
+     click or Enter/Space selects, arrows move. Emits `select` with { key, index }.
+     Picker rows render no action buttons: row `actions` are ignored with `selectable`. -->
+<aha-list id="survey-picker" bordered selectable value="csat" list-title="Pick a survey" style="max-width:360px;margin-top:16px"
+  items='[
+    {"key":"nps","title":"NPS survey","description":"1 question · 0 to 10 scale","avatar":"system-star"},
+    {"key":"csat","title":"CSAT survey","description":"3 questions · rating and comment","avatar":"system-star"},
+    {"key":"pulse","title":"Team pulse","description":"5 questions · anonymous","avatar":"system-user-circle"}
+  ]'></aha-list>
+<script type="module">
+  document.getElementById('survey-picker').addEventListener('select', (e) => console.log(e.detail));   // { key, index }
+</script>

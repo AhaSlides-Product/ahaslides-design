@@ -33,19 +33,30 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.681.0 — 2026-11-02
+## 0.701.0 — 2026-11-02
 ### Added
 - `aha-button` `pressed`: a toggle button that is on (Bold in a toolbar, a selected filter) keeps its variant's press look, the same fill, edge and label as `:active`, and the inner button gets `aria-pressed="true"`. `pressed="false"` is the toggle when off: `aria-pressed="false"` and the rest look. An `aria-pressed` set on the host wins, and a disabled button draws no pressed look. No new colour: each variant reuses its existing press values (#547)
 - Button contract: a "Contextual theming" row names the existing hook for a button on a themed survey or deck: the `--aha-button-*` tokens (and `--aha-deck-ink` for tertiary-deck) set on any ancestor, all filled from a theme by `applyCanvasDeck` in `lib/canvas-deck.js` (#547)
 - Revert: revert the PR; `pressed` is opt-in and off by default, so existing buttons are unchanged
 
-## 0.680.0 — 2026-11-02
+## 0.700.0 — 2026-11-02
 ### Added
 - `aha-button` copies `aria-current` to its inner button and keeps it in step, so a pagination dot or step marked `aria-current="page"` is announced as current; `aria-keyshortcuts`, `aria-roledescription`, `aria-description` and `aria-busy` are forwarded the same way (#531)
 ### Fixed
 - `aha-button`, `aha-switch` and `aha-select` delegate focus from the host, so `host.focus()` moves keyboard focus to the inner control (it did nothing before). `aha-input` already did; `aha-checkbox` is focusable on the host itself (#531)
 - `aha-button` updates its inner button in place when `variant`, `size`, `block`, `icon-only`, `loading`, `disabled` or `aria-label` change, so a focused button keeps keyboard focus; it was redrawn and focus dropped. A colour change on a variant swap now runs the button's existing 0.2s transition instead of snapping. Only a link that turns into a button (or back) is redrawn, and it takes focus with it (#531)
 - Revert: revert the PR; no API is removed
+
+## 0.681.0 — 2026-11-02
+### Added
+- `aha-list` picker mode: the opt-in `selectable` attribute makes the `items` rows a single-choice listbox (rows `role="option"` with `aria-selected`; click, Enter or Space selects; ArrowUp, ArrowDown, Home and End move focus; one tab stop with a `:focus-visible` ring; picker rows render no `actions` buttons, since a listbox option holds no controls). `value` names the selected row's `key` (a row without `key` answers to its index), a row's `selected: true` is the initial pick, and the list emits a composed `select` with `{ key, index }`. The selected row takes the Menu's `bg-accent` tint. Without `selectable` the list is unchanged (#529)
+- Revert: revert the PR; the attribute is opt-in and the default list renders as before
+
+## 0.680.0 — 2026-11-02
+### Added
+- `aha-counted-input` takes `type="email"`, `"url"` and `"password"` (masked), and passes `inputmode` and `dir` to its inner field: `inputmode="decimal"` gives a number keypad on a text field and keeps partial input such as `1e`, and `dir="auto"` reads a right-to-left answer right to left. `aha-audience-field` documents the new field options. Fields without the new values render unchanged (#539)
+- Revert: revert the PR; nothing else depends on the new values
+
 
 ## 0.670.0 — 2026-11-02
 ### Added
