@@ -34,6 +34,10 @@
         {"key":"presenter","label":"Presenter","description":"Present only, cannot edit"}
       ]'>
     </aha-dropdown>
+    <aha-dropdown placement="bottomRight"
+      items='[{"key":"rename","label":"Rename","icon":"system-pencil-simple"},{"key":"duplicate","label":"Duplicate","icon":"system-copy"},{"type":"divider"},{"key":"delete","label":"Delete","icon":"system-trash","danger":true}]'>
+      <aha-button slot="trigger" variant="secondary" icon-only aria-label="More actions"><aha-icon slot="icon" name="system-dots-three-vertical" size="16" decorative></aha-icon></aha-button>
+    </aha-dropdown>
     <aha-dropdown value="editor"
       items='[
         {"key":"editor","label":"Editor","description":"Edit and present"},
@@ -48,6 +52,7 @@
      generated from contracts/dropdown.json → playground and drives this element's attributes live. -->
 <script type="module">
   import '../lib/icons.js';         // registers <aha-icon> so the caret + leading glyphs resolve from the DS library
+  import '../lib/aha-button.js';    // the kebab trigger is an icon-only aha-button
   import '../lib/aha-dropdown.js';  // registers <aha-dropdown> — the shipped primitive, byte-identical to what consumers get
   // Open the probe panel so the preview shows the revealed state (rotated caret, danger row) AND open its
   // submenu flyout, so the conformance measure can read the flyout panel + the submenu-parent's aria/caret.
