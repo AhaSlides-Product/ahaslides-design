@@ -20,6 +20,16 @@
       options='[{"label":"English","value":"en"},{"label":"Tiếng Việt","value":"vi"}]'></aha-select>
   </div>
 
+  <div class="lbl">Opt-in: allow-clear, show-search, option description, popup-width</div>
+  <div class="row" style="align-items:flex-start; gap:12px; flex-wrap:wrap">
+    <aha-select allow-clear value="en" aria-label="Language"
+      options='[{"label":"English","value":"en"},{"label":"Tiếng Việt","value":"vi"}]'></aha-select>
+    <aha-select show-search placeholder="Jump to a page" aria-label="Jump to a page"
+      options='[{"label":"Welcome","value":"p1"},{"label":"About you","value":"p2"},{"label":"Your experience","value":"p3"},{"label":"Feedback","value":"p4"},{"label":"Thank you","value":"p5"}]'></aha-select>
+    <aha-select value="editor" popup-width="content" style="--aha-field-width:120px" aria-label="Role"
+      options='[{"label":"Editor","value":"editor","description":"Edit and view results"},{"label":"Viewer","value":"viewer","description":"View results only"}]'></aha-select>
+  </div>
+
   <div class="lbl">In a settings row</div>
   <aha-settings-list style="max-width:380px; display:block"
     schema='{"sections":[{"label":"Presentation","rows":[
