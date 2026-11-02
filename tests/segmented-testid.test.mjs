@@ -17,7 +17,7 @@ const options = JSON.stringify([
 const page = `<!doctype html><body>
 <aha-segmented id="rich" options="${options}"></aha-segmented>
 <aha-segmented id="plain" options="Day|Week"></aha-segmented>
-<script type="module">import '${lib}'; window.ready = true;</script>`;
+<script type="module">import '${lib}'; await customElements.whenDefined('aha-segmented'); window.ready = true;</script>`;
 
 test('option testid reaches the option button; options without it and string options render no attribute', { skip }, async () => {
   const file = join(mkdtempSync(join(tmpdir(), 'segmented-testid-')), 'page.html');
@@ -25,7 +25,7 @@ test('option testid reaches the option button; options without it and string opt
   const result = await evaluateInPage(pathToFileURL(file).href, `(() => {
     const ids = (id) => [...document.getElementById(id).shadowRoot.querySelectorAll('.seg')].map((b) => b.getAttribute('data-testid'));
     return { rich: ids('rich'), plain: ids('plain') };
-  })()`);
+  })()`, { readyExpr: '!!window.ready' });
   assert.deepEqual(result.rich, ['view-list', 'view-grid', null]);
   assert.deepEqual(result.plain, [null, null]);
 });

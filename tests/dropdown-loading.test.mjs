@@ -16,7 +16,7 @@ const items = JSON.stringify([
 const page = `<!doctype html><body>
 <aha-dropdown id="busy" loading label="Saving" items="${items}"></aha-dropdown>
 <aha-dropdown id="idle" label="Actions" items="${items}"></aha-dropdown>
-<script type="module">import '${lib}'; window.ready = true;</script>`;
+<script type="module">import '${lib}'; await customElements.whenDefined('aha-dropdown'); window.ready = true;</script>`;
 
 test('loading shows the spinner and blocks opening by click and keyboard; testid reaches the rows', { skip }, async () => {
   const file = join(mkdtempSync(join(tmpdir(), 'dropdown-loading-')), 'page.html');
@@ -40,7 +40,7 @@ test('loading shows the spinner and blocks opening by click and keyboard; testid
       afterLoaded: state('busy'),
       testids: [...busy.shadowRoot.querySelectorAll('.item')].map((row) => row.getAttribute('data-testid')),
     };
-  })()`);
+  })()`, { readyExpr: '!!window.ready' });
   assert.deepEqual(result.afterAttempt.busy, { spinner: true, caret: false, busy: 'true', open: false });
   assert.deepEqual(result.afterAttempt.idle, { spinner: false, caret: true, busy: null, open: true });
   assert.deepEqual(result.afterLoaded, { spinner: false, caret: true, busy: null, open: true });
