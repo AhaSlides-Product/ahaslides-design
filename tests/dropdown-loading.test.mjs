@@ -16,7 +16,7 @@ const items = JSON.stringify([
 const page = `<!doctype html><body>
 <aha-dropdown id="busy" loading label="Saving" items="${items}"></aha-dropdown>
 <aha-dropdown id="idle" label="Actions" items="${items}"></aha-dropdown>
-<script type="module">import '${lib}'; await customElements.whenDefined('aha-dropdown'); window.ready = true;</script>`;
+<script type="module">import '${lib}'; window.ready = true;</script>`;
 
 test('loading shows the spinner and blocks opening by click and keyboard; testid reaches the rows', { skip }, async () => {
   const file = join(mkdtempSync(join(tmpdir(), 'dropdown-loading-')), 'page.html');

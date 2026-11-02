@@ -33,13 +33,18 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.867.0 — 2026-11-02
+## 0.885.0 — 2026-11-02
 ### Added
 - Logo library: a flat mono mark for 28 third-party brands in `logo/mono/<id>.svg`, one shape filled with `currentColor` so it takes the surrounding text colour (`--aha-icon-default` at rest). Shapes are Simple Icons (CC0) through theSVG; Microsoft, Teams, PowerPoint, Word, Excel, Slack, LinkedIn and PDF use a Phosphor fill or DS icon stand-in because Simple Icons dropped them; OneDrive, Canva, D2L and Cornerstone are stand-ins derived from the brand's own colour file (Cornerstone uses its symbol, not the wordmark). A wordmark or wide lockup (Zapier, Zoom, Canva, D2L, Cornerstone, OneDrive) is wrapped in the same 24 x 24 rounded square with the mark knocked out, so it reads at 36 px next to the glyph marks. Each entry in `logo/manifest.json` records `mono`, `monoSource`, `monoSourceUrl` and `monoFetched`; the Logo page shows the mono beside the one-colour and original files, with a download link. Proposal only: colour rule 2.6 is unchanged until the mock-up is approved (#557)
 - Revert: revert the PR; the new folder and manifest fields are additive
+
+## 0.883.1 — 2026-11-02
 ### Fixed
-- `aha-list` `selectable`: a picker row's description reads in secondary text, so it passes 4.5:1 on the selected tint and the hover fill (the tertiary grey measured 3.18:1); the same line as #541, which master's render gate needs (#557)
-- Unit tests: the segmented testid, dropdown loading and stat-tile icon browser tests wait for the element to upgrade before reading its shadow root (#557)
+- `<aha-progress>` and `<aha-progressbar>`: `ink` and `accent` now apply only with `palette="deck"`, as the contract says. Before, `<aha-progress accent="#000">` recoloured the product fill and ring. `palette` is now observed, so adding or removing it re-reads the attributes and removing it clears the inline deck variables (#548)
+- The deck-palette test uses a non-pink accent so it can tell the deck fill from the product fill, and covers own ink and accent, the ring, steps and attribute changes after connect
+- `tests/segmented-testid.test.mjs`, `tests/dropdown-loading.test.mjs` and `tests/stat-tile-icon.test.mjs` wait for the component module before reading the shadow root, so they no longer fail on a race
+- `<aha-list selectable>`: the row description uses `--aha-text-secondary` (#4A4A4A), not `--aha-text-tertiary` (#8A8A8A, 3.18 to 3.45:1), so picker rows meet the 4.5:1 interactive-state contrast gate, as `aha-select` option descriptions already do; lists without `selectable` are unchanged
+- Revert: revert the PR; the default render is unchanged and only a stray `ink` / `accent` without `palette` changes (it now does nothing)
 
 ## 0.857.2 — 2026-11-02
 

@@ -17,7 +17,7 @@ const options = JSON.stringify([
 const page = `<!doctype html><body>
 <aha-segmented id="rich" options="${options}"></aha-segmented>
 <aha-segmented id="plain" options="Day|Week"></aha-segmented>
-<script type="module">import '${lib}'; await customElements.whenDefined('aha-segmented'); window.ready = true;</script>`;
+<script type="module">import '${lib}'; window.ready = true;</script>`;
 
 test('option testid reaches the option button; options without it and string options render no attribute', { skip }, async () => {
   const file = join(mkdtempSync(join(tmpdir(), 'segmented-testid-')), 'page.html');
