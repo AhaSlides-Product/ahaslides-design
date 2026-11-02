@@ -146,7 +146,7 @@
     {
       "ref": "audience-date",
       "as": "component",
-      "use": "a date answer — <aha-audience-date>: day, month and year <aha-counted-input> fields in the question's order (format DMY | MDY | YMD) with a numeric keypad, an ISO YYYY-MM-DD value and a respondent <aha-field-error> for an impossible date; never a native date input or three hand-built inputs",
+      "use": "a date answer — <aha-audience-date>: day, month and year <aha-counted-input> fields in the question's order (format DMY | MDY | YMD) with a numeric keypad, an ISO YYYY-MM-DD value, a state (empty, partial, invalid, valid) on every change and one respondent <aha-field-error>; a host's own page error goes in that node through status=\"error\" and error-message, never a second error under it; never a native date input or three hand-built inputs",
       "status": "available"
     },
     {
