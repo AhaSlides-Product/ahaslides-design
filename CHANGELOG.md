@@ -33,12 +33,29 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.836.0 — 2026-11-02
+## 0.860.0 — 2026-11-02
 ### Added
 - `aha-number-scale`: a row of tappable whole numbers for the audience phone, 0–10 by default for a Net Promoter Score (`min`, `max` for any short numeric rating). 48px numbers at least 44px wide, six per row when a phone is too narrow for one row, the pick filled with the deck accent, `low-label` / `high-label` under the scale, a radio group with arrow keys, Home and End (mirrored in right-to-left), `group-label`, `disabled`, `lock-key`, and a `change` event with `{value}` (#541)
 ### Fixed
 - `aha-list` `selectable`: a picker row's description reads in secondary text, so it passes 4.5:1 on the selected tint and the hover fill (the tertiary grey measured 3.18:1) (#541)
 - Revert: revert the PR; the element is new and opt-in, and the list fix is one CSS line
+
+## 0.855.0 — 2026-11-02
+### Added
+- `aha-button` `pressed`: a toggle button that is on (Bold in a toolbar, a selected filter) keeps its variant's press look, the same fill, edge and label as `:active`, and the inner button gets `aria-pressed="true"`. `pressed="false"` is the toggle when off: `aria-pressed="false"` and the rest look. An `aria-pressed` set on the host wins, and a disabled button draws no pressed look. No new colour: each variant reuses its existing press values (#547)
+- Button contract: a "Contextual theming" row names the existing hook for a button on a themed survey or deck: the `--aha-button-*` tokens (and `--aha-deck-ink` for tertiary-deck) set on any ancestor, all filled from a theme by `applyCanvasDeck` in `lib/canvas-deck.js` (#547)
+- Revert: revert the PR; `pressed` is opt-in and off by default, so existing buttons are unchanged
+
+## 0.840.0 — 2026-11-02
+
+### Changed
+
+- `<aha-leaderboard>` Show winner: the avatar now sits before the name on one line (the same order as the list rows, 16px apart, the avatar as tall as the name), and the name is bigger than the score: name 64px semibold with a 64px avatar, score 48px (below 340px: 32px name and avatar, 24px score). The pop order is avatar, name, score. The list rows are unchanged. (#NNN)
+
+## 0.837.0 — 2026-11-02
+### Changed
+- Canvas Library Leaderboard: each deck (light, dark and a new orange-accent deck with a tied first place) has a "Demo: show winner" button that replays the `showWinner()` reveal, so the banner, centre glow in `--aha-deck-accent`, count-up and confetti can be seen on the page; new Show winner rule row and `showWinner()` in the snippet. Docs and demo only, the component is unchanged (#556)
+- Revert: revert the PR; docs data only
 
 ## 0.835.0 — 2026-11-02
 ### Added
