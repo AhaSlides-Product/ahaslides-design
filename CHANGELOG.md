@@ -35,10 +35,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.900.0 — 2026-11-02
 ### Added
-- `aha-select` server search: `filter="off"` (with `show-search`) emits `search` with {query} on every keystroke but keeps every option the host sets, opens with no options yet, and keeps the picked option's label on the trigger after a new search replaces the options; `loading` puts a small `aha-spin` in place of the caret, marks the list `aria-busy` and shows `loading-text` (default "Loading…") while no option is listed (#NNN)
-- `aha-select mode="tags"`: free-entry values as closable `aha-tag` chips before an inline field in the select's own chrome; `values` (array property or JSON attribute), `separators` (default `,;`; a pasted list also splits on new lines and tabs), Enter or leaving the field adds the text, Backspace in an empty field removes the last tag, exact duplicates are skipped, and `change` carries {values} (#NNN)
-- `aha-select` option fields `prefix` (leading text such as a flag emoji, hidden from assistive tech), `suffix` (trailing text in tertiary ink such as a dial code, matched by type-to-filter) and `selectedLabel` (what the closed trigger shows for that option, like antd optionLabelProp) (#NNN)
-- `aha-select width="content"`: the control is as wide as its longest option or placeholder, so it does not jump as the value changes (#NNN)
+- `aha-select` server search: `filter="off"` (with `show-search`) emits `search` with {query} on every keystroke but keeps every option the host sets, opens with no options yet, and keeps the picked option's label on the trigger after a new search replaces the options; `loading` puts a small `aha-spin` in place of the caret, marks the list `aria-busy` and shows `loading-text` (default "Loading…") while no option is listed (#574)
+- `aha-select mode="tags"`: free-entry values as closable `aha-tag` chips before an inline field in the select's own chrome; `values` (array property or JSON attribute), `separators` (default `,;`; a pasted list also splits on new lines and tabs), Enter or leaving the field adds the text, Backspace in an empty field removes the last tag, exact duplicates are skipped, and `change` carries {values} (#574)
+- `aha-select` option fields `prefix` (leading text such as a flag emoji, hidden from assistive tech), `suffix` (trailing text in tertiary ink such as a dial code, matched by type-to-filter) and `selectedLabel` (what the closed trigger shows for that option, like antd optionLabelProp) (#574)
+- `aha-select width="content"`: the control is as wide as its longest option or placeholder, so it does not jump as the value changes (#574)
 - Revert: revert the PR; every attribute and option field is new and opt-in, and a select without them renders as before
 
 ## 0.903.0 — 2026-11-02
