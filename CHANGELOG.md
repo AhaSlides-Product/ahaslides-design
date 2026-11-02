@@ -16,7 +16,7 @@ All notable changes to `@ahaslides-product/design`, **newest first**.
   number and commits `chore(release): X.Y.Z` to master. Run the gate locally as `AUTO_VERSION=on npm run check`.
 
 The gate rejects an unfilled `(#129)` placeholder in every released entry: link the **real** PR number
-(under `## Unreleased`, `(#523)` is fine; the release fills it in).
+(under `## Unreleased`, `(#518)` is fine; the release fills it in).
 
 **Format** — one entry per version:
 
@@ -35,8 +35,18 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.610.0 — 2026-11-02
 ### Added
-- `aha-dropdown` takes a `slot="trigger"` control that replaces the default button, so an icon-only `aha-button` makes a kebab (three-dot) menu. It gets `aria-haspopup` and `aria-expanded`, opens on click, Enter, Space and ArrowDown, and takes focus back on close. Without the slot the dropdown renders as before (#PR)
+- `aha-dropdown` takes a `slot="trigger"` control that replaces the default button, so an icon-only `aha-button` makes a kebab (three-dot) menu. It gets `aria-haspopup` and `aria-expanded`, opens on click, Enter, Space and ArrowDown, and takes focus back on close. Without the slot the dropdown renders as before (#523)
 - Revert: revert the PR; nothing else uses the slot
+
+## 0.609.1 — 2026-11-02
+### Added
+- `lib/static-icons` gains `system-cursor-click`, `system-check` and `system-arrow-right` (click here, check this, next step), so how-to and tutorial step images take their marks from the DS instead of inlined registry paths; the report-image guideline and feeds now describe the set as status and how-to glyphs (#524)
+- Revert: revert the PR; additive, no existing glyph changes
+
+## 0.609.0 — 2026-11-02
+### Added
+- `aha-skeleton` takes optional `width` and `height` (a number is px, or a CSS length: px, rem, em, %, vw, vh, calc()), so a placeholder can match the real content; on a paragraph they size the stack and each row. Unset, every variant renders as before (#PR)
+- Revert: revert the PR; the attributes are opt-in
 
 ## 0.605.2 — 2026-11-02
 ### Changed
