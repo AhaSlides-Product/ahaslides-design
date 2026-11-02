@@ -33,13 +33,21 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.862.0 — 2026-11-02
+## 0.884.0 — 2026-11-02
 ### Added
 - Colour rule 6.9 (web): on a page built from full-width sections, at rest Vivid Pink fills only each section's primary button; the site header counts as one section (Sign up primary, Log in secondary). Icons and icon tiles, ticks, card borders and accent lines, plan outlines, banners and callouts, step and stat numbers, rating stars and table group headings stay the default ink, and pink shows on hover, focus or selection. Rule 6.8 now points the website to 6.9; website guideline W4 and its anti-slop criterion carry the same rule (#563)
 ### Changed
 - Website Marketing sections follow rule 6.9: Cards, Comparison, Features, Hero, Numbers and Pricing icons and icon tiles (ink glyph on light grey), ticks, featured borders and plan column outlines, banners, callouts, numbers and rating stars are ink at rest. Pink surfaces (Vivid Pink and pale pink sections, the Footer banner card), tags, inline links, the pink screenshot frame, selected tabs, the current carousel dot, the focus ring and the Pricing slider fill are unchanged (#563)
 - Pricing layouts: only the recommended plan's call to action is the primary Button; every other plan's is the secondary Button (#563)
 - Revert: revert the PR; it changes colours and button variants in the Marketing section markup and CSS only, with no API or token change
+
+## 0.883.1 — 2026-11-02
+### Fixed
+- `<aha-progress>` and `<aha-progressbar>`: `ink` and `accent` now apply only with `palette="deck"`, as the contract says. Before, `<aha-progress accent="#000">` recoloured the product fill and ring. `palette` is now observed, so adding or removing it re-reads the attributes and removing it clears the inline deck variables (#548)
+- The deck-palette test uses a non-pink accent so it can tell the deck fill from the product fill, and covers own ink and accent, the ring, steps and attribute changes after connect
+- `tests/segmented-testid.test.mjs`, `tests/dropdown-loading.test.mjs` and `tests/stat-tile-icon.test.mjs` wait for the component module before reading the shadow root, so they no longer fail on a race
+- `<aha-list selectable>`: the row description uses `--aha-text-secondary` (#4A4A4A), not `--aha-text-tertiary` (#8A8A8A, 3.18 to 3.45:1), so picker rows meet the 4.5:1 interactive-state contrast gate, as `aha-select` option descriptions already do; lists without `selectable` are unchanged
+- Revert: revert the PR; the default render is unchanged and only a stray `ink` / `accent` without `palette` changes (it now does nothing)
 
 ## 0.857.2 — 2026-11-02
 
