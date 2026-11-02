@@ -19,6 +19,14 @@
   <aha-counted-input type="number" maxlength="none" size="lg"></aha-counted-input>
 </aha-audience-field>
 
+<aha-audience-field label="Your email">
+  <aha-counted-input type="email" maxlength="none" size="lg" dir="auto"></aha-counted-input>
+</aha-audience-field>
+
+<aha-audience-field label="Access code">
+  <aha-counted-input type="password" maxlength="none" size="lg"></aha-counted-input>
+</aha-audience-field>
+
 <aha-audience-field label="Your idea">
   <aha-counted-textarea size="lg" maxlength="150"></aha-counted-textarea>
 </aha-audience-field>
