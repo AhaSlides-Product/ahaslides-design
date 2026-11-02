@@ -33,10 +33,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.912.0 — 2026-11-03
+## 0.913.0 — 2026-11-03
 ### Added
 - `<aha-card interactive disabled>`: an inert card. It gets `aria-disabled="true"` and `tabindex="-1"` (out of the tab order), fires no click from the mouse, Enter, Space, `click()` or a dispatched click, loses the hover lift, and takes the DS disabled look (`bg-container-disabled`, `border-disabled`, `text-disabled`, as `aha-card-select`); no new token. Removing `disabled` restores everything; a card without `interactive` ignores it. Also a `disabled` property. (#575)
 - Revert: revert the PR; additive CSS rules and handlers in `lib/aha-card.js`, no existing behaviour changes
+
+## 0.911.0 — 2026-11-03
+### Added
+- **aha-dropdown** `open` attribute and property (set it to open or close the panel from code) and composed `open` / `close` events on every user open and close; choosing an item fires `close` then `select`; setting `open` fires neither (#572)
+### Fixed
+- **aha-dropdown** the open panel renders in the browser top layer at a position measured from the trigger, so a card or scroll area with overflow hidden no longer clips it; it follows scroll and resize, opens above when there is no room below and stays 8px inside the viewport (#572)
 
 ## 0.910.0 — 2026-11-03
 ### Added
