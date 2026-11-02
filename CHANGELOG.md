@@ -33,6 +33,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.618.0 — 2026-11-02
+### Added
+- `aha-scale-slider` takes an optional `track` (`stroke`, `stroke-chip` or `line`) that puts its rail on that rung of the deck ladder (ink at 12%, 20% or 24%), so a rail can read on a dark deck. Unset, the rail stays on `--aha-deck-stroke` exactly as before (#525)
+### Fixed
+- `aha-scale-slider` in a right-to-left page: the low and high labels collapsed towards the middle and sat under the wrong ends, because each label is `dir="auto"` and aligned by its own text. They now sit under the rail's left (min) and right (max) ends, aligned outward; a left-to-right page with left-to-right labels renders as before (#525)
+- Revert: revert the PR; `track` is opt-in and the label fix changes only labels whose direction differs from the rail's
+
 ## 0.616.0 — 2026-11-02
 ### Added
 - Card: `slot="title"` takes a rich header title (text with an icon, tag or link) and wins over `card-title`, which stays plain text (escaped since 0.604.1, #513) (#527)
