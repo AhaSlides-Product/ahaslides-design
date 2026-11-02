@@ -26,14 +26,15 @@ test('0–10 by default; a tap picks, fires change and moves the single tab stop
   assert.deepEqual(result, { labels: '0,1,2,3,4,5,6,7,8,9,10', value: 9, events: [9], checked: ['9'], tabStops: ['9'], endName: '0, Not at all likely' });
 });
 
-test('on a 360px phone the eleven numbers wrap to six per row with no overflow; a wide host keeps one row', { skip }, async () => {
+test('on a 360px phone and a 500px host the eleven numbers wrap to six per row with no overflow; a wide host keeps one row', { skip }, async () => {
   const result = await evaluateInPage(fixture, `(() => {
     const rows = (id) => new Set([...document.querySelector(id).shadowRoot.querySelectorAll('.number')].map((n) => Math.round(n.getBoundingClientRect().top))).size;
     const phone = document.querySelector('#phone');
     const first = phone.shadowRoot.querySelector('.number').getBoundingClientRect();
-    return { phoneRows: rows('#phone'), wideRows: rows('#wide'), overflow: phone.scrollWidth > 360, height: first.height, wideEnough: first.width >= 40, minWidth: Math.min(...[...document.querySelector('#narrow').shadowRoot.querySelectorAll('.number')].map((n) => n.getBoundingClientRect().width)) >= 44 };
+    const mid = document.querySelector('#mid');
+    return { phoneRows: rows('#phone'), midRows: rows('#mid'), midOverflow: mid.shadowRoot.querySelector('.scale').scrollWidth > 500, wideRows: rows('#wide'), overflow: phone.scrollWidth > 360, height: first.height, wideEnough: first.width >= 40, minWidth: Math.min(...[...document.querySelector('#narrow').shadowRoot.querySelectorAll('.number')].map((n) => n.getBoundingClientRect().width)) >= 44 };
   })()`, ready);
-  assert.deepEqual(result, { phoneRows: 2, wideRows: 1, overflow: false, height: 48, wideEnough: true, minWidth: true });
+  assert.deepEqual(result, { phoneRows: 2, midRows: 2, midOverflow: false, wideRows: 1, overflow: false, height: 48, wideEnough: true, minWidth: true });
 });
 
 test('arrow keys move and pick, mirrored in right-to-left; Home and End jump to the ends', { skip }, async () => {

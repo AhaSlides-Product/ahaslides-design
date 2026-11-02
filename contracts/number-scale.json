@@ -35,7 +35,7 @@
     },
     {
       "label": "Layout",
-      "value": "one equal row while each number gets at least 40px; below that (an 11-point scale under 480px) six per row"
+      "value": "one equal row while every number fits at its 44px minimum; below that (an 11-point scale under 524px) six per row"
     },
     {
       "label": "Pick",
