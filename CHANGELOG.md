@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.909.0 — 2026-11-03
+### Added
+- `aha-color-picker` takes an opt-in `custom` attribute: a custom-colour row under the presets with an `<aha-input>` hex field (`#rgb` or `#rrggbb`, with or without the `#`, committed on Enter or blur and normalised to upper-case `#RRGGBB`; anything else shows an error line and fires nothing), a palette button that opens the browser's own colour picker, and a Pick from screen button for the EyeDropper API, each shown only where the browser supports it. Custom entry fires the same `change` event as a swatch; `detail` is now `{value, source}` with `source` one of `swatch`, `hex`, `native`, `eyedropper`. `normaliseHex` is exported. Without `custom` the picker renders and behaves as before (#571)
+- Revert: revert the PR; the attribute is new and opt-in, and `detail.source` is an added field
+
 ## 0.908.0 — 2026-11-03
 ### Added
 - `aha-audience-contact` dial codes take `country` (ISO 3166 alpha-2), plus optional `dial` and `name`: the closed Select reads flag and code ("🇻🇳 +84"), the open list flag, country name and code ("🇻🇳 Vietnam (+84)"); the name comes from `name`, else `Intl.DisplayNames` in the new `locale` attribute (else the nearest `lang`, else English). `label` defaults to the flag and code, and the Select widens from 88px to 120px so the flag and a four-digit code fit. (#573)

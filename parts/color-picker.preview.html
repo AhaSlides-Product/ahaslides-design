@@ -1,16 +1,16 @@
-<div class="pad" style="min-height:220px">
-  <div class="lbl">Click to open the palette</div>
+<div class="pad" style="min-height:340px">
+  <div class="lbl">Click to open the palette; Custom adds the hex field and browser picker</div>
   <div class="row"><aha-color-picker data-probe value="#E70E68"></aha-color-picker> <span id="out" class="note">#E70E68</span></div>
 </div>
 
 <!-- Imports the REAL shipped element (../lib/aha-color-picker.js) + the icon library — no inlined copy,
-     so the preview can never drift from lib/. The playground control bar (Size / Disabled) is generated
+     so the preview can never drift from lib/. The playground control bar (Size / Disabled / Custom) is generated
      from contracts/color-picker.json → playground and drives this element's attributes live. -->
 <script type="module">
   import '../lib/icons.js';               // registers <aha-icon> so the selected-swatch check glyph resolves
   import '../lib/aha-color-picker.js';    // registers <aha-color-picker> — the shipped primitive, byte-identical to consumers
   customElements.whenDefined('aha-color-picker').then(() => {
     const pick = document.querySelector('aha-color-picker[data-probe]'), out = document.getElementById('out');
-    pick.addEventListener('change', (e) => { out.textContent = e.detail.value; });
+    pick.addEventListener('change', (e) => { out.textContent = `${e.detail.value} (${e.detail.source})`; });
   });
 </script>
