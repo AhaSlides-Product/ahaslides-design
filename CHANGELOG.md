@@ -33,10 +33,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.840.0 — 2026-11-02
+## 0.841.0 — 2026-11-02
 ### Added
 - Logo library: a flat mono mark for 24 third-party brands in `logo/mono/<id>.svg`, one shape filled with `currentColor` so it takes the surrounding text colour (`--aha-icon-default` at rest). Shapes are Simple Icons (CC0) through theSVG; Microsoft, Teams, PowerPoint, Word, Excel, Slack, LinkedIn and PDF use a Phosphor fill or DS icon stand-in because Simple Icons dropped them; OneDrive, Canva, D2L and Cornerstone have no mono yet (`monoGap`). Each entry in `logo/manifest.json` records `mono`, `monoSource`, `monoSourceUrl` and `monoFetched`; the Logo page shows the mono beside the one-colour and original files, with a download link. Proposal only: colour rule 2.6 is unchanged until the mock-up is approved (#557)
 - Revert: revert the PR; the new folder and manifest fields are additive
+
+## 0.840.0 — 2026-11-02
+
+### Changed
+
+- `<aha-leaderboard>` Show winner: the avatar now sits before the name on one line (the same order as the list rows, 16px apart, the avatar as tall as the name), and the name is bigger than the score: name 64px semibold with a 64px avatar, score 48px (below 340px: 32px name and avatar, 24px score). The pop order is avatar, name, score. The list rows are unchanged. (#NNN)
 
 ## 0.837.0 — 2026-11-02
 ### Changed
