@@ -39,6 +39,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - The deck-palette test uses a non-pink accent so it can tell the deck fill from the product fill, and covers own ink and accent, the ring, steps and attribute changes after connect
 - Revert: revert the PR; the default render is unchanged and only a stray `ink` / `accent` without `palette` changes (it now does nothing)
 
+## 0.800.1 — 2026-11-02
+### Fixed
+- `<aha-menu>` a row that is both `danger` and `disabled` now takes the disabled colour (text-disabled #B5B5B5) like every other disabled row; before, the danger ink won and the row looked enabled. (#552)
+- Revert: revert the PR; only the danger+disabled row colour changes
+
 ## 0.800.0 — 2026-11-02
 ### Added
 - `aha-dropdown` takes a `slot="trigger"` control that replaces the default button, so an icon-only `aha-button` makes a kebab (three-dot) menu. It gets `aria-haspopup` and `aria-expanded`, opens on click, Enter, Space and ArrowDown, and takes focus back on close. Without the slot the dropdown renders as before (#523)
