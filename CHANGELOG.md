@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.596.1 — 2026-11-02
+### Fixed
+- `screen-lint`: `no-dash-punctuation` no longer fires on dashes inside CSS, SCSS and Less comments; `min-width-trap` no longer fires on a `min-width` inside an `@media` or `@container` condition on the product, canvas, audience and settings surfaces (website keeps its on-scale breakpoint check); `chart-lib-import` now catches `@ant-design/plots` (allow a type `<aha-chart>` lacks with `ds-lint-allow: chart-lib-import (why)`) (#PRNUM)
+
 ## 0.595.0 — 2026-11-02
 ### Added
 - `lib/marketing.css`: every website Marketing section's CSS in one generated stylesheet (`@ahaslides-product/design/marketing.css`), and `lib/marketing/<slug>.css` for one section. A no-build website page now links `tokens.css`, `marketing.css`, `all.js` and `marketing-motion.js` from a pinned tag and pastes only each section's HTML; it renders pixel-identical to the paste-and-run snippet at 1440, 768 and 375 px. Paste-and-run stays the Webflow route (#503)
