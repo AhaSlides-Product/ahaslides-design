@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.599.0 — 2026-11-02
+### Added
+- Icons for course and rich-text UI, 22 one-colour glyphs from Phosphor Icons Regular (MIT) on the DS 16px grid with the 1.5 stroke: the rich-text toolbar set `system-text-b`, `system-text-italic`, `system-text-underline`, `system-text-strikethrough`, `system-text-h-one`, `system-text-h-two`, `system-text-h-three`; device preview `system-monitor` and `system-device-tablet` (beside `system-device-mobile`); and `system-arrow-line-down`, `system-caret-circle-down`, `system-certificate`, `system-crop`, `system-flow-arrow`, `system-gauge`, `system-image-broken`, `system-map-pin`, `system-minus-circle`, `system-puzzle-piece`, `system-ruler`, `system-scroll`, `system-target`. Each has meaning words for `npm run icon-search`; the registry now holds 353 names (#509)
+
 ## 0.597.0 — 2026-11-02
 ### Added
 - `<aha-text>` (`@ahaslides-product/design/aha-text`): body copy, captions, paragraphs and in-page headings on the DS type scale, the replacement for antd Typography (Title, Text, Paragraph). `size` (12 · 14 · 16 · 18 · 20 · 24 · 32), `weight` (regular / semibold), `tone` (default, secondary, tertiary, disabled, inverse, inherit; no status hue), `level` 1-6 (role heading with aria-level), `as="p"`, `ellipsis` and `lines` (multi-line clamp, full text as the title when cut) (#507)
