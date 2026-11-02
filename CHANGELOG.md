@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.609.1 — 2026-11-02
 ### Added
-- `lib/static-icons` gains `system-cursor-click`, `system-check` and `system-arrow-right` (click here, check this, next step), so how-to and tutorial step images take their marks from the DS instead of inlined registry paths; the report-image guideline and feeds now describe the set as status and how-to glyphs (#PRNUM)
+- `lib/static-icons` gains `system-cursor-click`, `system-check` and `system-arrow-right` (click here, check this, next step), so how-to and tutorial step images take their marks from the DS instead of inlined registry paths; the report-image guideline and feeds now describe the set as status and how-to glyphs (#524)
 - Revert: revert the PR; additive, no existing glyph changes
 
 ## 0.609.0 — 2026-11-02
