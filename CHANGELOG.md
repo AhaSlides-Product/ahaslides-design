@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.614.0 — 2026-11-02
+### Added
+- `aha-matrix`: a matrix question for the audience phone (rows × columns, one or several picks per row). Each statement is a labelled group of `aha-answer-option` rows, stacked on a 360px phone and side by side when there is room; `rows`, `columns`, `selection-mode`, `value` (`{rowId: columnId[]}`), `group-label`, `disabled`, `lock-key`, and a `change` event with `{value, row, column}` (#PR)
+- Revert: revert the PR; the element is new and opt-in
+
 ## 0.609.0 — 2026-11-02
 ### Added
 - `aha-skeleton` takes optional `width` and `height` (a number is px, or a CSS length: px, rem, em, %, vw, vh, calc()), so a placeholder can match the real content; on a paragraph they size the stack and each row. Unset, every variant renders as before (#PR)
