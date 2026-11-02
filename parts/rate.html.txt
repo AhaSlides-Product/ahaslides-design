@@ -11,6 +11,8 @@
 <!-- custom DS character:  <aha-rate value="4" icon="system-heart-straight"></aha-rate> -->
 <!-- read-only display:    <aha-rate value="4" readonly></aha-rate> -->
 <!-- 16px, exact fraction: <aha-rate value="4.8" size="sm" readonly precision="exact"></aha-rate> -->
+<!-- numbers only, 1..10:  <aha-rate value="7" count="10" character="number"></aha-rate> -->
+<!-- on an audience deck:  <aha-rate value="3" surface="deck"></aha-rate>  (empty stars follow applyDeck's --aha-deck-* ladder) -->
 
 <script>
   // Plain DOM — no framework. Read e.detail.value off the composed CustomEvent.
