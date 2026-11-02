@@ -127,3 +127,35 @@ test('showErrors reveals every field\'s error at once and returns whether the an
   })()`, ready);
   assert.deepEqual(result, { before: ['', ''], valid: false, after: ['This field is required', 'This field is required'] });
 });
+
+test('two phone fields keep their own dial code, and a value attribute set before fields and codes still applies', { skip }, async () => {
+  const result = await evaluateInPage(fixture, `(() => {
+    ${helpers}
+    const two = document.createElement('aha-audience-contact');
+    two.setAttribute('fields', JSON.stringify([{ id: 'home', kind: 'phone' }, { id: 'work', kind: 'phone' }]));
+    two.setAttribute('dial-codes', JSON.stringify([{ label: '+84', value: '+84' }, { label: '+44', value: '+44' }]));
+    document.body.append(two);
+    const selects = [...two.shadowRoot.querySelectorAll('aha-select')];
+    selects[1].dispatchEvent(new CustomEvent('change', { bubbles: true, composed: true, detail: { value: '+44' } }));
+    type(two, 'home', '912345678');
+    type(two, 'work', '207946000');
+    const late = document.createElement('aha-audience-contact');
+    late.setAttribute('value', JSON.stringify({ home: '+44 207946000', work: '+84 912345678' }));
+    late.setAttribute('fields', JSON.stringify([{ id: 'home', kind: 'phone' }, { id: 'work', kind: 'phone' }]));
+    late.setAttribute('dial-codes', JSON.stringify([{ label: '+84', value: '+84' }, { label: '+44', value: '+44' }]));
+    document.body.append(late);
+    return { own: two.value, late: late.value, lateSelects: [...late.shadowRoot.querySelectorAll('aha-select')].map((s) => s.value) };
+  })()`, ready);
+  assert.deepEqual(result, { own: { home: '+84 912345678', work: '+44 207946000' }, late: { home: '+44 207946000', work: '+84 912345678' }, lateSelects: ['+44', '+84'] });
+});
+
+test('isEmail is linear on a long run of dots and accepts what the old pattern accepted', { skip }, async () => {
+  const result = await evaluateInPage(fixture, `(async () => {
+    const { isEmail } = await import('../lib/aha-audience-contact.js');
+    const started = performance.now();
+    const hostile = isEmail('a@' + '.'.repeat(50000));
+    const elapsed = performance.now() - started;
+    return { hostile, fast: elapsed < 500, cases: ['mai@example.com', 'mai@example', 'mai@.com', 'a b@example.com', 'a@@example.com'].map(isEmail) };
+  })()`, ready);
+  assert.deepEqual(result, { hostile: false, fast: true, cases: [true, false, false, false, false] });
+});
