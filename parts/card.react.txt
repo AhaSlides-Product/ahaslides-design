@@ -2,17 +2,22 @@ import '@ahaslides-product/design/aha-card';   // registers <aha-card>
 import '@ahaslides-product/design/icons';      // registers <aha-icon>
 
 // The custom element renders its own shadow DOM; React just passes attributes + slots.
-// Boolean attrs (hoverable/loading) render as presence; string attrs (size/bordered) pass through.
-function DeckCard({ title, size, bordered, hoverable, loading, cover, extra, actions, children }) {
+// Boolean attrs (hoverable/interactive/stretch/loading) render as presence; string attrs (size/bordered) pass through.
+// card-title is plain text; pass a richTitle node to fill slot="title" instead.
+function DeckCard({ title, richTitle, size, bordered, hoverable, interactive, stretch, loading, onClick, cover, extra, actions, children }) {
   return (
     <aha-card
       card-title={title}
       size={size}
       bordered={bordered}
       {...(hoverable ? { hoverable: '' } : {})}
+      {...(interactive ? { interactive: '' } : {})}
+      {...(stretch ? { stretch: '' } : {})}
       {...(loading ? { loading: '' } : {})}
+      onClick={onClick}
     >
       {cover && <img slot="cover" src={cover} alt="" />}
+      {richTitle && <span slot="title">{richTitle}</span>}
       {extra && <a slot="extra" href="#">{extra}</a>}
       {children}
       {actions && <div slot="actions">{actions}</div>}
@@ -27,3 +32,11 @@ function DeckCard({ title, size, bordered, hoverable, loading, cover, extra, act
 </DeckCard>
 <DeckCard title="Weekly digest" size="small">A small card tightens its padding.</DeckCard>
 <DeckCard title="Loading" loading />
+<DeckCard richTitle={<><aha-icon name="system-chart-bar" size="16" /> Customer satisfaction</>}>Results from 128 responses.</DeckCard>
+
+// A grid of clickable cards: interactive is Tab-reachable and fires click on Enter/Space; stretch evens the row heights.
+<div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+  {surveys.map((survey) => (
+    <DeckCard key={survey.id} title={survey.name} interactive stretch onClick={() => openSurvey(survey.id)}>{survey.summary}</DeckCard>
+  ))}
+</div>
