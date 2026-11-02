@@ -33,11 +33,39 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.711.0 — 2026-11-02
+## 0.771.0 — 2026-11-02
 ### Added
 - `aha-audience-contact`: a contact-details answer for the audience phone. Each entry of the `fields` JSON list (`id`, `kind` name, email, phone or text, `label`, `required`, `placeholder`) is an `aha-audience-field` around an `aha-counted-input`, with the phone keyboard, autofill hint and text direction of its kind (email and phone stay left to right in a right-to-left page); an optional `dial-codes` list puts an `aha-select` before the phone field; a missing required field, a bad email or a bad phone shows its message in `aha-field-error variant="respondent"` after leaving the field. `group-label`, `optional-label`, `required-message` / `email-message` / `phone-message`, `disabled`, `lock-key`, `ink` / `accent`, and a `change` event with `{value, valid}` (#551)
 - `aha-counted-input` takes `type="tel"` and passes `autocomplete` to its inner field; without them it renders as before (#551)
 - Revert: revert the PR; the element and the two attributes are new and opt-in
+
+## 0.726.0 — 2026-11-02
+### Added
+- Chart: `strings` is now also a JSON attribute (`<aha-chart strings='{"emptyNote":"No answers yet"}'>`), so a static page or a framework binding can override any built-in text without a script. Every key of `chartStrings.en` is overridable, per key: type names, the empty-state note and summary, pager labels, legends, axis and tooltip text, summaries and live-region text, and the word-cloud and mind-map controls; the chart docs and contract list every key. Keys left out fall back to the locale's built-in copy (`en`, `vi`), then English; the `strings` property still wins over the attribute until the attribute changes. A chart without `strings` renders exactly as before (#545)
+- Revert: revert the PR; only charts that set the `strings` attribute change, and none shipped before it existed
+
+## 0.725.0 — 2026-11-02
+### Added
+- `<aha-menu>` rows take an optional `testid` (rendered as `data-testid`, as in `<aha-dropdown>`), an `attrs` map that passes `data-*` and `aria-label` through to the row, and a `slot` name that projects rich light-DOM content (text with an `<aha-tag>`, say) in place of the label. Rows without them render unchanged. (#526)
+### Fixed
+- `<aha-menu>` disabled rows now carry `aria-disabled="true"` beside the native `disabled`; the render is unchanged. (#526)
+- Revert: revert the PR; the new item fields are opt-in
+
+
+## 0.702.0 — 2026-11-02
+### Added
+- Chart: `colors` now applies with either palette. On the default `palette="brand"` it replaces the `--aha-viz-series-*` series (and their tints) with the host's own colours, in series order, and keeps the brand ink, so an app screen can pass its own palette (a survey's answer colours, Yes / No). The host picks the hues; a chart without `colors` renders exactly as before, and `palette="deck"` is unchanged (#532)
+- Revert: revert the PR; only charts that set `colors` without `palette="deck"` change, and no shipped consumer does
+
+## 0.701.0 — 2026-11-02
+### Added
+- Paywall: `placement="left"` and `placement="right"` hang the popover 8px beside the anchor, vertically centred on it, with the arrow on the facing edge; top and bottom are unchanged, and `align` and `fitPaywall` still work only with top and bottom (#546)
+- Paywall: `width` sets the popover width as a CSS length (a bare number is px), never past 82vw; the default stays 300px (#546)
+- Paywall: `slot="body"` takes the benefit sentence as rich content (a link, emphasis) in place of the plain-text `body`; the title, the fixed unlock line and both CTAs stay baked in, a link slotted directly (`<a slot="body">`) takes the white body text, underlined, and a body-slot child alone keeps the crown mark as the anchor (#546)
+### Fixed
+- Paywall: an open popover moves to its new spot when `placement`, `align` or `width` changes; before, it stayed where it was until the next scroll or resize (#546)
+- Paywall: an open popover also re-places itself when its own size changes (fonts loading, a body slot filled or edited), so a top or side popover no longer drifts off the anchor (#546)
+- Revert: revert the PR; all three are opt-in, and a paywall without them renders and behaves as before
 
 ## 0.681.0 — 2026-11-02
 ### Added
