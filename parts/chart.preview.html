@@ -659,6 +659,7 @@
       <button type="button" class="aha-pg-opt active" role="radio" aria-checked="true" tabindex="0">Default</button>
       <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">Host colours</button>
       <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">Large counts</button>
+      <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">Bracket totals</button>
       <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">No responses</button>
     </div>
     <div class="chart-case">
@@ -677,6 +678,12 @@
       <div class="lbl">Large counts (compact under 480px wide)</div>
       <div class="chart-frame" role="group" aria-label="Large counts, 1280 by 720 stage"><div class="chart-stage">
       <aha-chart type="nps" label="How likely are you to recommend us?" data='[400,200,100,300,500,900,1200,2100,3400,9000,18000]'></aha-chart>
+      </div></div>
+    </div>
+    <div class="chart-case" hidden>
+      <div class="lbl">Bracket totals only: one split bar, the key and the score, no per-score columns</div>
+      <div class="chart-frame" role="group" aria-label="Bracket totals only, 1280 by 720 stage"><div class="chart-stage">
+      <aha-chart type="nps" label="How likely are you to recommend us?" data='{"promoters":30,"passives":10,"detractors":10}'></aha-chart>
       </div></div>
     </div>
     <div class="chart-case" hidden>
