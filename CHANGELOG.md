@@ -33,11 +33,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.627.1 — 2026-11-02
+## 0.660.1 — 2026-11-02
 ### Fixed
 - `<aha-input>` built-in label (`label` attribute) is regular 400 in secondary ink (#4A4A4A), matching the Form label; it was semibold 600 in default ink. Size 14/21 and the 4px gap are unchanged. `<aha-counted-input>` and other fields that wrap `<aha-input>` follow. Group headers and SectionHeader stay semibold (#514)
 - `<aha-input size="large">` label is 16/24, matching the large field text (#514)
 - Revert: revert the PR; one CSS rule in `lib/aha-input.js`
+
+## 0.660.0 — 2026-11-02
+### Added
+- Logo library: the Claude mark (Brands, Integrations) in `logo/claude.svg` (greyscale on white), `logo/claude-white.svg` (white on Vivid Pink) and `logo/original/claude.svg` (as published), for AhaSlides × Claude co-brand lockups (#543)
+- Revert: revert the PR; three asset files and one manifest entry pair
 
 ## 0.627.0 — 2026-11-02
 ### Added
