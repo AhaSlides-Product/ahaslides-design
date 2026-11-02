@@ -4,7 +4,7 @@
   "environment": ["product"],
   "group": "Settings",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-image-dropzone",
   "summary": "The full-width settings image field where the image IS the field — a dashed upload card with empty / loading / filled states and a Change/Edit/Delete overlay; it emits intents, the host owns the modals (SETTINGS-44).",
   "highlights": ["Settings image field where the image is the field", "Dashed upload card with empty, loading and filled states", "Emits intents; the host owns the modals"],

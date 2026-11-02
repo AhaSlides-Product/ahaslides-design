@@ -4,7 +4,7 @@
   "environment": ["product"],
   "group": "Settings",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-numbered-item",
   "summary": "The numbered wrapper for a repeatable composite item — a grey card with a muted number chip, a \"<Label> N\" header, a hover delete, and a body slot (SETTINGS-43).",
   "highlights": ["Numbered wrapper for a repeatable composite item", "Grey card, muted number chip, “Label N” header", "Hover delete and a body slot"],

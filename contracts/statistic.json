@@ -1,9 +1,10 @@
 {
   "name": "Statistic",
   "slug": "statistic",
+  "environment": ["product"],
   "group": "Data display",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-statistic",
   "summary": "A single headline number with a caption, prefix/suffix (text or icon), precision, trend colour and a loading skeleton.",
   "highlights": ["Single headline number with a caption", "Prefix and suffix as text or icon, precision, trend colour", "Loading skeleton"],

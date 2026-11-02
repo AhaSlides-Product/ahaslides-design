@@ -1,9 +1,10 @@
 {
   "name": "Flex",
   "slug": "flex",
+  "environment": ["product"],
   "group": "Layout",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-flex",
   "summary": "A flexbox container with the DS spacing scale baked into `gap` — direction, align, justify, wrap.",
   "highlights": ["Flexbox container with the DS spacing scale baked into gap", "Direction, align, justify and wrap"],

@@ -1180,7 +1180,7 @@ ${fontPreloads(base)}
   ${noSidebar ? '' : `<button class="doc-nav-toggle" type="button" aria-label="Browse components" aria-expanded="false" aria-controls="doc-nav"><aha-icon name="system-list" size="16" decorative></aha-icon></button>`}
   ${topNav(base, section)}
   ${searchHeaderHtml(base)}
-  <div class="hmeta"><a class="ver" href="${base}feeds/changelog.html" title="Changelog — what changed in each release">v${esc(PKG.version)}</a><span>React · Vue · Lit</span></div>
+  <div class="hmeta"><a class="ver" href="${base}feeds/changelog.html" title="Changelog — what changed in each release">v${esc(PKG.version)}</a><span>HTML · React · Vue</span></div>
 </header>
 <div class="doc-nav-backdrop"></div>
 <div class="doc-body" data-section="${section}">
@@ -1208,7 +1208,7 @@ const FEED_HIGHLIGHTS = {
   'icons.agent.json': ['Full icon catalogue: names, family, recolorable, meaning words', 'Plus the <aha-icon> usage contract and the icon search'],
   'guidelines.llms.txt': ['One entry per composition pattern', 'What it reuses, rule count and component backlog'],
   'guidelines.agent.json': ['Every pattern with its composedOf reuse graph', 'Rules, each tied to a skill assertion', 'Whether the pattern ships code'],
-  'marketing.llms.txt': ['One entry per marketing section', 'Paste-and-run and token-bound, for the marketing sites'],
+  'marketing.llms.txt': ['One entry per marketing section', 'Linked stylesheet or paste-and-run, token-bound, for the marketing sites'],
   'marketing.agent.json': ['Every marketing section with its summary', 'Paste-and-run html and css, and how to consume it'],
   'anti-slop.md': ['The official anti-slop loop', 'Per-surface rules plus a binary judge a consumer self-runs', 'Read it before building'],
   'anti-slop.agent.json': ['The anti-slop loop in machine form', 'Per-surface rules, criteria and selfCheck', 'Compiled from the DS-owned criteria store'],
@@ -1574,6 +1574,12 @@ function surfaceChoiceTable(rows) {
    marketing site and the product app stay on one brand source.
    marketing/<slug>.json: { slug, name, summary, html, css }. ===== */
 const MARKETING_CAT = 'Sections';
+const MARKETING_CDN = `https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@${CDN_REF}/lib`;
+const marketingImportHead = (sheet = 'marketing.css') => `<link rel="stylesheet" href="${MARKETING_CDN}/tokens.css">\n<link rel="stylesheet" href="${MARKETING_CDN}/${sheet}">\n<script type="module" src="${MARKETING_CDN}/all.js"></script>\n<script type="module" src="${MARKETING_CDN}/marketing-motion.js"></script>`;
+const marketingLoadOnceHtml = (b) => `<h2>Load the design system once</h2>
+  ${marketingCodeToggle('head', marketingImportHead(), `No build step: add this to the page <code>&lt;head&gt;</code> once, then paste only each section's HTML (the code above without its <code>&lt;style&gt;</code> block). <code>lib/marketing.css</code> styles every section; <code>lib/marketing/${b.slug}.css</code> styles this one only. Webflow, or a page that cannot link a stylesheet: load <code>variables.css</code> once and paste the whole code above.`, [
+    { key: 'one-section', label: `${b.slug}.css only`, code: marketingImportHead(`marketing/${b.slug}.css`) },
+    { key: 'paste-and-run', label: 'Webflow (paste-and-run)', code: `<link rel="stylesheet" href="${SITE}/variables.css">` }])}`;
 const MARKETING_COMPONENTS_CAT = 'Components';
 const isMarketingComponent = (b) => b.kind === 'component';
 const marketingCardItems = (card) => String(card.html || '').split('\n<!-- next -->\n').map(html => `    <li>\n${html.split('\n').map(line => '      ' + line).join('\n')}\n    </li>`).join('\n');
@@ -2385,8 +2391,7 @@ ${b.composedOf ? `
   ${composedOfTable(b.composedOf)}`, 'composed-of')}
   ${MARKETING_FOLD_OPEN_SCRIPT}` : MARKETING_FOLD_OPEN_SCRIPT}
 
-  <h2>Load the tokens once</h2>
-  ${marketingCodeToggle('head', `<link rel="stylesheet" href="${SITE}/variables.css">`, 'Add this to the page <code>&lt;head&gt;</code> before any section.')}${details.length ? `
+  ${marketingLoadOnceHtml(b)}${details.length ? `
 
   ${docFold('Details', `<ul class="highlights">${details.map(d => `<li>${esc(d)}</li>`).join('')}</ul>`)}` : ''}`;
   return docShell({ base: '../../', active: 'marketing:' + b.slug, title: b.name, section: 'marketing', main, extraCss: `
@@ -2411,8 +2416,7 @@ ${b.snippets ? cardsGallery.open + b.snippets.map(card => `<h2${cardsGallery.ope
   <h2>Paste-and-run HTML</h2>
   ${marketingCodeToggle(marketingHasStates(b, b) ? b.states.find(state => !state.modifier).label : `${b.slug}.html`, marketingSnippet(b), 'Paste into any page. It reads only the shared <code>--aha-*</code> tokens.', [...marketingStatePanes(b, b, marketingSnippet(b)), ...(b.options ? marketingOptionPanes(b, b) : [])])}${marketingHasStates(b, b) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}${b.options ? `\n  ${MARKETING_LAYOUT_OPTION_SCRIPT.replace(".querySelectorAll('.mfv')", ".querySelectorAll('.mbp')")}` : ''}`}
 
-  <h2>Load the tokens once</h2>
-  ${marketingCodeToggle('head', `<link rel="stylesheet" href="${SITE}/variables.css">`, 'Add this to the page <code>&lt;head&gt;</code> before the block.')}${details.length ? `
+  ${marketingLoadOnceHtml(b)}${details.length ? `
 
   ${docFold('Details', `<ul class="highlights">${details.map(d => `<li>${esc(d)}</li>`).join('')}</ul>`)}` : ''}`;
   return docShell({ base: '../../', active: 'marketing:' + b.slug, title: b.name, section: 'marketing', main, extraCss: `
@@ -2435,7 +2439,13 @@ function renderMarketingMd(b) {
 
 ${b.summary}
 ${marketingGuidanceMd(b)}${marketingReviewsMd(b)}${marketingVideoMd(b)}${b.layouts?.some(layout => layout.useFor) ? `\n## Layouts\n${b.layouts.map(layout => `- ${layout.name}${layout.useFor ? `: ${layout.useFor}` : ''}${marketingOptionsMd(layout)}`).join('\n')}\n` : ''}
-Bind the page to the shared token layer (${SITE}/variables.css), then paste the block.
+No build step: link the design system once in the page head, then paste only the block's HTML (the snippet below without its \`<style>\` block):
+
+\`\`\`html
+${marketingImportHead()}
+\`\`\`
+
+\`lib/marketing/${b.slug}.css\` in place of \`lib/marketing.css\` loads this section's CSS only. Webflow, or a page that cannot link a stylesheet: load ${SITE}/variables.css once and paste the whole snippet below.
 
 ## Paste-and-run HTML
 \`\`\`html
@@ -2446,8 +2456,10 @@ function renderMarketingAgent(b) {
   return JSON.stringify({
     generatedFrom: `marketing/${b.slug}.json`, kind: 'marketing-section', name: b.name, slug: b.slug,
     summary: b.summary, environment: b.environment || null,
-    consume: { framework: 'none (paste-and-run HTML+CSS)', tokens: `${SITE}/variables.css`,
-      note: 'Load the token layer once on the page, then paste the html. Every colour/size/space/radius binds to an --aha-* token, so it inherits the AhaSlides brand.' },
+    consume: { framework: 'none (link the DS Marketing stylesheet and paste the html, or paste-and-run html+css)', tokens: `${SITE}/variables.css`,
+      noBuild: { head: marketingImportHead(), stylesheet: `${MARKETING_CDN}/marketing.css`, sectionStylesheet: `${MARKETING_CDN}/marketing/${b.slug}.css`,
+        then: 'Paste only the html. The css field is already in the stylesheet, so do not paste it as well.' },
+      note: 'A hand-built page (static HTML/CSS/JS) links noBuild.head once and pastes the html. Webflow, or a page that cannot link a stylesheet: load the token layer once, then paste the html with its css in a <style> block. Every colour/size/space/radius binds to an --aha-* token, so it inherits the AhaSlides brand.' },
     ...(b.guidance ? { guidance: b.guidance } : {}),
     ...(b.layouts?.some(layout => layout.useFor) ? { layouts: b.layouts.map(layout => ({ slug: layout.slug, name: layout.name, useFor: layout.useFor || null, ...marketingOptionsAgent(b, layout) })) } : {}),
     ...(b.reviews ? { reviews: {
@@ -2468,7 +2480,7 @@ function renderMarketingAgent(b) {
 }
 const environmentTag = (item) => Array.isArray(item.environment) && item.environment.length ? ` · environment: ${item.environment.join(', ')}` : '';
 function renderMarketingLlms(blocks) {
-  let s = `# AhaSlides Design System — marketing sections\n\n> Framework-free sections for every AhaSlides website page (landing, pricing, blog, careers; the Websites tab). Paste-and-run HTML+CSS, bound to the shared --aha-* Foundations tokens. Website pages are design-system work like the product: build and judge them with the aha-design skill. Load ${SITE}/variables.css once, then paste a block.\n\n`;
+  let s = `# AhaSlides Design System — marketing sections\n\n> Framework-free sections for every AhaSlides website page (landing, pricing, blog, careers; the Websites tab). Bound to the shared --aha-* Foundations tokens. Website pages are design-system work like the product: build and judge them with the aha-design skill.\n>\n> No build step (a static HTML/CSS/JS page): link these once in the head, then paste only each section's HTML, never its <style> block:\n${marketingImportHead().split('\n').map(line => `>   ${line}`).join('\n')}\n> lib/marketing/<slug>.css in place of lib/marketing.css loads one section's CSS. Pin the release tag, never @master.\n> Webflow, or a page that cannot link a stylesheet: load ${SITE}/variables.css once, then paste each section's whole snippet, CSS included.\n\n`;
   for (const b of blocks) s += `- [${b.name}](marketing/${b.slug}/${b.slug}.md)${environmentTag(b)} — ${b.summary}\n`;
   return s;
 }
@@ -2913,7 +2925,7 @@ Spacing: 4-based — ${t.space.slice(0,12).join(' · ')} …
 Layout: app content max-width **${t.layout.contentMaxWidth}** (centred; bind to \`--aha-content-max-width\`).
 
 ## Architecture
-Leaf primitives (button, checkbox, input, tag, badge, switch) = ONE shared Lit web component, same code + CSS in React and Vue.
+Leaf primitives (button, checkbox, input, tag, badge, switch) = ONE shared standard, dependency-free web component (Custom Elements + shadow DOM), same code + CSS in plain HTML, React, Vue or any framework.
 Composites (table, form, datepicker) = antd v6 (React) + ant-design-vue v4 (Vue) themed by the shared tokens.
 
 ## Components
@@ -3217,7 +3229,7 @@ function renderGetStarted(cs) {
   </p>
 
   <h2>Roadmap</h2>
-  <p class="body">The <b>Components</b> tab lists the full planned inventory (greyed = <b>soon</b>), taken from the aha-design <code>component-standard</code> measured set. Leaf primitives ship as one shared Lit web component (portable to any environment); composites ship as antd / ant-design-vue wrappers (app-only). Each component follows the same lifecycle: contract &rarr; build &rarr; theme &rarr; render-matrix verify &rarr; judge &rarr; publish.</p>`;
+  <p class="body">The <b>Components</b> tab lists the full planned inventory (greyed = <b>soon</b>), taken from the aha-design <code>component-standard</code> measured set. Leaf primitives ship as one shared standard, dependency-free web component (Custom Elements + shadow DOM), usable in plain HTML, React, Vue or any framework; composites ship as antd / ant-design-vue wrappers (app-only). Each component follows the same lifecycle: contract &rarr; build &rarr; theme &rarr; render-matrix verify &rarr; judge &rarr; publish.</p>`;
   return docShell({ base: '../', active: '__get-started__', title: 'For developers', section: 'developers', main });
 }
 
@@ -3651,8 +3663,8 @@ if (GUIDELINES.length) {
 }
 if (MARKETING.length) {
   RAW_FEEDS.push(
-    { name: 'marketing.llms.txt',  file: 'marketing.llms.txt',  page: 'marketing-llms-txt',  desc: 'One entry per marketing section (Hero) for the AhaSlides marketing sites, paste-and-run and token-bound.' },
-    { name: 'marketing.agent.json', file: 'marketing.agent.json', page: 'marketing-agent-json', desc: 'Machine feed: every marketing section with its summary, paste-and-run html/css, and how to consume it.' },
+    { name: 'marketing.llms.txt',  file: 'marketing.llms.txt',  page: 'marketing-llms-txt',  desc: 'One entry per marketing section (Hero) for the AhaSlides marketing sites: link lib/marketing.css and paste the HTML, or paste-and-run, token-bound.' },
+    { name: 'marketing.agent.json', file: 'marketing.agent.json', page: 'marketing-agent-json', desc: 'Machine feed: every marketing section with its summary, html/css, the no-build stylesheet links, and how to consume it.' },
   );
 }
 RAW_FEEDS.push(
@@ -3697,6 +3709,46 @@ writeFileSync(join(root, 'lib', 'all.js'),
   // the catalogue entry draws every name; aha-illustration.js alone has no art
   [...ELEMENT_MODULES, 'illustrations.js'].sort().map(f => `import './${f}';`).join('\n') + '\n');
 console.log(`  ✓ lib/all.js — all-in-one entry (${ELEMENT_MODULES.length} elements)`);
+
+/* Importable Marketing layer for no-build pages: lib/marketing.css carries every section's CSS and
+   lib/marketing/<slug>.css one section's, so a page links the file and pastes only the section HTML. */
+function cssTopLevelStatements(css) {
+  const statements = [];
+  let depth = 0, start = 0, quote = '';
+  for (let index = 0; index < css.length; index++) {
+    const character = css[index];
+    if (quote) { if (character === '\\') index++; else if (character === quote) quote = ''; continue; }
+    if (character === '"' || character === "'") { quote = character; continue; }
+    if (character === '/' && css[index + 1] === '*') { const end = css.indexOf('*/', index + 2); index = end < 0 ? css.length : end + 1; continue; }
+    if (character === '{') depth++;
+    else if (character === '}' && --depth === 0) { statements.push(css.slice(start, index + 1).trim()); start = index + 1; }
+    else if (character === ';' && depth === 0) { statements.push(css.slice(start, index + 1).trim()); start = index + 1; }
+  }
+  if (depth !== 0) throw new Error('marketing css: unbalanced braces');
+  statements.push(css.slice(start).trim());
+  return statements.filter(Boolean);
+}
+const marketingSectionCss = (b) => withBuildSite((b.css || '') + (b.video ? b.layouts.filter(layout => b.video.layouts.includes(layout.slug)).map(layout => '\n' + b.video.css.replaceAll('{{c}}', layout.class)).join('') : ''));
+function marketingStylesheet(sections, title) {
+  const seen = new Set();
+  const parts = sections.map(b => {
+    const statements = cssTopLevelStatements(marketingSectionCss(b)).filter(statement => !seen.has(statement) && seen.add(statement));
+    return statements.length ? `/* ${b.name} (marketing/${b.slug}.json) */\n${statements.join('\n')}\n` : '';
+  });
+  const css = `/* ${title}, generated by generate.mjs from marketing/*.json. Do not edit by hand.\n   Load lib/tokens.css first, then paste the section HTML with no <style> block. */\n${parts.join('')}`;
+  const placeholder = css.match(/\{\{\w+\}\}/);
+  if (placeholder) throw new Error(`${title}: unresolved ${placeholder[0]} placeholder`);
+  return css;
+}
+const MARKETING_STYLESHEET_ORDER = [...MARKETING].sort((a, b) => (a.slug === 'cards' ? -1 : b.slug === 'cards' ? 1 : 0));
+if (MARKETING.length) {
+  writeFileSync(join(root, 'lib', 'marketing.css'), marketingStylesheet(MARKETING_STYLESHEET_ORDER, `${PKGNAME}/marketing.css`));
+  const sectionDir = join(root, 'lib', 'marketing');
+  if (existsSync(sectionDir)) rmSync(sectionDir, { recursive: true });
+  mkdirSync(sectionDir, { recursive: true });
+  for (const b of MARKETING) writeFileSync(join(sectionDir, `${b.slug}.css`), marketingStylesheet([b], `${PKGNAME}/marketing/${b.slug}.css`));
+  console.log(`  ✓ lib/marketing.css + lib/marketing/<slug>.css — ${MARKETING.length} Marketing sections`);
+}
 
 /* Per-surface entries — lib/audience.js, lib/settings.js, lib/canvas.js. ONE <script> registers the
    elements a surface uses. The set is read from the surface's guideline (guidelines/<surface>.json):
@@ -3844,6 +3896,7 @@ const indexLines = [
   `> No build step? One tag registers every element — CDN / no-build pages:`,
   `>   <script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@${CDN_REF}/lib/all.js"></script>`,
   `>   (loads the whole set; for bundled apps prefer per-element imports so unused elements tree-shake out)`,
+  `> Website or landing page with no build step: tokens.css + lib/marketing.css (every Marketing section's CSS; lib/marketing/<slug>.css for one) + all.js + lib/marketing-motion.js, then paste only each section's HTML: ${SITE}/marketing.llms.txt`,
   `> One tag per surface (only the elements that surface uses): lib/audience.js (also exports applyDeck and the shared applyDeckTokens), lib/settings.js, lib/canvas.js (the whole Canvas Library: <aha-chart> plus the canvas controls, applyCanvasDeck and applyDeckTokens), same CDN path and tag:`,
   ...Object.keys(SURFACE_ENTRIES).map(surface => `>   <script type="module" src="${surfaceCdnUrl(surface)}"></script>`),
   '>',

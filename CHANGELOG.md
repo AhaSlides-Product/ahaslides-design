@@ -33,6 +33,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.595.0 — 2026-11-02
+### Added
+- `lib/marketing.css`: every website Marketing section's CSS in one generated stylesheet (`@ahaslides-product/design/marketing.css`), and `lib/marketing/<slug>.css` for one section. A no-build website page now links `tokens.css`, `marketing.css`, `all.js` and `marketing-motion.js` from a pinned tag and pastes only each section's HTML; it renders pixel-identical to the paste-and-run snippet at 1440, 768 and 375 px. Paste-and-run stays the Webflow route (#503)
+- `screen-lint --surface=website`: `ds-class-without-css` reads a linked `lib/marketing.css` or `lib/marketing/<slug>.css` as the page's CSS, so a page that links the stylesheet is checked against it (#503)
+### Changed
+- The Websites pages, `marketing.llms.txt`, `marketing.agent.json` (`consume.noBuild`), `llms.txt`, the README and website rule W1 document the linked-stylesheet recipe first, paste-and-run second (#503)
+- Docs: the leaf components are described as standard, dependency-free web components (Custom Elements + shadow DOM), usable in plain HTML, React, Vue or any framework, not as Lit components: the README, the site header label (now `HTML · React · Vue`), the agent feed overview, the Components page and 58 contract badges. No `lib/aha-*.js` file has ever imported Lit; the internal tier id `leaf-lit` is unchanged. The 16 of those contracts that had no `environment` now declare one and leave the environments baseline (#503)
+- Revert: revert the PR; the stylesheets are new generated files and the docs return to paste-and-run only, no section CSS or markup changes (#503)
+
 ## 0.593.0 — 2026-11-02
 ### Added
 - Guidelines can carry live examples: an optional `examples` array in a guideline JSON renders an Examples section on the guideline page (each example live, with a Show code toggle for its markup and CSS), and the same markup goes into the guideline's `.md` and agent feed. Guidelines without `examples` render unchanged.

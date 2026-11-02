@@ -1,9 +1,10 @@
 {
   "name": "Loader",
   "slug": "aha-loader",
+  "environment": ["product"],
   "group": "AhaSlides surfaces",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-loader",
   "summary": "The full-surface branded loading screen shown while a new environment boots — workspace → editor, or editor → presenting.",
   "highlights": ["Full-surface branded loading screen", "Shown while a new environment boots", "Covers workspace to editor and editor to presenting"],

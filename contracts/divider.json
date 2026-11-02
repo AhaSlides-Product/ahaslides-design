@@ -1,9 +1,10 @@
 {
   "name": "Divider",
   "slug": "divider",
+  "environment": ["product"],
   "group": "Layout",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-divider",
   "summary": "A thin rule that separates blocks of content — full-width, with a label, or a vertical hairline.",
   "highlights": ["Thin rule between blocks of content", "Full-width, labelled, or a vertical hairline"],

@@ -3,7 +3,7 @@
   "slug": "badge",
   "group": "Data display",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-badge",
   "environment": ["product", "audience"],
   "summary": "A small count or dot marker, plus plan, session, New and Beta badges, correct, partially correct and incorrect answer badges, ribbons and the Status badges, all in two sizes.",

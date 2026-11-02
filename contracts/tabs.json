@@ -4,7 +4,7 @@
   "environment": ["product", "audience"],
   "group": "Navigation",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-tabs",
   "summary": "Switch between sibling content panels from a tab bar — line, primary or card, in two sizes, with per-tab icons.",
   "highlights": ["Switch between sibling content panels", "Line, primary or card style in two sizes", "Per-tab icons"],

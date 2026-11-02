@@ -4,7 +4,7 @@
   "slug": "image",
   "group": "Data display",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-image",
   "summary": "A framed image with rounded corners, a hover preview mask, a loading placeholder and a broken-src fallback.",
   "highlights": ["Framed image with rounded corners", "Hover preview mask and loading placeholder", "Broken-src fallback"],

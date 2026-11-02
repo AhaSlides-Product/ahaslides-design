@@ -1,9 +1,10 @@
 {
   "name": "Descriptions",
   "slug": "descriptions",
+  "environment": ["product"],
   "group": "Data display",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-descriptions",
   "summary": "A read-only label/value grid summarising one entity's fields — N columns, bordered or plain, horizontal or vertical, with per-item span.",
   "highlights": ["Read-only label and value grid for one entity", "N columns, bordered or plain, horizontal or vertical", "Per-item span"],

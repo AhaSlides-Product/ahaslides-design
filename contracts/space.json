@@ -1,9 +1,10 @@
 {
   "name": "Space",
   "slug": "space",
+  "environment": ["product"],
   "group": "Layout",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-space",
   "summary": "An even, DS-scale gap between a small inline set of items — buttons, tags, inline controls.",
   "highlights": ["Even, DS-scale gap between a small inline set of items", "Buttons, tags and inline controls"],

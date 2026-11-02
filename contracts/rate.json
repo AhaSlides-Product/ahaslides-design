@@ -1,9 +1,10 @@
 {
   "name": "Rate",
   "slug": "rate",
+  "environment": ["product", "web"],
   "group": "Data entry",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-rate",
   "summary": "Capture or display a score as a row of stars.",
   "highlights": ["Capture or display a score", "Row of stars"],

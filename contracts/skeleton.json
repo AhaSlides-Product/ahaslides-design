@@ -4,7 +4,7 @@
   "slug": "skeleton",
   "group": "Feedback",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-skeleton",
   "summary": "A greyed placeholder that holds a component's shape while its content loads.",
   "highlights": ["Greyed placeholder", "Holds a component’s shape while content loads"],

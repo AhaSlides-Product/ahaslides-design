@@ -4,7 +4,7 @@
   "environment": ["product"],
   "group": "Settings",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-sub-setting-group",
   "summary": "The dependent (child) settings wrapper — indents a cluster of sub-settings under one parent toggle with a tighter gap, spacing only (no border, no card).",
   "highlights": ["Dependent (child) settings wrapper", "Indents sub-settings under one parent toggle, 16px below it", "Spacing only: no border, no card"],

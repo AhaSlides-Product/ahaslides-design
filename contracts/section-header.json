@@ -4,7 +4,7 @@
   "environment": ["product"],
   "group": "Settings",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-section-header",
   "summary": "A settings GROUP header — the hierarchy parent that a stack of setting rows sits under: a noun-phrase label, an optional \"?\" help, and a right-aligned action slot for plain text such as a count.",
   "highlights": ["Header for a settings group", "Noun-phrase label with optional “?” help", "Right-aligned action slot: plain text such as a count"],

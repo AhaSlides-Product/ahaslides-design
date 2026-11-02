@@ -6,7 +6,7 @@
   ],
   "group": "Settings",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-info-box",
   "summary": "The settings callout in four tones (information / success / warning / error), optionally dismissible — a thin wrapper that draws the DS Alert.",
   "highlights": [

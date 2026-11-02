@@ -6,7 +6,7 @@
   ],
   "group": "Settings",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component — composite",
+  "badge": "shared web component — composite",
   "element": "aha-question-list",
   "summary": "An editable list of collapsible questions laid out as the settings lab's QuestionList — a SettingRow head with the question count, a Collapse per question (header slots, an interactive body slot, optional status line, prompt field plus OptionRow choices), and full-width secondary Add option / Add question buttons (SETTINGS-31/36), plus the host API a slide's settings need: notices, single-open accordion with a toggle intent, a leave event, named edits, single-correct, multi-line prompts, test ids and in-place updates that keep focus.",
   "highlights": [

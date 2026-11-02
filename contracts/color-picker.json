@@ -1,9 +1,10 @@
 {
   "name": "Color picker",
   "slug": "color-picker",
+  "environment": ["product"],
   "group": "Data entry",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-color-picker",
   "summary": "Pick a colour from a selectable palette of presets.",
   "highlights": ["Pick a colour from a selectable palette of presets"],

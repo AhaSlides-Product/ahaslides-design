@@ -1,9 +1,10 @@
 {
   "name": "Segmented",
   "slug": "segmented",
+  "environment": ["product", "web"],
   "group": "Data entry",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-segmented",
   "summary": "Switch between a few mutually-exclusive options inline — labels, leading icons, or icon-only, in three sizes.",
   "highlights": ["Switch between a few mutually exclusive options inline", "Labels, leading icons or icon-only", "Three sizes"],

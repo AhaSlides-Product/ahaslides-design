@@ -4,7 +4,7 @@
   "environment": ["product"],
   "group": "Settings",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-setting-group",
   "summary": "The settings GROUP container — an optional semibold header (with a \"?\" help and an action slot) over a column of rows — that bakes in the panel spacing scale so gaps come out right automatically.",
   "highlights": ["Settings group container", "Optional semibold header with “?” help and action slot", "Panel spacing scale baked in"],

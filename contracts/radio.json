@@ -3,7 +3,7 @@
   "slug": "radio",
   "group": "Data entry",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-radio",
   "environment": ["product", "audience"],
   "summary": "Pick exactly one option from a small mutually-exclusive set, all shown at once.",

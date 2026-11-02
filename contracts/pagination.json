@@ -4,7 +4,7 @@
   "environment": ["product", "audience"],
   "group": "Navigation",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-pagination",
   "summary": "A page selector for a paged list or table — prev / numbered pages with ellipsis / next; two sizes, a simple mode, and a whole-control disabled state.",
   "highlights": ["Page selector for a paged list or table", "Previous, numbered pages with ellipsis, next", "Two sizes, simple mode, disabled state"],

@@ -4,7 +4,7 @@
   "environment": ["product", "audience"],
   "group": "Navigation",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-menu",
   "summary": "A list of selectable options — a side nav, a settings list, an overflow menu — with icons, groups, submenus and danger actions.",
   "highlights": ["List of selectable options", "For side navs, settings lists and overflow menus", "Icons, groups, submenus and danger actions"],

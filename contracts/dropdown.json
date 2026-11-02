@@ -4,7 +4,7 @@
   "environment": ["product", "audience"],
   "group": "Navigation",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-dropdown",
   "summary": "A trigger button that reveals a floating overlay of actions — with leading icons, dividers, disabled rows and a dark danger action.",
   "highlights": ["Trigger button revealing a floating overlay of actions", "Leading icons, dividers and disabled rows", "Black danger action"],

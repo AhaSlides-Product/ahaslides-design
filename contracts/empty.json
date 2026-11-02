@@ -4,7 +4,7 @@
   "environment": ["product", "audience"],
   "group": "Data display",
   "tier": "leaf-lit",
-  "badge": "shared Lit web component",
+  "badge": "shared web component",
   "element": "aha-empty",
   "summary": "The placeholder for a surface that has no data yet.",
   "highlights": ["Placeholder for a surface with no data yet"],
