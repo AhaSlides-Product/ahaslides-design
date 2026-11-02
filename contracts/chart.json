@@ -130,7 +130,7 @@
     },
     {
       "label": "NPS",
-      "value": "11 columns, ratings 0 to 10, in the column look at a tighter gap (--aha-space-8; 2px under 480) · bracket rules (--aha-space-4 high, pill ends) span detractors 0–6, passives 7–8, promoters 9–10, each with name (semibold) and count · share; under 480px the names move to a key row with swatches · NPS score = promoter share − detractor share, rounded, shown under the brackets (options.showScore) and first in the summary · colours: colors = detractor, passive, promoter on either palette; default the brand series only (detractor series 2, passive --aha-viz-neutral, promoter series 1) · hover or focus on a column or bracket highlights the bracket · table: one row per rating, then one per bracket"
+      "value": "11 columns, ratings 0 to 10, in the column look at a tighter gap (--aha-space-8; 2px under 480) · bracket rules (--aha-space-4 high, pill ends) span detractors 0–6, passives 7–8, promoters 9–10, each with name (semibold) and count · share; under 480px the names move to a key row with swatches · NPS score = displayed promoter share − displayed detractor share (so it matches the rounded percentages shown), signed (NPS +26, NPS 0), shown under the brackets (options.showScore) and first in the summary · counts are rounded to whole numbers · under 480px the column counts use compact notation (18K) · 0 responses: bars, brackets and key are hidden and the \"No responses yet\" note shows · colours: colors = detractor, passive, promoter on either palette, matched by position (a missing or invalid entry takes that bracket's default, never another bracket's colour); default the brand series only (detractor series 2, passive --aha-viz-neutral, promoter series 1; on palette=deck with --aha-viz-series-2 unset the detractor takes the deck ink) · hover or focus on a column or bracket highlights the bracket · table: one row per rating, then one per bracket"
     },
     {
       "label": "Pick Answer",
@@ -150,7 +150,7 @@
     },
     {
       "label": "Empty",
-      "value": "0 responses → every bar/column/stacked row keeps its track (a stacked row shows one half-length stub per series side by side, rounded only at the left end) and shows a series-coloured stub at its start: a bar stub --aha-viz-stub-length 12px long, a column stub the full column width and --aha-viz-column-min-height 16px tall (under an image it joins the image card, which rounds only the outer corners), all marks, stubs and image cards rounded with --aha-radius-default · donut / tree map keep the track · radar breathes its entrance effect until the first response · donut / pie / tree map also show the text \"No responses yet\" centred in the plot (--_ink-3, not announced twice: the summary already says it; the donut centre count is hidden) and it disappears on the first response · every other type shows no text"
+      "value": "0 responses → every bar/column/stacked row keeps its track (a stacked row shows one half-length stub per series side by side, rounded only at the left end) and shows a series-coloured stub at its start: a bar stub --aha-viz-stub-length 12px long, a column stub the full column width and --aha-viz-column-min-height 16px tall (under an image it joins the image card, which rounds only the outer corners), all marks, stubs and image cards rounded with --aha-radius-default · donut / tree map keep the track · radar breathes its entrance effect until the first response · donut / pie / tree map / line / nps also show the text \"No responses yet\" centred in the plot (--_ink-3, not announced twice: the summary already says it; the donut centre count is hidden) and it disappears on the first response · every other type shows no text"
     },
     {
       "label": "Overflow",
@@ -454,7 +454,7 @@
       "verdict": "PASS"
     },
     {
-      "label": "0 responses → coloured stub at each bar/column start, no placeholder marks; donut / pie / tree map add the centred text \"No responses yet\"",
+      "label": "0 responses → coloured stub at each bar/column start, no placeholder marks; donut / pie / tree map / line / nps add the centred text \"No responses yet\"; the NPS chart hides its bars and brackets instead of drawing stubs",
       "verdict": "PASS"
     },
     {

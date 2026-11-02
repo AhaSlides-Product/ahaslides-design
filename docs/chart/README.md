@@ -263,8 +263,9 @@ A balanced two-sided layout (one-sided, then an outline when narrow). Options: `
 
 - `data` is the 11 response counts for ratings 0 to 10, as an array or `{ counts: [...] }`. A missing or invalid count is 0.
 - One column per rating, coloured by its bracket. Under the columns a rule spans each bracket: detractors (0 to 6), passives (7 to 8) and promoters (9 to 10), with the bracket's name, count and share. Below 480px wide the names move into a key row under the rules.
-- The NPS score (promoter share minus detractor share, rounded) shows under the brackets and leads the summary. `options.showScore: false` hides it; with 0 responses it is hidden.
-- Colours: `colors` sets the brackets in the order detractor, passive, promoter, on either palette, so the host passes its own NPS hues. Without `colors` the brackets use the existing brand series: detractors series 2, passives the viz neutral, promoters series 1.
+- The NPS score is the displayed promoter share minus the displayed detractor share, so it matches the rounded percentages beside it. It is signed (`NPS +26`, `NPS 0`), shows under the brackets and leads the summary. `options.showScore: false` hides it; with 0 responses it is hidden. Counts are rounded to whole numbers, and under 480px wide the counts above the columns use compact notation (`18K`).
+- Colours: `colors` sets the brackets in the order detractor, passive, promoter, on either palette, so the host passes its own NPS hues. Colours match by position: a missing or invalid entry keeps that bracket's default, never another bracket's colour. Without `colors` the brackets use the existing brand series: detractors series 2, passives the viz neutral, promoters series 1; on `palette="deck"`, if the deck has not set `--aha-viz-series-2`, detractors take the deck ink.
+- With 0 responses the bars, brackets and key are hidden and the chart shows "No responses yet".
 - Hovering a column or a bracket highlights that bracket. Text comes from `npsDetractors`, `npsPassives`, `npsPromoters`, `npsScore`, `npsRating` and `npsSummary` in `strings`.
 
 ### `line`
@@ -436,7 +437,7 @@ Always set `label` to something meaningful, for example the question being answe
 
 ## Empty state
 
-With no responses (`data` empty or all zeros) the chart does not show placeholder bars. Every bar, column and stacked row keeps its track and shows a short coloured stub at its start; donut, pie and tree map keep their track and show the text "No responses yet" centred in the plot; the radar breathes its entrance effect until the first response arrives.
+With no responses (`data` empty or all zeros) the chart does not show placeholder bars. Every bar, column and stacked row keeps its track and shows a short coloured stub at its start; donut, pie and tree map keep their track and show the text "No responses yet" centred in the plot; line and NPS show the same text, and NPS draws no stubs; the radar breathes its entrance effect until the first response arrives.
 
 ## Browser support
 
