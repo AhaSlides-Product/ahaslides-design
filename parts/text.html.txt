@@ -1,0 +1,14 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-text> is the SAME shared custom element React and Vue consume — here in its
+     native form. Theming comes only from the --aha-* tokens in tokens.css. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-text.js';   // registers <aha-text>
+</script>
+
+<aha-text level="2">Lessons</aha-text>
+<aha-text as="p" tone="secondary">Work through each lesson in order. Your progress saves as you go.</aha-text>
+<aha-text weight="semibold">Introduction to quizzes</aha-text>
+<aha-text size="sm" tone="secondary">Updated 2 hours ago</aha-text>
+<aha-text ellipsis style="max-width:240px">A long course title that is cut to one line with an ellipsis</aha-text>
+<aha-text as="p" lines="2" style="max-width:320px">A long description clamped to two lines. The full text shows in the tooltip when it is cut, so nothing is lost.</aha-text>

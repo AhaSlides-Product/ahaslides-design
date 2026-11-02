@@ -403,7 +403,7 @@
         {
           "id": "C4",
           "title": "Accessibility house rules honoured",
-          "test": "The live region stays mounted when empty, is assertive + atomic and has no role=alert; an announced progress bar carries role=progressbar + aria-valuenow/min/max + aria-label; skeleton containers carry role=status + aria-busy; visible text uses DS / Typography text, not raw span/p; no state is conveyed by colour alone."
+          "test": "The live region stays mounted when empty, is assertive + atomic and has no role=alert; an announced progress bar carries role=progressbar + aria-valuenow/min/max + aria-label; skeleton containers carry role=status + aria-busy; visible text uses <aha-text>, not raw span/p or AntD Typography; no state is conveyed by colour alone."
         }
       ]
     },
