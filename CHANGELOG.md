@@ -33,10 +33,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.857.0 — 2026-11-02
+## 0.861.0 — 2026-11-02
 ### Added
 - `<aha-rate size="lg">` draws 32px stars inside a 44px hit area each (6px padding, gap 4), for touch surfaces; the focus ring and keyboard behaviour are unchanged and the default size is unchanged. With `character="number"` the cells become 44×44 (radius 12, number 16/600) and wrap onto a new row instead of shrinking. A custom `icon` character is drawn at 32px. No new colour values. (#555)
 - Revert: revert the PR; `size="lg"` falls back to the default 24px star, nothing else uses it
+
+## 0.856.1 — 2026-11-02
+
+### Fixed
+
+- CHANGELOG: the 0.840.0 Show winner entry links its PR (#559) instead of a placeholder, so the standards gate passes on master (#561)
 
 ## 0.855.0 — 2026-11-02
 ### Added
@@ -48,7 +54,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ### Changed
 
-- `<aha-leaderboard>` Show winner: the avatar now sits before the name on one line (the same order as the list rows, 16px apart, the avatar as tall as the name), and the name is bigger than the score: name 64px semibold with a 64px avatar, score 48px (below 340px: 32px name and avatar, 24px score). The pop order is avatar, name, score. The list rows are unchanged. (#NNN)
+- `<aha-leaderboard>` Show winner: the avatar now sits before the name on one line (the same order as the list rows, 16px apart, the avatar as tall as the name), and the name is bigger than the score: name 64px semibold with a 64px avatar, score 48px (below 340px: 32px name and avatar, 24px score). The pop order is avatar, name, score. The list rows are unchanged. (#559)
 
 ## 0.837.0 — 2026-11-02
 ### Changed
