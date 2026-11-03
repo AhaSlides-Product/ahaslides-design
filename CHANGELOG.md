@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.956.3 — 2026-11-03
 ### Fixed
-- Dropdown: a closed menu no longer takes up space under its trigger (it stretched scrolling lists and added a horizontal scrollbar), and opening one dropdown closes any other open one, even when the click lands on another dropdown's trigger (#NNN)
+- Dropdown: a closed menu no longer takes up space under its trigger (it stretched scrolling lists and added a horizontal scrollbar), and opening one dropdown closes any other open one, even when the click lands on another dropdown's trigger (#611)
 
 ## 0.956.1 — 2026-11-03
 ### Changed
