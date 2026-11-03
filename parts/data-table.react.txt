@@ -32,6 +32,27 @@ const columns = [
   pagination={{ defaultPageSize: 10 }}
 />
 
+// Saved columns — control the visible set, filter a custom field by a typed value, log the column editor.
+const participantColumns = [
+  { key: 'name',   title: 'Name',       dataIndex: 'name', hideable: false },
+  { key: 'dept',   title: 'Department', dataIndex: 'dept',   filter: { type: 'value' } },
+  { key: 'age',    title: 'Age',        dataIndex: 'age',    filter: { type: 'value', inputType: 'number' } },
+  { key: 'joined', title: 'Joined',     dataIndex: 'joined', filter: { type: 'value', inputType: 'date' } },
+];
+
+<DataTable
+  rowKey="id"
+  columns={participantColumns}
+  dataSource={participants}
+  columnsEditable
+  visibleColumns={savedColumns}                        // e.g. ['name', 'dept', 'joined'] from the creator's settings
+  defaultVisibleColumns={['name', 'dept', 'joined']}   // what Reset restores
+  onVisibleColumnsChange={saveColumns}                 // next visible keys, in display order (also what export takes)
+  onColumnsEditorOpenChange={(open) => open && track('TABLE_COLUMNS_OPENED')}
+  onColumnToggle={(column, visible) => track('TABLE_COLUMN_TOGGLED', { column, visible })}
+  onColumnsReset={() => track('TABLE_COLUMNS_RESET')}
+/>
+
 // Expandable rows — pass expandableRows; the chevron, panel and a11y come from the DS.
 <DataTable
   rowKey="key"
