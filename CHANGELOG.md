@@ -35,11 +35,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.933.0 — 2026-11-03
 ### Added
-- Navigation: new Join bar layout (`aha-join-bar`, Webflow component Join bar), the dark "Are you a participant?" bar with the access-code field and Join button, taken out of the Site navbar. Place it directly before the Site navbar as a sibling and it scrolls away while the navbar stays stuck to the top, with no positioning script (#NNN)
+- Navigation: new Join bar layout (`aha-join-bar`, Webflow component Join bar), the dark "Are you a participant?" bar with the access-code field and Join button, taken out of the Site navbar. Place it directly before the Site navbar as a sibling and it scrolls away while the navbar stays stuck to the top, with no positioning script (#594)
 ### Changed
-- Navigation Site navbar: the join bar markup, CSS and sticky-offset script are removed (`aha-header__join*` classes are gone, so a page using them must add the Join bar layout above the navbar); the navbar now sticks at `top:0` (#NNN)
-- Navigation Site navbar: the Products menu preview slot is a video, the same clips as the live ahaslides.com menu: Word cloud by default, and the clip of each Interactive slides entry under the pointer or focus. It has no `autoplay`: it plays muted and looped only while the Products menu is open, pauses when it closes, shows only its poster under prefers-reduced-motion or `data-aha-motion="off"`, and is hidden at 991px and below, where its clip never loads (#NNN)
-- W9 (website guideline, anti-slop criterion and the Hero video note): the Products menu preview clip is allowed beside the one autoplaying hero video and does not count as a second autoplaying video (#NNN)
+- Navigation Site navbar: the join bar markup, CSS and sticky-offset script are removed (`aha-header__join*` classes are gone, so a page using them must add the Join bar layout above the navbar); the navbar now sticks at `top:0` (#594)
+- Navigation Site navbar: the Products menu preview slot is a video, the same clips as the live ahaslides.com menu: Word cloud by default, and the clip of each Interactive slides entry under the pointer or focus. It has no `autoplay`: it plays muted and looped only while the Products menu is open, pauses when it closes, shows only its poster under prefers-reduced-motion or `data-aha-motion="off"`, and is hidden at 991px and below, where its clip never loads (#594)
+- W9 (website guideline, anti-slop criterion and the Hero video note): the Products menu preview clip is allowed beside the one autoplaying hero video and does not count as a second autoplaying video (#594)
 - Revert: revert the PR; it changes marketing/navigation.json, the generated Marketing CSS and the W9 prose only, with no token or component API change
 
 ## 0.930.0 — 2026-11-03
