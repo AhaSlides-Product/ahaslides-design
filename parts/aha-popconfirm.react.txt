@@ -1,0 +1,38 @@
+import '@ahaslides-product/design/aha-popconfirm';
+import '@ahaslides-product/design/aha-button';
+import { useEffect, useRef, useState } from 'react';
+
+// React 18 has no props for custom-element events: bind open / confirm / closed through a ref.
+// Booleans go in as '' or undefined (React 18 writes false as the string "false").
+// antd → aha-popconfirm: title → heading, okText → ok-text, {...destructiveConfirm} → ok-danger,
+// okButtonProps={{ 'data-testid' }} → ok-test-id, onConfirm → confirm, onOpenChange → open / closed.
+export function RemoveMember({ name, removeMember, disabled }) {
+  const popconfirm = useRef(null);
+  const [open, setOpen] = useState(false);
+  const [busy, setBusy] = useState(false);
+  useEffect(() => {
+    const element = popconfirm.current;
+    const onOpen = () => setOpen(true);
+    const onClosed = () => setOpen(false);
+    const onConfirm = async (event) => {
+      event.preventDefault();
+      setBusy(true);
+      try { await removeMember(); setOpen(false); } finally { setBusy(false); }
+    };
+    element.addEventListener('open', onOpen);
+    element.addEventListener('closed', onClosed);
+    element.addEventListener('confirm', onConfirm);
+    return () => {
+      element.removeEventListener('open', onOpen);
+      element.removeEventListener('closed', onClosed);
+      element.removeEventListener('confirm', onConfirm);
+    };
+  }, [removeMember]);
+  return (
+    <aha-popconfirm ref={popconfirm} heading={`Remove ${name} from the team?`} description="They keep their own presentations."
+      ok-text="Remove" ok-danger="" ok-test-id="remove-member-confirm" cancel-test-id="remove-member-cancel"
+      open={open ? '' : undefined} confirm-loading={busy ? '' : undefined} disabled={disabled ? '' : undefined}>
+      <aha-button variant="secondary" size="sm">Remove</aha-button>
+    </aha-popconfirm>
+  );
+}

@@ -33,6 +33,19 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.972.0 — 2026-11-04
+
+### Added
+- **`aha-popconfirm`: the Popconfirm as a web component** (#624). A small prompt anchored to its trigger (the element's child)
+  that matches the antd Popconfirm themed by `popconfirm-theme.js` value for value: the shared `aha-popover` frame with its arrow,
+  twelve placements, flip and top layer, the warning glyph in the default ink, a 14/22 SemiBold title, an optional description,
+  and Cancel and OK at the DS small size (28 high, 4 corners). Its attributes follow the antd props one for one: `heading`,
+  `description` (or the `title` / `description` slots), an `icon` slot or `no-icon`, `ok-text`, `cancel-text`, `ok-danger` (the
+  `destructiveConfirm` look: Cancel is the primary), `ok-disabled`, `confirm-loading`, `disabled`, `placement`, `open`, and
+  `ok-test-id` / `cancel-test-id` for a data-testid on each button. A trigger click emits a cancelable `open`; OK a cancelable
+  `confirm`; Cancel, Escape and an outside click a cancelable `cancel` with its source, then `close` and `closed`. Focus moves to
+  the primary button on open and back to the trigger on close. The antd `popconfirm-theme.js` is unchanged.
+
 ## 0.971.0 — 2026-11-04
 
 ### Added

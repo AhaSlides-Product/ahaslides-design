@@ -1,0 +1,48 @@
+<style>
+  .popconfirm-stage{ display:flex; flex-wrap:wrap; align-items:flex-end; gap:var(--aha-space-24); padding:var(--aha-space-24) 0 0; min-height:200px; box-sizing:border-box }
+  .popconfirm-stage > div{ width:296px; max-width:100% }
+</style>
+<div class="pad">
+  <div class="lbl">Open: the warning glyph, title, description, Cancel and OK at the small size</div>
+  <div class="popconfirm-stage">
+    <div><aha-popconfirm inline open placement="top-start" heading="Remove Lan from the team?" description="She keeps her own presentations." ok-text="Remove">
+      <aha-button variant="secondary" size="sm">Remove</aha-button>
+    </aha-popconfirm></div>
+    <div><aha-popconfirm inline open data-probe placement="top-start" heading="Delete this slide?" description="Its responses go too. You can't undo this." ok-text="Delete" ok-danger>
+      <aha-button variant="secondary" size="sm">Delete</aha-button>
+    </aha-popconfirm></div>
+  </div>
+  <div class="lbl">no-icon left, confirm-loading right: OK spins, Cancel, Esc and an outside click wait</div>
+  <div class="popconfirm-stage">
+    <div><aha-popconfirm inline open placement="top-start" heading="Archive 12 presentations?" ok-text="Archive" no-icon>
+      <aha-button variant="secondary" size="sm">Archive</aha-button>
+    </aha-popconfirm></div>
+    <div><aha-popconfirm inline open placement="top-start" heading="Revoke this invite?" ok-text="Revoke" confirm-loading>
+      <aha-button variant="secondary" size="sm">Revoke</aha-button>
+    </aha-popconfirm></div>
+  </div>
+  <div class="lbl">Live: click to open, Esc, an outside click and Cancel close it, focus returns to the button</div>
+  <div class="row">
+    <aha-popconfirm id="popconfirm-live" placement="bottom-start" heading="Delete this team?" description="Everyone in it loses access to its presentations." ok-text="Delete team" ok-danger>
+      <aha-button variant="secondary">Delete team</aha-button>
+    </aha-popconfirm>
+    <aha-popconfirm id="popconfirm-async" placement="bottom" heading="Publish this template?" description="Everyone in your workspace can use it." ok-text="Publish">
+      <aha-button variant="primary">Publish</aha-button>
+    </aha-popconfirm>
+    <aha-popconfirm disabled heading="Leave this team?" ok-text="Leave">
+      <aha-button variant="secondary" disabled>Leave team</aha-button>
+    </aha-popconfirm>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element, so the preview can never drift from lib/ and qa measures what consumers get. -->
+<script type="module">
+  import '../lib/aha-popconfirm.js';   // registers <aha-popconfirm>
+  import '../lib/aha-button.js';
+  const publish = document.getElementById('popconfirm-async');
+  publish.addEventListener('confirm', (event) => {
+    event.preventDefault();
+    publish.setAttribute('confirm-loading', '');
+    setTimeout(() => { publish.removeAttribute('confirm-loading'); publish.open = false; }, 1000);
+  });
+</script>
