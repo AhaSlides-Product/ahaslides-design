@@ -41,6 +41,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Fixed
 - Table criterion C6 now says DataTable icons are DS `<aha-icon>` by name, as the component ships, instead of `@phosphor-icons/react`, which screen-lint hard-fails as `foreign-icon-library` (#593)
 
+## 0.947.1 — 2026-11-03
+### Fixed
+- `screen-lint --surface=website` W9: an autoplaying video outside the hero needs `lib/marketing-motion.js` 0.947.0 or later to count as stopped under reduced motion; older scripts pause only the hero video (#602)
+
 ## 0.947.0 — 2026-11-03
 ### Changed
 - Website rule W9: any video may play by itself when it is muted, loops, has playsinline, no controls and a poster, not only the one hero video. `lib/marketing-motion.js` now starts every `video[autoplay]` only while it is scrolled into view, pauses it off-screen, and under reduced motion pauses it and shows the poster with controls. Testimonial carousels still never autoplay (#601)
