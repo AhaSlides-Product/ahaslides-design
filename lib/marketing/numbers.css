@@ -6,7 +6,7 @@
   --aha-numbers-surface:var(--aha-white);
   --aha-numbers-ink:var(--aha-text-default);
   --aha-numbers-ink-secondary:var(--aha-text-secondary);
-  --aha-numbers-value:var(--aha-color-primary);
+  --aha-numbers-value:var(--aha-text-default);
   --aha-numbers-divider:var(--aha-border-default);
   background:var(--aha-numbers-surface);
   color:var(--aha-numbers-ink);
@@ -38,7 +38,7 @@
   display:flex;align-items:center;justify-content:center;flex:none;
   width:var(--aha-space-48);height:var(--aha-space-48);
   border-radius:var(--aha-radius-default);
-  background:var(--aha-bg-accent);color:var(--aha-color-primary);
+  background:var(--aha-bg-container-secondary);color:var(--aha-text-default);
 }
 .aha-numbers__cta{display:flex;flex-wrap:wrap;justify-content:center;gap:var(--aha-space-12);margin-top:var(--aha-section-space-group)}
 .aha-numbers__actions{display:flex;flex-wrap:wrap;gap:var(--aha-space-12);margin-top:var(--aha-space-32)}
