@@ -97,7 +97,7 @@ A **pattern** is the other artifact type. It ships **no new primitive** — it d
 ### 1. Contract — `patterns/<slug>.json`
 Required fields: `name, slug, kind: "pattern", summary, highlights (1–4 short bullets shown under the page title), skillRef, surfaces, composedOf, rules`, plus `environment` (see Environment above).
 
-- **`skillRef`** — `{ "build": "aha-design:aha-design-<x>", "judge": "…-judge" }`. The design skill this pattern distils; the gate requires `skillRef.build`.
+- **`skillRef`** — `{ "build": "ahaslides-design:aha-design", "judge": "ahaslides-design:aha-design" }`. The skill that builds and judges this pattern; the gate requires `skillRef.build`, and a `<plugin>:<skill>` value must name a skill shipped under `agent/skills/`.
 - **`composedOf`** — the reuse graph: each entry `{ ref, as, use, status }`.
   - `as: "component"` + `status: "available"` → `ref` **must be a real `contracts/<slug>`** (the gate resolves it; a wrong slug fails).
   - `as: "component"` + `status: "missing"` → a **backlog** component the DS doesn't ship yet. This **warns** (the pattern still lands) — add the component here to clear it. *(Flip `PATTERN_BACKLOG_HARD_FAIL` in `standards.mjs` to make backlog a hard fail.)*
