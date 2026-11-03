@@ -80,6 +80,6 @@
     "ready": "!!(document.querySelector('aha-image[data-probe]') && document.querySelector('aha-image[data-probe]').shadowRoot && document.querySelector('aha-image[data-probe]').shadowRoot.querySelector('.mask') && document.querySelector('aha-image[data-probe]').shadowRoot.querySelector('.fallback'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-image[data-probe]');var sr=el&&el.shadowRoot;var f=sr&&sr.querySelector('.frame');var m=sr&&sr.querySelector('.mask');var fb=sr&&sr.querySelector('.fallback');var pv=sr&&sr.querySelector('.pv');var fs=f?getComputedStyle(f):null;var ms=m?getComputedStyle(m):null;var fbs=fb?getComputedStyle(fb):null;return{frameRadius:fs?fs.borderTopLeftRadius:null,frameBg:fs?fs.backgroundColor:null,maskColor:ms?ms.color:null,maskBg:ms?ms.backgroundColor:null,hasFallback:!!fb,fallbackColor:fbs?fbs.color:null,previewRole:pv?pv.getAttribute('role'):null};})()",
-    "expect": { "frameRadius": "8px", "frameBg": "rgb(247, 247, 247)", "maskColor": "rgb(255, 255, 255)", "maskBg": "rgba(0, 0, 0, 0.4)", "hasFallback": true, "fallbackColor": "rgb(138, 138, 138)", "previewRole": "dialog" }
+    "expect": { "frameRadius": "8px", "frameBg": "rgb(247, 247, 247)", "maskColor": "rgb(255, 255, 255)", "maskBg": "rgba(0, 0, 0, 0.4)", "hasFallback": true, "fallbackColor": "rgb(97, 97, 97)", "previewRole": "dialog" }
   }
 }
