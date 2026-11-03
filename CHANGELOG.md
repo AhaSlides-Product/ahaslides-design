@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.959.0 — 2026-11-03
+### Fixed
+- Table eval C5 expected output names the typed-value filter popover alongside the checklist and Min/Max range popovers (#609)
+- Revert: revert the PR; eval text only.
+
 ## 0.958.0 — 2026-11-03
 ### Added
 - Upload: `removelabel` attribute sets the aria-label of each item's remove button; `{name}` becomes the escaped file name, default `Remove {name}` (identical output when absent). Stacked on #609: with its `label`, `hint` and `limitlabel`, an app can localise all of the Upload copy. (#612)
