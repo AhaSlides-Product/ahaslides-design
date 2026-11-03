@@ -15,16 +15,17 @@
   <aha-counted-input size="lg" maxlength="30"></aha-counted-input>
 </aha-audience-field>
 
+<!-- autofocus focuses the control once on load   ·   field.focus() does it later (no shadowRoot reach-in) -->
+<aha-audience-field label="Access code" autofocus>
+  <aha-counted-input type="password" maxlength="none" size="lg"></aha-counted-input>
+</aha-audience-field>
+
 <aha-audience-field label="Your guess">
   <aha-counted-input type="number" maxlength="none" size="lg"></aha-counted-input>
 </aha-audience-field>
 
 <aha-audience-field label="Your email">
   <aha-counted-input type="email" maxlength="none" size="lg" dir="auto"></aha-counted-input>
-</aha-audience-field>
-
-<aha-audience-field label="Access code">
-  <aha-counted-input type="password" maxlength="none" size="lg"></aha-counted-input>
 </aha-audience-field>
 
 <aha-audience-field label="Your idea">

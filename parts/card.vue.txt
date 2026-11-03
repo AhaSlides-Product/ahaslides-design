@@ -25,9 +25,9 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
     Results from 128 responses.
   </aha-card>
 
-  <!-- interactive: Tab-reachable, Enter/Space fire click · stretch: cards in a grid row share one height -->
+  <!-- interactive: Tab-reachable, Enter/Space fire click · disabled (with interactive): aria-disabled, out of the tab order, no click · stretch: cards in a grid row share one height -->
   <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:16px">
-    <aha-card v-for="survey in surveys" :key="survey.id" interactive stretch
+    <aha-card v-for="survey in surveys" :key="survey.id" interactive :disabled="!survey.available" stretch
       :card-title="survey.name" @click="openSurvey(survey.id)">{{ survey.summary }}</aha-card>
   </div>
 </template>

@@ -35,6 +35,10 @@
     {
       "label": "Text",
       "value": "16px semibold heading; 14px subtitle on a 21px line in the secondary ink; 8px between them"
+    },
+    {
+      "label": "Sizes",
+      "value": "size md (default) as above. sm: 24px pip glyph, 14px / 22px heading, 12px / 18px subtitle. lg: 32px pip glyph, 20px / 28px heading, 16px / 24px subtitle. Card, gap and image stay the same"
     }
   ],
   "props": [
@@ -61,6 +65,12 @@
       "type": "icon name",
       "default": "system-hourglass-high",
       "desc": "The glyph, from the DS icon library; system-check-circle by default"
+    },
+    {
+      "name": "size",
+      "type": "sm | md | lg",
+      "default": "md",
+      "desc": "The text and glyph scale: sm for a tight host such as a small card or a list row, lg for a full phone screen; without it the card renders as md"
     },
     {
       "name": "image",

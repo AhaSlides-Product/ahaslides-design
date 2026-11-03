@@ -138,6 +138,24 @@
       "status": "available"
     },
     {
+      "ref": "audience-contact",
+      "as": "component",
+      "use": "a contact-details answer — <aha-audience-contact>: labelled name, email, phone and text fields (an <aha-audience-field> around an <aha-counted-input> each) with the right phone keyboard and autofill hint, email and phone left to right in a right-to-left page, an optional dial code (flag and code closed, flag, country name and code in the list), every text overridable through `strings`, `testid` hooks, and a respondent <aha-field-error>; never hand-built inputs",
+      "status": "available"
+    },
+    {
+      "ref": "audience-date",
+      "as": "component",
+      "use": "a date answer — <aha-audience-date>: day, month and year <aha-counted-input> fields in the question's order (format DMY | MDY | YMD) with a numeric keypad, an ISO YYYY-MM-DD value, a state (empty, partial, invalid, valid) on every change and one respondent <aha-field-error>; a host's own page error goes in that node through status=\"error\" and error-message, never a second error under it; never a native date input or three hand-built inputs",
+      "status": "available"
+    },
+    {
+      "ref": "matrix",
+      "as": "component",
+      "use": "a matrix question (several statements, one shared set of answers) — <aha-matrix>: one labelled group of <aha-answer-option> rows per statement, stacked on the phone, single or multiple pick per row, lock-key keeps the value across an iframe remount; never a hand-built table of radios",
+      "status": "available"
+    },
+    {
       "ref": "number-scale",
       "as": "component",
       "use": "a tapped numeric score (NPS 0–10, a 1–5 rating shown as numbers) — <aha-number-scale>: 48px numbers on the frosted surface, six per row on a phone, the pick filled with the deck accent, end labels under it, lock-key keeps the score across an iframe remount; never a hand-built row of number buttons",

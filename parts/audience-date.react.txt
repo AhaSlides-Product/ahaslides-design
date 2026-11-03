@@ -1,0 +1,18 @@
+import '@ahaslides-product/design/aha-audience-date';
+import { useEffect, useRef } from 'react';
+
+// React < 19: bind the custom event through a ref.
+// state is 'empty' | 'partial' | 'invalid' | 'valid'; pageError is the host's own translated message, or null.
+export function DateQuestion({ format, pageError, onAnswer }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const date = ref.current;
+    const handle = (event) => onAnswer(event.detail.value, event.detail.state);
+    date.addEventListener('change', handle);
+    return () => date.removeEventListener('change', handle);
+  }, [onAnswer]);
+  return (
+    <aha-audience-date ref={ref} group-label="When did you join?" format={format} lock-key="slide-42"
+      status={pageError ? 'error' : undefined} error-message={pageError ?? 'Enter a real date'} />
+  );
+}

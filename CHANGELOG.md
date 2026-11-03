@@ -33,13 +33,128 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.894.0 — 2026-11-02
+## 0.916.0 — 2026-11-02
 ### Added
 - Colour rule 6.9 (web): on a page built from full-width sections, at rest Vivid Pink fills only each section's primary button; the site header counts as one section (Sign up primary, Log in secondary). Icons and icon tiles, ticks, card borders and accent lines, plan outlines, banners and callouts, step and stat numbers, rating stars and table group headings stay the default ink, and pink shows on hover, focus or selection. Rule 6.8 now points the website to 6.9; website guideline W4 and its anti-slop criterion carry the same rule (#563)
 ### Changed
 - Website Marketing sections follow rule 6.9: Cards, Comparison, Features, Hero, Numbers and Pricing icons and icon tiles (ink glyph on light grey), ticks, featured borders and plan column outlines, banners, callouts, numbers and rating stars are ink at rest. Pink surfaces (Vivid Pink and pale pink sections, the Footer banner card), tags, inline links, the pink screenshot frame, selected tabs, the current carousel dot, the focus ring and the Pricing slider fill are unchanged (#563)
 - Pricing layouts: only the recommended plan's call to action is the primary Button; every other plan's is the secondary Button (#563)
 - Revert: revert the PR; it changes colours and button variants in the Marketing section markup and CSS only, with no API or token change
+
+## 0.915.2 — 2026-11-03
+### Changed
+- The built-in text-field label (`<aha-input label>`) and the Form label are now textDefault #1A1A1A (`--aha-text-default`), matching each other; they were textSecondary #4A4A4A. Weight 400, sizes and the disabled colour are unchanged. (#582)
+- Revert: revert the PR; one colour value in `lib/aha-input.js` and `lib/form-theme.js`, plus the contract and preview text
+
+## 0.915.1 — 2026-11-03
+### Fixed
+- `<aha-dropdown>` locked rows: an open Paywall is re-fitted whenever the menu is repositioned, so resizing from a wide to a narrow viewport moves it inside the screen (switching to above or below the row) instead of clipping its actions. (#580)
+- Revert: revert the PR; one added call at the end of `_place()` in `lib/aha-dropdown.js`
+
+## 0.915.0 — 2026-11-03
+### Added
+- `<aha-dropdown>` locked rows: a leaf item with `locked: true` (plus optional `plan: 'pro' | 'essential'`, `featureKey`, `upgradeBody`) keeps its normal look, shows the shared `<aha-paywall>` crown at its trailing edge, and a click, Enter or Space opens that row's Paywall popover beside the row (above or below it via `fitPaywall` when the side lacks room) instead of emitting `select`. Tab moves into Upgrade / See all plans, Escape closes the popover and then the menu, and choosing Upgrade or See all plans closes the menu. The Paywall's composed `paywall-shown`, `paywall-upgrade` and `paywall-plans` events bubble out of the dropdown. No new icon or token; rows without `locked` are unchanged. (#579)
+- Revert: revert the PR; additive code in `lib/aha-dropdown.js` behind the `locked` item field, plus docs
+
+## 0.914.0 — 2026-11-03
+### Added
+- `<aha-counted-input>` and `<aha-audience-field>`: a `focus(options)` method and an `autofocus` attribute. `el.focus()` focuses the inner field (the audience field forwards to its slotted control), so a consumer no longer reaches into `shadowRoot`; `autofocus` focuses it once on connect, with the existing focus ring. `aha-counted-input` also delegates focus like `aha-input`, so a click on its box lands in the field. (#578)
+- Revert: revert the PR; additive method, attribute and `delegatesFocus` in the two lib files, no existing attribute changes
+
+## 0.913.1 — 2026-11-03
+### Fixed
+- **aha-popover**, **aha-dropdown** `open="false"` now counts as closed, at parse and when the attribute is set later; React 18 writes `open={false}` as that string and it used to open the panel. The `open` attribute is removed when it reads "false". The contracts and agent.json say which to use: React 19 `open={isOpen}`, React 18 `open={isOpen ? '' : undefined}` (#577)
+- Revert: revert the PR; one guard in `connectedCallback` and `attributeChangedCallback` of each component
+
+## 0.913.0 — 2026-11-03
+### Added
+- `<aha-card interactive disabled>`: an inert card. It gets `aria-disabled="true"` and `tabindex="-1"` (out of the tab order), fires no click from the mouse, Enter, Space, `click()` or a dispatched click, loses the hover lift, and takes the DS disabled look (`bg-container-disabled`, `border-disabled`, `text-disabled`, as `aha-card-select`); no new token. Removing `disabled` restores everything; a card without `interactive` ignores it. Also a `disabled` property. (#575)
+- Revert: revert the PR; additive CSS rules and handlers in `lib/aha-card.js`, no existing behaviour changes
+
+## 0.912.0 — 2026-11-03
+### Fixed
+- **aha-popover** setting `open` to an empty string opens the popover, so `<aha-popover open>` in React 19 (which assigns `''` to the property) no longer closes it; `open = 'false'` closes it (#576)
+- Revert: revert the PR; one line in `lib/aha-popover.js`
+
+## 0.911.0 — 2026-11-03
+### Added
+- **aha-dropdown** `open` attribute and property (set it to open or close the panel from code) and composed `open` / `close` events on every user open and close; choosing an item fires `close` then `select`; setting `open` fires neither (#572)
+### Fixed
+- **aha-dropdown** the open panel renders in the browser top layer at a position measured from the trigger, so a card or scroll area with overflow hidden no longer clips it; it follows scroll and resize, opens above when there is no room below and stays 8px inside the viewport (#572)
+
+## 0.910.0 — 2026-11-03
+### Added
+- `aha-select` server search: `filter="off"` (with `show-search`) emits `search` with {query} on every keystroke but keeps every option the host sets, opens with no options yet, and keeps the picked option's label on the trigger after a new search replaces the options; `loading` puts a small `aha-spin` in place of the caret, marks the list `aria-busy` and shows `loading-text` (default "Loading…") while no option is listed (#574)
+- `aha-select mode="tags"`: free-entry values as closable `aha-tag` chips before an inline field in the select's own chrome; `values` (array property or JSON attribute), `separators` (default `,;`; a pasted list also splits on new lines and tabs), Enter or leaving the field adds the text, Backspace in an empty field removes the last tag, exact duplicates are skipped, and `change` carries {values} (#574)
+- `aha-select` option fields `prefix` (leading text such as a flag emoji, hidden from assistive tech), `suffix` (trailing text in tertiary ink such as a dial code, matched by type-to-filter) and `selectedLabel` (what the closed trigger shows for that option, like antd optionLabelProp) (#574)
+- `aha-select width="content"`: the control is as wide as its longest option or placeholder, so it does not jump as the value changes (#574)
+### Changed
+- `aha-select`'s open list now sits in the browser top layer (Popover API, `popover="manual"`) and is placed with `position:fixed` from the control, so an `overflow:hidden` card such as `aha-card`, a transform or a z-index ancestor no longer cuts it off; it opens above when there is more room there, stays 8px inside the viewport and follows scroll and resize, with a fixed-position fallback where the Popover API is missing. Same look and keyboard; `mode="tags"` has no list and is unchanged (#574)
+- Revert: revert the PR; every attribute and option field is new and opt-in, and a select without them renders as before; the top-layer list is the one default change and goes with the revert
+
+## 0.909.0 — 2026-11-03
+### Added
+- `aha-color-picker` takes an opt-in `custom` attribute: a custom-colour row under the presets with an `<aha-input>` hex field (`#rgb` or `#rrggbb`, with or without the `#`, committed on Enter or blur and normalised to upper-case `#RRGGBB`; anything else shows an error line and fires nothing), a palette button that opens the browser's own colour picker, and a Pick from screen button for the EyeDropper API, each shown only where the browser supports it. Custom entry fires the same `change` event as a swatch; `detail` is now `{value, source}` with `source` one of `swatch`, `hex`, `native`, `eyedropper`. `normaliseHex` is exported. Without `custom` the picker renders and behaves as before (#571)
+- Revert: revert the PR; the attribute is new and opt-in, and `detail.source` is an added field
+
+## 0.908.0 — 2026-11-03
+### Added
+- `aha-audience-contact` dial codes take `country` (ISO 3166 alpha-2), plus optional `dial` and `name`: the closed Select reads flag and code ("🇻🇳 +84"), the open list flag, country name and code ("🇻🇳 Vietnam (+84)"); the name comes from `name`, else `Intl.DisplayNames` in the new `locale` attribute (else the nearest `lang`, else English). `label` defaults to the flag and code, and the Select widens from 88px to 120px so the flag and a four-digit code fit. (#573)
+- `aha-audience-contact` `strings` (JSON attribute or object property, as on `aha-chart`) overrides every built-in text: `groupLabel`, `optionalLabel`, `requiredMessage`, `emailMessage`, `phoneMessage`, `dialCodeLabel`, `nameLabel`, `emailLabel`, `phoneLabel`; English defaults unchanged, and the dedicated attributes still win. Exported as `contactStrings` with `countryName()`. (#573)
+- `aha-audience-contact` `testid="<prefix>"` stamps `data-testid` on each field (`<prefix>-<id>`), its text box (`-<id>-input`, or `-<id>-number` behind a dial code), the dial code Select (`-<id>-country`) and the error (`-<id>-error`); new parts `phone`, `dial-code`, `input`, `error`. (#573)
+
+## 0.907.0 — 2026-11-03
+### Added
+- `<aha-audience-date>` has a read-only `state` property, also on every `change` detail (`{ value, valid, state }`): `empty` (nothing typed, so a cleared answer), `partial` (a field blank or a year under 4 digits), `invalid` (all three typed but not a real date, such as 31/02) or `valid`. A host no longer reads the inner fields to tell a cleared date from a part-filled one (#569)
+- `<aha-audience-date status="error">` shows `error-message` at once in the element's own respondent error, for a host that blocks the page on its own check (a required answer, a part-filled date on Next). The host passes its message there instead of rendering a second error under the date, which showed the same message twice (#569)
+- Revert: revert the PR; `state` and `status` are new and opt-in, `value`, `valid` and the existing `change` keys are unchanged
+
+## 0.906.0 — 2026-11-03
+### Added
+- `<aha-chart type="nps">` takes two more data shapes beside the 11 per-score counts: `{ ratings: [...] }`, each response's 0 to 10 rating (a number or `{ score }`; anything else is skipped), drawn as the same 11 columns; and `{ promoters, passives, detractors }`, bracket totals only, drawn as one bar split by bracket share with the key row and the score, and no per-score columns. Any object shape may add `score` to show the host's own NPS instead of the computed one. The 11-count input renders exactly as before (#570)
+- Revert: revert the PR; the shapes are new and opt-in
+
+## 0.905.0 — 2026-11-03
+### Added
+- `<aha-input prefix-shrink>`: a long text `prefix` (a URL before a slug) truncates with an ellipsis instead of pushing the field, and the field keeps at least 96px to type in. `prefix-shrink="start"` cuts the start of the prefix, so its end (`…/survey/s/`) stays next to the field. Opt-in: without it the prefix keeps its full width as before (#567)
+- Revert: revert the PR; CSS and the prefix markup in `lib/aha-input.js`, no consumer uses the attribute yet
+
+## 0.904.0 — 2026-11-02
+### Added
+- Seven icons for survey blocks and rating states, each with meaning words for `npm run icon-search`: `system-door` (welcome or start screen, an entrance; `system-sign-out` stays the leave or log out arrow), `system-chalkboard` (classroom and teaching), `system-address-book` (a contact list; `system-identification-card` stays one person's details), and the filled states `system-check-circle-filled`, `system-smiley-filled`, `system-heart-straight-filled` and `system-thumbs-up-filled`, so every rating icon (star, heart, thumbs up, smiley) now has a selected glyph beside its outline. The registry now holds 369 names (#568)
+- Revert: revert the PR; additive glyphs only, no existing icon changes
+
+## 0.903.0 — 2026-11-02
+### Fixed
+- `aha-rate size="lg"` wraps its stars onto further centred rows when the host is narrower than the row (8 to 10 stars at 360px) instead of overflowing; widths where they fit render as before. (#566)
+
+## 0.897.1 — 2026-11-02
+### Fixed
+- `<aha-input>` built-in label (`label` attribute) is regular 400 in secondary ink (#4A4A4A), matching the Form label; it was semibold 600 in default ink. Size 14/21 and the 4px gap are unchanged. `<aha-counted-input>` and other fields that wrap `<aha-input>` follow. Group headers and SectionHeader stay semibold (#514)
+- `<aha-input size="large">` label is 16/24, matching the large field text (#514)
+- Revert: revert the PR; one CSS rule in `lib/aha-input.js`
+
+## 0.897.0 — 2026-11-02
+### Added
+- `aha-submitted-card` takes an opt-in `size`: `sm` (24px glyph, 14px / 22px heading, 12px / 18px subtitle) and `lg` (20px / 28px heading, 16px / 24px subtitle) from the DS type scale; `md` and no `size` render exactly as before (#560)
+- Revert: revert the PR; the attribute is new and opt-in
+
+## 0.896.0 — 2026-11-02
+### Added
+- `aha-audience-contact`: a contact-details answer for the audience phone. Each entry of the `fields` JSON list (`id`, `kind` name, email, phone or text, `label`, `required`, `placeholder`) is an `aha-audience-field` around an `aha-counted-input`, with the phone keyboard, autofill hint and text direction of its kind (email and phone stay left to right in a right-to-left page); an optional `dial-codes` list puts an `aha-select` before the phone field; a missing required field, a bad email or a bad phone shows its message in `aha-field-error variant="respondent"` after leaving the field or on `showErrors()`, linked to its input, with the warning glyph; required inputs carry `aria-required` and only `required: true` counts; a repeated field id is skipped with a console warning; the 88px dial code stays first in right-to-left, and the phone autofill is `tel` (`tel-national` with a dial picker). `group-label`, `optional-label` (default "(optional)"), `required-message` / `email-message` / `phone-message`, `disabled`, `lock-key`, `ink` / `accent`, and a `change` event with `{value, valid}` (#551)
+- `aha-counted-input` takes `type="tel"` and passes `autocomplete` to its inner field; without them it renders as before (#551)
+- Revert: revert the PR; the element and the two attributes are new and opt-in
+
+## 0.895.0 — 2026-11-02
+### Added
+- `aha-audience-date`: a date answer for the audience phone. Day, month and year `aha-counted-input` fields in the order `format` sets (DMY, MDY, YMD) with a `separator`, a numeric keypad, digits only and auto-advance; the value is ISO `YYYY-MM-DD`, or empty until the date is real; after leaving the group with a part-filled or impossible date, `error-message` shows in `aha-field-error variant="respondent"`. `birthday` opts into birthday autofill (autocomplete is off otherwise), `group-label`, `day-label` / `month-label` / `year-label`, placeholders, `disabled`, `lock-key`, and a `change` event with `{value, valid}`; each input points at the error through `aria-describedby`, the whole box is the tap target and the pink focus ring shows over the error border (#544)
+- Revert: revert the PR; the element and the attributes are new and opt-in
+
+## 0.894.0 — 2026-11-02
+### Added
+- `aha-matrix`: a matrix question for the audience phone (rows × columns, one or several picks per row). Each statement is a labelled group of `aha-answer-option` rows, stacked on a 360px phone and side by side when there is room; `rows`, `columns`, `selection-mode`, `value` (`{rowId: columnId[]}`), `group-label`, `disabled`, `lock-key`, and a `change` event with `{value, row, column}` (#534)
+- `aha-matrix` options use the roving Tab stop (one per row, Tab moves row to row, arrows move within a row). `aha-answer-option[roving]` now mirrors ArrowLeft and ArrowRight in right-to-left (#534)
+- Revert: revert the PR; the element is new and opt-in
 
 ## 0.893.0 — 2026-11-02
 ### Added

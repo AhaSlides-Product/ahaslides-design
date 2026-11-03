@@ -1,0 +1,11 @@
+<script setup>
+import '@ahaslides-product/design/aha-audience-date';
+defineProps({ format: String, pageError: String });
+const emit = defineEmits(['answer']);
+</script>
+
+<template>
+  <aha-audience-date group-label="When did you join?" :format="format" lock-key="slide-42"
+    :status="pageError ? 'error' : undefined" :error-message="pageError || 'Enter a real date'"
+    @change="emit('answer', $event.detail.value, $event.detail.state)" />
+</template>

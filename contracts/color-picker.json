@@ -6,9 +6,9 @@
   "tier": "leaf-lit",
   "badge": "shared web component",
   "element": "aha-color-picker",
-  "summary": "Pick a colour from a selectable palette of presets.",
-  "highlights": ["Pick a colour from a selectable palette of presets"],
-  "lead": "ONE custom element — <aha-color-picker> — defined once, imported unchanged by React and Vue. A trigger swatch opens a persistent panel of preset colours (a 12-colour preset list by default); open/close toggles the `open` attribute so the panel animates. The palette is SELECTABLE — the swatch matching `value` is ringed in color-primary and carries a check glyph, and every swatch is a toggle button with `aria-pressed` synced to selection. Three `size`s scale the trigger + swatches; `disabled` greys and inerts the whole control. Zero drift — the same element, not two look-alikes.",
+  "summary": "Pick a colour from a selectable palette of presets, or opt in to any custom colour.",
+  "highlights": ["Pick a colour from a selectable palette of presets", "Opt-in custom entry: hex field, the browser colour picker and Pick from screen where supported"],
+  "lead": "ONE custom element — <aha-color-picker> — defined once, imported unchanged by React and Vue. A trigger swatch opens a persistent panel of preset colours (a 12-colour preset list by default); open/close toggles the `open` attribute so the panel animates. The palette is SELECTABLE — the swatch matching `value` is ringed in color-primary and carries a check glyph, and every swatch is a toggle button with `aria-pressed` synced to selection. Three `size`s scale the trigger + swatches; `disabled` greys and inerts the whole control. The opt-in `custom` attribute adds a custom-colour row under the presets: an <aha-input> hex field (#rgb or #rrggbb, with or without the #, committed on Enter or blur and normalised to upper-case #RRGGBB; anything else shows an error line and fires nothing), a palette button that opens the browser's own colour picker, and a Pick from screen button for the EyeDropper API; each button shows only where the browser supports it. Custom entry fires the same `change` event as a swatch, with `detail.source` naming where the value came from, and leaves the panel open. Without `custom` the picker is preset-only, unchanged. Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["bg-container", "bg-container-disabled", "bg-elevated", "border", "border-hover", "border-disabled", "text-default", "text-inverse", "text-disabled", "color-primary", "radius-sm", "radius-xs", "radius-default", "font-product", "motion-mid", "motion-fast", "ease-in-out", "ease-out"],
   "spec": [
@@ -16,6 +16,7 @@
     { "label": "Panel", "value": "bg-elevated #FFFFFF, radius 8, 4-col swatch grid" },
     { "label": "Swatch", "value": "22/28/34 by size, radius 4; selected ringed color-primary + check glyph" },
     { "label": "Selected", "value": "aria-pressed=true, .on ring + system-check (dark on pale chips)" },
+    { "label": "Custom row", "value": "opt-in `custom`: panel 216 wide, divider border-default; aha-input hex field (prefix #) + secondary icon-only lg palette button (40), tertiary md Pick from screen; unsupported buttons hidden" },
     { "label": "Disabled", "value": "bg-container-disabled fill, border-disabled, not-allowed, inert" },
     { "label": "Motion", "value": "panel fade + lift; swatch hover scale; check fade (ease-out)" }
   ],
@@ -24,20 +25,22 @@
     { "name": "swatches", "type": "string", "default": "12 presets", "desc": "Pipe-separated hex presets, e.g. \"#E70E68|#1A1A1A\"" },
     { "name": "size", "type": "'small' | 'default' | 'large'", "default": "default", "desc": "Scales trigger + swatch dimensions" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Greys + inerts the whole control" },
+    { "name": "custom", "type": "boolean", "default": "false", "desc": "Adds the custom-colour row: hex field, browser colour picker and Pick from screen (each button only where supported)" },
     { "name": "open", "type": "boolean", "default": "false", "desc": "Panel open state; reflected attribute" },
-    { "name": "change", "type": "CustomEvent<{value}>", "default": "—", "desc": "Composed event; read e.detail.value" }
+    { "name": "change", "type": "CustomEvent<{value, source}>", "default": "—", "desc": "Composed event; e.detail.value is the colour (custom entry: upper-case #RRGGBB), e.detail.source is 'swatch' | 'hex' | 'native' | 'eyedropper'" }
   ],
   "opinion": {
     "whenToUse": [
       { "what": "Color picker", "when": "choosing a brand or theme colour from a curated set" },
       { "what": "Segmented", "when": "picking a labelled option rather than a colour" },
-      { "what": "Input", "when": "an arbitrary free-form value is genuinely needed" }
+      { "what": "Color picker with custom", "when": "the value may be any colour (an overlay, a customer's brand colour) while presets stay the quick path" },
+      { "what": "Input", "when": "an arbitrary free-form value that is not a colour is genuinely needed" }
     ],
-    "note": "Prefer a curated palette over a free spectrum — on-brand results, fewer accessibility misses. Show the current value beside the trigger so the choice is legible.",
+    "note": "Prefer a curated palette over a free spectrum — on-brand results, fewer accessibility misses; add `custom` only where the stored value genuinely takes any colour. Show the current value beside the trigger so the choice is legible.",
     "dsv3": "DS V3 has no dedicated Color-picker component-set — the selectable-swatch palette is composed from the shared DS V3 primitives: the standard control border, radii (sm trigger, default panel, xs swatch) and elevation, the color-primary selection ring, the small/default/large control-height sizing convention, and the disabled surface tokens. The selected swatch carries a system-check glyph (from the DS icon library) and aria-pressed synced to selection. Panel fade + lift, swatch hover-scale and the check fade animate on persistent nodes via the shared motion tokens."
   },
   "surfaces": ["editor", "dashboard", "settings"],
-  "reuse": { "entry": "./aha-color-picker", "registers": "aha-color-picker", "exportsNamed": ["AhaColorPicker", "defineAhaColorPicker"] },
+  "reuse": { "entry": "./aha-color-picker", "registers": "aha-color-picker", "exportsNamed": ["AhaColorPicker", "defineAhaColorPicker", "normaliseHex"] },
   "snippets": [
     { "key": "html", "label": "HTML", "file": "color-picker.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
     { "key": "react", "label": "React", "file": "color-picker.react.txt" },
@@ -54,6 +57,10 @@
       { "prop": "disabled", "label": "Disabled", "default": "no", "options": [
         { "label": "No", "value": "__remove__" },
         { "label": "Yes", "value": "" }
+      ] },
+      { "prop": "custom", "label": "Custom", "default": "no", "options": [
+        { "label": "No", "value": "__remove__" },
+        { "label": "Yes", "value": "" }
       ] }
     ]
   },
@@ -64,7 +71,8 @@
     { "label": "size scales the swatch (small 22 · default 28 · large 34)", "verdict": "PASS" },
     { "label": "disabled greys + inerts the control", "verdict": "PASS" },
     { "label": "panel fade + lift on open", "verdict": "PASS" },
-    { "label": "change emits composed value", "verdict": "PASS" }
+    { "label": "change emits composed value", "verdict": "PASS" },
+    { "label": "custom hex entry normalises to #RRGGBB, fires change with source, invalid hex errors silently", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe holds the default value #E70E68 at default size, so the selected swatch (.on) is the #E70E68 chip — its ring is color-primary and its measured 28px width proves the default size cell.",

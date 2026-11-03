@@ -1,0 +1,16 @@
+<!-- Paste-and-run: save as .html and open it. No build step, nothing to copy.
+     In a Developer Platform slide type, applyDeck() gives every audience element the deck's ink, accent
+     and font from the host's slide props (the host's --aha-* variables never reach the iframe). -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-audience-contact.js';   // registers <aha-audience-contact>
+  import { applyDeck } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/audience-deck.js';
+  applyDeck(document.documentElement, window.xprops?.slide ?? { textColour: '#1A1A1A', presentationColorPalette: ['#E70E68'] });
+  const contact = document.querySelector('aha-audience-contact');
+  contact.addEventListener('change', (event) => console.log('contact', event.detail.value, event.detail.valid));
+</script>
+
+<aha-audience-contact group-label="How can we reach you?" lock-key="slide-42"
+  fields='[{"id":"name","kind":"name","label":"Name","required":true},{"id":"email","kind":"email","label":"Email","required":true},{"id":"phone","kind":"phone","label":"Phone"}]'
+  dial-codes='[{"value":"GB","country":"GB","dial":"+44"},{"value":"US","country":"US","dial":"+1"}]'
+  strings='{"optionalLabel":"(optional)"}' testid="contact"></aha-audience-contact>

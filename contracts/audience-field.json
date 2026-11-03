@@ -59,6 +59,18 @@
       "desc": "The field label (translated). Becomes the slotted control's aria-label unless it has its own"
     },
     {
+      "name": "autofocus",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Focuses the slotted control once, when the field loads (a field that is the whole screen). Waits for the control to be slotted, so a control that mounts late still gets it"
+    },
+    {
+      "name": "focus(options)",
+      "type": "method",
+      "default": "—",
+      "desc": "Focuses the slotted control, as a native input's focus() does; options.preventScroll is honoured. Use it instead of reaching into the control's shadowRoot"
+    },
+    {
       "name": "(slot)",
       "type": "element",
       "default": "—",

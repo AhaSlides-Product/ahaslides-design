@@ -1,0 +1,41 @@
+<div class="pad">
+  <div class="lbl">Light deck — name, email, optional phone with a dial code</div>
+  <div class="row" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:360px;box-sizing:border-box">
+    <aha-audience-contact data-probe group-label="How can we reach you?" optional-label="(optional)"
+      fields='[{"id":"name","kind":"name","label":"Name","required":true,"placeholder":"Mai Tran"},{"id":"email","kind":"email","label":"Email","required":true,"placeholder":"mai@example.com"},{"id":"phone","kind":"phone","label":"Phone"}]'
+      dial-codes='[{"value":"VN","country":"VN","dial":"+84"},{"value":"GB","country":"GB","dial":"+44"},{"value":"US","country":"US","dial":"+1"}]'></aha-audience-contact>
+  </div>
+  <div class="lbl">Dark deck — applyDeck() with a white ink</div>
+  <div class="row aud-dark" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:360px;box-sizing:border-box;padding:var(--aha-space-16);background:var(--aha-bg-dark);border-radius:var(--aha-radius-lg)">
+    <aha-audience-contact group-label="Prize draw"
+      fields='[{"id":"name","kind":"name","label":"Name","required":true},{"id":"email","kind":"email","label":"Email","required":true}]'></aha-audience-contact>
+  </div>
+  <div class="lbl">Right to left — email and phone stay left to right</div>
+  <div class="row" dir="rtl" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:360px;box-sizing:border-box">
+    <aha-audience-contact group-label="كيف نتواصل معك؟"
+      fields='[{"id":"name","kind":"name","label":"الاسم","required":true},{"id":"email","kind":"email","label":"البريد الإلكتروني","required":true},{"id":"phone","kind":"phone","label":"الهاتف"}]'
+      value='{"name":"مي","email":"mai@example.com"}'></aha-audience-contact>
+  </div>
+  <div class="lbl">Translated through strings — Vietnamese copy and country names, errors shown</div>
+  <div class="row" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:360px;box-sizing:border-box">
+    <aha-audience-contact class="show-errors" locale="vi" testid="contact-vi"
+      strings='{"groupLabel":"Liên hệ","optionalLabel":"(không bắt buộc)","requiredMessage":"Vui lòng điền mục này","emailMessage":"Nhập địa chỉ email hợp lệ","phoneMessage":"Nhập số điện thoại hợp lệ","dialCodeLabel":"Mã quốc gia","nameLabel":"Họ tên","phoneLabel":"Số điện thoại"}'
+      fields='[{"id":"name","kind":"name","required":true},{"id":"email","kind":"email","label":"Email","required":true},{"id":"phone","kind":"phone"}]'
+      dial-codes='[{"value":"VN","country":"VN","dial":"+84"},{"value":"JP","country":"JP","dial":"+81"},{"value":"FR","country":"FR","dial":"+33"}]'
+      value='{"email":"mai@","phone":"VN 12"}'></aha-audience-contact>
+  </div>
+  <div class="lbl">Locked after submitting</div>
+  <div class="row" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:360px;box-sizing:border-box">
+    <aha-audience-contact disabled group-label="Contact"
+      fields='[{"id":"name","kind":"name","label":"Name","required":true},{"id":"email","kind":"email","label":"Email","required":true}]'
+      value='{"name":"Mai Tran","email":"mai@example.com"}'></aha-audience-contact>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element, so the preview can never drift from lib/ and qa measures what consumers get. -->
+<script type="module">
+  import '../lib/aha-audience-contact.js';   // registers <aha-audience-contact>
+  import { applyDeck } from '../lib/audience-deck.js';
+  for (const contact of document.querySelectorAll('aha-audience-contact.show-errors')) contact.showErrors();
+  for (const deck of document.querySelectorAll('.aud-dark')) applyDeck(deck, { textColour: '#FFFFFF', presentationColorPalette: ['#E70E68'] });
+</script>

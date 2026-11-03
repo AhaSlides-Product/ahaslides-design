@@ -1,0 +1,19 @@
+<!-- Paste-and-run: save as .html and open it. No build step, nothing to copy.
+     In a Developer Platform slide type, applyDeck() gives every audience element the deck's ink, accent
+     and font from the host's slide props (the host's --aha-* variables never reach the iframe). -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-audience-date.js';   // registers <aha-audience-date>
+  import { applyDeck } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/audience-deck.js';
+  applyDeck(document.documentElement, window.xprops?.slide ?? { textColour: '#1A1A1A', presentationColorPalette: ['#E70E68'] });
+  const date = document.querySelector('aha-audience-date');
+  date.addEventListener('change', (event) => console.log('date', event.detail.value, event.detail.state));   // state: empty | partial | invalid | valid
+</script>
+
+<aha-audience-date group-label="When did you join?" format="DMY" lock-key="slide-42"></aha-audience-date>
+
+<!-- month first, with a dash between the fields -->
+<aha-audience-date group-label="Start date" format="MDY" separator="-" value="2026-11-02"></aha-audience-date>
+
+<!-- the host blocked the page on its own check: its message shows in the one error node -->
+<aha-audience-date group-label="Date of birth" status="error" error-message="This question is required"></aha-audience-date>

@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Input prefix shrink</title>
+<style>aha-input{ --aha-field-width:300px; display:flex; margin:8px 0 }</style>
+</head>
+<body>
+  <aha-input id="pushes" prefix="https://presenter.ahaslides.com/survey/s/" value="team-pulse"></aha-input>
+  <aha-input id="end" prefix-shrink prefix="https://presenter.ahaslides.com/survey/s/" value="team-pulse"></aha-input>
+  <aha-input id="start" prefix-shrink="start" prefix="https://presenter.ahaslides.com/survey/s/" value="team-pulse"></aha-input>
+  <aha-input id="short" prefix-shrink prefix="aha.io/" value="team-pulse"></aha-input>
+  <aha-input id="short-plain" prefix="aha.io/" value="team-pulse"></aha-input>
+  <script type="module">
+    await import('../lib/aha-input.js');
+    await customElements.whenDefined('aha-input');
+    window.prefixShrinkFixtureReady = true;
+  </script>
+</body>
+</html>

@@ -41,4 +41,6 @@
   <aha-card interactive stretch card-title="Onboarding survey" onclick="openSurvey('onboarding')">Five questions.</aha-card>
   <aha-card interactive stretch card-title="Quarterly pulse" onclick="openSurvey('pulse')">Twelve questions about tools, workload and the team, sent every quarter.</aha-card>
   <aha-card interactive stretch card-title="Exit interview" onclick="openSurvey('exit')">Eight questions.</aha-card>
+  <!-- disabled (with interactive): aria-disabled, out of the tab order, no click, disabled look -->
+  <aha-card interactive disabled stretch card-title="Retention survey" onclick="openSurvey('retention')">Coming soon.</aha-card>
 </div>

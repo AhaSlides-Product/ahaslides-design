@@ -17,7 +17,11 @@
 <aha-counted-input type="email" maxlength="none" dir="auto" placeholder="name@example.com"></aha-counted-input>
 <aha-counted-input inputmode="decimal" maxlength="none" placeholder="Amount"></aha-counted-input>
 
+<!-- autofocus focuses the field once on load   ·   el.focus() focuses it later, no shadowRoot needed -->
+<aha-counted-input id="code" type="password" maxlength="none" autofocus placeholder="Access code"></aha-counted-input>
+
 <script>
+  document.getElementById('code').focus({ preventScroll: true });
   // Plain DOM — no framework. Read e.detail.value off the composed CustomEvent.
   document.getElementById('opt').addEventListener('input', (e) => {
     console.log('value:', e.detail.value);
