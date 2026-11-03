@@ -1,5 +1,6 @@
 <style>
   .form-col{ max-width:400px }
+  .form-actions{ display:flex; gap:var(--aha-space-8) }
 </style>
 <div class="pad">
   <div class="lbl">Vertical (default): press Send invite with the fields empty to see every error; the first invalid field takes focus</div>
@@ -8,12 +9,14 @@
       <aha-form-item label="Name" name="name" required><aha-input placeholder="Ada Lovelace"></aha-input></aha-form-item>
       <aha-form-item label="Email" name="email" required help="We send the invite here."><aha-input type="email"></aha-input></aha-form-item>
       <aha-form-item name="terms" required required-message="Accept the terms to continue"><aha-checkbox>I accept the terms</aha-checkbox></aha-form-item>
-      <aha-button type="submit" variant="primary">Send invite</aha-button>
-      <aha-button type="reset" variant="secondary">Clear</aha-button>
+      <div class="form-actions">
+        <aha-button type="submit" variant="primary">Send invite</aha-button>
+        <aha-button type="reset" variant="secondary">Clear</aha-button>
+      </div>
     </aha-form>
     <div id="f-result" class="lbl" aria-live="polite"></div>
   </div>
-  <div class="lbl" style="margin-top:24px">Horizontal: labels in a 160 column; required-mark="optional" marks the optional field instead</div>
+  <div class="lbl" style="margin-top:24px">Horizontal: labels in a 160 column (stacked under 576 wide, as antd); required-mark="optional" marks the optional field instead</div>
   <div style="max-width:560px">
     <aha-form layout="horizontal" required-mark="optional">
       <aha-form-item label="Workspace" name="workspace" required><aha-input value="Science Dept"></aha-input></aha-form-item>

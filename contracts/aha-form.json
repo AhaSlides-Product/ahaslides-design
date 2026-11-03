@@ -28,7 +28,7 @@
     },
     {
       "label": "Horizontal",
-      "value": "labels in a 160 column (--aha-form-label-width) beside the control, centred on the 40 control row"
+      "value": "labels in a 160 column (--aha-form-label-width) beside the control, centred on the 40 control row; stacked like vertical under 576 wide (antd)"
     },
     {
       "label": "Inline",
