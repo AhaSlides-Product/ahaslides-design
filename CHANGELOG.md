@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.947.0 — 2026-11-03
 ### Changed
-- Website rule W9: any video may play by itself when it is muted, loops, has playsinline, no controls and a poster, not only the one hero video. `lib/marketing-motion.js` now starts every `video[autoplay]` only while it is scrolled into view, pauses it off-screen, and under reduced motion pauses it and shows the poster with controls. Testimonial carousels still never autoplay (#NNN)
+- Website rule W9: any video may play by itself when it is muted, loops, has playsinline, no controls and a poster, not only the one hero video. `lib/marketing-motion.js` now starts every `video[autoplay]` only while it is scrolled into view, pauses it off-screen, and under reduced motion pauses it and shows the poster with controls. Testimonial carousels still never autoplay (#601)
 - `screen-lint --surface=website` drops `autoplay-video-extra`; `autoplay-video-attributes` and `autoplay-video-motion` now apply to every autoplaying video. The W9 criteria, the website guideline, the Hero video notes and a Features product-demo video note follow; the second-autoplaying-video eval is now a good control
 
 ## 0.946.0 — 2026-11-03
