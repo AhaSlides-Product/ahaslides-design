@@ -235,6 +235,7 @@ const videoRulesOf = (source) => rulesOf(source).filter((rule) => rule.startsWit
 const heroWithVideo = (attributes, tail = '') => `<section class="aha-header-section-hero-split aha-header-section-hero-split--brand"><video ${attributes}></video></section>\n<section class="aha-logos"></section>${tail}`;
 const heroVideo = 'autoplay muted loop playsinline poster="p.jpg"';
 const stopScript = '<script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.543.0/lib/marketing-motion.js"></script>';
+const anyVideoStopScript = stopScript.replace('v0.543.0', 'v0.947.0');
 
 test('W9: one hero video with autoplay, muted, loop, playsinline, poster and a reduced-motion stop passes', () => {
   assert.deepEqual(videoRulesOf(heroWithVideo(heroVideo, stopScript)), []);
@@ -243,9 +244,13 @@ test('W9: one hero video with autoplay, muted, loop, playsinline, poster and a r
 });
 
 test('W9: a second autoplaying video, or one outside the hero, passes when it follows the rule', () => {
-  assert.deepEqual(videoRulesOf(heroWithVideo(heroVideo, `<video ${heroVideo}></video>${stopScript}`)), []);
-  assert.deepEqual(videoRulesOf(heroWithVideo('controls', `<section class="aha-features"><video ${heroVideo}></video></section>${stopScript}`)), []);
-  assert.ok(videoRulesOf(heroWithVideo('controls', `<section class="aha-features"><video autoplay muted></video></section>${stopScript}`)).includes('autoplay-video-attributes'));
+  assert.deepEqual(videoRulesOf(heroWithVideo(heroVideo, `<video ${heroVideo}></video>${anyVideoStopScript}`)), []);
+  assert.deepEqual(videoRulesOf(heroWithVideo('controls', `<section class="aha-features"><video ${heroVideo}></video></section>${anyVideoStopScript}`)), []);
+  assert.ok(videoRulesOf(heroWithVideo('controls', `<section class="aha-features"><video autoplay muted></video></section>${anyVideoStopScript}`)).includes('autoplay-video-attributes'));
+});
+
+test('W9: a motion script older than 0.947.0 stops only the hero video', () => {
+  assert.deepEqual(videoRulesOf(heroWithVideo('controls', `<section class="aha-features"><video ${heroVideo}></video></section>${stopScript}`)), ['autoplay-video-motion']);
 });
 
 test('W9: an autoplaying video without muted, loop, playsinline or poster fails', () => {
