@@ -33,13 +33,18 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.955.0 — 2026-11-03
+## 0.956.0 — 2026-11-03
 ### Added
 - DataTable value filter: `filter: { type: 'value', inputType: 'text' | 'number' | 'date', label }` takes one typed value; text matches a case-insensitive substring, number an equal value, date the same calendar day (#593)
 - DataTable controlled column visibility: `visibleColumns` + `onVisibleColumnsChange(visibleKeys)`, or `defaultVisibleColumns` uncontrolled, so an app can save each creator's columns and feed its export (#593)
 - DataTable column-editor events: `onColumnsEditorOpenChange(open)`, `onColumnToggle(key, visible)` and `onColumnsReset()`; Edit columns shows a Reset footer when the app passes `visibleColumns`, `defaultVisibleColumns` or `onColumnsReset` (#593)
 ### Fixed
 - Table criterion C6 now says DataTable icons are DS `<aha-icon>` by name, as the component ships, instead of `@phosphor-icons/react`, which screen-lint hard-fails as `foreign-icon-library` (#593)
+
+## 0.955.1 — 2026-11-03
+### Fixed
+- `aha-dropdown` ships about 0.5 KB less gzip: the explanatory comments inside its shadow CSS string, which no minifier removes, move to JavaScript comments. The CSS rules are unchanged, so the dropdown looks and behaves exactly as before (#607)
+- Revert: revert the PR; nothing else depends on it
 
 ## 0.954.0 — 2026-11-03
 
@@ -52,7 +57,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.953.0 — 2026-11-03
 ### Changed
-- The Websites > Marketing **Sections** list (sidebar, Marketing index, `marketing.llms.txt`, `marketing.agent.json`) follows the order a landing page reads top to bottom: Join bar, Navigation, Hero, Logos, Numbers, Features, Comparison table, Testimonials, Pricing, FAQ, Footer banner, Footer. It was alphabetical. Cards, the building block, stays ahead of the sections. Order only: no section is renamed or changed (#NNN)
+- The Websites > Marketing **Sections** list (sidebar, Marketing index, `marketing.llms.txt`, `marketing.agent.json`) follows the order a landing page reads top to bottom: Join bar, Navigation, Hero, Logos, Numbers, Features, Comparison table, Testimonials, Pricing, FAQ, Footer banner, Footer. It was alphabetical. Cards, the building block, stays ahead of the sections. Order only: no section is renamed or changed (#604)
 
 ## 0.950.0 — 2026-11-03
 ### Changed
