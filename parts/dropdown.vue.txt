@@ -32,6 +32,15 @@ const slideItems = JSON.stringify([
   { key: 'delete', label: 'Delete', icon: 'system-trash', danger: true, shortcut: 'Del' },
 ]);
 
+// a Present menu: a Beta badge after the label and a Full screen switch row; flipping it keeps the menu open
+const fullScreen = ref(false);
+const presentItems = computed(() => JSON.stringify([
+  { key: 'start', label: 'Present from start', icon: 'system-play' },
+  { key: 'backstage', label: 'Present with Backstage', badge: 'Beta' },
+  { type: 'divider' },
+  { type: 'switch', key: 'fullscreen', label: 'Full screen', checked: fullScreen.value },
+]));
+
 // a single-choice picker: `value` selects the row and the trigger shows its label
 const role = ref('editor');
 const menuOpen = ref(false);
@@ -45,5 +54,6 @@ const roleItems = JSON.stringify([
   <!-- @open / @close report every user open and close; :open drives it from code. The panel renders in the top layer, so a card cannot clip it. -->
   <aha-dropdown label="Actions" placement="bottomLeft" :items="items" :open="menuOpen" @select="onSelect" @open="menuOpen = true" @close="menuOpen = false" @paywall-upgrade="onUpgrade" />
   <aha-dropdown label="Slide" :items="slideItems" @select="onSelect" />
+  <aha-dropdown label="Present" :items="presentItems" @select="onSelect" @change="fullScreen = $event.detail.checked" />
   <aha-dropdown :value="role" :items="roleItems" @select="role = $event.detail.key" />
 </template>

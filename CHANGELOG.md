@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.963.0 — 2026-11-03
+## 0.965.0 — 2026-11-03
 ### Fixed
 - DataTable: each column filter trigger is now a real `<button>` reached with Tab, named "Filter: <column>" (`labels.filterColumn`), opened with Enter or Space into a `role="dialog"` panel of the same name, and closed with Escape, which puts focus back on the trigger. Keys pressed in the panel stay in it, so Alt+Arrow no longer moves the column. Columns using antd's own `filters` keep antd's trigger and icon. Before, antd's trigger had `tabIndex=-1` and no name, so a keyboard user could not filter (#614)
 - DataTable: the toolbar title is a heading (`<h2>` by default, `toolbarTitleLevel` picks 1–6) instead of a `<span>`; it looks the same (#614)
@@ -49,6 +49,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - DataTable `data-testid` hooks on the toolbar, every filter trigger and panel control, and the Edit columns button, panel, search, checkboxes (`<prefix>-columns-column-<key>`), empty line and Reset columns; `testIdPrefix` (default `aha-data-table`) keeps two tables on a page apart (#614)
 - DataTable: the date value filter has a Clear button (`labels.clearValue`); it empties the date and puts focus back in the field (#614)
 - DataTable: the contract lists every `labels` key; `freezeColumn` and `defreezeColumn` translate the freeze menu (#614)
+
+## 0.964.0 — 2026-11-03
+### Added
+- Dropdown: a `{type:'switch', key, label, checked?, description?, icon?, badge?, disabled?, testid?}` row draws the shared Switch at the row's trailing edge for a setting inside the menu (Full screen beside Present). It is a `menuitemcheckbox` with `aria-checked`; click, Enter or Space flips it in place, the menu stays open with focus on the row, and a composed `change` fires with detail `{ key, checked }` (never `select`). Re-set `items` with a new `checked` to control it: only the switch updates (#PR)
+- Dropdown: `badge` ("Beta", "New") on a leaf or switch row draws the shared Badge kind tag right after the label, before a shortcut chip, crown or switch; "New" is the pink New tag, any other text the grey Beta tag, and the row's accessible name gains ", Beta". Use it instead of a "(Beta)" suffix in the label (#PR)
 
 ## 0.962.0 — 2026-11-03
 ### Changed
