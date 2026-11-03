@@ -47,7 +47,7 @@ test('a locked row opens its paywall instead of selecting; keyboard reaches the 
     row.click();
     await tick();
     const clicked = { paywall: lock.open, menu: menuOpen(), expanded: row.getAttribute('aria-expanded'), focus: focusedKey(),
-      placement: lock.getAttribute('placement'), besideRow: popBox().left >= rowBox().right - 12 && popBox().top < rowBox().bottom && popBox().bottom > rowBox().top };
+      placement: lock.getAttribute('placement'), besideRow: popBox().left >= root.querySelector('.panel').getBoundingClientRect().right && popBox().top < rowBox().bottom && popBox().bottom > rowBox().top };
     key(row, 'Escape');
     await tick();
     const firstEscape = { paywall: lock.open, menu: menuOpen(), focus: focusedKey(), expanded: row.getAttribute('aria-expanded') };
