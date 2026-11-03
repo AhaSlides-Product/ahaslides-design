@@ -133,7 +133,7 @@
   flex:0 1 348px;min-width:0;height:194px;
   margin-inline-start:calc(var(--aha-space-12) - var(--aha-space-16));
   border-radius:var(--aha-radius-default);
-  background:var(--aha-bg-accent);color:var(--aha-color-primary);
+  background:var(--aha-bg-container-secondary);color:var(--aha-text-default);
 }
 .aha-header__language{
   display:inline-flex;align-items:center;gap:var(--aha-space-6);
