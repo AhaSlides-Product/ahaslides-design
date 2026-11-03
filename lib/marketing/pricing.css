@@ -157,7 +157,7 @@
   display:flex;align-items:center;justify-content:center;
   width:var(--aha-space-48);height:var(--aha-space-48);
   border-radius:var(--aha-radius-pill);
-  background:var(--aha-text-default);color:var(--aha-text-inverse);
+  background:var(--aha-bg-accent);color:var(--aha-text-default);
   font-size:var(--aha-size-xl);font-weight:var(--aha-weight-semibold);
 }
 .aha-marketing-cards__header,.aha-marketing-cards__cta{max-width:72rem;margin:0 auto;padding-inline:var(--aha-space-24)}
@@ -205,7 +205,7 @@
 .aha-marketing-card__feature{display:flex;align-items:flex-start;gap:var(--aha-space-12);font-size:var(--aha-size-l);line-height:var(--aha-line-height-body);color:var(--aha-text-secondary)}
 .aha-marketing-card__feature aha-icon{flex:none;margin-top:var(--aha-space-2);color:var(--aha-text-default)}
 .aha-marketing-card__actions{display:flex;flex-direction:column;gap:var(--aha-space-12)}
-.aha-marketing-card__foot{display:flex;flex-direction:column;gap:var(--aha-space-12);padding:var(--aha-space-24) var(--aha-space-32);border-top:1px solid var(--aha-border-default);background:var(--aha-bg-container-secondary);border-radius:0 0 var(--aha-radius-marketing) var(--aha-radius-marketing)}
+.aha-marketing-card__foot{display:flex;flex-direction:column;gap:var(--aha-space-12);padding:var(--aha-space-24) var(--aha-space-32);border-radius:0 0 var(--aha-radius-marketing) var(--aha-radius-marketing)}
 .aha-marketing-card--pricing.aha-marketing-card--featured{border-color:var(--aha-text-default);box-shadow:0 var(--aha-space-12) var(--aha-space-24) var(--aha-ink-a10)}
 .aha-marketing-card--centered .aha-marketing-card__head,.aha-marketing-card--centered .aha-marketing-card__price{align-items:center;justify-content:center;text-align:center}
 .aha-marketing-card--centered .aha-marketing-card__plan-row{justify-content:center}
