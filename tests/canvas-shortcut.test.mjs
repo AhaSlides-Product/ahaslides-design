@@ -25,7 +25,7 @@ test('aria-keyshortcuts names the real keys: Mod is Meta on a Mac and Control el
   assert.equal(ariaKeyShortcuts('Ctrl+Shift+Z', true), 'Control+Shift+Z');
   assert.equal(ariaKeyShortcuts('Option+Esc', false), 'Alt+Escape');
   assert.equal(ariaKeyShortcuts('Del', false), 'Delete');
-  assert.equal(ariaKeyShortcuts('Mod++', false), 'Control++');
+  assert.equal(ariaKeyShortcuts('Mod++', false), 'Control+Plus');
 });
 
 test('a literal plus key: "+" alone, and a trailing "+" after the separator', () => {
