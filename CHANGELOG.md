@@ -33,6 +33,24 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.970.0 — 2026-11-04
+
+### Added
+- **`aha-form` and `aha-form-item`: the antd Form and Form.Item as web components** (#622). The label, an ink
+  required `*` (or `required-mark="optional"`), help text and the error row around any DS control, with the
+  form-theme.js look: 14/22 ink label 4 above the field, 20 between items, the 12/18 ink error with its glyph,
+  never a status hue. `required`, `required-message` and a `validator(value)` property (sync or async) validate on
+  leaving a field and on submit; `<aha-form>` lays items out vertical, horizontal or inline, submits on a
+  `type="submit"` button or Enter, focuses the first invalid field and fires `submit` with `{ values }` or
+  `invalid` with `{ errors }`. No provider: works in React, Vue and plain HTML.
+
+### Changed
+- `aha-input`, `aha-counted-input`, `aha-counted-textarea` and `aha-select` forward `aria-required` to their
+  inner field, and `aha-counted-input` now forwards `aria-describedby` like `aha-input`, so a form item's
+  error and help describe the field (#622).
+- `aha-audience-contact`: the default required message is now "We need this one." (was "This field is
+  required"), the same as `aha-form-item`'s (#622).
+
 ## 0.969.0 — 2026-11-04
 
 ### Added

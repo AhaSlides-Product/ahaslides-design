@@ -1,0 +1,32 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../lib/tokens.css">
+<aha-form id="invite">
+  <aha-form-item id="name-item" label="Name" name="name" required>
+    <aha-input value="Ada"></aha-input>
+  </aha-form-item>
+  <aha-form-item id="email-item" label="Email" name="email" required help="We'll send the invite here.">
+    <aha-input type="email"></aha-input>
+  </aha-form-item>
+  <aha-form-item id="key-item" label="Key" name="key">
+    <input id="key" aria-describedby="key-note">
+  </aha-form-item>
+  <aha-form-item id="terms-item" label="Terms" name="terms" required required-message="Accept the terms to continue.">
+    <aha-checkbox label="I accept the terms"></aha-checkbox>
+  </aha-form-item>
+  <span id="key-note">Lowercase letters only</span>
+  <aha-button id="send" type="submit" variant="primary">Send invite</aha-button>
+  <aha-button id="clear" type="reset" variant="secondary">Clear</aha-button>
+</aha-form>
+<script type="module">
+  import '../lib/aha-form.js';
+  import '../lib/aha-input.js';
+  import '../lib/aha-checkbox.js';
+  import '../lib/aha-button.js';
+  window.formEvents = [];
+  const form = document.getElementById('invite');
+  for (const type of ['submit', 'invalid', 'reset']) form.addEventListener(type, (event) => window.formEvents.push([type, event.detail]));
+  document.getElementById('key-item').validator = async (value) => (/^[a-z]+$/.test(value) ? '' : 'Use lowercase letters only');
+  await customElements.whenDefined('aha-input');
+  window.formFixtureReady = true;
+</script>

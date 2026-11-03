@@ -43,7 +43,7 @@ test('a required field left empty and a bad email show their message once the fi
     leave(el, 'email');
     return { before, after: errors(), status: el.shadowRoot.querySelector('aha-counted-input').getAttribute('status') };
   })()`, ready);
-  assert.deepEqual(result, { before: ['This field is required', ''], after: ['This field is required', 'Enter a real email address'], status: 'error' });
+  assert.deepEqual(result, { before: ['We need this one.', ''], after: ['We need this one.', 'Enter a real email address'], status: 'error' });
 });
 
 test('a phone field takes a dial code, writes "<code> <number>" and splits a given value back; text fields stay free', { skip }, async () => {
@@ -125,7 +125,7 @@ test('showErrors reveals every field\'s error at once and returns whether the an
     const valid = el.showErrors();
     return { before, valid, after: errors() };
   })()`, ready);
-  assert.deepEqual(result, { before: ['', ''], valid: false, after: ['This field is required', 'This field is required'] });
+  assert.deepEqual(result, { before: ['', ''], valid: false, after: ['We need this one.', 'We need this one.'] });
 });
 
 test('two phone fields keep their own dial code, and a value attribute set before fields and codes still applies', { skip }, async () => {

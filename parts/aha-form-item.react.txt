@@ -1,0 +1,17 @@
+import { useEffect, useRef } from 'react';
+import '@ahaslides-product/design/aha-form-item';   // registers <aha-form-item>; no provider
+import '@ahaslides-product/design/aha-input';
+
+export function ProjectName({ serverError }) {
+  const item = useRef(null);
+  useEffect(() => {
+    item.current.validator = (value) => (value.trim().length < 3 ? 'Use at least 3 characters' : '');   // a property: set it through a ref in React 18
+  }, []);
+  return (
+    <aha-form-item ref={item} label="Project name" required="" required-message="Enter a project name"
+      help="Only your team sees this." error={serverError || undefined}>
+      <aha-input />
+    </aha-form-item>
+  );
+}
+// Inside <aha-form> the form validates it on submit; alone, call item.current.validate().

@@ -1,0 +1,13 @@
+<script setup>
+import '@ahaslides-product/design/aha-form-item';   // registers <aha-form-item>
+import '@ahaslides-product/design/aha-input';
+
+const atLeastThree = (value) => (value.trim().length < 3 ? 'Use at least 3 characters' : '');
+</script>
+
+<template>
+  <aha-form-item label="Project name" required required-message="Enter a project name"
+    help="Only your team sees this." :validator.prop="atLeastThree">
+    <aha-input />
+  </aha-form-item>
+</template>

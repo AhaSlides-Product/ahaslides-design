@@ -1,0 +1,40 @@
+import { useEffect, useRef, useState } from 'react';
+import '@ahaslides-product/design/aha-form';   // registers <aha-form> + <aha-form-item>; no provider
+import '@ahaslides-product/design/aha-input';
+import '@ahaslides-product/design/aha-button';
+
+const isEmail = (value) => (/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value) ? '' : 'Enter an email address like name@school.edu.');
+
+export function InviteForm({ onInvite }) {
+  const form = useRef(null);
+  const email = useRef(null);
+  const [serverError, setServerError] = useState('');
+
+  useEffect(() => {
+    email.current.validator = isEmail;   // a property: React 18 cannot pass functions to a custom element
+    const onSubmit = async (event) => {
+      try { await onInvite(event.detail.values); } catch (error) { setServerError(error.message); }
+    };
+    const el = form.current;
+    el.addEventListener('submit', onSubmit);   // React 18 does not bind custom events; React 19 takes onSubmit
+    return () => el.removeEventListener('submit', onSubmit);
+  }, [onInvite]);
+
+  return (
+    <aha-form ref={form}>
+      <aha-form-item label="Name" name="name" required="">
+        <aha-input placeholder="Ada Lovelace" />
+      </aha-form-item>
+      {/* error is yours (a server answer): it shows until you clear it and never blocks submit */}
+      <aha-form-item ref={email} label="Email" name="email" required="" error={serverError || undefined}>
+        <aha-input type="email" onInput={() => setServerError('')} />
+      </aha-form-item>
+      <aha-button type="submit" variant="primary">Send invite</aha-button>
+    </aha-form>
+  );
+}
+
+// antd Form → aha-form: rules={[{ required, message }]} → required + required-message · other rules → validator
+// extra → help · help + validateStatus="error" → error · onFinish → submit event · onFinishFailed → invalid event
+// form.submit() / form.validateFields() / form.resetFields() → el.submit() / el.validate() / el.reset()
+// Leave required out rather than passing required={false}: React 18 writes the string "false", which still counts.
