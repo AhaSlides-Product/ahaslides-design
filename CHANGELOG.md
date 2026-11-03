@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.968.1 — 2026-11-03
 ### Fixed
-- `<aha-avatar-group add>` stacks left over right: each avatar and the +N chip sits on top of the item to its right, so the + button tucks under the item on its left (it rises above its neighbour on hover and keyboard focus so the focus ring shows whole); groups without `add` are unchanged (#PRNUM)
+- `<aha-avatar-group add>` stacks left over right: each avatar and the +N chip sits on top of the item to its right, so the + button tucks under the item on its left (it rises above its neighbour on hover and keyboard focus so the focus ring shows whole); groups without `add` are unchanged (#621)
 - Revert: revert the PR; stacking order only
 
 ## 0.967.1 — 2026-11-03
