@@ -8,7 +8,7 @@
   font-family:var(--aha-font-product);
 }
 .aha-logos *{box-sizing:border-box}
-.aha-logos > :first-child{padding-top:var(--aha-section-space-block)}
+.aha-logos > :first-child,.aha-logos > [hidden]:first-child + *{padding-top:var(--aha-section-space-block)}
 .aha-logos__track{
   display:flex;align-items:center;justify-content:flex-start;
   gap:240px;width:100%;min-width:100%;
@@ -28,7 +28,7 @@
   filter:saturate(0);
 }
 .aha-logos__label{margin:0;padding:0 var(--aha-space-24);text-align:center;font-size:var(--aha-size-default);font-weight:var(--aha-weight-regular);line-height:var(--aha-line-height-body);color:var(--aha-text-secondary)}
-.aha-logos__label + .aha-logos__track{padding-top:var(--aha-space-24)}
+.aha-logos__label:not([hidden]) + .aha-logos__track{padding-top:var(--aha-space-24)}
 /* 40px = track gap 240px minus the set's -200px lead-in: the shift that lands set two exactly where set one began */
 @keyframes aha-logos-loop{
   from{transform:translateX(0)}

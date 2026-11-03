@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.950.1 — 2026-11-03
+### Fixed
+- Website Logos strip: with the label hidden (the docs Label: Off switch, or a hidden `aha-logos__label` left in the markup) the logos sat 24px below the top and 96px above the bottom. A hidden label now counts as no label, so the strip has equal Section space above and below the logos, and the one-Group pull-up after a same-surface section still applies (#NNN)
+
 ## 0.950.0 — 2026-11-03
 ### Changed
 - The shared antd base theme (`antdBaseTheme`, so every `dsAntdTheme` ConfigProvider) carries the DS type scale: antd Title levels 1 to 5 are 32 / 24 / 20 / 18 / 16 on a 1.3 line (the aha-text levels; antd drew 38 / 30 / 24 / 20 / 16), body text sits on a 1.5 line (14/21, was 14/22), `Text type="secondary"` is #4A4A4A (`colorTextDescription`, the aha-text secondary grey; antd drew black at 45%), `colorTextTertiary` is #8A8A8A and headings are #1A1A1A. Values are read from `tokens.js` (#596)
