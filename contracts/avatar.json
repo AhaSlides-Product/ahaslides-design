@@ -30,7 +30,7 @@
     { "name": "color", "type": "token name", "default": "—", "desc": "Ground tint — an --aha-* token suffix, e.g. 'bg-positive'" },
     { "name": "max", "type": "number", "default": "—", "desc": "(aha-avatar-group) collapse children past this count into a +N chip" },
     { "name": "add", "type": "boolean", "default": "false", "desc": "(aha-avatar-group) append a round + button after the avatars. Click, Enter or Space fires a bubbling, composed `aha-add` event" },
-    { "name": "add-label", "type": "string", "default": "Add", "desc": "(aha-avatar-group) accessible name of the add button, e.g. 'Invite people'" },
+    { "name": "add-label", "type": "string", "default": "Add person", "desc": "(aha-avatar-group) accessible name of the add button, e.g. 'Invite people'" },
     { "name": "add-disabled", "type": "boolean", "default": "false", "desc": "(aha-avatar-group) disable the add button; it stays visible but fires no `aha-add`" }
   ],
   "opinion": {
@@ -40,7 +40,7 @@
       { "what": "Icon", "when": "a generic symbol, not a specific identity" },
       { "what": "Tag", "when": "labelling with a category rather than an identity" }
     ],
-    "note": "Always provide `name` even when `src` is set — it becomes the alt text and the initials shown when the image fails to load, until `src` changes. Prefer initials or a photo over a generic icon for a real identity; reserve the icon mode for a placeholder/guest slot. In a group, keep sizes uniform and set `max` so the +N chip stays legible. Give the add button an `add-label` that says what it adds ('Invite people', not 'Add'): it has no visible text. One add button per group; use an <aha-button> when the action is not about the people in the stack.",
+    "note": "Always provide `name` even when `src` is set — it becomes the alt text and the initials shown when the image fails to load, until `src` changes. Prefer initials or a photo over a generic icon for a real identity; reserve the icon mode for a placeholder/guest slot. In a group, keep sizes uniform and set `max` so the +N chip stays legible. Give the add button an `add-label` that says what it adds ('Invite people', not 'Add'): it has no visible text. Set `add-label` on every real use so it names the action (e.g. 'Invite people', 'Add co-host'); the default 'Add person' is only a fallback. One add button per group; use an <aha-button> when the action is not about the people in the stack.",
     "dsv3": "COVERED — enumerated from the DS V3 Avatar + Avatar-Group component sets (fileKey MwjvUjVI0HnfwD9EwPXRAy): 'supports images, Icons, or letters' → three content modes; circle/square shapes; small/default/large sizes; a colour ground; and a stacked group with a +N overflow. Initials/icon ground uses bg-accent (#E70E680D) with text-default (#1A1A1A) — pale pink with black text, since pink text fails contrast on the tint; `color` overrides the ground with any --aha-* token. Circle is the pill radius; square is the default 8 radius. Group children wear a 2px bg-container ring and overlap; the +N chip inherits the group size/shape. The add button takes the secondary Button's colours and focus ring, drawn round on the avatar grid so it sits flush in the stack (the Presenter top bar)."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],

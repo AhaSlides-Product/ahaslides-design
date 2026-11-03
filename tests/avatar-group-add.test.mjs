@@ -67,7 +67,7 @@ test('the add button follows the group size and shape', () => {
   const { add } = mount({ add: '', size: 'small', shape: 'square' }, 1);
   assert.equal(add.style.width, '24px');
   assert.equal(add.dataset.shape, 'square');
-  assert.equal(add.getAttribute('aria-label'), 'Add');
+  assert.equal(add.getAttribute('aria-label'), 'Add person');
 });
 
 test('adding an avatar keeps the same add button node, so focus stays on it', () => {
