@@ -35,9 +35,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.962.0 — 2026-11-03
 ### Added
-- `<aha-avatar-group add>` appends a round + button after the avatars and the +N chip, at the group's size and shape with the same overlap and white ring, drawn like the secondary Button (pink on hover and press, the pink focus ring). Click, Enter or Space fires a bubbling `aha-add` event; `add-label` names it (default "Add") and `add-disabled` disables it. Groups without `add` render as before (#PR)
+- `<aha-avatar-group add>` appends a round + button after the avatars and the +N chip, at the group's size and shape with the same overlap and white ring, drawn like the secondary Button (pink on hover and press, the pink focus ring). Click, Enter or Space fires a bubbling `aha-add` event; `add-label` names it (default "Add") and `add-disabled` disables it. Groups without `add` render as before (#615)
 ### Changed
-- `<aha-avatar-group>` builds its shadow tree once and updates it in place, so a member added by an `aha-add` handler keeps keyboard focus on the add button (#PR)
+- `<aha-avatar-group>` builds its shadow tree once and updates it in place, so a member added by an `aha-add` handler keeps keyboard focus on the add button (#615)
 
 ## 0.959.1 — 2026-11-03
 ### Fixed
