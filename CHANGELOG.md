@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.940.0 — 2026-11-03
+## 0.942.0 — 2026-11-03
 ### Changed
 - The shared antd base theme (`antdBaseTheme`, so every `dsAntdTheme` ConfigProvider) carries the DS type scale: antd Title levels 1 to 5 are 32 / 24 / 20 / 18 / 16 on a 1.3 line (the aha-text levels; antd drew 38 / 30 / 24 / 20 / 16), body text sits on a 1.5 line (14/21, was 14/22), `Text type="secondary"` is #4A4A4A (`colorTextDescription`, the aha-text secondary grey; antd drew black at 45%), `colorTextTertiary` is #8A8A8A and headings are #1A1A1A. Values are read from `tokens.js` (#596)
 - The base theme also sets Modal: 18px title on a 1.5 line, #1A1A1A, radius 8, so `Modal.confirm` and `useModal` dialogs outside the modal theme match DS dialogs (they drew a 16px title and radius 10) (#596)
@@ -42,6 +42,15 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - `tooltip-theme` (`tooltipTheme`, `brandTooltip`), `tag-theme` (`tagTheme`, `tagCss`: the 600 weight and 6px padding antd has no token for, added on import) and `segmented-theme` (`segmentedTheme`), each with a docs page (antd Tooltip, antd Tag, antd Segmented) and a render contract. New UI keeps using the aha-* elements (#596)
 - Revert: revert the PR; apps then draw antd's own heading sizes, greys, tooltip, tag, segmented and confirm dialogs again, and a popover around a menu shows two frames
+
+## 0.941.0 — 2026-11-03
+
+### Added
+- Join bar: its own Marketing page (`marketing/join-bar.json`, class `aha-join-bar`, Webflow component Join bar), listed in the Marketing sidebar next to Navigation. The markup and CSS are the former Navigation "Join bar" layout moved as is, with no visual change. Place it directly before the Site navbar as a sibling and it scrolls away while the navbar stays stuck to the top (#597)
+
+### Changed
+- Navigation: holds only the Site navbar; the Join bar layout moved out to its own page and the two pages link each other in their usage notes (#597)
+- Revert: revert the PR; it moves one layout between two marketing JSON files and the generated Marketing CSS, with no token or component API change
 
 ## 0.935.0 — 2026-11-03
 ### Added

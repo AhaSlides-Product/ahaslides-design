@@ -1896,6 +1896,44 @@ a.aha-footer__heading:hover{color:var(--aha-color-primary)}
 .aha-header-section-page-header--centre .aha-header-section-page-header__splash{--aha-header-section-page-header-splash-across:.5}
 .aha-header-section-hero-split__video{display:block;width:100%;max-width:calc(min(80vh,40rem) * 16 / 9);height:auto;aspect-ratio:16/9;margin-inline:auto;object-fit:contain;border-radius:var(--aha-radius-xl);background:var(--aha-bg-dark)}
 .aha-header-section-hero-split__video:focus-visible{outline:var(--aha-space-2) solid var(--aha-header-section-hero-split-focus);outline-offset:var(--aha-space-2)}
+/* Join bar (marketing/join-bar.json) */
+.aha-join-bar{
+  container:aha-join-bar / inline-size;
+  font-family:var(--aha-font-product);
+  background:var(--aha-bg-dark);
+  color:var(--aha-text-inverse);
+}
+.aha-join-bar *{box-sizing:border-box}
+.aha-join-bar__inner{
+  display:flex;align-items:center;justify-content:center;
+  gap:var(--aha-space-12);
+  padding:var(--aha-space-8) var(--aha-space-16);
+}
+.aha-join-bar__label{font-size:var(--aha-size-default);font-weight:var(--aha-weight-regular);line-height:1.5}
+.aha-join-bar__form{
+  display:flex;align-items:center;gap:var(--aha-space-4);
+  width:326px;margin:0;
+  padding:var(--aha-space-4) var(--aha-space-4) var(--aha-space-4) var(--aha-space-10);
+  background:var(--aha-bg-dark-raised);
+  border-radius:var(--aha-radius-default);
+}
+.aha-join-bar__url{font-size:var(--aha-size-sm);font-weight:var(--aha-weight-semibold);text-transform:uppercase;white-space:nowrap}
+.aha-join-bar__input{
+  flex:1;min-width:0;
+  height:var(--aha-space-20);
+  padding:0 var(--aha-space-8) 0 0;
+  border:0;background:transparent;
+  font-family:inherit;font-size:var(--aha-size-sm);font-weight:var(--aha-weight-semibold);
+  color:var(--aha-text-inverse);
+  text-transform:uppercase;
+}
+.aha-join-bar__input::placeholder{color:var(--aha-text-tertiary);opacity:1}
+.aha-join-bar__input:focus{outline:none}
+.aha-join-bar__input:focus-visible{outline:var(--aha-space-2) solid var(--aha-focus);outline-offset:var(--aha-space-2);border-radius:var(--aha-radius-xs)}
+@container aha-join-bar (max-width:479px){
+  .aha-join-bar__inner{flex-direction:column;gap:var(--aha-space-8);padding:var(--aha-space-8) var(--aha-space-12)}
+  .aha-join-bar__form{width:100%;padding-inline-start:var(--aha-space-16)}
+}
 /* Logos (marketing/logos.json) */
 .aha-logos{
   container:aha-logos / inline-size;
@@ -2125,43 +2163,6 @@ a.aha-footer__heading:hover{color:var(--aha-color-primary)}
 }
 @media (prefers-reduced-motion:reduce){
   .aha-header *{transition:none!important;animation:none!important}
-}
-.aha-join-bar{
-  container:aha-join-bar / inline-size;
-  font-family:var(--aha-font-product);
-  background:var(--aha-bg-dark);
-  color:var(--aha-text-inverse);
-}
-.aha-join-bar *{box-sizing:border-box}
-.aha-join-bar__inner{
-  display:flex;align-items:center;justify-content:center;
-  gap:var(--aha-space-12);
-  padding:var(--aha-space-8) var(--aha-space-16);
-}
-.aha-join-bar__label{font-size:var(--aha-size-default);font-weight:var(--aha-weight-regular);line-height:1.5}
-.aha-join-bar__form{
-  display:flex;align-items:center;gap:var(--aha-space-4);
-  width:326px;margin:0;
-  padding:var(--aha-space-4) var(--aha-space-4) var(--aha-space-4) var(--aha-space-10);
-  background:var(--aha-bg-dark-raised);
-  border-radius:var(--aha-radius-default);
-}
-.aha-join-bar__url{font-size:var(--aha-size-sm);font-weight:var(--aha-weight-semibold);text-transform:uppercase;white-space:nowrap}
-.aha-join-bar__input{
-  flex:1;min-width:0;
-  height:var(--aha-space-20);
-  padding:0 var(--aha-space-8) 0 0;
-  border:0;background:transparent;
-  font-family:inherit;font-size:var(--aha-size-sm);font-weight:var(--aha-weight-semibold);
-  color:var(--aha-text-inverse);
-  text-transform:uppercase;
-}
-.aha-join-bar__input::placeholder{color:var(--aha-text-tertiary);opacity:1}
-.aha-join-bar__input:focus{outline:none}
-.aha-join-bar__input:focus-visible{outline:var(--aha-space-2) solid var(--aha-focus);outline-offset:var(--aha-space-2);border-radius:var(--aha-radius-xs)}
-@container aha-join-bar (max-width:479px){
-  .aha-join-bar__inner{flex-direction:column;gap:var(--aha-space-8);padding:var(--aha-space-8) var(--aha-space-12)}
-  .aha-join-bar__form{width:100%;padding-inline-start:var(--aha-space-16)}
 }
 /* Numbers (marketing/numbers.json) */
 .aha-numbers{
