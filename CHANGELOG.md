@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.964.1 — 2026-11-03
 ### Fixed
-- CHANGELOG: the 0.964.0 entry links its real PR number instead of the `(#PR)` placeholder that auto-merge shipped, which turned the standards gate red on master and held back the 0.964.0 publish; this release ships the Dropdown switch row and badge (#PR)
+- CHANGELOG: the 0.964.0 entry links its real PR number instead of the `(#PR)` placeholder that auto-merge shipped, which turned the standards gate red on master and held back the 0.964.0 publish; this release ships the Dropdown switch row and badge (#618)
 - Revert: revert the PR; changelog text only
 
 ## 0.964.0 — 2026-11-03
