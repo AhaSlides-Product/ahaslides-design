@@ -31,7 +31,7 @@
     },
     {
       "surface": "Presenter control bar (NCB, outside the iframe) — built slide plugins",
-      "useFor": "slide-specific actions (Next / Summarise / Previous) on a built slide plugin that declares them in its manifest — painted by the host as <aha-antd-button>, never rendered inside the canvas",
+      "useFor": "slide-specific actions (Next / Summarise / Previous) on a built slide plugin that declares them in its manifest — painted by the host as <aha-antd-button>, never rendered inside the canvas; every host control (these buttons, the popovers they open, a host layer over the slide such as ink annotation) is judged by app-shell C6, canvas C10 covers only what the canvas renders itself",
       "example": "Idea board's Previous / Next: vote / Summarise"
     },
     {
@@ -526,5 +526,5 @@
     }
   ],
   "guide": "canvas.guide.md",
-  "whenToRead": "ANY presenter canvas of a slide type (the stage the room reads). Holds the one-accent rule (palette[0] → --aha-color-primary on :root), in-canvas presenter controls as <aha-button size=\"lg\"> themed by applyCanvasDeck, with shortcut chips (never ::part overrides), no slide-wide scrim on a framed photo deck, one dark ink #1A1A1A, 1px hairline borders with 12px card radius, and motion tokens on persistent nodes. Stage indicators are <aha-stepper> and type-to-pick fields <aha-autocomplete>, never hand-rolled."
+  "whenToRead": "ANY presenter canvas of a slide type (the stage the room reads), and any presenter-app work on the presenting screen (the slide stage, the presenter control bar and its popovers, a layer drawn over a live slide such as ink annotation), which is judged on canvas plus app-shell C6. Holds the one-accent rule (palette[0] → --aha-color-primary on :root), in-canvas presenter controls as <aha-button size=\"lg\"> themed by applyCanvasDeck, with shortcut chips (never ::part overrides), no slide-wide scrim on a framed photo deck, one dark ink #1A1A1A, 1px hairline borders with 12px card radius, and motion tokens on persistent nodes. Stage indicators are <aha-stepper> and type-to-pick fields <aha-autocomplete>, never hand-rolled."
 }
