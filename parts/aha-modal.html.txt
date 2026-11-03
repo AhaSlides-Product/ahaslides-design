@@ -26,7 +26,7 @@
 
 <!-- Your own footer: slot="footer" replaces Cancel and OK. size="complexity" is 720 wide and 80vh tall at most. -->
 <aha-modal heading="Invite your team" size="complexity">
-  Send a link and they join your workspace when they sign in.
+  Send invites or copy a link. They'll join your workspace when they sign in.
   <div slot="footer" style="display:flex;gap:8px">
     <aha-button variant="secondary" size="md">Not now</aha-button>
     <aha-button variant="primary" size="md">Send invites</aha-button>

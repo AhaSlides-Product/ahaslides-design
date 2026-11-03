@@ -38,7 +38,7 @@ export function InviteModal({ open, onClose }) {
   }, [onClose]);
   return (
     <aha-modal ref={modal} heading="Invite your team" size="complexity" open={open ? '' : undefined}>
-      Send a link and they join your workspace when they sign in.
+      Send invites or copy a link. They'll join your workspace when they sign in.
       <div slot="footer" style={{ display: 'flex', gap: 8 }}>
         <aha-button variant="secondary" size="md" onClick={() => modal.current.close()}>Not now</aha-button>
         <aha-button variant="primary" size="md">Send invites</aha-button>
