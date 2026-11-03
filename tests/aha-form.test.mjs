@@ -69,6 +69,25 @@ const scenarios = String.raw`(async () => {
   await wait(20);
   out.reset = [formEvents.at(-1)[0], name.control.value, email.control.value, $('key').value, terms.control.checked];
 
+  email.control.value = 'ada@example.com';
+  terms.control.checked = true;
+  name.validator = async () => { await wait(30); return ''; };
+  formEvents.length = 0;
+  const pending = form.submit();
+  email.control.value = '';
+  email.control.dispatchEvent(new CustomEvent('input', { bubbles: true, composed: true }));
+  await pending;
+  out.editWhileValidating = formEvents.map(([type]) => type);
+  name.validator = null;
+
+  formEvents.length = 0;
+  email.control.value = 'ada@example.com';
+  $('send').setAttribute('loading', '');
+  inner(name).dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, composed: true }));
+  await wait(50);
+  out.enterWhileLoading = formEvents.length;
+  $('send').removeAttribute('loading');
+
   form.setAttribute('layout', 'horizontal');
   form.setAttribute('required-mark', 'optional');
   await wait(20);
@@ -86,17 +105,19 @@ test('aha-form validates, wires and submits its items', { skip }, async () => {
   assert.equal(result.helpDescribes, true);
   assert.equal(result.controlFillsItem, true);
   assert.equal(result.invalidEvent, 'invalid');
-  assert.deepEqual(result.errors, [['email', 'This field is required'], ['terms', 'Accept the terms to continue']]);
-  assert.deepEqual(result.errorShown, ['This field is required', false, true, 'error', 'true']);
+  assert.deepEqual(result.errors, [['email', 'We need this one.'], ['terms', 'Accept the terms to continue.']]);
+  assert.deepEqual(result.errorShown, ['We need this one.', false, true, 'error', 'true']);
   assert.equal(result.errorDescribes, true);
   assert.equal(result.errorLook, 'rgb(26, 26, 26)');
   assert.equal(result.focusedFirstInvalid, true);
-  assert.equal(result.checkboxError, 'Accept the terms to continue');
+  assert.equal(result.checkboxError, 'Accept the terms to continue.');
   assert.deepEqual(result.clearedOnEdit, ['', false, false]);
   assert.deepEqual(result.nativeInvalid, ['Use lowercase letters only', 'true', 'key-note key-item-error']);
   assert.deepEqual(result.nativeCleared, [false, 'key-note']);
   assert.deepEqual(result.serverError, ['That key is taken', 'true']);
   assert.deepEqual(result.enterSubmits, [['submit', { name: 'Ada', email: 'ada@example.com', key: 'abc', terms: true }]]);
   assert.deepEqual(result.reset, ['reset', 'Ada', '', '', false]);
+  assert.deepEqual(result.editWhileValidating, ['invalid']);
+  assert.equal(result.enterWhileLoading, 0);
   assert.deepEqual(result.horizontal, ['horizontal', 'flex', false, false, '(optional)']);
 });

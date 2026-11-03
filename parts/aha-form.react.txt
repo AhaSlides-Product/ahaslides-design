@@ -3,7 +3,7 @@ import '@ahaslides-product/design/aha-form';   // registers <aha-form> + <aha-fo
 import '@ahaslides-product/design/aha-input';
 import '@ahaslides-product/design/aha-button';
 
-const isEmail = (value) => (/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value) ? '' : 'Enter an email address like name@school.edu');
+const isEmail = (value) => (/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value) ? '' : 'Enter an email address like name@school.edu.');
 
 export function InviteForm({ onInvite }) {
   const form = useRef(null);

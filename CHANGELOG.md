@@ -48,6 +48,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `aha-input`, `aha-counted-input`, `aha-counted-textarea` and `aha-select` forward `aria-required` to their
   inner field, and `aha-counted-input` now forwards `aria-describedby` like `aha-input`, so a form item's
   error and help describe the field (#622).
+- `aha-audience-contact`: the default required message is now "We need this one." (was "This field is
+  required"), the same as `aha-form-item`'s (#622).
 
 ## 0.969.0 — 2026-11-04
 

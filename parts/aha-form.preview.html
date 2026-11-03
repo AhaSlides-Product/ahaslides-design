@@ -7,8 +7,8 @@
   <div class="form-col">
     <aha-form data-probe id="f-invite">
       <aha-form-item label="Name" name="name" required><aha-input placeholder="Ada Lovelace"></aha-input></aha-form-item>
-      <aha-form-item label="Email" name="email" required help="We send the invite here."><aha-input type="email"></aha-input></aha-form-item>
-      <aha-form-item name="terms" required required-message="Accept the terms to continue"><aha-checkbox>I accept the terms</aha-checkbox></aha-form-item>
+      <aha-form-item label="Email" name="email" required help="We'll send the invite here."><aha-input type="email"></aha-input></aha-form-item>
+      <aha-form-item name="terms" required required-message="Accept the terms to continue."><aha-checkbox>I accept the terms</aha-checkbox></aha-form-item>
       <div class="form-actions">
         <aha-button type="submit" variant="primary">Send invite</aha-button>
         <aha-button type="reset" variant="secondary">Clear</aha-button>
@@ -38,8 +38,11 @@
   import '../lib/aha-button.js';
   const invite = document.getElementById('f-invite');
   const result = document.getElementById('f-result');
-  invite.querySelector('[name=email]').validator = (value) => (/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value) ? '' : 'Enter an email address like name@school.edu');
+  invite.querySelector('[name=email]').validator = (value) => (/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value) ? '' : 'Enter an email address like name@school.edu.');
   invite.addEventListener('submit', (event) => { result.textContent = `Sent: ${JSON.stringify(event.detail.values)}`; });
-  invite.addEventListener('invalid', (event) => { result.textContent = `${event.detail.errors.length} to fix`; });
+  invite.addEventListener('invalid', (event) => {
+    const count = event.detail.errors.length;
+    result.textContent = `${count} ${count === 1 ? 'field' : 'fields'} to fix`;
+  });
   invite.addEventListener('reset', () => { result.textContent = ''; });
 </script>
