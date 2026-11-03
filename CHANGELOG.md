@@ -33,10 +33,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.930.0 — 2026-11-03
+## 0.931.0 — 2026-11-03
 ### Added
-- Marketing → Hero split: four opt-in Image switches for a tall phone screenshot, so the picture no longer makes the hero far taller than its copy. Frame (`aha-header-section-hero-split--frame`) holds the screenshot whole in a pale pink 5:4 frame with an even inset; Frame overflow (`--frame-overflow`) puts a larger screenshot in the same frame, cut off at the frame's bottom; Rise (`--rise`) drops the bottom padding and lets the screenshot rise from the hero's bottom edge, cut off at 560 px; Stack (`--stack`) shows the screenshot whole with a second screen (the `__back` image) tilted behind it in the photo frame. Inset stays the default, so no existing page moves. Frame overflow, Rise and Stack crop or tilt a screenshot, which W6 does not allow: they are marked W6 pending and W6 is unchanged (#586)
-- Revert: revert the PR; additive CSS behind the four modifier classes and one `data-choice="stack"` back image in `marketing/hero.json`
+- Marketing → Hero split: an opt-in Rise picture switch for a tall phone screenshot, so the picture no longer makes the hero far taller than its copy. Rise (`aha-header-section-hero-split--rise`) drops the hero's bottom padding and lets the screenshot rise from the hero's bottom edge, cut off there at 560 px tall; a Logos strip goes in its own white band after the hero, never inside it. Inset stays the default, so no existing page moves (#586)
+### Changed
+- Website guideline W6 (in `guidelines/website.json`, `anti-slop/criteria.json` and `agent/anti-slop/criteria.json`) gets one named exception: Hero split Rise may show a phone screenshot cut off by the hero's bottom edge; nothing else changes in W6 (#586)
+- Revert: revert the PR; additive CSS behind one modifier class in `marketing/hero.json`, and the W6 exception sentence
 
 ## 0.928.0 — 2026-11-03
 ### Changed
