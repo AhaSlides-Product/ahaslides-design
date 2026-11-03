@@ -33,10 +33,17 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.927.0 — 2026-11-03
+## 0.930.0 — 2026-11-03
 ### Added
 - Menu and Dropdown rows take an optional `shortcut` ("Mod+D", "Del"): the action's key drawn as the shared DS shortcut chip at the row's trailing edge on the label line, on gray-35 #EBEBEB (lighter than the Button and Tooltip chip), ⌘D on a Mac and Ctrl D elsewhere, for a context menu. Display only and aria-hidden; the row gets `aria-keyshortcuts`. It works beside a `description`, on disabled and danger rows, and before a locked row's crown; rows without it are unchanged. New docs example "Context menu with shortcuts" (#591)
 - `ariaKeyShortcuts()` in `shortcut-key`: the same shortcut as an `aria-keyshortcuts` value (#591)
+
+## 0.928.0 — 2026-11-03
+### Changed
+- Website item grids follow the kind of item and the heading above them, W11: bordered cards under a centred heading (Cards grid, Steps row, Features icon cards and compact see-all, Testimonials quote cards, Pricing plan grid) still centre a single card and the short last row, now from 992 px only; borderless items (every Numbers layout, the Features icon grid) keep straight columns with the short last row under column 1; under a left aligned heading (Features side header, Numbers split image and actions with icons, Pricing featured plans) no item is centred (#590)
+- At tablet (768 to 991 px) every bordered card grid stacks to one column of full-width cards, even for 2 or 4 cards; Templates and the image-led grid keep their 2 columns, borderless grids keep 2 straight columns, except Numbers Divided, which keeps its 3 divided columns (2 for 2 or 4 stats) (#590)
+- Numbers centred: the Number style switch defaults to Left aligned (left aligned numbers, no dividers); Divided is the alternative and drops the divider at the start of each row (#590)
+- Revert: revert the PR; it changes Marketing section CSS, the Numbers default option and the W11 text only, with no API or token change
 
 ## 0.925.0 — 2026-11-03
 ### Changed
