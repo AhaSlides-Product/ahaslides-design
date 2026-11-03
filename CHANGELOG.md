@@ -33,13 +33,23 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.950.0 — 2026-11-03
+## 0.951.0 — 2026-11-03
 ### Added
 - DataTable value filter: `filter: { type: 'value', inputType: 'text' | 'number' | 'date', label }` takes one typed value; text matches a case-insensitive substring, number an equal value, date the same calendar day (#593)
 - DataTable controlled column visibility: `visibleColumns` + `onVisibleColumnsChange(visibleKeys)`, or `defaultVisibleColumns` uncontrolled, so an app can save each creator's columns and feed its export (#593)
 - DataTable column-editor events: `onColumnsEditorOpenChange(open)`, `onColumnToggle(key, visible)` and `onColumnsReset()`; Edit columns shows a Reset footer when the app passes `visibleColumns`, `defaultVisibleColumns` or `onColumnsReset` (#593)
 ### Fixed
 - Table criterion C6 now says DataTable icons are DS `<aha-icon>` by name, as the component ships, instead of `@phosphor-icons/react`, which screen-lint hard-fails as `foreign-icon-library` (#593)
+
+## 0.950.0 — 2026-11-03
+### Changed
+- The shared antd base theme (`antdBaseTheme`, so every `dsAntdTheme` ConfigProvider) carries the DS type scale: antd Title levels 1 to 5 are 32 / 24 / 20 / 18 / 16 on a 1.3 line (the aha-text levels; antd drew 38 / 30 / 24 / 20 / 16), body text sits on a 1.5 line (14/21, was 14/22), `Text type="secondary"` is #4A4A4A (`colorTextDescription`, the aha-text secondary grey; antd drew black at 45%), `colorTextTertiary` is #8A8A8A and headings are #1A1A1A. Values are read from `tokens.js` (#596)
+- The base theme also sets Modal: 18px title on a 1.5 line, #1A1A1A, radius 8, so `Modal.confirm` and `useModal` dialogs outside the modal theme match DS dialogs (they drew a 16px title and radius 10) (#596)
+- antd Tooltip, Tag and Segmented under the base theme take the aha-tooltip, aha-tag and aha-segmented look: Tooltip solid #1A1A1A, 12/18, radius 6, padding 6 10, max-width 280 (was 14/22 on black at 85%, radius 8); Tag #F1F1F1 with a #4A4A4A label, 20px tall, radius 4, no border (was #F5F5F5, 22px, radius 6); Segmented #F7F7F7 track, 32px items padded 16, #4A4A4A labels, white radius-4 thumb, 2px focus ring (was 28px items padded 11) (#596)
+- `<aha-popover>` whose body is only a menu and that has no `title` drops its own padding and border, so a menu in a popover shows one frame, not two. A titled popover, or one with other content, is unchanged (#596)
+### Added
+- `tooltip-theme` (`tooltipTheme`, `brandTooltip`, `vueTooltip`: the 280px width ant-design-vue 4 cannot take from the theme), `tag-theme` (`tagTheme`, `tagCss`: the 600 weight and 6px padding antd has no token for, added on import) and `segmented-theme` (`segmentedTheme`), each with a docs page (antd Tooltip, antd Tag, antd Segmented) and a render contract. New UI keeps using the aha-* elements (#596)
+- Revert: revert the PR; apps then draw antd's own heading sizes, greys, tooltip, tag, segmented and confirm dialogs again, and a popover around a menu shows two frames
 
 ## 0.949.0 — 2026-11-03
 ### Added

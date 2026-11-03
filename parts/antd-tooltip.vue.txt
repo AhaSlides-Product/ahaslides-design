@@ -1,0 +1,17 @@
+<script setup>
+import { ConfigProvider, Tooltip } from 'ant-design-vue';   // ant-design-vue v4
+import { tooltipTheme, brandTooltip, vueTooltip } from '@ahaslides-product/design/tooltip-theme';
+import '@ahaslides-product/design/aha-button';   // registers <aha-button>
+</script>
+
+<template>
+  <a-config-provider :theme="tooltipTheme">
+    <a-tooltip title="Rename lesson" v-bind="vueTooltip">
+      <aha-button variant="secondary" size="md">Rename</aha-button>
+    </a-tooltip>
+    <a-tooltip title="New" v-bind="{ ...brandTooltip, ...vueTooltip }">
+      <aha-button variant="secondary" size="md">Templates</aha-button>
+    </a-tooltip>
+  </a-config-provider>
+</template>
+<!-- The SAME tooltipTheme as React: one look across both vendor libraries. New UI uses <aha-tooltip>. -->

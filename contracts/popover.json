@@ -15,7 +15,7 @@
     { "label": "Panel", "value": "bg-elevated #FFFFFF, 1px border #E3E3E3, radius 8, min-width 180 / max 280" },
     { "label": "Elevation", "value": "0 6px 16px ink 12%" },
     { "label": "Title", "value": "SemiBold 600, 14/21 text-default, 6px above the body" },
-    { "label": "Body", "value": "pad 12 16, 14/21 text-secondary #4A4A4A (text-default when title-less)" },
+    { "label": "Body", "value": "pad 12 16, 14/21 text-secondary #4A4A4A (text-default when title-less). A title-less body holding only a menu (<aha-menu> or role=menu) drops the panel padding and border, so the menu frame is the only one" },
     { "label": "Placement", "value": "top · bottom · left · right (8px offset), PLUS 8 edge-aligned (top-start/-end, bottom-start/-end, left-start/-end, right-start/-end) — same side, aligned to the trigger edge with the arrow offset near it" },
     { "label": "Trigger", "value": "click (default) · hover · focus" },
     { "label": "Arrow", "value": "optional 8px pointer at the panel edge, matches the surface + border" },
