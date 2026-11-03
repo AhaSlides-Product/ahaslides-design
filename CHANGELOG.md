@@ -33,6 +33,36 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.973.0 — 2026-11-04
+
+### Added
+- **`aha-select` `mode="multiple"`: pick several options as closable `aha-tag` chips** (#626). The list stays open after a
+  pick, with checked rows (`aria-multiselectable`, `aria-selected`). It reads `values` and emits `change` with
+  `{values}`, like tags mode. With `show-search` the inline field filters the rows. Also new: `max-count` (antd
+  `maxCount`), which disables the rows not yet picked once the limit is reached, and `filter-prop` (antd
+  `optionFilterProp`), which picks the option field the filter matches. `allow-clear` empties every value and Backspace
+  removes the last chip. An option `suffix` (a trailing count) shows in the rows.
+- **`aha-select` `mode="tags"` with `options` shows them as suggestions**, as antd tags mode does (#626). Typing filters
+  them, Arrow keys and Enter pick one, and typed text is still added as a free-entry tag. Without options, tags mode is
+  unchanged.
+- **`aha-select` option groups** (#626): an options entry `{ label, options: [...] }` renders a header row over its
+  options (`role="group"`) in single, multiple and tags modes. The keyboard skips headers, and filtering hides a group
+  with no match.
+- **`aha-autocomplete` option `suffix`** (#626): trailing text in tertiary ink at the end of a row, the same look as
+  `aha-select`. Typing matches it as well as the label.
+- **Spoken names for rows and chips** (#626). An option `ariaLabel` (in `aha-select` and `aha-autocomplete`) names a row
+  for screen readers when its visible text is only a label and a count, such as "Design, 6 members". Rows without it are
+  unchanged. A chip's close button is now named "Remove {label}" (for example "Remove Design"); `remove-label` on
+  `aha-select` changes the wording, and a standalone `aha-tag` takes `close-label` (default "Remove").
+
+### Fixed
+- **`aha-form-item` treats an `aha-select mode="multiple"` as a list** (#626), as it does tags mode, so `required` fails
+  on an empty list and passes once a value is picked.
+- **`aha-select` multiple and tags-with-options keyboard and pointer fixes** (#626). Home and End move to the first or
+  last enabled row, the active row survives an options update while open, clicking a chip's close button or the clear
+  button keeps the list open with focus in the field, an IME word filters the list when composition ends, and text that
+  `max-count` refuses stays in the field instead of being lost.
+
 ## 0.972.1 — 2026-11-04
 
 ### Fixed

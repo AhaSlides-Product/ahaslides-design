@@ -30,6 +30,7 @@
     { "name": "bordered", "type": "boolean", "default": "false", "desc": "Outlined shape — white surface + a coloured 1px hairline instead of the filled tint" },
     { "name": "icon", "type": "string", "default": "—", "desc": "Leading DS icon name, e.g. system-tag (resolved via <aha-icon>)" },
     { "name": "closable", "type": "boolean", "default": "false", "desc": "Shows a dismiss × that animates out, removes the tag, and emits close" },
+    { "name": "close-label", "type": "string", "default": "Remove", "desc": "Accessible name of the closable × button; name what it removes (\"Remove Marketing\")" },
     { "name": "checkable", "type": "boolean", "default": "false", "desc": "Renders a selectable toggle chip (button, aria-pressed)" },
     { "name": "checked", "type": "boolean", "default": "false", "desc": "Selected state of a checkable tag (brand fill)" },
     { "name": "controlled", "type": "boolean", "default": "false", "desc": "Checkable only: a click no longer flips `checked` itself; it only emits `change` and the host sets or removes `checked`. Use when a framework binds `checked` from its own state (Vue :checked)" },
