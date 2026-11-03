@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.961.0 — 2026-11-03
+## 0.963.0 — 2026-11-03
 ### Fixed
 - DataTable: each column filter trigger is now a real `<button>` reached with Tab, named "Filter: <column>" (`labels.filterColumn`), opened with Enter or Space into a `role="dialog"` panel of the same name, and closed with Escape, which puts focus back on the trigger. Keys pressed in the panel stay in it, so Alt+Arrow no longer moves the column. Columns using antd's own `filters` keep antd's trigger and icon. Before, antd's trigger had `tabIndex=-1` and no name, so a keyboard user could not filter (#614)
 - DataTable: the toolbar title is a heading (`<h2>` by default, `toolbarTitleLevel` picks 1–6) instead of a `<span>`; it looks the same (#614)
@@ -49,6 +49,13 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - DataTable `data-testid` hooks on the toolbar, every filter trigger and panel control, and the Edit columns button, panel, search, checkboxes (`<prefix>-columns-column-<key>`), empty line and Reset columns; `testIdPrefix` (default `aha-data-table`) keeps two tables on a page apart (#614)
 - DataTable: the date value filter has a Clear button (`labels.clearValue`); it empties the date and puts focus back in the field (#614)
 - DataTable: the contract lists every `labels` key; `freezeColumn` and `defreezeColumn` translate the freeze menu (#614)
+
+## 0.962.0 — 2026-11-03
+### Changed
+- aha-design skill, route table and Stop hook: presenter-app work on the presenting screen (`src/components-v2/presentation-editor/middle/**` in `stpancras-presenter-app`, the presenter control bar and its popovers, anything drawn over a live slide such as ink annotation) is always judged on `canvas` plus `app-shell` C6, whoever builds it (#616)
+- Canvas C10 and app-shell C6 now name the same host controls (every control-bar button, manifest actions included, the popovers they open, host layers over the slide such as ink annotation) and the same rule for them: the canvas C10 shortcut chip, sized and themed by the host, never `applyCanvasDeck` or the in-canvas `size="lg"` (#616)
+### Fixed
+- Every anti-slop surface's `skillRef` now names a skill the plugin ships (`ahaslides-design:aha-design`, settings `ahaslides-design:settings-design`) instead of the retired `aha-design:aha-design-<x>-judge` skills, and the standards gate fails a `skillRef` that does not resolve under `agent/skills` (#616)
 
 ## 0.959.1 — 2026-11-03
 ### Fixed
