@@ -33,13 +33,17 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.917.0 — 2026-11-03
+## 0.919.0 — 2026-11-03
 ### Changed
 - Destructive confirm: `destructiveConfirm` now gives the confirm button `type: 'default'` (white, 1px #E3E3E3 border, #1A1A1A label, the look of `aha-button` secondary) instead of a solid #1A1A1A danger fill, so a destructive confirm shows one primary, the pink Cancel. The overlays rule `danger-confirm-button`, its anti-slop criterion, the Modal and Popconfirm examples and contracts say the same (#581)
 - antd Button disabled colours match `aha-button`: #E3E3E3 fill and border, #B5B5B5 label, set on the Button component only (#581)
 - Popconfirm theme pins the small button radius to 4px, so a host's own `borderRadiusSM` no longer applies inside it (#581)
 - Documented difference: antd has no hover-shadow token, so an antd primary hovers Darker Pink without `aha-button`'s pink glow; the Popconfirm spec says so (#581)
 - Revert: revert the PR; `lib/popconfirm-theme.js` and one block in `lib/antd-base-theme.js` return to the previous values
+
+## 0.916.2 — 2026-11-03
+### Fixed
+- Avatar: an image that fails to load (deleted file, CDN error) showed the browser's broken-image icon. `aha-avatar` now shows the no-src content (the `icon` if set, else the initials of `name`) when the image errors, and keeps it until `src` changes. The contract and the JSDoc say so (#584)
 
 ## 0.916.1 — 2026-11-03
 ### Fixed
