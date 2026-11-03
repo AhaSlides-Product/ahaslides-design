@@ -49,6 +49,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - DataTable: the idle sort arrow is the muted icon grey `#8A8A8A` (3.45:1), not the disabled grey `#B5B5B5`, which is for disabled states only (#619)
 - `table-theme` (Table and DataTable): header labels use the tertiary text grey `#616161` (6.19:1 on white, 5.48:1 on the hover fill) instead of `#8A8A8A` (3.45:1) (#619)
 - `state-check.mjs` no longer waives a Vivid Pink link in an Alert or info box: links are Darker Pink and pass 4.5:1 there (#619)
+- antd base theme: `colorLink` is `--aha-text-link` Darker Pink `#DB005B` instead of Vivid Pink, so an antd `Typography.Link` or `Button type="link"` matches the DS link (#619)
+- antd base theme: Message and Notification pin their own text colours, so a toast or notification never inherits a faint page colour. Message text and the notification title are `--aha-text-default` `#1A1A1A` (17.4:1 on white), the notification description is `--aha-text-secondary` `#4A4A4A` (8.86:1) (#619)
 
 ## 0.966.0 — 2026-11-03
 ### Fixed
