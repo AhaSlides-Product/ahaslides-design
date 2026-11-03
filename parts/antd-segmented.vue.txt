@@ -1,0 +1,12 @@
+<script setup>
+import { ConfigProvider, Segmented } from 'ant-design-vue';   // ant-design-vue v4
+import { segmentedTheme } from '@ahaslides-product/design/segmented-theme';
+import '@ahaslides-product/design/aha-button';   // registers <aha-button>
+</script>
+
+<template>
+  <a-config-provider :theme="segmentedTheme">
+    <a-segmented :options="['Desktop', 'Tablet', 'Mobile']" value="Desktop" />
+  </a-config-provider>
+</template>
+<!-- The SAME segmentedTheme as React: one look across both vendor libraries. New UI uses <aha-segmented>. -->

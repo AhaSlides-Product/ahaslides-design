@@ -1,0 +1,13 @@
+<script setup>
+import { ConfigProvider, Tag } from 'ant-design-vue';   // ant-design-vue v4
+import { tagTheme } from '@ahaslides-product/design/tag-theme';
+import '@ahaslides-product/design/aha-button';   // registers <aha-button>
+</script>
+
+<template>
+  <a-config-provider :theme="tagTheme">
+    <a-tag>3 pages</a-tag>
+    <a-tag>Quiz</a-tag>
+  </a-config-provider>
+</template>
+<!-- The SAME tagTheme as React: one look across both vendor libraries. New UI uses <aha-tag>. -->

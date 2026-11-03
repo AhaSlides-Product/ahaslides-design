@@ -82,11 +82,7 @@
   ],
   "steps": [
    "contrast · active · div.ant-steps-item.ant-steps-item-wait[role=button] “3ReviewCheck answers”: text #E70E68 on #FEF3F7 is 4.16:1, needs 4.5:1",
-   "contrast · focus · div.ant-steps-item.ant-steps-item-finish[role=button] “DetailsName & type”: text #8C8C8C on #FFFFFF is 3.35:1, needs 4.5:1",
-   "contrast · focus · div.ant-steps-item.ant-steps-item-wait[role=button] “3ReviewCheck answers”: text #8C8C8C on #FFFFFF is 3.35:1, needs 4.5:1",
-   "contrast · hover · div.ant-steps-item.ant-steps-item-wait[role=button] “3ReviewCheck answers”: text #E70E68 on #FEF3F7 is 4.16:1, needs 4.5:1",
-   "contrast · rest · div.ant-steps-item.ant-steps-item-finish[role=button] “DetailsName & type”: text #8C8C8C on #FFFFFF is 3.35:1, needs 4.5:1",
-   "contrast · rest · div.ant-steps-item.ant-steps-item-wait[role=button] “3ReviewCheck answers”: text #8C8C8C on #FFFFFF is 3.35:1, needs 4.5:1"
+   "contrast · hover · div.ant-steps-item.ant-steps-item-wait[role=button] “3ReviewCheck answers”: text #E70E68 on #FEF3F7 is 4.16:1, needs 4.5:1"
   ],
   "table": [
    "contrast · active · th.ant-table-cell.ant-table-column-has-sorters “Name”: icon #B5B5B5 on #F0F0F0 is 1.80:1, needs 3:1",
