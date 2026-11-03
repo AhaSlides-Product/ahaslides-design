@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.917.1 — 2026-11-03
+### Changed
+- Docs → Leaderboard: the previews sit in a fixed 16:9 slide frame, and the phone example is gone from the page (the phone size and its code sample are unchanged). The Show winner banner fills the same frame however many rows the leaderboard has; it no longer grows with the list (#NNN)
+- Canvas Library → Leaderboard: the light, dark and orange deck demos are 16:9 slide frames with an outline instead of a fixed 300px strip, so the list scrolls inside the frame and Show winner covers the same size at 5 or 14 rows (#NNN)
+
 ## 0.916.2 — 2026-11-03
 ### Fixed
 - Avatar: an image that fails to load (deleted file, CDN error) showed the browser's broken-image icon. `aha-avatar` now shows the no-src content (the `icon` if set, else the initials of `name`) when the image errors, and keeps it until `src` changes. The contract and the JSDoc say so (#584)
