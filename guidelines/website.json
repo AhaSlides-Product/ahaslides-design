@@ -268,7 +268,7 @@
       ]
     },
     {
-      "rule": "Balanced grids: a card or feature grid (not templates, which are always 3 by n on desktop, W10) never leaves an empty column slot or sits off-centre. The column count follows the item count: 1 item is one centred column, 2 items are 2 columns, 3 are 3, 4 are 2 by 2, and 5 or more are 3 columns with a short last row centred. The Cards grid, the Features icon grid and the Numbers stats do this by default at 992 px and wider, and centre a lone last card at 768 to 991 px; never override `grid-template-columns` to leave a gap.",
+      "rule": "Balanced grids: a card or feature grid (not templates, which are always 3 by n on desktop, W10) never leaves an empty column slot or sits off-centre. The column count follows the item count: 1 item is one centred column, 2 items are 2 columns, 3 are 3, 4 are 2 by 2 (the Features icon cards keep their single row of 4), and 5 or more are 3 columns with a short last row centred. The Cards grid, the Features icon grid, the Features icon cards, the Features compact see-all grid and the Numbers stats do this by default at 992 px and wider, the Steps row (`aha-marketing-cards__grid--row`) does it from 768 px (1 to 3 steps stay one row, 4 are 2 by 2, 5 or more are 3 columns), the icon cards with a side header centre an odd last card, and centre a lone last card at 768 to 991 px; never override `grid-template-columns` to leave a gap.",
       "ref": [
         "W11"
       ],
