@@ -43,6 +43,19 @@ function AhaDropdown({ label, value, items, placement, trigger, open, onSelect, 
   onSelect={(key) => runAction(key)}
 />
 
+// a context menu with shortcuts: the key draws as the DS chip at the row's trailing edge (⌘D on a Mac, Ctrl D elsewhere)
+<AhaDropdown
+  label="Slide"
+  items={[
+    { key: 'new', label: 'New slide', icon: 'system-plus' },
+    { key: 'duplicate', label: 'Duplicate', icon: 'system-duplicate', shortcut: 'Mod+D' },
+    { key: 'copy', label: 'Copy to…', icon: 'system-copy' },
+    { type: 'divider' },
+    { key: 'delete', label: 'Delete', icon: 'system-trash', danger: true, shortcut: 'Del' },
+  ]}
+  onSelect={runSlideAction}
+/>
+
 // a single-choice picker: `value` selects the row and the trigger shows its label
 <AhaDropdown
   value={role}

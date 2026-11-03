@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { existsSync } from 'node:fs';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { evaluateInPage, resolveChrome, withPage } from '../cdp.mjs';
-import { fillShortcutChip, shortcutPieces } from '../lib/shortcut-key.js';
+import { ariaKeyShortcuts, fillShortcutChip, shortcutPieces } from '../lib/shortcut-key.js';
 
 const fixture = pathToFileURL(fileURLToPath(new URL('./canvas-shortcut.html', import.meta.url))).href;
 const skip = existsSync(resolveChrome()) ? false : 'needs headless Chrome (set CHROME_BIN)';
@@ -17,6 +17,15 @@ test('shortcut keys follow the platform: glyphs on a Mac, words elsewhere, Enter
   assert.deepEqual(shortcutPieces('Mod+K', false), ['Ctrl K']);
   assert.deepEqual(shortcutPieces('Escape', true), ['Esc']);
   assert.deepEqual(shortcutPieces('', true), []);
+});
+
+test('aria-keyshortcuts names the real keys: Mod is Meta on a Mac and Control elsewhere', () => {
+  assert.equal(ariaKeyShortcuts('Mod+D', true), 'Meta+D');
+  assert.equal(ariaKeyShortcuts('Mod+D', false), 'Control+D');
+  assert.equal(ariaKeyShortcuts('Ctrl+Shift+Z', true), 'Control+Shift+Z');
+  assert.equal(ariaKeyShortcuts('Option+Esc', false), 'Alt+Escape');
+  assert.equal(ariaKeyShortcuts('Del', false), 'Delete');
+  assert.equal(ariaKeyShortcuts('Mod++', false), 'Control+Plus');
 });
 
 test('a literal plus key: "+" alone, and a trailing "+" after the separator', () => {

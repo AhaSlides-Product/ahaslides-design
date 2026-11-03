@@ -33,6 +33,18 @@ function AhaMenu({ items, value, mode, onSelect, children }) {
   onSelect={setView}
 />
 
+// a context menu with shortcuts — the key draws as the DS chip at the row's trailing edge (⌘D on a Mac, Ctrl D elsewhere)
+<AhaMenu
+  items={[
+    { key: 'new', label: 'New slide', icon: 'system-plus' },
+    { key: 'duplicate', label: 'Duplicate', icon: 'system-duplicate', shortcut: 'Mod+D' },
+    { key: 'copy', label: 'Copy to…', icon: 'system-copy' },
+    { type: 'divider' },
+    { key: 'delete', label: 'Delete', icon: 'system-trash', danger: true, shortcut: 'Del' },
+  ]}
+  onSelect={runSlideAction}
+/>
+
 // per-row extras — testid → data-testid, attrs (data-*, aria-label), slot for rich row content
 <AhaMenu
   items={[
