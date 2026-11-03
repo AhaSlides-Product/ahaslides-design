@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.950.1 — 2026-11-03
 ### Fixed
-- Website Logos strip: with the label hidden (the docs Label: Off switch, or a hidden `aha-logos__label` left in the markup) the logos sat 24px below the top and 96px above the bottom. A hidden label now counts as no label, so the strip has equal Section space above and below the logos, and the one-Group pull-up after a same-surface section still applies (#NNN)
+- Website Logos strip: with the label hidden (the docs Label: Off switch, or a hidden `aha-logos__label` left in the markup) the logos sat 24px below the top and 96px above the bottom. A hidden label now counts as no label, so the strip has equal Section space above and below the logos, and the one-Group pull-up after a same-surface section still applies (#606)
 
 ## 0.950.0 — 2026-11-03
 ### Changed
