@@ -17,9 +17,15 @@
   <aha-select id="tags" mode="tags" separators=", ;" placeholder="name@example.com" values='["a@b.c"]'></aha-select>
   <aha-card id="clip-card" style="display:block; width:280px; height:72px"><aha-select id="clipped" value="b" options='[{"label":"Alpha","value":"a"},{"label":"Beta","value":"b"},{"label":"Gamma","value":"g"},{"label":"Delta","value":"d"}]'></aha-select></aha-card>
   <aha-select id="grow" show-search filter="off" loading style="position:fixed; left:0" placeholder="Search"></aha-select>
+  <aha-select id="multi" mode="multiple" allow-clear max-count="2" values='["c1"]' aria-label="Courses" options='[{"label":"Algebra","value":"c1","suffix":"12"},{"label":"Biology","value":"c2","suffix":"8"},{"label":"Chemistry","value":"c3","suffix":"5"}]'></aha-select>
+  <aha-select id="multi-search" mode="multiple" show-search filter-prop="title" aria-label="Presentations" options='[{"label":"Courses","options":[{"label":"Intro","value":"i","title":"Onboarding course"},{"label":"Advanced","value":"a","title":"Expert track"}]},{"label":"Drafts","options":[{"label":"Untitled","value":"u","title":"Draft"}]}]'></aha-select>
+  <aha-select id="tags-suggest" mode="tags" aria-label="Cities" options='["Paris","Prague","Oslo"]'></aha-select>
+  <aha-select id="grouped" show-search value="apple" aria-label="Food" options='[{"label":"Fruit","options":[{"label":"Apple","value":"apple"},{"label":"Banana","value":"banana"}]},{"label":"Vegetables","options":[{"label":"Carrot","value":"carrot"}]}]'></aha-select>
+  <aha-autocomplete id="ac" aria-label="Region" options='[{"label":"Europe","value":"eu","suffix":"EU"},{"label":"Asia","value":"as","suffix":"APAC"}]'></aha-autocomplete>
   <script type="module">
     await import('../lib/aha-select.js');
     await import('../lib/aha-card.js');
+    await import('../lib/aha-autocomplete.js');
     await customElements.whenDefined('aha-select');
     window.selectOptionsFixtureReady = true;
   </script>

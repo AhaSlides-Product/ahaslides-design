@@ -48,6 +48,24 @@
     <aha-select mode="tags" placeholder="Add a keyword" aria-label="Keywords" style="--aha-field-width:min(100%, 380px)"></aha-select>
   </div>
 
+  <div class="lbl">Opt-in: mode="multiple" (pick several), max-count, filter-prop, suggestions in tags mode</div>
+  <div class="row" style="align-items:flex-start; gap:12px; flex-wrap:wrap">
+    <aha-select mode="multiple" allow-clear aria-label="Country" values='["vn","sg"]' style="--aha-field-width:min(100%, 380px)"
+      options='[{"label":"Viet Nam","value":"vn"},{"label":"Singapore","value":"sg"},{"label":"Thailand","value":"th"},{"label":"Japan","value":"jp"}]'></aha-select>
+    <aha-select mode="multiple" show-search filter-prop="title" max-count="2" aria-label="Courses" values='["c1"]' style="--aha-field-width:min(100%, 380px)"
+      options='[{"label":"Getting started","value":"c1","title":"Getting started with AhaSlides"},{"label":"Quizzes that stick","value":"c2","title":"Quizzes that stick"},{"label":"Live polls","value":"c3","title":"Live polls for big rooms"}]'></aha-select>
+    <aha-select mode="tags" aria-label="City" values='["Hanoi"]' style="--aha-field-width:min(100%, 380px)"
+      options='[{"label":"Hanoi","value":"Hanoi","suffix":"128"},{"label":"Ho Chi Minh City","value":"Ho Chi Minh City","suffix":"342"},{"label":"Da Nang","value":"Da Nang","suffix":"57"}]'></aha-select>
+  </div>
+
+  <div class="lbl">Opt-in: option groups</div>
+  <div class="row" style="align-items:flex-start; gap:12px; flex-wrap:wrap">
+    <aha-select value="light" aria-label="Slide theme"
+      options='[{"label":"Built-in themes","options":[{"label":"Light","value":"light"},{"label":"Dark","value":"dark"}]},{"label":"Your themes","options":[{"label":"Brand colours","value":"brand"}]}]'></aha-select>
+    <aha-select mode="multiple" show-search aria-label="Presentation" values='["p2"]' style="--aha-field-width:min(100%, 380px)"
+      options='[{"label":"My presentations","options":[{"label":"Quarterly review","value":"p1"},{"label":"Kick-off","value":"p2"}]},{"label":"Shared with me","options":[{"label":"Team retro","value":"p3"}]}]'></aha-select>
+  </div>
+
   <div class="lbl">In a settings row</div>
   <aha-settings-list style="max-width:380px; display:block"
     schema='{"sections":[{"label":"Presentation","rows":[
