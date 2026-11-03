@@ -36,7 +36,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.920.0 — 2026-11-03
 ### Changed
 - Website item grids follow the kind of item and the heading above them, W11: bordered cards under a centred heading (Cards grid, Steps row, Features icon cards and compact see-all, Testimonials quote cards, Pricing plan grid) still centre a single card and the short last row, now from 992 px only; borderless items (every Numbers layout, the Features icon grid) keep straight columns with the short last row under column 1; under a left aligned heading (Features side header, Numbers split image and actions with icons, Pricing featured plans) no item is centred (#590)
-- At tablet (768 to 991 px) every bordered card grid stacks to one column of full-width cards, even for 2 or 4 cards; Templates and the image-led grid keep their 2 columns, borderless grids keep 2 straight columns (#590)
+- At tablet (768 to 991 px) every bordered card grid stacks to one column of full-width cards, even for 2 or 4 cards; Templates and the image-led grid keep their 2 columns, borderless grids keep 2 straight columns, except Numbers Divided, which keeps its 3 divided columns (2 for 2 or 4 stats) (#590)
 - Numbers centred: the Number style switch defaults to Left aligned (left aligned numbers, no dividers); Divided is the alternative and drops the divider at the start of each row (#590)
 - Revert: revert the PR; it changes Marketing section CSS, the Numbers default option and the W11 text only, with no API or token change
 
