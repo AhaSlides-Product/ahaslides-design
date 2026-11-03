@@ -40,7 +40,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
   closes the newest prompt** (#NNN). Its `open`, `confirm`, `cancel`, `close` and `closed` events stay composed but no longer
   bubble, so a modal's or drawer's own `cancel` / `closed` listener (the documented React pattern) never runs when the prompt
   is dismissed. A trigger with `disabled`, `:disabled` or `aria-disabled="true"` no longer opens it. With two prompts open,
-  Escape closes the one opened last instead of the first. Demo copy follows the UX writing review (UXWR-27).
+  Escape closes the one opened last instead of the first. A prompt already in the page when the script loads now opens in the
+  browser top layer too (it was left at z-index 20, so a sticky header or a transformed ancestor could cover or clip it), and
+  `open = ''` (what React 19 assigns) opens it instead of closing it. Demo copy follows the UX writing review (UXWR-27).
 
 ## 0.972.0 — 2026-11-04
 

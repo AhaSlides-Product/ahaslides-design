@@ -24,6 +24,7 @@ const scenarios = String.raw`(async () => {
   const out = {};
 
   out.closedHidden = getComputedStyle(panel()).display;
+  out.parsedTopLayer = panel().hasAttribute('popover');
   trigger.focus(); trigger.click(); await frame(); await settle();
   out.opened = [pc.open, getComputedStyle(panel()).display, trigger.getAttribute('aria-expanded'), trigger.getAttribute('aria-haspopup')];
   out.focusOnOk = inside(ok);
@@ -94,12 +95,15 @@ const scenarios = String.raw`(async () => {
   built.setAttribute('open', 'false');
   document.body.append(built); await frame();
   out.falseStaysClosed = built.open;
+  built.open = '';
+  out.emptyStringOpens = built.open;
   return out;
 })()`;
 
 test('aha-popconfirm maps the antd props, moves focus in and back, and closes only through uncancelled confirm / cancel / close', { skip }, async () => {
   const r = await evaluateInPage(fixture, scenarios, { readyExpr: '!!window.popconfirmFixtureReady', timeout: 45000 });
   assert.equal(r.closedHidden, 'none');
+  assert.equal(r.parsedTopLayer, true);
   assert.deepEqual(r.opened, [true, 'block', 'true', 'dialog']);
   assert.equal(r.focusOnOk, true);
   assert.deepEqual(r.labels, ['Delete', 'Keep', 'primary', 'secondary', 'del-ok', 'del-cancel']);
@@ -132,4 +136,5 @@ test('aha-popconfirm maps the antd props, moves focus in and back, and closes on
   assert.deepEqual(r.heardByModal, []);
   assert.equal(r.createdUpgraded, true);
   assert.equal(r.falseStaysClosed, false);
+  assert.equal(r.emptyStringOpens, true);
 });
