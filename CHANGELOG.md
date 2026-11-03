@@ -44,7 +44,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.953.0 — 2026-11-03
 ### Changed
-- The Websites > Marketing **Sections** list (sidebar, Marketing index, `marketing.llms.txt`, `marketing.agent.json`) follows the order a landing page reads top to bottom: Join bar, Navigation, Hero, Logos, Numbers, Features, Comparison table, Testimonials, Pricing, FAQ, Footer banner, Footer. It was alphabetical. Cards, the building block, stays ahead of the sections. Order only: no section is renamed or changed (#NNN)
+- The Websites > Marketing **Sections** list (sidebar, Marketing index, `marketing.llms.txt`, `marketing.agent.json`) follows the order a landing page reads top to bottom: Join bar, Navigation, Hero, Logos, Numbers, Features, Comparison table, Testimonials, Pricing, FAQ, Footer banner, Footer. It was alphabetical. Cards, the building block, stays ahead of the sections. Order only: no section is renamed or changed (#604)
 
 ## 0.950.0 — 2026-11-03
 ### Changed
