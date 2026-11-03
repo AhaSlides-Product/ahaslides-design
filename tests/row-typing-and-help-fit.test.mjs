@@ -61,3 +61,38 @@ test('every setting-row help bubble stays inside a 320px and a 383px viewport', 
     assert.deepEqual(outside, [], `bubbles outside at ${width}px`);
   }
 });
+
+test('a host echoing a stale or trimmed value while the field is focused never eats a typed space; a new value still applies', { skip }, async () => {
+  const fields = {
+    'aha-option-row': 'el.shadowRoot.querySelector(".field").shadowRoot.querySelector("textarea")',
+    'aha-counted-textarea': 'el.shadowRoot.querySelector("textarea")',
+    'aha-counted-input': 'el.shadowRoot.querySelector(".field")',
+    'aha-input': 'el.shadowRoot.querySelector(".field")',
+  };
+  const url = pageWith(Object.keys(fields).map((tag) => `<${tag} value=""></${tag}>`).join(''));
+  for (const [tag, field] of Object.entries(fields)) {
+    const result = await withPage(url, async (command) => {
+      const run = evaluate(command);
+      const read = () => run(`(() => { const el = document.querySelector('${tag}'); return { field: ${field}.value, value: el.value }; })()`);
+      await run(`(() => { const el = document.querySelector('${tag}'); window.el = el; (${field}).focus(); })()`);
+      await command('Input.insertText', { text: 'Hello' });
+      await command('Input.insertText', { text: ' ' });
+      await run('new Promise((resolve) => setTimeout(() => { el.value = "Hello"; resolve(); }, 20))');
+      await command('Input.insertText', { text: 'W' });
+      const typed = await read();
+      await run('el.value = "Reset"');
+      const reset = await read();
+      await command('Input.imeSetComposition', { text: 'vi', selectionStart: 2, selectionEnd: 2 });
+      await run('el.value = "Reset"');
+      const composing = await read();
+      await command('Input.insertText', { text: 'việt' });
+      return { typed, reset, composing, committed: await read() };
+    }, { readyExpr: `!!window.ready && !!customElements.get("${tag}")` });
+    assert.deepEqual(result, {
+      typed: { field: 'Hello W', value: 'Hello W' },
+      reset: { field: 'Reset', value: 'Reset' },
+      composing: { field: 'Resetvi', value: 'Resetvi' },
+      committed: { field: 'Resetviệt', value: 'Resetviệt' },
+    }, tag);
+  }
+});

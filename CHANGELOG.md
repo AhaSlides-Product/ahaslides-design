@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.960.1 — 2026-11-03
+### Fixed
+- Option row, Counted textarea, Counted input and Input: a typed space (or the last few keystrokes) no longer disappears when the host writes back an older or trimmed copy of the value while the field has focus, for example after a debounced save. A value the field itself sent earlier in the same focus session no longer overwrites what is typed; any other value (a reset, a collaborator's edit) still applies. A value set during IME composition (Vietnamese Telex, Chinese, Japanese) no longer breaks the composition (#NNN)
+
 ## 0.959.1 — 2026-11-03
 ### Fixed
 - Website Logos strip: with the label hidden (the docs Label: Off switch, or a hidden `aha-logos__label` left in the markup) the logos sat 24px below the top and 96px above the bottom. A hidden label now counts as no label, so the strip has equal Section space above and below the logos, and the one-Group pull-up after a same-surface section still applies (#606)
