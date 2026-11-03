@@ -37,7 +37,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ### Added
 - **`aha-toast` and `aha-notification`: the toast and the notification card as web components with an imperative API**
-  (#129). `toast.success('Slide saved')` and `notify({ title, description, action })` work from any handler in React, Vue
+  (#620). `toast.success('Slide saved')` and `notify({ title, description, action })` work from any handler in React, Vue
   or plain HTML, with no provider and no antd. Both stack in one bottom-right `<aha-toaster>` region (Feedback C1) and
   match the antd message and Notification themes value for value; the glyph stays in the default icon colour (C6). They
   are announced through a persistent live region (assertive for an error), never take focus, pause on hover or focus,
