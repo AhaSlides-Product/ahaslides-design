@@ -33,13 +33,22 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.922.0 — 2026-11-03
+## 0.926.0 — 2026-11-03
 ### Added
 - DataTable value filter: `filter: { type: 'value', inputType: 'text' | 'number' | 'date', label }` takes one typed value; text matches a case-insensitive substring, number an equal value, date the same calendar day (#593)
 - DataTable controlled column visibility: `visibleColumns` + `onVisibleColumnsChange(visibleKeys)`, or `defaultVisibleColumns` uncontrolled, so an app can save each creator's columns and feed its export (#593)
 - DataTable column-editor events: `onColumnsEditorOpenChange(open)`, `onColumnToggle(key, visible)` and `onColumnsReset()`; Edit columns shows a Reset footer when the app passes `visibleColumns`, `defaultVisibleColumns` or `onColumnsReset` (#593)
 ### Fixed
 - Table criterion C6 now says DataTable icons are DS `<aha-icon>` by name, as the component ships, instead of `@phosphor-icons/react`, which screen-lint hard-fails as `foreign-icon-library` (#593)
+
+## 0.925.0 — 2026-11-03
+### Changed
+- Destructive confirm: `destructiveConfirm` now gives the confirm button `type: 'default'` (white, 1px #E3E3E3 border, #1A1A1A label, the look of `aha-button` secondary) instead of a solid #1A1A1A danger fill, so a destructive confirm shows one primary, the pink Cancel. The overlays rule `danger-confirm-button`, its anti-slop criterion, the Modal and Popconfirm examples and contracts say the same (#581)
+- antd Button disabled colours match `aha-button`: #E3E3E3 fill and border, #B5B5B5 label, set on the Button component only (#581)
+- Popconfirm theme pins the small button radius to 4px, so a host's own `borderRadiusSM` no longer applies inside it (#581)
+- Documented difference: antd has no hover-shadow token, so an antd primary hovers Darker Pink without `aha-button`'s pink glow; the Popconfirm spec says so (#581)
+- Form render contract expects the #1A1A1A label that `form-theme` has set since 0.915.2, so the standards gate passes again (#581)
+- Revert: revert the PR; `lib/popconfirm-theme.js` and one block in `lib/antd-base-theme.js` return to the previous values
 
 ## 0.920.1 — 2026-11-03
 ### Changed

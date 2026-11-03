@@ -8,7 +8,6 @@
   "contract:live-region",
   "contract:modal",
   "contract:notification",
-  "contract:popconfirm",
   "contract:qr-code",
   "contract:slider",
   "contract:status-icon",

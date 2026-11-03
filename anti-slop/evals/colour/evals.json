@@ -73,7 +73,7 @@
       "files": [],
       "label": "bad-example",
       "notes": "Targets C4: destructive primary, coloured.",
-      "expected_output": "C4 FAILs: the destructive action is the primary button, and it is red. Fix: Cancel is the primary button; Delete is the DS danger button, which carries no hue. Overall: NEEDS FIX.",
+      "expected_output": "C4 FAILs: the destructive action is the primary button, and it is red. Fix: Cancel is the primary button; Delete is a default button, which carries no hue and no dark fill. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX"
       ],

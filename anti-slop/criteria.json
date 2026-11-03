@@ -995,7 +995,7 @@
         {
           "id": "C7",
           "title": "Destructive confirm uses a danger-styled button",
-          "test": "**Rule.** A destructive confirmation uses `okButtonProps={{ danger: true, type: 'primary', loading: busy }}` — the **dark danger styling lives on the action button**, never on the title or body — and Cancel, the safe choice, is the primary button (`cancelButtonProps={{ type: 'primary', disabled: busy }}`), disabled while busy. For confirmations the title is a **question** (\"Delete this survey permanently?\")."
+          "test": "**Rule.** A destructive confirmation uses `okButtonProps={{ type: 'default', loading: busy }}` (a plain default button, white with a 1px #E3E3E3 border and a #1A1A1A label, the look of `aha-button` secondary; never `danger`, which would draw a #1A1A1A border or fill), never a solid dark fill and nothing on the title or body, and Cancel, the safe choice, is the primary button (`cancelButtonProps={{ type: 'primary', disabled: busy }}`), disabled while busy. For confirmations the title is a **question** (\"Delete this survey permanently?\")."
         },
         {
           "id": "C8",
