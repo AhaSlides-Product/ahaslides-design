@@ -33,10 +33,24 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.918.0 — 2026-11-03
+## 0.927.0 — 2026-11-03
 ### Added
 - Marketing → Hero split: four opt-in Image switches for a tall phone screenshot, so the picture no longer makes the hero far taller than its copy. Frame (`aha-header-section-hero-split--frame`) holds the screenshot whole in a pale pink 5:4 frame with an even inset; Frame overflow (`--frame-overflow`) puts a larger screenshot in the same frame, cut off at the frame's bottom; Rise (`--rise`) drops the bottom padding and lets the screenshot rise from the hero's bottom edge, cut off at 560 px; Stack (`--stack`) shows the screenshot whole with a second screen (the `__back` image) tilted behind it in the photo frame. Inset stays the default, so no existing page moves. Frame overflow, Rise and Stack crop or tilt a screenshot, which W6 does not allow: they are marked W6 pending and W6 is unchanged (#586)
 - Revert: revert the PR; additive CSS behind the four modifier classes and one `data-choice="stack"` back image in `marketing/hero.json`
+
+## 0.925.0 — 2026-11-03
+### Changed
+- Destructive confirm: `destructiveConfirm` now gives the confirm button `type: 'default'` (white, 1px #E3E3E3 border, #1A1A1A label, the look of `aha-button` secondary) instead of a solid #1A1A1A danger fill, so a destructive confirm shows one primary, the pink Cancel. The overlays rule `danger-confirm-button`, its anti-slop criterion, the Modal and Popconfirm examples and contracts say the same (#581)
+- antd Button disabled colours match `aha-button`: #E3E3E3 fill and border, #B5B5B5 label, set on the Button component only (#581)
+- Popconfirm theme pins the small button radius to 4px, so a host's own `borderRadiusSM` no longer applies inside it (#581)
+- Documented difference: antd has no hover-shadow token, so an antd primary hovers Darker Pink without `aha-button`'s pink glow; the Popconfirm spec says so (#581)
+- Form render contract expects the #1A1A1A label that `form-theme` has set since 0.915.2, so the standards gate passes again (#581)
+- Revert: revert the PR; `lib/popconfirm-theme.js` and one block in `lib/antd-base-theme.js` return to the previous values
+
+## 0.920.1 — 2026-11-03
+### Changed
+- Docs → Leaderboard: the previews sit in a fixed 16:9 slide frame, and the phone example is gone from the page (the phone size and its code sample are unchanged). The Show winner banner fills the same frame however many rows the leaderboard has; it no longer grows with the list (#585)
+- Canvas Library → Leaderboard: the light, dark and orange deck demos are 16:9 slide frames with an outline instead of a fixed 300px strip, so the list scrolls inside the frame and Show winner covers the same size at 5 or 14 rows. On a narrow screen the frame scrolls rather than cutting off the winner banner (#585)
 
 ## 0.917.2 — 2026-11-03
 ### Fixed
