@@ -43,6 +43,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Upload: `label`, `hint` and `limitlabel` attributes set the drop-zone text, so an app can localise or reword it instead of the fixed English; the defaults are the current text. `label` is also the picture-card add-box text. (#609)
 - Revert: revert the PR; opt-in attributes with the old text as default, no other change.
 
+## 0.956.3 — 2026-11-03
+### Fixed
+- Dropdown: a closed menu no longer takes up space under its trigger (it stretched scrolling lists and added a horizontal scrollbar), and opening one dropdown closes any other open one, even when the click lands on another dropdown's trigger (#611)
+
 ## 0.956.1 — 2026-11-03
 ### Changed
 - Join bar code field placeholder reads "Enter code" in the string, not "ENTER CODE..."; the field's own uppercase styling still shows it in capitals, so the only visible change is the three dots going (#608)
