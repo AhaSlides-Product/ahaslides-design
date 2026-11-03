@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.916.2 — 2026-11-03
+### Fixed
+- Avatar: an image that fails to load (deleted file, CDN error) showed the browser's broken-image icon. `aha-avatar` now shows the no-src content (the `icon` if set, else the initials of `name`) when the image errors, and keeps it until `src` changes. The contract and the JSDoc say so (#PRNUM)
+
 ## 0.916.1 — 2026-11-03
 ### Fixed
 - Marketing → Features, Cards: the Features icon cards list was a fixed four-column grid, so three cards sat left of the centred heading with an empty fourth column, although W11 says the grid balances by item count. It now follows the item count at 992px and wider (1 card one centred column, 2 and 3 cards 2 and 3 columns, 4 stay one row of 4, 5 or more 3 columns with a short last row centred) and centres a lone last card at 768 to 991px. The compact see-all list balances the same way from 768px, and the icon cards with a side header centre an odd last card (#583)
