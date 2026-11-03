@@ -43,7 +43,7 @@ built on AntD v6 `Modal` / `Drawer` / `Popover`.
 ## Modal conventions
 
 - For confirmations, the **title is a question** — "Delete this survey permanently?".
-- Destructive confirm button: `okButtonProps={{ danger: true, type: 'primary', loading: busy }}` — the dark danger styling lives on the **action button, never the title or body** — and Cancel, the safe choice, is the primary button (`cancelButtonProps={{ type: 'primary' }}`). A Popconfirm gets both from `destructiveConfirm` in `popconfirm-theme`.
+- Destructive confirm button: `okButtonProps={{ type: 'default', loading: busy }}` — a plain default button (white, 1px #E3E3E3 border, #1A1A1A label, the look of `aha-button` secondary), **never `danger` and never a solid dark fill** — and Cancel, the safe choice, is the primary button (`cancelButtonProps={{ type: 'primary' }}`). A Popconfirm gets both from `destructiveConfirm` in `popconfirm-theme`.
 - Disable cancel while busy: `cancelButtonProps={{ disabled: busy }}`.
 
 ## Async confirm pattern
