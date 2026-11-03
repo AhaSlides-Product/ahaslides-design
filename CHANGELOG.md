@@ -43,6 +43,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `tooltip-theme` (`tooltipTheme`, `brandTooltip`), `tag-theme` (`tagTheme`, `tagCss`: the 600 weight and 6px padding antd has no token for, added on import) and `segmented-theme` (`segmentedTheme`), each with a docs page (antd Tooltip, antd Tag, antd Segmented) and a render contract. New UI keeps using the aha-* elements (#PR)
 - Revert: revert the PR; apps then draw antd's own heading sizes, greys, tooltip, tag, segmented and confirm dialogs again, and a popover around a menu shows two frames
 
+## 0.934.1 — 2026-11-03
+
+- Split button is part of the Button page: a "Split" section shows the shipped `<aha-split-button>` live (primary with and without an icon, secondary, disabled) and links to its full spec. Split button no longer has its own Components sidebar item; its spec page stays (props, events, code, agent feeds) and lights up Button in the sidebar. No API, token or icon change. (#595)
+- Revert: revert this PR; the sidebar item comes back from the `generate.mjs` catalogue.
+
 ## 0.932.0 — 2026-11-03
 ### Added
 - `<aha-split-button>`, Button's split variant: a main action joined to a caret that opens a menu of related actions (Present with Present from start / from current slide). Both halves are the shipped `aha-button` (primary or secondary, sm / md / lg, lg default) and the menu is the shipped `aha-dropdown` (same `items`), so every per-state value and the menu behaviour are theirs, not copies. Outer corners keep the size's radius, inner corners are square, and a 1px divider separates the halves (white at 24% on primary, the default border on secondary, the disabled ink when disabled). The caret is its own button (`caret-label`, default "More options", `aria-haspopup="menu"`, `aria-expanded`; opens on click, Enter, Space, ArrowDown). `click` fires for the main half only; choosing a row emits `select`. `disabled` disables both halves, `loading` spins the main half only. Linked from the Button and Dropdown pages. No new token or icon; the Button and Dropdown APIs are unchanged. (#589)
