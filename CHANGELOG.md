@@ -33,6 +33,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.933.0 — 2026-11-03
+### Added
+- Navigation: new Join bar layout (`aha-join-bar`, Webflow component Join bar), the dark "Are you a participant?" bar with the access-code field and Join button, taken out of the Site navbar. Place it directly before the Site navbar as a sibling and it scrolls away while the navbar stays stuck to the top, with no positioning script (#NNN)
+### Changed
+- Navigation Site navbar: the join bar markup, CSS and sticky-offset script are removed (`aha-header__join*` classes are gone, so a page using them must add the Join bar layout above the navbar); the navbar now sticks at `top:0` (#NNN)
+- Navigation Site navbar: the Products menu preview slot is a video, the same clips as the live ahaslides.com menu: Word cloud by default, and the clip of each Interactive slides entry under the pointer or focus. It has no `autoplay`: it plays muted and looped only while the Products menu is open, pauses when it closes, shows only its poster under prefers-reduced-motion or `data-aha-motion="off"`, and is hidden at 991px and below, where its clip never loads (#NNN)
+- W9 (website guideline, anti-slop criterion and the Hero video note): the Products menu preview clip is allowed beside the one autoplaying hero video and does not count as a second autoplaying video (#NNN)
+- Revert: revert the PR; it changes marketing/navigation.json, the generated Marketing CSS and the W9 prose only, with no token or component API change
+
 ## 0.930.0 — 2026-11-03
 ### Added
 - Menu and Dropdown rows take an optional `shortcut` ("Mod+D", "Del"): the action's key drawn as the shared DS shortcut chip at the row's trailing edge on the label line, on gray-35 #EBEBEB (lighter than the Button and Tooltip chip), ⌘D on a Mac and Ctrl D elsewhere, for a context menu. Display only and aria-hidden; the row gets `aria-keyshortcuts`. It works beside a `description`, on disabled and danger rows, and before a locked row's crown; rows without it are unchanged. New docs example "Context menu with shortcuts" (#591)
