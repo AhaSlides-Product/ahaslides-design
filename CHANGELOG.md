@@ -38,6 +38,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `<aha-split-button>`, Button's split variant: a main action joined to a caret that opens a menu of related actions (Present with Present from start / from current slide). Both halves are the shipped `aha-button` (primary or secondary, sm / md / lg, lg default) and the menu is the shipped `aha-dropdown` (same `items`), so every per-state value and the menu behaviour are theirs, not copies. Outer corners keep the size's radius, inner corners are square, and a 1px divider separates the halves (white at 24% on primary, the default border on secondary, the disabled ink when disabled). The caret is its own button (`caret-label`, default "More options", `aria-haspopup="menu"`, `aria-expanded`; opens on click, Enter, Space, ArrowDown). `click` fires for the main half only; choosing a row emits `select`. `disabled` disables both halves, `loading` spins the main half only. Linked from the Button and Dropdown pages. No new token or icon; the Button and Dropdown APIs are unchanged. (#589)
 - Revert: revert the PR; a new element, contract and parts, plus one line each in `lib/all.js`, `package.json` and the Button and Dropdown "When to use" lists
 
+## 0.917.2 — 2026-11-03
+### Fixed
+- Input docs page shows the built-in `label`: a new Label row with a default, large and disabled field, so the label colour and size can be checked on the page (#592)
+- Revert: revert the PR; one demo row in `parts/input.preview.html`
+
 ## 0.917.0 — 2026-11-03
 ### Added
 - Colour rule 6.9 (web): on a page built from full-width sections, at rest Vivid Pink fills only each section's primary button; the site header counts as one section (Sign up primary, Log in secondary). Icons and icon tiles, ticks, card borders and accent lines, plan outlines, banners and callouts, stat numbers, rating stars and table group headings stay the default ink, and pink shows on hover, focus or selection. Rule 6.8 now points the website to 6.9; website guideline W4 and its anti-slop criterion carry the same rule (#563)
