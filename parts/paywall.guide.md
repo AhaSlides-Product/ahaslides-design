@@ -19,6 +19,7 @@ it composes a popover, the custom crown badge, an Icon and a Button, and defines
 | --- | --- |
 | **Paywall popover on the affordance** | A locked control/action that already has its own clickable anchor |
 | **`<PaywallCrownBadge>` as the anchor** | A feature with no natural clickable anchor (e.g. a field label) |
+| **`locked` row in a Dropdown** | A plan-gated action in an `<aha-dropdown>` menu: set `locked:true` (plus `plan`, `featureKey`, `upgradeBody`) on the item and the dropdown shows the crown and opens this Paywall beside the row; never wrap a menu row in your own popover |
 | **`onUpgrade` handler** | Upgrading inside the app instead of the pricing page — analytics still fires first |
 
 **Scope:** any surface where a feature is locked behind a paid plan — editor affordances,
