@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.913.1 — 2026-11-03
+### Fixed
+- **aha-popover**, **aha-dropdown** `open="false"` now counts as closed, at parse and when the attribute is set later; React 18 writes `open={false}` as that string and it used to open the panel. The `open` attribute is removed when it reads "false". The contracts and agent.json say which to use: React 19 `open={isOpen}`, React 18 `open={isOpen ? '' : undefined}` (#PRNUM)
+- Revert: revert the PR; one guard in `connectedCallback` and `attributeChangedCallback` of each component
+
 ## 0.913.0 — 2026-11-03
 ### Added
 - `<aha-card interactive disabled>`: an inert card. It gets `aria-disabled="true"` and `tabindex="-1"` (out of the tab order), fires no click from the mouse, Enter, Space, `click()` or a dispatched click, loses the hover lift, and takes the DS disabled look (`bg-container-disabled`, `border-disabled`, `text-disabled`, as `aha-card-select`); no new token. Removing `disabled` restores everything; a card without `interactive` ignores it. Also a `disabled` property. (#575)

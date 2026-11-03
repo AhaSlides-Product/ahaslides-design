@@ -16,7 +16,7 @@ function AhaDropdown({ label, value, items, placement, trigger, open, onSelect, 
     el.addEventListener('close', closed);
     return () => { el.removeEventListener('select', h); el.removeEventListener('open', opened); el.removeEventListener('close', closed); };
   });
-  // Set the property, not the attribute: React 19 assigns `open={true}` to the property as '' and the setter reads that as false.
+  // Set the property, not the attribute: React 18 would write open="false" (read as closed) and React 19 assigns the property itself.
   useEffect(() => { if (open !== undefined) ref.current.open = !!open; }, [open]);
   return <aha-dropdown ref={ref} label={label} value={value} placement={placement} trigger={trigger} items={JSON.stringify(items)} />;
 }
