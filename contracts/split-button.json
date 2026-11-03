@@ -22,8 +22,8 @@
     "Two real buttons: each half hovers, presses and takes focus on its own",
     "Reuses aha-button and aha-dropdown, no copied styles"
   ],
-  "lead": "ONE custom element, <aha-split-button>, defined once and imported unchanged by React and Vue. It is Button's split variant: the main half is an <aha-button> (label slot, optional slot=\"icon\") and the caret half is an icon-only <aha-button> with the system-caret-down glyph, slotted as the trigger of an <aha-dropdown>. So every per-state value (fill, label, hover, press, focus ring, disabled, heights, radius, spinner) is the Button's own, and the menu is the Dropdown's own (rows, icons, dividers, danger, locked rows, flyouts, roving keys, top-layer placement). The outer corners keep the size's radius, the inner corners are square, and a 1px divider separates the halves: white at 24% on primary, the default border #E3E3E3 on secondary. A click on the main half is the native `click`; choosing a row emits `select` (detail { key }). The Button API is unchanged.",
-  "codeNote": "Same element, same shadow-DOM CSS, so the render is identical. React (< 19) consumes it via a thin wrapper that listens for `click` and `select`; Vue binds the custom element natively. The halves are the shipped aha-button and aha-dropdown, defined once in @ahaslides-product/design.",
+  "lead": "ONE custom element, <aha-split-button>, defined once and imported unchanged by React and Vue. It is Button's split variant: the main half is an <aha-button> (label slot, optional slot=\"icon\") and the caret half is an icon-only <aha-button> with the system-caret-down glyph, slotted as the trigger of an <aha-dropdown>. So every per-state value (fill, label, hover, press, focus ring, disabled, heights, radius, spinner) is the Button's own, and the menu is the Dropdown's own (rows, icons, dividers, danger, locked rows, flyouts, roving keys, top-layer placement). The outer corners keep the size's radius, the inner corners are square, and a 1px divider separates the halves: white at 24% on primary, the default border #E3E3E3 on secondary, the disabled ink #B5B5B5 when disabled. A click on the main half is the native `click`; choosing a row emits `select` (detail { key }). The Button API is unchanged.",
+  "codeNote": "Same element, same shadow-DOM CSS, so the render is identical. React (< 19) consumes it via a thin wrapper that listens for `select` (`click` binds as onClick); Vue binds the custom element natively. The halves are the shipped aha-button and aha-dropdown, defined once in @ahaslides-product/design.",
   "tokensUsed": [
     "button-primary-bg",
     "button-primary-bg-hover",
@@ -71,7 +71,7 @@
     },
     {
       "label": "Disabled / loading",
-      "value": "disabled greys and disables both halves and closes the menu; loading shows the spinner on the main half only and blocks its click, the caret stays usable"
+      "value": "disabled greys and disables both halves, draws the divider in the disabled ink #B5B5B5 and closes the menu; loading shows the spinner on the main half only and blocks its click, the caret stays usable"
     }
   ],
   "props": [
@@ -280,7 +280,7 @@
       "verdict": "PASS"
     },
     {
-      "label": "1px divider: white 24% on primary, #E3E3E3 on secondary; no raw hex",
+      "label": "1px divider: white 24% on primary, #E3E3E3 on secondary, #B5B5B5 when disabled; no raw hex",
       "verdict": "PASS"
     },
     {

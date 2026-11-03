@@ -19,7 +19,7 @@ function AhaSplitButton({ variant, size, items, caretLabel, placement, disabled,
   );
 }
 
-// usage — the Present button with its present-from menu
+// usage: the Present button with its present-from menu
 <AhaSplitButton
   variant="primary"
   caretLabel="More present options"

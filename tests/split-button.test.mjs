@@ -14,7 +14,7 @@ const page = `<!doctype html><body>
 <aha-split-button id="split" variant="primary" items="${items}">Present</aha-split-button>
 <script type="module">import '${lib}'; window.ready = true;</script>`;
 
-test('the main half fires click, the caret opens the menu without it, and a row emits select', { skip }, async () => {
+test('the main half fires click, the caret opens the menu without it, a row emits select, and attribute changes keep the menu panel', { skip }, async () => {
   const file = join(mkdtempSync(join(tmpdir(), 'split-button-')), 'page.html');
   writeFileSync(file, page);
   const result = await evaluateInPage(pathToFileURL(file).href, `(async () => {
@@ -34,20 +34,25 @@ test('the main half fires click, the caret opens the menu without it, and a row 
     menu.shadowRoot.querySelector('.item[data-key=current]').click();
     const afterSelect = { clicks: clicks.length, selected: selected.slice(), open: menu.open };
     const radii = { mainEnd: getComputedStyle(inner(main)).borderTopRightRadius, caretStart: getComputedStyle(inner(caret)).borderTopLeftRadius, mainStart: getComputedStyle(inner(main)).borderTopLeftRadius };
+    const panel = menu.shadowRoot.querySelector('.panel');
+    host.setAttribute('size', 'md');
+    const samePanel = menu.shadowRoot.querySelector('.panel') === panel;
     host.setAttribute('loading', '');
     const loading = { main: main.hasAttribute('loading'), caret: caret.hasAttribute('loading') };
     host.removeAttribute('loading');
     host.setAttribute('disabled', '');
     await new Promise((r) => requestAnimationFrame(r));
-    const disabled = { main: inner(main).disabled, caret: inner(caret).disabled };
-    return { afterCaret, afterSelect, radii, loading, disabled, sameNodes: root.querySelector('.main') === main };
+    const caretStyle = getComputedStyle(inner(caret));
+    const disabled = { main: inner(main).disabled, caret: inner(caret).disabled, dividerInDisabledInk: caretStyle.borderLeftColor === caretStyle.color };
+    return { afterCaret, afterSelect, radii, samePanel, loading, disabled, sameNodes: root.querySelector('.main') === main };
   })()`, { readyExpr: '!!window.ready && !!customElements.get("aha-split-button")' });
   assert.deepEqual(result, {
     afterCaret: { clicks: 1, open: true, expanded: 'true', haspopup: 'menu', label: 'More options' },
     afterSelect: { clicks: 1, selected: ['current'], open: false },
     radii: { mainEnd: '0px', caretStart: '0px', mainStart: '8px' },
+    samePanel: true,
     loading: { main: true, caret: false },
-    disabled: { main: true, caret: true },
+    disabled: { main: true, caret: true, dividerInDisabledInk: true },
     sameNodes: true,
   });
 });
