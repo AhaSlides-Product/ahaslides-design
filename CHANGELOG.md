@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.954.0 — 2026-11-03
+## 0.955.0 — 2026-11-03
 
 ### Added
 - Rate: `min="0"` on `character="number"` adds a 0 cell before 1, so `<aha-rate count="10" character="number" min="0" readonly>` shows a 0 to 10 score in the product app; `value="0"` fills the 0 cell and no `value` fills nothing (#598)
@@ -42,6 +42,15 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Chart, stacked: series 5 and 6 repeat Vivid Pink and black with a white diagonal hatch on the segment, its legend swatch and its tooltip swatch, so every series up to the fold reads apart (colour rule 8.2); a short `colors` list that wraps gets the same hatch (#598)
 - Chart, stacked: the "Other (n)" legend item lists the merged series on hover, the Other segment's tooltip lists each merged series with its value in that row, and the hidden data table keeps every series as its own column (#598)
 - Chart: every label taken from data (options, series, rows, ticks, words, mind-map nodes, tooltips, table cells) has `dir="auto"`, so mixed right-to-left and left-to-right labels each keep their own direction (#598)
+
+## 0.954.0 — 2026-11-03
+
+### Added
+- Marketing: a screenshot outline for product screenshots whose own edge is white, so they no longer float shapeless on a white band. `aha-features__photo--outline` on the Features photo slot draws a 1 px `--aha-border-default` hairline on the slot's radius; `aha-marketing-card__media--outline` draws the same line between the picture and the card body. No fill, no shadow, no inset; never on a photo or with the Vivid Pink frame. Features Alternating with screenshots gets an Outline choice in its Image switch (Fill, Outline, Pink frame) (#599)
+
+### Changed
+- W6 (website imagery) names the screenshot outline as an exception to the light grey frame ban, beside the Hero split Rise exception (both now worded "Named exception, <name>:"), in every copy (`guidelines/website.json`, `anti-slop/criteria.json`, `agent/anti-slop/criteria.json`); a light grey fill or rail still fails (#599)
+
 
 ## 0.953.0 — 2026-11-03
 ### Changed
