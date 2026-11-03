@@ -33,7 +33,7 @@
   "opinion": {
     "whenToUse": [
       { "what": "Table + tableTheme in ConfigProvider", "when": "a plain rows×columns grid — results, leaderboard, admin list" },
-      { "what": "Data table", "when": "the grid needs DS V3 behaviour — single-arrow sort, checklist / range filters, reorder, freeze, resize, edit columns — import DataTable from @ahaslides-product/design/aha-data-table" },
+      { "what": "Data table", "when": "the grid needs DS V3 behaviour — single-arrow sort, checklist / range / value filters, reorder, freeze, resize, edit columns — import DataTable from @ahaslides-product/design/aha-data-table" },
       { "what": "Expandable rows", "when": "a row hides a detail panel or sub-table, or rows nest children — spread useExpandableRows tableProps on the Table instead of hand-rolling an antd expandIcon caret" },
       { "what": "never a per-call-site restyle", "when": "a bare antd Table restyled at each call site is the drift this replaces" }
     ],
