@@ -1,0 +1,31 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-split-button> is the SAME shared custom element React and Vue consume, here in its
+     native form. Theming comes only from the --aha-* tokens in tokens.css. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-split-button.js';  // registers <aha-split-button> (+ aha-button, aha-dropdown, aha-icon)
+</script>
+
+<!-- variant="primary" | "secondary" (default) · size="sm" | "md" | "lg" (default)
+     items: the caret menu's rows, exactly aha-dropdown's items
+     caret-label: the caret half's accessible name (default "More options")
+     placement="bottomRight" (default) | "bottomLeft" | "topRight" | "topLeft"
+     disabled: both halves · loading: spinner on the main half only -->
+<aha-split-button id="present" variant="primary" caret-label="More present options"
+  items='[
+    {"key":"start","label":"Present from start","icon":"system-play"},
+    {"key":"current","label":"Present from current slide"}
+  ]'>Present</aha-split-button>
+
+<aha-split-button variant="secondary" size="md" caret-label="More share options"
+  items='[{"key":"link","label":"Copy link"},{"key":"invite","label":"Invite by email"}]'>
+  <aha-icon slot="icon" name="system-share-network" size="16" decorative></aha-icon>Share
+</aha-split-button>
+
+<script>
+  const present = document.getElementById('present');
+  // `click` fires for the main half only; the caret opens the menu and never fires it
+  present.addEventListener('click', () => console.log('present'));
+  // choosing a row emits a composed `select` (detail { key }); `open` / `close` bubble out too
+  present.addEventListener('select', (e) => console.log('present', e.detail.key));
+</script>

@@ -33,12 +33,18 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.931.0 — 2026-11-03
+## 0.934.0 — 2026-11-03
 ### Added
 - Marketing → Hero split: an opt-in Rise picture switch for a tall phone screenshot, so the picture no longer makes the hero far taller than its copy. Rise (`aha-header-section-hero-split--rise`) drops the hero's bottom padding and lets the screenshot rise from the hero's bottom edge, cut off there at 560 px tall; a Logos strip goes in its own white band after the hero, never inside it. Inset stays the default, so no existing page moves (#586)
 ### Changed
 - Website guideline W6 (in `guidelines/website.json`, `anti-slop/criteria.json` and `agent/anti-slop/criteria.json`) gets one named exception: Hero split Rise may show a phone screenshot cut off by the hero's bottom edge; nothing else changes in W6 (#586)
 - Revert: revert the PR; additive CSS behind one modifier class in `marketing/hero.json`, and the W6 exception sentence
+
+## 0.932.0 — 2026-11-03
+### Added
+- `<aha-split-button>`, Button's split variant: a main action joined to a caret that opens a menu of related actions (Present with Present from start / from current slide). Both halves are the shipped `aha-button` (primary or secondary, sm / md / lg, lg default) and the menu is the shipped `aha-dropdown` (same `items`), so every per-state value and the menu behaviour are theirs, not copies. Outer corners keep the size's radius, inner corners are square, and a 1px divider separates the halves (white at 24% on primary, the default border on secondary, the disabled ink when disabled). The caret is its own button (`caret-label`, default "More options", `aria-haspopup="menu"`, `aria-expanded`; opens on click, Enter, Space, ArrowDown). `click` fires for the main half only; choosing a row emits `select`. `disabled` disables both halves, `loading` spins the main half only. Linked from the Button and Dropdown pages. No new token or icon; the Button and Dropdown APIs are unchanged. (#589)
+- Split button is listed in the Components sidebar under Button, so its page is reachable from every Components page.
+- Revert: revert the PR; a new element, contract and parts, plus one line each in `lib/all.js`, `package.json`, the Components sidebar catalogue in `generate.mjs` and the Button and Dropdown "When to use" lists
 
 ## 0.930.0 — 2026-11-03
 ### Added

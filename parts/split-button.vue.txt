@@ -1,0 +1,17 @@
+// main.ts: register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-split-button';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue: the Present button with its present-from menu
+// @click is the main half only; @select gets the chosen row (e.detail.key)
+<script setup>
+const items = JSON.stringify([
+  { key: 'start', label: 'Present from start', icon: 'system-play' },
+  { key: 'current', label: 'Present from current slide' },
+]);
+function onSelect(e) { present(e.detail.key); }
+</script>
+
+<template>
+  <aha-split-button variant="primary" caret-label="More present options" :items="items" @click="present()" @select="onSelect">Present</aha-split-button>
+</template>
