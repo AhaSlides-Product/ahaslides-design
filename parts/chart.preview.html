@@ -328,6 +328,7 @@
     <h3 class="chart-type-title" id="chart-type-stacked">Stacked</h3>
     <div class="aha-pg-seg chart-case-switch" role="radiogroup" aria-label="Stacked cases">
       <button type="button" class="aha-pg-opt active" role="radio" aria-checked="true" tabindex="0">Default</button>
+      <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">Six series</button>
       <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">Many series</button>
       <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">0 responses</button>
     </div>
@@ -336,6 +337,13 @@
       <div class="chart-frame" role="group" aria-label="Legend on by default, 1280 by 720 stage"><div class="chart-stage">
       <aha-chart type="stacked" label="Stacked"
         data='{"series":["Salary","Colleagues","Learning","Flexibility"],"rows":[{"label":"Engineering","values":[26,12,30,22]},{"label":"Sales","values":[42,18,14,14]},{"label":"Operations","values":[22,17,14,13]}]}'></aha-chart>
+      </div></div>
+    </div>
+    <div class="chart-case" hidden>
+      <div class="lbl">Series 5 and 6 repeat colours 1 and 2 with a hatch</div>
+      <div class="chart-frame" role="group" aria-label="Series 5 and 6 repeat colours 1 and 2 with a hatch, 1280 by 720 stage"><div class="chart-stage">
+      <aha-chart type="stacked" label="Stacked"
+        data='{"series":["Strongly disagree","Disagree","Neutral","Agree","Strongly agree","Not applicable"],"rows":[{"label":"The onboarding was clear","values":[6,9,14,31,28,12]},{"label":"لوحة التحكم سهلة الاستخدام","values":[4,11,18,27,30,10]}]}'></aha-chart>
       </div></div>
     </div>
     <div class="chart-case" hidden>

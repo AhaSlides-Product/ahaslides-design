@@ -119,6 +119,10 @@
         "when": "a score of up to about 11 whole numbers the participant taps: NPS 0–10, a 1–5 or 1–10 rating shown as numbers"
       },
       {
+        "what": "Rate character=\"number\" min=\"0\" readonly",
+        "when": "showing a 0 to 10 answer in the product app (a results view): Number scale is for the audience screen only"
+      },
+      {
         "what": "Scale slider",
         "when": "a wide or continuous range the participant drags"
       },
