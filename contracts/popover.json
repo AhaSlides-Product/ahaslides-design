@@ -22,7 +22,7 @@
     { "label": "Motion", "value": "fade + 4px directional lift on open (ease-out, persistent node); closed, the panel is display:none and adds no layout or scrollable overflow" }
   ],
   "props": [
-    { "name": "open", "type": "boolean", "default": "false", "desc": "Controlled open state; reflected attribute" },
+    { "name": "open", "type": "boolean", "default": "false", "desc": "Controlled open state; reflected attribute. open=\"false\" counts as closed. React 19 assigns the property, so `open={isOpen}` works as written. React 18 writes a string attribute: `open={true}` becomes open=\"true\" and `open={false}` becomes open=\"false\", which is read as closed; the recommended pattern is `open={isOpen ? '' : undefined}`, which omits the attribute when closed." },
     { "name": "placement", "type": "top | bottom | left | right | top-start | top-end | bottom-start | bottom-end | left-start | left-end | right-start | right-end", "default": "bottom", "desc": "Side the panel anchors to. The 4 cardinal values align the panel to the trigger's leading edge; the 8 edge-aligned values (…-start / …-end) pin it to the trigger's start/end edge with the arrow offset near that edge (AntD naming)" },
     { "name": "trigger", "type": "click | hover | focus", "default": "click", "desc": "How the panel opens. Click closes on outside-click + Escape (focus returns); hover/focus track pointer/focus" },
     { "name": "title", "type": "string", "default": "—", "desc": "Bold header rendered above the body (hidden when empty); also names the dialog panel when there is no aria-label" },
