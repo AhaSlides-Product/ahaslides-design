@@ -947,24 +947,40 @@
       "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
       "files": [
         {
-          "path": "fixtures/fail-w9-second-autoplay-video/Page.html"
+          "path": "fixtures/pass-w9-two-autoplay-videos/Page.html"
         },
         {
           "path": "fixtures/sections.css"
         }
       ],
-      "label": "bad-example",
-      "notes": "Targets W9: a second autoplaying video in a Features row beside the hero video.",
-      "expected_output": "W9 FAILs: the Features row 'Questions without the awkward silence' carries a second autoplaying video; a page allows exactly one autoplaying video, the hero's. Fix: use a still screenshot or a video with controls and no autoplay in the row. Overall: NEEDS FIX.",
+      "label": "good-control",
+      "notes": "Good control at the W9 boundary: the hero video and a second product-demo video in a Features row both autoplay muted and looped with a poster, and the DS motion script pauses them under prefers-reduced-motion. Must not be flagged.",
+      "expected_output": "Both <video> elements (the hero's and the Features row's) carry autoplay, muted, loop, playsinline and a poster, and lib/marketing-motion.js is loaded, which plays them only in view and pauses them under prefers-reduced-motion. W9 passes; every autoplaying video that follows the rule is allowed. Overall: OK TO SHIP.",
       "assertions": [
-        "Overall verdict is NEEDS FIX",
-        "W9 is marked FAIL",
-        "Names the second autoplaying video in the Features row"
+        "Overall verdict is OK TO SHIP",
+        "W9 is not FAIL",
+        "Does not flag the second autoplaying video"
       ],
       "expected": {
-        "overall": "NEEDS_FIX",
+        "overall": "OK_TO_SHIP",
         "criteria": {
-          "W9": "FAIL"
+          "W1": "PASS",
+          "W2": "PASS",
+          "W3": "PASS",
+          "W4": "PASS",
+          "W5": "PASS",
+          "W6": "PASS",
+          "W7": "PASS",
+          "W9": "PASS",
+          "W11": "PASS",
+          "W12": "PASS",
+          "W13": "PASS",
+          "W14": "PASS",
+          "W15": "PASS",
+          "W16": "PASS",
+          "W17": "PASS",
+          "W18": "PASS",
+          "W19": "PASS"
         }
       },
       "source": {
