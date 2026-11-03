@@ -1,0 +1,62 @@
+<style>
+  .modal-stage{ position:relative; width:100%; max-width:720px; height:320px; overflow:hidden; box-sizing:border-box; border:1px solid var(--aha-border-default); border-radius:var(--aha-radius-default); background:var(--aha-bg-layout) }
+  .modal-stage p{ margin:0 }
+  .modal-actions{ display:flex; justify-content:space-between; align-items:center; gap:var(--aha-space-8); width:100% }
+  .modal-actions span{ display:flex; gap:var(--aha-space-8) }
+</style>
+<div class="pad">
+  <div class="lbl">Open: title, ✕, body, Cancel and OK (size simple, 504 wide)</div>
+  <div class="modal-stage">
+    <aha-modal inline open centered data-probe heading="Move to folder" ok-text="Move">
+      <p>Fire safety refresher moves to Training. Anyone who can open Training can open it too.</p>
+    </aha-modal>
+  </div>
+  <div class="lbl">ok-danger: Cancel is the primary, a mask click never closes it</div>
+  <div class="modal-stage">
+    <aha-modal inline open centered heading="Delete this team?" ok-text="Delete team" ok-danger>
+      <p>Everyone in it loses access to the team's presentations. You can't undo this.</p>
+    </aha-modal>
+  </div>
+  <div class="lbl">confirm-loading: OK spins, Cancel, ✕, Esc and the mask wait</div>
+  <div class="modal-stage">
+    <aha-modal inline open centered heading="Export responses" ok-text="Export" confirm-loading>
+      <p>We're building your spreadsheet. This takes a few seconds.</p>
+    </aha-modal>
+  </div>
+  <div class="lbl">slot="footer" replaces the buttons</div>
+  <div class="modal-stage">
+    <aha-modal inline open centered heading="Invite your team" closable="false">
+      <p>Send a link and they join your workspace when they sign in.</p>
+      <div slot="footer" class="modal-actions">
+        <aha-button variant="tertiary" size="md">Copy link</aha-button>
+        <span><aha-button variant="secondary" size="md">Not now</aha-button><aha-button variant="primary" size="md">Send invites</aha-button></span>
+      </div>
+    </aha-modal>
+  </div>
+  <div class="lbl">Live: opens over the page, Tab stays inside, Esc, the mask, ✕ and Cancel close it, focus returns here</div>
+  <div class="row">
+    <aha-button id="modal-open" variant="secondary">Move to folder</aha-button>
+    <aha-button id="danger-open" variant="secondary">Delete team</aha-button>
+  </div>
+  <aha-modal id="modal-live" heading="Move to folder" ok-text="Move">
+    <p>Press Tab: focus stays inside. Move waits a second, then closes.</p>
+  </aha-modal>
+  <aha-modal id="danger-live" heading="Delete this team?" ok-text="Delete team" ok-danger>
+    <p>Everyone in it loses access to the team's presentations. You can't undo this.</p>
+  </aha-modal>
+</div>
+
+<!-- Imports the REAL shipped element, so the preview can never drift from lib/ and qa measures what consumers get. -->
+<script type="module">
+  import '../lib/aha-modal.js';   // registers <aha-modal>
+  import '../lib/aha-button.js';
+  const live = document.getElementById('modal-live');
+  document.getElementById('modal-open').addEventListener('click', () => live.show());
+  live.addEventListener('ok', (event) => {
+    event.preventDefault();
+    live.setAttribute('confirm-loading', '');
+    setTimeout(() => { live.removeAttribute('confirm-loading'); live.open = false; }, 1000);
+  });
+  const danger = document.getElementById('danger-live');
+  document.getElementById('danger-open').addEventListener('click', () => danger.show());
+</script>

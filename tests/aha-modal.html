@@ -1,0 +1,17 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../lib/tokens.css">
+<button id="opener">Open</button>
+<aha-modal id="modal" heading="Move to folder" ok-text="Move" cancel-text="Not now">
+  <p>Body</p>
+  <button id="inside">Inside</button>
+</aha-modal>
+<aha-modal id="custom" heading="Invite">
+  <p>Body</p>
+  <div slot="footer"><button id="send">Send</button></div>
+</aha-modal>
+<script type="module">
+  import '../lib/aha-modal.js';
+  await customElements.whenDefined('aha-modal');
+  window.modalFixtureReady = true;
+</script>

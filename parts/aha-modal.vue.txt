@@ -1,0 +1,20 @@
+<script setup>
+import '@ahaslides-product/design/aha-modal';
+import '@ahaslides-product/design/aha-button';
+import { ref } from 'vue';
+const open = ref(false);
+const busy = ref(false);
+async function onOk(event) {
+  event.preventDefault();
+  busy.value = true;
+  try { await new Promise((done) => setTimeout(done, 1000)); open.value = false; } finally { busy.value = false; }
+}
+</script>
+
+<template>
+  <aha-button variant="secondary" @click="open = true">Delete team</aha-button>
+  <aha-modal heading="Delete this team?" ok-text="Delete team" ok-danger
+    :open="open || null" :confirm-loading="busy || null" @ok="onOk" @closed="open = false">
+    Everyone in it loses access to the team's presentations. You can't undo this.
+  </aha-modal>
+</template>

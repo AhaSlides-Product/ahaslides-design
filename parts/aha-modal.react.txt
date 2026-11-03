@@ -1,0 +1,48 @@
+import '@ahaslides-product/design/aha-modal';
+import '@ahaslides-product/design/aha-button';
+import { useEffect, useRef, useState } from 'react';
+
+// React 18 has no props for custom-element events: bind ok / cancel / closed through a ref.
+// Booleans go in as '' or undefined (React 18 writes false as the string "false").
+// antd → aha-modal: okText → ok-text, okButtonProps={{ danger }} → ok-danger, confirmLoading → confirm-loading,
+// maskClosable={false} → mask-closable="false", footer={null} → no-footer, onOk / onCancel → ok / cancel events.
+export function DeleteTeamModal({ open, onClose, deleteTeam }) {
+  const modal = useRef(null);
+  const [busy, setBusy] = useState(false);
+  useEffect(() => {
+    const element = modal.current;
+    const onOk = async (event) => {
+      event.preventDefault();
+      setBusy(true);
+      try { await deleteTeam(); element.open = false; } finally { setBusy(false); }
+    };
+    element.addEventListener('ok', onOk);
+    element.addEventListener('closed', onClose);
+    return () => { element.removeEventListener('ok', onOk); element.removeEventListener('closed', onClose); };
+  }, [deleteTeam, onClose]);
+  return (
+    <aha-modal ref={modal} heading="Delete this team?" ok-text="Delete team" ok-danger=""
+      confirm-loading={busy ? '' : undefined} open={open ? '' : undefined}>
+      Everyone in it loses access to the team's presentations. You can't undo this.
+    </aha-modal>
+  );
+}
+
+// Your own footer replaces Cancel and OK.
+export function InviteModal({ open, onClose }) {
+  const modal = useRef(null);
+  useEffect(() => {
+    const element = modal.current;
+    element.addEventListener('closed', onClose);
+    return () => element.removeEventListener('closed', onClose);
+  }, [onClose]);
+  return (
+    <aha-modal ref={modal} heading="Invite your team" size="complexity" open={open ? '' : undefined}>
+      Send a link and they join your workspace when they sign in.
+      <div slot="footer" style={{ display: 'flex', gap: 8 }}>
+        <aha-button variant="secondary" size="md" onClick={() => modal.current.close()}>Not now</aha-button>
+        <aha-button variant="primary" size="md">Send invites</aha-button>
+      </div>
+    </aha-modal>
+  );
+}

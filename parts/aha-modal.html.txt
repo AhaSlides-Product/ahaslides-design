@@ -1,0 +1,34 @@
+<!-- Paste-and-run: save as .html and open it. No build step, nothing to copy. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-modal.js';   // registers <aha-modal>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-button.js';   // registers <aha-button>
+
+  const modal = document.getElementById('delete-team');
+  document.getElementById('open-delete').addEventListener('click', () => modal.show());
+
+  // Async OK: keep it open, spin OK, close once the work succeeds.
+  modal.addEventListener('ok', async (event) => {
+    event.preventDefault();
+    modal.setAttribute('confirm-loading', '');
+    await new Promise((done) => setTimeout(done, 1000));
+    modal.removeAttribute('confirm-loading');
+    modal.open = false;
+  });
+  modal.addEventListener('cancel', (event) => console.log('cancelled from', event.detail.source));   // cancel-button, close-button, escape, mask
+</script>
+
+<aha-button id="open-delete" variant="secondary">Delete team</aha-button>
+
+<aha-modal id="delete-team" heading="Delete this team?" ok-text="Delete team" ok-danger>
+  Everyone in it loses access to the team's presentations. You can't undo this.
+</aha-modal>
+
+<!-- Your own footer: slot="footer" replaces Cancel and OK. size="complexity" is 720 wide and 80vh tall at most. -->
+<aha-modal heading="Invite your team" size="complexity">
+  Send a link and they join your workspace when they sign in.
+  <div slot="footer" style="display:flex;gap:8px">
+    <aha-button variant="secondary" size="md">Not now</aha-button>
+    <aha-button variant="primary" size="md">Send invites</aha-button>
+  </div>
+</aha-modal>
