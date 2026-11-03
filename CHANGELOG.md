@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.915.1 — 2026-11-03
 ### Fixed
-- `<aha-dropdown>` locked rows: an open Paywall is re-fitted whenever the menu is repositioned, so resizing from a wide to a narrow viewport moves it inside the screen (switching to above or below the row) instead of clipping its actions. (#NNN)
+- `<aha-dropdown>` locked rows: an open Paywall is re-fitted whenever the menu is repositioned, so resizing from a wide to a narrow viewport moves it inside the screen (switching to above or below the row) instead of clipping its actions. (#580)
 - Revert: revert the PR; one added call at the end of `_place()` in `lib/aha-dropdown.js`
 
 ## 0.915.0 — 2026-11-03
