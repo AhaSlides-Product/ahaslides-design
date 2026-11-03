@@ -33,6 +33,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.920.0 — 2026-11-03
+### Changed
+- Colour rule 2.6: a third-party logo in any interface (website header, pricing row, presenter app) is its line mark from `logo/line/` in `--aha-icon-default`, 24px, with no tile or border; a row after a label sits 12px after it and 8px apart. Only a listing page (Marketplace) shows the colour image, greyscale at rest and in colour on card hover and keyboard focus, with no fade under reduced motion. Anti-slop C7, the colour evals, the skill, AGENTS.md and PRINCIPLES.md follow. (#557)
+- Navigation: the Products menu app entries show the line logos straight on the menu, without the white square tile. (#557)
+- Integration card: the logo is the colour file with the `brand-logo-listing` class, greyscale until the card is hovered or focused. The `brand-logo-colour` lint accepts that class. (#557)
+### Added
+- Logo library: line marks for 29 brands under `logo/line/`, a G2 logo (original, greyscale and line), and copy-paste patterns for a line logo, a logo row after a label and a listing card. Redrawn Canva, Zapier and Claude line stand-ins. (#557)
+
 ## 0.916.3 — 2026-11-03
 ### Fixed
 - Every Marketing item grid that had a fixed column count now balances by item count, W11: Numbers centred stats (4 stay a row, 1/2/3/5+ balance), the Numbers split image and actions with icons stats centre an odd last stat, Testimonials quote cards (from 768 px) and the Pricing plan grid balance 1, 2, 4 and 5+ cards, and a lone last item is centred on tablet (#587)

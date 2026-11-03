@@ -108,10 +108,11 @@ Read the list from the DS each time — surfaces get added.
    Microsoft) comes from the Logo library: `https://design.ahaslides.io/foundations/logo.html`, files at
    `https://design.ahaslides.io/logo/<file>`. Never redraw one, inline a
    hand-made SVG, recolour it, or substitute an icon or letter tile.
-   A third-party logo in any UI, website headers included, is the greyscale file at rest and its
-   original-colour file (`logo/original/<file>`) on hover and keyboard focus, with the tool's name
-   beside it (the Logo library has the copy-paste pattern); only a page listing other products
-   (Marketplace) shows brand colours at rest. A Log in with Google / Microsoft button shows the
+   A third-party logo in any UI, website headers and page rows included, is its line mark
+   (`logo/line/<id>.svg`) in `--aha-icon-default`, 24px, with no tile or border around it and the
+   tool's name beside it (the Logo library has the copy-paste patterns); only a page listing other
+   products (Marketplace) shows the colour logo image, greyscale at rest and in colour on hover and
+   keyboard focus of its card. A Log in with Google / Microsoft button shows the
    brand's glyph from the icon library (`<aha-icon name="system-google-logo">`, `system-microsoft-logo`,
    default ink) at rest, never the greyscale logo, and the original colour logo (`logo/original/`) on
    hover and keyboard focus. Colour rule 2.6 has the detail; the `brand-logo-colour` lint fails a

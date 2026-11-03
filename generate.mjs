@@ -2951,7 +2951,7 @@ Pink text, links included, sits on white only (4.51:1); the secondary and tertia
 Status carries no colour: success \`${c.success}\` · warning \`${c.warning}\` · error \`${c.error}\` · info \`${c.info}\` are the default ink (the same \`${c.textDefault}\` as body text), shown with an icon, clear wording and an outline or a dark fill. Never red, amber, green or blue. The one green and one red in the token set (\`--aha-answer-*\`, below) mark a correct or wrong answer and nothing else: never a status, an alert, validation, a rise or a fall.
 Purple \`${P.logoPurple}\` (\`--aha-logo-purple\`) is the logo only: never text, buttons, links, states, charts or backgrounds in the product.
 The correct and wrong answer pair (\`--aha-answer-*\`) is the only other colour, for marking an answer correct or wrong and nothing else; text stays the default ink (${SITE}/colour-rules.md, section 11). No other colour exists in the token set. Photos and customer or presenter content (deck themes, deck-palette charts) are exempt. Black is \`${P.black}\`, the same value as grey 100 and the default ink (\`--aha-black\` aliases \`--aha-gray-100\`); a pure, zero-value black is never painted solid, only as a transparency for a shadow, a scrim or an ink alpha. The dark surface \`--aha-bg-dark\` is black and \`--aha-bg-dark-raised\` is grey 95 \`${c.bgDarkRaised}\`, one step above it.
-The DS's own art is drawn in the allowed colours (\`node recolour-art.mjs\`): third-party logos in greyscale (each with an original-colour file in \`logo/original/\` for hover, focus and listing pages, colour rule 2.6), file-type icons in one colour, and illustrations in the illustration tints, one Vivid Pink ramp (${ILLUSTRATION_TINTS.map(tint => '\`' + tint + '\`').join(', ')}) with white and the default ink. The 10, 20, 45, 60 and 80% tints are for illustrations only: they are not tokens and never colour UI. The 5% and 30% tints and Darker Pink keep their interface roles. The AhaSlides logo and The Splash are the logo purple with Vivid Pink hooks.
+The DS's own art is drawn in the allowed colours (\`node recolour-art.mjs\`): third-party logos in greyscale, with a line mark in \`logo/line/\` for interfaces and an original-colour file in \`logo/original/\` for listing pages and sign-in hover (colour rule 2.6), file-type icons in one colour, and illustrations in the illustration tints, one Vivid Pink ramp (${ILLUSTRATION_TINTS.map(tint => '\`' + tint + '\`').join(', ')}) with white and the default ink. The 10, 20, 45, 60 and 80% tints are for illustrations only: they are not tokens and never colour UI. The 5% and 30% tints and Darker Pink keep their interface roles. The AhaSlides logo and The Splash are the logo purple with Vivid Pink hooks.
 
 ## Colour — the palette
 White, black, Vivid Pink (\`5\` and \`30\` are Vivid Pink at 5% and at 30% transparency, #E70E680D and #E70E684D, so they take the colour of the surface under them; \`30\` is for charts only), the logo purple and one neutral grey ramp. Semantic tokens below alias into these; **never hardcode a palette value in a component** — bind to a semantic \`--aha-*\` token.
@@ -3426,37 +3426,86 @@ const COBRAND_SPEC = [
   ['Hover and focus', 'In an interface the partner logo shows its own colours on hover and keyboard focus (rule 2.6); a printed or exported lockup stays greyscale'],
 ];
 const COBRAND_DONTS = ['Set the partner logo larger than the AhaSlides logo', 'Use the letter x, a plus sign, a slash or a divider bar instead of ×', 'Put the partner logo in full colour at rest', 'Place the lockup on any ground other than white or Vivid Pink'];
-const BRAND_LOGO_HOVER_HTML = `<a class="brand-entry" href="/integrations/zoom">
-  <span class="brand-logo">
-    <img class="brand-logo-rest" src="${LIVE_SITE}/logo/zoom.svg" alt="">
-    <img class="brand-logo-original" src="${LIVE_SITE}/logo/original/zoom.svg" alt="">
-  </span>
-  <span>Zoom</span>
-</a>`;
-const BRAND_LOGO_HOVER_CSS = `/* Colour rule 2.6: one colour at rest, the brand's own colours on hover and keyboard focus. */
-.brand-logo {
-  position: relative;
+const lineLogo = (id, label) => `<span class="brand-line" ${label ? `role="img" aria-label="${label}"` : 'aria-hidden="true"'} style="--brand-line: url(${LIVE_SITE}/logo/line/${id}.svg)"></span>`;
+const BRAND_LINE_CSS = `.brand-line {
   flex: none;
-  width: 24px;
-  height: 24px;
-}
-.brand-logo img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  transition: opacity var(--aha-motion-mid, 0.2s) var(--aha-ease-in-out, ease-in-out);
-}
-.brand-logo-original { opacity: 0; }
-.brand-entry:hover .brand-logo-original,
-.brand-entry:focus-visible .brand-logo-original { opacity: 1; }
-.brand-entry:hover .brand-logo-rest,
-.brand-entry:focus-visible .brand-logo-rest { opacity: 0; }
-@media (prefers-reduced-motion: reduce) {
-  .brand-logo img { transition: none; }
+  width: var(--aha-space-24);
+  height: var(--aha-space-24);
+  background: var(--aha-icon-default);
+  -webkit-mask: var(--brand-line) center / contain no-repeat;
+  mask: var(--brand-line) center / contain no-repeat;
 }`;
-const BRAND_LOGO_HOVER_DEMO = ['zoom', 'google-slides', 'microsoft-teams', 'slack'];
+const LOGO_PATTERNS = [
+  {
+    id: 'brand-logo-line',
+    title: 'Line logo beside its name',
+    intro: 'Menus, sidebars, dialogs, import sources and connect buttons. The line file is painted through a CSS mask in the default icon ink (white on Vivid Pink: <code>--aha-icon-inverse</code>), 24px beside 14 or 16px text, 8px from the name, with no tile, border or square around it. It keeps that ink on hover and focus; the entry itself shows the hover.',
+    html: `<a class="brand-entry" href="/integrations/zoom">
+  ${lineLogo('zoom')}
+  <span>Zoom</span>
+</a>`,
+    css: `/* Colour rule 2.6: the line logo in the default icon ink, sized to the text line, no tile around it. */
+${BRAND_LINE_CSS}
+.brand-entry {
+  display: flex;
+  align-items: center;
+  gap: var(--aha-space-8);
+}`,
+    demo: ['zoom', 'google-slides', 'microsoft-teams', 'slack'],
+  },
+  {
+    id: 'brand-logo-row',
+    title: 'Logo row after a label',
+    intro: 'A short label followed by the logos it names, such as the Full integrations on all plans line under a pricing headline. The logos sit on the label&rsquo;s line, centred on it, 24px each, 12px after the label and 8px apart. Each logo carries the tool&rsquo;s name as its accessible name, because no visible name sits beside it.',
+    html: `<p class="brand-row">
+  <span>Full integrations on all plans</span>
+  <span class="brand-row-logos">
+    ${lineLogo('microsoft-powerpoint', 'PowerPoint')}
+    ${lineLogo('microsoft-teams', 'Microsoft Teams')}
+    ${lineLogo('zoom', 'Zoom')}
+    ${lineLogo('google-slides', 'Google Slides')}
+    ${lineLogo('chatgpt', 'ChatGPT')}
+  </span>
+</p>`,
+    css: `/* Colour rule 2.6: a label and the line logos it names, on one centred line. */
+${BRAND_LINE_CSS}
+.brand-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--aha-space-12);
+  line-height: var(--aha-space-24);
+}
+.brand-row-logos {
+  display: flex;
+  align-items: center;
+  gap: var(--aha-space-8);
+}`,
+  },
+  {
+    id: 'brand-logo-listing',
+    title: 'Marketplace listing card',
+    intro: 'Only a page that lists other products (the Marketplace, an integrations directory). The card keeps the colour logo image as published, rendered greyscale at rest and in full colour while the card is hovered or holds keyboard focus, over a short fade, with no fade when reduced motion is on. Use the page&rsquo;s own image; the Logo library&rsquo;s <code>logo/original/</code> file stands in below.',
+    html: `<a class="brand-card" href="/integrations/zoom">
+  <img class="brand-logo-listing" src="${LIVE_SITE}/logo/original/zoom.svg" alt="" width="40" height="40">
+  <span>Zoom</span>
+</a>`,
+    css: `/* Colour rule 2.6, listing pages only: greyscale at rest, the logo's own colours on hover and keyboard focus. */
+.brand-logo-listing {
+  filter: grayscale(1);
+  transition: filter var(--aha-motion-mid) var(--aha-ease-in-out);
+}
+.brand-card:hover .brand-logo-listing,
+.brand-card:focus-within .brand-logo-listing {
+  filter: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .brand-logo-listing { transition: none; }
+}`,
+    demo: ['zoom', 'google-slides', 'microsoft-teams', 'slack'],
+  },
+];
 const LOGO_GALLERY_JS = `
 (function(){
   var root=document.getElementById('logo-gallery'),q=document.getElementById('logo-search'),count=document.getElementById('logo-count');
@@ -3501,33 +3550,40 @@ const LOGO_GALLERY_JS = `
 `;
 function renderLogoPage() {
   const download = (file, label) => `<a class="lg-dl" href="../logo/${esc(file)}" download${label ? ` aria-label="${esc(label)}"` : ''}><span class="lg-file">${esc(file)}</span><span class="lg-arrow">&darr;</span></a>`;
-  const monoFigure = l => l.mono
-    ? `<figure><span class="lg-mono" role="img" aria-label="${esc(l.name)} logo, mono" style="--lg-mono:url('../logo/${esc(l.mono)}')"></span><figcaption>Mono${l.monoStatus === 'stand-in' ? ` <span class="lg-standin" title="${esc(l.monoSource)}">stand-in</span>` : ''}</figcaption></figure>`
-    : l.monoGap ? `<figure class="lg-mono-gap" title="${esc(l.monoGap)}"><span class="lg-mono lg-mono--none" aria-hidden="true"></span><figcaption>No mono yet</figcaption></figure>` : '';
   const lineFigure = l => l.line
-    ? `<figure><span class="lg-mono" role="img" aria-label="${esc(l.name)} logo, line" style="--lg-mono:url('../logo/${esc(l.line)}')"></span><figcaption>Line${l.lineStatus === 'stand-in' ? ` <span class="lg-standin" title="${esc(l.lineNote || l.lineSource)}">stand-in</span>` : ''}</figcaption></figure>`
+    ? `<figure><span class="lg-line" role="img" aria-label="${esc(l.name)} logo, line" style="--lg-line:url('../logo/${esc(l.line)}')"></span><figcaption>Line${l.lineStatus === 'stand-in' ? ` <span class="lg-standin" title="${esc(l.lineNote || l.lineSource)}">stand-in</span>` : ''}</figcaption></figure>`
     : '';
-  const stage = l => (l.originalFile || l.mono || l.line)
-    ? `<div class="lg-stage lg-pair${l.line ? ' lg-quad' : ''}"><figure><img src="../logo/${esc(l.file)}" alt="${esc(l.name)} logo, one colour" loading="lazy"/><figcaption>One colour</figcaption></figure>${l.originalFile ? `<figure><img src="../logo/${esc(l.originalFile)}" alt="${esc(l.name)} logo, original colours" loading="lazy"/><figcaption>Original</figcaption></figure>` : ''}${monoFigure(l)}${lineFigure(l)}</div>`
+  const stage = l => (l.originalFile || l.line)
+    ? `<div class="lg-stage lg-pair${l.line ? ' lg-quad' : ''}"><figure><img src="../logo/${esc(l.file)}" alt="${esc(l.name)} logo, one colour" loading="lazy"/><figcaption>One colour</figcaption></figure>${l.originalFile ? `<figure><img src="../logo/${esc(l.originalFile)}" alt="${esc(l.name)} logo, original colours" loading="lazy"/><figcaption>Original</figcaption></figure>` : ''}${lineFigure(l)}</div>`
     : `<div class="lg-stage${LOGO_DARK_TILE.has(l.id) ? ' lg-dark' : ''}"><img${l.id.startsWith('ahaslides-logo') ? ' class="lg-lockup"' : ''} src="../logo/${esc(l.file)}" alt="${esc(l.name)} logo" loading="lazy"/></div>`;
   const cell = l =>
-    `<div class="lg" data-name="${esc(l.id)}" data-label="${esc(l.name.toLowerCase())}" role="button" tabindex="0" title="${esc(l.name)} — click to copy its id">${stage(l)}<span class="lgn">${esc(l.name)}</span>${download(l.file, l.originalFile ? `${l.name}, one colour` : '')}${l.originalFile ? download(l.originalFile, `${l.name}, original colours`) : ''}${l.mono ? download(l.mono, `${l.name}, mono`) : ''}${l.line ? download(l.line, `${l.name}, line`) : ''}</div>`;
-  const hoverDemo = BRAND_LOGO_HOVER_DEMO.map(id => LOGO_BRANDS.find(l => l.id === id)).filter(l => l && l.originalFile).map(l =>
-    `<a class="brand-entry" href="#brand-logo-hover"><span class="brand-logo"><img class="brand-logo-rest" src="../logo/${esc(l.file)}" alt=""><img class="brand-logo-original" src="../logo/${esc(l.originalFile)}" alt=""></span><span>${esc(l.name)}</span></a>`).join('');
-  const hoverCode = `<div class="code-tabs" data-open="false">
+    `<div class="lg" data-name="${esc(l.id)}" data-label="${esc(l.name.toLowerCase())}" role="button" tabindex="0" title="${esc(l.name)} — click to copy its id">${stage(l)}<span class="lgn">${esc(l.name)}</span>${download(l.file, l.originalFile ? `${l.name}, one colour` : '')}${l.originalFile ? download(l.originalFile, `${l.name}, original colours`) : ''}${l.line ? download(l.line, `${l.name}, line`) : ''}</div>`;
+  const demoSite = text => text.replaceAll(`${LIVE_SITE}/logo/`, '../logo/');
+  const patternDemo = pattern => {
+    if (pattern.id === 'brand-logo-row') return `<div class="brand-demo brand-demo--row">${demoSite(pattern.html)}</div>`;
+    const brands = pattern.demo.map(id => LOGO_BRANDS.find(l => l.id === id)).filter(l => l && l.line && l.originalFile);
+    return pattern.id === 'brand-logo-listing'
+      ? `<div class="brand-demo brand-demo--cards">${brands.map(l => `<a class="brand-card" href="#brand-logo-listing"><img class="brand-logo-listing" src="../logo/${esc(l.originalFile)}" alt="" width="40" height="40"><span>${esc(l.name)}</span></a>`).join('')}</div>`
+      : `<div class="brand-demo">${brands.map(l => `<a class="brand-entry" href="#brand-logo-line"><span class="brand-line" aria-hidden="true" style="--brand-line:url('../logo/${esc(l.line)}')"></span><span>${esc(l.name)}</span></a>`).join('')}</div>`;
+  };
+  const patternCode = pattern => `<div class="code-tabs" data-open="false">
     <div class="demo-toolbar"><aha-button class="show-code" variant="secondary" size="sm"><aha-icon slot="icon" name="system-caret-right" size="16" decorative></aha-icon><span>Show code</span></aha-button></div>
     <div class="code-panel" hidden>
       <div class="code-head"><div class="tabs"><button class="tab active" type="button" data-f="html">HTML</button><button class="tab" type="button" data-f="css">CSS</button></div><button class="copy" type="button">Copy</button></div>
-      <pre class="code html active">${esc(withBuildSite(BRAND_LOGO_HOVER_HTML))}</pre>
-      <pre class="code css">${esc(BRAND_LOGO_HOVER_CSS)}</pre>
+      <pre class="code html active">${esc(withBuildSite(pattern.html))}</pre>
+      <pre class="code css">${esc(pattern.css)}</pre>
     </div></div>`;
+  const patterns = LOGO_PATTERNS.map(pattern => `<h3 class="tok-h3" id="${pattern.id}">${esc(pattern.title)}</h3>
+  <p class="body">${pattern.intro}</p>
+  ${patternDemo(pattern)}
+  ${patternCode(pattern)}`).join('\n  ');
   const sections = list => {
     const names = [...new Set(list.map(l => l.section))];
     return names.map(n => `<section class="lg-sec"><h3 class="tok-h3 lg-sec-h">${esc(n)}</h3><div class="logo-grid">${list.filter(l => l.section === n).map(cell).join('')}</div></section>`).join('');
   };
   const main = `
   <h1>Logo library</h1>
-  ${headline([`The AhaSlides logo and the ${LOGO_BRANDS.length} third-party brand logos the presenter app shows`, 'Each brand is the current official SVG, from theSVG or the Design System V3 Figma file, in two files, one colour (greyscale) and its original colours, plus a flat mono mark in logo/mono/ and a Phosphor-style line mark in logo/line/ where one exists. In any interface a brand logo is one colour at rest and shows its own colours on hover and keyboard focus (colour rule 2.6); never redraw a brand mark or stand in a letter tile', 'Click a tile to copy its id, or use the download link'])}
+  ${headline([`The AhaSlides logo and the ${LOGO_BRANDS.length} third-party brand logos the presenter app shows`, 'Each brand is the current official SVG, from theSVG or the Design System V3 Figma file, in one colour (greyscale) and its original colours, plus a line mark in logo/line/. In any interface a brand logo is its line mark in the default icon ink, with no tile around it; only a page listing other products (Marketplace) shows the colour logo, greyscale at rest and in colour on hover and keyboard focus (colour rule 2.6). Never redraw a brand mark or stand in a letter tile', 'Click a tile to copy its id, or use the download link'])}
   <p class="gen">◆ generated from logo/manifest.json (each Brands logo records its source URL, fetch date and where the presenter app shows it) — fetch files from ${esc(SITE)}/logo/&lt;file&gt;</p>
 
   <div id="logo-gallery">
@@ -3569,24 +3625,20 @@ function renderLogoPage() {
   <ul class="lg-donts">${LOGO_DONTS.map(d => `<li>${esc(d)}</li>`).join('')}</ul>
   <h3 class="tok-h3">Third-party marks</h3>
   <p class="body">Brand logos belong to their owners and stay unaltered. Each one ships twice: <code>logo/&lt;file&gt;</code> in one colour (greyscale) and <code>logo/original/&lt;file&gt;</code> in the brand&rsquo;s own colours, the file exactly as published at its source. The list is what the presenter app renders today; to add a brand, add it to the app first, then fetch its current SVG from theSVG or the brand&rsquo;s own press page into both places, record the source in <code>logo/manifest.json</code> and run <code>node recolour-art.mjs</code>.</p>
-  <h3 class="tok-h3" id="mono">Mono logos</h3>
-  <p class="body">A brand with a mono file also ships <code>logo/mono/&lt;id&gt;.svg</code>: the brand&rsquo;s flat one-colour mark, a single shape filled with <code>currentColor</code>, so it takes the colour of the text around it. Shown in <code>--aha-icon-default</code>, or <code>--aha-icon-inverse</code> on Vivid Pink. Inline the SVG, or paint it through a CSS mask where an <code>&lt;img&gt;</code> cannot inherit the colour. Shapes come from Simple Icons (CC0) through theSVG; a tile marked <b>stand-in</b> uses the Phosphor fill glyph, the DS icon or a shape derived from the brand&rsquo;s own colour file, because Simple Icons dropped that brand at its owner&rsquo;s request. A brand whose mark is a wordmark or a wide lockup (Zapier, Zoom, Canva, D2L, Cornerstone, OneDrive) is wrapped: one 24 &times; 24 rounded square, the mark knocked out of it, so it reads at 36 px beside the glyph marks. Each entry in <code>logo/manifest.json</code> records <code>mono</code>, <code>monoSource</code>, <code>monoSourceUrl</code> and <code>monoFetched</code>, or <code>monoGap</code> with the reason.</p>
   <h3 class="tok-h3" id="line">Line logos</h3>
-  <p class="body">A brand with a line file also ships <code>logo/line/&lt;id&gt;.svg</code>: the brand&rsquo;s mark as an outline in Phosphor&rsquo;s Regular weight (256 grid, 16-unit stroke, round caps and joins), drawn in <code>currentColor</code> so it sits beside the DS line icons. Use it like the mono file: inline the SVG, or paint it through a CSS mask. Shapes are Phosphor&rsquo;s own <code>*-logo</code> icons (MIT) where Phosphor has the brand; a tile marked <b>stand-in</b> is drawn in the same line style because Phosphor has no logo for that brand. Each entry in <code>logo/manifest.json</code> records <code>line</code>, <code>lineSource</code>, <code>lineSourceUrl</code> and <code>lineFetched</code>, and a stand-in adds <code>lineStatus</code> and <code>lineNote</code>. Mono and line are two proposals for the same screens; colour rule 2.6 below is unchanged until one is chosen.</p>
+  <p class="body">Every brand used in an interface also ships <code>logo/line/&lt;id&gt;.svg</code>: the brand&rsquo;s mark as an outline in Phosphor&rsquo;s Regular weight (256 grid, 16-unit stroke, round caps and joins), drawn in <code>currentColor</code> so it sits beside the DS line icons. Paint it through a CSS mask in <code>--aha-icon-default</code> (the patterns below), or inline it so it takes the surrounding text colour. Shapes are Phosphor&rsquo;s own <code>*-logo</code> icons (MIT) where Phosphor has the brand; a tile marked <b>stand-in</b> is drawn in the same line style because Phosphor has no logo for that brand. Each entry in <code>logo/manifest.json</code> records <code>line</code>, <code>lineSource</code>, <code>lineSourceUrl</code> and <code>lineFetched</code>, and a stand-in adds <code>lineStatus</code> and <code>lineNote</code>. A brand with no line file yet uses its greyscale file until one is drawn.</p>
   <h3 class="tok-h3" id="brand-logo-colour">Brand logo colour (rule 2.6)</h3>
-  <p class="body">The same rule holds in every interface: the presenter app, website headers and menus, dialogs, import sources and connect buttons.</p>
+  <p class="body">The same rule holds in every interface: the presenter app, website headers and menus, page rows, dialogs, import sources and connect buttons.</p>
   <ul class="lg-donts">
-    <li><b>At rest</b> a brand logo is one colour, the greyscale file (white on a Vivid Pink background).</li>
-    <li><b>On hover and keyboard focus</b> it shows its own colours, the original file, with a short fade. There is no fade when reduced motion is on.</li>
-    <li><b>The tool&rsquo;s name always sits beside the logo.</b> Touch has no hover, so the name carries recognition there.</li>
-    <li><b>A page that lists other products</b> (the Marketplace, an integrations directory) shows the logos as content: original colours at rest, each in the DS white tile with a grey border, 32px at most, the name beside it. A tool not available yet is greyscale with a Coming soon tag, <code>&lt;aha-tag color="primary" bordered&gt;</code>.</li>
+    <li><b>A brand logo is its line mark</b> from <code>logo/line/</code>, in <code>--aha-icon-default</code> (white on a Vivid Pink background), at rest, on hover and on focus.</li>
+    <li><b>No tile, border or square around it.</b> It is 24px beside 14 or 16px text, centred on the text line, 8px from its name or the next logo and 12px after a label.</li>
+    <li><b>The tool&rsquo;s name sits beside the logo.</b> Touch has no hover, so the name carries recognition. In a row of logos after a label that names them as a group, each logo carries the tool&rsquo;s name as its accessible name instead.</li>
+    <li><b>A page that lists other products</b> (the Marketplace, an integrations directory) is the one exception: each card keeps the colour logo image as published, greyscale at rest and in its own colours on hover and keyboard focus of the card, with a short fade and none when reduced motion is on, the name beside it. A tool not available yet adds a Coming soon tag, <code>&lt;aha-tag color="primary" bordered&gt;</code>.</li>
+    <li><b>Log in with Google or Microsoft</b> shows the icon library glyph (<code>system-google-logo</code>, <code>system-microsoft-logo</code>) at rest and the <code>logo/original/</code> file on hover and keyboard focus, stacked with the class <code>brand-logo-original</code>.</li>
     <li><b>Brand colour never spreads beyond the logo:</b> no brand-coloured buttons, tags, backgrounds or text.</li>
     <li><b>Customer logos</b> in a Trusted by strip stay one colour, one treatment per row.</li>
   </ul>
-  <h3 class="tok-h3" id="brand-logo-hover">Hover and focus pattern</h3>
-  <p class="body">Stack the two files and fade between them on the interactive element. Hover or tab through the entries below.</p>
-  <div class="brand-demo">${hoverDemo}</div>
-  ${hoverCode}
+  ${patterns}
 
   <script>${LOGO_GALLERY_JS}</script>`;
   const extraCss = `
@@ -3611,8 +3663,7 @@ function renderLogoPage() {
   .lg-stage.lg-dark{background:var(--aha-color-primary)}
   .lg-stage img{width:56px;height:56px;object-fit:contain;display:block}
   .lg-stage img.lg-lockup{width:100%;max-width:156px;height:60px}
-  .lg-mono{display:block;width:56px;height:56px;background:var(--aha-icon-default);-webkit-mask:var(--lg-mono) center/contain no-repeat;mask:var(--lg-mono) center/contain no-repeat}
-  .lg-mono--none{background:none;border:1px dashed var(--aha-border);border-radius:6px}
+  .lg-line{display:block;width:56px;height:56px;background:var(--aha-icon-default);-webkit-mask:var(--lg-line) center/contain no-repeat;mask:var(--lg-line) center/contain no-repeat}
   .lg-standin{font-size:10px;color:var(--aha-text-tertiary)}
   .lg .lgn{font-size:13px;line-height:1.3;color:var(--aha-text-default);text-align:center}
   .lg-dl{font-size:11px;color:var(--aha-text-tertiary);text-decoration:none;max-width:100%;display:flex;align-items:baseline;gap:4px;white-space:nowrap}
@@ -3637,7 +3688,7 @@ function renderLogoPage() {
   .lg-pair{gap:12px}
   .lg-pair figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:6px}
   .lg-pair img{width:40px;height:40px}
-  .lg-pair .lg-mono{width:40px;height:40px}
+  .lg-pair .lg-line{width:40px;height:40px}
   .lg-stage.lg-quad{flex-wrap:wrap;height:auto;min-height:104px;padding:10px 0;row-gap:8px}
   .lg-quad figure{flex:0 0 calc(50% - 6px)}
   .lg-pair figcaption{font-size:11px;line-height:1.3;color:var(--aha-text-tertiary)}
@@ -3645,7 +3696,13 @@ function renderLogoPage() {
   .brand-entry{display:flex;align-items:center;gap:12px;padding:8px 12px;border-radius:6px;color:var(--aha-text-default);text-decoration:none;font-family:var(--aha-font-product);font-size:14px}
   .brand-entry:hover{background:var(--aha-bg-accent)}
   .brand-entry:focus-visible{outline:2px solid var(--aha-color-primary);outline-offset:2px}
-  ${BRAND_LOGO_HOVER_CSS.replace(/\/\*[\s\S]*?\*\/\n/, '')}`;
+  .brand-demo--row{display:block;max-width:none;padding:16px;font-family:var(--aha-font-product);font-size:16px;color:var(--aha-text-default)}
+  .brand-demo--row .brand-row{margin:0}
+  .brand-demo--cards{flex-direction:row;flex-wrap:wrap;max-width:none;gap:12px;border:none;padding:0}
+  .brand-card{display:flex;flex-direction:column;align-items:flex-start;gap:12px;width:160px;padding:16px;border:1px solid var(--aha-border);border-radius:8px;color:var(--aha-text-default);text-decoration:none;font-family:var(--aha-font-product);font-size:14px}
+  .brand-card:hover{border-color:var(--aha-border-strong)}
+  .brand-card:focus-visible{outline:2px solid var(--aha-color-primary);outline-offset:2px}
+  ${LOGO_PATTERNS.map(pattern => pattern.css.replace(/\/\*[\s\S]*?\*\/\n/, '')).join('\n  ')}`;
   return docShell({ base: '../', active: '__logo__', title: 'Logo library', section: 'foundations', main, extraCss });
 }
 function renderIconsLlms() {
@@ -3989,7 +4046,7 @@ const indexLines = [
   '>',
   `> Icons: search the icon library by meaning before drawing one ("help" → system-question, "delete" → system-trash): ${SITE}/icons.llms.txt "Find by meaning", npm run icon-search <words> (in an app: node node_modules/@ahaslides-product/design/icon-search.mjs <words>) or ${SITE}/icons/index.html?q=<words>. Never inline an <svg>; a new glyph that looks nearly identical to an existing one fails the build.`,
   `> Reports, as static images (charts, tables, number plates and KPI tiles rendered to PNG for Slack, email or an export) or as read-only report pages a report routine publishes: follow ${SITE}/guidelines/report-images/report-images.md (light grey zebra tables, <aha-stat-tile look="accent"> plates, colour rule 3.11); in an image, take status and how-to glyphs as single-colour SVG from https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@${CDN_REF}/lib/static-icons/<ink>/<size>/<name>.svg (registry names; ink or white; 12, 16, 24, 32).`,
-  `> Logos: every logo, AhaSlides or third-party brand, comes from the Logo library (${SITE}/foundations/logo.html, files at ${SITE}/logo/<file>) — never redrawn, inlined as a hand-made SVG, recoloured or swapped for an icon or letter tile. Third-party brand logos ship in greyscale, each with its original-colour file at ${SITE}/logo/original/<file>: in any interface, website headers included, a logo is one colour at rest and shows its own colours on hover and keyboard focus, with the name beside it; a page listing other products (Marketplace) keeps them in colour at rest; colour rule 2.6, copy-paste hover pattern on the Logo library page.`,
+  `> Logos: every logo, AhaSlides or third-party brand, comes from the Logo library (${SITE}/foundations/logo.html, files at ${SITE}/logo/<file>) — never redrawn, inlined as a hand-made SVG, recoloured or swapped for an icon or letter tile. A third-party brand logo in any interface, website headers and page rows included, is its line mark at ${SITE}/logo/line/<id>.svg in the default icon ink (--aha-icon-default), 24px, no tile or border around it, the name beside it; only a page listing other products (Marketplace) shows the colour logo image, greyscale at rest and in colour on hover and keyboard focus; colour rule 2.6, copy-paste patterns on the Logo library page.`,
   `> Page title and favicon: every page, route, site and app sets its own document <title> as "<specific part> | AhaSlides" (brand last, one " | " separator; a named site ends "| AhaSlides <Site name>"; only the marketing home page is brand-first) and links the one favicon set, The Splash in ${SITE}/logo/favicon/, with /favicon.ico answering at the site root. Rules: ${SITE}/guidelines/page-title-favicon/page-title-favicon.md`,
   `> Product lockup: the top-left brand of EVERY AhaSlides site, microsite, docs site, careers, landing or pricing page and app header is <aha-product-lockup product="<name>"> (${SITE}/product-lockup/index.html; spec on ${SITE}/foundations/logo.html#product-lockup) — The Splash + AhaSlides + the product name as one mark, full above a 480px header and compact below; no product attribute when no name is approved. Never hand-set it from the logo file and a text span.`,
   '>',

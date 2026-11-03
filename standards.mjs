@@ -859,18 +859,6 @@ const repoChecks = [];
   rchk('every original-colour logo sits beside its one-colour file and is declared in logo/manifest.json', originalsUnpaired.length === 0,
     `logo/original/<file> holds the brand's own colours for rule 2.6 and shares the one-colour file's name: ${originalsUnpaired.join(', ')}`);
 
-  const monoDir = join(root, 'logo', 'mono');
-  const monoFiles = existsSync(monoDir) ? readdirSync(monoDir).filter(f => f.endsWith('.svg')).map(f => `mono/${f}`) : [];
-  const declaredMonos = logoEntries.filter(entry => entry.mono).map(entry => entry.mono);
-  const monoProblems = [
-    ...declaredMonos.filter(file => !monoFiles.includes(file)).map(file => `${file} is declared but missing`),
-    ...monoFiles.filter(file => !declaredMonos.includes(file)).map(file => `${file} has no manifest entry`),
-    ...logoEntries.filter(entry => entry.mono && !(entry.monoSourceUrl && entry.monoFetched)).map(entry => `${entry.id}: mono needs monoSourceUrl and monoFetched`),
-    ...monoFiles.filter(file => coloursInSvg(read(join(root, 'logo', file))).length > 0 || !read(join(root, 'logo', file)).includes('fill="currentColor"')).map(file => `${file} must be filled with currentColor only`),
-  ];
-  rchk('every mono logo is declared in logo/manifest.json with its source and is filled with currentColor only', monoProblems.length === 0,
-    `logo/mono/<id>.svg is the flat one-colour mark: ${monoProblems.join(', ')}`);
-
   const lineDir = join(root, 'logo', 'line');
   const lineFiles = existsSync(lineDir) ? readdirSync(lineDir).filter(f => f.endsWith('.svg')).map(f => `line/${f}`) : [];
   const declaredLines = logoEntries.filter(entry => entry.line).map(entry => entry.line);

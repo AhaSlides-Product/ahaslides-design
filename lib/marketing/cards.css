@@ -227,7 +227,9 @@
   line-height:var(--aha-line-height-tight);
   color:var(--aha-color-primary);
 }
-.aha-marketing-card__logo{display:block;width:var(--aha-space-40);height:var(--aha-space-40);object-fit:contain}
+.aha-marketing-card__logo{display:block;width:var(--aha-space-40);height:var(--aha-space-40);object-fit:contain;filter:grayscale(1);transition:filter var(--aha-motion-mid) var(--aha-ease-in-out)}
+.aha-marketing-card--integration:hover .aha-marketing-card__logo,.aha-marketing-card--integration:focus-within .aha-marketing-card__logo{filter:none}
+@media (prefers-reduced-motion:reduce){.aha-marketing-card__logo{transition:none}}
 .aha-marketing-card--pricing{overflow:visible}
 .aha-marketing-card--pricing .aha-marketing-card__body{gap:var(--aha-space-24);padding:var(--aha-space-32)}
 .aha-marketing-card__head{display:flex;flex-direction:column;gap:var(--aha-space-12)}

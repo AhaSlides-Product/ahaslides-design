@@ -115,9 +115,9 @@
     {
       "slug": "integration",
       "name": "Integration card",
-      "summary": "A partner tool: logo, name and one line about what it does with AhaSlides. The whole card is the link.",
-      "html": "<article class=\"aha-marketing-card aha-marketing-card--linked aha-marketing-card--integration\">\n  <div class=\"aha-marketing-card__body\">\n    <img class=\"aha-marketing-card__logo\" src=\"https://design.ahaslides.io/logo/slack.svg\" alt=\"\" width=\"40\" height=\"40\">\n    <h3 class=\"aha-marketing-card__title\"><a class=\"aha-marketing-card__link\" href=\"#integration\" target=\"_blank\" rel=\"noopener\">Slack<span class=\"aha-marketing-card__visually-hidden\"> (opens in a new tab)</span></a></h3>\n    <p class=\"aha-marketing-card__text\">Share a live poll link in any channel and see results without leaving the thread.</p>\n  </div>\n</article>",
-      "css": ".aha-marketing-card__logo{display:block;width:var(--aha-space-40);height:var(--aha-space-40);object-fit:contain}\n"
+      "summary": "A partner tool: logo, name and one line about what it does with AhaSlides. The whole card is the link. The colour logo is greyscale at rest and shows its own colours on hover and keyboard focus of the card (colour rule 2.6).",
+      "html": "<article class=\"aha-marketing-card aha-marketing-card--linked aha-marketing-card--integration\">\n  <div class=\"aha-marketing-card__body\">\n    <img class=\"aha-marketing-card__logo brand-logo-listing\" src=\"https://design.ahaslides.io/logo/original/slack.svg\" alt=\"\" width=\"40\" height=\"40\">\n    <h3 class=\"aha-marketing-card__title\"><a class=\"aha-marketing-card__link\" href=\"#integration\" target=\"_blank\" rel=\"noopener\">Slack<span class=\"aha-marketing-card__visually-hidden\"> (opens in a new tab)</span></a></h3>\n    <p class=\"aha-marketing-card__text\">Share a live poll link in any channel and see results without leaving the thread.</p>\n  </div>\n</article>",
+      "css": ".aha-marketing-card__logo{display:block;width:var(--aha-space-40);height:var(--aha-space-40);object-fit:contain;filter:grayscale(1);transition:filter var(--aha-motion-mid) var(--aha-ease-in-out)}\n.aha-marketing-card--integration:hover .aha-marketing-card__logo,.aha-marketing-card--integration:focus-within .aha-marketing-card__logo{filter:none}\n@media (prefers-reduced-motion:reduce){.aha-marketing-card__logo{transition:none}}\n"
     },
     {
       "slug": "pricing",
