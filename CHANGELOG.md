@@ -33,6 +33,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.962.0 — 2026-11-03
+### Added
+- `<aha-avatar-group add>` appends a round + button after the avatars and the +N chip, at the group's size and shape with the same overlap and white ring, drawn like the secondary Button (pink on hover and press, the pink focus ring). Click, Enter or Space fires a bubbling `aha-add` event; `add-label` names it (default "Add") and `add-disabled` disables it. Groups without `add` render as before (#PR)
+### Changed
+- `<aha-avatar-group>` builds its shadow tree once and updates it in place, so a member added by an `aha-add` handler keeps keyboard focus on the add button (#PR)
+
 ## 0.959.1 — 2026-11-03
 ### Fixed
 - Website Logos strip: with the label hidden (the docs Label: Off switch, or a hidden `aha-logos__label` left in the markup) the logos sat 24px below the top and 96px above the bottom. A hidden label now counts as no label, so the strip has equal Section space above and below the logos, and the one-Group pull-up after a same-surface section still applies (#606)

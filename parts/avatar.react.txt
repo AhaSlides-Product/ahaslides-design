@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import '@ahaslides-product/design/aha-avatar';   // registers <aha-avatar> + <aha-avatar-group>
 
 // A plain custom element — no wrapper needed for static props.
@@ -18,3 +19,18 @@ function AhaAvatar({ name, src, icon, size = 'default', shape = 'circle', color 
   <aha-avatar name="Alan Turing" />
   <aha-avatar name="Katherine Johnson" />
 </aha-avatar-group>
+
+// `add` appends a round + button; it fires a bubbling `aha-add` (React < 19: listen through a ref)
+function People({ onInvite }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    el.addEventListener('aha-add', onInvite);
+    return () => el.removeEventListener('aha-add', onInvite);
+  }, [onInvite]);
+  return (
+    <aha-avatar-group ref={ref} add="" add-label="Invite people">
+      <aha-avatar name="Ada Lovelace" />
+    </aha-avatar-group>
+  );
+}
