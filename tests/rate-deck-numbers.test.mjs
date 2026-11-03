@@ -64,3 +64,24 @@ test('size="lg" gives every star and every number cell a 44px hit area, and the 
   assert.deepEqual(sizes.large, { width: 44, height: 44, glyphWidth: 32 });
   assert.deepEqual(sizes['large-numbers'], { width: 44, height: 44, glyphWidth: 44 });
 });
+
+test('min="0" adds a 0 cell, value 0 fills only that cell, and no value fills nothing', { skip }, async () => {
+  const result = await evaluate(`(() => {
+    const cells = (id) => [...document.getElementById(id).shadowRoot.querySelectorAll('.star')];
+    const unrated = document.getElementById('zero-unrated');
+    const before = cells('zero-unrated').map((cell) => cell.classList.contains('on'));
+    unrated.shadowRoot.querySelector('.stars').dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+    return {
+      digits: cells('zero').map((cell) => cell.querySelector('.base .digit').textContent).join(','),
+      zero: cells('zero').map((cell) => cell.classList.contains('on')),
+      checked: cells('zero').map((cell) => cell.getAttribute('aria-checked')),
+      before, firstPick: unrated.value, firstPickOn: cells('zero-unrated').map((cell) => cell.classList.contains('on')),
+    };
+  })()`);
+  assert.equal(result.digits, '0,1,2,3');
+  assert.deepEqual(result.zero, [true, false, false, false]);
+  assert.deepEqual(result.checked, ['true', 'false', 'false', 'false']);
+  assert.deepEqual(result.before, [false, false, false, false]);
+  assert.equal(result.firstPick, 0);
+  assert.deepEqual(result.firstPickOn, [true, false, false, false]);
+});

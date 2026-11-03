@@ -106,7 +106,7 @@
     },
     {
       "label": "Palette",
-      "value": "brand = --aha-viz-series-1…6 → the four chart colours of the colour rules, in order: Vivid Pink · black · Vivid Pink at 30% · light grey #A8A8A8, then Vivid Pink · black again (past four series, add a dashed line or pattern and a written label); tints → Vivid Pink at 5% behind the pink series, gray-20 behind the black and grey series · Other / non-correct → icon-muted · correct → answer-correct (Correct green) in both palettes · deck = consumer colours + ink · colors on palette=brand replaces the series (and their 16% tints) with the host's colours, keeping the brand ink · transparent background · more than 6 bar/column options share series 1"
+      "value": "brand = --aha-viz-series-1…6 → the four chart colours of the colour rules, in order: Vivid Pink · black · Vivid Pink at 30% · light grey #A8A8A8, then Vivid Pink · black again (past four series, add a dashed line or pattern and a written label; on a stacked bar series 5 and 6, and any series past the end of a short colors list, carry a white diagonal hatch over the repeated colour); tints → Vivid Pink at 5% behind the pink series, gray-20 behind the black and grey series · Other / non-correct → icon-muted · correct → answer-correct (Correct green) in both palettes · deck = consumer colours + ink · colors on palette=brand replaces the series (and their 16% tints) with the host's colours, keeping the brand ink · transparent background · more than 6 bar/column options share series 1"
     },
     {
       "label": "Ink",
@@ -123,6 +123,10 @@
     {
       "label": "Column · negatives and reference",
       "value": "any negative value or options.reference switches the column chart to a zero baseline: the baseline is a 1px --aha-border-strong rule, a positive column grows up from it with its top corners rounded and its value above, a negative column grows down with its bottom corners rounded and its value below, all in the first series colour when any value is negative (direction by position and shape, never hue) · reference {value, label}: a 1px dashed --aha-text-secondary line across the plot with the label and value at its right end, in a right gutter the columns never enter; when the label would take more than 30% of the width it moves to a key above the plot (a dashed swatch and the text, ending in an ellipsis) · once signed, the chart stays signed, so live data crossing zero animates in place · labels that do not fit their columns on two lines (a phone, or many periods) stay on one line and show every Nth label, counted back from the latest, which is always labelled; they never end in an ellipsis · a value label never overlaps another bar or label: it steps down to 14px, then 12px, and if they still collide only the clear ones are shown, counted back from the latest, which is always shown · columns stay columns in this mode (no fall-back to bars), images and Pick Answer are not drawn"
+    },
+    {
+      "label": "Stacked",
+      "value": "one row per group: label above, a --aha-viz-bar-thickness bar split by series, values under each segment wide enough for one (hidden under 430px) · up to 6 series (max-items to change it): series 1 to 4 take the four chart colours, series 5 and 6 repeat Vivid Pink and black with a white diagonal hatch on the segment, its legend swatch and its tooltip swatch, so every series up to the fold reads apart without a new colour (colour rule 8.2) · past the cap the smallest series by total fold into \"Other (n)\" in icon-muted, last; hovering the Other legend item lists the merged series, and the Other segment's tooltip lists each merged series with its own value in that row · the hidden data table keeps every series as its own column, folded or not"
     },
     {
       "label": "Line",
@@ -166,7 +170,7 @@
     },
     {
       "label": "A11y",
-      "value": "host role=figure + aria-label · text summary · hidden data table (mind map: nested list) · polite <aha-live-region> on data updates · interactive parts (pager, legend toggles, words, mind-map nodes, quadrant points, radar axes) are real buttons with labels"
+      "value": "host role=figure + aria-label · text summary · hidden data table (mind map: nested list) · polite <aha-live-region> on data updates · interactive parts (pager, legend toggles, words, mind-map nodes, quadrant points, radar axes) are real buttons with labels · every label taken from data (option, series, row, axis tick, word, mind-map node, tooltip title and line, table cell) has dir=auto, so a right-to-left label keeps its own direction inside a left-to-right chart and the reverse"
     },
     {
       "label": "Copy",
