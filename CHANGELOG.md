@@ -33,6 +33,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.949.0 — 2026-11-03
+### Added
+- Alert: opt-in `padding="even"` gives the same padding on all four sides at the size's side value: regular 14px, small 10px. Gap, text, glyph and the close ✕ position are unchanged, and an alert without the attribute renders exactly as before. Vue 2 apps, which may not size an `<aha-*>` through `::part` (VUE2-6), now have a sanctioned way to get even alert padding (#NNN)
+### Changed
+- VUE2-6 and feedback criterion C4 (in `anti-slop/criteria.json` and `agent/anti-slop/criteria.json`) name `padding="even"` as the way to get even alert padding; a `::part(alert)` or inline padding override fails C4. Two feedback eval cases cover it: a `::part(alert)` override and the passing attribute (#NNN)
+
 ## 0.947.1 — 2026-11-03
 ### Fixed
 - `screen-lint --surface=website` W9: an autoplaying video outside the hero needs `lib/marketing-motion.js` 0.947.0 or later to count as stopped under reduced motion; older scripts pause only the hero video (#602)
