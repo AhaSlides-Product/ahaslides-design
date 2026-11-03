@@ -63,6 +63,18 @@ class MapFile(unittest.TestCase):
         self.assertEqual(dj.map_file("src/canvas/Canvas.vue"), {"canvas"})
         self.assertEqual(dj.map_file("audience/src/Answer.vue"), {"audience"})
 
+    def test_presenting_screen_files_add_canvas_and_app_shell(self):
+        for p in ("src/components-v2/presentation-editor/middle/SlideCanvas.vue",
+                  "src/components-v2/presentation-editor/middle/InkLayer.vue",
+                  "src/components/PresenterControlBarNew.vue",
+                  "src/components/ncb/NcbPluginActions.vue",
+                  "src/presenting/AnnotateToolbar.vue"):
+            out = dj.map_file(p)
+            self.assertTrue({"canvas", "app-shell", "background", "component-standard"} <= out, (p, out))
+
+    def test_annotation_outside_the_presenter_is_not_a_presenting_screen(self):
+        self.assertNotIn("canvas", dj.map_file("src/editor/CommentAnnotation.vue"))
+
     def test_surfaces_for_drops_surfaces_the_ds_does_not_have(self):
         out = dj.surfaces_for(["src/DataTable.tsx", "src/Icon.tsx"], CRITERIA)
         self.assertEqual(out, ["background", "component-standard", "table"])
@@ -269,6 +281,12 @@ class MainEndToEnd(unittest.TestCase):
 
     def test_a_settings_app_file_asks_for_the_label_table(self):
         self.assertIn("label self-check table", self._card_run("CourseSettings.tsx"))
+
+    def test_a_presenter_control_bar_file_asks_for_canvas_and_app_shell_c6(self):
+        reason = self._card_run("PresenterControlBarNew.vue")
+        self.assertIn("judge every `canvas` criterion and app-shell C6", reason)
+        self.assertIn("src/PresenterControlBarNew.vue", reason)
+        self.assertNotIn("Presenting-screen files", self._card_run("Card.tsx"))
 
     def test_other_files_do_not_ask_for_the_label_table(self):
         self.assertNotIn("label self-check table", self._card_run("Card.tsx"))

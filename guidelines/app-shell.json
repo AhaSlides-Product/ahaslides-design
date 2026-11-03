@@ -9,9 +9,9 @@
   "highlights": ["How a product screen is assembled from DS components", "Left nav rail, top bar, content region and optional canvas, spaced by --aha-* tokens", "Real brand identity, no dead placeholders", "Closes the gap between component-correct and generic admin template"],
   "lead": "The DS ships no shell/nav/rail leaf, so a consumer hand-rolls the screen scaffold — and hand-rolled scaffold is where slop enters: a placeholder letter-tile logo, a 'Loading…' block shipped as final, evenly-spaced equal-weight cards. This pattern ships NO new component; it documents how to compose the shell from existing DS components and binds each rule to a binary criterion the consumer self-judges.",
   "skillRef": {
-    "build": "ahaslides-design:app-shell",
-    "judge": "ahaslides-design:app-shell",
-    "note": "Authored in the DS — there is no aha-design plugin skill for the app shell. The DS OWNS this surface's criteria in anti-slop/criteria.json (surfaces.app-shell, C1..C6). Backfilling a matching aha-design build+judge skill pair is a follow-up, not a dependency."
+    "build": "ahaslides-design:aha-design",
+    "judge": "ahaslides-design:aha-design",
+    "note": "Authored in the DS. The DS OWNS this surface's criteria in anti-slop/criteria.json (surfaces.app-shell, C1..C6); the plugin's aha-design skill builds and judges against them."
   },
   "surfaces": ["dashboard", "editor", "presenter"],
   "composedOf": [
@@ -32,7 +32,7 @@
     { "rule": "Give each region one primary action and a scannable type hierarchy from the scale; do not render uniform grey-on-white equal-weight cards with evenly-spaced everything (the admin-template tell).", "ref": ["C3"] },
     { "rule": "Fill every shell slot with a DS component (aha-button, aha-icon, aha-avatar, aha-badge, DataTable) and take all spacing/radius/colour from --aha-* tokens — never a hand-rolled <button>/<div> with inline hex/px, never a raw <table>.", "ref": ["C4"] },
     { "rule": "Animate the active/selected nav state by toggling an attribute/class on a persistent node via the motion tokens (--aha-motion-* + --aha-ease-*); never snap, never a bare duration literal, never rebuild the subtree on selection.", "ref": ["C5"] },
-    { "rule": "On the presenting view, every presenter control-bar button has its key in its tooltip (<aha-tooltip size=\"lg\" text=\"Annotate\" shortcut=\"D\">, aria-label `Annotate (D)`), and the popover it opens takes focus on open and returns it to the trigger on close. Esc closes an open popover before it can reach exit-presenting, and every control-bar key is listed in the presenter hotkey cheatsheet. Prove it by pressing the keys in the real UI and recording each result; reading the code is not proof.", "ref": ["C6"] }
+    { "rule": "On the presenting view, every host control (each presenter control-bar button, manifest-declared slide actions included, each popover, picker or menu one opens, and each host layer drawn over the live slide, such as ink annotation and its toolbar) is judged here, never left to the canvas review. Every presenter control-bar button has its key in its tooltip (<aha-tooltip size=\"lg\" text=\"Annotate\" shortcut=\"D\">, aria-label `Annotate (D)`), and the popover it opens takes focus on open and returns it to the trigger on close. Esc closes an open popover before it can reach exit-presenting, and every control-bar key is listed in the presenter hotkey cheatsheet. The shortcut chip is the canvas C10 chip (24 × 24, radius 4); the host sizes and themes the control itself, never with applyCanvasDeck or the in-canvas size=\"lg\" rule. Prove it by pressing the keys in the real UI and recording each result; reading the code is not proof.", "ref": ["C6"] }
   ],
   "reuse": null,
   "reuseNote": "Doc-only pattern — the DS ships no shell wrapper leaf. The composition lives in the consuming app; this pattern is the conventions + the binary criteria (anti-slop/criteria.json → surfaces.app-shell) a consumer self-judges against.",

@@ -93,6 +93,12 @@ Read the list from the DS each time — surfaces get added.
   each rule tagged with its environment. Read the rules for your environment there, never from memory.
 - A slide-type iframe is `canvas` (presenter stage) or `audience` (participant phone) — a
   separate runtime; the product-app baseline does not apply.
+- Presenter-app work on the presenting screen (in `stpancras-presenter-app`,
+  `src/components-v2/presentation-editor/middle/**`; the presenter control bar and the popovers,
+  pickers and menus its buttons open; anything drawn over a live slide, such as ink annotation) is
+  always judged on `canvas` plus `app-shell` C6, plus the product-app baseline and every surface it
+  touches, whoever builds it. Canvas C10 covers controls a slide renders itself; every control the
+  host paints there is app-shell C6, proved by a recorded keyboard run.
 
 ## 3. Build
 
