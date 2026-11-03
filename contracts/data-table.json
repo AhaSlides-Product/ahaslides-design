@@ -389,7 +389,7 @@
       "containerRadius": "8px",
       "sortedHeaderBg": "rgb(255, 255, 255)",
       "sortedCellBg": "rgb(255, 255, 255)",
-      "sortArrow": "system-arrow-down",
+      "sortArrow": "system-arrow-up",
       "dualCaret": "0"
     }
   }
