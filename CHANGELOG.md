@@ -42,6 +42,12 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - W9 (website guideline, anti-slop criterion and the Hero video note): the Products menu preview clip is allowed beside the one autoplaying hero video and does not count as a second autoplaying video (#594)
 - Revert: revert the PR; it changes marketing/navigation.json, the generated Marketing CSS and the W9 prose only, with no token or component API change
 
+## 0.932.0 — 2026-11-03
+### Added
+- `<aha-split-button>`, Button's split variant: a main action joined to a caret that opens a menu of related actions (Present with Present from start / from current slide). Both halves are the shipped `aha-button` (primary or secondary, sm / md / lg, lg default) and the menu is the shipped `aha-dropdown` (same `items`), so every per-state value and the menu behaviour are theirs, not copies. Outer corners keep the size's radius, inner corners are square, and a 1px divider separates the halves (white at 24% on primary, the default border on secondary, the disabled ink when disabled). The caret is its own button (`caret-label`, default "More options", `aria-haspopup="menu"`, `aria-expanded`; opens on click, Enter, Space, ArrowDown). `click` fires for the main half only; choosing a row emits `select`. `disabled` disables both halves, `loading` spins the main half only. Linked from the Button and Dropdown pages. No new token or icon; the Button and Dropdown APIs are unchanged. (#589)
+- Split button is listed in the Components sidebar under Button, so its page is reachable from every Components page.
+- Revert: revert the PR; a new element, contract and parts, plus one line each in `lib/all.js`, `package.json`, the Components sidebar catalogue in `generate.mjs` and the Button and Dropdown "When to use" lists
+
 ## 0.930.0 — 2026-11-03
 ### Added
 - Menu and Dropdown rows take an optional `shortcut` ("Mod+D", "Del"): the action's key drawn as the shared DS shortcut chip at the row's trailing edge on the label line, on gray-35 #EBEBEB (lighter than the Button and Tooltip chip), ⌘D on a Mac and Ctrl D elsewhere, for a context menu. Display only and aria-hidden; the row gets `aria-keyshortcuts`. It works beside a `description`, on disabled and danger rows, and before a locked row's crown; rows without it are unchanged. New docs example "Context menu with shortcuts" (#591)
