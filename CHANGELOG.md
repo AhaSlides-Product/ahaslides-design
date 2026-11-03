@@ -35,10 +35,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.946.0 — 2026-11-03
 ### Added
-- Anti-slop app-shell criterion C6: presenter control-bar buttons and the popovers they open must show their key in the tooltip, take focus on open and return it to the trigger, close on Esc before Esc can exit presenting, and list every key in the presenter hotkey cheatsheet. The judge must drive the real presenting UI with the keyboard and record each keypress; with no run it marks C6 `FAIL — UNVERIFIED`, never PASS. Three eval cases cover it: an Annotate-style failure, a passing bar, and the same passing code with no recorded run (#PRNUM)
+- Anti-slop app-shell criterion C6: presenter control-bar buttons and the popovers they open must show their key in the tooltip, take focus on open and return it to the trigger, close on Esc before Esc can exit presenting, and list every key in the presenter hotkey cheatsheet. The judge must drive the real presenting UI with the keyboard and record each keypress; with no run it marks C6 `FAIL — UNVERIFIED`, never PASS. Three eval cases cover it: an Annotate-style failure, a passing bar, and the same passing code with no recorded run (#600)
 ### Changed
-- Canvas criteria C10 and C24 (and the canvas guide) now point host-painted control-bar actions at app-shell C6 instead of calling them out of scope (#PRNUM)
-- The App shell guideline declares its environments (product, web) and leaves the environments baseline (#PRNUM)
+- Canvas criteria C10 and C24 (and the canvas guide) now point host-painted control-bar actions at app-shell C6 instead of calling them out of scope (#600)
+- The App shell guideline declares its environments (product, web) and leaves the environments baseline (#600)
 
 ## 0.942.0 — 2026-11-03
 ### Added
