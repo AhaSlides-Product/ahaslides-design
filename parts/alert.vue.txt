@@ -15,6 +15,7 @@ const banner = ref(true);
     <button slot="action">Try it</button>
   </aha-alert>
   <aha-alert type="error" size="small">Upload failed. Try a smaller file.</aha-alert>
+  <aha-alert type="info" size="small" padding="even" hide-icon>This slide type is used in 3 presentations.</aha-alert>
   <aha-alert
     v-if="banner"
     type="warning"

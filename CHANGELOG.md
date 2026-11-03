@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.949.0 — 2026-11-03
+## 0.950.0 — 2026-11-03
 ### Changed
 - The shared antd base theme (`antdBaseTheme`, so every `dsAntdTheme` ConfigProvider) carries the DS type scale: antd Title levels 1 to 5 are 32 / 24 / 20 / 18 / 16 on a 1.3 line (the aha-text levels; antd drew 38 / 30 / 24 / 20 / 16), body text sits on a 1.5 line (14/21, was 14/22), `Text type="secondary"` is #4A4A4A (`colorTextDescription`, the aha-text secondary grey; antd drew black at 45%), `colorTextTertiary` is #8A8A8A and headings are #1A1A1A. Values are read from `tokens.js` (#596)
 - The base theme also sets Modal: 18px title on a 1.5 line, #1A1A1A, radius 8, so `Modal.confirm` and `useModal` dialogs outside the modal theme match DS dialogs (they drew a 16px title and radius 10) (#596)
@@ -42,6 +42,12 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - `tooltip-theme` (`tooltipTheme`, `brandTooltip`, `vueTooltip`: the 280px width ant-design-vue 4 cannot take from the theme), `tag-theme` (`tagTheme`, `tagCss`: the 600 weight and 6px padding antd has no token for, added on import) and `segmented-theme` (`segmentedTheme`), each with a docs page (antd Tooltip, antd Tag, antd Segmented) and a render contract. New UI keeps using the aha-* elements (#596)
 - Revert: revert the PR; apps then draw antd's own heading sizes, greys, tooltip, tag, segmented and confirm dialogs again, and a popover around a menu shows two frames
+
+## 0.949.0 — 2026-11-03
+### Added
+- Alert: opt-in `padding="even"` gives the same padding on all four sides at the size's side value: regular 14px, small 10px. Gap, text, glyph and the close ✕ position are unchanged, and an alert without the attribute renders exactly as before. Vue 2 apps, which may not size an `<aha-*>` through `::part` (VUE2-6), now have a sanctioned way to get even alert padding (#603)
+### Changed
+- VUE2-6 and feedback criterion C4 (in `anti-slop/criteria.json` and `agent/anti-slop/criteria.json`) name `padding="even"` as the way to get even alert padding; a `::part(alert)` or inline padding override fails C4. Two feedback eval cases cover it: a `::part(alert)` override and the passing attribute (#603)
 
 ## 0.947.1 — 2026-11-03
 ### Fixed
