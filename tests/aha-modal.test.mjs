@@ -10,7 +10,7 @@ const skip = existsSync(resolveChrome()) ? false : 'needs headless Chrome (set C
 const scenarios = String.raw`(async () => {
   const frame = () => new Promise((done) => requestAnimationFrame(() => requestAnimationFrame(done)));
   const settle = () => new Promise((done) => setTimeout(done, 450));
-  const key = (name, init = {}) => { const event = new KeyboardEvent('keydown', { key: name, bubbles: true, composed: true, cancelable: true, ...init }); document.dispatchEvent(event); return event.defaultPrevented; };
+  const key = (name, init = {}) => { const event = new KeyboardEvent('keydown', { key: name, bubbles: true, composed: true, cancelable: true, ...init }); let target = document.activeElement || document; while (target.shadowRoot && target.shadowRoot.activeElement) target = target.shadowRoot.activeElement; target.dispatchEvent(event); return event.defaultPrevented; };
   const modal = document.querySelector('#modal');
   const opener = document.querySelector('#opener');
   const root = modal.shadowRoot;
@@ -91,7 +91,16 @@ const scenarios = String.raw`(async () => {
   nest.show(); await frame(); await settle();
   document.querySelector('#last-visible').focus(); key('Tab');
   out.hiddenNestedSkipped = nest.shadowRoot.activeElement === nest.shadowRoot.querySelector('.close');
+  document.querySelector('#hint').focus(); await frame();
+  out.hoverPopoverOpen = document.querySelector('#nest aha-popover').open;
+  key('Escape'); await frame(); await settle();
+  out.escapePastFocusPopover = nest.open;
   nest.close(); await frame(); await settle();
+
+  const plain = document.querySelector('#plain');
+  plain.show(); await frame(); await settle();
+  out.nestedInRichWidth = getComputedStyle(plain.shadowRoot.querySelector('.panel')).width;
+  plain.close(); await frame(); await settle();
 
   const built = document.createElement('aha-modal');
   out.createdUpgraded = built instanceof customElements.get('aha-modal');
@@ -143,6 +152,8 @@ test('aha-modal maps the antd props, traps focus, and closes only through uncanc
   assert.equal(r.defaultsHidden, true);
   assert.equal(r.customTabWraps, true);
   assert.equal(r.hiddenNestedSkipped, true);
+  assert.deepEqual([r.hoverPopoverOpen, r.escapePastFocusPopover], [true, false]);
+  assert.equal(r.nestedInRichWidth, '504px');
   assert.equal(r.createdUpgraded, true);
   assert.deepEqual(r.falseStaysClosed, [false, '', 0]);
   assert.deepEqual(r.trueOpens, [true, 'hidden']);

@@ -11,11 +11,16 @@
   <div slot="footer"><button id="send">Send</button></div>
 </aha-modal>
 <aha-modal id="nest" heading="Outer" no-footer>
+  <aha-popover trigger="focus" content="Moves every slide" aria-label="Hint"><button slot="trigger" id="hint">Hint</button></aha-popover>
   <button id="last-visible">Last</button>
   <aha-modal heading="Inner">Inner body</aha-modal>
 </aha-modal>
+<aha-modal id="rich" heading="Templates" size="rich">
+  <aha-modal id="plain" heading="Use this template?">Inner body</aha-modal>
+</aha-modal>
 <script type="module">
   import '../lib/aha-modal.js';
+  import '../lib/aha-popover.js';
   await customElements.whenDefined('aha-modal');
   window.modalFixtureReady = true;
 </script>
