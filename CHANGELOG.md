@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.920.0 — 2026-11-03
+### Added
+- Menu and Dropdown rows take an optional `shortcut` ("Mod+D", "Del"): the action's key drawn as the shared DS shortcut chip at the row's trailing edge on the label line, ⌘D on a Mac and Ctrl D elsewhere, for a context menu. Display only and aria-hidden; the row gets `aria-keyshortcuts`. It works beside a `description`, on disabled and danger rows, and before a locked row's crown; rows without it are unchanged. New docs example "Context menu with shortcuts" (#NNN)
+- `ariaKeyShortcuts()` in `shortcut-key`: the same shortcut as an `aria-keyshortcuts` value (#NNN)
+
 ## 0.916.3 — 2026-11-03
 ### Fixed
 - Every Marketing item grid that had a fixed column count now balances by item count, W11: Numbers centred stats (4 stay a row, 1/2/3/5+ balance), the Numbers split image and actions with icons stats centre an odd last stat, Testimonials quote cards (from 768 px) and the Pricing plan grid balance 1, 2, 4 and 5+ cards, and a lone last item is centred on tablet (#587)
