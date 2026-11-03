@@ -36,10 +36,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.941.0 — 2026-11-03
 
 ### Added
-- Join bar: its own Marketing page (`marketing/join-bar.json`, class `aha-join-bar`, Webflow component Join bar), listed in the Marketing sidebar next to Navigation. The markup and CSS are the former Navigation "Join bar" layout moved as is, with no visual change. Place it directly before the Site navbar as a sibling and it scrolls away while the navbar stays stuck to the top (#NNN)
+- Join bar: its own Marketing page (`marketing/join-bar.json`, class `aha-join-bar`, Webflow component Join bar), listed in the Marketing sidebar next to Navigation. The markup and CSS are the former Navigation "Join bar" layout moved as is, with no visual change. Place it directly before the Site navbar as a sibling and it scrolls away while the navbar stays stuck to the top (#597)
 
 ### Changed
-- Navigation: holds only the Site navbar; the Join bar layout moved out to its own page and the two pages link each other in their usage notes (#NNN)
+- Navigation: holds only the Site navbar; the Join bar layout moved out to its own page and the two pages link each other in their usage notes (#597)
 - Revert: revert the PR; it moves one layout between two marketing JSON files and the generated Marketing CSS, with no token or component API change
 
 ## 0.935.0 — 2026-11-03
