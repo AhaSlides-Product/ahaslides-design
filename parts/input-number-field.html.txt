@@ -1,0 +1,27 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-input-number> is the SAME shared custom element React and Vue consume, here in its native form. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-input-number.js';   // registers <aha-input-number>
+</script>
+
+<!-- min / max / step: typing outside the bounds is clamped when the field is left; ArrowUp / ArrowDown step (Shift for ten) -->
+<aha-input-number id="score" label="Minimum score" value="50" min="0" max="100" step="5"></aha-input-number>
+
+<!-- string-mode: the value stays an exact decimal string; precision rounds on commit and shows 2 places -->
+<aha-input-number string-mode precision="2" min="0" prefix="$" placeholder="0.00" aria-label="Price"></aha-input-number>
+
+<!-- a range filter: two fields, no stepper -->
+<aha-input-number controls="false" placeholder="Min" aria-label="Minimum"></aha-input-number>
+<aha-input-number controls="false" placeholder="Max" aria-label="Maximum"></aha-input-number>
+
+<!-- states: error · disabled · readonly · a unit after the stepper -->
+<aha-input-number status="error" error-message="Enter a number from 1 to 10" value="12" min="1" max="10" aria-label="Rating"></aha-input-number>
+<aha-input-number disabled value="3" aria-label="Seats"></aha-input-number>
+<aha-input-number readonly value="-2.5" aria-label="Offset"></aha-input-number>
+<aha-input-number value="30" suffix="minutes" aria-label="Duration"></aha-input-number>
+
+<script>
+  // e.detail.value is a number (a string under string-mode), or null when the field is empty
+  document.getElementById('score').addEventListener('input', (e) => console.log('value:', e.detail.value));
+</script>

@@ -1,0 +1,294 @@
+{
+  "name": "InputNumber field",
+  "slug": "input-number-field",
+  "group": "Data entry",
+  "environment": [
+    "product"
+  ],
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-input-number",
+  "summary": "Type or step a number (decimals, negatives, min, max, step, precision) in the same field as Input, without antd.",
+  "highlights": [
+    "A number field with the Input look, sizes and states",
+    "Exact decimal strings: no float rounding, empty is null",
+    "Min, max, step, precision, ▲/▼ stepper and arrow keys"
+  ],
+  "lead": "ONE custom element, <aha-input-number>, defined once and imported unchanged by React and Vue: the framework-free counterpart of antd InputNumber, so an app can drop antd for its number fields. It is the <aha-input> field (same tokens, small 24 · default 40 · large 48, error status, disabled, readonly, label, error and info message) holding a number. The value is a decimal string worked out with exact decimal arithmetic (0.1 + 0.2 is 0.3; a 20-digit id keeps every digit); empty is null and `valueAsNumber` reads it as a number. While typing, the value follows the text whenever it is a number inside min and max; on blur or Enter the text is committed: clamped, rounded to `precision`, and text that is not a number goes back to the last value. A hover-revealed ▲/▼ stepper (the InputNumber look) and ArrowUp / ArrowDown step it (Shift for ten steps). The inner field is the role=\"spinbutton\"; the element is form-associated and <aha-form-item> reads, validates and resets it.",
+  "codeNote": "antd InputNumber → <aha-input-number>: value / onChange → `value` (string, number or null) + the `input` event (fires on every value change, as onChange does; `change` fires on each commit or step), e.detail.value is a number, or a string under `string-mode`, or null when empty · stringMode → `string-mode` · min / max / step / precision → the same attributes (precision rounds half away from zero on commit) · controls={false} → controls=\"false\" · placeholder → placeholder · status error/warning → status (warning renders as error) · disabled → disabled · readOnly → readonly · size small/middle/large → size small/default/large · prefix → prefix (text) · addonAfter → suffix (muted text unit after the stepper) · keyboard ↑/↓ and Shift ×10 → the same keys · onPressEnter → listen for keydown Enter (Enter commits the value) · aria-label / aria-labelledby → the same attributes, passed to the inner spinbutton · formatter / parser, decimalSeparator, changeOnWheel, hold-to-repeat on the stepper: not supported. React 18: set `value` through a ref (el.value = v, null for empty) and listen with ref.current.addEventListener('input', …), since React 18 does not wire CustomEvents; pass a boolean as present or absent ({...(disabled ? { disabled: '' } : {})}); disabled=\"false\", readonly=\"false\" and string-mode=\"false\" read as off, and controls={false} renders controls=\"false\", which hides the stepper. React 19 can use the element directly. Vue binds it natively (:value.prop, @input).",
+  "tokensUsed": [
+    "bg-container",
+    "bg-container-secondary",
+    "bg-container-disabled",
+    "bg-accent",
+    "border-default",
+    "border-hover",
+    "border-error",
+    "border-disabled",
+    "color-primary",
+    "focus-ring-soft",
+    "text-default",
+    "text-secondary",
+    "text-tertiary",
+    "text-disabled",
+    "icon-muted",
+    "radius-default",
+    "radius-xs",
+    "font-product"
+  ],
+  "spec": [
+    {
+      "label": "Box",
+      "value": "the <aha-input> field: height 40 (default) · radius 8 · padding 0 8 0 12 · 1px #E3E3E3 (border-default) · 240 wide, full width in <aha-form-item>"
+    },
+    {
+      "label": "Sizes",
+      "value": "small 24 · default 40 · large 48 (16/24 text), radius 8; sm / lg accepted as aliases"
+    },
+    {
+      "label": "Hover / focus",
+      "value": "#E70E68 border on hover; focus #E70E68 border + 2px #E70E68@30% ring (focus-ring-soft), on the persistent wrapper"
+    },
+    {
+      "label": "Status",
+      "value": "error #1A1A1A border, 2px #1A1A1A ring on focus, aria-invalid; warning renders as error"
+    },
+    {
+      "label": "Disabled / readonly",
+      "value": "disabled #F1F1F1 fill, #EBEBEB border, no stepper · readonly #F7F7F7 fill, no stepper"
+    },
+    {
+      "label": "Text",
+      "value": "Plus Jakarta 14/21, tabular figures · placeholder #616161 (text-tertiary), as <aha-input>"
+    },
+    {
+      "label": "Stepper",
+      "value": "18×14 ▲/▼ buttons (system-caret-up / down, 12px) 6px after the digits, #8A8A8A (icon-muted), hover #1A1A1A on #E70E680D (bg-accent), radius 4; shown on hover and focus (opacity), 11px tall in the small size; a button at the bound is disabled #B5B5B5; controls=\"false\" hides it"
+    },
+    {
+      "label": "Affixes",
+      "value": "prefix (text, 4px before the digits) and suffix (a unit, 4px after the stepper), 14/21 #4A4A4A (text-secondary)"
+    },
+    {
+      "label": "Messages",
+      "value": "error-message: 12px system-warning-circle + 12/18 #1A1A1A text below, 4px gap · info-message: 12/18 #4A4A4A; both through <aha-field-error>"
+    }
+  ],
+  "props": [
+    {
+      "name": "value",
+      "type": "string | number | null",
+      "default": "null",
+      "desc": "The value. The property and attribute take a string or a number; the getter returns the decimal string (\"12.5\"), or null when empty. Set null or '' to empty it"
+    },
+    {
+      "name": "valueAsNumber",
+      "type": "number (read-only)",
+      "default": "NaN",
+      "desc": "The value as a number; NaN when empty"
+    },
+    {
+      "name": "string-mode",
+      "type": "boolean",
+      "default": "off",
+      "desc": "e.detail.value (and <aha-form-item>'s value) is the decimal string instead of a number: for ids, money and values past 2^53 (antd stringMode)"
+    },
+    {
+      "name": "min / max",
+      "type": "number",
+      "default": "—",
+      "desc": "Bounds. Typing outside them leaves the value where it was until the field is left; blur or Enter clamps the text. The stepper button at a bound is disabled"
+    },
+    {
+      "name": "step",
+      "type": "number",
+      "default": "1",
+      "desc": "The step for the stepper and ArrowUp / ArrowDown (Shift steps ten times); a decimal step adds exactly"
+    },
+    {
+      "name": "precision",
+      "type": "number",
+      "default": "—",
+      "desc": "Decimal places: the value is rounded half away from zero on commit and the field shows that many places (1 shows as 1.00). A rounding that would pass max cuts the digits instead"
+    },
+    {
+      "name": "placeholder",
+      "type": "string",
+      "default": "—",
+      "desc": "Hint shown when empty"
+    },
+    {
+      "name": "controls",
+      "type": "boolean",
+      "default": "true",
+      "desc": "controls=\"false\" hides the ▲/▼ stepper (antd controls={false}); the arrow keys still step"
+    },
+    {
+      "name": "size",
+      "type": "small | default | large",
+      "default": "default",
+      "desc": "small 24 · default 40 · large 48 (sm / lg accepted)"
+    },
+    {
+      "name": "status",
+      "type": "default | error | warning",
+      "default": "default",
+      "desc": "Error border and ring plus aria-invalid; warning renders as error"
+    },
+    {
+      "name": "error-message",
+      "type": "string",
+      "default": "—",
+      "desc": "Shown below the field while status is error, linked through aria-describedby"
+    },
+    {
+      "name": "info-message",
+      "type": "string",
+      "default": "—",
+      "desc": "Help text below the field while there is no error"
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "—",
+      "desc": "Visible label above the field, a real <label for> on the inner field"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Not interactive, grey fill, no stepper; disabled=\"false\" reads as off"
+    },
+    {
+      "name": "readonly",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Shown but not editable, secondary fill, no stepper; readonly=\"false\" reads as off"
+    },
+    {
+      "name": "prefix / suffix",
+      "type": "string",
+      "default": "—",
+      "desc": "Text before the digits (a currency sign) / a unit after the stepper (antd prefix / addonAfter)"
+    },
+    {
+      "name": "aria-label / aria-labelledby",
+      "type": "string / id list",
+      "default": "—",
+      "desc": "Name the inner spinbutton; aria-labelledby ids are resolved to their text across the shadow root and re-read on focus. A <label for> on the host works too"
+    },
+    {
+      "name": "aria-describedby",
+      "type": "string (id list)",
+      "default": "—",
+      "desc": "Ids describing the field, resolved on the inner field"
+    },
+    {
+      "name": "increase-label / decrease-label",
+      "type": "string",
+      "default": "Increase / Decrease",
+      "desc": "Accessible names of the stepper buttons, for a translated UI"
+    },
+    {
+      "name": "inputmode",
+      "type": "string",
+      "default": "decimal when min ≥ 0",
+      "desc": "Phone keyboard; by default decimal (numeric with precision 0) when min is 0 or more, else the text keyboard so a minus can be typed"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "default": "—",
+      "desc": "Form field name: the element is form-associated, submits the value ('' when empty), resets to its first value and follows a disabled fieldset"
+    },
+    {
+      "name": "stepUp(n) / stepDown(n) / select() / focus()",
+      "type": "method",
+      "default": "—",
+      "desc": "Step by n steps (clamped, fires input and change), select the text, focus the field"
+    },
+    {
+      "name": "input",
+      "type": "CustomEvent<{value}>",
+      "default": "—",
+      "desc": "Composed; fires on every value change: typing a number inside min and max, emptying the field, a step, or a commit that changes the value"
+    },
+    {
+      "name": "change",
+      "type": "CustomEvent<{value}>",
+      "default": "—",
+      "desc": "Composed; fires on each commit (blur, Enter) or step that leaves a new value"
+    }
+  ],
+  "a11y": {
+    "role": "the inner <input> is role=\"spinbutton\" with aria-valuenow (absent when empty), aria-valuemin and aria-valuemax; aria-invalid follows status",
+    "keyboard": "ArrowUp / ArrowDown step, Shift steps ten times, Enter commits; the stepper buttons are tabindex=-1, so the field is one tab stop",
+    "note": "The stepper buttons are named Increase and Decrease (increase-label / decrease-label)."
+  },
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "InputNumber field (this leaf)",
+        "when": "a number in a product screen, filter or form: a score, an amount, a min and max range, with decimals or negatives"
+      },
+      {
+        "what": "Number with unit",
+        "when": "a slide type settings panel number with a unit (seconds, points): the settings control"
+      },
+      {
+        "what": "InputNumber (antd theme)",
+        "when": "an antd screen that already renders antd InputNumber and is not moving off antd yet"
+      }
+    ],
+    "note": "Set min and max to the real limits so the field constrains instead of validating after the fact. Use string-mode for ids, money and anything past 2^53. Label it with a noun phrase; a placeholder is not a label.",
+    "dsv3": "COVERED — the <aha-input> field chrome with the InputNumber stepper look from input-number.css (18×14 ▲/▼, icon-muted, bg-accent hover, revealed on hover and focus); sizes 24 / 40 / 48 and the error status as Input."
+  },
+  "surfaces": [
+    "dashboard",
+    "editor"
+  ],
+  "reuse": {
+    "entry": "./aha-input-number",
+    "registers": "aha-input-number",
+    "exportsNamed": [
+      "AhaInputNumber",
+      "defineAhaInputNumber"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "input-number-field.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form: a version-pinned CDN import and plain HTML, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "input-number-field.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "input-number-field.vue.txt"
+    }
+  ],
+  "preview": "input-number-field.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI on the [data-probe] field: an error field with a value.",
+    "ready": "!!(document.querySelector('aha-input-number[data-probe]') && document.querySelector('aha-input-number[data-probe]').shadowRoot && document.querySelector('aha-input-number[data-probe]').shadowRoot.querySelector('.wrap'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-input-number[data-probe]');var r=el.shadowRoot;var w=getComputedStyle(r.querySelector('.wrap'));var f=r.querySelector('.field');var s=getComputedStyle(r.querySelector('.step'));return{height:w.height,radius:w.borderTopLeftRadius,border:w.borderTopColor,fontSize:getComputedStyle(f).fontSize,role:f.getAttribute('role'),ariaInvalid:f.getAttribute('aria-invalid'),stepHeight:s.height,stepColor:s.color};})()",
+    "expect": {
+      "height": "40px",
+      "radius": "8px",
+      "border": "rgb(26, 26, 26)",
+      "fontSize": "14px",
+      "role": "spinbutton",
+      "ariaInvalid": "true",
+      "stepHeight": "14px",
+      "stepColor": "rgb(138, 138, 138)"
+    }
+  }
+}

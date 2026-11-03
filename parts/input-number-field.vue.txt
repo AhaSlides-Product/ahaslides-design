@@ -1,0 +1,22 @@
+// main.ts: register the element and mark aha-* as custom elements
+import '@ahaslides-product/design/aha-input-number';   // registers <aha-input-number>
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<script setup>
+import { ref } from 'vue';
+const amount = ref(null);   // a number, or null when empty
+</script>
+
+<template>
+  <!-- min / max / step / precision · string-mode for an exact string · controls="false" hides the stepper -->
+  <aha-input-number
+    aria-label="Amount"
+    min="0"
+    max="1000"
+    step="0.5"
+    placeholder="Any amount"
+    :value.prop="amount"
+    @input="amount = $event.detail.value"
+  />
+</template>
