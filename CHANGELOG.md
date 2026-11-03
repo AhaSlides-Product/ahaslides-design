@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.947.1 — 2026-11-03
+### Fixed
+- `screen-lint --surface=website` W9: an autoplaying video outside the hero needs `lib/marketing-motion.js` 0.947.0 or later to count as stopped under reduced motion; older scripts pause only the hero video (#PR)
+
 ## 0.947.0 — 2026-11-03
 ### Changed
 - Website rule W9: any video may play by itself when it is muted, loops, has playsinline, no controls and a poster, not only the one hero video. `lib/marketing-motion.js` now starts every `video[autoplay]` only while it is scrolled into view, pauses it off-screen, and under reduced motion pauses it and shows the poster with controls. Testimonial carousels still never autoplay (#601)
