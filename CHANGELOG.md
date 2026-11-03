@@ -38,6 +38,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Marketing → Hero split: four opt-in Image switches for a tall phone screenshot, so the picture no longer makes the hero far taller than its copy. Frame (`aha-header-section-hero-split--frame`) holds the screenshot whole in a pale pink 5:4 frame with an even inset; Frame overflow (`--frame-overflow`) puts a larger screenshot in the same frame, cut off at the frame's bottom; Rise (`--rise`) drops the bottom padding and lets the screenshot rise from the hero's bottom edge, cut off at 560 px; Stack (`--stack`) shows the screenshot whole with a second screen (the `__back` image) tilted behind it in the photo frame. Inset stays the default, so no existing page moves. Frame overflow, Rise and Stack crop or tilt a screenshot, which W6 does not allow: they are marked W6 pending and W6 is unchanged (#586)
 - Revert: revert the PR; additive CSS behind the four modifier classes and one `data-choice="stack"` back image in `marketing/hero.json`
 
+## 0.917.2 — 2026-11-03
+### Fixed
+- Input docs page shows the built-in `label`: a new Label row with a default, large and disabled field, so the label colour and size can be checked on the page (#592)
+- Revert: revert the PR; one demo row in `parts/input.preview.html`
+
 ## 0.917.0 — 2026-11-03
 ### Added
 - Colour rule 6.9 (web): on a page built from full-width sections, at rest Vivid Pink fills only each section's primary button; the site header counts as one section (Sign up primary, Log in secondary). Icons and icon tiles, ticks, card borders and accent lines, plan outlines, banners and callouts, stat numbers, rating stars and table group headings stay the default ink, and pink shows on hover, focus or selection. Rule 6.8 now points the website to 6.9; website guideline W4 and its anti-slop criterion carry the same rule (#563)
