@@ -39,6 +39,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Split button is listed in the Components sidebar under Button, so its page is reachable from every Components page.
 - Revert: revert the PR; a new element, contract and parts, plus one line each in `lib/all.js`, `package.json`, the Components sidebar catalogue in `generate.mjs` and the Button and Dropdown "When to use" lists
 
+## 0.920.1 — 2026-11-03
+### Changed
+- Docs → Leaderboard: the previews sit in a fixed 16:9 slide frame, and the phone example is gone from the page (the phone size and its code sample are unchanged). The Show winner banner fills the same frame however many rows the leaderboard has; it no longer grows with the list (#585)
+- Canvas Library → Leaderboard: the light, dark and orange deck demos are 16:9 slide frames with an outline instead of a fixed 300px strip, so the list scrolls inside the frame and Show winner covers the same size at 5 or 14 rows. On a narrow screen the frame scrolls rather than cutting off the winner banner (#585)
+
 ## 0.917.2 — 2026-11-03
 ### Fixed
 - Input docs page shows the built-in `label`: a new Label row with a default, large and disabled field, so the label colour and size can be checked on the page (#592)
