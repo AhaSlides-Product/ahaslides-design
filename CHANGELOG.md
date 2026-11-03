@@ -43,6 +43,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Chart, stacked: the "Other (n)" legend item lists the merged series on hover, the Other segment's tooltip lists each merged series with its value in that row, and the hidden data table keeps every series as its own column (#598)
 - Chart: every label taken from data (options, series, rows, ticks, words, mind-map nodes, tooltips, table cells) has `dir="auto"`, so mixed right-to-left and left-to-right labels each keep their own direction (#598)
 
+## 0.956.1 — 2026-11-03
+### Changed
+- Join bar code field placeholder reads "Enter code" in the string, not "ENTER CODE..."; the field's own uppercase styling still shows it in capitals, so the only visible change is the three dots going (#PRNUM)
+
 ## 0.956.0 — 2026-11-03
 ### Added
 - DataTable value filter: `filter: { type: 'value', inputType: 'text' | 'number' | 'date', label }` takes one typed value; text matches a case-insensitive substring, number an equal value, date the same calendar day (#593)
