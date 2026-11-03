@@ -33,13 +33,22 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.947.0 — 2026-11-03
+## 0.948.0 — 2026-11-03
 
 ### Added
 - Marketing: a screenshot outline for product screenshots whose own edge is white, so they no longer float shapeless on a white band. `aha-features__photo--outline` on the Features photo slot draws a 1 px `--aha-border-default` hairline on the slot's radius; `aha-marketing-card__media--outline` draws the same line between the picture and the card body. No fill, no shadow, no inset; never on a photo or with the Vivid Pink frame. Features Alternating with screenshots gets an Outline choice in its Image switch (Fill, Outline, Pink frame) (#599)
 
 ### Changed
 - W6 (website imagery) names the screenshot outline as an exception to the light grey frame ban, beside the Hero split Rise exception (both now worded "Named exception, <name>:"), in every copy (`guidelines/website.json`, `anti-slop/criteria.json`, `agent/anti-slop/criteria.json`); a light grey fill or rail still fails (#599)
+
+## 0.947.1 — 2026-11-03
+### Fixed
+- `screen-lint --surface=website` W9: an autoplaying video outside the hero needs `lib/marketing-motion.js` 0.947.0 or later to count as stopped under reduced motion; older scripts pause only the hero video (#602)
+
+## 0.947.0 — 2026-11-03
+### Changed
+- Website rule W9: any video may play by itself when it is muted, loops, has playsinline, no controls and a poster, not only the one hero video. `lib/marketing-motion.js` now starts every `video[autoplay]` only while it is scrolled into view, pauses it off-screen, and under reduced motion pauses it and shows the poster with controls. Testimonial carousels still never autoplay (#601)
+- `screen-lint --surface=website` drops `autoplay-video-extra`; `autoplay-video-attributes` and `autoplay-video-motion` now apply to every autoplaying video. The W9 criteria, the website guideline, the Hero video notes and a Features product-demo video note follow; the second-autoplaying-video eval is now a good control
 
 ## 0.946.0 — 2026-11-03
 ### Added
