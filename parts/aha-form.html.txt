@@ -1,0 +1,20 @@
+<!-- Paste-and-run: save as .html and open it. No build step, no antd. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-form.js';   // registers <aha-form> + <aha-form-item>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-input.js';
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-checkbox.js';
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-button.js';
+
+  const form = document.getElementById('invite');
+  form.querySelector('[name=email]').validator = (value) => (/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value) ? '' : 'Enter an email address like name@school.edu');
+  form.addEventListener('submit', (event) => console.log('Send', event.detail.values));   // fires only when every rule passes
+  form.addEventListener('invalid', (event) => console.log('Fix', event.detail.errors));
+</script>
+
+<aha-form id="invite" style="max-width:400px">
+  <aha-form-item label="Name" name="name" required><aha-input placeholder="Ada Lovelace"></aha-input></aha-form-item>
+  <aha-form-item label="Email" name="email" required help="We send the invite here."><aha-input type="email"></aha-input></aha-form-item>
+  <aha-form-item name="terms" required required-message="Accept the terms to continue"><aha-checkbox>I accept the terms</aha-checkbox></aha-form-item>
+  <aha-button type="submit" variant="primary">Send invite</aha-button>
+</aha-form>

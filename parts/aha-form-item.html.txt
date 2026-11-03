@@ -1,0 +1,17 @@
+<!-- Paste-and-run: save as .html and open it. No build step, no antd. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-form-item.js';   // registers <aha-form-item>; works without <aha-form>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-input.js';
+
+  const item = document.getElementById('project');
+  item.validator = (value) => (value.trim().length < 3 ? 'Use at least 3 characters' : '');
+  document.getElementById('check').addEventListener('click', async () => console.log(await item.validate() || 'valid'));
+</script>
+
+<div style="max-width:400px">
+  <aha-form-item id="project" label="Project name" required required-message="Enter a project name" help="Only your team sees this.">
+    <aha-input></aha-input>
+  </aha-form-item>
+  <button id="check">Check</button>
+</div>

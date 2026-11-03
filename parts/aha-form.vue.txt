@@ -1,0 +1,16 @@
+<script setup>
+import '@ahaslides-product/design/aha-form';   // registers <aha-form> + <aha-form-item>
+import '@ahaslides-product/design/aha-input';
+import '@ahaslides-product/design/aha-button';
+
+const isEmail = (value) => (/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value) ? '' : 'Enter an email address like name@school.edu');
+const send = (event) => invite(event.detail.values);
+</script>
+
+<template>
+  <aha-form @submit="send">
+    <aha-form-item label="Name" name="name" required><aha-input placeholder="Ada Lovelace" /></aha-form-item>
+    <aha-form-item label="Email" name="email" required :validator.prop="isEmail"><aha-input type="email" /></aha-form-item>
+    <aha-button type="submit" variant="primary">Send invite</aha-button>
+  </aha-form>
+</template>
