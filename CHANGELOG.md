@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.956.1 — 2026-11-03
 ### Changed
-- Join bar code field placeholder reads "Enter code" in the string, not "ENTER CODE..."; the field's own uppercase styling still shows it in capitals, so the only visible change is the three dots going (#PRNUM)
+- Join bar code field placeholder reads "Enter code" in the string, not "ENTER CODE..."; the field's own uppercase styling still shows it in capitals, so the only visible change is the three dots going (#608)
 
 ## 0.956.0 — 2026-11-03
 ### Added
