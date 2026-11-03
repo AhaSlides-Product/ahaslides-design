@@ -13,6 +13,7 @@
 <!-- 16px, exact fraction: <aha-rate value="4.8" size="sm" readonly precision="exact"></aha-rate> -->
 <!-- large, 44px tap targets: <aha-rate value="4" size="lg"></aha-rate>  (numbers too: character="number" size="lg") -->
 <!-- numbers only, 1..10:  <aha-rate value="7" count="10" character="number"></aha-rate> -->
+<!-- a 0 to 10 score, read-only:  <aha-rate value="0" count="10" character="number" min="0" readonly></aha-rate> -->
 <!-- on an audience deck:  <aha-rate value="3" surface="deck"></aha-rate>  (empty stars follow applyDeck's --aha-deck-* ladder) -->
 
 <script>
