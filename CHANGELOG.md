@@ -33,10 +33,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.920.0 — 2026-11-03
+## 0.921.0 — 2026-11-03
 ### Added
 - Menu and Dropdown rows take an optional `shortcut` ("Mod+D", "Del"): the action's key drawn as the shared DS shortcut chip at the row's trailing edge on the label line, ⌘D on a Mac and Ctrl D elsewhere, for a context menu. Display only and aria-hidden; the row gets `aria-keyshortcuts`. It works beside a `description`, on disabled and danger rows, and before a locked row's crown; rows without it are unchanged. New docs example "Context menu with shortcuts" (#591)
 - `ariaKeyShortcuts()` in `shortcut-key`: the same shortcut as an `aria-keyshortcuts` value (#591)
+
+## 0.917.2 — 2026-11-03
+### Fixed
+- Input docs page shows the built-in `label`: a new Label row with a default, large and disabled field, so the label colour and size can be checked on the page (#592)
+- Revert: revert the PR; one demo row in `parts/input.preview.html`
 
 ## 0.917.0 — 2026-11-03
 ### Added
