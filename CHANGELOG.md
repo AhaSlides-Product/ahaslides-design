@@ -36,7 +36,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.970.0 — 2026-11-04
 
 ### Added
-- **`aha-form` and `aha-form-item`: the antd Form and Form.Item as web components** (#PRNUM). The label, an ink
+- **`aha-form` and `aha-form-item`: the antd Form and Form.Item as web components** (#622). The label, an ink
   required `*` (or `required-mark="optional"`), help text and the error row around any DS control, with the
   form-theme.js look: 14/22 ink label 4 above the field, 20 between items, the 12/18 ink error with its glyph,
   never a status hue. `required`, `required-message` and a `validator(value)` property (sync or async) validate on
@@ -47,7 +47,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Changed
 - `aha-input`, `aha-counted-input`, `aha-counted-textarea` and `aha-select` forward `aria-required` to their
   inner field, and `aha-counted-input` now forwards `aria-describedby` like `aha-input`, so a form item's
-  error and help describe the field (#PRNUM).
+  error and help describe the field (#622).
 
 ## 0.969.0 — 2026-11-04
 
