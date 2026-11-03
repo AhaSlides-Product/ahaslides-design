@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.957.0 — 2026-11-03
+### Added
+- Upload: `label`, `hint` and `limitlabel` attributes set the drop-zone text, so an app can localise or reword it instead of the fixed English; the defaults are the current text. `label` is also the picture-card add-box text.
+- Revert: revert the PR; opt-in attributes with the old text as default, no other change.
+
 ## 0.956.0 — 2026-11-03
 ### Added
 - DataTable value filter: `filter: { type: 'value', inputType: 'text' | 'number' | 'date', label }` takes one typed value; text matches a case-insensitive substring, number an equal value, date the same calendar day (#593)
