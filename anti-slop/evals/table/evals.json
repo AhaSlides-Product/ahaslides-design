@@ -135,12 +135,12 @@
       "prompt": "Review a DataTable whose toolbar uses a 🔍 emoji for search, a 📌 emoji for the freeze/pin action, and an @ant-design/icons FilterOutlined for the filter funnel.",
       "files": [],
       "label": "bad-example",
-      "notes": "C6 — icons from @phosphor-icons/react, no emoji.",
-      "expected_output": "FAILs C6. Every icon must come from @phosphor-icons/react — emoji-as-icon (🔍, 📌) and @ant-design/icons glyphs are not allowed. Fix: swap them for the equivalent Phosphor glyphs (MagnifyingGlass, PushPin, Funnel). Overall NEEDS FIX.",
+      "notes": "C6 — icons are DS <aha-icon> by name, no emoji or icon pack.",
+      "expected_output": "FAILs C6. Every icon must be a DS <aha-icon> by name — emoji-as-icon (🔍, 📌) and @ant-design/icons glyphs are not allowed. Fix: swap them for the registry glyphs (system-magnifying-glass, system-push-pin, system-funnel). Overall NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C6 is marked FAIL",
-        "Flags emoji-as-icon and the @ant-design/icons import (must be @phosphor-icons/react)"
+        "Flags emoji-as-icon and the @ant-design/icons import (must be <aha-icon> by name)"
       ],
       "expected": {
         "overall": "NEEDS_FIX",
@@ -180,7 +180,7 @@
     },
     {
       "id": 8,
-      "prompt": "Review a leaderboard rendered via the shared DataTable: theme-driven look (components.Table, no per-instance bordered/size/rowClassName), white header with secondary-grey labels and a bottom divider, horizontal dividers only, single-arrow sort, canonical checklist filter with Reset/Apply, pagination with the 'N / page' size changer, all glyphs from @phosphor-icons/react, and colour/radius bound to theme.useToken() (container borderRadius = token.borderRadius = 8). Column freeze is not used on this table.",
+      "prompt": "Review a leaderboard rendered via the shared DataTable: theme-driven look (components.Table, no per-instance bordered/size/rowClassName), white header with secondary-grey labels and a bottom divider, horizontal dividers only, single-arrow sort, canonical checklist filter with Reset/Apply, pagination with the 'N / page' size changer, all glyphs from <aha-icon> by name, and colour/radius bound to theme.useToken() (container borderRadius = token.borderRadius = 8). Column freeze is not used on this table.",
       "files": [],
       "label": "good-control",
       "notes": "Positive control — correct DS V3 DataTable. Guards against a judge that only ever fails and confirms N/A handling for an absent feature (freeze).",

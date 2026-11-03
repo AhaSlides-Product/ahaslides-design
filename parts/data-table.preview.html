@@ -108,6 +108,36 @@ const lessonDetail = () => [
     h(Table, { rowKey: 'key', pagination: false, columns: reportPageColumns, dataSource: reportPages })),
 ];
 
+const people = [
+  { key: 'a', name: 'Mai Tran',   dept: 'Customer Success', age: 31, joined: '2026-03-14' },
+  { key: 'b', name: 'Sara Kim',   dept: 'Sales',            age: 27, joined: '2026-05-02' },
+  { key: 'c', name: 'John Lee',   dept: 'Customer Support', age: 44, joined: '2026-03-14' },
+  { key: 'd', name: 'Ana Silva',  dept: 'Marketing',        age: 31, joined: '2026-07-21' },
+  { key: 'e', name: 'Diego Ruiz', dept: 'Sales',            age: 38, joined: '2026-09-09' },
+];
+const peopleColumns = [
+  { key: 'name', title: 'Name', dataIndex: 'name', hideable: false },
+  { key: 'dept', title: 'Department', dataIndex: 'dept', filter: { type: 'value' } },
+  { key: 'age', title: 'Age', dataIndex: 'age', filter: { type: 'value', inputType: 'number' } },
+  { key: 'joined', title: 'Joined', dataIndex: 'joined', filter: { type: 'value', inputType: 'date' } },
+];
+const savedDefault = ['name', 'dept', 'joined'];
+
+function SavedColumnsTable() {
+  const [visible, setVisible] = useState(savedDefault);
+  const [log, setLog] = useState([]);
+  const note = (line) => setLog((previous) => [line, ...previous].slice(0, 5));
+  return h('div', null,
+    h(DataTable, { rowKey: 'key', dataSource: people, columns: peopleColumns, pagination: false, columnsEditable: true, toolbarTitle: 'Participants',
+      visibleColumns: visible, defaultVisibleColumns: savedDefault,
+      onVisibleColumnsChange: (keys) => { setVisible(keys); note('onVisibleColumnsChange([' + keys.join(', ') + '])'); },
+      onColumnsEditorOpenChange: (open) => note('onColumnsEditorOpenChange(' + open + ')'),
+      onColumnToggle: (key, shown) => note('onColumnToggle(' + key + ', ' + shown + ')'),
+      onColumnsReset: () => note('onColumnsReset()') }),
+    h('div', { className: 'lbl', style: { marginTop: 'var(--aha-space-10)' } }, 'Saved columns: ' + visible.join(', ')),
+    log.length ? h('pre', { style: { margin: 'var(--aha-space-8) 0 0', fontSize: 'var(--aha-size-sm)' } }, log.join('\n')) : null);
+}
+
 function LazyDetailTable() {
   const [loadingKeys, setLoadingKeys] = useState([]);
   const [loaded, setLoaded] = useState({});
@@ -152,6 +182,8 @@ function App() {
         base[2],
         { ...base[3], filter: { type: 'range' } },
       ] })),
+    h(Case, { title: 'Value filter', hint: 'Department = text (contains), Age = number (equals), Joined = date (same day)' },
+      h(DataTable, { rowKey: 'key', dataSource: people, columns: peopleColumns, pagination: false })),
     h(Case, { title: 'Config rows per page', hint: 'brand-outlined page + "N / page"' },
       h(DataTable, { rowKey: 'key', dataSource: rows, columns: base, pagination: { defaultPageSize: 5, pageSizeOptions: [5, 10, 20] } })),
     h(Case, { title: 'Reorder · freeze · resize', hint: 'drag a header · right-click a header → Freeze · drag a header’s right edge' },
@@ -163,6 +195,8 @@ function App() {
     h(Case, { title: 'Add / remove columns', hint: 'Edit columns → checklist' },
       h(DataTable, { rowKey: 'key', dataSource: rows.slice(0, 5), pagination: false, columnsEditable: true, toolbarTitle: 'Leaderboard',
         columns: [{ ...base[0], hideable: false }, base[1], base[2], base[3]] })),
+    h(Case, { title: 'Saved columns', hint: 'visibleColumns + onVisibleColumnsChange; Edit columns events and Reset logged below' },
+      h(SavedColumnsTable)),
     h(Case, { title: 'Expandable rows · detail panel', hint: 'chevron or row click opens a nested sub-table; header toggle expands all; the first row starts open' },
       h(DataTable, { rowKey: 'key', dataSource: pageRows, columns: pageColumns, pagination: false,
         expandableRows: { renderDetail: subTable, expandAllToggle: true, defaultExpandedRowKeys: ['p1'], getRowLabel: (record) => record.page,
