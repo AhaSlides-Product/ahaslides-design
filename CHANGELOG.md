@@ -33,12 +33,21 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.921.0 — 2026-11-03
+## 0.926.0 — 2026-11-03
 ### Changed
 - Website item grids follow the kind of item and the heading above them, W11: bordered cards under a centred heading (Cards grid, Steps row, Features icon cards and compact see-all, Testimonials quote cards, Pricing plan grid) still centre a single card and the short last row, now from 992 px only; borderless items (every Numbers layout, the Features icon grid) keep straight columns with the short last row under column 1; under a left aligned heading (Features side header, Numbers split image and actions with icons, Pricing featured plans) no item is centred (#590)
 - At tablet (768 to 991 px) every bordered card grid stacks to one column of full-width cards, even for 2 or 4 cards; Templates and the image-led grid keep their 2 columns, borderless grids keep 2 straight columns, except Numbers Divided, which keeps its 3 divided columns (2 for 2 or 4 stats) (#590)
 - Numbers centred: the Number style switch defaults to Left aligned (left aligned numbers, no dividers); Divided is the alternative and drops the divider at the start of each row (#590)
 - Revert: revert the PR; it changes Marketing section CSS, the Numbers default option and the W11 text only, with no API or token change
+
+## 0.925.0 — 2026-11-03
+### Changed
+- Destructive confirm: `destructiveConfirm` now gives the confirm button `type: 'default'` (white, 1px #E3E3E3 border, #1A1A1A label, the look of `aha-button` secondary) instead of a solid #1A1A1A danger fill, so a destructive confirm shows one primary, the pink Cancel. The overlays rule `danger-confirm-button`, its anti-slop criterion, the Modal and Popconfirm examples and contracts say the same (#581)
+- antd Button disabled colours match `aha-button`: #E3E3E3 fill and border, #B5B5B5 label, set on the Button component only (#581)
+- Popconfirm theme pins the small button radius to 4px, so a host's own `borderRadiusSM` no longer applies inside it (#581)
+- Documented difference: antd has no hover-shadow token, so an antd primary hovers Darker Pink without `aha-button`'s pink glow; the Popconfirm spec says so (#581)
+- Form render contract expects the #1A1A1A label that `form-theme` has set since 0.915.2, so the standards gate passes again (#581)
+- Revert: revert the PR; `lib/popconfirm-theme.js` and one block in `lib/antd-base-theme.js` return to the previous values
 
 ## 0.920.1 — 2026-11-03
 ### Changed

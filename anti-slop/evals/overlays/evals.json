@@ -161,16 +161,16 @@
     },
     {
       "id": 7,
-      "prompt": "Review this destructive delete confirm modal: `<Modal title={<span style={{ color: 'red' }}>Delete</span>} okButtonProps={{ type: 'primary' }} cancelButtonProps={{}}>…</Modal>`. The danger colour is applied to the title text and the OK button is a plain primary with no danger and no loading; cancel is not disabled while busy.",
+      "prompt": "Review this destructive delete confirm modal: `<Modal title={<span style={{ color: 'red' }}>Delete</span>} okButtonProps={{ type: 'primary' }} cancelButtonProps={{}}>…</Modal>`. The danger colour is applied to the title text and the OK button is a solid primary with no loading; cancel is the plain default button and is not disabled while busy.",
       "files": [],
       "label": "bad-example",
-      "notes": "C7 — destructive confirm uses a danger-styled okButton (danger on the button, not the title/body)",
-      "expected_output": "C7 FAILs. The destructive confirm styles the title red instead of the action button and uses a plain primary OK button with no danger and no loading state. Fix: put danger on the action button — okButtonProps={{ danger: true, loading: busy }} — keep the title a plain question (\"Delete this survey permanently?\") with no red, and disable cancel while busy (cancelButtonProps={{ disabled: busy }}). Overall: NEEDS FIX.",
+      "notes": "C7 — destructive confirm uses a default okButton (never danger or a solid fill) and a primary Cancel; no colour on the title/body",
+      "expected_output": "C7 FAILs. The destructive confirm styles the title red instead of the action button and makes the confirm a solid primary with no loading state. Fix: okButtonProps={{ type: 'default', loading: busy }} (a plain default button, never danger or a solid fill), Cancel the primary — keep the title a plain question (\"Delete this survey permanently?\") with no red, and disable cancel while busy (cancelButtonProps={{ type: 'primary', disabled: busy }}). Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C7 is marked FAIL",
-        "Cites danger/red on the title instead of the action button",
-        "Cites plain/primary OK button missing danger and loading"
+        "Cites red on the title",
+        "Cites the solid primary OK button and the missing loading state"
       ],
       "expected": {
         "overall": "NEEDS_FIX",
@@ -186,11 +186,11 @@
     },
     {
       "id": 8,
-      "prompt": "Review this destructive delete-survey confirmation modal. `<Modal title=\"Delete this survey permanently?\" mask={{ closable: false }} keyboard destroyOnHidden onCancel={busy ? undefined : onClose} okButtonProps={{ danger: true, loading: busy }} cancelButtonProps={{ disabled: busy }}>`. The confirm handler is `const onConfirm = async () => { if (busy) return; setBusy(true); setError(null); try { await onDelete(); onClose(); } catch (e) { setError(e); } finally { setBusy(false); } };` and on error it renders `{error && <Alert type=\"error\" showIcon title={error.message} />}` inline inside the modal.",
+      "prompt": "Review this destructive delete-survey confirmation modal. `<Modal title=\"Delete this survey permanently?\" mask={{ closable: false }} keyboard destroyOnHidden onCancel={busy ? undefined : onClose} okButtonProps={{ type: 'default', loading: busy }} cancelButtonProps={{ type: 'primary', disabled: busy }}>`. The confirm handler is `const onConfirm = async () => { if (busy) return; setBusy(true); setError(null); try { await onDelete(); onClose(); } catch (e) { setError(e); } finally { setBusy(false); } };` and on error it renders `{error && <Alert type=\"error\" showIcon title={error.message} />}` inline inside the modal.",
       "files": [],
       "label": "good-control",
       "notes": "Good control — a correct destructive modal; every applicable criterion passes, C4 N/A (not a drawer)",
-      "expected_output": "All applicable criteria PASS. C1: a modal is the right surface for a blocking destructive decision. C2: mask={{ closable: false }} with keyboard (Esc) and X only, and onCancel suppressed while busy. C3: destroyOnHidden resets state between opens. C5: busy re-entry guard, awaited action, closes only on success, stays open and sets error on rejection, clears busy in finally. C6: the error is surfaced inline via an AntD Alert type=error showIcon title, no nested modal. C7: danger lives on the okButton with loading, cancel disabled while busy, title is a question. C4 is N/A (this is a modal, not a drawer). Overall: OK TO SHIP.",
+      "expected_output": "All applicable criteria PASS. C1: a modal is the right surface for a blocking destructive decision. C2: mask={{ closable: false }} with keyboard (Esc) and X only, and onCancel suppressed while busy. C3: destroyOnHidden resets state between opens. C5: busy re-entry guard, awaited action, closes only on success, stays open and sets error on rejection, clears busy in finally. C6: the error is surfaced inline via an AntD Alert type=error showIcon title, no nested modal. C7: the okButton is a default button with loading, Cancel is the primary and disabled while busy, title is a question. C4 is N/A (this is a modal, not a drawer). Overall: OK TO SHIP.",
       "assertions": [
         "Overall verdict is OK TO SHIP",
         "C4 is marked N/A",
