@@ -36,19 +36,19 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.973.0 — 2026-11-04
 
 ### Added
-- **`aha-select` `mode="multiple"`: pick several options as closable `aha-tag` chips** (#PR). The list stays open after a
+- **`aha-select` `mode="multiple"`: pick several options as closable `aha-tag` chips** (#626). The list stays open after a
   pick, with checked rows (`aria-multiselectable`, `aria-selected`). It reads `values` and emits `change` with
   `{values}`, like tags mode. With `show-search` the inline field filters the rows. Also new: `max-count` (antd
   `maxCount`), which disables the rows not yet picked once the limit is reached, and `filter-prop` (antd
   `optionFilterProp`), which picks the option field the filter matches. `allow-clear` empties every value and Backspace
   removes the last chip. An option `suffix` (a trailing count) shows in the rows.
-- **`aha-select` `mode="tags"` with `options` shows them as suggestions**, as antd tags mode does (#PR). Typing filters
+- **`aha-select` `mode="tags"` with `options` shows them as suggestions**, as antd tags mode does (#626). Typing filters
   them, Arrow keys and Enter pick one, and typed text is still added as a free-entry tag. Without options, tags mode is
   unchanged.
-- **`aha-select` option groups** (#PR): an options entry `{ label, options: [...] }` renders a header row over its
+- **`aha-select` option groups** (#626): an options entry `{ label, options: [...] }` renders a header row over its
   options (`role="group"`) in single, multiple and tags modes. The keyboard skips headers, and filtering hides a group
   with no match.
-- **`aha-autocomplete` option `suffix`** (#PR): trailing text in tertiary ink at the end of a row, the same look as
+- **`aha-autocomplete` option `suffix`** (#626): trailing text in tertiary ink at the end of a row, the same look as
   `aha-select`. Typing matches it as well as the label.
 
 ## 0.972.1 — 2026-11-04
