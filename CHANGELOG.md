@@ -47,6 +47,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `antd-base-theme` sets `fontHeight` from the DS line height 1.5 (21 at 14px; `dsAntdTheme` recomputes it when a composite sets `fontSize` or `lineHeight`), so a Select is 40px, not 39. It also sets `colorTextPlaceholder` to `#8A8A8A`, as the input composites do, instead of antd's 25% black (#619)
 - `<aha-avatar>` initials take the type-scale step nearest 38% of the size, never below 12px: 12 at 24 (was 9), 16 at 40 (was 15), 24 at 64 (#619)
 - DataTable: the idle sort arrow is the muted icon grey `#8A8A8A` (3.45:1), not the disabled grey `#B5B5B5`, which is for disabled states only (#619)
+- `table-theme` (Table and DataTable): header labels use the tertiary text grey `#616161` (6.19:1 on white, 5.48:1 on the hover fill) instead of `#8A8A8A` (3.45:1) (#619)
+- `state-check.mjs` no longer waives a Vivid Pink link in an Alert or info box: links are Darker Pink and pass 4.5:1 there (#619)
 
 ## 0.966.0 — 2026-11-03
 ### Fixed

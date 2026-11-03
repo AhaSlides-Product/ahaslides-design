@@ -34,7 +34,7 @@
     },
     {
       "label": "Header",
-      "value": "white #fff + secondary-grey #8A8A8A labels; stays white on the sorted column"
+      "value": "white #fff + tertiary-grey #616161 labels; stays white on the sorted column"
     },
     {
       "label": "Body",
@@ -379,7 +379,7 @@
     "measure": "(function(){var q=function(sel){return document.querySelector('#react-root '+sel);};var g=function(sel,p){var el=q(sel);return el?getComputedStyle(el)[p]:null;};var td='.ant-table-tbody .ant-table-cell';var arrow=q('.aha-data-table__sort aha-icon');return{headerBg:g('.ant-table-thead th','backgroundColor'),headerColor:g('.ant-table-thead th','color'),tdPadTop:g(td,'paddingTop'),tdPadLeft:g(td,'paddingLeft'),tdBorder:g(td,'borderBottomColor'),tdBorderW:g(td,'borderBottomWidth'),containerBorderW:g('.ant-table','borderTopWidth'),containerBorder:g('.ant-table','borderTopColor'),containerRadius:g('.ant-table','borderTopLeftRadius'),sortedHeaderBg:g('th.ant-table-column-sort','backgroundColor'),sortedCellBg:g('td.ant-table-column-sort','backgroundColor'),sortArrow:arrow?arrow.getAttribute('name'):null,dualCaret:String(document.querySelectorAll('#react-root .ant-table-column-sorter-up').length)};})()",
     "expect": {
       "headerBg": "rgb(255, 255, 255)",
-      "headerColor": "rgb(138, 138, 138)",
+      "headerColor": "rgb(97, 97, 97)",
       "tdPadTop": "16px",
       "tdPadLeft": "16px",
       "tdBorder": "rgb(227, 227, 227)",

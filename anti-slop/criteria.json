@@ -558,7 +558,7 @@
             "1.2",
             "2.7"
           ],
-          "test": "Vivid Pink is the one primary colour. Darker Pink is hover and press only. Vivid Pink at 30% appears in charts only. The 10, 20, 45, 60 and 80% tints appear in illustrations only, never in the interface. Purple appears in the logo only: never in text, buttons, links, states, charts or backgrounds of the product app. A colour used outside its role fails."
+          "test": "Vivid Pink is the one primary colour. Darker Pink is hover and press, plus the text-link colour (`--aha-text-link`, rule 6.7). Vivid Pink at 30% appears in charts only. The 10, 20, 45, 60 and 80% tints appear in illustrations only, never in the interface. Purple appears in the logo only: never in text, buttons, links, states, charts or backgrounds of the product app. A colour used outside its role fails."
         },
         {
           "id": "C3",

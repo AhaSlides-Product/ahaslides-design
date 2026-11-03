@@ -18,7 +18,7 @@
  ],
  "palette": [
   { "id": "vivid-pink", "name": "Vivid Pink", "hex": "#E70E68", "role": "The one primary colour. Primary buttons, link hover, the key series in a chart." },
-  { "id": "darker-pink", "name": "Darker Pink", "hex": "#DB005B", "role": "Button hover. Splash backgrounds on Vivid Pink." },
+  { "id": "darker-pink", "name": "Darker Pink", "hex": "#DB005B", "role": "Button hover and press. Text links. Splash backgrounds on Vivid Pink." },
   { "id": "white", "name": "White", "hex": "#FFFFFF", "role": "The page." },
   { "id": "vivid-pink-5", "name": "Vivid Pink at 5% (pale pink)", "alphaHex": "#E70E680D", "flatHex": "#FEF3F7", "role": "Light backgrounds, hover and selected states, splash backgrounds on white." },
   { "id": "vivid-pink-30", "name": "Vivid Pink at 30%", "alphaHex": "#E70E684D", "flatHex": "#F8B7D2", "role": "Charts only." },
@@ -260,8 +260,8 @@
        ["Darker Pink on white", "5.04 to 1", "Passes"],
        ["Vivid Pink text on Vivid Pink at 5%", "4.16 to 1", "Fails, so text there is black"],
        ["Vivid Pink text on the app's light grey [[#F7F7F7]]", "4.21 to 1", "Fails, so text there is black"],
-       ["Vivid Pink inline link on the alert grey [[#F3F3F3]]", "4.06 to 1", "Fails, accepted for Alert and info box links only (rule 6.7)"],
-       ["Vivid Pink inline link on the branding alert fill [[#FEF3F7]]", "4.16 to 1", "Fails, accepted for Alert and info box links only (rule 6.7)"],
+       ["Darker Pink inline link on the alert grey [[#F3F3F3]]", "4.55 to 1", "Passes, for Alert and info box links only (rule 6.7)"],
+       ["Darker Pink inline link on the branding alert fill [[#FEF3F7]]", "4.65 to 1", "Passes, for Alert and info box links only (rule 6.7)"],
        ["See-through white (86%) on Vivid Pink", "3.58 to 1", "Fails, so white text is solid"],
        ["Vivid Pink at 30% against white", "1.65 to 1", "Faint, so it always carries a written value"]
       ] },

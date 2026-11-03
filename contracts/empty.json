@@ -59,7 +59,7 @@
   "selfCheck": [
     { "label": "centred column · padding 32/16 (simple 20/16)", "verdict": "PASS" },
     { "label": "illustration empty-list by name · default 64 / simple 48", "verdict": "PASS" },
-    { "label": "caption 14/22 #8A8A8A · hidden when description=\"\"", "verdict": "PASS" },
+    { "label": "caption 14/22 #616161 · hidden when description=\"\"", "verdict": "PASS" },
     { "label": "custom slot=\"image\" supersedes built-in art", "verdict": "PASS" },
     { "label": "action hidden when empty", "verdict": "PASS" }
   ],
