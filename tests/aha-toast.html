@@ -1,0 +1,12 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../lib/tokens.css">
+<button id="opener">Open</button>
+<script type="module">
+  import { toast } from '../lib/aha-toast.js';
+  import { notify } from '../lib/aha-notification.js';
+  window.toast = toast;
+  window.notify = notify;
+  await customElements.whenDefined('aha-notification');
+  window.toastFixtureReady = true;
+</script>

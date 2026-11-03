@@ -1,0 +1,25 @@
+<style>
+  .notification-stack{ display:flex; flex-direction:column; align-items:flex-start; gap:var(--aha-space-12) }
+  .notification-row{ display:flex; flex-wrap:wrap; gap:var(--aha-space-8) }
+</style>
+<div class="pad">
+  <div class="lbl">Static, sticky (duration 0): plain, with a status glyph, with one action</div>
+  <div class="notification-stack">
+    <aha-notification data-probe heading="Export ready" duration="0">Your CSV is good to go.<aha-button slot="action" variant="secondary" size="sm">Download</aha-button></aha-notification>
+    <aha-notification type="warning" heading="Sync paused" duration="0">We'll try again when you're back online.</aha-notification>
+    <aha-notification type="success" heading="Slide deleted" duration="0">You can find it in Trash.<aha-button slot="action" variant="secondary" size="sm">Undo</aha-button></aha-notification>
+  </div>
+  <div class="lbl" style="margin-top:24px">Live: notify() opens a card at the bottom-right of the window for 4.5 seconds; hover or focus pauses it</div>
+  <div class="notification-row">
+    <aha-button id="notify-plain" variant="secondary" size="sm">Export ready</aha-button>
+    <aha-button id="notify-action" variant="secondary" size="sm">Deleted, with Undo</aha-button>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element, so the preview can never drift from lib/. -->
+<script type="module">
+  import '../lib/aha-button.js';
+  import { notify } from '../lib/aha-notification.js';
+  document.getElementById('notify-plain').addEventListener('click', () => notify({ title: 'Export ready', description: 'Your CSV is good to go.', action: { label: 'Download', onClick: () => {} } }));
+  document.getElementById('notify-action').addEventListener('click', () => notify.success({ title: 'Slide deleted', description: 'You can find it in Trash.', action: { label: 'Undo', onClick: () => {} } }));
+</script>

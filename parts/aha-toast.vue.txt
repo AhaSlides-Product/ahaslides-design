@@ -1,0 +1,13 @@
+<script setup>
+import { toast } from '@ahaslides-product/design/aha-toast';   // registers <aha-toast> + <aha-toaster>
+
+async function save() {
+  const saving = toast.loading('Saving your changes…', { duration: 0 });
+  await saveDeck();
+  saving.update({ type: 'success', content: 'Changes saved', duration: 3 });
+}
+</script>
+
+<template>
+  <aha-button variant="primary" @click="save">Save</aha-button>
+</template>

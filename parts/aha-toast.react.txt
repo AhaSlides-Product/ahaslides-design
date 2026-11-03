@@ -1,0 +1,18 @@
+import { toast } from '@ahaslides-product/design/aha-toast';   // registers <aha-toast> + <aha-toaster>; no provider, no hook
+
+// Callable from any handler, effect or store action: the toaster is created on <body> by the first call.
+export function SaveButton({ onSave }) {
+  const save = async () => {
+    const saving = toast.loading('Saving your changes…', { duration: 0 });
+    try {
+      await onSave();
+      saving.update({ type: 'success', content: 'Changes saved', duration: 3 });
+    } catch {
+      saving.update({ type: 'error', content: 'Changes not saved. Try again.', duration: 0 });   // sticky: carries the ✕
+    }
+  };
+  return <aha-button variant="primary" onClick={save}>Save</aha-button>;
+}
+
+// Drop-in for antd's message: toast.success(content, duration?) · toast.open({ key, type, content, duration, onClose })
+// toast.close(key) · toast.closeAll() · every call returns { key, close, update, closed }.

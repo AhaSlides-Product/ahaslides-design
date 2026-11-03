@@ -1,0 +1,201 @@
+{
+  "name": "Notification (web component)",
+  "slug": "aha-notification",
+  "group": "Feedback",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-notification",
+  "environment": [
+    "product"
+  ],
+  "summary": "The notification card as a framework-free element with an imperative notify() call: a titled white card with an optional line of detail and one action, in the same bottom-right stack as the toast.",
+  "highlights": [
+    "notify({ title, description, action }) from any handler",
+    "Shares the toast's region, announcement and pause",
+    "One action button; a click also closes the card"
+  ],
+  "lead": "ONE call, notify(), that renders an <aha-notification> into the same <aha-toaster> region as toast(), at the bottom-right of the window. The card matches the antd Notification themed by notification-theme.js value for value: 384 wide, white, radius 8, 20/24 padding, a 16/24 SemiBold ink title, a 14/22 secondary description, an optional 24px status glyph in the default icon colour (never a status hue) and the shared dismiss ✕ on the title's first line. Use it when a toast's one line is not enough: a title plus a sentence, or one action such as Undo. It is announced as \"title. description\" through the region's live region, never takes focus, pauses with the stack on hover or focus, and leaves after 4.5 seconds unless the duration is 0.",
+  "codeNote": "notify(options) and notify.success / info / warning / error(options) return { key, close(), update(patch), closed }. Options: { title, description, type, duration (seconds, default 4.5, 0 = sticky), key, action, closeLabel, onClose }. action is { label, onClick(event) }, rendered as one secondary sm aha-button, or your own Node; a click closes the card unless onClick calls event.preventDefault(). A key already on screen updates that card in place. notify.close(key) and notify.closeAll() dismiss. The element also works on its own: <aha-notification heading=\"…\" type=\"…\" duration=\"0\">detail<aha-button slot=\"action\">…</aha-button></aha-notification>.",
+  "tokensUsed": [
+    "bg-elevated",
+    "text-default",
+    "text-secondary",
+    "icon-default",
+    "radius-default",
+    "size-l",
+    "size-default",
+    "space-8",
+    "space-12",
+    "space-20",
+    "space-24",
+    "motion-slow",
+    "ease-out",
+    "ease-in-out",
+    "font-product"
+  ],
+  "spec": [
+    {
+      "label": "Card",
+      "value": "white (bg-elevated), 384 wide (never wider than the viewport less 32), radius 8, padding 20 24, gap 12 between the glyph and the text, the antd notification shadow"
+    },
+    {
+      "label": "Title",
+      "value": "16/24 SemiBold ink (the heading attribute or title option), wraps; the shared ✕ (tertiary icon-only xs aha-button, system-x 16) pinned to its first line, 8 from it, always shown"
+    },
+    {
+      "label": "Description",
+      "value": "14/22 secondary, 8 under the title; hidden when empty"
+    },
+    {
+      "label": "Glyph",
+      "value": "optional 24px stroke status icon in icon-default; no type, no glyph; never a status hue (Feedback C6)"
+    },
+    {
+      "label": "Action",
+      "value": "slot=\"action\", right-aligned, 12 under the text; one secondary sm aha-button from the action option; a click closes the card"
+    },
+    {
+      "label": "Region",
+      "value": "the shared <aha-toaster> at the bottom-right (see Toast (web component)); notifications and toasts stack together, newest at the bottom"
+    },
+    {
+      "label": "Behaviour",
+      "value": "announced as \"title. description\" (assertive for an error); never takes focus; hover or focus pauses the stack; Esc on a focused card or the ✕ dismisses it and focus goes back to where it was"
+    }
+  ],
+  "props": [
+    {
+      "name": "notify(options)",
+      "type": "function",
+      "default": "—",
+      "desc": "Opens a card. Returns { key, close(), update(patch), closed }"
+    },
+    {
+      "name": "notify.success / info / warning / error",
+      "type": "function",
+      "default": "—",
+      "desc": "Same, with the type set"
+    },
+    {
+      "name": "notify.close(key) / closeAll()",
+      "type": "function",
+      "default": "—",
+      "desc": "Dismisses one card or every notification"
+    },
+    {
+      "name": "heading",
+      "type": "string",
+      "default": "—",
+      "desc": "The title (the title option of notify())"
+    },
+    {
+      "name": "type",
+      "type": "success | info | warning | error",
+      "default": "—",
+      "desc": "The glyph; error is announced assertively. No type, no glyph"
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "default": "4.5",
+      "desc": "Seconds on screen; 0 keeps it until dismissed"
+    },
+    {
+      "name": "close-label",
+      "type": "string",
+      "default": "Close",
+      "desc": "Accessible name of the ✕"
+    },
+    {
+      "name": "slot=\"action\"",
+      "type": "slot",
+      "default": "—",
+      "desc": "One button under the text; hidden when empty"
+    },
+    {
+      "name": "close",
+      "type": "event",
+      "default": "—",
+      "desc": "Cancelable, composed. detail.source is timeout, close-button, escape, action, overflow or method"
+    },
+    {
+      "name": "closed",
+      "type": "event",
+      "default": "—",
+      "desc": "Composed. The card has left; the handle's closed promise resolves"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Notification (web component)",
+        "when": "a titled message with a sentence of detail or one action (Undo, View), from code that cannot reach antd's notification"
+      },
+      {
+        "what": "Notification (antd)",
+        "when": "a React or Vue 3 app that already themes antd with notification-theme.js"
+      },
+      {
+        "what": "Toast (web component)",
+        "when": "one short line is enough"
+      },
+      {
+        "what": "Modal",
+        "when": "the user must decide before going on"
+      }
+    ],
+    "note": "One action at most, and never the only way to do it: the card leaves on its own. Title in sentence case, no full stop; the description is a full sentence."
+  },
+  "surfaces": [
+    "editor",
+    "dashboard",
+    "settings"
+  ],
+  "reuse": {
+    "entry": "./aha-notification",
+    "registers": "aha-notification",
+    "exportsNamed": [
+      "AhaNotification",
+      "notify",
+      "defineAhaNotification"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "aha-notification.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form: a version-pinned CDN import and plain HTML, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "aha-notification.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "aha-notification.vue.txt"
+    }
+  ],
+  "preview": "aha-notification.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP), on the static sticky plain example with the DS defaults.",
+    "ready": "!!(document.querySelector('aha-notification[data-probe]')&&document.querySelector('aha-notification[data-probe]').shadowRoot&&document.querySelector('aha-notification[data-probe]').shadowRoot.querySelector('.surface'))",
+    "singleUI": true,
+    "measure": "(function(){var r=document.querySelector('aha-notification[data-probe]').shadowRoot;function cs(n){return n?getComputedStyle(n):{}}var s=cs(r.querySelector('.surface'));var t=cs(r.querySelector('.title'));var d=cs(r.querySelector('.description'));return{surface:s.backgroundColor,width:s.width,radius:s.borderTopLeftRadius,padTop:s.paddingTop,padSide:s.paddingLeft,titleColor:t.color,titleSize:t.fontSize,titleWeight:t.fontWeight,descColor:d.color,descSize:d.fontSize};})()",
+    "expect": {
+      "surface": "rgb(255, 255, 255)",
+      "width": "384px",
+      "radius": "8px",
+      "padTop": "20px",
+      "padSide": "24px",
+      "titleColor": "rgb(26, 26, 26)",
+      "titleSize": "16px",
+      "titleWeight": "600",
+      "descColor": "rgb(74, 74, 74)",
+      "descSize": "14px"
+    }
+  }
+}

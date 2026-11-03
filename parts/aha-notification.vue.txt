@@ -1,0 +1,11 @@
+<script setup>
+import { notify } from '@ahaslides-product/design/aha-notification';   // registers <aha-notification> + <aha-toaster>
+
+function exported() {
+  notify({ title: 'Export ready', description: 'Your CSV is good to go.', action: { label: 'Download', onClick: downloadCsv } });
+}
+</script>
+
+<template>
+  <aha-button variant="secondary" @click="exported">Export</aha-button>
+</template>
