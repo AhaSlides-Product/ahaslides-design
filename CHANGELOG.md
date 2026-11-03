@@ -33,13 +33,27 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.956.2 — 2026-11-03
+## 0.958.1 — 2026-11-03
 ### Fixed
 - Website Logos strip: with the label hidden (the docs Label: Off switch, or a hidden `aha-logos__label` left in the markup) the logos sat 24px below the top and 96px above the bottom. A hidden label now counts as no label, so the strip has equal Section space above and below the logos, and the one-Group pull-up after a same-surface section still applies (#606)
 
+## 0.958.0 — 2026-11-03
+### Added
+- Upload: `removelabel` attribute sets the aria-label of each item's remove button; `{name}` becomes the escaped file name, default `Remove {name}` (identical output when absent). Stacked on #609: with its `label`, `hint` and `limitlabel`, an app can localise all of the Upload copy. (#612)
+- Revert: revert the PR; opt-in attribute with the old text as default, no other change.
+
+## 0.957.0 — 2026-11-03
+### Added
+- Upload: `label`, `hint` and `limitlabel` attributes set the drop-zone text, so an app can localise or reword it instead of the fixed English; the defaults are the current text. `label` is also the picture-card add-box text. (#609)
+- Revert: revert the PR; opt-in attributes with the old text as default, no other change.
+
+## 0.956.3 — 2026-11-03
+### Fixed
+- Dropdown: a closed menu no longer takes up space under its trigger (it stretched scrolling lists and added a horizontal scrollbar), and opening one dropdown closes any other open one, even when the click lands on another dropdown's trigger (#611)
+
 ## 0.956.1 — 2026-11-03
 ### Changed
-- Join bar code field placeholder reads "Enter code" in the string, not "ENTER CODE..."; the field's own uppercase styling still shows it in capitals, so the only visible change is the three dots going (#PRNUM)
+- Join bar code field placeholder reads "Enter code" in the string, not "ENTER CODE..."; the field's own uppercase styling still shows it in capitals, so the only visible change is the three dots going (#608)
 
 ## 0.956.0 — 2026-11-03
 ### Added
