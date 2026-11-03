@@ -35,19 +35,19 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.961.0 — 2026-11-03
 ### Fixed
-- DataTable: each column filter trigger is now a real `<button>` reached with Tab, named "Filter: <column>" (`labels.filterColumn`), opened with Enter or Space and closed with Escape. Before, antd's trigger had `tabIndex=-1` and no name, so a keyboard user could not filter (#614)
+- DataTable: each column filter trigger is now a real `<button>` reached with Tab, named "Filter: <column>" (`labels.filterColumn`), opened with Enter or Space into a `role="dialog"` panel of the same name, and closed with Escape, which puts focus back on the trigger. Keys pressed in the panel stay in it, so Alt+Arrow no longer moves the column. Columns using antd's own `filters` keep antd's trigger and icon. Before, antd's trigger had `tabIndex=-1` and no name, so a keyboard user could not filter (#614)
 - DataTable: the toolbar title is a heading (`<h2>` by default, `toolbarTitleLevel` picks 1–6) instead of a `<span>`; it looks the same (#614)
-- DataTable: the first click on a sortable column now sorts ascending (↑ → ↓ → none), and an unsorted column's grey arrow points up to match. A column's own `sortDirections` still wins (#614)
+- DataTable: the first click on a sortable column now sorts ascending (↑ → ↓ → none), and an unsorted column's grey arrow points up to match. A column's own `sortDirections` still wins, and its idle arrow follows the first entry (#614)
 
 ### Changed
 - DataTable: the Edit columns footer button reads "Reset columns" (`labels.resetColumns`); the filter popovers keep "Reset" (#614)
 
 ### Added
-- DataTable `columnsSearchable`: a Search columns field above the Edit columns list (`labels.searchColumns`) (#614)
+- DataTable `columnsSearchable`: a Search columns field above the Edit columns list (`labels.searchColumns`), cleared when the popover closes, with "No columns match" (`labels.noColumnsMatch`) when nothing matches (#614)
 - DataTable `highlightedRowKey`: marks the current row with Vivid Pink 5% (`--aha-bg-accent`) and `aria-current="true"` (#614)
 - DataTable `toolbarSearch`: a search slot between the toolbar title and its actions (#614)
-- DataTable `data-testid` hooks on the toolbar, every filter trigger and panel control, and the Edit columns button, panel, search, checkboxes and Reset columns; `testIdPrefix` (default `aha-data-table`) keeps two tables on a page apart (#614)
-- DataTable: the date value filter has a Clear button (`labels.clearValue`) (#614)
+- DataTable `data-testid` hooks on the toolbar, every filter trigger and panel control, and the Edit columns button, panel, search, checkboxes (`<prefix>-columns-column-<key>`), empty line and Reset columns; `testIdPrefix` (default `aha-data-table`) keeps two tables on a page apart (#614)
+- DataTable: the date value filter has a Clear button (`labels.clearValue`); it empties the date and puts focus back in the field (#614)
 - DataTable: the contract lists every `labels` key; `freezeColumn` and `defreezeColumn` translate the freeze menu (#614)
 
 ## 0.959.1 — 2026-11-03

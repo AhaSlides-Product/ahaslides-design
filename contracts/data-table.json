@@ -50,11 +50,11 @@
     },
     {
       "label": "Sort",
-      "value": "single arrow (system-arrow-up / system-arrow-down); an unsorted column shows a grey ↑ because the first click sorts ascending: cycle ↑ ascending → ↓ descending → none (a column's own sortDirections overrides the order)"
+      "value": "single arrow (system-arrow-up / system-arrow-down); an unsorted column shows a grey arrow pointing the way the first click sorts (↑ by default): cycle ↑ ascending → ↓ descending → none (a column's own sortDirections overrides the order, and the idle arrow follows its first entry)"
     },
     {
       "label": "Filter",
-      "value": "funnel trigger: a real <button> in the header, reached with Tab, named \"Filter: <column>\" (labels.filterColumn), opens on Enter / Space and Escape closes it; grey → pale pink hover → pale pink open → filled brand when applied; checklist (search + list), min/max range, or one typed value (text, number or date field under the column label; Enter applies; a date field has a Clear button), Reset + Apply footer"
+      "value": "funnel trigger: a real <button> in the header, reached with Tab, named \"Filter: <column>\" (labels.filterColumn), opens on Enter / Space a role=\"dialog\" panel with the same name, and Escape closes it and returns focus to the trigger; grey → pale pink hover → pale pink open → filled brand when applied; checklist (search + list), min/max range, or one typed value (text, number or date field under the column label; Enter applies; a date field has a Clear button that empties it and puts focus back in the field), Reset + Apply footer"
     },
     {
       "label": "Value filter",
@@ -106,7 +106,7 @@
     },
     {
       "label": "Edit columns",
-      "value": "sliders button opens a checklist of the columns in display order; columnsSearchable adds a Search columns field above the list; hideable:false rows are locked on; a Reset columns footer (restores defaultVisibleColumns, or every column) shows only when the app passes visibleColumns, defaultVisibleColumns or onColumnsReset"
+      "value": "sliders button opens a checklist of the columns in display order; columnsSearchable adds a Search columns field above the list (cleared when the popover closes; \"No columns match\", labels.noColumnsMatch, when nothing matches); hideable:false rows are locked on; a Reset columns footer (restores defaultVisibleColumns, or every column) shows only when the app passes visibleColumns, defaultVisibleColumns or onColumnsReset"
     },
     {
       "label": "Column visibility",
@@ -118,7 +118,7 @@
     },
     {
       "label": "Test hooks",
-      "value": "stable data-testid on the toolbar (<prefix>-toolbar, -title, -search, -actions), each filter (<prefix>-filter-<key> on the trigger, -panel, -panel-search, -panel-input, -panel-min, -panel-max, -panel-clear, -panel-reset, -panel-apply) and Edit columns (<prefix>-columns-button, -panel, -search, -<key>, -reset); prefix = testIdPrefix, default aha-data-table"
+      "value": "stable data-testid on the toolbar (<prefix>-toolbar, -title, -search, -actions), each filter (<prefix>-filter-<key> on the trigger, -panel, -panel-search, -panel-input, -panel-min, -panel-max, -panel-clear, -panel-reset, -panel-apply) and Edit columns (<prefix>-columns-button, -panel, -search, -column-<key>, -empty, -reset); prefix = testIdPrefix, default aha-data-table"
     },
     {
       "label": "Empty",
@@ -270,7 +270,7 @@
       "name": "labels",
       "type": "Partial<typeof dataTableLabels>",
       "default": "English",
-      "desc": "UI copy override (i18n), every key defaults to the English text: searchInFilters, reset, apply, filterColumn, clearValue, minValue, maxValue, enterValue, freezeColumn, defreezeColumn, editColumns, searchColumns, resetColumns, resizeColumn, noData and the expandable-row labels"
+      "desc": "UI copy override (i18n), every key defaults to the English text: searchInFilters, reset, apply, filterColumn, clearValue, minValue, maxValue, enterValue, freezeColumn, defreezeColumn, editColumns, searchColumns, resetColumns, noColumnsMatch, resizeColumn, noData and the expandable-row labels"
     },
     {
       "name": "…",
