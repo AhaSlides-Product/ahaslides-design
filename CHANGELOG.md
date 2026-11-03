@@ -36,7 +36,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.919.1 — 2026-11-03
 ### Changed
 - Docs → Leaderboard: the previews sit in a fixed 16:9 slide frame, and the phone example is gone from the page (the phone size and its code sample are unchanged). The Show winner banner fills the same frame however many rows the leaderboard has; it no longer grows with the list (#585)
-- Canvas Library → Leaderboard: the light, dark and orange deck demos are 16:9 slide frames with an outline instead of a fixed 300px strip, so the list scrolls inside the frame and Show winner covers the same size at 5 or 14 rows (#585)
+- Canvas Library → Leaderboard: the light, dark and orange deck demos are 16:9 slide frames with an outline instead of a fixed 300px strip, so the list scrolls inside the frame and Show winner covers the same size at 5 or 14 rows. On a narrow screen the frame scrolls rather than cutting off the winner banner (#585)
 
 ## 0.916.3 — 2026-11-03
 ### Fixed
