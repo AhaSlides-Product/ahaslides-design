@@ -1,0 +1,22 @@
+<nav class="ncb" aria-label="Presenter controls">
+  <aha-tooltip size="lg" text="Timer" shortcut="T">
+    <aha-button variant="secondary" size="md" icon-only aria-label="Timer (T)" data-key="t"><aha-icon name="system-timer" size="16"></aha-icon></aha-button>
+  </aha-tooltip>
+  <aha-tooltip size="lg" text="Annotate">
+    <aha-button class="annotate-trigger" variant="secondary" size="md" icon-only aria-label="Annotate"><aha-icon name="system-pen" size="16"></aha-icon></aha-button>
+  </aha-tooltip>
+  <aha-popover class="annotate-picker" placement="top" hidden>
+    <aha-button variant="secondary" size="sm">Pen</aha-button>
+    <aha-button variant="secondary" size="sm">Highlighter</aha-button>
+    <aha-button variant="secondary" size="sm">Eraser</aha-button>
+  </aha-popover>
+</nav>
+<script type="module">
+  const trigger = document.querySelector('.annotate-trigger');
+  const picker = document.querySelector('.annotate-picker');
+  trigger.addEventListener('click', () => { picker.hidden = !picker.hidden; });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 't') startTimer();
+    if (e.key === 'Escape') exitPresenting();
+  });
+</script>

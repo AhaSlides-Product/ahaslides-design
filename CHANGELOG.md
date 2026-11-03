@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.945.0 — 2026-11-03
+## 0.947.0 — 2026-11-03
 
 ### Added
 - Rate: `min="0"` on `character="number"` adds a 0 cell before 1, so `<aha-rate count="10" character="number" min="0" readonly>` shows a 0 to 10 score in the product app; `value="0"` fills the 0 cell and no `value` fills nothing (#598)
@@ -42,6 +42,13 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Chart, stacked: series 5 and 6 repeat Vivid Pink and black with a white diagonal hatch on the segment, its legend swatch and its tooltip swatch, so every series up to the fold reads apart (colour rule 8.2); a short `colors` list that wraps gets the same hatch (#598)
 - Chart, stacked: the "Other (n)" legend item lists the merged series on hover, the Other segment's tooltip lists each merged series with its value in that row, and the hidden data table keeps every series as its own column (#598)
 - Chart: every label taken from data (options, series, rows, ticks, words, mind-map nodes, tooltips, table cells) has `dir="auto"`, so mixed right-to-left and left-to-right labels each keep their own direction (#598)
+
+## 0.946.0 — 2026-11-03
+### Added
+- Anti-slop app-shell criterion C6: presenter control-bar buttons and the popovers they open must show their key in the tooltip, take focus on open and return it to the trigger, close on Esc before Esc can exit presenting, and list every key in the presenter hotkey cheatsheet. The judge must drive the real presenting UI with the keyboard and record each keypress; with no run it marks C6 `FAIL — UNVERIFIED`, never PASS. Three eval cases cover it: an Annotate-style failure, a passing bar, and the same passing code with no recorded run (#600)
+### Changed
+- Canvas criteria C10 and C24 (and the canvas guide) now point host-painted control-bar actions at app-shell C6 instead of calling them out of scope (#600)
+- The App shell guideline declares its environments (product, web) and leaves the environments baseline (#600)
 
 ## 0.942.0 — 2026-11-03
 ### Added
