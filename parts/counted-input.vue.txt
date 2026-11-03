@@ -6,6 +6,7 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 <script setup>
 import { ref } from 'vue';
 const answer = ref('');
+const field = ref(null);   // field.value.focus() focuses the inner field
 </script>
 
 <template>
@@ -14,6 +15,8 @@ const answer = ref('');
     size="default"
     maxlength="80"
     placeholder="Answer"
+    ref="field"
+    autofocus
     :value.prop="answer"
     @input="answer = $event.detail.value"
   />
