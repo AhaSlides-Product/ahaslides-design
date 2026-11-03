@@ -69,9 +69,9 @@
   "props": [
     {
       "name": "options",
-      "type": "{ label, value, disabled?, description?, title?, prefix?, suffix?, selectedLabel? }[] | { label, options: [...] }[]",
+      "type": "{ label, value, disabled?, description?, title?, prefix?, suffix?, selectedLabel?, ariaLabel? }[] | { label, options: [...] }[]",
       "default": "[]",
-      "desc": "The selectable set — a JSON `options` attribute or an `.options` property. Optional per option: `disabled`, `description` (a second, smaller line under the label, 12/18 text-secondary), `title` (the row's native tooltip), `prefix` (leading text in the row, such as a flag emoji; hidden from assistive tech), `suffix` (trailing text in tertiary ink, such as a dial code; type-to-filter matches it too) and `selectedLabel` (what the closed trigger shows for this option instead of `label`, like antd optionLabelProp: \"🇬🇧 +44\" for a row reading \"🇬🇧 United Kingdom +44\"). An entry `{ label, options: [...] }` is an option group: a non-selectable header row (12/18 semibold, text-tertiary) over its options, in every mode; the keyboard skips headers and a filter hides a group with no match (antd options with `options`)"
+      "desc": "The selectable set — a JSON `options` attribute or an `.options` property. Optional per option: `disabled`, `description` (a second, smaller line under the label, 12/18 text-secondary), `title` (the row's native tooltip), `prefix` (leading text in the row, such as a flag emoji; hidden from assistive tech), `suffix` (trailing text in tertiary ink, such as a dial code; type-to-filter matches it too) and `selectedLabel` (what the closed trigger shows for this option instead of `label`, like antd optionLabelProp: \"🇬🇧 +44\" for a row reading \"🇬🇧 United Kingdom +44\"). An entry `{ label, options: [...] }` is an option group: a non-selectable header row (12/18 semibold, text-tertiary) over its options, in every mode; the keyboard skips headers and a filter hides a group with no match (antd options with `options`). Optional `ariaLabel`: the row's accessible name, for a short visible text whose count needs a unit spoken (\"Design, 6 members\" for a row reading \"Design 6\"); without it the row is named by its text"
     },
     {
       "name": "value",
@@ -126,6 +126,12 @@
       "type": "string",
       "default": "Clear selection",
       "desc": "Accessible name of the allow-clear button"
+    },
+    {
+      "name": "remove-label",
+      "type": "string",
+      "default": "Remove {label}",
+      "desc": "mode=\"multiple\" or \"tags\": accessible name of each chip's × button. `{label}` is replaced by the chip text; without it the chip text follows the string (\"Xoá\" names the button \"Xoá Design\")"
     },
     {
       "name": "show-search",

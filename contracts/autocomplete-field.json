@@ -62,9 +62,9 @@
   "props": [
     {
       "name": "options",
-      "type": "string[] | { label, value, suffix? }[]",
+      "type": "string[] | { label, value, suffix?, ariaLabel? }[]",
       "default": "[]",
-      "desc": "The suggestions — a JSON attribute or an `.options` property. Optional `suffix`: trailing text in tertiary ink at the end of the row (a count, a code), the same look as <aha-select>'s option suffix; typing matches it as well as the label"
+      "desc": "The suggestions — a JSON attribute or an `.options` property. Optional `suffix`: trailing text in tertiary ink at the end of the row (a count, a code), the same look as <aha-select>'s option suffix; typing matches it as well as the label. Optional `ariaLabel`: the row's accessible name, when a short suffix needs its unit spoken (\"Hanoi, 128 participants\")"
     },
     {
       "name": "value",

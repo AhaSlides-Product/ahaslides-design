@@ -50,6 +50,18 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
   with no match.
 - **`aha-autocomplete` option `suffix`** (#626): trailing text in tertiary ink at the end of a row, the same look as
   `aha-select`. Typing matches it as well as the label.
+- **Spoken names for rows and chips** (#626). An option `ariaLabel` (in `aha-select` and `aha-autocomplete`) names a row
+  for screen readers when its visible text is only a label and a count, such as "Design, 6 members". Rows without it are
+  unchanged. A chip's close button is now named "Remove {label}" (for example "Remove Design"); `remove-label` on
+  `aha-select` changes the wording, and a standalone `aha-tag` takes `close-label` (default "Remove").
+
+### Fixed
+- **`aha-form-item` treats an `aha-select mode="multiple"` as a list** (#626), as it does tags mode, so `required` fails
+  on an empty list and passes once a value is picked.
+- **`aha-select` multiple and tags-with-options keyboard and pointer fixes** (#626). Home and End move to the first or
+  last enabled row, the active row survives an options update while open, clicking a chip's close button or the clear
+  button keeps the list open with focus in the field, an IME word filters the list when composition ends, and text that
+  `max-count` refuses stays in the field instead of being lost.
 
 ## 0.972.1 — 2026-11-04
 

@@ -29,7 +29,7 @@
 <!-- Pick several from the list: chips, a list that stays open, max-count caps the picks. -->
 <aha-select id="courses" mode="multiple" show-search allow-clear max-count="2" aria-label="Courses" style="--aha-field-width:100%"
   values='["c1"]'
-  options='[{"label":"Getting started","value":"c1","suffix":"12"},{"label":"Quizzes that stick","value":"c2","suffix":"8"},{"label":"Live polls","value":"c3","suffix":"5"}]'></aha-select>
+  options='[{"label":"Getting started","value":"c1","suffix":"12","ariaLabel":"Getting started, 12 presentations"},{"label":"Quizzes that stick","value":"c2","suffix":"8","ariaLabel":"Quizzes that stick, 8 presentations"},{"label":"Live polls","value":"c3","suffix":"5","ariaLabel":"Live polls, 5 presentations"}]'></aha-select>
 
 <script>
   // Plain DOM — no framework. Read e.detail.value off the composed CustomEvent.

@@ -185,7 +185,9 @@ test('mode="multiple", tags suggestions, option groups and autocomplete trailing
 
     out.multiStart = await evaluate(`(() => { const r = ${root('multi')}; const input = r.querySelector('.input');
       return { multiselectable: r.querySelector('.listbox').getAttribute('aria-multiselectable'), role: input.getAttribute('role'),
-        readOnly: input.readOnly, suffix: r.querySelector('.option[data-value="c2"] .suffix').textContent, chips: [...r.querySelectorAll('aha-tag')].map((t) => t.textContent) }; })()`);
+        readOnly: input.readOnly, suffix: r.querySelector('.option[data-value="c2"] .suffix').textContent, chips: [...r.querySelectorAll('aha-tag')].map((t) => t.textContent),
+        rowNames: [...r.querySelectorAll('.option')].map((o) => o.getAttribute('aria-label')),
+        removeName: r.querySelector('aha-tag').shadowRoot.querySelector('.x').getAttribute('aria-label') }; })()`);
     await evaluate(`window.multiEvents = []; document.getElementById('multi').addEventListener('change', (e) => window.multiEvents.push(e.detail.values));
       document.getElementById('multi').addEventListener('clear', (e) => window.multiEvents.push('clear')); document.getElementById('multi').focus()`);
     await press('ArrowDown', 'ArrowDown', 40);
@@ -196,6 +198,15 @@ test('mode="multiple", tags suggestions, option groups and autocomplete trailing
     out.multiCapped = await state('multi');
     await press('Backspace', 'Backspace', 8);
     out.multiBackspace = await state('multi');
+    await press('End', 'End', 35);
+    out.multiEnd = (await state('multi')).active;
+    await press('Home', 'Home', 36);
+    out.multiHome = (await state('multi')).active;
+    out.multiReordered = await evaluate(`(() => { const el = document.getElementById('multi'); el.options = [...el.options].reverse();
+      const r = el.shadowRoot; const active = r.querySelector('.option[data-active="true"]');
+      return [active?.dataset.value, r.querySelector('.input').getAttribute('aria-activedescendant') === active?.id]; })()`);
+    await evaluate(`document.getElementById('multi').setAttribute('remove-label', 'Xoá')`);
+    out.removeRelabelled = await evaluate(`${root('multi')}.querySelector('aha-tag').shadowRoot.querySelector('.x').getAttribute('aria-label')`);
     await evaluate(`${root('multi')}.querySelector('.clear').click()`);
     out.multiCleared = { ...(await state('multi')), events: await evaluate('window.multiEvents') };
     await press('Escape', 'Escape', 27);
@@ -218,6 +229,17 @@ test('mode="multiple", tags suggestions, option groups and autocomplete trailing
     out.freeTyped = await state('tags-suggest');
     await press('Enter', 'Enter', 13);
     out.freeAdded = await state('tags-suggest');
+    out.composed = await evaluate(`(() => { const input = ${root('tags-suggest')}.querySelector('.input'); input.value = 'o';
+      input.dispatchEvent(new InputEvent('input', { isComposing: true, bubbles: true })); input.dispatchEvent(new CompositionEvent('compositionend', { data: 'o', bubbles: true }));
+      return [...${root('tags-suggest')}.querySelectorAll('.option:not([hidden])')].map((o) => o.dataset.value); })()`);
+    const x = await evaluate(`(() => { const b = ${root('tags-suggest')}.querySelector('aha-tag').shadowRoot.querySelector('.x').getBoundingClientRect();
+      return { x: b.x + b.width / 2, y: b.y + b.height / 2 }; })()`);
+    for (const type of ['mousePressed', 'mouseReleased']) await command('Input.dispatchMouseEvent', { type, ...x, button: 'left', clickCount: 1 });
+    out.chipRemovedOpen = { ...(await state('tags-suggest')), focused: await evaluate(`${root('tags-suggest')}.activeElement?.className`) };
+    await evaluate(`document.getElementById('tags-suggest').setAttribute('max-count', '1')`);
+    await type(',x');
+    await press('Enter', 'Enter', 13);
+    out.overMax = await state('tags-suggest');
 
     await evaluate(`${root('grouped')}.querySelector('.trigger').click()`);
     out.groupAria = await evaluate(`(() => { const r = ${root('grouped')}; const group = r.querySelector('[role="group"]');
@@ -233,15 +255,18 @@ test('mode="multiple", tags suggestions, option groups and autocomplete trailing
       groupsShown: [...${root('grouped')}.querySelectorAll('.group-item')].every((g) => !g.hidden) })`);
 
     await evaluate(`(() => { const f = ${root('ac')}.querySelector('.field'); f.focus(); f.value = 'apac'; f.dispatchEvent(new Event('input')); })()`);
-    out.autocomplete = await evaluate(`[...${root('ac')}.querySelectorAll('.option')].map((o) => ({ label: o.querySelector('.label').textContent, suffix: o.querySelector('.suffix')?.textContent }))`);
+    out.autocomplete = await evaluate(`[...${root('ac')}.querySelectorAll('.option')].map((o) => ({ label: o.querySelector('.label').textContent, suffix: o.querySelector('.suffix')?.textContent, name: o.getAttribute('aria-label') }))`);
     return out;
   }, { readyExpr: '!!window.selectOptionsFixtureReady' });
 
   const base = { open: true, query: '' };
-  assert.deepEqual(result.multiStart, { multiselectable: 'true', role: 'combobox', readOnly: true, suffix: '8', chips: ['Algebra'] });
+  assert.deepEqual(result.multiStart, { multiselectable: 'true', role: 'combobox', readOnly: true, suffix: '8', chips: ['Algebra'],
+    rowNames: [null, 'Biology, 8 lessons', null], removeName: 'Remove Algebra' });
   assert.deepEqual(result.multiPicked, { ...base, values: ['c1', 'c2'], chips: ['Algebra', 'Biology'], selected: ['c1', 'c2'], disabled: ['c3'], visible: ['c1', 'c2', 'c3'], active: 'c2' });
   assert.deepEqual(result.multiCapped.values, ['c1', 'c2']);
   assert.deepEqual(result.multiBackspace, { ...base, values: ['c1'], chips: ['Algebra'], selected: ['c1'], disabled: [], visible: ['c1', 'c2', 'c3'], active: 'c2' });
+  assert.deepEqual([result.multiEnd, result.multiHome, result.removeRelabelled], ['c3', 'c1', 'Xoá Algebra']);
+  assert.deepEqual(result.multiReordered, ['c1', true]);
   assert.deepEqual(result.multiCleared.values, []);
   assert.deepEqual(result.multiCleared.events, [['c1', 'c2'], ['c1'], [], 'clear']);
   assert.deepEqual(result.searchFiltered, { values: [], open: true, chips: [], selected: [], disabled: [], visible: ['a'], active: 'a', query: 'expert', groups: [false, true] });
@@ -250,9 +275,12 @@ test('mode="multiple", tags suggestions, option groups and autocomplete trailing
   assert.deepEqual(result.suggestPicked, { values: ['Prague'], open: true, chips: ['Prague'], selected: ['Prague'], disabled: [], visible: ['Paris', 'Prague', 'Oslo'], active: 'Prague', query: '' });
   assert.equal(result.freeTyped.open, false);
   assert.deepEqual(result.freeAdded.values, ['Prague', 'Rome']);
+  assert.deepEqual(result.composed, ['Oslo']);
+  assert.deepEqual(result.chipRemovedOpen, { values: ['Rome'], open: true, chips: ['Rome'], selected: [], disabled: [], visible: ['Oslo'], active: null, query: 'o', focused: 'input' });
+  assert.deepEqual([result.overMax.values, result.overMax.query], [['Rome'], 'o,x']);
   assert.deepEqual(result.groupAria, { label: 'Fruit', labelIsOption: false, headers: 2 });
   assert.equal(result.groupKeyboard, 'carrot');
   assert.deepEqual(result.groupFiltered, [true, false]);
   assert.deepEqual(result.groupPicked, { value: 'carrot', shown: 'Carrot', groupsShown: true });
-  assert.deepEqual(result.autocomplete, [{ label: 'Asia', suffix: 'APAC' }]);
+  assert.deepEqual(result.autocomplete, [{ label: 'Asia', suffix: 'APAC', name: 'Asia, Asia-Pacific' }]);
 });
