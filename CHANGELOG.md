@@ -35,11 +35,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.922.0 — 2026-11-03
 ### Added
-- DataTable value filter: `filter: { type: 'value', inputType: 'text' | 'number' | 'date', label }` takes one typed value; text matches a case-insensitive substring, number an equal value, date the same calendar day (#NNN)
-- DataTable controlled column visibility: `visibleColumns` + `onVisibleColumnsChange(visibleKeys)`, or `defaultVisibleColumns` uncontrolled, so an app can save each creator's columns and feed its export (#NNN)
-- DataTable column-editor events: `onColumnsEditorOpenChange(open)`, `onColumnToggle(key, visible)` and `onColumnsReset()`; Edit columns shows a Reset footer when the app passes `visibleColumns`, `defaultVisibleColumns` or `onColumnsReset` (#NNN)
+- DataTable value filter: `filter: { type: 'value', inputType: 'text' | 'number' | 'date', label }` takes one typed value; text matches a case-insensitive substring, number an equal value, date the same calendar day (#593)
+- DataTable controlled column visibility: `visibleColumns` + `onVisibleColumnsChange(visibleKeys)`, or `defaultVisibleColumns` uncontrolled, so an app can save each creator's columns and feed its export (#593)
+- DataTable column-editor events: `onColumnsEditorOpenChange(open)`, `onColumnToggle(key, visible)` and `onColumnsReset()`; Edit columns shows a Reset footer when the app passes `visibleColumns`, `defaultVisibleColumns` or `onColumnsReset` (#593)
 ### Fixed
-- Table criterion C6 now says DataTable icons are DS `<aha-icon>` by name, as the component ships, instead of `@phosphor-icons/react`, which screen-lint hard-fails as `foreign-icon-library` (#NNN)
+- Table criterion C6 now says DataTable icons are DS `<aha-icon>` by name, as the component ships, instead of `@phosphor-icons/react`, which screen-lint hard-fails as `foreign-icon-library` (#593)
 - Revert: revert the PR; with none of the new props passed, DataTable renders and behaves as before
 
 ## 0.917.2 — 2026-11-03
