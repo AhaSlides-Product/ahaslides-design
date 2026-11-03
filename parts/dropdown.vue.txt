@@ -23,6 +23,15 @@ function onSelect(e) { runAction(e.detail.key); }
 // a locked row opens the Paywall instead of selecting; preventDefault() runs your own upgrade flow
 function onUpgrade(e) { e.preventDefault(); openUpgradeModal(e.detail.feature); }
 
+// a context menu with shortcuts: the key draws as the DS chip at the row's trailing edge (⌘D on a Mac, Ctrl D elsewhere)
+const slideItems = JSON.stringify([
+  { key: 'new', label: 'New slide', icon: 'system-plus' },
+  { key: 'duplicate', label: 'Duplicate', icon: 'system-duplicate', shortcut: 'Mod+D' },
+  { key: 'copy', label: 'Copy to…', icon: 'system-copy' },
+  { type: 'divider' },
+  { key: 'delete', label: 'Delete', icon: 'system-trash', danger: true, shortcut: 'Del' },
+]);
+
 // a single-choice picker: `value` selects the row and the trigger shows its label
 const role = ref('editor');
 const menuOpen = ref(false);
@@ -35,5 +44,6 @@ const roleItems = JSON.stringify([
 <template>
   <!-- @open / @close report every user open and close; :open drives it from code. The panel renders in the top layer, so a card cannot clip it. -->
   <aha-dropdown label="Actions" placement="bottomLeft" :items="items" :open="menuOpen" @select="onSelect" @open="menuOpen = true" @close="menuOpen = false" @paywall-upgrade="onUpgrade" />
+  <aha-dropdown label="Slide" :items="slideItems" @select="onSelect" />
   <aha-dropdown :value="role" :items="roleItems" @select="role = $event.detail.key" />
 </template>

@@ -154,6 +154,8 @@ const AHA_ICON_JS = `(function(){
 /* ===== full planned inventory (AntD-style left-nav taxonomy) — the component-standard
    measured set. Live pages come from contracts/; the rest render as greyed "soon" so the
    nav shows the whole roadmap. Order/categories mirror ant.design's component menu. ===== */
+// A page with no sidebar item of its own lights up the page it is part of
+const NAV_PARENT = { 'split-button': 'button' };
 const COMPONENTS_CATALOG = [
   { cat: 'General', items: [
     { name: 'Button',       slug: 'button' },
@@ -198,11 +200,14 @@ const COMPONENTS_CATALOG = [
     { name: 'User info',    slug: 'user-info' },
     { name: 'Badge',        slug: 'badge' },
     { name: 'Tag',          slug: 'tag' },
+    { name: 'antd Tag',     slug: 'antd-tag' },
     { name: 'Status icon',  slug: 'status-icon' },
     { name: 'Tooltip',      slug: 'tooltip' },
+    { name: 'antd Tooltip', slug: 'antd-tooltip' },
     { name: 'Popover',      slug: 'popover' },
     { name: 'Tabs',         slug: 'tabs' },
     { name: 'Segmented',    slug: 'segmented' },
+    { name: 'antd Segmented', slug: 'antd-segmented' },
     { name: 'Card',         slug: 'card' },
     { name: 'List',         slug: 'list' },
     { name: 'Table',        slug: 'table' },
@@ -1109,7 +1114,7 @@ function sidebarNav(base, active, section) {
     inner = cat.map(g => {
       const items = g.items.map(it => {
         if (LIVE.has(it.slug))
-          return `<a class="nav-item${it.slug===active?' active':''}" href="${base}${it.slug}/index.html"><span>${esc(it.name)}</span><span class="nav-dot" title="live"></span></a>`;
+          return `<a class="nav-item${it.slug===(NAV_PARENT[active]||active)?' active':''}" href="${base}${it.slug}/index.html"><span>${esc(it.name)}</span><span class="nav-dot" title="live"></span></a>`;
         return `<span class="nav-item soon"><span>${esc(it.name)}</span><i>soon</i></span>`;
       }).join('');
       return `<div class="nav-group"><div class="nav-cat">${esc(g.cat)}</div>${items}</div>`;
@@ -1123,7 +1128,7 @@ function sidebarNav(base, active, section) {
     const marketingNav = (items, cat) => items.length ? `<div class="nav-group"><div class="nav-cat">${cat}</div>` +
       items.map(b => `<a class="nav-item${active===('marketing:'+b.slug)?' active':''}" href="${base}marketing/${b.slug}/index.html"><span>${esc(b.name)}</span><span class="nav-dot" title="live"></span></a>`).join('') +
       `</div>` : '';
-    inner = marketingNav(MARKETING.filter(isMarketingComponent), MARKETING_COMPONENTS_CAT) + marketingNav(MARKETING.filter(b => !isMarketingComponent(b)), MARKETING_CAT);
+    inner = marketingNav(marketingByPageFlow(MARKETING.filter(isMarketingComponent)), MARKETING_COMPONENTS_CAT) + marketingNav(marketingByPageFlow(MARKETING.filter(b => !isMarketingComponent(b))), MARKETING_CAT);
   } else if (section === 'settings') {
     // Settings is ONE page under ONE URL. Every component lives inline on settings/index.html, so the
     // sidebar never routes to a per-component page — each item is an in-page anchor (#ctrl-<slug>) to
@@ -3763,6 +3768,10 @@ const expandMarketingAssets = (b) => {
   const resolve = (text) => typeof text === 'string' ? text.replaceAll('{{images}}', `${SITE}/marketing/${b.imagePath}`).replaceAll('{{logos}}', `${SITE}/logo`) : text;
   return { ...b, html: resolve(b.html), layouts: b.layouts?.map(layout => ({ ...layout, html: resolve(layout.html) })) };
 };
+const MARKETING_PAGE_FLOW = ['cards', 'join-bar', 'navigation', 'hero', 'logos', 'numbers', 'features', 'comparison', 'testimonials', 'pricing', 'faq', 'footer-banner', 'footer'];
+const marketingOrderRank = (b) => { const i = MARKETING_PAGE_FLOW.indexOf(b.slug); return i < 0 ? MARKETING_PAGE_FLOW.length : i; };
+// Display order only: the generated stylesheets keep MARKETING's alphabetical order so the cascade is unchanged.
+const marketingByPageFlow = (items) => [...items].sort((a, b) => marketingOrderRank(a) - marketingOrderRank(b) || a.name.localeCompare(b.name));
 /* marketing sections — loaded before any page renders so the Websites tab lists them everywhere.
    Absent-safe: no marketing/ dir → no tab/pages/feed. */
 MARKETING = existsSync(MDIR)
@@ -4143,8 +4152,8 @@ if (MARKETING.length) {
     writeFileSync(join(d, `${b.slug}.agent.json`), renderMarketingAgent(b));
     console.log(`  ✓ marketing ${b.slug}: index.html · ${b.slug}.md · ${b.slug}.agent.json`);
   }
-  writeFileSync(join(OUT, 'marketing.llms.txt'), renderMarketingLlms(MARKETING));
-  writeFileSync(join(OUT, 'marketing.agent.json'), JSON.stringify(MARKETING.map(b => JSON.parse(renderMarketingAgent(b))), null, 2) + '\n');
+  writeFileSync(join(OUT, 'marketing.llms.txt'), renderMarketingLlms(marketingByPageFlow(MARKETING)));
+  writeFileSync(join(OUT, 'marketing.agent.json'), JSON.stringify(marketingByPageFlow(MARKETING).map(b => JSON.parse(renderMarketingAgent(b))), null, 2) + '\n');
 }
 for (const [slug, target] of Object.entries(MARKETING_REDIRECTS)) {
   const d = join(OUT, 'marketing', slug); mkdirSync(d, { recursive: true });

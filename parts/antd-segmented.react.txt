@@ -1,0 +1,8 @@
+import { ConfigProvider, Segmented } from 'antd';   // antd v6
+import { segmentedTheme } from '@ahaslides-product/design/segmented-theme';
+import '@ahaslides-product/design/aha-button';   // registers <aha-button>
+
+<ConfigProvider theme={segmentedTheme}>
+  <Segmented options={['Desktop', 'Tablet', 'Mobile']} defaultValue="Desktop" />
+</ConfigProvider>
+// New UI: <aha-segmented>. This theme only keeps existing antd segmented controls on the DS look.

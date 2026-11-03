@@ -11,7 +11,8 @@
      trigger="click" (default) | "hover"
      open: reflects the panel state; set it to open or close from code (fires no event)
      value: key of the selected leaf (picker mode; omit for an action dropdown)
-     items: leaf {key,label,description?,icon?,disabled?,danger?}
+     items: leaf {key,label,description?,shortcut?,icon?,disabled?,danger?}
+              (shortcut: "Mod+D", "Del"… drawn as the DS chip at the row's trailing edge; display only)
             · locked leaf {key,label,locked:true,plan?:"pro"|"essential",featureKey?,upgradeBody?}
               (shows the Paywall crown; click / Enter / Space opens the Paywall beside the row, never select)
             · submenu-parent {key,label,icon?,children:[…]}
@@ -29,6 +30,19 @@
     {"key":"pdf","label":"Export PDF","icon":"system-file-pdf","locked":true,"plan":"pro","featureKey":"export_pdf","upgradeBody":"Export your responses as a PDF report."},
     {"type":"divider"},
     {"key":"delete","label":"Delete","icon":"system-trash","danger":true}
+  ]'>
+</aha-dropdown>
+
+<!-- A context menu with shortcuts: "Mod" draws ⌘ on a Mac and Ctrl elsewhere; the chip binds no key,
+     the row gets aria-keyshortcuts. It sits before a locked row's crown. -->
+<aha-dropdown label="Slide"
+  items='[
+    {"key":"new","label":"New slide","icon":"system-plus"},
+    {"key":"duplicate","label":"Duplicate","icon":"system-duplicate","shortcut":"Mod+D"},
+    {"key":"copy","label":"Copy to…","icon":"system-copy"},
+    {"key":"skip","label":"Skip slide","icon":"system-eye-slash","locked":true,"featureKey":"skip_slide"},
+    {"type":"divider"},
+    {"key":"delete","label":"Delete","icon":"system-trash","danger":true,"shortcut":"Del"}
   ]'>
 </aha-dropdown>
 

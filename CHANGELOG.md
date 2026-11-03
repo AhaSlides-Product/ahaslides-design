@@ -33,13 +33,130 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.930.0 — 2026-11-03
+## 0.960.0 — 2026-11-03
 ### Changed
 - Colour rule 2.6: a third-party logo in any interface (website header, pricing row, presenter app) is its line mark from `logo/line/` in `--aha-icon-default`, 24px, with no tile or border; a row after a label sits 12px after it and 8px apart. Only a listing page (Marketplace) shows the colour image, greyscale at rest and in colour on card hover and keyboard focus, with no fade under reduced motion. Anti-slop C7, the colour evals, the skill, AGENTS.md and PRINCIPLES.md follow. (#557)
 - Navigation: the Products menu app entries show the line logos straight on the menu, without the white square tile. (#557)
 - Integration card: the logo is the colour file with the `brand-logo-listing` class, greyscale until the card is hovered or focused. The `brand-logo-colour` lint accepts that class. (#557)
 ### Added
 - Logo library: line marks for 29 brands under `logo/line/`, a G2 logo (original, greyscale and line), and copy-paste patterns for a line logo, a logo row after a label and a listing card. Redrawn Canva, Zapier and Claude line stand-ins. (#557)
+
+## 0.958.0 — 2026-11-03
+### Added
+- Upload: `removelabel` attribute sets the aria-label of each item's remove button; `{name}` becomes the escaped file name, default `Remove {name}` (identical output when absent). Stacked on #609: with its `label`, `hint` and `limitlabel`, an app can localise all of the Upload copy. (#612)
+- Revert: revert the PR; opt-in attribute with the old text as default, no other change.
+
+## 0.957.0 — 2026-11-03
+### Added
+- Upload: `label`, `hint` and `limitlabel` attributes set the drop-zone text, so an app can localise or reword it instead of the fixed English; the defaults are the current text. `label` is also the picture-card add-box text. (#609)
+- Revert: revert the PR; opt-in attributes with the old text as default, no other change.
+
+## 0.956.3 — 2026-11-03
+### Fixed
+- Dropdown: a closed menu no longer takes up space under its trigger (it stretched scrolling lists and added a horizontal scrollbar), and opening one dropdown closes any other open one, even when the click lands on another dropdown's trigger (#611)
+
+## 0.956.1 — 2026-11-03
+### Changed
+- Join bar code field placeholder reads "Enter code" in the string, not "ENTER CODE..."; the field's own uppercase styling still shows it in capitals, so the only visible change is the three dots going (#608)
+
+## 0.956.0 — 2026-11-03
+### Added
+- DataTable value filter: `filter: { type: 'value', inputType: 'text' | 'number' | 'date', label }` takes one typed value; text matches a case-insensitive substring, number an equal value, date the same calendar day (#593)
+- DataTable controlled column visibility: `visibleColumns` + `onVisibleColumnsChange(visibleKeys)`, or `defaultVisibleColumns` uncontrolled, so an app can save each creator's columns and feed its export (#593)
+- DataTable column-editor events: `onColumnsEditorOpenChange(open)`, `onColumnToggle(key, visible)` and `onColumnsReset()`; Edit columns shows a Reset footer when the app passes `visibleColumns`, `defaultVisibleColumns` or `onColumnsReset` (#593)
+### Fixed
+- Table criterion C6 now says DataTable icons are DS `<aha-icon>` by name, as the component ships, instead of `@phosphor-icons/react`, which screen-lint hard-fails as `foreign-icon-library` (#593)
+
+## 0.955.1 — 2026-11-03
+### Fixed
+- `aha-dropdown` ships about 0.5 KB less gzip: the explanatory comments inside its shadow CSS string, which no minifier removes, move to JavaScript comments. The CSS rules are unchanged, so the dropdown looks and behaves exactly as before (#607)
+- Revert: revert the PR; nothing else depends on it
+
+## 0.954.0 — 2026-11-03
+
+### Added
+- Marketing: a screenshot outline for product screenshots whose own edge is white, so they no longer float shapeless on a white band. `aha-features__photo--outline` on the Features photo slot draws a 1 px `--aha-border-default` hairline on the slot's radius; `aha-marketing-card__media--outline` draws the same line between the picture and the card body. No fill, no shadow, no inset; never on a photo or with the Vivid Pink frame. Features Alternating with screenshots gets an Outline choice in its Image switch (Fill, Outline, Pink frame) (#599)
+
+### Changed
+- W6 (website imagery) names the screenshot outline as an exception to the light grey frame ban, beside the Hero split Rise exception (both now worded "Named exception, <name>:"), in every copy (`guidelines/website.json`, `anti-slop/criteria.json`, `agent/anti-slop/criteria.json`); a light grey fill or rail still fails (#599)
+
+
+## 0.953.0 — 2026-11-03
+### Changed
+- The Websites > Marketing **Sections** list (sidebar, Marketing index, `marketing.llms.txt`, `marketing.agent.json`) follows the order a landing page reads top to bottom: Join bar, Navigation, Hero, Logos, Numbers, Features, Comparison table, Testimonials, Pricing, FAQ, Footer banner, Footer. It was alphabetical. Cards, the building block, stays ahead of the sections. Order only: no section is renamed or changed (#604)
+
+## 0.950.0 — 2026-11-03
+### Changed
+- The shared antd base theme (`antdBaseTheme`, so every `dsAntdTheme` ConfigProvider) carries the DS type scale: antd Title levels 1 to 5 are 32 / 24 / 20 / 18 / 16 on a 1.3 line (the aha-text levels; antd drew 38 / 30 / 24 / 20 / 16), body text sits on a 1.5 line (14/21, was 14/22), `Text type="secondary"` is #4A4A4A (`colorTextDescription`, the aha-text secondary grey; antd drew black at 45%), `colorTextTertiary` is #8A8A8A and headings are #1A1A1A. Values are read from `tokens.js` (#596)
+- The base theme also sets Modal: 18px title on a 1.5 line, #1A1A1A, radius 8, so `Modal.confirm` and `useModal` dialogs outside the modal theme match DS dialogs (they drew a 16px title and radius 10) (#596)
+- antd Tooltip, Tag and Segmented under the base theme take the aha-tooltip, aha-tag and aha-segmented look: Tooltip solid #1A1A1A, 12/18, radius 6, padding 6 10, max-width 280 (was 14/22 on black at 85%, radius 8); Tag #F1F1F1 with a #4A4A4A label, 20px tall, radius 4, no border (was #F5F5F5, 22px, radius 6); Segmented #F7F7F7 track, 32px items padded 16, #4A4A4A labels, white radius-4 thumb, 2px focus ring (was 28px items padded 11) (#596)
+- `<aha-popover>` whose body is only a menu and that has no `title` drops its own padding and border, so a menu in a popover shows one frame, not two. A titled popover, or one with other content, is unchanged (#596)
+### Added
+- `tooltip-theme` (`tooltipTheme`, `brandTooltip`, `vueTooltip`: the 280px width ant-design-vue 4 cannot take from the theme), `tag-theme` (`tagTheme`, `tagCss`: the 600 weight and 6px padding antd has no token for, added on import) and `segmented-theme` (`segmentedTheme`), each with a docs page (antd Tooltip, antd Tag, antd Segmented) and a render contract. New UI keeps using the aha-* elements (#596)
+- Revert: revert the PR; apps then draw antd's own heading sizes, greys, tooltip, tag, segmented and confirm dialogs again, and a popover around a menu shows two frames
+
+## 0.949.0 — 2026-11-03
+### Added
+- Alert: opt-in `padding="even"` gives the same padding on all four sides at the size's side value: regular 14px, small 10px. Gap, text, glyph and the close ✕ position are unchanged, and an alert without the attribute renders exactly as before. Vue 2 apps, which may not size an `<aha-*>` through `::part` (VUE2-6), now have a sanctioned way to get even alert padding (#603)
+### Changed
+- VUE2-6 and feedback criterion C4 (in `anti-slop/criteria.json` and `agent/anti-slop/criteria.json`) name `padding="even"` as the way to get even alert padding; a `::part(alert)` or inline padding override fails C4. Two feedback eval cases cover it: a `::part(alert)` override and the passing attribute (#603)
+
+## 0.947.1 — 2026-11-03
+### Fixed
+- `screen-lint --surface=website` W9: an autoplaying video outside the hero needs `lib/marketing-motion.js` 0.947.0 or later to count as stopped under reduced motion; older scripts pause only the hero video (#602)
+
+## 0.947.0 — 2026-11-03
+### Changed
+- Website rule W9: any video may play by itself when it is muted, loops, has playsinline, no controls and a poster, not only the one hero video. `lib/marketing-motion.js` now starts every `video[autoplay]` only while it is scrolled into view, pauses it off-screen, and under reduced motion pauses it and shows the poster with controls. Testimonial carousels still never autoplay (#601)
+- `screen-lint --surface=website` drops `autoplay-video-extra`; `autoplay-video-attributes` and `autoplay-video-motion` now apply to every autoplaying video. The W9 criteria, the website guideline, the Hero video notes and a Features product-demo video note follow; the second-autoplaying-video eval is now a good control
+
+## 0.946.0 — 2026-11-03
+### Added
+- Anti-slop app-shell criterion C6: presenter control-bar buttons and the popovers they open must show their key in the tooltip, take focus on open and return it to the trigger, close on Esc before Esc can exit presenting, and list every key in the presenter hotkey cheatsheet. The judge must drive the real presenting UI with the keyboard and record each keypress; with no run it marks C6 `FAIL — UNVERIFIED`, never PASS. Three eval cases cover it: an Annotate-style failure, a passing bar, and the same passing code with no recorded run (#600)
+### Changed
+- Canvas criteria C10 and C24 (and the canvas guide) now point host-painted control-bar actions at app-shell C6 instead of calling them out of scope (#600)
+- The App shell guideline declares its environments (product, web) and leaves the environments baseline (#600)
+
+## 0.942.0 — 2026-11-03
+### Added
+- Marketing → Hero split: an opt-in Rise picture switch for a tall phone screenshot, so the picture no longer makes the hero far taller than its copy. Rise (`aha-header-section-hero-split--rise`) drops the hero's bottom padding and lets the screenshot rise from the hero's bottom edge, cut off there at 560 px tall; a Logos strip goes in its own white band after the hero, never inside it. Inset stays the default, so no existing page moves (#586)
+### Changed
+- Website guideline W6 (in `guidelines/website.json`, `anti-slop/criteria.json` and `agent/anti-slop/criteria.json`) gets one named exception: Hero split Rise may show a phone screenshot cut off by the hero's bottom edge; nothing else changes in W6 (#586)
+- Revert: revert the PR; additive CSS behind one modifier class in `marketing/hero.json`, and the W6 exception sentence
+
+## 0.941.0 — 2026-11-03
+
+### Added
+- Join bar: its own Marketing page (`marketing/join-bar.json`, class `aha-join-bar`, Webflow component Join bar), listed in the Marketing sidebar next to Navigation. The markup and CSS are the former Navigation "Join bar" layout moved as is, with no visual change. Place it directly before the Site navbar as a sibling and it scrolls away while the navbar stays stuck to the top (#597)
+
+### Changed
+- Navigation: holds only the Site navbar; the Join bar layout moved out to its own page and the two pages link each other in their usage notes (#597)
+- Revert: revert the PR; it moves one layout between two marketing JSON files and the generated Marketing CSS, with no token or component API change
+
+## 0.935.0 — 2026-11-03
+### Added
+- Navigation: new Join bar layout (`aha-join-bar`, Webflow component Join bar), the dark "Are you a participant?" bar with the access-code field and Join button, taken out of the Site navbar. Place it directly before the Site navbar as a sibling and it scrolls away while the navbar stays stuck to the top, with no positioning script (#594)
+### Changed
+- Navigation Site navbar: the join bar markup, CSS and sticky-offset script are removed (`aha-header__join*` classes are gone, so a page using them must add the Join bar layout above the navbar); the navbar now sticks at `top:0` (#594)
+- Navigation Site navbar: the Products menu preview slot is a video, the same clips as the live ahaslides.com menu: Word cloud by default, and the clip of each Interactive slides entry under the pointer or focus. It has no `autoplay`: it plays muted and looped only while the Products menu is open, pauses when it closes, shows only its poster under prefers-reduced-motion or `data-aha-motion="off"`, and is hidden at 991px and below, where its clip never loads (#594)
+- W9 (website guideline, anti-slop criterion and the Hero video note): the Products menu preview clip is allowed beside the one autoplaying hero video and does not count as a second autoplaying video (#594)
+- Revert: revert the PR; it changes marketing/navigation.json, the generated Marketing CSS and the W9 prose only, with no token or component API change
+
+## 0.934.1 — 2026-11-03
+
+- Split button is part of the Button page: a "Split" section shows the shipped `<aha-split-button>` live (primary with and without an icon, secondary, disabled) and links to its full spec. Split button no longer has its own Components sidebar item; its spec page stays (props, events, code, agent feeds) and lights up Button in the sidebar. No API, token or icon change. (#595)
+- Revert: revert this PR; the sidebar item comes back from the `generate.mjs` catalogue.
+
+## 0.932.0 — 2026-11-03
+### Added
+- `<aha-split-button>`, Button's split variant: a main action joined to a caret that opens a menu of related actions (Present with Present from start / from current slide). Both halves are the shipped `aha-button` (primary or secondary, sm / md / lg, lg default) and the menu is the shipped `aha-dropdown` (same `items`), so every per-state value and the menu behaviour are theirs, not copies. Outer corners keep the size's radius, inner corners are square, and a 1px divider separates the halves (white at 24% on primary, the default border on secondary, the disabled ink when disabled). The caret is its own button (`caret-label`, default "More options", `aria-haspopup="menu"`, `aria-expanded`; opens on click, Enter, Space, ArrowDown). `click` fires for the main half only; choosing a row emits `select`. `disabled` disables both halves, `loading` spins the main half only. Linked from the Button and Dropdown pages. No new token or icon; the Button and Dropdown APIs are unchanged. (#589)
+- Split button is listed in the Components sidebar under Button, so its page is reachable from every Components page.
+- Revert: revert the PR; a new element, contract and parts, plus one line each in `lib/all.js`, `package.json`, the Components sidebar catalogue in `generate.mjs` and the Button and Dropdown "When to use" lists
+
+## 0.930.0 — 2026-11-03
+### Added
+- Menu and Dropdown rows take an optional `shortcut` ("Mod+D", "Del"): the action's key drawn as the shared DS shortcut chip at the row's trailing edge on the label line, on gray-35 #EBEBEB (lighter than the Button and Tooltip chip), ⌘D on a Mac and Ctrl D elsewhere, for a context menu. Display only and aria-hidden; the row gets `aria-keyshortcuts`. It works beside a `description`, on disabled and danger rows, and before a locked row's crown; rows without it are unchanged. New docs example "Context menu with shortcuts" (#591)
+- `ariaKeyShortcuts()` in `shortcut-key`: the same shortcut as an `aria-keyshortcuts` value (#591)
 
 ## 0.928.0 — 2026-11-03
 ### Changed

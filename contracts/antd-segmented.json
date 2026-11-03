@@ -1,0 +1,147 @@
+{
+ "name": "antd Segmented",
+ "slug": "antd-segmented",
+ "environment": [
+  "product"
+ ],
+ "group": "Data entry",
+ "tier": "composite-antd",
+ "badge": "composite — antd wrappers",
+ "summary": "The antd Segmented control themed to aha-segmented, for an app that still renders antd's Segmented.",
+ "highlights": [
+  "antd Segmented with the aha-segmented look",
+  "#F7F7F7 track, 32px items, white radius-4 thumb",
+  "Already in the shared base theme"
+ ],
+ "lead": "New UI uses <aha-segmented>. An app that still renders antd's Segmented gets the same control from the shared base theme: segmentedTheme is that base, exported under its own name so a wrapper can say what it themes. Two implementations, one look.",
+ "tokensUsed": [
+  "Segmented.trackBg",
+  "Segmented.trackPadding",
+  "Segmented.itemSelectedBg",
+  "Segmented.itemColor",
+  "Segmented.itemSelectedColor",
+  "Segmented.controlHeight",
+  "Segmented.controlPaddingHorizontal",
+  "Segmented.borderRadius",
+  "Segmented.borderRadiusSM",
+  "Segmented.lineWidthFocus"
+ ],
+ "spec": [
+  {
+   "label": "Track",
+   "value": "#F7F7F7, radius 8, 2px padding (36px tall)"
+  },
+  {
+   "label": "Item",
+   "value": "32px tall, padding 0 16, 14px #4A4A4A label; #1A1A1A on hover with no hover fill"
+  },
+  {
+   "label": "Selected",
+   "value": "white thumb, radius 4, shadow 0 1px 2px ink 12%, #1A1A1A label"
+  },
+  {
+   "label": "Focus",
+   "value": "2px Vivid Pink ring on keyboard focus; antd draws it 1px outside the item where aha-segmented insets it"
+  },
+  {
+   "label": "Differences",
+   "value": "aha-segmented's small and large sizes are not mapped; antd size=\"small\" / \"large\" keep antd's heights"
+  }
+ ],
+ "props": [
+  {
+   "name": "options",
+   "type": "(string | { label, value, icon })[]",
+   "default": "—",
+   "desc": "The segments"
+  },
+  {
+   "name": "value",
+   "type": "string | number",
+   "default": "first option",
+   "desc": "The selected segment"
+  },
+  {
+   "name": "block",
+   "type": "boolean",
+   "default": "false",
+   "desc": "Fill the container width"
+  }
+ ],
+ "opinion": {
+  "whenToUse": [
+   {
+    "what": "aha-segmented",
+    "when": "any new UI, React or Vue"
+   },
+   {
+    "what": "antd Segmented + segmentedTheme",
+    "when": "an existing antd Segmented call site not yet moved to aha-segmented"
+   }
+  ],
+  "note": "Prefer <aha-segmented> for new UI. This theme only stops existing antd segmented controls from drifting (white track, 28px items).",
+  "dsv3": "COVERED by the leaf: <aha-segmented> is the DS component. This contract only maps antd's Segmented onto the same look so apps that still render it do not drift; measured against the aha-segmented values."
+ },
+ "surfaces": [
+  "editor",
+  "dashboard",
+  "settings"
+ ],
+ "reuse": {
+  "entry": "./segmented-theme",
+  "exportsNamed": [
+   "segmentedTheme"
+  ]
+ },
+ "snippets": [
+  {
+   "key": "html",
+   "label": "HTML",
+   "file": "antd-segmented.html.txt",
+   "runnable": "paste-and-run",
+   "note": "A composite has no framework-free element, so its paste-and-run form is a CDN-React page: React and antd load from a CDN and mount on open, using the same shared segmentedTheme. No build step."
+  },
+  {
+   "key": "react",
+   "label": "React",
+   "file": "antd-segmented.react.txt"
+  },
+  {
+   "key": "vue",
+   "label": "Vue 3",
+   "file": "antd-segmented.vue.txt"
+  }
+ ],
+ "codeNote": "React and Vue are two vendor libraries at two Ant generations; they converge through the same theme (segmentedTheme). New UI uses <aha-segmented>, which needs no theme.",
+ "preview": "antd-segmented.preview.html",
+ "selfCheck": [
+  {
+   "label": "track #F7F7F7 · radius 8 · 2px padding",
+   "verdict": "PASS"
+  },
+  {
+   "label": "items 32px · padding 16 · #4A4A4A label",
+   "verdict": "PASS"
+  },
+  {
+   "label": "selected white thumb · radius 4",
+   "verdict": "PASS"
+  }
+ ],
+ "conformance": {
+  "$about": "Measured by qa.mjs on the rendered CDN-React preview: a real antd v6 Segmented inside a ConfigProvider bound to the shared base theme.",
+  "ready": "!!document.querySelector('.ant-segmented-item-selected')",
+  "measure": "(function(){var g=function(sel,p){var el=document.querySelector(sel);return el?getComputedStyle(el)[p]:null;};var t='.ant-segmented',off='.ant-segmented-item:not(.ant-segmented-item-selected) .ant-segmented-item-label';var el=document.querySelector(t);return{trackBg:g(t,'backgroundColor'),trackRadius:g(t,'borderTopLeftRadius'),trackPad:g(t,'paddingTop'),trackHeight:el?Math.round(el.getBoundingClientRect().height)+'px':null,itemHeight:g(off,'minHeight'),itemPadLeft:g(off,'paddingLeft'),itemColor:g('.ant-segmented-item:not(.ant-segmented-item-selected)','color'),selectedBg:g('.ant-segmented-item-selected','backgroundColor'),selectedRadius:g('.ant-segmented-item-selected','borderTopLeftRadius')};})()",
+  "expect": {
+   "trackBg": "rgb(247, 247, 247)",
+   "trackRadius": "8px",
+   "trackPad": "2px",
+   "trackHeight": "36px",
+   "itemHeight": "32px",
+   "itemPadLeft": "16px",
+   "itemColor": "rgb(74, 74, 74)",
+   "selectedBg": "rgb(255, 255, 255)",
+   "selectedRadius": "4px"
+  }
+ }
+}

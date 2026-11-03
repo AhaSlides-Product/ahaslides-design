@@ -1,0 +1,9 @@
+import { ConfigProvider, Tag } from 'antd';   // antd v6
+import { tagTheme } from '@ahaslides-product/design/tag-theme';
+import '@ahaslides-product/design/aha-button';   // registers <aha-button>
+
+<ConfigProvider theme={tagTheme}>
+  <Tag>3 pages</Tag>
+  <Tag>Quiz</Tag>
+</ConfigProvider>
+// Importing tag-theme adds tagCss (600 weight, 6px padding). New UI: <aha-tag>3 pages</aha-tag>.
