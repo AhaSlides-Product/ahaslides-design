@@ -33,13 +33,20 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.927.0 — 2026-11-03
+## 0.930.0 — 2026-11-03
 ### Changed
 - Colour rule 2.6: a third-party logo in any interface (website header, pricing row, presenter app) is its line mark from `logo/line/` in `--aha-icon-default`, 24px, with no tile or border; a row after a label sits 12px after it and 8px apart. Only a listing page (Marketplace) shows the colour image, greyscale at rest and in colour on card hover and keyboard focus, with no fade under reduced motion. Anti-slop C7, the colour evals, the skill, AGENTS.md and PRINCIPLES.md follow. (#557)
 - Navigation: the Products menu app entries show the line logos straight on the menu, without the white square tile. (#557)
 - Integration card: the logo is the colour file with the `brand-logo-listing` class, greyscale until the card is hovered or focused. The `brand-logo-colour` lint accepts that class. (#557)
 ### Added
 - Logo library: line marks for 29 brands under `logo/line/`, a G2 logo (original, greyscale and line), and copy-paste patterns for a line logo, a logo row after a label and a listing card. Redrawn Canva, Zapier and Claude line stand-ins. (#557)
+
+## 0.928.0 — 2026-11-03
+### Changed
+- Website item grids follow the kind of item and the heading above them, W11: bordered cards under a centred heading (Cards grid, Steps row, Features icon cards and compact see-all, Testimonials quote cards, Pricing plan grid) still centre a single card and the short last row, now from 992 px only; borderless items (every Numbers layout, the Features icon grid) keep straight columns with the short last row under column 1; under a left aligned heading (Features side header, Numbers split image and actions with icons, Pricing featured plans) no item is centred (#590)
+- At tablet (768 to 991 px) every bordered card grid stacks to one column of full-width cards, even for 2 or 4 cards; Templates and the image-led grid keep their 2 columns, borderless grids keep 2 straight columns, except Numbers Divided, which keeps its 3 divided columns (2 for 2 or 4 stats) (#590)
+- Numbers centred: the Number style switch defaults to Left aligned (left aligned numbers, no dividers); Divided is the alternative and drops the divider at the start of each row (#590)
+- Revert: revert the PR; it changes Marketing section CSS, the Numbers default option and the W11 text only, with no API or token change
 
 ## 0.925.0 — 2026-11-03
 ### Changed
