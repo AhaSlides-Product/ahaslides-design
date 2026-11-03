@@ -36,7 +36,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.971.0 — 2026-11-04
 
 ### Added
-- **`aha-modal`: the Modal as a web component** (#PR). A white dialog over a dimmed mask that matches the antd Modal themed by
+- **`aha-modal`: the Modal as a web component** (#623). A white dialog over a dimmed mask that matches the antd Modal themed by
   `modal-theme.js` value for value (radius 8, 20/24 padding, 18px SemiBold ink title with the shared ✕, Cancel and OK at 36 high,
   the simple / complexity / rich size cap), for apps dropping antd and pages that never load it. Its attributes follow the antd
   props one for one: `ok-text`, `cancel-text`, `ok-disabled`, `ok-danger` (Cancel becomes the primary and a mask click never
