@@ -43,6 +43,15 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `tooltip-theme` (`tooltipTheme`, `brandTooltip`), `tag-theme` (`tagTheme`, `tagCss`: the 600 weight and 6px padding antd has no token for, added on import) and `segmented-theme` (`segmentedTheme`), each with a docs page (antd Tooltip, antd Tag, antd Segmented) and a render contract. New UI keeps using the aha-* elements (#596)
 - Revert: revert the PR; apps then draw antd's own heading sizes, greys, tooltip, tag, segmented and confirm dialogs again, and a popover around a menu shows two frames
 
+## 0.935.0 — 2026-11-03
+### Added
+- Navigation: new Join bar layout (`aha-join-bar`, Webflow component Join bar), the dark "Are you a participant?" bar with the access-code field and Join button, taken out of the Site navbar. Place it directly before the Site navbar as a sibling and it scrolls away while the navbar stays stuck to the top, with no positioning script (#594)
+### Changed
+- Navigation Site navbar: the join bar markup, CSS and sticky-offset script are removed (`aha-header__join*` classes are gone, so a page using them must add the Join bar layout above the navbar); the navbar now sticks at `top:0` (#594)
+- Navigation Site navbar: the Products menu preview slot is a video, the same clips as the live ahaslides.com menu: Word cloud by default, and the clip of each Interactive slides entry under the pointer or focus. It has no `autoplay`: it plays muted and looped only while the Products menu is open, pauses when it closes, shows only its poster under prefers-reduced-motion or `data-aha-motion="off"`, and is hidden at 991px and below, where its clip never loads (#594)
+- W9 (website guideline, anti-slop criterion and the Hero video note): the Products menu preview clip is allowed beside the one autoplaying hero video and does not count as a second autoplaying video (#594)
+- Revert: revert the PR; it changes marketing/navigation.json, the generated Marketing CSS and the W9 prose only, with no token or component API change
+
 ## 0.934.1 — 2026-11-03
 
 - Split button is part of the Button page: a "Split" section shows the shipped `<aha-split-button>` live (primary with and without an icon, secondary, disabled) and links to its full spec. Split button no longer has its own Components sidebar item; its spec page stays (props, events, code, agent feeds) and lights up Button in the sidebar. No API, token or icon change. (#595)
