@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.944.0 — 2026-11-03
+## 0.949.0 — 2026-11-03
 ### Changed
 - The shared antd base theme (`antdBaseTheme`, so every `dsAntdTheme` ConfigProvider) carries the DS type scale: antd Title levels 1 to 5 are 32 / 24 / 20 / 18 / 16 on a 1.3 line (the aha-text levels; antd drew 38 / 30 / 24 / 20 / 16), body text sits on a 1.5 line (14/21, was 14/22), `Text type="secondary"` is #4A4A4A (`colorTextDescription`, the aha-text secondary grey; antd drew black at 45%), `colorTextTertiary` is #8A8A8A and headings are #1A1A1A. Values are read from `tokens.js` (#596)
 - The base theme also sets Modal: 18px title on a 1.5 line, #1A1A1A, radius 8, so `Modal.confirm` and `useModal` dialogs outside the modal theme match DS dialogs (they drew a 16px title and radius 10) (#596)
@@ -42,6 +42,22 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - `tooltip-theme` (`tooltipTheme`, `brandTooltip`, `vueTooltip`: the 280px width ant-design-vue 4 cannot take from the theme), `tag-theme` (`tagTheme`, `tagCss`: the 600 weight and 6px padding antd has no token for, added on import) and `segmented-theme` (`segmentedTheme`), each with a docs page (antd Tooltip, antd Tag, antd Segmented) and a render contract. New UI keeps using the aha-* elements (#596)
 - Revert: revert the PR; apps then draw antd's own heading sizes, greys, tooltip, tag, segmented and confirm dialogs again, and a popover around a menu shows two frames
+
+## 0.947.1 — 2026-11-03
+### Fixed
+- `screen-lint --surface=website` W9: an autoplaying video outside the hero needs `lib/marketing-motion.js` 0.947.0 or later to count as stopped under reduced motion; older scripts pause only the hero video (#602)
+
+## 0.947.0 — 2026-11-03
+### Changed
+- Website rule W9: any video may play by itself when it is muted, loops, has playsinline, no controls and a poster, not only the one hero video. `lib/marketing-motion.js` now starts every `video[autoplay]` only while it is scrolled into view, pauses it off-screen, and under reduced motion pauses it and shows the poster with controls. Testimonial carousels still never autoplay (#601)
+- `screen-lint --surface=website` drops `autoplay-video-extra`; `autoplay-video-attributes` and `autoplay-video-motion` now apply to every autoplaying video. The W9 criteria, the website guideline, the Hero video notes and a Features product-demo video note follow; the second-autoplaying-video eval is now a good control
+
+## 0.946.0 — 2026-11-03
+### Added
+- Anti-slop app-shell criterion C6: presenter control-bar buttons and the popovers they open must show their key in the tooltip, take focus on open and return it to the trigger, close on Esc before Esc can exit presenting, and list every key in the presenter hotkey cheatsheet. The judge must drive the real presenting UI with the keyboard and record each keypress; with no run it marks C6 `FAIL — UNVERIFIED`, never PASS. Three eval cases cover it: an Annotate-style failure, a passing bar, and the same passing code with no recorded run (#600)
+### Changed
+- Canvas criteria C10 and C24 (and the canvas guide) now point host-painted control-bar actions at app-shell C6 instead of calling them out of scope (#600)
+- The App shell guideline declares its environments (product, web) and leaves the environments baseline (#600)
 
 ## 0.942.0 — 2026-11-03
 ### Added
