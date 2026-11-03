@@ -33,9 +33,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.964.2 — 2026-11-03
+## 0.965.1 — 2026-11-03
 ### Fixed
 - Option row, Counted textarea, Counted input and Input: a typed space (or the last few keystrokes) no longer disappears when the host writes back an older or trimmed copy of the value while the field has focus, for example after a debounced save. A value the field itself sent earlier in the same focus session no longer overwrites what is typed; an empty value (a clear after submit), a value set from the `input` handler itself (a filter or clamp) and any other value (a reset, a collaborator's edit) still apply. A value set during IME composition (Vietnamese Telex, Chinese, Japanese) no longer breaks the composition (#613)
+
+## 0.965.0 — 2026-11-03
+### Added
+- `<aha-avatar-group add>` appends a round + button after the avatars and the +N chip, at the group's size and shape with the same white ring, and a group with `add` overlaps its avatars, the +N chip and the button only slightly (an eighth of the size: 3px, 5px, 8px) instead of the default stack overlap, drawn like the secondary Button (pink on hover and press, the pink focus ring). Click, Enter or Space fires a bubbling `aha-add` event; `add-label` names it (default "Add") and `add-disabled` disables it. Groups without `add` render as before (#615) The default `add-label` is "Add person".
+### Changed
+- `<aha-avatar-group>` builds its shadow tree once and updates it in place, so a member added by an `aha-add` handler keeps keyboard focus on the add button (#615)
 
 ## 0.964.1 — 2026-11-03
 ### Fixed

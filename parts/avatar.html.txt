@@ -21,3 +21,11 @@
   <aha-avatar name="Alan Turing"></aha-avatar>
   <aha-avatar name="Katherine Johnson"></aha-avatar>
 </aha-avatar-group>
+
+<!-- `add` appends a round + button at the group's size and shape, and overlaps the avatars only slightly; it fires a bubbling `aha-add` -->
+<aha-avatar-group id="people" add add-label="Invite people">
+  <aha-avatar name="Ada Lovelace"></aha-avatar>
+</aha-avatar-group>
+<script>
+  document.getElementById('people').addEventListener('aha-add', () => alert('Invite people'));
+</script>
