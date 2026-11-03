@@ -33,6 +33,17 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.917.0 — 2026-11-03
+### Added
+- Colour rule 6.9 (web): on a page built from full-width sections, at rest Vivid Pink fills only each section's primary button; the site header counts as one section (Sign up primary, Log in secondary). Icons and icon tiles, ticks, card borders and accent lines, plan outlines, banners and callouts, stat numbers, rating stars and table group headings stay the default ink, and pink shows on hover, focus or selection. Rule 6.8 now points the website to 6.9; website guideline W4 and its anti-slop criterion carry the same rule (#563)
+### Changed
+- Website Marketing sections follow rule 6.9: Cards, Comparison, Features, Hero, Numbers and Pricing icons and icon tiles (ink glyph on light grey), ticks, featured borders and plan column outlines, banners, callouts, numbers and rating stars are ink at rest. Pink surfaces (Vivid Pink and pale pink sections, the Footer banner card), tags, inline links, the pink screenshot frame, selected tabs, the current carousel dot, the focus ring and the Pricing slider fill are unchanged (#563)
+- Testimonials stars (the `aha-rate` host included) and the Navigation menu preview tile are ink at rest (rule 6.9); Logos, FAQ, Footer and Footer banner already had no at-rest pink beyond their hover colour, pink surfaces and the one primary button, so they are unchanged. (#563)
+- Pricing "Simple cards" with features: each non-recommended plan's second action "Chat to sales" is a Button link variant, so every card has one secondary Button. (#563)
+- Pricing layouts: only the recommended plan's call to action is the primary Button; every other plan's is the secondary Button (#563)
+- Step-number badges (Cards and Features steps) are an ink digit on a pale pink circle instead of a solid ink circle; the Features swipeable card scrollers drop the "1 to 3 of 5" counter beside the arrows; Pricing cards drop the grey footer band, so the buttons sit on the white card (#563)
+- Revert: revert the PR; it changes colours and button variants in the Marketing section markup and CSS only, with no API or token change
+
 ## 0.916.3 — 2026-11-03
 ### Fixed
 - Every Marketing item grid that had a fixed column count now balances by item count, W11: Numbers centred stats (4 stay a row, 1/2/3/5+ balance), the Numbers split image and actions with icons stats centre an odd last stat, Testimonials quote cards (from 768 px) and the Pricing plan grid balance 1, 2, 4 and 5+ cards, and a lone last item is centred on tablet (#587)
