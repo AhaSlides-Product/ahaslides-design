@@ -137,6 +137,14 @@ const notifyScenarios = String.raw`(async () => {
   plain.shadowRoot.querySelector('.close').click();
   await wait(700);
   out.closeButtonClosed = !plain.isConnected;
+
+  const link = document.createElement('a');
+  link.href = '#export';
+  link.textContent = 'Open the export';
+  const rich = notify({ title: 'Export ready', description: link, duration: 0 });
+  rich.update({ action: { label: 'Download' } });
+  out.richDescriptionKept = toaster.querySelector('aha-notification').contains(link);
+  rich.close();
   return out;
 })()`;
 
@@ -152,4 +160,5 @@ test('notify() opens antd-free notification cards in the same toaster with title
   assert.equal(result.plainIcon, true);
   assert.equal(result.plainActions, true);
   assert.equal(result.closeButtonClosed, true);
+  assert.equal(result.richDescriptionKept, true);
 });
