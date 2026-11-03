@@ -38,6 +38,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Marketing → Hero split: four opt-in Image switches for a tall phone screenshot, so the picture no longer makes the hero far taller than its copy. Frame (`aha-header-section-hero-split--frame`) holds the screenshot whole in a pale pink 5:4 frame with an even inset; Frame overflow (`--frame-overflow`) puts a larger screenshot in the same frame, cut off at the frame's bottom; Rise (`--rise`) drops the bottom padding and lets the screenshot rise from the hero's bottom edge, cut off at 560 px; Stack (`--stack`) shows the screenshot whole with a second screen (the `__back` image) tilted behind it in the photo frame. Inset stays the default, so no existing page moves. Frame overflow, Rise and Stack crop or tilt a screenshot, which W6 does not allow: they are marked W6 pending and W6 is unchanged (#586)
 - Revert: revert the PR; additive CSS behind the four modifier classes and one `data-choice="stack"` back image in `marketing/hero.json`
 
+## 0.916.3 — 2026-11-03
+### Fixed
+- Every Marketing item grid that had a fixed column count now balances by item count, W11: Numbers centred stats (4 stay a row, 1/2/3/5+ balance), the Numbers split image and actions with icons stats centre an odd last stat, Testimonials quote cards (from 768 px) and the Pricing plan grid balance 1, 2, 4 and 5+ cards, and a lone last item is centred on tablet (#587)
+
 ## 0.916.2 — 2026-11-03
 ### Fixed
 - Avatar: an image that fails to load (deleted file, CDN error) showed the browser's broken-image icon. `aha-avatar` now shows the no-src content (the `icon` if set, else the initials of `name`) when the image errors, and keeps it until `src` changes. The contract and the JSDoc say so (#584)
