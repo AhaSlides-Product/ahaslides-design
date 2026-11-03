@@ -320,12 +320,12 @@
         {
           "id": "C5",
           "title": "Behaviour matches DS V3 — sort arrow, filter popovers, freeze, pagination",
-          "test": "Where present, behaviour matches DS V3: sort = a single directional arrow (not the dual caret); filter = the checklist (search + Reset/Apply) or Min/Max range popover; freeze = right-click, one column at a time, pinned leftmost with a shadow; pagination = brand-outlined active page + the \"N / page\" size changer."
+          "test": "Where present, behaviour matches DS V3: sort = a single directional arrow (not the dual caret); filter = the checklist (search + Reset/Apply), Min/Max range or typed-value (text, number or date + Reset/Apply) popover; freeze = right-click, one column at a time, pinned leftmost with a shadow; pagination = brand-outlined active page + the \"N / page\" size changer."
         },
         {
           "id": "C6",
-          "title": "Every icon is @phosphor-icons/react — never emoji",
-          "test": "Every glyph (help, filter funnel, sort arrow, export, pin, drag handle) comes from @phosphor-icons/react as the DS table contract specifies; an emoji or a glyph from @ant-design/icons or another set fails."
+          "title": "Every icon is a DS <aha-icon> by name — never emoji or an icon pack",
+          "test": "Every glyph (help, filter funnel, sort arrow, export, pin, drag handle, edit columns) is <aha-icon name> from the DS icon registry, as the shared DataTable renders it (in a migrated app, the shared Icon component over the same registry); an emoji, a hand-rolled inline <svg>, or a glyph from @phosphor-icons/react, @ant-design/icons or another set fails, and screen-lint hard-fails those imports as foreign-icon-library."
         },
         {
           "id": "C7",

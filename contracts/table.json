@@ -33,11 +33,11 @@
   "opinion": {
     "whenToUse": [
       { "what": "Table + tableTheme in ConfigProvider", "when": "a plain rows×columns grid — results, leaderboard, admin list" },
-      { "what": "Data table", "when": "the grid needs DS V3 behaviour — single-arrow sort, checklist / range filters, reorder, freeze, resize, edit columns — import DataTable from @ahaslides-product/design/aha-data-table" },
+      { "what": "Data table", "when": "the grid needs DS V3 behaviour — single-arrow sort, checklist / range / value filters, reorder, freeze, resize, edit columns — import DataTable from @ahaslides-product/design/aha-data-table" },
       { "what": "Expandable rows", "when": "a row hides a detail panel or sub-table, or rows nest children — spread useExpandableRows tableProps on the Table instead of hand-rolling an antd expandIcon caret" },
       { "what": "never a per-call-site restyle", "when": "a bare antd Table restyled at each call site is the drift this replaces" }
     ],
-    "note": "White header (not antd grey #FAFAFA), single-arrow sort (not dual caret), Phosphor icons, tokenised colour. The look is theme-driven; call sites pass data + columns only."
+    "note": "White header (not antd grey #FAFAFA), single-arrow sort (not dual caret), DS <aha-icon> glyphs by name, tokenised colour. The look is theme-driven; call sites pass data + columns only."
   },
   "surfaces": ["editor", "dashboard", "admin"],
   "reuse": { "entry": "./table-theme", "exportsNamed": ["tableTheme"] },
@@ -56,7 +56,7 @@
     { "label": "radius 8 · 16px padding", "verdict": "PASS" },
     { "label": "pagination + size changer", "verdict": "PASS" },
     { "label": "expandable rows via the shared hook, not a hand-rolled expandIcon", "verdict": "PASS" },
-    { "label": "single-arrow sort / filter / freeze / Phosphor", "verdict": "N/A" }
+    { "label": "single-arrow sort / filter / freeze / DS icons", "verdict": "N/A" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Composite = two vendors, so BOTH framework roots must hit the contract AND match each other (parity).",
