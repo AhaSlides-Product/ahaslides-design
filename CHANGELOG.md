@@ -33,6 +33,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.954.0 — 2026-11-03
+
+### Added
+- Marketing: a screenshot outline for product screenshots whose own edge is white, so they no longer float shapeless on a white band. `aha-features__photo--outline` on the Features photo slot draws a 1 px `--aha-border-default` hairline on the slot's radius; `aha-marketing-card__media--outline` draws the same line between the picture and the card body. No fill, no shadow, no inset; never on a photo or with the Vivid Pink frame. Features Alternating with screenshots gets an Outline choice in its Image switch (Fill, Outline, Pink frame) (#599)
+
+### Changed
+- W6 (website imagery) names the screenshot outline as an exception to the light grey frame ban, beside the Hero split Rise exception (both now worded "Named exception, <name>:"), in every copy (`guidelines/website.json`, `anti-slop/criteria.json`, `agent/anti-slop/criteria.json`); a light grey fill or rail still fails (#599)
+
+
 ## 0.953.0 — 2026-11-03
 ### Changed
 - The Websites > Marketing **Sections** list (sidebar, Marketing index, `marketing.llms.txt`, `marketing.agent.json`) follows the order a landing page reads top to bottom: Join bar, Navigation, Hero, Logos, Numbers, Features, Comparison table, Testimonials, Pricing, FAQ, Footer banner, Footer. It was alphabetical. Cards, the building block, stays ahead of the sections. Order only: no section is renamed or changed (#NNN)
