@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.913.1 — 2026-11-03
 ### Fixed
-- **aha-popover**, **aha-dropdown** `open="false"` now counts as closed, at parse and when the attribute is set later; React 18 writes `open={false}` as that string and it used to open the panel. The `open` attribute is removed when it reads "false". The contracts and agent.json say which to use: React 19 `open={isOpen}`, React 18 `open={isOpen ? '' : undefined}` (#PRNUM)
+- **aha-popover**, **aha-dropdown** `open="false"` now counts as closed, at parse and when the attribute is set later; React 18 writes `open={false}` as that string and it used to open the panel. The `open` attribute is removed when it reads "false". The contracts and agent.json say which to use: React 19 `open={isOpen}`, React 18 `open={isOpen ? '' : undefined}` (#577)
 - Revert: revert the PR; one guard in `connectedCallback` and `attributeChangedCallback` of each component
 
 ## 0.913.0 — 2026-11-03
