@@ -63,7 +63,7 @@
     },
     {
       "label": "Opt-in extras",
-      "value": "allow-clear: 16px system-x-circle, text-tertiary #8A8A8A, hover text-default; show-search: the text field sits over the value at the trigger's own font size, no-match row 14/22 text-tertiary; option description 12/18 text-secondary #4A4A4A under the label; popup-width match | content | length; loading: a small aha-spin replaces the caret and a 40px loading row (14/22 text-tertiary) stands in for the no-match row; option prefix (leading text such as a flag) and suffix (trailing 14/22 text-tertiary, such as a dial code); width=\"content\": as wide as the longest option label; mode=\"tags\": closable aha-tag chips (20px) and an inline field in the same 40 / 32 / 48 / 56 chrome, wrapping onto new rows"
+      "value": "allow-clear: 16px system-x-circle, text-tertiary #616161, hover text-default; show-search: the text field sits over the value at the trigger's own font size, no-match row 14/22 text-tertiary; option description 12/18 text-secondary #4A4A4A under the label; popup-width match | content | length; loading: a small aha-spin replaces the caret and a 40px loading row (14/22 text-tertiary) stands in for the no-match row; option prefix (leading text such as a flag) and suffix (trailing 14/22 text-tertiary, such as a dial code); width=\"content\": as wide as the longest option label; mode=\"tags\": closable aha-tag chips (20px) and an inline field in the same 40 / 32 / 48 / 56 chrome, wrapping onto new rows"
     }
   ],
   "props": [

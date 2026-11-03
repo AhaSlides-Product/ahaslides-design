@@ -15,7 +15,7 @@
     { "label": "Card", "value": "icon 20 over label 13; padding 8; inner gap 6; radius 8; 1px #E3E3E3 border" },
     { "label": "Grid", "value": "repeat(columns, minmax(0,1fr)) — tiles stretch to fill; columns default 3; 8px gap" },
     { "label": "iconOnly", "value": "repeat(columns, 44px) — fixed 44px squares packed to the start; label hidden, kept as aria-label and shown as an aha-tooltip bubble (mouse hover and keyboard focus, never a tap; flips below or aligns to the grid edge near the viewport edge; no native title)" },
-    { "label": "Selected", "value": "as the checkable Tag at size large: #E70E68 border + Vivid Pink 5% fill (bg-accent) + #E70E68 icon; label text-link-hover #DB005B, the text-link colour that keeps 4.5:1 on the pale pink fill (text-link #E70E68 is 4.16:1 there) (persistent node)" },
+    { "label": "Selected", "value": "as the checkable Tag at size large: #E70E68 border + Vivid Pink 5% fill (bg-accent) + #E70E68 icon; label text-link-hover #DB005B, the text-link colour that keeps 4.5:1 on the pale pink fill (Vivid Pink #E70E68 is 4.16:1 there) (persistent node)" },
     { "label": "Hover", "value": "as the checkable Tag at size large: #E70E68 border (border-hover); label and icon keep their colour" },
     { "label": "Keyboard", "value": "roving radiogroup — one tab-stop; Arrow keys move-and-select; Space/Enter select" },
     { "label": "Disabled", "value": "#F1F1F1 fill, #EBEBEB border, not-allowed" }

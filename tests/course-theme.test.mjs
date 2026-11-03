@@ -40,10 +40,12 @@ const THEMES = {
 
 const PAIRS = [
   ['--aha-text-default', ['--aha-bg-container', '--aha-bg-layout', '--aha-bg-hover', '--aha-bg-container-secondary'], 4.5],
-  ['--aha-text-secondary', ['--aha-bg-container', '--aha-bg-layout', '--aha-bg-hover'], 4.5],
+  ['--aha-text-secondary', ['--aha-bg-container', '--aha-bg-layout', '--aha-bg-hover', '--aha-gray-30'], 4.5],
+  ['--aha-text-tertiary', ['--aha-bg-container', '--aha-bg-layout', '--aha-bg-hover'], 4.5],
+  ['--aha-icon-muted', ['--aha-bg-container'], 3],
   ['--aha-icon-default', ['--aha-bg-container', '--aha-bg-hover'], 4.5],
   ['--aha-course-text-heading', ['--aha-bg-container', '--aha-bg-layout'], 4.5],
-  ['--aha-text-link', ['--aha-bg-container'], 4.5],
+  ['--aha-text-link', ['--aha-bg-container', '--aha-gray-25', '--aha-bg-accent'], 4.5],
   ['--aha-text-link-hover', ['--aha-bg-container', '--aha-bg-accent'], 4.5],
   ['--aha-button-primary-text', ['--aha-button-primary-bg', '--aha-button-primary-bg-hover', '--aha-button-primary-bg-press'], 4.5],
   ['--aha-button-positive-text', ['--aha-button-positive-bg', '--aha-button-positive-bg-hover', '--aha-button-positive-bg-press'], 4.5],
@@ -85,5 +87,5 @@ test('primary-filled controls take the themed on-primary foreground and primary-
   for (const name of ['aha-tabs', 'aha-radio', 'aha-breadcrumb', 'aha-pagination', 'aha-uploader', 'aha-screen-heading']) {
     assert.match(source(name), /color:var\(--aha-text-link,var\(--aha-color-primary/, name);
   }
-  assert.equal(rootValues['--aha-text-link'], 'var(--aha-color-primary)');
+  assert.equal(rootValues['--aha-text-link'], 'var(--aha-vivid-pink-dark)');
 });

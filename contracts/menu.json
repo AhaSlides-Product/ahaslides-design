@@ -14,7 +14,7 @@
   "spec": [
     { "label": "Container", "value": "white surface, 1px border #E3E3E3, radius 8, 6 padding, min-width 200" },
     { "label": "Row", "value": "height 36 · radius 8 · Regular 400, the selected row SemiBold 600 · 10px gap to a 16px leading icon" },
-    { "label": "Group title", "value": "11px uppercase, text-tertiary #8A8A8A, non-interactive section header" },
+    { "label": "Group title", "value": "11px uppercase, text-tertiary #616161, non-interactive section header" },
     { "label": "Description", "value": "optional second line, 6px below the label: size-sm 12px / 16px line, Regular 400, text-secondary #4A4A4A (text-disabled on a disabled row), wraps onto as many lines as it needs, never truncated; the row grows to fit (min-height 36, 6px vertical padding); part=description" },
     { "label": "Shortcut", "value": "optional `shortcut` on a leaf (\"Mod+D\", \"Del\", \"Shift+Enter\"): the shared DS shortcut chip (lib/shortcut-key.js, as Button and Tooltip draw it: 24px high, radius-xs 4, 6px side padding, a single key a 24 × 24 square, 14px Regular 400; in a menu row its background is gray-35 #EBEBEB, lighter than the Button and Tooltip 16% currentColor wash, so it stays readable on the bg-hover #F7F7F7 row; ⌘D on a Mac, Ctrl D elsewhere) pinned to the row's trailing edge on the label line, also when the row has a description; text-secondary #4A4A4A, text-disabled #B5B5B5 on a disabled row, the row colour on a danger row; display only and aria-hidden, the row carries aria-keyshortcuts (\"Meta+D\" on a Mac, \"Control+D\" elsewhere); part=shortcut; the row keeps its 36 height" },
     { "label": "Divider", "value": "1px split #F1F1F1 rule, role=separator" },

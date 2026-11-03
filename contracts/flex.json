@@ -10,13 +10,14 @@
   "highlights": ["Flexbox container with the DS spacing scale baked into gap", "Direction, align, justify and wrap"],
   "lead": "ONE custom element — <aha-flex> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; `gap` takes the named steps small/middle/large (8/16/24) or a raw pixel number, and direction/align/justify/wrap map straight to flexbox. Layout only — it never paints a background. Zero drift.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["text-default"],
+  "tokensUsed": [],
   "spec": [
     { "label": "Display", "value": "flex" },
     { "label": "Gap scale", "value": "small 8 · middle 16 · large 24 (or a raw px number)" },
     { "label": "Direction", "value": "row · row-reverse · column · column-reverse (or `vertical` for column)" },
     { "label": "Align", "value": "start · center · end · baseline · stretch (align-items)" },
-    { "label": "Justify", "value": "start · center · end · space-between/around/evenly" }
+    { "label": "Justify", "value": "start · center · end · space-between/around/evenly" },
+    { "label": "Text colour", "value": "inherited from the parent; Flex sets none" }
   ],
   "props": [
     { "name": "gap", "type": "small | middle | large | number", "default": "0", "desc": "Space between items — named DS step (8/16/24) or a raw pixel number" },
@@ -85,6 +86,6 @@
     "ready": "!!(document.querySelector('aha-flex[data-probe]') && document.querySelector('aha-flex[data-probe]').shadowRoot)",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-flex[data-probe]');var s=el?getComputedStyle(el):null;return{display:s?s.display:null,gap:s?s.columnGap:null,direction:s?s.flexDirection:null,justify:s?s.justifyContent:null,align:s?s.alignItems:null,color:s?s.color:null};})()",
-    "expect": { "display": "flex", "gap": "16px", "direction": "row", "justify": "space-between", "align": "center", "color": "rgb(26, 26, 26)" }
+    "expect": { "display": "flex", "gap": "16px", "direction": "row", "justify": "space-between", "align": "center", "color": "rgb(74, 74, 74)" }
   }
 }

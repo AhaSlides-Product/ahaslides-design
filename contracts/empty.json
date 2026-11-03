@@ -14,7 +14,7 @@
   "spec": [
     { "label": "Layout", "value": "centred column · gap 10 · padding 32/16 (simple: gap 8 · 20/16)" },
     { "label": "Illustration", "value": "empty-list from the illustration registry · default 64 px wide (64×46) · simple 48 px (48×35) · fixed pink illustration tints" },
-    { "label": "Caption", "value": "default body type (--aha-size-default 14, --aha-line-height-body 1.5) in every image mode · #8A8A8A (text-tertiary) · hidden when description=\"\"" },
+    { "label": "Caption", "value": "default body type (--aha-size-default 14, --aha-line-height-body 1.5) in every image mode · #616161 (text-tertiary) · hidden when description=\"\"" },
     { "label": "Custom image", "value": "slot=\"image\" · supersedes the built-in art" },
     { "label": "Action", "value": "slot=\"action\" · hidden when empty" },
     { "label": "antd components", "value": "createRenderEmpty({ h }) → ConfigProvider renderEmpty · Table: empty-table at 64 · Select, TreeSelect, Cascader, AutoComplete, Mentions, Transfer, Table filter: simple · List and the rest: default" }
