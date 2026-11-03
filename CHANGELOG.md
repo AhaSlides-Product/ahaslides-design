@@ -33,13 +33,18 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.916.0 — 2026-11-03
+## 0.917.0 — 2026-11-03
 ### Changed
 - Destructive confirm: `destructiveConfirm` now gives the confirm button `type: 'default'` (white, 1px #E3E3E3 border, #1A1A1A label, the look of `aha-button` secondary) instead of a solid #1A1A1A danger fill, so a destructive confirm shows one primary, the pink Cancel. The overlays rule `danger-confirm-button`, its anti-slop criterion, the Modal and Popconfirm examples and contracts say the same (#581)
 - antd Button disabled colours match `aha-button`: #E3E3E3 fill and border, #B5B5B5 label, set on the Button component only (#581)
 - Popconfirm theme pins the small button radius to 4px, so a host's own `borderRadiusSM` no longer applies inside it (#581)
 - Documented difference: antd has no hover-shadow token, so an antd primary hovers Darker Pink without `aha-button`'s pink glow; the Popconfirm spec says so (#581)
 - Revert: revert the PR; `lib/popconfirm-theme.js` and one block in `lib/antd-base-theme.js` return to the previous values
+
+## 0.915.2 — 2026-11-03
+### Changed
+- The built-in text-field label (`<aha-input label>`) and the Form label are now textDefault #1A1A1A (`--aha-text-default`), matching each other; they were textSecondary #4A4A4A. Weight 400, sizes and the disabled colour are unchanged. (#582)
+- Revert: revert the PR; one colour value in `lib/aha-input.js` and `lib/form-theme.js`, plus the contract and preview text
 
 ## 0.915.1 — 2026-11-03
 ### Fixed
