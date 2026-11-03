@@ -1,0 +1,20 @@
+<script setup>
+import '@ahaslides-product/design/aha-popconfirm';
+import '@ahaslides-product/design/aha-button';
+import { ref } from 'vue';
+const open = ref(false);
+const busy = ref(false);
+async function onConfirm(event) {
+  event.preventDefault();
+  busy.value = true;
+  try { await new Promise((done) => setTimeout(done, 1000)); open.value = false; } finally { busy.value = false; }
+}
+</script>
+
+<template>
+  <aha-popconfirm heading="Delete this slide?" description="Its responses go too." ok-text="Delete" ok-danger
+    :open="open || null" :confirm-loading="busy || null"
+    @open="open = true" @confirm="onConfirm" @closed="open = false">
+    <aha-button variant="secondary" size="sm">Delete</aha-button>
+  </aha-popconfirm>
+</template>

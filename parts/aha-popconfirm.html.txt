@@ -1,0 +1,30 @@
+<!-- Paste-and-run: save as .html and open it. No build step, nothing to copy. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-popconfirm.js';   // registers <aha-popconfirm>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-button.js';   // registers <aha-button>
+
+  const remove = document.getElementById('remove-member');
+  // Async confirm: keep it open, spin OK, close once the work succeeds.
+  remove.addEventListener('confirm', async (event) => {
+    event.preventDefault();
+    remove.setAttribute('confirm-loading', '');
+    await new Promise((done) => setTimeout(done, 1000));
+    remove.removeAttribute('confirm-loading');
+    remove.open = false;
+  });
+  remove.addEventListener('cancel', (event) => console.log('cancelled from', event.detail.source));   // cancel-button, escape, outside, trigger
+</script>
+
+<div style="padding:160px 24px 24px">
+  <!-- The trigger is the child. ok-danger: Cancel is the primary, so Enter keeps the member. -->
+  <aha-popconfirm id="remove-member" heading="Remove Lan from the team?" description="She keeps her own presentations."
+    ok-text="Remove" ok-danger ok-test-id="remove-confirm" cancel-test-id="remove-cancel">
+    <aha-button variant="secondary" size="sm">Remove</aha-button>
+  </aha-popconfirm>
+
+  <!-- A plain confirm opening below: OK is the primary. -->
+  <aha-popconfirm heading="Publish this template?" ok-text="Publish" placement="bottom">
+    <aha-button variant="primary" size="sm">Publish</aha-button>
+  </aha-popconfirm>
+</div>
