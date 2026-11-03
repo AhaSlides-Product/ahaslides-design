@@ -133,7 +133,7 @@
       "name": "click / select",
       "type": "events",
       "default": "—",
-      "desc": "`click` fires for the main half only; `select` (composed, detail { key }) when a menu row is chosen; the menu's `open` / `close` bubble out too"
+      "desc": "`click` fires for the main half only, never for the caret or a click inside the menu (a locked row's paywall popover included); `select` (composed, detail { key }) when a menu row is chosen; the menu's `open` / `close` bubble out too"
     }
   ],
   "opinion": {

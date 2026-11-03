@@ -2,7 +2,7 @@ import '@ahaslides-product/design/aha-split-button';  // registers <aha-split-bu
 import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper for the composed `select` event; React 19 can bind it directly.
-// onClick is the main half only: the caret's click opens the menu and never reaches it.
+// onClick is the main half only: clicks on the caret and inside the menu never reach it.
 function AhaSplitButton({ variant, size, items, caretLabel, placement, disabled, loading, onClick, onSelect, children }) {
   const ref = useRef();
   useEffect(() => {
