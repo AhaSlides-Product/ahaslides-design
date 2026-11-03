@@ -11,7 +11,7 @@
   "tokensUsed": ["colorPrimary", "borderRadius", "controlHeight", "colorBorder", "colorError", "Form.labelColor"],
   "spec": [
     { "label": "Controls", "value": "height 40 · radius 8 · 1px #E3E3E3 border" },
-    { "label": "Label", "value": "#4A4A4A, above the field (vertical layout)" },
+    { "label": "Label", "value": "#1A1A1A, above the field (vertical layout)" },
     { "label": "Submit", "value": "primary Button #E70E68" },
     { "label": "Error", "value": "#1A1A1A border + message below the field" },
     { "label": "Item gap", "value": "20px between items" },
@@ -48,7 +48,7 @@
   "preview": "form.preview.html",
   "selfCheck": [
     { "label": "controls 40 · radius 8 · #E3E3E3", "verdict": "PASS" },
-    { "label": "labels #4A4A4A above field", "verdict": "PASS" },
+    { "label": "labels #1A1A1A above field", "verdict": "PASS" },
     { "label": "primary submit #E70E68", "verdict": "PASS" },
     { "label": "error #1A1A1A + message", "verdict": "PASS" }
   ],

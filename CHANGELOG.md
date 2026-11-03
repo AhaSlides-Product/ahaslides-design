@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.915.2 — 2026-11-03
+### Changed
+- The built-in text-field label (`<aha-input label>`) and the Form label are now textDefault #1A1A1A (`--aha-text-default`), matching each other; they were textSecondary #4A4A4A. Weight 400, sizes and the disabled colour are unchanged. (#PRNUM)
+- Revert: revert the PR; one colour value in `lib/aha-input.js` and `lib/form-theme.js`, plus the contract and preview text
+
 ## 0.915.1 — 2026-11-03
 ### Fixed
 - `<aha-dropdown>` locked rows: an open Paywall is re-fitted whenever the menu is repositioned, so resizing from a wide to a narrow viewport moves it inside the screen (switching to above or below the row) instead of clipping its actions. (#580)
