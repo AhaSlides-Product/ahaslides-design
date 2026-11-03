@@ -1,0 +1,12 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../lib/tokens.css">
+<script type="module">
+import { defineAhaChart } from '../lib/aha-chart.js';
+defineAhaChart();
+window.stackedFixtureReady = true;
+</script>
+<div style="width:720px">
+  <aha-chart id="six" type="stacked" data='{"series":["A","B","C","D","E","F"],"rows":[{"label":"لوحة التحكم","values":[1,1,1,1,1,1]}]}'></aha-chart>
+  <aha-chart id="ten" type="stacked" data='{"series":["C1","C2","C3","C4","C5","C6","C7","C8","C9","C10"],"rows":[{"label":"Row","values":[10,9,8,7,6,5,4,3,2,1]}]}'></aha-chart>
+</div>

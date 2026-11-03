@@ -20,6 +20,8 @@
   <aha-rate id="large" value="2" size="lg"></aha-rate>
   <aha-rate id="large-numbers" value="2" count="4" character="number" size="lg"></aha-rate>
   <aha-rate id="regular" value="2"></aha-rate>
+  <aha-rate id="zero" value="0" count="3" character="number" min="0" readonly></aha-rate>
+  <aha-rate id="zero-unrated" count="3" character="number" min="0"></aha-rate>
   <script type="module">
     await import('../lib/aha-rate.js');
     await customElements.whenDefined('aha-rate');
