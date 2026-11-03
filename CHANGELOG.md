@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.965.0 — 2026-11-03
+## 0.966.0 — 2026-11-03
 ### Fixed
 - DataTable: each column filter trigger is now a real `<button>` reached with Tab, named "Filter: <column>" (`labels.filterColumn`), opened with Enter or Space into a `role="dialog"` panel of the same name, and closed with Escape, which puts focus back on the trigger. Keys pressed in the panel stay in it, so Alt+Arrow no longer moves the column. Columns using antd's own `filters` keep antd's trigger and icon. Before, antd's trigger had `tabIndex=-1` and no name, so a keyboard user could not filter (#614)
 - DataTable: the toolbar title is a heading (`<h2>` by default, `toolbarTitleLevel` picks 1–6) instead of a `<span>`; it looks the same (#614)
@@ -49,6 +49,12 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - DataTable `data-testid` hooks on the toolbar, every filter trigger and panel control, and the Edit columns button, panel, search, checkboxes (`<prefix>-columns-column-<key>`), empty line and Reset columns; `testIdPrefix` (default `aha-data-table`) keeps two tables on a page apart (#614)
 - DataTable: the date value filter has a Clear button (`labels.clearValue`); it empties the date and puts focus back in the field (#614)
 - DataTable: the contract lists every `labels` key; `freezeColumn` and `defreezeColumn` translate the freeze menu (#614)
+
+## 0.965.0 — 2026-11-03
+### Added
+- `<aha-avatar-group add>` appends a round + button after the avatars and the +N chip, at the group's size and shape with the same white ring, and a group with `add` overlaps its avatars, the +N chip and the button only slightly (an eighth of the size: 3px, 5px, 8px) instead of the default stack overlap, drawn like the secondary Button (pink on hover and press, the pink focus ring). Click, Enter or Space fires a bubbling `aha-add` event; `add-label` names it (default "Add") and `add-disabled` disables it. Groups without `add` render as before (#615) The default `add-label` is "Add person".
+### Changed
+- `<aha-avatar-group>` builds its shadow tree once and updates it in place, so a member added by an `aha-add` handler keeps keyboard focus on the add button (#615)
 
 ## 0.964.1 — 2026-11-03
 ### Fixed
