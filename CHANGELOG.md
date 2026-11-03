@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.955.1 — 2026-11-03
+### Fixed
+- `aha-dropdown` ships about 0.5 KB less gzip: the explanatory comments inside its shadow CSS string, which no minifier removes, move to JavaScript comments. The CSS rules are unchanged, so the dropdown looks and behaves exactly as before (#PR)
+- Revert: revert the PR; nothing else depends on it
+
 ## 0.954.0 — 2026-11-03
 
 ### Added
