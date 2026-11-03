@@ -65,6 +65,12 @@
    "type": "{ color }",
    "default": "—",
    "desc": "Spread for the Vivid Pink brand fill"
+  },
+  {
+   "name": "v-bind=\"vueTooltip\"",
+   "type": "{ overlayStyle }",
+   "default": "—",
+   "desc": "ant-design-vue 4 only: the 280px width, which its theme cannot set"
   }
  ],
  "opinion": {
@@ -90,7 +96,8 @@
   "entry": "./tooltip-theme",
   "exportsNamed": [
    "tooltipTheme",
-   "brandTooltip"
+   "brandTooltip",
+   "vueTooltip"
   ]
  },
  "snippets": [

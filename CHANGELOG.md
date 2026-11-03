@@ -40,7 +40,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - antd Tooltip, Tag and Segmented under the base theme take the aha-tooltip, aha-tag and aha-segmented look: Tooltip solid #1A1A1A, 12/18, radius 6, padding 6 10, max-width 280 (was 14/22 on black at 85%, radius 8); Tag #F1F1F1 with a #4A4A4A label, 20px tall, radius 4, no border (was #F5F5F5, 22px, radius 6); Segmented #F7F7F7 track, 32px items padded 16, #4A4A4A labels, white radius-4 thumb, 2px focus ring (was 28px items padded 11) (#596)
 - `<aha-popover>` whose body is only a menu and that has no `title` drops its own padding and border, so a menu in a popover shows one frame, not two. A titled popover, or one with other content, is unchanged (#596)
 ### Added
-- `tooltip-theme` (`tooltipTheme`, `brandTooltip`), `tag-theme` (`tagTheme`, `tagCss`: the 600 weight and 6px padding antd has no token for, added on import) and `segmented-theme` (`segmentedTheme`), each with a docs page (antd Tooltip, antd Tag, antd Segmented) and a render contract. New UI keeps using the aha-* elements (#596)
+- `tooltip-theme` (`tooltipTheme`, `brandTooltip`, `vueTooltip`: the 280px width ant-design-vue 4 cannot take from the theme), `tag-theme` (`tagTheme`, `tagCss`: the 600 weight and 6px padding antd has no token for, added on import) and `segmented-theme` (`segmentedTheme`), each with a docs page (antd Tooltip, antd Tag, antd Segmented) and a render contract. New UI keeps using the aha-* elements (#596)
 - Revert: revert the PR; apps then draw antd's own heading sizes, greys, tooltip, tag, segmented and confirm dialogs again, and a popover around a menu shows two frames
 
 ## 0.941.0 — 2026-11-03
