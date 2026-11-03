@@ -3,8 +3,9 @@ import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper; React 19 can use <aha-counted-input> directly.
 // size: 'default' only in a settings panel (large is the audience field's size)  ·  the counter shows only on focus when maxLength is set.
-function AhaCountedInput({ value, placeholder, maxLength, size, status, disabled, readOnly, onChange }) {
+function AhaCountedInput({ value, placeholder, maxLength, size, status, disabled, readOnly, autoFocus, onChange, inputRef }) {
   const ref = useRef();
+  useEffect(() => { if (inputRef) inputRef.current = ref.current; });   // inputRef.current.focus() focuses the field
   useEffect(() => {
     const el = ref.current;
     el.value = value ?? '';
@@ -21,9 +22,11 @@ function AhaCountedInput({ value, placeholder, maxLength, size, status, disabled
       {...(size ? { size } : {})}
       {...(status ? { status } : {})}
       {...(readOnly ? { readonly: '' } : {})}
+      {...(autoFocus ? { autofocus: true } : {})}
     />
   );
 }
 
 // usage
-<AhaCountedInput value={answer} placeholder="Answer" maxLength={80} onChange={setAnswer} />
+<AhaCountedInput value={answer} placeholder="Answer" maxLength={80} onChange={setAnswer} autoFocus />
+// later: inputRef.current.focus() (pass inputRef={useRef()}) focuses the inner field

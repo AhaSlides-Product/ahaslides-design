@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.914.0 — 2026-11-03
+### Added
+- `<aha-counted-input>` and `<aha-audience-field>`: a `focus(options)` method and an `autofocus` attribute. `el.focus()` focuses the inner field (the audience field forwards to its slotted control), so a consumer no longer reaches into `shadowRoot`; `autofocus` focuses it once on connect, with the existing focus ring. `aha-counted-input` also delegates focus like `aha-input`, so a click on its box lands in the field. (#PRNUM)
+- Revert: revert the PR; additive method, attribute and `delegatesFocus` in the two lib files, no existing attribute changes
+
 ## 0.913.0 — 2026-11-03
 ### Added
 - `<aha-card interactive disabled>`: an inert card. It gets `aria-disabled="true"` and `tabindex="-1"` (out of the tab order), fires no click from the mouse, Enter, Space, `click()` or a dispatched click, loses the hover lift, and takes the DS disabled look (`bg-container-disabled`, `border-disabled`, `text-disabled`, as `aha-card-select`); no new token. Removing `disabled` restores everything; a card without `interactive` ignores it. Also a `disabled` property. (#575)

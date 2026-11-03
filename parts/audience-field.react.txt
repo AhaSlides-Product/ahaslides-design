@@ -2,8 +2,9 @@ import '@ahaslides-product/design/aha-audience-field';
 import '@ahaslides-product/design/aha-counted-input';
 
 export function NicknameField() {
+  // autofocus={true} (not "") so React 19's property path reads it as on; fieldRef.current.focus() focuses it later
   return (
-    <aha-audience-field label="Your nickname">
+    <aha-audience-field label="Your nickname" autofocus={true}>
       <aha-counted-input size="lg" maxlength="30" />
     </aha-audience-field>
   );
