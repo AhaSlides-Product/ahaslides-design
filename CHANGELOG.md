@@ -33,10 +33,19 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.924.0 — 2026-11-03
+## 0.927.0 — 2026-11-03
 ### Added
 - Menu and Dropdown rows take an optional `shortcut` ("Mod+D", "Del"): the action's key drawn as the shared DS shortcut chip at the row's trailing edge on the label line, on gray-35 #EBEBEB (lighter than the Button and Tooltip chip), ⌘D on a Mac and Ctrl D elsewhere, for a context menu. Display only and aria-hidden; the row gets `aria-keyshortcuts`. It works beside a `description`, on disabled and danger rows, and before a locked row's crown; rows without it are unchanged. New docs example "Context menu with shortcuts" (#591)
 - `ariaKeyShortcuts()` in `shortcut-key`: the same shortcut as an `aria-keyshortcuts` value (#591)
+
+## 0.925.0 — 2026-11-03
+### Changed
+- Destructive confirm: `destructiveConfirm` now gives the confirm button `type: 'default'` (white, 1px #E3E3E3 border, #1A1A1A label, the look of `aha-button` secondary) instead of a solid #1A1A1A danger fill, so a destructive confirm shows one primary, the pink Cancel. The overlays rule `danger-confirm-button`, its anti-slop criterion, the Modal and Popconfirm examples and contracts say the same (#581)
+- antd Button disabled colours match `aha-button`: #E3E3E3 fill and border, #B5B5B5 label, set on the Button component only (#581)
+- Popconfirm theme pins the small button radius to 4px, so a host's own `borderRadiusSM` no longer applies inside it (#581)
+- Documented difference: antd has no hover-shadow token, so an antd primary hovers Darker Pink without `aha-button`'s pink glow; the Popconfirm spec says so (#581)
+- Form render contract expects the #1A1A1A label that `form-theme` has set since 0.915.2, so the standards gate passes again (#581)
+- Revert: revert the PR; `lib/popconfirm-theme.js` and one block in `lib/antd-base-theme.js` return to the previous values
 
 ## 0.920.1 — 2026-11-03
 ### Changed

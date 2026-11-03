@@ -75,7 +75,7 @@ const isExternalUrl = (href) =>
   /^https?:\/\//i.test(href) && !/(^|\.)ahaslides\.com$/i.test(new URL(href).hostname);
 
 // The DS footer: a "Learn more" link on the left, Cancel + Apply on the right. Apply is the primary;
-// in the Danger confirmation the safe choice takes over: Cancel is the primary, Apply the dark danger button.
+// in the Danger confirmation the safe choice takes over: Cancel is the primary, Apply a default button.
 function Footer({ danger, onCancel, learnMoreHref = 'https://example.com/reuse-themes' }) {
   const external = isExternalUrl(learnMoreHref);
   return (
@@ -90,7 +90,7 @@ function Footer({ danger, onCancel, learnMoreHref = 'https://example.com/reuse-t
       </a>
       <span style={{ display: 'inline-flex', gap: 8 }}>
         <Button type={danger ? 'primary' : 'default'} onClick={onCancel}>Cancel</Button>
-        <Button type="primary" danger={danger}>Apply</Button>
+        <Button type={danger ? 'default' : 'primary'}>Apply</Button>
       </span>
     </div>
   );

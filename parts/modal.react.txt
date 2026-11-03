@@ -29,7 +29,7 @@ function ModalDemo() {
       </a>
       <span style={{ display: 'inline-flex', gap: 8 }}>
         <Button type={danger ? 'primary' : 'default'} onClick={() => { setConfirm(false); setAction(false); }}>Cancel</Button>
-        <Button type="primary" danger={danger}>Apply</Button>
+        <Button type={danger ? 'default' : 'primary'}>Apply</Button>
       </span>
     </div>
   );
@@ -39,7 +39,7 @@ function ModalDemo() {
       <Button onClick={() => setConfirm(true)}>Delete team…</Button>
       <Button type="primary" onClick={() => setAction(true)}>Share course…</Button>
 
-      {/* Confirmation modal — always `simple`; in the danger context Cancel is the primary and Apply the dark danger button. */}
+      {/* Confirmation modal — always `simple`; in the danger context Cancel is the primary and Apply a default button. */}
       <Modal
         open={confirm}
         closable={false}   /* the shared ✕ rides in the title */
