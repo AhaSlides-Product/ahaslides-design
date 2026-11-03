@@ -38,6 +38,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Upload: `label`, `hint` and `limitlabel` attributes set the drop-zone text, so an app can localise or reword it instead of the fixed English; the defaults are the current text. `label` is also the picture-card add-box text. (#609)
 - Revert: revert the PR; opt-in attributes with the old text as default, no other change.
 
+## 0.956.1 — 2026-11-03
+### Changed
+- Join bar code field placeholder reads "Enter code" in the string, not "ENTER CODE..."; the field's own uppercase styling still shows it in capitals, so the only visible change is the three dots going (#PRNUM)
+
 ## 0.956.0 — 2026-11-03
 ### Added
 - DataTable value filter: `filter: { type: 'value', inputType: 'text' | 'number' | 'date', label }` takes one typed value; text matches a case-insensitive substring, number an equal value, date the same calendar day (#593)
