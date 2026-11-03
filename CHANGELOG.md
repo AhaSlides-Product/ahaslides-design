@@ -33,6 +33,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.916.1 — 2026-11-03
+### Fixed
+- Marketing → Features, Cards: the Features icon cards list was a fixed four-column grid, so three cards sat left of the centred heading with an empty fourth column, although W11 says the grid balances by item count. It now follows the item count at 992px and wider (1 card one centred column, 2 and 3 cards 2 and 3 columns, 4 stay one row of 4, 5 or more 3 columns with a short last row centred) and centres a lone last card at 768 to 991px. The compact see-all list balances the same way from 768px, and the icon cards with a side header centre an odd last card (#583)
+- Marketing → Cards: the Steps row (`aha-marketing-cards__grid--row`) was always 3 columns, so four steps rendered 3 plus a lone left card. From 768px four steps are 2 by 2 and five or more are 3 columns with a short last row centred; 1 to 3 steps are unchanged (#583)
+- Guidelines → Website composition: W10 and W11 and their criteria name the grids that balance, so the rule matches what the CSS does (#583)
+
 ## 0.915.2 — 2026-11-03
 ### Changed
 - The built-in text-field label (`<aha-input label>`) and the Form label are now textDefault #1A1A1A (`--aha-text-default`), matching each other; they were textSecondary #4A4A4A. Weight 400, sizes and the disabled colour are unchanged. (#582)

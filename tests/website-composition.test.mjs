@@ -117,6 +117,17 @@ test('the Steps row and the image-led grid keep their own layout', () => {
   assert.match(cardsCss, /\.aha-marketing-cards__grid:not\(\.aha-marketing-cards__grid--image-led\):not\(\.aha-marketing-cards__grid--row\):has/);
 });
 
+test('three icon cards fill three columns and four steps lay out 2 by 2, leaving no empty column (W11)', () => {
+  const iconCards = features.layouts.find((layout) => layout.slug === 'icon-cards').css;
+  const cards = '\\.aha-features--icon-cards \\.aha-features__cards';
+  assert.match(iconCards, new RegExp(`${cards}:has\\(>:nth-child\\(3\\):last-child\\)\\{grid-template-columns:repeat\\(3,`));
+  assert.match(iconCards, new RegExp(`${cards}:has\\(>:nth-child\\(2\\):last-child\\)\\{grid-template-columns:repeat\\(2,`));
+  assert.match(iconCards, new RegExp(`${cards}:has\\(>:first-child:last-child\\)\\{grid-template-columns:minmax\\(0,36rem\\)`));
+  assert.doesNotMatch(iconCards, new RegExp(`${cards}:has\\(>:nth-child\\(4\\):last-child\\)`), 'four icon cards stay one row of four');
+  assert.match(cardsCss, /\.aha-marketing-cards__grid--row:has\(>:nth-child\(4\):last-child\)\{grid-template-columns:repeat\(2,/);
+  assert.match(cardsCss, /\.aha-marketing-cards__grid--row:has\(>:nth-child\(3n\+2\):last-child:nth-child\(n\+5\)\)>:last-child\{grid-column:4 \/ span 2\}/);
+});
+
 test('the Numbers centred stats balance by item count', () => {
   assert.match(numbersCss, /\.aha-numbers--divided \.aha-numbers__stats:has\(>:nth-child\(2\):last-child\)\{grid-template-columns:repeat\(2,/);
   assert.match(numbersCss, /\.aha-numbers--divided \.aha-numbers__stats:has\(>:nth-child\(4\):last-child\)\{grid-template-columns:repeat\(2,/);
