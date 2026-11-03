@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.916.2 — 2026-11-03
 ### Fixed
-- Avatar: an image that fails to load (deleted file, CDN error) showed the browser's broken-image icon. `aha-avatar` now shows the no-src content (the `icon` if set, else the initials of `name`) when the image errors, and keeps it until `src` changes. The contract and the JSDoc say so (#PRNUM)
+- Avatar: an image that fails to load (deleted file, CDN error) showed the browser's broken-image icon. `aha-avatar` now shows the no-src content (the `icon` if set, else the initials of `name`) when the image errors, and keeps it until `src` changes. The contract and the JSDoc say so (#584)
 
 ## 0.916.1 — 2026-11-03
 ### Fixed
