@@ -106,7 +106,7 @@ addSection('navigation menu', [navigation], '.aha-header__menu', { gutterFrom: '
 for (const layout of readSection('hero').layouts) addSection(layout.slug, [layout.css], `.${layout.class}__inner`);
 
 test('every Marketing section other than the edge to edge Logos marquee is checked against the gutter', () => {
-  const checked = new Set(['features', 'numbers', 'pricing', 'testimonials', 'cards', 'faq', 'footer-banner', 'footer', 'navigation', 'hero', 'comparison']);
+  const checked = new Set(['features', 'numbers', 'pricing', 'testimonials', 'cards', 'faq', 'footer-banner', 'footer', 'navigation', 'join-bar', 'hero', 'comparison']);
   const slugs = readdirSync(new URL('../marketing/', import.meta.url)).filter((file) => file.endsWith('.json')).map((file) => file.replace('.json', ''));
   assert.deepEqual(slugs.filter((slug) => !checked.has(slug)), ['logos']);
 });
