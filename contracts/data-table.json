@@ -1,12 +1,17 @@
 {
   "name": "Data table",
   "slug": "data-table",
-  "environment": ["product"],
+  "environment": [
+    "product"
+  ],
   "group": "Data display",
   "tier": "composite-antd",
   "badge": "composite — shared React component",
   "summary": "The shared DataTable component — import it, pass data + columns, and every grid gets the DS V3 look and behaviour.",
-  "highlights": ["Shared DataTable: pass data and columns", "Every grid gets the DS V3 look and behaviour"],
+  "highlights": [
+    "Shared DataTable: pass data and columns",
+    "Every grid gets the DS V3 look and behaviour"
+  ],
   "lead": "The real component behind the Table pattern: one React component over antd v6 that owns the DS V3 table look (via dataTableTheme) AND its behaviour — single-arrow sort, checklist, min/max and typed-value filter popovers, drag reorder, right-click freeze, column resize, rows-per-page and edit columns. It has zero runtime dependencies: createDataTable({ React, antd }) binds it to your app's own React + antd, so it shares your theme context and works the same from a bundler or a CDN page. Call sites pass data + columns only — never a raw <Table>, never per-table styling.",
   "tokensUsed": [
     "colorPrimary",
@@ -45,11 +50,11 @@
     },
     {
       "label": "Sort",
-      "value": "single arrow (system-arrow-down / system-arrow-up); cycle ↓ descending → ↑ ascending → none"
+      "value": "single arrow (system-arrow-up / system-arrow-down); an unsorted column shows a grey ↑ because the first click sorts ascending: cycle ↑ ascending → ↓ descending → none (a column's own sortDirections overrides the order)"
     },
     {
       "label": "Filter",
-      "value": "funnel trigger: grey → pale pink hover → pale pink open → filled brand when applied; checklist (search + list), min/max range, or one typed value (text, number or date field under the column label; Enter applies), Reset + Apply footer"
+      "value": "funnel trigger: a real <button> in the header, reached with Tab, named \"Filter: <column>\" (labels.filterColumn), opens on Enter / Space and Escape closes it; grey → pale pink hover → pale pink open → filled brand when applied; checklist (search + list), min/max range, or one typed value (text, number or date field under the column label; Enter applies; a date field has a Clear button), Reset + Apply footer"
     },
     {
       "label": "Value filter",
@@ -97,15 +102,23 @@
     },
     {
       "label": "Toolbar",
-      "value": "optional 18px SemiBold title left + actions right (Edit columns, Export…); wraps on a phone"
+      "value": "optional 18px SemiBold title left (a real heading, <h2> by default; toolbarTitleLevel picks 1–6) + optional search slot (toolbarSearch, 220–320 wide) + actions right (Edit columns, Export…); wraps on a phone"
     },
     {
       "label": "Edit columns",
-      "value": "sliders button opens a checklist of the columns in display order; hideable:false rows are locked on; a Reset footer (restores defaultVisibleColumns, or every column) shows only when the app passes visibleColumns, defaultVisibleColumns or onColumnsReset"
+      "value": "sliders button opens a checklist of the columns in display order; columnsSearchable adds a Search columns field above the list; hideable:false rows are locked on; a Reset columns footer (restores defaultVisibleColumns, or every column) shows only when the app passes visibleColumns, defaultVisibleColumns or onColumnsReset"
     },
     {
       "label": "Column visibility",
       "value": "uncontrolled by default (defaultVisibleColumns seeds it, else every column shows); pass visibleColumns to control it — the table then shows exactly those keys (plus hideable:false columns) and onVisibleColumnsChange(visibleKeys) reports each toggle and Reset, visible keys in display order"
+    },
+    {
+      "label": "Highlighted row",
+      "value": "highlightedRowKey marks one row as the current one: Vivid Pink 5% (bg-accent) background, kept on hover, aria-current=\"true\"; rows ticked through rowSelection keep antd's selected tint"
+    },
+    {
+      "label": "Test hooks",
+      "value": "stable data-testid on the toolbar (<prefix>-toolbar, -title, -search, -actions), each filter (<prefix>-filter-<key> on the trigger, -panel, -panel-search, -panel-input, -panel-min, -panel-max, -panel-clear, -panel-reset, -panel-apply) and Edit columns (<prefix>-columns-button, -panel, -search, -<key>, -reset); prefix = testIdPrefix, default aha-data-table"
     },
     {
       "label": "Empty",
@@ -143,7 +156,19 @@
       "name": "toolbarTitle",
       "type": "ReactNode",
       "default": "—",
-      "desc": "toolbar title (left); omit title + actions to drop the toolbar"
+      "desc": "toolbar title (left), rendered as a heading; omit title, search and actions to drop the toolbar"
+    },
+    {
+      "name": "toolbarTitleLevel",
+      "type": "1 | 2 | 3 | 4 | 5 | 6",
+      "default": "2",
+      "desc": "heading level of the toolbar title; the look stays 18px SemiBold at every level"
+    },
+    {
+      "name": "toolbarSearch",
+      "type": "ReactNode",
+      "default": "—",
+      "desc": "search slot between the title and the actions, e.g. an antd <Input> with the magnifying-glass prefix; the app filters dataSource itself"
     },
     {
       "name": "toolbarActions",
@@ -174,6 +199,12 @@
       "type": "boolean",
       "default": "false",
       "desc": "adds an Edit columns checklist to the toolbar (add / remove columns)"
+    },
+    {
+      "name": "columnsSearchable",
+      "type": "boolean",
+      "default": "false",
+      "desc": "adds a Search columns field to Edit columns (matches column titles, case-insensitive)"
     },
     {
       "name": "visibleColumns",
@@ -209,7 +240,19 @@
       "name": "onColumnsReset",
       "type": "() => void",
       "default": "—",
-      "desc": "Reset in Edit columns was pressed, before onVisibleColumnsChange; passing it shows the Reset footer"
+      "desc": "Reset columns in Edit columns was pressed, before onVisibleColumnsChange; passing it shows the Reset columns footer"
+    },
+    {
+      "name": "highlightedRowKey",
+      "type": "string | number",
+      "default": "—",
+      "desc": "row key of the current row to highlight (bg-accent + aria-current); matched through rowKey"
+    },
+    {
+      "name": "testIdPrefix",
+      "type": "string",
+      "default": "'aha-data-table'",
+      "desc": "prefix of every data-testid the table sets; give each table on a page its own"
     },
     {
       "name": "pagination",
@@ -227,7 +270,7 @@
       "name": "labels",
       "type": "Partial<typeof dataTableLabels>",
       "default": "English",
-      "desc": "UI copy override (i18n) — Reset, Apply, Freeze column, noData (the empty caption), …"
+      "desc": "UI copy override (i18n), every key defaults to the English text: searchInFilters, reset, apply, filterColumn, clearValue, minValue, maxValue, enterValue, freezeColumn, defreezeColumn, editColumns, searchColumns, resetColumns, resizeColumn, noData and the expandable-row labels"
     },
     {
       "name": "…",

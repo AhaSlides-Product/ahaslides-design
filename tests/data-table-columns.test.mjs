@@ -19,7 +19,7 @@ function fakeReact() {
   const noop = () => { cursor++; };
   const useId = () => useState(() => `id${cursor}`)[0];
   return {
-    React: { createElement, useState, useMemo, useRef, useCallback, useId, useInsertionEffect: noop, useLayoutEffect: noop },
+    React: { createElement, useState, useMemo, useRef, useCallback, useId, useEffect: noop, useInsertionEffect: noop, useLayoutEffect: noop },
     begin: () => { cursor = 0; },
   };
 }
@@ -130,4 +130,47 @@ test('the value filter matches text by substring, numbers exactly and dates by c
   assert.equal(joined.onFilter('2026-03-14', { joined: new Date(2026, 2, 14, 18, 30) }), true);
   assert.equal(joined.onFilter('2026-03-14', { joined: new Date(2026, 2, 15) }), false);
   assert.equal(joined.onFilter('2026-03-14', { joined: null }), false);
+});
+
+test('a filter trigger is a named <button> in the Tab order that opens without sorting the column', () => {
+  const grid = mount({
+    columns: [{ key: 'team', title: 'Team', dataIndex: 'team', sorter: () => 0, filter: { type: 'checklist', options: ['A'] } }],
+    labels: { filterColumn: 'Lọc' },
+  });
+  const trigger = grid.table().columns[0].filterDropdownProps.children;
+  assert.equal(trigger.type, 'button');
+  assert.equal(trigger.props.type, 'button');
+  assert.ok(!(trigger.props.tabIndex < 0), 'never taken out of the Tab order');
+  assert.equal(trigger.props['aria-label'], 'Lọc: Team');
+  assert.equal(trigger.props['data-testid'], 'aha-data-table-filter-team');
+  let stopped = 0;
+  trigger.props.onKeyDown({ key: 'Enter', stopPropagation: () => { stopped += 1; } });
+  trigger.props.onClick({ stopPropagation: () => { stopped += 1; } });
+  assert.equal(stopped, 2, 'Enter and click stay on the trigger, so the header does not sort');
+});
+
+test('the first sort click sorts ascending unless the column sets its own order', () => {
+  const grid = mount({
+    columns: [
+      { key: 'name', title: 'Name', dataIndex: 'name', sorter: () => 0 },
+      { key: 'score', title: 'Score', dataIndex: 'score', sorter: () => 0, sortDirections: ['descend'] },
+    ],
+  });
+  const [name, score] = grid.table().columns;
+  assert.deepEqual(name.sortDirections, ['ascend', 'descend']);
+  assert.deepEqual(score.sortDirections, ['descend']);
+});
+
+test('the date filter has a Clear button that empties the typed date', () => {
+  const grid = mount({ columns: [{ key: 'joined', title: 'Joined', dataIndex: 'joined', filter: { type: 'value', inputType: 'date' } }] });
+  const picked = [];
+  const panel = grid.table().columns[0].filterDropdown({
+    selectedKeys: ['2026-03-14'], setSelectedKeys: (keys) => picked.push(keys), confirm: () => {}, clearFilters: () => {},
+  });
+  const tree = panel.type(panel.props);
+  const clear = find(tree, (node) => node.props?.['data-testid'] === 'aha-data-table-filter-joined-panel-clear');
+  assert.ok(clear, 'a date filter shows Clear');
+  assert.equal(clear.props.disabled, false);
+  clear.props.onClick();
+  assert.deepEqual(picked, [[]]);
 });
