@@ -33,6 +33,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.941.0 — 2026-11-03
+
+### Added
+- Join bar: its own Marketing page (`marketing/join-bar.json`, class `aha-join-bar`, Webflow component Join bar), listed in the Marketing sidebar next to Navigation. The markup and CSS are the former Navigation "Join bar" layout moved as is, with no visual change. Place it directly before the Site navbar as a sibling and it scrolls away while the navbar stays stuck to the top (#NNN)
+
+### Changed
+- Navigation: holds only the Site navbar; the Join bar layout moved out to its own page and the two pages link each other in their usage notes (#NNN)
+- Revert: revert the PR; it moves one layout between two marketing JSON files and the generated Marketing CSS, with no token or component API change
+
 ## 0.935.0 — 2026-11-03
 ### Added
 - Navigation: new Join bar layout (`aha-join-bar`, Webflow component Join bar), the dark "Are you a participant?" bar with the access-code field and Join button, taken out of the Site navbar. Place it directly before the Site navbar as a sibling and it scrolls away while the navbar stays stuck to the top, with no positioning script (#594)
