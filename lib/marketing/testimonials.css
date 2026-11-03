@@ -17,7 +17,7 @@
   width:100%;max-width:1280px;margin:0 auto;
   --aha-web-gutter:var(--aha-space-64);padding:var(--aha-section-space-block) var(--aha-web-gutter);
 }
-.aha-testimonials__stars{display:flex}
+.aha-testimonials__stars{display:flex;color:var(--aha-text-default)}
 .aha-testimonials__quote{
   margin:0;padding:0;border:0;text-align:left;
   font-size:clamp(var(--aha-size-l),1.4vw,var(--aha-size-xl));font-weight:var(--aha-weight-regular);
