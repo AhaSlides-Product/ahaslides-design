@@ -32,6 +32,18 @@
   ]'>
 </aha-menu>
 
+<!-- shortcut: the action's key as the DS shortcut chip at the row's trailing edge (a context menu).
+     "Mod" draws ⌘ on a Mac and Ctrl elsewhere; display only, the row gets aria-keyshortcuts -->
+<aha-menu id="slide"
+  items='[
+    {"key":"new","label":"New slide","icon":"system-plus"},
+    {"key":"duplicate","label":"Duplicate","icon":"system-duplicate","shortcut":"Mod+D"},
+    {"key":"copy","label":"Copy to…","icon":"system-copy"},
+    {"type":"divider"},
+    {"key":"delete","label":"Delete","icon":"system-trash","danger":true,"shortcut":"Del"}
+  ]'>
+</aha-menu>
+
 <!-- per-row extras: testid → data-testid; attrs passes data-* and aria-label; slot projects
      rich content (text, a tag) in place of the label; disabled rows are skipped by the arrow keys -->
 <aha-menu id="more"

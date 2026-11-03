@@ -53,6 +53,18 @@
     ]'>
   </aha-menu>
 
+  <div class="lbl">Context menu with shortcuts (the key as the DS chip at the trailing edge)</div>
+  <aha-menu
+    items='[
+      {"key":"new","label":"New slide","icon":"system-plus"},
+      {"key":"duplicate","label":"Duplicate","icon":"system-duplicate","shortcut":"Mod+D"},
+      {"key":"copy","label":"Copy to…","icon":"system-copy"},
+      {"key":"paste","label":"Paste","icon":"system-paste","shortcut":"Mod+V","disabled":true},
+      {"type":"divider"},
+      {"key":"delete","label":"Delete","icon":"system-trash","danger":true,"shortcut":"Del"}
+    ]'>
+  </aha-menu>
+
   <div class="lbl">Overflow menu (rich row, testid, disabled, danger)</div>
   <aha-menu value="rename"
     items='[
