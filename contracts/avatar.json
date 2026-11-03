@@ -19,7 +19,7 @@
     { "label": "Icon", "value": "<aha-icon> glyph by name, ~half the avatar diameter, currentColor" },
     { "label": "Color", "value": "ground tint from an --aha-* token via `color` (default brand tint)" },
     { "label": "Group", "value": "stacked overlap (-10px), 2px container-white ring; grounds rotate Vivid Pink 5% #E70E680D (ink), 30% #E70E684D (ink), 100% #E70E68 (white) so neighbours never match; an avatar with its own `color` keeps it; +N chip past `max` on grey 25 #F3F3F3" },
-    { "label": "Add button", "value": "(group `add`) a round + after the avatars and the +N chip: the group's size and shape, the same 2px container-white ring; with `add` every avatar, the +N chip and the button overlap by only an eighth of the size (3px at 24, 5px at 40, 8px at 64) instead of the default stack overlap, so more of each initial shows; white fill, grey edge #E3E3E3, ink #1A1A1A system-plus glyph (12 at 24, 16 at 40, 24 at 64); hover and press add Vivid Pink 5% #E70E680D, a Vivid Pink #E70E68 edge and a #DB005B glyph; keyboard focus draws the 2px Vivid Pink ring 2px outside; disabled is grey #E3E3E3 with a #B5B5B5 glyph" }
+    { "label": "Add button", "value": "(group `add`) a round + after the avatars and the +N chip: the group's size and shape, the same 2px container-white ring; with `add` every avatar, the +N chip and the button overlap by only an eighth of the size (3px at 24, 5px at 40, 8px at 64) instead of the default stack overlap, so more of each initial shows; stacking runs left over right, so every avatar and the +N chip sit above the item to their right and the + button sits under the item on its left (it rises above its neighbour while hovered or keyboard-focused so its ring shows whole); white fill, grey edge #E3E3E3, ink #1A1A1A system-plus glyph (12 at 24, 16 at 40, 24 at 64); hover and press add Vivid Pink 5% #E70E680D, a Vivid Pink #E70E68 edge and a #DB005B glyph; keyboard focus draws the 2px Vivid Pink ring 2px outside; disabled is grey #E3E3E3 with a #B5B5B5 glyph" }
   ],
   "props": [
     { "name": "name", "type": "string", "default": "—", "desc": "Full name; initials are derived when no src/icon. Also the alt/aria-label" },
@@ -29,7 +29,7 @@
     { "name": "shape", "type": "circle | square", "default": "circle", "desc": "Clip shape" },
     { "name": "color", "type": "token name", "default": "—", "desc": "Ground tint — an --aha-* token suffix, e.g. 'bg-positive'" },
     { "name": "max", "type": "number", "default": "—", "desc": "(aha-avatar-group) collapse children past this count into a +N chip" },
-    { "name": "add", "type": "boolean", "default": "false", "desc": "(aha-avatar-group) append a round + button after the avatars and overlap the whole group only slightly (an eighth of the size). Click, Enter or Space fires a bubbling, composed `aha-add` event" },
+    { "name": "add", "type": "boolean", "default": "false", "desc": "(aha-avatar-group) append a round + button after the avatars and overlap the whole group only slightly (an eighth of the size), the button tucked under the item on its left. Click, Enter or Space fires a bubbling, composed `aha-add` event" },
     { "name": "add-label", "type": "string", "default": "Add person", "desc": "(aha-avatar-group) accessible name of the add button, e.g. 'Invite people'" },
     { "name": "add-disabled", "type": "boolean", "default": "false", "desc": "(aha-avatar-group) disable the add button; it stays visible but fires no `aha-add`" }
   ],
