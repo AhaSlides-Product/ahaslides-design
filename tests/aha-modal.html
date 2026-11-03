@@ -10,6 +10,10 @@
   <p>Body</p>
   <div slot="footer"><button id="send">Send</button></div>
 </aha-modal>
+<aha-modal id="nest" heading="Outer" no-footer>
+  <button id="last-visible">Last</button>
+  <aha-modal heading="Inner">Inner body</aha-modal>
+</aha-modal>
 <script type="module">
   import '../lib/aha-modal.js';
   await customElements.whenDefined('aha-modal');

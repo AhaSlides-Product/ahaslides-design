@@ -85,7 +85,28 @@ const scenarios = String.raw`(async () => {
   out.defaultsHidden = custom.shadowRoot.querySelector('.ok').getClientRects().length === 0;
   document.querySelector('#send').focus(); key('Tab');
   out.customTabWraps = custom.shadowRoot.activeElement === custom.shadowRoot.querySelector('.close');
-  custom.close();
+  custom.close(); await frame(); await settle();
+
+  const nest = document.querySelector('#nest');
+  nest.show(); await frame(); await settle();
+  document.querySelector('#last-visible').focus(); key('Tab');
+  out.hiddenNestedSkipped = nest.shadowRoot.activeElement === nest.shadowRoot.querySelector('.close');
+  nest.close(); await frame(); await settle();
+
+  const built = document.createElement('aha-modal');
+  out.createdUpgraded = built instanceof customElements.get('aha-modal');
+  let builtClosed = 0;
+  built.addEventListener('closed', () => { builtClosed += 1; });
+  built.setAttribute('heading', 'Built');
+  built.setAttribute('open', 'false');
+  document.body.append(built); await frame();
+  out.falseStaysClosed = [built.open, document.documentElement.style.overflow, builtClosed];
+  built.setAttribute('open', 'true'); await frame();
+  out.trueOpens = [built.open, document.documentElement.style.overflow];
+  built.setAttribute('open', 'false'); await frame();
+  out.falseCloses = [built.open, document.documentElement.style.overflow, builtClosed];
+  built.setAttribute('ok-danger', 'false');
+  out.falseFlagOff = built.shadowRoot.querySelector('.ok').getAttribute('variant');
   return out;
 })()`;
 
@@ -121,4 +142,10 @@ test('aha-modal maps the antd props, traps focus, and closes only through uncanc
   ]);
   assert.equal(r.defaultsHidden, true);
   assert.equal(r.customTabWraps, true);
+  assert.equal(r.hiddenNestedSkipped, true);
+  assert.equal(r.createdUpgraded, true);
+  assert.deepEqual(r.falseStaysClosed, [false, '', 0]);
+  assert.deepEqual(r.trueOpens, [true, 'hidden']);
+  assert.deepEqual(r.falseCloses, [false, '', 1]);
+  assert.equal(r.falseFlagOff, 'primary');
 });
