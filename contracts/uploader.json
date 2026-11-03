@@ -82,6 +82,6 @@
     "ready": "!!(document.querySelector('aha-uploader[data-probe]') && document.querySelector('aha-uploader[data-probe]').shadowRoot && document.querySelector('aha-uploader[data-probe]').shadowRoot.querySelector('.zone') && document.querySelector('aha-uploader[data-probe]').shadowRoot.querySelector('.row.error'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-uploader[data-probe]');var sr=el.shadowRoot;var z=sr.querySelector('.zone');var zs=getComputedStyle(z);var errName=sr.querySelector('.row.error .name');var es=getComputedStyle(errName);var fill=sr.querySelector('.row .bar > i');var fs=fill?getComputedStyle(fill):null;var hasRemove=!!sr.querySelector('.rm[part=\"remove\"]');return{radius:zs.borderTopLeftRadius,border:zs.borderTopColor,zoneColor:zs.color,errorColor:es.color,progressFill:fs?fs.backgroundColor:null,hasRemove:hasRemove};})()",
-    "expect": { "radius": "8px", "border": "rgb(212, 212, 212)", "zoneColor": "rgb(138, 138, 138)", "errorColor": "rgb(26, 26, 26)", "progressFill": "rgb(231, 14, 104)", "hasRemove": true }
+    "expect": { "radius": "8px", "border": "rgb(212, 212, 212)", "zoneColor": "rgb(97, 97, 97)", "errorColor": "rgb(26, 26, 26)", "progressFill": "rgb(231, 14, 104)", "hasRemove": true }
   }
 }

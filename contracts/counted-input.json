@@ -16,7 +16,7 @@
     { "label": "Sizes", "value": "settings panel: default 40 only, no small and no dense row · large 48 and touch 56 are audience-field sizes only (inside <aha-audience-field>), never in a settings panel · all radius 8" },
     { "label": "Rest border", "value": "1px #E3E3E3 (border-default)" },
     { "label": "Focus", "value": "#E70E68 border + soft 2px ring (focus-ring-soft, 30% #E70E68) (on the persistent wrapper); hover #E70E68 border" },
-    { "label": "Counter", "value": "12/18 #8A8A8A, overlay inside the field, right 12; opacity 0 at rest → 1 on focus; counts the characters left (36 for 24 of 60), as the settings lab does; at size touch 12/12" },
+    { "label": "Counter", "value": "12/18 #616161, overlay inside the field, right 12; opacity 0 at rest → 1 on focus; counts the characters left (36 for 24 of 60), as the settings lab does; at size touch 12/12" },
     { "label": "Reveal", "value": "focus-only (:host([_focused][_counted])) — hidden at rest; space always reserved (no shift)" },
     { "label": "Error", "value": "#1A1A1A border + error-tinted ring; sets aria-invalid" },
     { "label": "Disabled", "value": "#F1F1F1 fill, #EBEBEB border, not-allowed" },
@@ -82,6 +82,6 @@
     "ready": "!!(document.querySelector('aha-counted-input[data-probe]') && document.querySelector('aha-counted-input[data-probe]').shadowRoot && document.querySelector('aha-counted-input[data-probe]').shadowRoot.querySelector('.wrap'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-counted-input[data-probe]');var r=el&&el.shadowRoot;var w=r&&r.querySelector('.wrap');var f=r&&r.querySelector('.field');var c=r&&r.querySelector('.counter');var ws=w?getComputedStyle(w):null;var fs=f?getComputedStyle(f):null;var cs=c?getComputedStyle(c):null;return{height:ws?ws.height:null,radius:ws?ws.borderTopLeftRadius:null,border:ws?ws.borderTopColor:null,fontSize:fs?fs.fontSize:null,counterColor:cs?cs.color:null};})()",
-    "expect": { "height": "40px", "radius": "8px", "border": "rgb(26, 26, 26)", "fontSize": "14px", "counterColor": "rgb(138, 138, 138)" }
+    "expect": { "height": "40px", "radius": "8px", "border": "rgb(26, 26, 26)", "fontSize": "14px", "counterColor": "rgb(97, 97, 97)" }
   }
 }

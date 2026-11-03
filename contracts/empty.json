@@ -68,6 +68,6 @@
     "ready": "!!(document.querySelector('aha-empty[data-probe]') && document.querySelector('aha-empty[data-probe]').shadowRoot && document.querySelector('aha-empty[data-probe]').shadowRoot.querySelector('.desc'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-empty[data-probe]');var sr=el&&el.shadowRoot;var e=sr&&sr.querySelector('.empty');var d=sr&&sr.querySelector('.desc');var a=sr&&sr.querySelector('.art');var art=a&&a.querySelector('.built-in aha-illustration');var es=e?getComputedStyle(e):null;var ds=d?getComputedStyle(d):null;return{descColor:ds?ds.color:null,artName:art?art.getAttribute('name'):null,padTop:es?es.paddingTop:null,descSize:ds?ds.fontSize:null,descText:d?d.textContent.trim():null,artSize:art?art.getAttribute('size'):null,hasCustomArt:a?a.classList.contains('has-custom'):null};})()",
-    "expect": { "descColor": "rgb(138, 138, 138)", "artName": "empty-list", "padTop": "32px", "descSize": "14px", "descText": "No responses yet", "artSize": "64", "hasCustomArt": false }
+    "expect": { "descColor": "rgb(97, 97, 97)", "artName": "empty-list", "padTop": "32px", "descSize": "14px", "descText": "No responses yet", "artSize": "64", "hasCustomArt": false }
   }
 }

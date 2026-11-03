@@ -14,7 +14,7 @@
   "spec": [
     { "label": "Layout", "value": "avatar + (name over email) · gap 8" },
     { "label": "Name", "value": "14px · SemiBold 600 · text-default #1A1A1A" },
-    { "label": "Email", "value": "12px · Regular 400 · text-secondary #8A8A8A" },
+    { "label": "Email", "value": "12px · Regular 400 · text-tertiary #616161" },
     { "label": "Avatar", "value": "40 when email shown · 24 name-only (reuses <aha-avatar>)" },
     { "label": "Compact", "value": "size=\"compact\" (or no email) → 24px avatar + name only" }
   ],
@@ -55,7 +55,7 @@
   },
   "selfCheck": [
     { "label": "name 14px / SemiBold 600 / text-default #1A1A1A", "verdict": "PASS" },
-    { "label": "email 12px / Regular 400 / text-secondary #8A8A8A", "verdict": "PASS" },
+    { "label": "email 12px / Regular 400 / text-tertiary #616161", "verdict": "PASS" },
     { "label": "avatar 40 when email shown · 24 name-only", "verdict": "PASS" },
     { "label": "reuses the shared <aha-avatar> (no re-implemented avatar)", "verdict": "PASS" },
     { "label": "spacing-only (no card border); gap 8", "verdict": "PASS" }
@@ -65,6 +65,6 @@
     "ready": "!!(document.querySelector('aha-user-info[data-probe]') && document.querySelector('aha-user-info[data-probe]').shadowRoot && document.querySelector('aha-user-info[data-probe]').shadowRoot.querySelector('.name'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-user-info[data-probe]');var r=el&&el.shadowRoot;var n=r&&r.querySelector('.name');var em=r&&r.querySelector('.email');var av=r&&r.querySelector('aha-avatar');var sn=n?getComputedStyle(n):null;var se=em?getComputedStyle(em):null;return{nameColor:sn?sn.color:null,emailColor:se?se.color:null,nameSize:sn?sn.fontSize:null,emailSize:se?se.fontSize:null,nameWeight:sn?sn.fontWeight:null,reusesAvatar:!!(av&&av.shadowRoot&&av.shadowRoot.querySelector('.avatar'))};})()",
-    "expect": { "nameColor": "rgb(26, 26, 26)", "emailColor": "rgb(138, 138, 138)", "nameSize": "14px", "emailSize": "12px", "nameWeight": "600", "reusesAvatar": true }
+    "expect": { "nameColor": "rgb(26, 26, 26)", "emailColor": "rgb(97, 97, 97)", "nameSize": "14px", "emailSize": "12px", "nameWeight": "600", "reusesAvatar": true }
   }
 }
