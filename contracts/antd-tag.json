@@ -1,0 +1,132 @@
+{
+ "name": "antd Tag",
+ "slug": "antd-tag",
+ "environment": [
+  "product"
+ ],
+ "group": "Data display",
+ "tier": "composite-antd",
+ "badge": "composite — antd wrappers",
+ "summary": "The antd Tag themed to the default aha-tag chip, for an app that still renders antd's Tag.",
+ "highlights": [
+  "antd Tag with the aha-tag look",
+  "#F1F1F1 fill, #4A4A4A 12px semibold label, 20px tall",
+  "Colours and size in the shared base theme"
+ ],
+ "lead": "New UI uses <aha-tag>. An app that still renders antd's Tag gets the default aha-tag chip: the fill, label colour, size and radius come from the shared base theme, and importing tag-theme adds the one rule antd has no token for (600 weight, 6px inline padding). Two implementations, one look.",
+ "tokensUsed": [
+  "Tag.defaultBg",
+  "Tag.defaultColor",
+  "Tag.colorBorder",
+  "Tag.fontSizeSM",
+  "Tag.lineHeightSM",
+  "Tag.borderRadiusSM"
+ ],
+ "spec": [
+  {
+   "label": "Chip",
+   "value": "#F1F1F1 fill, no visible border, radius 4, 20px tall, padding 0 6"
+  },
+  {
+   "label": "Label",
+   "value": "#4A4A4A, 12px on an 18px line, semibold 600"
+  },
+  {
+   "label": "tagCss",
+   "value": "importing tag-theme adds one rule: 600 weight and 6px inline padding (antd fixes the padding at 7px and has no weight token); checkable tags keep antd's own look"
+  },
+  {
+   "label": "Differences",
+   "value": "aha-tag's colour presets, bordered shape, large filter chip and close animation have no antd mapping here; use aha-tag for those"
+  }
+ ],
+ "props": [
+  {
+   "name": "children",
+   "type": "ReactNode",
+   "default": "—",
+   "desc": "The label"
+  },
+  {
+   "name": "closable",
+   "type": "boolean",
+   "default": "false",
+   "desc": "Shows antd's close glyph"
+  }
+ ],
+ "opinion": {
+  "whenToUse": [
+   {
+    "what": "aha-tag",
+    "when": "any new UI, React or Vue"
+   },
+   {
+    "what": "antd Tag + tagTheme",
+    "when": "an existing antd Tag call site not yet moved to aha-tag"
+   }
+  ],
+  "note": "Prefer <aha-tag> for new UI. This theme only stops existing antd tags from drifting (12/400 on #F5F5F5, 22px tall).",
+  "dsv3": "COVERED by the leaf: <aha-tag> is the DS component. This contract only maps antd's Tag onto the same look so apps that still render it do not drift; measured against the aha-tag values."
+ },
+ "surfaces": [
+  "editor",
+  "dashboard",
+  "settings"
+ ],
+ "reuse": {
+  "entry": "./tag-theme",
+  "exportsNamed": [
+   "tagTheme",
+   "tagCss"
+  ]
+ },
+ "snippets": [
+  {
+   "key": "html",
+   "label": "HTML",
+   "file": "antd-tag.html.txt",
+   "runnable": "paste-and-run",
+   "note": "A composite has no framework-free element, so its paste-and-run form is a CDN-React page: React and antd load from a CDN and mount on open, using the same shared tagTheme. No build step."
+  },
+  {
+   "key": "react",
+   "label": "React",
+   "file": "antd-tag.react.txt"
+  },
+  {
+   "key": "vue",
+   "label": "Vue 3",
+   "file": "antd-tag.vue.txt"
+  }
+ ],
+ "codeNote": "React and Vue are two vendor libraries at two Ant generations; they converge through the same theme (tagTheme). New UI uses <aha-tag>, which needs no theme.",
+ "preview": "antd-tag.preview.html",
+ "selfCheck": [
+  {
+   "label": "fill #F1F1F1 · label #4A4A4A",
+   "verdict": "PASS"
+  },
+  {
+   "label": "12px semibold · 20px tall",
+   "verdict": "PASS"
+  },
+  {
+   "label": "radius 4 · padding 0 6",
+   "verdict": "PASS"
+  }
+ ],
+ "conformance": {
+  "$about": "Measured by qa.mjs on the rendered CDN-React preview: a real antd v6 Tag inside a ConfigProvider bound to the shared base theme.",
+  "ready": "!!document.querySelector('.ant-tag')",
+  "measure": "(function(){var el=document.querySelector('.ant-tag');var c=el?getComputedStyle(el):null;return c?{bg:c.backgroundColor,color:c.color,fontSize:c.fontSize,fontWeight:c.fontWeight,radius:c.borderTopLeftRadius,padLeft:c.paddingLeft,height:Math.round(el.getBoundingClientRect().height)+'px'}:{};})()",
+  "expect": {
+   "bg": "rgb(241, 241, 241)",
+   "color": "rgb(74, 74, 74)",
+   "fontSize": "12px",
+   "fontWeight": "600",
+   "radius": "4px",
+   "padLeft": "6px",
+   "height": "20px"
+  }
+ }
+}
