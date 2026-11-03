@@ -33,11 +33,20 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.923.0 — 2026-11-03
+## 0.926.0 — 2026-11-03
 ### Added
 - `<aha-split-button>`, Button's split variant: a main action joined to a caret that opens a menu of related actions (Present with Present from start / from current slide). Both halves are the shipped `aha-button` (primary or secondary, sm / md / lg, lg default) and the menu is the shipped `aha-dropdown` (same `items`), so every per-state value and the menu behaviour are theirs, not copies. Outer corners keep the size's radius, inner corners are square, and a 1px divider separates the halves (white at 24% on primary, the default border on secondary, the disabled ink when disabled). The caret is its own button (`caret-label`, default "More options", `aria-haspopup="menu"`, `aria-expanded`; opens on click, Enter, Space, ArrowDown). `click` fires for the main half only; choosing a row emits `select`. `disabled` disables both halves, `loading` spins the main half only. Linked from the Button and Dropdown pages. No new token or icon; the Button and Dropdown APIs are unchanged. (#589)
 - Split button is listed in the Components sidebar under Button, so its page is reachable from every Components page.
 - Revert: revert the PR; a new element, contract and parts, plus one line each in `lib/all.js`, `package.json`, the Components sidebar catalogue in `generate.mjs` and the Button and Dropdown "When to use" lists
+
+## 0.925.0 — 2026-11-03
+### Changed
+- Destructive confirm: `destructiveConfirm` now gives the confirm button `type: 'default'` (white, 1px #E3E3E3 border, #1A1A1A label, the look of `aha-button` secondary) instead of a solid #1A1A1A danger fill, so a destructive confirm shows one primary, the pink Cancel. The overlays rule `danger-confirm-button`, its anti-slop criterion, the Modal and Popconfirm examples and contracts say the same (#581)
+- antd Button disabled colours match `aha-button`: #E3E3E3 fill and border, #B5B5B5 label, set on the Button component only (#581)
+- Popconfirm theme pins the small button radius to 4px, so a host's own `borderRadiusSM` no longer applies inside it (#581)
+- Documented difference: antd has no hover-shadow token, so an antd primary hovers Darker Pink without `aha-button`'s pink glow; the Popconfirm spec says so (#581)
+- Form render contract expects the #1A1A1A label that `form-theme` has set since 0.915.2, so the standards gate passes again (#581)
+- Revert: revert the PR; `lib/popconfirm-theme.js` and one block in `lib/antd-base-theme.js` return to the previous values
 
 ## 0.920.1 — 2026-11-03
 ### Changed
