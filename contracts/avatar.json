@@ -15,14 +15,14 @@
     { "label": "Size", "value": "small 24 · default 40 · large 64 (named), or any numeric px via `size`" },
     { "label": "Shape", "value": "circle (pill radius) · square (radius 8)" },
     { "label": "Initials", "value": "bg-accent #E70E680D, text-default #1A1A1A, SemiBold 600" },
-    { "label": "Image", "value": "object-fit cover, clipped to shape" },
+    { "label": "Image", "value": "object-fit cover, clipped to shape; if it fails to load, the no-src content (icon, else initials of `name`) shows until `src` changes" },
     { "label": "Icon", "value": "<aha-icon> glyph by name, ~half the avatar diameter, currentColor" },
     { "label": "Color", "value": "ground tint from an --aha-* token via `color` (default brand tint)" },
     { "label": "Group", "value": "stacked overlap (-10px), 2px container-white ring; grounds rotate Vivid Pink 5% #E70E680D (ink), 30% #E70E684D (ink), 100% #E70E68 (white) so neighbours never match; an avatar with its own `color` keeps it; +N chip past `max` on grey 25 #F3F3F3" }
   ],
   "props": [
     { "name": "name", "type": "string", "default": "—", "desc": "Full name; initials are derived when no src/icon. Also the alt/aria-label" },
-    { "name": "src", "type": "string", "default": "—", "desc": "Image URL; the photo content mode (overrides icon/initials)" },
+    { "name": "src", "type": "string", "default": "—", "desc": "Image URL; the photo content mode (overrides icon/initials). If the image fails to load, the avatar shows the no-src content (icon, else initials of `name`) until `src` changes" },
     { "name": "icon", "type": "string", "default": "—", "desc": "DS icon name (e.g. 'system-user'); the glyph content mode when no src" },
     { "name": "size", "type": "'small' | 'default' | 'large' | number", "default": "default", "desc": "24 / 40 / 64 named steps, or any numeric px" },
     { "name": "shape", "type": "circle | square", "default": "circle", "desc": "Clip shape" },
@@ -35,7 +35,7 @@
       { "what": "Icon", "when": "a generic symbol, not a specific identity" },
       { "what": "Tag", "when": "labelling with a category rather than an identity" }
     ],
-    "note": "Always provide `name` even when `src` is set — it becomes the alt text and the initials fallback if the image fails. Prefer initials or a photo over a generic icon for a real identity; reserve the icon mode for a placeholder/guest slot. In a group, keep sizes uniform and set `max` so the +N chip stays legible.",
+    "note": "Always provide `name` even when `src` is set — it becomes the alt text and the initials shown when the image fails to load, until `src` changes. Prefer initials or a photo over a generic icon for a real identity; reserve the icon mode for a placeholder/guest slot. In a group, keep sizes uniform and set `max` so the +N chip stays legible.",
     "dsv3": "COVERED — enumerated from the DS V3 Avatar + Avatar-Group component sets (fileKey MwjvUjVI0HnfwD9EwPXRAy): 'supports images, Icons, or letters' → three content modes; circle/square shapes; small/default/large sizes; a colour ground; and a stacked group with a +N overflow. Initials/icon ground uses bg-accent (#E70E680D) with text-default (#1A1A1A) — pale pink with black text, since pink text fails contrast on the tint; `color` overrides the ground with any --aha-* token. Circle is the pill radius; square is the default 8 radius. Group children wear a 2px bg-container ring and overlap; the +N chip inherits the group size/shape."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
