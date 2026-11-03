@@ -36,7 +36,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.972.0 — 2026-11-04
 
 ### Added
-- **`aha-popconfirm`: the Popconfirm as a web component** (#PR). A small prompt anchored to its trigger (the element's child)
+- **`aha-popconfirm`: the Popconfirm as a web component** (#624). A small prompt anchored to its trigger (the element's child)
   that matches the antd Popconfirm themed by `popconfirm-theme.js` value for value: the shared `aha-popover` frame with its arrow,
   twelve placements, flip and top layer, the warning glyph in the default ink, a 14/22 SemiBold title, an optional description,
   and Cancel and OK at the DS small size (28 high, 4 corners). Its attributes follow the antd props one for one: `heading`,
