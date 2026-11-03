@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.960.1 — 2026-11-03
 ### Fixed
-- Option row, Counted textarea, Counted input and Input: a typed space (or the last few keystrokes) no longer disappears when the host writes back an older or trimmed copy of the value while the field has focus, for example after a debounced save. A value the field itself sent earlier in the same focus session no longer overwrites what is typed; any other value (a reset, a collaborator's edit) still applies. A value set during IME composition (Vietnamese Telex, Chinese, Japanese) no longer breaks the composition (#613)
+- Option row, Counted textarea, Counted input and Input: a typed space (or the last few keystrokes) no longer disappears when the host writes back an older or trimmed copy of the value while the field has focus, for example after a debounced save. A value the field itself sent earlier in the same focus session no longer overwrites what is typed; an empty value (a clear after submit), a value set from the `input` handler itself (a filter or clamp) and any other value (a reset, a collaborator's edit) still apply. A value set during IME composition (Vietnamese Telex, Chinese, Japanese) no longer breaks the composition (#613)
 
 ## 0.959.1 — 2026-11-03
 ### Fixed

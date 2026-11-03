@@ -62,7 +62,7 @@ test('every setting-row help bubble stays inside a 320px and a 383px viewport', 
   }
 });
 
-test('a host echoing a stale or trimmed value while the field is focused never eats a typed space; a new value still applies', { skip }, async () => {
+test('a host echoing a stale or trimmed value while the field is focused never eats a typed space; a new value, a clear or a filtered keystroke still applies', { skip }, async () => {
   const fields = {
     'aha-option-row': 'el.shadowRoot.querySelector(".field").shadowRoot.querySelector("textarea")',
     'aha-counted-textarea': 'el.shadowRoot.querySelector("textarea")',
@@ -86,13 +86,23 @@ test('a host echoing a stale or trimmed value while the field is focused never e
       await run('el.value = "Reset"');
       const composing = await read();
       await command('Input.insertText', { text: 'việt' });
-      return { typed, reset, composing, committed: await read() };
+      const committed = await read();
+      await run(`(() => { (${field}).select(); document.execCommand('delete'); })()`);
+      await command('Input.insertText', { text: 'x' });
+      await run('el.value = ""');
+      const cleared = await read();
+      await run(`el.addEventListener('input', (e) => { if (/\\d/.test(e.detail.value)) el.value = e.detail.value.replace(/\\d/g, ''); })`);
+      await command('Input.insertText', { text: 'ab' });
+      await command('Input.insertText', { text: '1' });
+      return { typed, reset, composing, committed, cleared, filtered: await read() };
     }, { readyExpr: `!!window.ready && !!customElements.get("${tag}")` });
     assert.deepEqual(result, {
       typed: { field: 'Hello W', value: 'Hello W' },
       reset: { field: 'Reset', value: 'Reset' },
       composing: { field: 'Resetvi', value: 'Resetvi' },
       committed: { field: 'Resetviệt', value: 'Resetviệt' },
+      cleared: { field: '', value: '' },
+      filtered: { field: 'ab', value: 'ab' },
     }, tag);
   }
 });
