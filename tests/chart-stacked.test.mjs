@@ -52,3 +52,19 @@ test('labels taken from data resolve their own direction', { skip }, async () =>
   assert.equal(result.labelDir, 'auto');
   assert.equal(result.legendDir, 'auto');
 });
+
+test('segment hatches follow a palette change, matching the legend swatches', { skip }, async () => {
+  const result = await evaluateInPage(fixture, String.raw`(async () => {
+    await new Promise((done) => setTimeout(done, 1500));
+    const chart = document.getElementById('six');
+    chart.colors = ['#111111', '#222222'];
+    await new Promise((done) => setTimeout(done, 800));
+    const hatched = (node) => getComputedStyle(node, '::before').maskImage !== 'none';
+    return {
+      segments: [...chart.shadowRoot.querySelectorAll('.stack-segment')].map(hatched),
+      swatches: [...chart.shadowRoot.querySelectorAll('.lg-item .swatch')].map(hatched),
+    };
+  })()`, { readyExpr: '!!window.stackedFixtureReady', timeout: 45000 });
+  assert.deepEqual(result.swatches, [false, false, true, true, true, true]);
+  assert.deepEqual(result.segments, result.swatches);
+});
