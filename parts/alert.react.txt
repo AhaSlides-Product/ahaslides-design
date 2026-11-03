@@ -2,7 +2,7 @@ import '@ahaslides-product/design/aha-alert';   // registers <aha-alert> (+ <aha
 import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper for the composed `close` event; React 19 can bind onClose directly.
-function AhaAlert({ type, heading, size, banner, hideIcon, closable, onClose, action, children }) {
+function AhaAlert({ type, heading, size, padding, banner, hideIcon, closable, onClose, action, children }) {
   const ref = useRef();
   useEffect(() => {
     const el = ref.current;
@@ -16,6 +16,7 @@ function AhaAlert({ type, heading, size, banner, hideIcon, closable, onClose, ac
       type={type}
       {...(heading ? { heading } : {})}
       {...(size ? { size } : {})}
+      {...(padding ? { padding } : {})}
       {...(banner ? { banner: '' } : {})}
       {...(hideIcon ? { 'hide-icon': '' } : {})}
       {...(closable ? { closable: '' } : {})}
@@ -31,3 +32,4 @@ function AhaAlert({ type, heading, size, banner, hideIcon, closable, onClose, ac
 <AhaAlert type="branding" heading="New: AI slides" action={<button>Try it</button>}>Turn a prompt into a deck.</AhaAlert>
 <AhaAlert type="warning" banner closable onClose={() => setBanner(null)}>Scheduled maintenance tonight.</AhaAlert>
 <AhaAlert type="error" size="small" closable onClose={() => setBanner(null)}>Upload failed. Try a smaller file.</AhaAlert>
+<AhaAlert type="info" size="small" padding="even" hideIcon closable onClose={() => setBanner(null)}>This slide type is used in 3 presentations.</AhaAlert>
