@@ -33,6 +33,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.946.0 — 2026-11-03
+### Added
+- Anti-slop app-shell criterion C6: presenter control-bar buttons and the popovers they open must show their key in the tooltip, take focus on open and return it to the trigger, close on Esc before Esc can exit presenting, and list every key in the presenter hotkey cheatsheet. The judge must drive the real presenting UI with the keyboard and record each keypress; with no run it marks C6 `FAIL — UNVERIFIED`, never PASS. Three eval cases cover it: an Annotate-style failure, a passing bar, and the same passing code with no recorded run (#PRNUM)
+### Changed
+- Canvas criteria C10 and C24 (and the canvas guide) now point host-painted control-bar actions at app-shell C6 instead of calling them out of scope (#PRNUM)
+- The App shell guideline declares its environments (product, web) and leaves the environments baseline (#PRNUM)
+
 ## 0.942.0 — 2026-11-03
 ### Added
 - Marketing → Hero split: an opt-in Rise picture switch for a tall phone screenshot, so the picture no longer makes the hero far taller than its copy. Rise (`aha-header-section-hero-split--rise`) drops the hero's bottom padding and lets the screenshot rise from the hero's bottom edge, cut off there at 560 px tall; a Logos strip goes in its own white band after the hero, never inside it. Inset stays the default, so no existing page moves (#586)
