@@ -35,6 +35,8 @@
     { "name": "status", "type": "default | error", "default": "default", "desc": "Error recolours the border + ring and sets aria-invalid" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Non-interactive; grey fill" },
     { "name": "readonly", "type": "boolean", "default": "false", "desc": "Selectable but not editable; secondary fill" },
+    { "name": "autofocus", "type": "boolean", "default": "false", "desc": "Focuses the inner field once, when the element connects (a password gate or a single-field screen). Shows the same focus ring as a click and, with maxlength set, the counter" },
+    { "name": "focus(options)", "type": "method", "default": "—", "desc": "Focuses the inner field, as a native input's focus() does; options.preventScroll is honoured. The host also delegates focus, so a click on the box or a tab stop lands in the field. No need to reach into shadowRoot" },
     { "name": "input", "type": "CustomEvent<{value}>", "default": "—", "desc": "Composed event on each keystroke; read e.detail.value" },
     { "name": "change", "type": "CustomEvent<{value}>", "default": "—", "desc": "Composed event on commit (blur/enter)" }
   ],
