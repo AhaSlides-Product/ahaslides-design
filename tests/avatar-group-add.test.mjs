@@ -30,7 +30,9 @@ globalThis.HTMLElement = class extends FakeNode {
 };
 globalThis.document = { createElement: (tag) => new FakeNode(tag) };
 globalThis.CustomEvent = class { constructor(type, init) { Object.assign(this, { type }, init); } };
-globalThis.customElements = { get: () => undefined, define: () => {} };
+const defined = new Set();
+globalThis.customElements = { get: () => undefined, define: (tag) => defined.add(tag) };
+globalThis.window = {};
 const { AhaAvatarGroup } = await import('../lib/aha-avatar.js');
 
 function mount(attrs, avatarCount) {
@@ -76,4 +78,8 @@ test('adding an avatar keeps the same add button node, so focus stays on it', ()
   observerCallback();
   assert.equal(el._add, add);
   assert.equal(el.shadowRoot.children.length, 2);
+});
+
+test('importing aha-avatar alone registers aha-icon for the + glyph', () => {
+  assert.ok(defined.has('aha-icon'));
 });
