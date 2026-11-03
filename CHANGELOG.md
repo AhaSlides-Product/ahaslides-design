@@ -33,6 +33,18 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.971.0 — 2026-11-04
+
+### Added
+- **`aha-modal`: the Modal as a web component** (#623). A white dialog over a dimmed mask that matches the antd Modal themed by
+  `modal-theme.js` value for value (radius 8, 20/24 padding, 18px SemiBold ink title with the shared ✕, Cancel and OK at 36 high,
+  the simple / complexity / rich size cap), for apps dropping antd and pages that never load it. Its attributes follow the antd
+  props one for one: `ok-text`, `cancel-text`, `ok-disabled`, `ok-danger` (Cancel becomes the primary and a mask click never
+  closes it), `confirm-loading` (Cancel, ✕, Escape and the mask wait), `width`, `size`, `centered`, `closable`, `mask-closable`,
+  `keyboard`, `no-footer` and a `footer` slot that replaces the buttons. OK emits a cancelable `ok`, every dismiss a cancelable
+  `cancel` with its source, then `close` and `closed`. It traps Tab, locks page scroll and gives focus back to the opener. The
+  antd `modal-theme.js` is unchanged.
+
 ## 0.970.0 — 2026-11-04
 
 ### Added
