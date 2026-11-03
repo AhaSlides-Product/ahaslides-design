@@ -35,9 +35,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.949.0 — 2026-11-03
 ### Added
-- Alert: opt-in `padding="even"` gives the same padding on all four sides at the size's side value: regular 14px, small 10px. Gap, text, glyph and the close ✕ position are unchanged, and an alert without the attribute renders exactly as before. Vue 2 apps, which may not size an `<aha-*>` through `::part` (VUE2-6), now have a sanctioned way to get even alert padding (#NNN)
+- Alert: opt-in `padding="even"` gives the same padding on all four sides at the size's side value: regular 14px, small 10px. Gap, text, glyph and the close ✕ position are unchanged, and an alert without the attribute renders exactly as before. Vue 2 apps, which may not size an `<aha-*>` through `::part` (VUE2-6), now have a sanctioned way to get even alert padding (#603)
 ### Changed
-- VUE2-6 and feedback criterion C4 (in `anti-slop/criteria.json` and `agent/anti-slop/criteria.json`) name `padding="even"` as the way to get even alert padding; a `::part(alert)` or inline padding override fails C4. Two feedback eval cases cover it: a `::part(alert)` override and the passing attribute (#NNN)
+- VUE2-6 and feedback criterion C4 (in `anti-slop/criteria.json` and `agent/anti-slop/criteria.json`) name `padding="even"` as the way to get even alert padding; a `::part(alert)` or inline padding override fails C4. Two feedback eval cases cover it: a `::part(alert)` override and the passing attribute (#603)
 
 ## 0.947.1 — 2026-11-03
 ### Fixed
