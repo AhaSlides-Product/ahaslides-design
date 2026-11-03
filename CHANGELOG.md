@@ -33,11 +33,18 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.962.0 — 2026-11-03
+## 0.964.0 — 2026-11-03
 ### Added
 - `<aha-avatar-group add>` appends a round + button after the avatars and the +N chip, at the group's size and shape with the same overlap and white ring, drawn like the secondary Button (pink on hover and press, the pink focus ring). Click, Enter or Space fires a bubbling `aha-add` event; `add-label` names it (default "Add") and `add-disabled` disables it. Groups without `add` render as before (#615)
 ### Changed
 - `<aha-avatar-group>` builds its shadow tree once and updates it in place, so a member added by an `aha-add` handler keeps keyboard focus on the add button (#615)
+
+## 0.962.0 — 2026-11-03
+### Changed
+- aha-design skill, route table and Stop hook: presenter-app work on the presenting screen (`src/components-v2/presentation-editor/middle/**` in `stpancras-presenter-app`, the presenter control bar and its popovers, anything drawn over a live slide such as ink annotation) is always judged on `canvas` plus `app-shell` C6, whoever builds it (#616)
+- Canvas C10 and app-shell C6 now name the same host controls (every control-bar button, manifest actions included, the popovers they open, host layers over the slide such as ink annotation) and the same rule for them: the canvas C10 shortcut chip, sized and themed by the host, never `applyCanvasDeck` or the in-canvas `size="lg"` (#616)
+### Fixed
+- Every anti-slop surface's `skillRef` now names a skill the plugin ships (`ahaslides-design:aha-design`, settings `ahaslides-design:settings-design`) instead of the retired `aha-design:aha-design-<x>-judge` skills, and the standards gate fails a `skillRef` that does not resolve under `agent/skills` (#616)
 
 ## 0.959.1 — 2026-11-03
 ### Fixed

@@ -36,7 +36,7 @@
      "{site}/voice-rules.md",
      "{site}/guidelines/page-title-favicon/page-title-favicon.md"
     ],
-    "judge": "{site}/anti-slop.md (surfaces audience, canvas and settings)",
+    "judge": "{site}/anti-slop.md (surfaces audience, canvas and settings; presenter-app work on the presenting screen, its control bar and popovers or anything drawn over a live slide such as ink annotation, is canvas plus app-shell C6)",
     "lint": "node node_modules/@ahaslides-product/design/screen-lint.mjs --surface=canvas <presenter files>, then the same command with --surface=audience <audience files> and --surface=settings <settings files>",
     "plugin": "ahaslides-design:aha-design",
     "owner": "Design system team (#design-system-agents)"
