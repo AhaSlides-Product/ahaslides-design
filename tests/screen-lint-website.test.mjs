@@ -50,7 +50,7 @@ test('every image carries alt', () => {
 
 const band = (classes) => `<section class="${classes}"></section>`;
 const page = (...bands) => `<main>\n${bands.join('\n')}\n</main>`;
-const websiteRulesOf = (source) => rulesOf(source).filter((rule) => ['section-eyebrow', 'band-order', 'section-spacing-override', 'removed-layout', 'hero-not-brand', 'band-after-brand-hero', 'tabs-description-long', 'steps-as-tabs', 'autoplay-video-extra', 'autoplay-video-attributes', 'autoplay-video-motion', 'grey-quote-or-frame'].includes(rule));
+const websiteRulesOf = (source) => rulesOf(source).filter((rule) => ['section-eyebrow', 'band-order', 'section-spacing-override', 'removed-layout', 'hero-not-brand', 'band-after-brand-hero', 'tabs-description-long', 'steps-as-tabs', 'autoplay-video-attributes', 'autoplay-video-motion', 'grey-quote-or-frame'].includes(rule));
 const fixture = (name) => readFileSync(new URL(`../anti-slop/evals/website/fixtures/${name}/Page.html`, import.meta.url), 'utf8');
 
 test('a section eyebrow fails and a card category label does not', () => {
@@ -115,7 +115,7 @@ test('the eval fixtures: both pass pages are clean, the eyebrow fixture and the 
   assert.deepEqual(websiteRulesOf(fixture('pass-landing-page')), []);
   assert.deepEqual(websiteRulesOf(fixture('pass-pricing-page')), []);
   assert.deepEqual(websiteRulesOf(fixture('pass-hero-video')), []);
-  assert.deepEqual(websiteRulesOf(fixture('fail-w9-second-autoplay-video')), ['autoplay-video-extra']);
+  assert.deepEqual(websiteRulesOf(fixture('pass-w9-two-autoplay-videos')), []);
   assert.deepEqual(websiteRulesOf(fixture('fail-w9-no-reduced-motion')), ['autoplay-video-motion']);
   assert.ok(websiteRulesOf(fixture('fail-w14-eyebrow')).includes('section-eyebrow'));
   assert.ok(websiteRulesOf(fixture('fail-w2-section-gaps')).includes('section-spacing-override'));
@@ -242,9 +242,10 @@ test('W9: one hero video with autoplay, muted, loop, playsinline, poster and a r
   assert.deepEqual(videoRulesOf(heroWithVideo('controls playsinline poster="p.jpg"')), []);
 });
 
-test('W9: a second autoplaying video, or one outside the hero, fails', () => {
-  assert.ok(videoRulesOf(heroWithVideo(heroVideo, `<video ${heroVideo}></video>${stopScript}`)).includes('autoplay-video-extra'));
-  assert.ok(videoRulesOf(heroWithVideo('controls', `<section class="aha-features"><video ${heroVideo}></video></section>${stopScript}`)).includes('autoplay-video-extra'));
+test('W9: a second autoplaying video, or one outside the hero, passes when it follows the rule', () => {
+  assert.deepEqual(videoRulesOf(heroWithVideo(heroVideo, `<video ${heroVideo}></video>${stopScript}`)), []);
+  assert.deepEqual(videoRulesOf(heroWithVideo('controls', `<section class="aha-features"><video ${heroVideo}></video></section>${stopScript}`)), []);
+  assert.ok(videoRulesOf(heroWithVideo('controls', `<section class="aha-features"><video autoplay muted></video></section>${stopScript}`)).includes('autoplay-video-attributes'));
 });
 
 test('W9: an autoplaying video without muted, loop, playsinline or poster fails', () => {
@@ -278,14 +279,6 @@ test('W9: a reduced-motion rule that does not target the video, or an older moti
   assert.deepEqual(videoRulesOf(heroWithVideo(heroVideo, '<script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.600.1/lib/marketing-motion.js"></script>')), []);
   assert.deepEqual(videoRulesOf(heroWithVideo(heroVideo, '<script>if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.querySelector("video").pause();</script>')), []);
   assert.deepEqual(videoRulesOf(heroWithVideo(heroVideo, '<style>@media (prefers-reduced-motion:reduce){.a{transition:none}.hero video{display:none}}</style>')), []);
-});
-
-test('W9: the hero is found by its class and its closing tag, not by position', () => {
-  const clip = `<video ${heroVideo}></video>`;
-  assert.ok(videoRulesOf(`<section class="aha-header-section-hero-split"></section>${clip}${stopScript}`).includes('autoplay-video-extra'));
-  assert.ok(videoRulesOf(`<section class="aha-features">${clip}</section><section class="aha-header-section-hero-split"></section>${stopScript}`).includes('autoplay-video-extra'));
-  assert.ok(videoRulesOf(`<section class="aha-features">${clip}</section>${stopScript}`).includes('autoplay-video-extra'));
-  assert.deepEqual(videoRulesOf(`<section class="aha-features"></section><section class="aha-header-section-hero-split"><div>${clip}</div></section>${stopScript}`), []);
 });
 
 test('W9: a no-preference reduced-motion block is no stop', () => {
