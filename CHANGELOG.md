@@ -33,6 +33,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.973.0 — 2026-11-04
+
+### Added
+- **Voice rules: never invent a fact (rule 13.26) and a new section 17 for personal email sent in a named person's
+  name** (#PRNUM). Proposed from the Head of Growth's corrections to customer emails on 3 November; awaiting the brand
+  director's decision.
+
 ## 0.972.1 — 2026-11-04
 
 ### Fixed
