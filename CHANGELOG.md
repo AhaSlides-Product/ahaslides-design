@@ -33,11 +33,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.964.0 — 2026-11-03
+## 0.965.0 — 2026-11-03
 ### Added
 - `<aha-avatar-group add>` appends a round + button after the avatars and the +N chip, at the group's size and shape with the same overlap and white ring, drawn like the secondary Button (pink on hover and press, the pink focus ring). Click, Enter or Space fires a bubbling `aha-add` event; `add-label` names it (default "Add") and `add-disabled` disables it. Groups without `add` render as before (#615) The default `add-label` is "Add person".
 ### Changed
 - `<aha-avatar-group>` builds its shadow tree once and updates it in place, so a member added by an `aha-add` handler keeps keyboard focus on the add button (#615)
+
+## 0.964.0 — 2026-11-03
+### Added
+- Dropdown: a `{type:'switch', key, label, checked?, description?, icon?, badge?, disabled?, testid?}` row draws the shared Switch at the row's trailing edge for a setting inside the menu (Full screen beside Present). It is a `menuitemcheckbox` with `aria-checked`; click, Enter or Space flips it in place, the menu stays open with focus on the row, and a composed `change` fires with detail `{ key, checked }` (never `select`). Re-set `items` with a new `checked` to control it: only the switch updates (#PR)
+- Dropdown: `badge` ("Beta", "New") on a leaf or switch row draws the shared Badge kind tag right after the label, before a shortcut chip, crown or switch; "New" is the pink New tag, any other text the grey Beta tag, and the row's accessible name gains ", Beta". Use it instead of a "(Beta)" suffix in the label (#PR)
 
 ## 0.962.0 — 2026-11-03
 ### Changed
