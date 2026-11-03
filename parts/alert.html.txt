@@ -10,6 +10,8 @@
 <div style="display:flex; flex-direction:column; gap:12px; max-width:520px">
   <aha-alert type="info" heading="Heads up">Your poll closes in 5 minutes.</aha-alert>
   <aha-alert type="success" size="small">Slide saved.</aha-alert>
+  <!-- padding="even": the same padding on all four sides (small 10, regular 14) -->
+  <aha-alert type="info" size="small" padding="even" closable hide-icon>This slide type is used in 3 presentations.</aha-alert>
   <aha-alert type="warning" heading="Almost at the limit">You have used 9 of 10 slides on the Free plan.</aha-alert>
   <aha-alert type="error" closable id="err">Upload failed. The file is over 20&nbsp;MB.</aha-alert>
   <aha-alert type="branding" heading="New: AI slide generation">

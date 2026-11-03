@@ -2,6 +2,7 @@
   "name": "Using the design system in Vue 2",
   "slug": "vue2",
   "kind": "guideline",
+  "environment": ["product", "audience"],
   "group": "Patterns",
   "badge": "guide — consuming the DS",
   "summary": "New UI in the legacy Vue 2 apps (presenter, audience, admin) uses the DS <aha-*> web components, never the old stpancras-storybook-app kit: load lib/all.js + tokens.css once pinned to a tag, set Vue.config.ignoredElements = [/^aha-/], bind arrays with .prop and read CustomEvent detail. Existing screens stay as they are unless a task asks to migrate them.",
@@ -23,7 +24,7 @@
     { "rule": "Load lib/all.js and tokens.css once for the whole app, pinned to a release tag — never @master and never per component.", "ref": ["VUE2-3"] },
     { "rule": "Set Vue.config.ignoredElements = [/^aha-/] before new Vue(...).", "ref": ["VUE2-4"] },
     { "rule": "Bind strings, numbers and booleans as attributes; bind arrays and objects as DOM properties with the .prop modifier; read event data from the CustomEvent's detail and ignore native events that bubble out of an input.", "ref": ["VUE2-5"] },
-    { "rule": "Size and style an <aha-*> only through its attributes and --aha-* tokens — never ::part sizing or recolouring.", "ref": ["VUE2-6"] }
+    { "rule": "Size and style an <aha-*> only through its attributes and --aha-* tokens — never ::part sizing or recolouring. Even alert padding (top equal to the sides) is <aha-alert padding=\"even\">, never a ::part(alert) padding override.", "ref": ["VUE2-6"] }
   ],
   "reuse": null,
   "reuseNote": "Doc-only guide — the elements it uses are the ordinary DS exports in lib/all.js.",

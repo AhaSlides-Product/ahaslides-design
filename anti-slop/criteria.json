@@ -918,7 +918,7 @@
         {
           "id": "C4",
           "title": "Inline banners use the DS V3 Alert, not a bare AntD Alert",
-          "test": "**Rule.** A persistent, in-context message the user may need to act on is a **Design System V3 Alert** — the DS `<aha-alert>` element (`contracts/alert.json`), **not** a bare `<Alert>` with default styling. Each of the five types — `success`, `error`, `info`, `warning`, `branding` — carries its DS `bg-surface` / `icon` token with no border **and a distinct glyph** (colour is never the only signal). Text uses only Plus Jakarta Sans 400 (message/inline link) and 600 (title); the title is **sentence case**. Use an Alert for persistent in-context messages; a toast (C1) for transient auto-dismissing ones."
+          "test": "**Rule.** A persistent, in-context message the user may need to act on is a **Design System V3 Alert** — the DS `<aha-alert>` element (`contracts/alert.json`), **not** a bare `<Alert>` with default styling. Each of the five types — `success`, `error`, `info`, `warning`, `branding` — carries its DS `bg-surface` / `icon` token with no border **and a distinct glyph** (colour is never the only signal). Text uses only Plus Jakarta Sans 400 (message/inline link) and 600 (title); the title is **sentence case**. Padding comes from the element: `size` (regular 10 14, small 6 10) and, for the same padding on all four sides, `padding=\"even\"` (regular 14, small 10); a `::part(alert)` rule or inline style that sets padding, gap or font size fails. Use an Alert for persistent in-context messages; a toast (C1) for transient auto-dismissing ones."
         },
         {
           "id": "C5",

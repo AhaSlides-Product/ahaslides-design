@@ -33,13 +33,19 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.948.0 — 2026-11-03
+## 0.950.0 — 2026-11-03
 
 ### Added
 - Marketing: a screenshot outline for product screenshots whose own edge is white, so they no longer float shapeless on a white band. `aha-features__photo--outline` on the Features photo slot draws a 1 px `--aha-border-default` hairline on the slot's radius; `aha-marketing-card__media--outline` draws the same line between the picture and the card body. No fill, no shadow, no inset; never on a photo or with the Vivid Pink frame. Features Alternating with screenshots gets an Outline choice in its Image switch (Fill, Outline, Pink frame) (#599)
 
 ### Changed
 - W6 (website imagery) names the screenshot outline as an exception to the light grey frame ban, beside the Hero split Rise exception (both now worded "Named exception, <name>:"), in every copy (`guidelines/website.json`, `anti-slop/criteria.json`, `agent/anti-slop/criteria.json`); a light grey fill or rail still fails (#599)
+
+## 0.949.0 — 2026-11-03
+### Added
+- Alert: opt-in `padding="even"` gives the same padding on all four sides at the size's side value: regular 14px, small 10px. Gap, text, glyph and the close ✕ position are unchanged, and an alert without the attribute renders exactly as before. Vue 2 apps, which may not size an `<aha-*>` through `::part` (VUE2-6), now have a sanctioned way to get even alert padding (#603)
+### Changed
+- VUE2-6 and feedback criterion C4 (in `anti-slop/criteria.json` and `agent/anti-slop/criteria.json`) name `padding="even"` as the way to get even alert padding; a `::part(alert)` or inline padding override fails C4. Two feedback eval cases cover it: a `::part(alert)` override and the passing attribute (#603)
 
 ## 0.947.1 — 2026-11-03
 ### Fixed
