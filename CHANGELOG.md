@@ -33,13 +33,20 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.945.0 — 2026-11-03
+## 0.947.0 — 2026-11-03
 
 ### Added
 - Marketing: a screenshot outline for product screenshots whose own edge is white, so they no longer float shapeless on a white band. `aha-features__photo--outline` on the Features photo slot draws a 1 px `--aha-border-default` hairline on the slot's radius; `aha-marketing-card__media--outline` draws the same line between the picture and the card body. No fill, no shadow, no inset; never on a photo or with the Vivid Pink frame. Features Alternating with screenshots gets an Outline choice in its Image switch (Fill, Outline, Pink frame) (#599)
 
 ### Changed
 - W6 (website imagery) names the screenshot outline as an exception to the light grey frame ban, beside the Hero split Rise exception (both now worded "Named exception, <name>:"), in every copy (`guidelines/website.json`, `anti-slop/criteria.json`, `agent/anti-slop/criteria.json`); a light grey fill or rail still fails (#599)
+
+## 0.946.0 — 2026-11-03
+### Added
+- Anti-slop app-shell criterion C6: presenter control-bar buttons and the popovers they open must show their key in the tooltip, take focus on open and return it to the trigger, close on Esc before Esc can exit presenting, and list every key in the presenter hotkey cheatsheet. The judge must drive the real presenting UI with the keyboard and record each keypress; with no run it marks C6 `FAIL — UNVERIFIED`, never PASS. Three eval cases cover it: an Annotate-style failure, a passing bar, and the same passing code with no recorded run (#600)
+### Changed
+- Canvas criteria C10 and C24 (and the canvas guide) now point host-painted control-bar actions at app-shell C6 instead of calling them out of scope (#600)
+- The App shell guideline declares its environments (product, web) and leaves the environments baseline (#600)
 
 ## 0.942.0 — 2026-11-03
 ### Added

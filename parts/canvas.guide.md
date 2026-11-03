@@ -384,9 +384,12 @@ actions: [
 
 ## Keyboard-shortcut affordances — for controls you render in-canvas
 
-§5's host-painted actions get shortcut chips, focus order, and sound for free. A slide that
-renders its **own** interactive controls (a bespoke overlay, a play/pause, a mute button, a
-settings popover) owns those affordances — skipping any is a defect.
+§5's host-painted actions are the host's to get right, and the judge checks them under
+app-shell C6: a key in each control-bar tooltip, popover focus in and back, Esc closing the
+popover before exit-presenting, and every key in the presenter hotkey cheatsheet, proved by a
+recorded keyboard run of the real UI. A slide that renders its **own** interactive controls (a
+bespoke overlay, a play/pause, a mute button, a settings popover) owns those affordances —
+skipping any is a defect.
 
 - **a. A modal/overlay/popover traps focus.** Move focus to an element **inside** it on
   open, keep `Tab`/`Shift+Tab` cycling **within** it (the presenter can't tab out to the
@@ -417,7 +420,7 @@ additive, not a licence to hand-roll the element.)
 Slide Plugin Policy (POLICY.md) section 6: the presenting view supports full no-mouse,
 no-touch operation. C10 above covers the chips, tooltips and focus-trap of controls you
 render; this is the reachability test for **every** interaction, in Standard and Immersive
-UI styles. A display-only canvas with nothing to press, hover or drag passes vacuously.
+UI styles. The host's control bar and its popovers are app-shell C6. A display-only canvas with nothing to press, hover or drag passes vacuously.
 
 - **a. Reachable and operable.** Each control is in the Tab order in a sensible (reading)
   order, shows a visible focus ring, and activates with `Enter`/`Space`, a declared shortcut,
