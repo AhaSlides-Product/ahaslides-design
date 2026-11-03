@@ -33,6 +33,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.968.1 — 2026-11-03
+### Fixed
+- `<aha-avatar-group add>` stacks left over right: each avatar and the +N chip sits on top of the item to its right, so the + button tucks under the item on its left (it rises above its neighbour on hover and keyboard focus so the focus ring shows whole); groups without `add` are unchanged (#621)
+- `<aha-avatar-group>`: the 2px white ring around each avatar and the +N chip now follows the avatar's shape (round on a circle, radius 8 on a square). It was drawn square, so where avatars overlapped it showed as a straight white strip cutting across the neighbour instead of a curve; with and without `add` (#621)
+- Revert: revert the PR; stacking order only
+
 ## 0.967.1 — 2026-11-03
 ### Fixed
 - Option row, Counted textarea, Counted input and Input: a typed space (or the last few keystrokes) no longer disappears when the host writes back an older or trimmed copy of the value while the field has focus, for example after a debounced save. A value the field itself sent earlier in the same focus session no longer overwrites what is typed; an empty value (a clear after submit), a value set from the `input` handler itself (a filter or clamp) and any other value (a reset, a collaborator's edit) still apply. A value set during IME composition (Vietnamese Telex, Chinese, Japanese) no longer breaks the composition (#613)

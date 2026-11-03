@@ -94,3 +94,12 @@ test('add overlaps the group slightly in proportion to size; without add it keep
   const { el } = mount({ max: '3' }, 4);
   assert.equal(el._stack.classList.contains('slight'), false);
 });
+
+test('with add, stacking runs left over right: each item sits above the one to its right and the + button is lowest', () => {
+  const { el, add } = mount({ add: '', max: '3' }, 5);
+  const z = (n) => Number(n.style['--aha-z']);
+  const kids = el.children;
+  for (let i = 1; i < kids.length; i++) assert.ok(z(kids[i - 1]) > z(kids[i]));
+  assert.ok(z(kids[kids.length - 1]) > z(el._chip));
+  assert.ok(z(el._chip) > z(add));
+});
