@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.947.1 — 2026-11-03
 ### Fixed
-- `screen-lint --surface=website` W9: an autoplaying video outside the hero needs `lib/marketing-motion.js` 0.947.0 or later to count as stopped under reduced motion; older scripts pause only the hero video (#PR)
+- `screen-lint --surface=website` W9: an autoplaying video outside the hero needs `lib/marketing-motion.js` 0.947.0 or later to count as stopped under reduced motion; older scripts pause only the hero video (#602)
 
 ## 0.947.0 — 2026-11-03
 ### Changed
