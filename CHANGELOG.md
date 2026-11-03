@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.915.1 — 2026-11-03
+### Fixed
+- `<aha-dropdown>` locked rows: an open Paywall is re-fitted whenever the menu is repositioned, so resizing from a wide to a narrow viewport moves it inside the screen (switching to above or below the row) instead of clipping its actions. (#NNN)
+- Revert: revert the PR; one added call at the end of `_place()` in `lib/aha-dropdown.js`
+
 ## 0.915.0 — 2026-11-03
 ### Added
 - `<aha-dropdown>` locked rows: a leaf item with `locked: true` (plus optional `plan: 'pro' | 'essential'`, `featureKey`, `upgradeBody`) keeps its normal look, shows the shared `<aha-paywall>` crown at its trailing edge, and a click, Enter or Space opens that row's Paywall popover beside the row (above or below it via `fitPaywall` when the side lacks room) instead of emitting `select`. Tab moves into Upgrade / See all plans, Escape closes the popover and then the menu, and choosing Upgrade or See all plans closes the menu. The Paywall's composed `paywall-shown`, `paywall-upgrade` and `paywall-plans` events bubble out of the dropdown. No new icon or token; rows without `locked` are unchanged. (#579)
