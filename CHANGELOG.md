@@ -33,9 +33,28 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.966.1 — 2026-11-03
+## 0.967.1 — 2026-11-03
 ### Fixed
 - Option row, Counted textarea, Counted input and Input: a typed space (or the last few keystrokes) no longer disappears when the host writes back an older or trimmed copy of the value while the field has focus, for example after a debounced save. A value the field itself sent earlier in the same focus session no longer overwrites what is typed; an empty value (a clear after submit), a value set from the `input` handler itself (a filter or clamp) and any other value (a reset, a collaborator's edit) still apply. A value set during IME composition (Vietnamese Telex, Chinese, Japanese) no longer breaks the composition (#613)
+
+## 0.967.0 — 2026-11-03
+### Changed
+- Tokens: `--aha-text-tertiary` is grey 80 `#616161` (6.19:1 on white) instead of `#8A8A8A` (3.45:1), so tertiary text passes AA. `--aha-icon-muted` stays `#8A8A8A`: icons need 3:1 (#619)
+- Tokens: `--aha-text-link` is Darker Pink `#DB005B` (`--aha-vivid-pink-dark`) instead of Vivid Pink. A link now passes AA on white (5.04:1), on the alert grey `#F3F3F3` (4.55:1) and on Vivid Pink at 5% (4.65:1); it was 4.51, 4.06 and 4.16:1. `--aha-color-primary` and every button and fill keep Vivid Pink. Colour rule 6.7 is updated (#619)
+- Course theme: tertiary text is floored at 4.5:1 on the surface, page and light greys; links are floored at 4.5:1 on the alert grey and the accent tint too; the secondary text floor also covers the grey-30 tag fill, so a default `<aha-tag>` keeps 4.5:1 in a tinted theme. Muted icons keep their 3:1 floor (#619)
+- `<aha-flex>` no longer sets a text colour; its children inherit the parent's (#619)
+
+### Fixed
+- `<aha-collapse>` header text is the 14px body size, not 15px (#619)
+- `<aha-chart>` value sub-line and `<aha-result>` subtitle use the secondary text grey `#4A4A4A` instead of `#8A8A8A` (#619)
+- The shared dismiss ✕ (`<aha-button variant="tertiary" icon-only size="xs" corner>`, drawn by `dismissibleModalTitle` and the Toast, Notification and Drawer close rows) keeps its 20px look and gets an invisible 32 × 32 hit area (#619)
+- `antd-base-theme` sets `fontHeight` from the DS line height 1.5 (21 at 14px; `dsAntdTheme` recomputes it when a composite sets `fontSize` or `lineHeight`), so a Select is 40px, not 39. It also sets `colorTextPlaceholder` to `#8A8A8A`, as the input composites do, instead of antd's 25% black (#619)
+- `<aha-avatar>` initials take the type-scale step nearest 38% of the size, never below 12px: 12 at 24 (was 9), 16 at 40 (was 15), 24 at 64 (#619)
+- DataTable: the idle sort arrow is the muted icon grey `#8A8A8A` (3.45:1), not the disabled grey `#B5B5B5`, which is for disabled states only (#619)
+- `table-theme` (Table and DataTable): header labels use the tertiary text grey `#616161` (6.19:1 on white, 5.48:1 on the hover fill) instead of `#8A8A8A` (3.45:1) (#619)
+- `state-check.mjs` no longer waives a Vivid Pink link in an Alert or info box: links are Darker Pink and pass 4.5:1 there (#619)
+- antd base theme: `colorLink` is `--aha-text-link` Darker Pink `#DB005B` instead of Vivid Pink, so an antd `Typography.Link` or `Button type="link"` matches the DS link (#619)
+- antd base theme: Message and Notification pin their own text colours, so a toast or notification never inherits a faint page colour. Message text and the notification title are `--aha-text-default` `#1A1A1A` (17.4:1 on white), the notification description is `--aha-text-secondary` `#4A4A4A` (8.86:1) (#619)
 
 ## 0.966.0 — 2026-11-03
 ### Fixed

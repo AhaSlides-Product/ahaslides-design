@@ -30,7 +30,7 @@
     },
     {
       "label": "Header",
-      "value": "padding 14/16 · 15/22 SemiBold #1A1A1A · hover #F7F7F7 (small: 8/12 · 14/20)"
+      "value": "padding 14/16 · 14/22 SemiBold #1A1A1A · hover #F7F7F7 (small: 8/12 · 14/20)"
     },
     {
       "label": "Caret",
@@ -246,7 +246,7 @@
       "verdict": "PASS"
     },
     {
-      "label": "header 15/22 SemiBold #1A1A1A (small: 14/20)",
+      "label": "header 14/22 SemiBold #1A1A1A (small: 14/20)",
       "verdict": "PASS"
     },
     {
