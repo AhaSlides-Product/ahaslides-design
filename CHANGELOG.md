@@ -36,7 +36,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.974.0 — 2026-11-04
 
 ### Added
-- **`<aha-input-number>`: a numeric field that replaces antd `InputNumber`** (#PR). It looks like `aha-input` (40px,
+- **`<aha-input-number>`: a numeric field that replaces antd `InputNumber`** (#628). It looks like `aha-input` (40px,
   `size="small"` 24px, `size="large"` 48px, radius 8) with the ▲/▼ stepper revealed on hover and focus;
   `controls="false"` hides it. It takes decimals and negatives, `min`, `max`, `step` and `precision`, clamps and rounds
   when the field is left or Enter is pressed, and steps with ArrowUp / ArrowDown (Shift for ten). `string-mode` keeps
@@ -45,7 +45,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
   `aria-label` and `aria-labelledby` through, supports `disabled`, `readonly`, `status`, `prefix`, `suffix`, `label`
   and the field messages, and joins forms. `increase-label` / `decrease-label` rename the stepper buttons
   (default "Increase" / "Decrease"). The `input-number` antd theme and `aha-number-with-unit` are unchanged.
-- **`aha-form-item` reads `aha-input-number`** (#PR): the value is a number (its string under `string-mode`) or `null`,
+- **`aha-form-item` reads `aha-input-number`** (#628): the value is a number (its string under `string-mode`) or `null`,
   and the field fills the item's width.
 
 ## 0.973.0 — 2026-11-04
