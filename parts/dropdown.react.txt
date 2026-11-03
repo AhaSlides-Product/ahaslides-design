@@ -2,22 +2,25 @@ import '@ahaslides-product/design/icons';        // registers <aha-icon> for lea
 import '@ahaslides-product/design/aha-dropdown';  // registers <aha-dropdown>
 import { useRef, useEffect } from 'react';
 
-// React 18 needs a thin wrapper for the composed `select`, `open` and `close` events; React 19 can bind them directly.
+// React 18 needs a thin wrapper for the composed `select`, `change`, `open` and `close` events; React 19 can bind them directly.
 // `open` + onOpenChange make it controlled; setting `open` fires no event, so the two cannot loop.
+// onToggle(key, checked) receives a switch row's `change`; pass the new `checked` back in items to control it.
 // onUpgrade receives a locked row's paywall-upgrade event (detail { feature, plan }); call e.preventDefault() to run your own flow.
-function AhaDropdown({ label, value, items, placement, trigger, open, onSelect, onOpenChange, onUpgrade }) {
+function AhaDropdown({ label, value, items, placement, trigger, open, onSelect, onToggle, onOpenChange, onUpgrade }) {
   const ref = useRef();
   useEffect(() => {
     const el = ref.current;
     const h = (e) => onSelect?.(e.detail.key);
+    const toggled = (e) => onToggle?.(e.detail.key, e.detail.checked);
     const opened = () => onOpenChange?.(true);
     const closed = () => onOpenChange?.(false);
     const upgrade = (e) => onUpgrade?.(e);
     el.addEventListener('select', h);
+    el.addEventListener('change', toggled);
     el.addEventListener('open', opened);
     el.addEventListener('close', closed);
     el.addEventListener('paywall-upgrade', upgrade);
-    return () => { el.removeEventListener('select', h); el.removeEventListener('open', opened); el.removeEventListener('close', closed); el.removeEventListener('paywall-upgrade', upgrade); };
+    return () => { el.removeEventListener('select', h); el.removeEventListener('change', toggled); el.removeEventListener('open', opened); el.removeEventListener('close', closed); el.removeEventListener('paywall-upgrade', upgrade); };
   });
   // Set the property, not the attribute: React 18 would write open="false" (read as closed) and React 19 assigns the property itself.
   useEffect(() => { if (open !== undefined) ref.current.open = !!open; }, [open]);
@@ -64,6 +67,19 @@ function AhaDropdown({ label, value, items, placement, trigger, open, onSelect, 
     { key: 'presenter', label: 'Presenter', description: 'Present only, cannot edit' },
   ]}
   onSelect={setRole}
+/>
+
+// a Present menu: a Beta badge after the label and a Full screen switch row; flipping it keeps the menu open
+<AhaDropdown
+  label="Present"
+  items={[
+    { key: 'start', label: 'Present from start', icon: 'system-play' },
+    { key: 'backstage', label: 'Present with Backstage', badge: 'Beta' },
+    { type: 'divider' },
+    { type: 'switch', key: 'fullscreen', label: 'Full screen', checked: fullScreen },
+  ]}
+  onSelect={present}
+  onToggle={(key, checked) => setFullScreen(checked)}
 />
 
 // a plan-gated row: `locked` keeps it in the list with the Paywall crown; a click, Enter or Space opens the

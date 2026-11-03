@@ -33,9 +33,19 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.962.1 — 2026-11-03
+## 0.964.2 — 2026-11-03
 ### Fixed
 - Option row, Counted textarea, Counted input and Input: a typed space (or the last few keystrokes) no longer disappears when the host writes back an older or trimmed copy of the value while the field has focus, for example after a debounced save. A value the field itself sent earlier in the same focus session no longer overwrites what is typed; an empty value (a clear after submit), a value set from the `input` handler itself (a filter or clamp) and any other value (a reset, a collaborator's edit) still apply. A value set during IME composition (Vietnamese Telex, Chinese, Japanese) no longer breaks the composition (#613)
+
+## 0.964.1 — 2026-11-03
+### Fixed
+- CHANGELOG: the 0.964.0 entry links its real PR number instead of the `(#PR)` placeholder that auto-merge shipped, which turned the standards gate red on master and held back the 0.964.0 publish; this release ships the Dropdown switch row and badge (#618)
+- Revert: revert the PR; changelog text only
+
+## 0.964.0 — 2026-11-03
+### Added
+- Dropdown: a `{type:'switch', key, label, checked?, description?, icon?, badge?, disabled?, testid?}` row draws the shared Switch at the row's trailing edge for a setting inside the menu (Full screen beside Present). It is a `menuitemcheckbox` with `aria-checked`; click, Enter or Space flips it in place, the menu stays open with focus on the row, and a composed `change` fires with detail `{ key, checked }` (never `select`). Re-set `items` with a new `checked` to control it: only the switch updates (#617)
+- Dropdown: `badge` ("Beta", "New") on a leaf or switch row draws the shared Badge kind tag right after the label, before a shortcut chip, crown or switch; "New" is the pink New tag, any other text the grey Beta tag, and the row's accessible name gains ", Beta". Use it instead of a "(Beta)" suffix in the label (#617)
 
 ## 0.962.0 — 2026-11-03
 ### Changed
