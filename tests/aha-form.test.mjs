@@ -38,7 +38,7 @@ const scenarios = String.raw`(async () => {
   out.errorDescribes = described(inner(email))[0] === emailError.id;
   out.errorLook = getComputedStyle(emailError).color;
   out.focusedFirstInvalid = document.activeElement === email.control;
-  out.checkboxError = terms.querySelector('[slot=error]').textContent;
+  out.checkboxError = [terms.querySelector('[slot=error]').textContent, terms.control.getAttribute('aria-invalid'), terms.control.hasAttribute('aria-label')];
 
   email.control.value = 'ada@example.com';
   email.control.dispatchEvent(new CustomEvent('input', { bubbles: true, composed: true }));
@@ -88,6 +88,16 @@ const scenarios = String.raw`(async () => {
   out.enterWhileLoading = formEvents.length;
   $('send').removeAttribute('loading');
 
+  name.validator = async () => { await wait(30); return ''; };
+  email.control.value = 'ada@example.com';
+  terms.control.checked = true;
+  formEvents.length = 0;
+  const cancelled = form.submit();
+  form.reset();
+  await cancelled;
+  out.resetDuringSubmit = formEvents.map(([type]) => type);
+  name.validator = null;
+
   form.setAttribute('layout', 'horizontal');
   form.setAttribute('required-mark', 'optional');
   await wait(20);
@@ -110,7 +120,7 @@ test('aha-form validates, wires and submits its items', { skip }, async () => {
   assert.equal(result.errorDescribes, true);
   assert.equal(result.errorLook, 'rgb(26, 26, 26)');
   assert.equal(result.focusedFirstInvalid, true);
-  assert.equal(result.checkboxError, 'Accept the terms to continue.');
+  assert.deepEqual(result.checkboxError, ['Accept the terms to continue.', 'true', false]);
   assert.deepEqual(result.clearedOnEdit, ['', false, false]);
   assert.deepEqual(result.nativeInvalid, ['Use lowercase letters only', 'true', 'key-note key-item-error']);
   assert.deepEqual(result.nativeCleared, [false, 'key-note']);
@@ -119,5 +129,6 @@ test('aha-form validates, wires and submits its items', { skip }, async () => {
   assert.deepEqual(result.reset, ['reset', 'Ada', '', '', false]);
   assert.deepEqual(result.editWhileValidating, ['invalid']);
   assert.equal(result.enterWhileLoading, 0);
+  assert.deepEqual(result.resetDuringSubmit, ['reset']);
   assert.deepEqual(result.horizontal, ['horizontal', 'flex', false, false, '(optional)']);
 });
