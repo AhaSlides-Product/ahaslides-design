@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.952.0 — 2026-11-03
+## 0.954.0 — 2026-11-03
 
 ### Added
 - Rate: `min="0"` on `character="number"` adds a 0 cell before 1, so `<aha-rate count="10" character="number" min="0" readonly>` shows a 0 to 10 score in the product app; `value="0"` fills the 0 cell and no `value` fills nothing (#598)
@@ -42,6 +42,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Chart, stacked: series 5 and 6 repeat Vivid Pink and black with a white diagonal hatch on the segment, its legend swatch and its tooltip swatch, so every series up to the fold reads apart (colour rule 8.2); a short `colors` list that wraps gets the same hatch (#598)
 - Chart, stacked: the "Other (n)" legend item lists the merged series on hover, the Other segment's tooltip lists each merged series with its value in that row, and the hidden data table keeps every series as its own column (#598)
 - Chart: every label taken from data (options, series, rows, ticks, words, mind-map nodes, tooltips, table cells) has `dir="auto"`, so mixed right-to-left and left-to-right labels each keep their own direction (#598)
+
+## 0.953.0 — 2026-11-03
+### Changed
+- The Websites > Marketing **Sections** list (sidebar, Marketing index, `marketing.llms.txt`, `marketing.agent.json`) follows the order a landing page reads top to bottom: Join bar, Navigation, Hero, Logos, Numbers, Features, Comparison table, Testimonials, Pricing, FAQ, Footer banner, Footer. It was alphabetical. Cards, the building block, stays ahead of the sections. Order only: no section is renamed or changed (#NNN)
 
 ## 0.950.0 — 2026-11-03
 ### Changed
