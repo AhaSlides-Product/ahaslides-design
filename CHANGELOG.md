@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.968.0 — 2026-11-03
+## 0.969.0 — 2026-11-04
 
 ### Added
 - **`aha-toast` and `aha-notification`: the toast and the notification card as web components with an imperative API**
@@ -44,6 +44,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
   close on Esc or the shared ✕, and `duration: 0` keeps them until dismissed. A call with a `key` updates in place
   (loading, then saved). The antd `toast-theme.js` and `notification-theme.js` are unchanged.
 - `STATUS_GLYPH` is now exported from `status-icon-css.js`.
+## 0.968.1 — 2026-11-03
+### Fixed
+- `<aha-avatar-group add>` stacks left over right: each avatar and the +N chip sits on top of the item to its right, so the + button tucks under the item on its left (it rises above its neighbour on hover and keyboard focus so the focus ring shows whole); groups without `add` are unchanged (#621)
+- `<aha-avatar-group>`: the 2px white ring around each avatar and the +N chip now follows the avatar's shape (round on a circle, radius 8 on a square). It was drawn square, so where avatars overlapped it showed as a straight white strip cutting across the neighbour instead of a curve; with and without `add` (#621)
+- Revert: revert the PR; stacking order only
 
 ## 0.967.1 — 2026-11-03
 ### Fixed
