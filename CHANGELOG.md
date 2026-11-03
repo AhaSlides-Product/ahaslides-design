@@ -40,6 +40,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Numbers centred: the Number style switch defaults to Left aligned (left aligned numbers, no dividers); Divided is the alternative and drops the divider at the start of each row (#590)
 - Revert: revert the PR; it changes Marketing section CSS, the Numbers default option and the W11 text only, with no API or token change
 
+## 0.917.2 — 2026-11-03
+### Fixed
+- Input docs page shows the built-in `label`: a new Label row with a default, large and disabled field, so the label colour and size can be checked on the page (#592)
+- Revert: revert the PR; one demo row in `parts/input.preview.html`
+
 ## 0.917.0 — 2026-11-03
 ### Added
 - Colour rule 6.9 (web): on a page built from full-width sections, at rest Vivid Pink fills only each section's primary button; the site header counts as one section (Sign up primary, Log in secondary). Icons and icon tiles, ticks, card borders and accent lines, plan outlines, banners and callouts, stat numbers, rating stars and table group headings stay the default ink, and pink shows on hover, focus or selection. Rule 6.8 now points the website to 6.9; website guideline W4 and its anti-slop criterion carry the same rule (#563)
