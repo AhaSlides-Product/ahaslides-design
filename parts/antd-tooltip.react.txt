@@ -1,0 +1,13 @@
+import { ConfigProvider, Tooltip } from 'antd';   // antd v6
+import { tooltipTheme, brandTooltip } from '@ahaslides-product/design/tooltip-theme';
+import '@ahaslides-product/design/aha-button';   // registers <aha-button>
+
+<ConfigProvider theme={tooltipTheme}>
+  <Tooltip title="Rename lesson">
+    <aha-button variant="secondary" size="md">Rename</aha-button>
+  </Tooltip>
+  <Tooltip title="New" {...brandTooltip}>
+    <aha-button variant="secondary" size="md">Templates</aha-button>
+  </Tooltip>
+</ConfigProvider>
+// New UI: <aha-tooltip text="Rename lesson">. This theme only keeps existing antd tooltips on the DS look.
