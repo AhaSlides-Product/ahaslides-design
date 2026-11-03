@@ -53,7 +53,7 @@ test('templates are a 3 by n grid on desktop and skip count balancing', () => {
     assert.match(list.find((criterion) => criterion.id === 'W10').test, /Templates are the exception[^.]*always 3 columns at 992 px and wider/);
     assert.doesNotMatch(list.find((criterion) => criterion.id === 'W10').test, /\(themes, templates/);
   }
-  const balancing = cardsCss.slice(cardsCss.indexOf('(min-width:992px){'), cardsCss.indexOf('(min-width:768px) and (max-width:991px)'));
+  const balancing = cardsCss.slice(cardsCss.lastIndexOf('(min-width:992px){'));
   assert.ok(balancing.includes(':not(.aha-marketing-cards__grid--templates)'));
   assert.ok(!/\.aha-marketing-cards__grid--templates\{[^}]*grid-template-columns:repeat\(2/.test(cardsCss));
   const failing = evals.find((entry) => entry.expected.criteria.W10 === 'FAIL' && entry.files[0].path.includes('templates-two-columns'));
@@ -104,17 +104,17 @@ test('W19: at most three testimonial cards and balanced quote lengths in every s
   }
 });
 
-test('the Cards grid and the Features icon grid balance by item count', () => {
+test('the Cards grid balances by item count and the Features icon grid keeps straight columns', () => {
   for (const css of [cardsCss, featuresCss]) {
     assert.match(css, /:has\(>:first-child:last-child\)\{grid-template-columns:minmax\(0,36rem\)/);
     assert.match(css, /:has\(>:nth-child\(2\):last-child\),[^{]*:has\(>:nth-child\(4\):last-child\)\{grid-template-columns:repeat\(2,/);
-    assert.match(css, /:nth-child\(3n\+2\):last-child:nth-child\(n\+5\)\)>:last-child\{grid-column:4 \/ span 2\}/);
-    assert.match(css, /:nth-child\(3n\+1\):last-child:nth-child\(n\+7\)\)>:last-child\{grid-column:2\}/);
   }
+  assert.match(cardsCss, /:nth-child\(3n\+2\):last-child:nth-child\(n\+5\)\)>:last-child\{grid-column:4 \/ span 2\}/);
+  assert.doesNotMatch(featuresCss, /\.aha-features__grid[^{]*\{[^}]*(repeat\(6,|grid-column:2\}|span 2)/);
 });
 
 test('the Steps row and the image-led grid keep their own layout', () => {
-  assert.match(cardsCss, /\.aha-marketing-cards__grid:not\(\.aha-marketing-cards__grid--image-led\):not\(\.aha-marketing-cards__grid--row\):has/);
+  assert.match(cardsCss, /\.aha-marketing-cards__grid:not\(\.aha-marketing-cards__grid--image-led\):not\(\.aha-marketing-cards__grid--row\):not\(\.aha-marketing-cards__grid--templates\):has/);
 });
 
 test('three icon cards fill three columns and four steps lay out 2 by 2, leaving no empty column (W11)', () => {
@@ -128,40 +128,67 @@ test('three icon cards fill three columns and four steps lay out 2 by 2, leaving
   assert.match(cardsCss, /\.aha-marketing-cards__grid--row:has\(>:nth-child\(3n\+2\):last-child:nth-child\(n\+5\)\)>:last-child\{grid-column:4 \/ span 2\}/);
 });
 
-test('the Numbers centred stats balance by item count', () => {
+test('the Numbers stats are left aligned by default and Divided drops the divider at a row start (W11)', () => {
+  const style = readJson('marketing/numbers.json').layouts.find((layout) => layout.slug === 'centred').options.find((option) => option.label === 'Number style');
+  assert.equal(style.choices.find((choice) => choice.default).value, 'left-aligned');
+  assert.equal(style.choices.find((choice) => choice.modifier).value, 'divided');
   assert.match(numbersCss, /\.aha-numbers--divided \.aha-numbers__stats:has\(>:nth-child\(2\):last-child\)\{grid-template-columns:repeat\(2,/);
-  assert.match(numbersCss, /\.aha-numbers--divided \.aha-numbers__stats:has\(>:nth-child\(4\):last-child\)\{grid-template-columns:repeat\(2,/);
-  assert.match(numbersCss, /:nth-child\(3n\+2\):last-child:nth-child\(n\+5\)\)>:last-child\{grid-column:4 \/ span 2\}/);
+  assert.match(numbersCss, /\.aha-numbers--divided \.aha-numbers__stats:has\(>:nth-child\(5\)\)>:nth-child\(3n\+1\),\.aha-numbers--divided \.aha-numbers__stats:has\(>:nth-child\(4\):last-child\)>:nth-child\(3\)\{border-left:0\}/);
 });
 
 const layoutCss = (file, slug) => readJson(`marketing/${file}.json`).layouts.find((layout) => layout.slug === slug).css;
 const esc = (selector) => selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const containerBlocks = (css) => [...css.matchAll(/@container [\w-]+ \(([^{]+)\)\{\n((?: {2}[^\n]*\n?)*)\}/g)].map(([, query, body]) => ({ query, body }));
+const cardsGrid = '.aha-marketing-cards__grid:not(.aha-marketing-cards__grid--image-led):not(.aha-marketing-cards__grid--row):not(.aha-marketing-cards__grid--templates)';
+const cardsTablet = '.aha-marketing-cards__grid:not(.aha-marketing-cards__grid--image-led):not(.aha-marketing-cards__grid--templates)';
+const pricingTablet = '.aha-pricing__grid--3,.aha-pricing__grid--2';
 const itemGrids = [
-  { name: 'Numbers centred', css: layoutCss('numbers', 'centred'), grid: '.aha-numbers--centred:not(.aha-numbers--divided) .aha-numbers__stats', cols: [1, 2, 3, 5, 'six'] },
-  { name: 'Numbers divided', css: numbersCss, grid: '.aha-numbers--divided .aha-numbers__stats', cols: [2, 'six'] },
-  { name: 'Numbers split image', css: layoutCss('numbers', 'split-image'), grid: '.aha-numbers--split-image .aha-numbers__stats', cols: [], odd: true },
-  { name: 'Numbers actions with icons', css: layoutCss('numbers', 'actions-icons'), grid: '.aha-numbers--actions-icons .aha-numbers__stats', cols: [], odd: true },
-  { name: 'Testimonials quote cards', css: testimonialsCss, grid: '.aha-testimonials__grid', cols: [1, 2, 'six'] },
-  { name: 'Features icon grid', css: featuresCss, grid: '.aha-features__grid', cols: [1, 2, 'six'], odd: true },
-  { name: 'Features icon cards', css: layoutCss('features', 'icon-cards'), grid: '.aha-features--icon-cards .aha-features__cards', cols: [1, 2, 3, 5, 'six'], odd: true },
-  { name: 'Features compact see-all', css: layoutCss('features', 'compact-see-all'), grid: '.aha-features--compact-see-all .aha-features__cards', cols: [1, 2, 'six'] },
-  { name: 'Pricing plan grid', css: pricingCss, grid: '.aha-pricing__grid', cols: [1, 2, 'six'] },
+  { name: 'Cards grid', css: cardsCss, grid: cardsGrid, bordered: true, heading: 'centred', tablet: cardsTablet },
+  { name: 'Steps row', css: cardsCss, grid: '.aha-marketing-cards__grid--row', bordered: true, heading: 'centred', tablet: cardsTablet },
+  { name: 'Features icon cards', css: layoutCss('features', 'icon-cards'), grid: '.aha-features--icon-cards .aha-features__cards', bordered: true, heading: 'centred' },
+  { name: 'Features compact see-all', css: layoutCss('features', 'compact-see-all'), grid: '.aha-features--compact-see-all .aha-features__cards', bordered: true, heading: 'centred' },
+  { name: 'Testimonials quote cards', css: testimonialsCss, grid: '.aha-testimonials__grid', bordered: true, heading: 'centred' },
+  { name: 'Pricing plan grid', css: pricingCss, grid: '.aha-pricing__inner>.aha-pricing__grid', bordered: true, heading: 'centred', tablet: pricingTablet },
+  { name: 'Features side header cards', css: layoutCss('features', 'icon-cards-side-header'), grid: '.aha-features--icon-cards-side-header .aha-features__side .aha-features__cards', bordered: true, heading: 'left' },
+  { name: 'Pricing featured plans', css: pricingCss, grid: '.aha-pricing__plans .aha-pricing__grid', bordered: true, heading: 'left', tablet: pricingTablet },
+  { name: 'Features icon grid', css: featuresCss, grid: '.aha-features__grid', bordered: false, heading: 'centred' },
+  { name: 'Numbers centred', css: layoutCss('numbers', 'centred'), grid: '.aha-numbers--centred:not(.aha-numbers--divided) .aha-numbers__stats', bordered: false, heading: 'centred' },
+  { name: 'Numbers divided', css: numbersCss, grid: '.aha-numbers--divided .aha-numbers__stats', bordered: false, heading: 'centred' },
+  { name: 'Numbers split image', css: layoutCss('numbers', 'split-image'), grid: '.aha-numbers--split-image .aha-numbers__stats', bordered: false, heading: 'left' },
+  { name: 'Numbers actions with icons', css: layoutCss('numbers', 'actions-icons'), grid: '.aha-numbers--actions-icons .aha-numbers__stats', bordered: false, heading: 'left' },
 ];
 
-for (const { name, css, grid, cols, odd } of itemGrids) {
-  test(`${name} balances by item count and centres the short last row (W11)`, () => {
+for (const { name, css, grid, bordered, heading, tablet } of itemGrids) {
+  const centresShortRow = bordered && heading === 'centred';
+  test(`${name}: ${centresShortRow ? 'centres the short last row from 992 px' : 'keeps the short last row under column 1'}, ${bordered ? 'one card per row at 768 to 991 px' : 'straight columns at tablet'} (W11)`, () => {
     const g = esc(grid);
-    if (cols.includes(1)) assert.match(css, new RegExp(`${g}:has\\(>:first-child:last-child\\)\\{grid-template-columns:minmax\\(0,36rem\\);justify-content:center`));
-    if (cols.includes(2)) assert.match(css, new RegExp(`${g}:has\\(>:nth-child\\(2\\):last-child\\)[^{]*\\{grid-template-columns:repeat\\(2,`));
-    if (cols.includes(3)) assert.match(css, new RegExp(`${g}:has\\(>:nth-child\\(3\\):last-child\\)\\{grid-template-columns:repeat\\(3,`));
-    if (cols.includes(5)) assert.match(css, new RegExp(`${g}:has\\(>:nth-child\\(5\\)\\)\\{grid-template-columns:repeat\\(3,`));
-    if (cols.includes('six')) {
+    const own = css.split('\n').filter((line) => line.includes(grid)).join('\n');
+    if (centresShortRow) {
       assert.match(css, new RegExp(`${g}:has\\(>:nth-child\\(3n\\+2\\):last-child:nth-child\\(n\\+5\\)\\)>:last-child\\{grid-column:4 / span 2\\}`));
       assert.match(css, new RegExp(`${g}:has\\(>:nth-child\\(3n\\+1\\):last-child:nth-child\\(n\\+7\\)\\)>:last-child\\{grid-column:2\\}`));
+      for (const { query, body } of containerBlocks(css)) {
+        if (body.includes(`${grid}:has`) && /grid-column|justify-content:center/.test(body)) assert.equal(query, 'min-width:992px', `${name} centres only from 992 px`);
+      }
+    } else {
+      assert.doesNotMatch(own, /repeat\(6,|grid-column:2\}|span 2|:nth-child\(odd\):last-child/, `${name} never centres or shifts a short row`);
     }
-    if (odd || name === 'Numbers centred') assert.match(css, new RegExp(`${g}:has\\(>:nth-child\\(odd\\):last-child\\)>:last-child\\{grid-column:1 / -1;justify-self:center;width:calc\\(50% - var\\(--aha-section-space-item\\) / 2\\)\\}`));
+    if (heading === 'left') assert.doesNotMatch(own, /justify-self:center|justify-content:center/, `${name} sits under a left heading`);
+    if (bordered) {
+      const stack = `${tablet ?? grid}{grid-template-columns:minmax(0,1fr)}`;
+      assert.ok(containerBlocks(css).some(({ query, body }) => query === 'max-width:991px' && body.includes(stack)), `${name} stacks to one column at 991 px`);
+    }
   });
 }
+
+test('the Pricing balancing reaches the plan grid under a centred heading, not the featured plans', () => {
+  const layouts = readJson('marketing/pricing.json').layouts;
+  for (const layout of layouts.filter((entry) => entry.slug.startsWith('simple-cards-'))) {
+    assert.match(layout.html, /<div class="aha-pricing__inner">\s*<header[\s\S]*?<\/header>\s*<ul class="aha-pricing__grid/, layout.slug);
+  }
+  for (const layout of layouts.filter((entry) => entry.html.includes('aha-pricing__plans') && entry.html.includes('aha-pricing__grid'))) {
+    assert.match(layout.html, /<div class="aha-pricing__plans">\s*<ul class="aha-pricing__grid/, layout.slug);
+  }
+});
 
 test('Numbers centred keeps four stats as one row of four', () => {
   const css = layoutCss('numbers', 'centred');

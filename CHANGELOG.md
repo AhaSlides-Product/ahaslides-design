@@ -33,13 +33,61 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.926.0 — 2026-11-03
+## 0.943.0 — 2026-11-03
 ### Added
 - DataTable value filter: `filter: { type: 'value', inputType: 'text' | 'number' | 'date', label }` takes one typed value; text matches a case-insensitive substring, number an equal value, date the same calendar day (#593)
 - DataTable controlled column visibility: `visibleColumns` + `onVisibleColumnsChange(visibleKeys)`, or `defaultVisibleColumns` uncontrolled, so an app can save each creator's columns and feed its export (#593)
 - DataTable column-editor events: `onColumnsEditorOpenChange(open)`, `onColumnToggle(key, visible)` and `onColumnsReset()`; Edit columns shows a Reset footer when the app passes `visibleColumns`, `defaultVisibleColumns` or `onColumnsReset` (#593)
 ### Fixed
 - Table criterion C6 now says DataTable icons are DS `<aha-icon>` by name, as the component ships, instead of `@phosphor-icons/react`, which screen-lint hard-fails as `foreign-icon-library` (#593)
+
+## 0.942.0 — 2026-11-03
+### Added
+- Marketing → Hero split: an opt-in Rise picture switch for a tall phone screenshot, so the picture no longer makes the hero far taller than its copy. Rise (`aha-header-section-hero-split--rise`) drops the hero's bottom padding and lets the screenshot rise from the hero's bottom edge, cut off there at 560 px tall; a Logos strip goes in its own white band after the hero, never inside it. Inset stays the default, so no existing page moves (#586)
+### Changed
+- Website guideline W6 (in `guidelines/website.json`, `anti-slop/criteria.json` and `agent/anti-slop/criteria.json`) gets one named exception: Hero split Rise may show a phone screenshot cut off by the hero's bottom edge; nothing else changes in W6 (#586)
+- Revert: revert the PR; additive CSS behind one modifier class in `marketing/hero.json`, and the W6 exception sentence
+
+## 0.941.0 — 2026-11-03
+
+### Added
+- Join bar: its own Marketing page (`marketing/join-bar.json`, class `aha-join-bar`, Webflow component Join bar), listed in the Marketing sidebar next to Navigation. The markup and CSS are the former Navigation "Join bar" layout moved as is, with no visual change. Place it directly before the Site navbar as a sibling and it scrolls away while the navbar stays stuck to the top (#597)
+
+### Changed
+- Navigation: holds only the Site navbar; the Join bar layout moved out to its own page and the two pages link each other in their usage notes (#597)
+- Revert: revert the PR; it moves one layout between two marketing JSON files and the generated Marketing CSS, with no token or component API change
+
+## 0.935.0 — 2026-11-03
+### Added
+- Navigation: new Join bar layout (`aha-join-bar`, Webflow component Join bar), the dark "Are you a participant?" bar with the access-code field and Join button, taken out of the Site navbar. Place it directly before the Site navbar as a sibling and it scrolls away while the navbar stays stuck to the top, with no positioning script (#594)
+### Changed
+- Navigation Site navbar: the join bar markup, CSS and sticky-offset script are removed (`aha-header__join*` classes are gone, so a page using them must add the Join bar layout above the navbar); the navbar now sticks at `top:0` (#594)
+- Navigation Site navbar: the Products menu preview slot is a video, the same clips as the live ahaslides.com menu: Word cloud by default, and the clip of each Interactive slides entry under the pointer or focus. It has no `autoplay`: it plays muted and looped only while the Products menu is open, pauses when it closes, shows only its poster under prefers-reduced-motion or `data-aha-motion="off"`, and is hidden at 991px and below, where its clip never loads (#594)
+- W9 (website guideline, anti-slop criterion and the Hero video note): the Products menu preview clip is allowed beside the one autoplaying hero video and does not count as a second autoplaying video (#594)
+- Revert: revert the PR; it changes marketing/navigation.json, the generated Marketing CSS and the W9 prose only, with no token or component API change
+
+## 0.934.1 — 2026-11-03
+
+- Split button is part of the Button page: a "Split" section shows the shipped `<aha-split-button>` live (primary with and without an icon, secondary, disabled) and links to its full spec. Split button no longer has its own Components sidebar item; its spec page stays (props, events, code, agent feeds) and lights up Button in the sidebar. No API, token or icon change. (#595)
+- Revert: revert this PR; the sidebar item comes back from the `generate.mjs` catalogue.
+
+## 0.932.0 — 2026-11-03
+### Added
+- `<aha-split-button>`, Button's split variant: a main action joined to a caret that opens a menu of related actions (Present with Present from start / from current slide). Both halves are the shipped `aha-button` (primary or secondary, sm / md / lg, lg default) and the menu is the shipped `aha-dropdown` (same `items`), so every per-state value and the menu behaviour are theirs, not copies. Outer corners keep the size's radius, inner corners are square, and a 1px divider separates the halves (white at 24% on primary, the default border on secondary, the disabled ink when disabled). The caret is its own button (`caret-label`, default "More options", `aria-haspopup="menu"`, `aria-expanded`; opens on click, Enter, Space, ArrowDown). `click` fires for the main half only; choosing a row emits `select`. `disabled` disables both halves, `loading` spins the main half only. Linked from the Button and Dropdown pages. No new token or icon; the Button and Dropdown APIs are unchanged. (#589)
+- Split button is listed in the Components sidebar under Button, so its page is reachable from every Components page.
+- Revert: revert the PR; a new element, contract and parts, plus one line each in `lib/all.js`, `package.json`, the Components sidebar catalogue in `generate.mjs` and the Button and Dropdown "When to use" lists
+
+## 0.930.0 — 2026-11-03
+### Added
+- Menu and Dropdown rows take an optional `shortcut` ("Mod+D", "Del"): the action's key drawn as the shared DS shortcut chip at the row's trailing edge on the label line, on gray-35 #EBEBEB (lighter than the Button and Tooltip chip), ⌘D on a Mac and Ctrl D elsewhere, for a context menu. Display only and aria-hidden; the row gets `aria-keyshortcuts`. It works beside a `description`, on disabled and danger rows, and before a locked row's crown; rows without it are unchanged. New docs example "Context menu with shortcuts" (#591)
+- `ariaKeyShortcuts()` in `shortcut-key`: the same shortcut as an `aria-keyshortcuts` value (#591)
+
+## 0.928.0 — 2026-11-03
+### Changed
+- Website item grids follow the kind of item and the heading above them, W11: bordered cards under a centred heading (Cards grid, Steps row, Features icon cards and compact see-all, Testimonials quote cards, Pricing plan grid) still centre a single card and the short last row, now from 992 px only; borderless items (every Numbers layout, the Features icon grid) keep straight columns with the short last row under column 1; under a left aligned heading (Features side header, Numbers split image and actions with icons, Pricing featured plans) no item is centred (#590)
+- At tablet (768 to 991 px) every bordered card grid stacks to one column of full-width cards, even for 2 or 4 cards; Templates and the image-led grid keep their 2 columns, borderless grids keep 2 straight columns, except Numbers Divided, which keeps its 3 divided columns (2 for 2 or 4 stats) (#590)
+- Numbers centred: the Number style switch defaults to Left aligned (left aligned numbers, no dividers); Divided is the alternative and drops the divider at the start of each row (#590)
+- Revert: revert the PR; it changes Marketing section CSS, the Numbers default option and the W11 text only, with no API or token change
 
 ## 0.925.0 — 2026-11-03
 ### Changed

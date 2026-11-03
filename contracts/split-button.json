@@ -1,0 +1,303 @@
+{
+  "name": "Split button",
+  "slug": "split-button",
+  "environment": [
+    "product"
+  ],
+  "group": "General",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-split-button",
+  "reuse": {
+    "entry": "./aha-split-button",
+    "registers": "aha-split-button",
+    "exportsNamed": [
+      "AhaSplitButton",
+      "defineAhaSplitButton"
+    ]
+  },
+  "summary": "Button's split variant: a main action joined to a caret that opens a menu of related actions, such as Present with Present from start / from current slide.",
+  "highlights": [
+    "Main action and caret menu in one shape",
+    "Two real buttons: each half hovers, presses and takes focus on its own",
+    "Reuses aha-button and aha-dropdown, no copied styles"
+  ],
+  "lead": "ONE custom element, <aha-split-button>, defined once and imported unchanged by React and Vue. It is Button's split variant: the main half is an <aha-button> (label slot, optional slot=\"icon\") and the caret half is an icon-only <aha-button> with the system-caret-down glyph, slotted as the trigger of an <aha-dropdown>. So every per-state value (fill, label, hover, press, focus ring, disabled, heights, radius, spinner) is the Button's own, and the menu is the Dropdown's own (rows, icons, dividers, danger, locked rows, flyouts, roving keys, top-layer placement). The outer corners keep the size's radius, the inner corners are square, and a 1px divider separates the halves: white at 24% on primary, the default border #E3E3E3 on secondary, the disabled ink #B5B5B5 when disabled. A click on the main half is the native `click`; choosing a row emits `select` (detail { key }). The Button API is unchanged.",
+  "codeNote": "Same element, same shadow-DOM CSS, so the render is identical. React (< 19) consumes it via a thin wrapper that listens for `select` (`click` binds as onClick); Vue binds the custom element natively. The halves are the shipped aha-button and aha-dropdown, defined once in @ahaslides-product/design.",
+  "tokensUsed": [
+    "button-primary-bg",
+    "button-primary-bg-hover",
+    "button-primary-bg-press",
+    "button-primary-text",
+    "button-default-bg",
+    "button-default-border",
+    "button-disabled-bg",
+    "button-disabled-text",
+    "button-focus-ring",
+    "white",
+    "radius-xs",
+    "radius-default",
+    "motion-mid",
+    "ease-in-out"
+  ],
+  "spec": [
+    {
+      "label": "Shape",
+      "value": "two aha-buttons side by side, no gap; outer corners keep the size's radius (sm r4, md and lg r8), inner corners square"
+    },
+    {
+      "label": "Sizes",
+      "value": "sm 28 · md 36 · lg 40 (default), the aha-button heights; the caret half is the icon-only square of that size (28 / 36 / 40) with the 16px system-caret-down"
+    },
+    {
+      "label": "Primary",
+      "value": "both halves bg #E70E68, label #FFFFFF, hover #DB005B + soft pink shadow on the hovered half only; 1px divider white at 24% (color-mix of --aha-white) on the caret's start edge"
+    },
+    {
+      "label": "Secondary",
+      "value": "both halves white with the 1px #E3E3E3 border; the halves share one border edge (the divider); the hovered half's #E70E68 border and pale pink fill show on all four sides"
+    },
+    {
+      "label": "Focus",
+      "value": "each half draws aha-button's own 2px Vivid Pink ring outside a 2px gap, raised above the other half"
+    },
+    {
+      "label": "Caret",
+      "value": "aria-haspopup=menu, aria-expanded, aria-label from caret-label (default More options); opens on click, Enter, Space and ArrowDown; the glyph turns 180° while open (motion-mid, ease-in-out)"
+    },
+    {
+      "label": "Menu",
+      "value": "aha-dropdown's panel, placed bottomRight by default so it lines up with the split's right edge; `placement` overrides"
+    },
+    {
+      "label": "Disabled / loading",
+      "value": "disabled greys and disables both halves, draws the divider in the disabled ink #B5B5B5 and closes the menu; loading shows the spinner on the main half only and blocks its click, the caret stays usable"
+    }
+  ],
+  "props": [
+    {
+      "name": "variant",
+      "type": "primary | secondary",
+      "default": "secondary",
+      "desc": "the tone of both halves, as on aha-button; one primary per view"
+    },
+    {
+      "name": "size",
+      "type": "sm | md | lg",
+      "default": "lg",
+      "desc": "28 / 36 / 40px, the aha-button heights; the caret half is the icon-only square of the same size"
+    },
+    {
+      "name": "items",
+      "type": "JSON list",
+      "default": "[]",
+      "desc": "the caret menu's rows, exactly aha-dropdown's items: leaf {key,label,description?,icon?,disabled?,danger?}, locked leaf, submenu-parent {children:[…]}, {type:\"divider\"}, {type:\"group\"}. Also a property that takes an array"
+    },
+    {
+      "name": "caret-label",
+      "type": "string",
+      "default": "More options",
+      "desc": "the caret half's accessible name; name what the menu holds (More present options)"
+    },
+    {
+      "name": "placement",
+      "type": "bottomRight | bottomLeft | topRight | topLeft",
+      "default": "bottomRight",
+      "desc": "where the menu opens, as on aha-dropdown"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "desc": "disables both halves"
+    },
+    {
+      "name": "loading",
+      "type": "boolean",
+      "default": "false",
+      "desc": "the main half shows the spinner and ignores clicks; the caret stays usable"
+    },
+    {
+      "name": "slot (default)",
+      "type": "text",
+      "default": "—",
+      "desc": "the main action's label"
+    },
+    {
+      "name": "slot icon",
+      "type": "<aha-icon>",
+      "default": "—",
+      "desc": "an optional leading glyph on the main half, as aha-button's slot=\"icon\""
+    },
+    {
+      "name": "click / select",
+      "type": "events",
+      "default": "—",
+      "desc": "`click` fires for the main half only, never for the caret or a click inside the menu (a locked row's paywall popover included); `select` (composed, detail { key }) when a menu row is chosen; the menu's `open` / `close` bubble out too"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Split button",
+        "when": "one action people take most of the time, with a few close variants of the same action behind it: Present with Present from start / from current slide, Share with Copy link / Invite by email"
+      },
+      {
+        "what": "Button",
+        "when": "there is one action and no variants"
+      },
+      {
+        "what": "Dropdown",
+        "when": "there is no default action: every choice is equal and the trigger only opens the list"
+      }
+    ],
+    "note": "The main half must do something on its own; if the label only opens the menu, use a Dropdown. Keep the menu to variants of the main action, not unrelated actions. Name the caret with caret-label. Do not join an aha-button and an aha-dropdown by hand with ::part radius or margins: use this element.",
+    "dsv3": "GAP FILLED — DS V3 has no split button; this joins the V3 Button and the V3 Dropdown-Menu, following Ant Design Dropdown.Button."
+  },
+  "surfaces": [
+    "editor",
+    "dashboard"
+  ],
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "split-button.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "split-button.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "split-button.vue.txt"
+    }
+  ],
+  "preview": "split-button.preview.html",
+  "playground": {
+    "controls": [
+      {
+        "prop": "variant",
+        "label": "Variant",
+        "default": "primary",
+        "options": [
+          {
+            "label": "Primary",
+            "value": "primary"
+          },
+          {
+            "label": "Secondary",
+            "value": "secondary"
+          }
+        ]
+      },
+      {
+        "prop": "size",
+        "label": "Size",
+        "default": "lg",
+        "options": [
+          {
+            "label": "Small",
+            "value": "sm"
+          },
+          {
+            "label": "Medium",
+            "value": "md"
+          },
+          {
+            "label": "Large",
+            "value": "lg"
+          }
+        ]
+      },
+      {
+        "prop": "disabled",
+        "label": "Disabled",
+        "default": null,
+        "options": [
+          {
+            "label": "Off",
+            "value": null
+          },
+          {
+            "label": "On",
+            "value": "true"
+          }
+        ]
+      },
+      {
+        "prop": "loading",
+        "label": "Loading",
+        "default": null,
+        "options": [
+          {
+            "label": "Off",
+            "value": null
+          },
+          {
+            "label": "On",
+            "value": "true"
+          }
+        ]
+      }
+    ]
+  },
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). The probe is the primary lg Present split; the secondary lg split gives the shared border edge.",
+    "ready": "!!(document.querySelector('aha-split-button[data-probe]') && document.querySelector('aha-split-button[data-probe]').shadowRoot && document.querySelector('aha-split-button[data-probe]').shadowRoot.querySelector('.caret').shadowRoot && document.querySelector('aha-split-button[data-probe]').shadowRoot.querySelector('.caret').shadowRoot.querySelector('button'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-split-button[data-probe]');var r=el&&el.shadowRoot;var m=r&&r.querySelector('.main');var c=r&&r.querySelector('.caret');var mb=m&&m.shadowRoot&&m.shadowRoot.querySelector('button');var cb=c&&c.shadowRoot&&c.shadowRoot.querySelector('button');if(!mb||!cb)return null;var ms=getComputedStyle(mb);var cs=getComputedStyle(cb);var mr=mb.getBoundingClientRect();var cr=cb.getBoundingClientRect();var sec=document.querySelector('aha-split-button[variant=\"secondary\"][size=\"lg\"]');var sc=sec&&sec.shadowRoot.querySelector('.caret').shadowRoot.querySelector('button');var ss=sc?getComputedStyle(sc):null;return{bg:ms.backgroundColor,label:ms.color,caretBg:cs.backgroundColor,height:ms.height,caretHeight:cs.height,caretWidth:cs.width,outerRadius:ms.borderTopLeftRadius,caretOuterRadius:cs.borderTopRightRadius,innerSquare:ms.borderTopRightRadius==='0px'&&cs.borderTopLeftRadius==='0px',joined:Math.round(cr.left-mr.right)===0,dividerOnPrimary:/^(rgba\\(255, 255, 255, 0\\.24\\)|color\\(srgb 1 1 1 \\/ 0\\.24\\))$/.test(cs.borderLeftColor),secondaryDivider:ss?ss.borderLeftColor:null,caretHaspopup:c.getAttribute('aria-haspopup'),caretExpanded:c.getAttribute('aria-expanded'),caretLabel:c.getAttribute('aria-label'),caretIcon:!!c.querySelector('aha-icon[name=\"system-caret-down\"]')};})()",
+    "expect": {
+      "bg": "rgb(231, 14, 104)",
+      "label": "rgb(255, 255, 255)",
+      "caretBg": "rgb(231, 14, 104)",
+      "height": "40px",
+      "caretHeight": "40px",
+      "caretWidth": "40px",
+      "outerRadius": "8px",
+      "caretOuterRadius": "8px",
+      "innerSquare": true,
+      "joined": true,
+      "dividerOnPrimary": true,
+      "secondaryDivider": "rgb(227, 227, 227)",
+      "caretHaspopup": "menu",
+      "caretExpanded": "false",
+      "caretLabel": "More present options",
+      "caretIcon": true
+    }
+  },
+  "selfCheck": [
+    {
+      "label": "both halves are shipped aha-buttons; the menu is the shipped aha-dropdown",
+      "verdict": "PASS"
+    },
+    {
+      "label": "outer corners keep the size radius, inner corners square",
+      "verdict": "PASS"
+    },
+    {
+      "label": "1px divider: white 24% on primary, #E3E3E3 on secondary, #B5B5B5 when disabled; no raw hex",
+      "verdict": "PASS"
+    },
+    {
+      "label": "each half hovers, presses and focuses on its own; the focused half sits above the other",
+      "verdict": "PASS"
+    },
+    {
+      "label": "caret: aria-haspopup=menu, aria-expanded, aria-label; opens on click, Enter, Space, ArrowDown",
+      "verdict": "PASS"
+    },
+    {
+      "label": "disabled disables both halves; loading spins the main half only",
+      "verdict": "PASS"
+    },
+    {
+      "label": "shadow DOM built once; attribute changes patch persistent nodes",
+      "verdict": "PASS"
+    }
+  ]
+}

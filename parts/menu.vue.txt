@@ -25,11 +25,20 @@ const moreItems = [
   { key: 'duplicate', label: 'Duplicate', icon: 'system-copy', disabled: true },
   { key: 'delete', label: 'Delete', icon: 'system-trash', danger: true },
 ];
+// a context menu with shortcuts — the key draws as the DS chip at the row's trailing edge (⌘D on a Mac, Ctrl D elsewhere)
+const slideItems = [
+  { key: 'new', label: 'New slide', icon: 'system-plus' },
+  { key: 'duplicate', label: 'Duplicate', icon: 'system-duplicate', shortcut: 'Mod+D' },
+  { key: 'copy', label: 'Copy to…', icon: 'system-copy' },
+  { type: 'divider' },
+  { key: 'delete', label: 'Delete', icon: 'system-trash', danger: true, shortcut: 'Del' },
+];
 function onSelect(e) { view.value = e.detail.key; }
 </script>
 
 <template>
   <aha-menu :value="view" mode="vertical" :items="items" @select="onSelect" />
+  <aha-menu :items="JSON.stringify(slideItems)" @select="onSelect" />
   <!-- per-row extras: testid → data-testid, attrs (data-*, aria-label), slot for rich row content -->
   <aha-menu :items="JSON.stringify(moreItems)" @select="onSelect">
     <span slot="export">Export to PDF <aha-tag color="primary">Pro</aha-tag></span>

@@ -154,6 +154,8 @@ const AHA_ICON_JS = `(function(){
 /* ===== full planned inventory (AntD-style left-nav taxonomy) — the component-standard
    measured set. Live pages come from contracts/; the rest render as greyed "soon" so the
    nav shows the whole roadmap. Order/categories mirror ant.design's component menu. ===== */
+// A page with no sidebar item of its own lights up the page it is part of
+const NAV_PARENT = { 'split-button': 'button' };
 const COMPONENTS_CATALOG = [
   { cat: 'General', items: [
     { name: 'Button',       slug: 'button' },
@@ -1109,7 +1111,7 @@ function sidebarNav(base, active, section) {
     inner = cat.map(g => {
       const items = g.items.map(it => {
         if (LIVE.has(it.slug))
-          return `<a class="nav-item${it.slug===active?' active':''}" href="${base}${it.slug}/index.html"><span>${esc(it.name)}</span><span class="nav-dot" title="live"></span></a>`;
+          return `<a class="nav-item${it.slug===(NAV_PARENT[active]||active)?' active':''}" href="${base}${it.slug}/index.html"><span>${esc(it.name)}</span><span class="nav-dot" title="live"></span></a>`;
         return `<span class="nav-item soon"><span>${esc(it.name)}</span><i>soon</i></span>`;
       }).join('');
       return `<div class="nav-group"><div class="nav-cat">${esc(g.cat)}</div>${items}</div>`;
