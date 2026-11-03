@@ -38,14 +38,15 @@ const rolePage = `<!doctype html><body>
   window.ready = true;
 </script>`;
 
-test('a menu-only body drops the dialog role, a dialog is named by aria-label over title, an unnamed dialog warns once on open', { skip }, async () => {
+test('a menu-only body drops the dialog role and, untitled, the panel frame; a dialog is named by aria-label over title, an unnamed dialog warns once on open', { skip }, async () => {
   const file = join(mkdtempSync(join(tmpdir(), 'popover-role-')), 'page.html');
   writeFileSync(file, rolePage);
   const result = await evaluateInPage(pathToFileURL(file).href, `(async () => {
     const read = (id) => {
       const root = document.getElementById(id).shadowRoot;
       const pop = root.querySelector('.pop');
-      return { role: pop.getAttribute('role'), name: pop.getAttribute('aria-label'), haspopup: root.querySelector('.trigger').getAttribute('aria-haspopup') };
+      const style = getComputedStyle(pop);
+      return { role: pop.getAttribute('role'), name: pop.getAttribute('aria-label'), haspopup: root.querySelector('.trigger').getAttribute('aria-haspopup'), frame: style.paddingTop + ' ' + style.borderTopWidth };
     };
     const before = window.warnings.length;
     const unnamed = document.getElementById('unnamed');
@@ -60,11 +61,11 @@ test('a menu-only body drops the dialog role, a dialog is named by aria-label ov
     return { named: read('named'), menu: read('menu'), roleMenu, mixed: read('mixed'), unnamed: read('unnamed'), swapped: read('role-menu').role, warnings };
   })()`, { readyExpr: '!!window.ready && !!customElements.get("aha-popover")' });
   assert.deepEqual(result, {
-    named: { role: 'dialog', name: 'Sharing help', haspopup: 'dialog' },
-    menu: { role: null, name: null, haspopup: 'menu' },
-    roleMenu: { role: null, name: null, haspopup: 'menu' },
-    mixed: { role: 'dialog', name: 'Options', haspopup: 'dialog' },
-    unnamed: { role: 'dialog', name: null, haspopup: 'dialog' },
+    named: { role: 'dialog', name: 'Sharing help', haspopup: 'dialog', frame: '12px 1px' },
+    menu: { role: null, name: null, haspopup: 'menu', frame: '0px 0px' },
+    roleMenu: { role: null, name: null, haspopup: 'menu', frame: '0px 0px' },
+    mixed: { role: 'dialog', name: 'Options', haspopup: 'dialog', frame: '12px 1px' },
+    unnamed: { role: 'dialog', name: null, haspopup: 'dialog', frame: '12px 1px' },
     swapped: 'dialog',
     warnings: 1,
   });

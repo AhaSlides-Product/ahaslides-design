@@ -1,6 +1,7 @@
 {
   "name": "Modal",
   "slug": "modal",
+  "environment": ["product"],
   "group": "Feedback",
   "tier": "composite-antd",
   "badge": "composite — antd wrappers",
@@ -10,7 +11,7 @@
   "tokensUsed": ["colorPrimary", "borderRadius", "Modal.contentBg", "Modal.headerBg", "Modal.titleColor", "Modal.titleFontSize"],
   "spec": [
     { "label": "Content", "value": "white surface · radius 8" },
-    { "label": "Title", "value": "ink #1A1A1A · 18 · SemiBold" },
+    { "label": "Title", "value": "ink #1A1A1A · 18 · SemiBold. The title size, ink and radius 8 also sit in the shared base theme, so Modal.confirm and useModal dialogs under any dsAntdTheme ConfigProvider match" },
     { "label": "Footer", "value": "brand primary confirm + secondary cancel" },
     { "label": "Overlay", "value": "always-on mask (ink rgba(0,0,0,.4)) · portals to body · locks page scroll · click mask / Esc / ✕ to close (destructive: mask not closable)" },
     { "label": "Motion", "value": "antd's built-in zoom enter/leave (kept)" },

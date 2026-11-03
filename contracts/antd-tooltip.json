@@ -1,0 +1,154 @@
+{
+ "name": "antd Tooltip",
+ "slug": "antd-tooltip",
+ "environment": [
+  "product"
+ ],
+ "group": "Data display",
+ "tier": "composite-antd",
+ "badge": "composite — antd wrappers",
+ "summary": "The antd Tooltip themed to the aha-tooltip bubble, for an app that still renders antd's Tooltip.",
+ "highlights": [
+  "antd Tooltip with the aha-tooltip look",
+  "Solid #1A1A1A bubble, 12/18 white text, radius 6",
+  "Already in the shared base theme"
+ ],
+ "lead": "New UI uses <aha-tooltip>. An app that still renders antd's Tooltip (React antd v6, Vue ant-design-vue v4) gets the same bubble from the shared base theme: tooltipTheme is that base, exported under its own name so a wrapper can say what it themes. Two implementations, one look.",
+ "tokensUsed": [
+  "Tooltip.colorBgSpotlight",
+  "Tooltip.colorTextLightSolid",
+  "Tooltip.fontSize",
+  "Tooltip.lineHeight",
+  "Tooltip.borderRadius",
+  "Tooltip.paddingSM",
+  "Tooltip.paddingXS",
+  "Tooltip.controlHeight",
+  "Tooltip.maxWidth"
+ ],
+ "spec": [
+  {
+   "label": "Bubble",
+   "value": "solid #1A1A1A (aha-tooltip dark), white text, radius 6, padding 6 10, 30px minimum height, max-width 280 then wraps"
+  },
+  {
+   "label": "Text",
+   "value": "12/18 (size sm, line height 1.5)"
+  },
+  {
+   "label": "Brand fill",
+   "value": "spread brandTooltip for the aha-tooltip color=\"brand\" fill, #E70E68"
+  },
+  {
+   "label": "Differences",
+   "value": "antd keeps its own drop shadow, arrow shape, motion and auto-placement; aha-tooltip's hover-tap trigger, help glyph and size lg have no antd equivalent"
+  },
+  {
+   "label": "Where",
+   "value": "in antdBaseTheme, so every ConfigProvider built with dsAntdTheme already gives antd Tooltip this look"
+  }
+ ],
+ "props": [
+  {
+   "name": "title",
+   "type": "ReactNode",
+   "default": "—",
+   "desc": "The hint text"
+  },
+  {
+   "name": "placement",
+   "type": "'top' | 'bottom' | 'left' | 'right' | …",
+   "default": "top",
+   "desc": "Where the bubble opens"
+  },
+  {
+   "name": "...brandTooltip",
+   "type": "{ color }",
+   "default": "—",
+   "desc": "Spread for the Vivid Pink brand fill"
+  },
+  {
+   "name": "v-bind=\"vueTooltip\"",
+   "type": "{ overlayStyle }",
+   "default": "—",
+   "desc": "ant-design-vue 4 only: the 280px width, which its theme cannot set"
+  }
+ ],
+ "opinion": {
+  "whenToUse": [
+   {
+    "what": "aha-tooltip",
+    "when": "any new UI, React or Vue"
+   },
+   {
+    "what": "antd Tooltip + tooltipTheme",
+    "when": "an existing antd Tooltip call site not yet moved to aha-tooltip"
+   }
+  ],
+  "note": "Prefer <aha-tooltip> for new UI. This theme only stops existing antd tooltips from drifting: the 14px translucent antd bubble was the second tooltip look in apps that use both.",
+  "dsv3": "COVERED by the leaf: <aha-tooltip> is the DS component. This contract only maps antd's Tooltip onto the same look so apps that still render it do not drift; measured against the aha-tooltip values."
+ },
+ "surfaces": [
+  "editor",
+  "dashboard",
+  "settings"
+ ],
+ "reuse": {
+  "entry": "./tooltip-theme",
+  "exportsNamed": [
+   "tooltipTheme",
+   "brandTooltip",
+   "vueTooltip"
+  ]
+ },
+ "snippets": [
+  {
+   "key": "html",
+   "label": "HTML",
+   "file": "antd-tooltip.html.txt",
+   "runnable": "paste-and-run",
+   "note": "A composite has no framework-free element, so its paste-and-run form is a CDN-React page: React and antd load from a CDN and mount on open, using the same shared tooltipTheme. No build step."
+  },
+  {
+   "key": "react",
+   "label": "React",
+   "file": "antd-tooltip.react.txt"
+  },
+  {
+   "key": "vue",
+   "label": "Vue 3",
+   "file": "antd-tooltip.vue.txt"
+  }
+ ],
+ "codeNote": "React and Vue are two vendor libraries at two Ant generations; they converge through the same theme (tooltipTheme). New UI uses <aha-tooltip>, which needs no theme.",
+ "preview": "antd-tooltip.preview.html",
+ "selfCheck": [
+  {
+   "label": "bubble solid #1A1A1A · white 12px text",
+   "verdict": "PASS"
+  },
+  {
+   "label": "radius 6 · padding 6 10",
+   "verdict": "PASS"
+  },
+  {
+   "label": "30px tall for one line · max-width 280",
+   "verdict": "PASS"
+  }
+ ],
+ "conformance": {
+  "$about": "Measured by qa.mjs on the rendered CDN-React preview: a real antd v6 Tooltip inside a ConfigProvider bound to the shared base theme.",
+  "ready": "!!document.querySelector('.ant-tooltip-container')",
+  "measure": "(function(){var g=function(sel,p){var el=document.querySelector(sel);return el?getComputedStyle(el)[p]:null;};var b='.ant-tooltip-container';var el=document.querySelector(b);return{bg:g(b,'backgroundColor'),color:g(b,'color'),fontSize:g(b,'fontSize'),lineHeight:g(b,'lineHeight'),radius:g(b,'borderTopLeftRadius'),padTop:g(b,'paddingTop'),padLeft:g(b,'paddingLeft'),height:el?el.offsetHeight+'px':null,maxWidth:g('.ant-tooltip','maxWidth')};})()",
+  "expect": {
+   "bg": "rgb(26, 26, 26)",
+   "color": "rgb(255, 255, 255)",
+   "fontSize": "12px",
+   "lineHeight": "18px",
+   "radius": "6px",
+   "padTop": "6px",
+   "padLeft": "10px",
+   "height": "30px",
+   "maxWidth": "280px"
+  }
+ }
+}

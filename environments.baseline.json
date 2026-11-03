@@ -6,7 +6,6 @@
   "contract:error-page",
   "contract:instruction-line",
   "contract:live-region",
-  "contract:modal",
   "contract:notification",
   "contract:qr-code",
   "contract:slider",
