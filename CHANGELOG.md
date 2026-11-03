@@ -33,13 +33,20 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.943.0 — 2026-11-03
+## 0.945.0 — 2026-11-03
 
 ### Added
 - Marketing: a screenshot outline for product screenshots whose own edge is white, so they no longer float shapeless on a white band. `aha-features__photo--outline` on the Features photo slot draws a 1 px `--aha-border-default` hairline on the slot's radius; `aha-marketing-card__media--outline` draws the same line between the picture and the card body. No fill, no shadow, no inset; never on a photo or with the Vivid Pink frame. Features Alternating with screenshots gets an Outline choice in its Image switch (Fill, Outline, Pink frame) (#599)
 
 ### Changed
-- W6 (website imagery) names the screenshot outline as its one exception to the light grey frame ban, in every copy (`guidelines/website.json`, `anti-slop/criteria.json`, `agent/anti-slop/criteria.json`); a light grey fill or rail still fails (#599)
+- W6 (website imagery) names the screenshot outline as an exception to the light grey frame ban, beside the Hero split Rise exception (both now worded "Named exception, <name>:"), in every copy (`guidelines/website.json`, `anti-slop/criteria.json`, `agent/anti-slop/criteria.json`); a light grey fill or rail still fails (#599)
+
+## 0.942.0 — 2026-11-03
+### Added
+- Marketing → Hero split: an opt-in Rise picture switch for a tall phone screenshot, so the picture no longer makes the hero far taller than its copy. Rise (`aha-header-section-hero-split--rise`) drops the hero's bottom padding and lets the screenshot rise from the hero's bottom edge, cut off there at 560 px tall; a Logos strip goes in its own white band after the hero, never inside it. Inset stays the default, so no existing page moves (#586)
+### Changed
+- Website guideline W6 (in `guidelines/website.json`, `anti-slop/criteria.json` and `agent/anti-slop/criteria.json`) gets one named exception: Hero split Rise may show a phone screenshot cut off by the hero's bottom edge; nothing else changes in W6 (#586)
+- Revert: revert the PR; additive CSS behind one modifier class in `marketing/hero.json`, and the W6 exception sentence
 
 ## 0.941.0 — 2026-11-03
 
