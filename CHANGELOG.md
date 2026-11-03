@@ -43,6 +43,13 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `tooltip-theme` (`tooltipTheme`, `brandTooltip`, `vueTooltip`: the 280px width ant-design-vue 4 cannot take from the theme), `tag-theme` (`tagTheme`, `tagCss`: the 600 weight and 6px padding antd has no token for, added on import) and `segmented-theme` (`segmentedTheme`), each with a docs page (antd Tooltip, antd Tag, antd Segmented) and a render contract. New UI keeps using the aha-* elements (#596)
 - Revert: revert the PR; apps then draw antd's own heading sizes, greys, tooltip, tag, segmented and confirm dialogs again, and a popover around a menu shows two frames
 
+## 0.942.0 — 2026-11-03
+### Added
+- Marketing → Hero split: an opt-in Rise picture switch for a tall phone screenshot, so the picture no longer makes the hero far taller than its copy. Rise (`aha-header-section-hero-split--rise`) drops the hero's bottom padding and lets the screenshot rise from the hero's bottom edge, cut off there at 560 px tall; a Logos strip goes in its own white band after the hero, never inside it. Inset stays the default, so no existing page moves (#586)
+### Changed
+- Website guideline W6 (in `guidelines/website.json`, `anti-slop/criteria.json` and `agent/anti-slop/criteria.json`) gets one named exception: Hero split Rise may show a phone screenshot cut off by the hero's bottom edge; nothing else changes in W6 (#586)
+- Revert: revert the PR; additive CSS behind one modifier class in `marketing/hero.json`, and the W6 exception sentence
+
 ## 0.941.0 — 2026-11-03
 
 ### Added
