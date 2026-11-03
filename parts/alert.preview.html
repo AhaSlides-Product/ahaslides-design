@@ -11,6 +11,11 @@
     <aha-alert type="success" size="small" hide-icon>Compact confirmation, no icon.</aha-alert>
     <aha-alert type="warning" banner closable>Scheduled maintenance tonight 22:00 to 23:00 UTC.</aha-alert>
   </div>
+  <div class="lbl">Even padding (padding="even")</div>
+  <div style="display:flex; flex-direction:column; gap:12px; max-width:560px">
+    <aha-alert type="info" size="small" padding="even" closable hide-icon>This slide type is used in 3 presentations.</aha-alert>
+    <aha-alert type="info" padding="even" closable>Your poll closes in 5 minutes.</aha-alert>
+  </div>
   <div class="lbl">Close ✕ when text wraps</div>
   <div style="display:flex; flex-direction:column; gap:12px; max-width:420px">
     <aha-alert type="info" closable>Your audience can still join with the old code until the session ends, so share the new link before the next round starts.</aha-alert>
@@ -20,7 +25,7 @@
 </div>
 
 <!-- Imports the REAL shipped element (../lib/aha-alert.js) + the icon library — no inlined copy, so
-     the preview can never drift from lib/. The playground control bar (Type / Size / Banner / Icon)
+     the preview can never drift from lib/. The playground control bar (Type / Size / Padding / Banner / Icon)
      is generated from contracts/alert.json → playground and drives this element's attributes live. -->
 <script type="module">
   import '../lib/icons.js';       // registers <aha-icon> so the status/close glyphs resolve from the DS library

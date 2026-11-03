@@ -187,6 +187,40 @@
           "C6": "PASS"
         }
       }
+    },
+    {
+      "id": 9,
+      "prompt": "Review this feedback surface in a Vue 2 app. A slide-type usage banner is `<aha-alert type=\"info\" size=\"small\" closable hide-icon class=\"usage-banner\">This slide type is used in 3 presentations.</aha-alert>`, and the page stylesheet evens out its padding with `.usage-banner::part(alert) { padding: 10px; }`.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C4 — even alert padding is padding=\"even\", never a ::part(alert) padding override",
+      "expected_output": "C4 FAILS: the banner is the DS <aha-alert>, but its padding is overridden through ::part(alert). Fix: drop the ::part rule and set padding=\"even\" on the element, which gives 10px on all four sides at size small (14px at regular). Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C4 is marked FAIL",
+        "Cites the ::part(alert) padding override",
+        "Names padding=\"even\" as the fix"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C4": "FAIL"
+        }
+      }
+    },
+    {
+      "id": 10,
+      "prompt": "Review this feedback surface in a Vue 2 app. A slide-type usage banner is `<aha-alert type=\"info\" size=\"small\" padding=\"even\" closable hide-icon>This slide type is used in 3 presentations.</aha-alert>`, with no ::part rule or inline style on it.",
+      "files": [],
+      "label": "good-control",
+      "notes": "padding=\"even\" is the sanctioned even padding; guards against C4 over-firing on the attribute",
+      "expected_output": "C4 PASSES: the banner is the DS <aha-alert> and its even padding comes from the padding=\"even\" attribute, not a ::part or inline override; the ✕ is the built-in shared close.",
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C4": "PASS"
+        }
+      }
     }
   ]
 }
