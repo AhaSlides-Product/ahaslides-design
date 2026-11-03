@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.915.2 — 2026-11-03
 ### Changed
-- The built-in text-field label (`<aha-input label>`) and the Form label are now textDefault #1A1A1A (`--aha-text-default`), matching each other; they were textSecondary #4A4A4A. Weight 400, sizes and the disabled colour are unchanged. (#PRNUM)
+- The built-in text-field label (`<aha-input label>`) and the Form label are now textDefault #1A1A1A (`--aha-text-default`), matching each other; they were textSecondary #4A4A4A. Weight 400, sizes and the disabled colour are unchanged. (#582)
 - Revert: revert the PR; one colour value in `lib/aha-input.js` and `lib/form-theme.js`, plus the contract and preview text
 
 ## 0.915.1 — 2026-11-03
