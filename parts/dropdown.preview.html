@@ -87,6 +87,19 @@
     </aha-dropdown>
   </div>
 </div>
+<div class="pad">
+  <div class="lbl">Switch row and badge: Full screen flips in place with the menu open; Beta is the DS Badge tag after the label</div>
+  <div class="row" style="align-items:flex-start; min-height:200px">
+    <aha-dropdown label="Present"
+      items='[
+        {"key":"start","label":"Present from start","icon":"system-play"},
+        {"key":"backstage","label":"Present with Backstage","badge":"Beta"},
+        {"type":"divider"},
+        {"type":"switch","key":"fullscreen","label":"Full screen","checked":true}
+      ]'>
+    </aha-dropdown>
+  </div>
+</div>
 <script type="module">
   import '../lib/icons.js';         // registers <aha-icon> so the caret + leading glyphs resolve from the DS library
   import '../lib/aha-button.js';    // the kebab trigger is an icon-only aha-button

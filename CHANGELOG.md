@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.963.0 — 2026-11-03
+### Added
+- Dropdown: a `{type:'switch', key, label, checked?, description?, icon?, badge?, disabled?, testid?}` row draws the shared Switch at the row's trailing edge for a setting inside the menu (Full screen beside Present). It is a `menuitemcheckbox` with `aria-checked`; click, Enter or Space flips it in place, the menu stays open with focus on the row, and a composed `change` fires with detail `{ key, checked }` (never `select`). Re-set `items` with a new `checked` to control it: only the switch updates (#PR)
+- Dropdown: `badge` ("Beta", "New") on a leaf or switch row draws the shared Badge kind tag right after the label, before a shortcut chip, crown or switch; "New" is the pink New tag, any other text the grey Beta tag, and the row's accessible name gains ", Beta". Use it instead of a "(Beta)" suffix in the label (#PR)
+
 ## 0.959.1 — 2026-11-03
 ### Fixed
 - Website Logos strip: with the label hidden (the docs Label: Off switch, or a hidden `aha-logos__label` left in the markup) the logos sat 24px below the top and 96px above the bottom. A hidden label now counts as no label, so the strip has equal Section space above and below the logos, and the one-Group pull-up after a same-surface section still applies (#606)
