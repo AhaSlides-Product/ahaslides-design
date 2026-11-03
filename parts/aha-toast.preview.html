@@ -1,0 +1,32 @@
+<style>
+  .toast-stack{ display:flex; flex-direction:column; align-items:flex-start; gap:var(--aha-space-12) }
+  .toast-row{ display:flex; flex-wrap:wrap; gap:var(--aha-space-8) }
+</style>
+<div class="pad">
+  <div class="lbl">Static, sticky (duration 0, so each carries the shared ✕): success, info, warning, error, loading</div>
+  <div class="toast-stack">
+    <aha-toast data-probe type="success" duration="0">Slide saved</aha-toast>
+    <aha-toast type="info" duration="0">Link copied to clipboard</aha-toast>
+    <aha-toast type="warning" duration="0">You are near the slide limit</aha-toast>
+    <aha-toast type="error" duration="0">Upload failed</aha-toast>
+    <aha-toast type="loading" duration="0">Saving your changes…</aha-toast>
+  </div>
+  <div class="lbl" style="margin-top:24px">Live: toast() opens each one at the bottom-right of the window for 3 seconds; hover or focus pauses it</div>
+  <div class="toast-row">
+    <aha-button id="toast-success" variant="secondary" size="sm">Success</aha-button>
+    <aha-button id="toast-error" variant="secondary" size="sm">Sticky error</aha-button>
+    <aha-button id="toast-update" variant="secondary" size="sm">Saving, then saved</aha-button>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element, so the preview can never drift from lib/. -->
+<script type="module">
+  import '../lib/aha-button.js';
+  import { toast } from '../lib/aha-toast.js';
+  document.getElementById('toast-success').addEventListener('click', () => toast.success('Slide saved'));
+  document.getElementById('toast-error').addEventListener('click', () => toast.error('Upload failed', { duration: 0 }));
+  document.getElementById('toast-update').addEventListener('click', () => {
+    const saving = toast.loading('Saving your changes…', { duration: 0 });
+    setTimeout(() => saving.update({ type: 'success', content: 'Changes saved', duration: 3 }), 1500);
+  });
+</script>

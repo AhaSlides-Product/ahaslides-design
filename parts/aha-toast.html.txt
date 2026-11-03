@@ -1,0 +1,20 @@
+<!-- Paste-and-run: save as .html and open it. No build step, no antd. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import { toast } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-toast.js';   // registers <aha-toast> + <aha-toaster>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-button.js';
+
+  document.getElementById('save').addEventListener('click', () => toast.success('Slide saved'));
+  document.getElementById('upload').addEventListener('click', () => toast.error('Upload failed', { duration: 0 }));   // sticky, carries the ✕
+  document.getElementById('sync').addEventListener('click', () => {
+    const saving = toast.loading('Saving your changes…', { duration: 0 });
+    setTimeout(() => saving.update({ type: 'success', content: 'Changes saved', duration: 3 }), 1500);   // same key: updates in place
+  });
+</script>
+
+<!-- Optional: mount the region once near the app root so its live regions exist before the first toast. -->
+<aha-toaster></aha-toaster>
+
+<aha-button id="save" variant="secondary">Save</aha-button>
+<aha-button id="upload" variant="secondary">Upload</aha-button>
+<aha-button id="sync" variant="secondary">Save, then saved</aha-button>

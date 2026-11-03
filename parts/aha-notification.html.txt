@@ -1,0 +1,20 @@
+<!-- Paste-and-run: save as .html and open it. No build step, no antd. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import { notify } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-notification.js';   // registers <aha-notification> + <aha-toaster>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-button.js';
+
+  document.getElementById('export').addEventListener('click', () =>
+    notify({ title: 'Export ready', description: 'Your CSV is ready to download.' }));
+  document.getElementById('delete').addEventListener('click', () =>
+    notify.success({
+      title: 'Slide deleted',
+      description: 'You can find it in Trash.',
+      action: { label: 'Undo', onClick: () => console.log('restore the slide') },   // a click also closes the card
+    }));
+</script>
+
+<aha-toaster></aha-toaster>
+
+<aha-button id="export" variant="secondary">Export</aha-button>
+<aha-button id="delete" variant="secondary">Delete slide</aha-button>

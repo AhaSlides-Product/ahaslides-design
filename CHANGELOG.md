@@ -33,6 +33,18 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.968.0 — 2026-11-03
+
+### Added
+- **`aha-toast` and `aha-notification`: the toast and the notification card as web components with an imperative API**
+  (#129). `toast.success('Slide saved')` and `notify({ title, description, action })` work from any handler in React, Vue
+  or plain HTML, with no provider and no antd. Both stack in one bottom-right `<aha-toaster>` region (Feedback C1) and
+  match the antd message and Notification themes value for value; the glyph stays in the default icon colour (C6). They
+  are announced through a persistent live region (assertive for an error), never take focus, pause on hover or focus,
+  close on Esc or the shared ✕, and `duration: 0` keeps them until dismissed. A call with a `key` updates in place
+  (loading, then saved). The antd `toast-theme.js` and `notification-theme.js` are unchanged.
+- `STATUS_GLYPH` is now exported from `status-icon-css.js`.
+
 ## 0.967.0 — 2026-11-03
 ### Changed
 - Tokens: `--aha-text-tertiary` is grey 80 `#616161` (6.19:1 on white) instead of `#8A8A8A` (3.45:1), so tertiary text passes AA. `--aha-icon-muted` stays `#8A8A8A`: icons need 3:1 (#619)

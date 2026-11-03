@@ -1,0 +1,205 @@
+{
+  "name": "Toast (web component)",
+  "slug": "aha-toast",
+  "group": "Feedback",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-toast",
+  "environment": [
+    "product"
+  ],
+  "summary": "The toast as a framework-free element with an imperative toast() call: a short white pill that confirms an action, stacks in one bottom-right region, is announced to screen readers and leaves on its own.",
+  "highlights": [
+    "toast.success('Slide saved') from any handler, no provider",
+    "Bottom-right stack, announced, focus never moved",
+    "Hover or focus pauses; Esc and ✕ dismiss; 0 = sticky"
+  ],
+  "lead": "ONE call, toast(), that renders an <aha-toast> into a shared <aha-toaster> region at the bottom-right of the window (Feedback C1). The pill matches the antd message themed by toast-theme.js value for value: white, radius 8, 9/12 padding, 14/22 ink text and a 16px status glyph in the default icon colour, never a status hue (C6). It exists for code that cannot reach antd's message: Vue 2 apps that only take <aha-*> elements, plain HTML pages, and React code outside the antd App context. The region owns two persistent live regions (polite, and assertive for an error), so every toast is read out without stealing focus; hovering or focusing the stack pauses every timer; Esc or the ✕ dismisses; a duration of 0 keeps it until dismissed and then shows the ✕.",
+  "codeNote": "toast(content, options | duration) and toast.success / info / warning / error / loading(content, options | duration) return a handle { key, close(), update(patch), closed }. Options: { type, content, duration (seconds, default 3, 0 = sticky), key, closable, closeLabel, onClose }. A call with a key already on screen updates that toast in place and restarts its timer, which is how a loading toast turns into a success. toast.close(key) and toast.closeAll() dismiss. Content is text (never parsed as HTML) or a Node. The first call appends one <aha-toaster> to <body>; mount your own near the app root to move it (--aha-toaster-offset-x / -y) or to cap the stack (max, default 5).",
+  "tokensUsed": [
+    "bg-elevated",
+    "text-default",
+    "icon-default",
+    "radius-default",
+    "size-default",
+    "space-8",
+    "space-12",
+    "motion-slow",
+    "ease-out",
+    "ease-in-out",
+    "font-product"
+  ],
+  "spec": [
+    {
+      "label": "Pill",
+      "value": "white (bg-elevated), radius 8, padding 9 12, width fits the text up to 384 (never wider than the viewport less 32), the antd message shadow"
+    },
+    {
+      "label": "Text",
+      "value": "14/22 ink, wraps; text only, a Node for rich content"
+    },
+    {
+      "label": "Glyph",
+      "value": "16px stroke status icon in icon-default (success check-circle, info, warning-circle, error x-circle); loading shows the small aha-spin; never a status hue (Feedback C6)"
+    },
+    {
+      "label": "Dismiss",
+      "value": "the shared ✕ (tertiary icon-only xs aha-button, system-x 16) pinned to the first line; shown only when duration is 0 or `closable` is set"
+    },
+    {
+      "label": "Region",
+      "value": "<aha-toaster>: fixed 24 from the right and bottom (16 under 576px), z-index 2010, newest at the bottom, 8 between items, max 5 (the oldest leaves first); role region named \"Notifications\""
+    },
+    {
+      "label": "Motion",
+      "value": "rises 12 and fades in over 0.3s; leaves by fading and collapsing its height so the stack closes up; prefers-reduced-motion switches both off"
+    },
+    {
+      "label": "Behaviour",
+      "value": "announced through the region's persistent live region (polite; assertive for an error); never takes focus; hover or focus anywhere in the stack pauses every timer and they resume with the time left; Esc on a focused toast dismisses it and focus goes back to where it was before the stack"
+    }
+  ],
+  "props": [
+    {
+      "name": "toast(content, options)",
+      "type": "function",
+      "default": "—",
+      "desc": "Opens a toast; options may be a number (duration). Returns { key, close(), update(patch), closed }"
+    },
+    {
+      "name": "toast.success / info / warning / error / loading",
+      "type": "function",
+      "default": "—",
+      "desc": "Same, with the type set"
+    },
+    {
+      "name": "toast.close(key) / closeAll()",
+      "type": "function",
+      "default": "—",
+      "desc": "Dismisses one toast or every toast in the region"
+    },
+    {
+      "name": "type",
+      "type": "success | info | warning | error | loading",
+      "default": "—",
+      "desc": "The glyph; error is announced assertively. No type, no glyph"
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "default": "3",
+      "desc": "Seconds on screen; 0 keeps it until dismissed"
+    },
+    {
+      "name": "closable",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Shows the ✕ on a timed toast"
+    },
+    {
+      "name": "close-label",
+      "type": "string",
+      "default": "Close",
+      "desc": "Accessible name of the ✕"
+    },
+    {
+      "name": "max",
+      "type": "number",
+      "default": "5",
+      "desc": "On <aha-toaster>: the most items on screen; the oldest leaves when one more arrives"
+    },
+    {
+      "name": "--aha-toaster-offset-x / -y",
+      "type": "CSS length",
+      "default": "24px",
+      "desc": "On <aha-toaster>: distance from the right and bottom edges (16px under 576px)"
+    },
+    {
+      "name": "close",
+      "type": "event",
+      "default": "—",
+      "desc": "Cancelable, composed. detail.source is timeout, close-button, escape, overflow or method"
+    },
+    {
+      "name": "closed",
+      "type": "event",
+      "default": "—",
+      "desc": "Composed. The toast has left; the handle's closed promise resolves"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Toast (web component)",
+        "when": "a short confirmation of something the user just did (saved, copied, sent), from code that cannot reach antd's message: Vue 2, plain HTML, React outside the antd App"
+      },
+      {
+        "what": "Toast (antd message)",
+        "when": "a React or Vue 3 app that already themes antd with toast-theme.js"
+      },
+      {
+        "what": "Notification (web component)",
+        "when": "the message needs a title, a sentence of detail or one action such as Undo"
+      },
+      {
+        "what": "Alert",
+        "when": "the message must stay on the page next to what it is about"
+      }
+    ],
+    "note": "Keep it to one short line in sentence case with no full stop. Never put the only way to do something in a toast: it leaves on its own. An error the user must act on is sticky (duration 0) or an inline Alert."
+  },
+  "surfaces": [
+    "editor",
+    "dashboard",
+    "settings"
+  ],
+  "reuse": {
+    "entry": "./aha-toast",
+    "registers": "aha-toast",
+    "exportsNamed": [
+      "AhaToast",
+      "AhaToaster",
+      "AhaNoticeBase",
+      "toast",
+      "getToaster",
+      "openNotice",
+      "defineAhaToast"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "aha-toast.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form: a version-pinned CDN import and plain HTML, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "aha-toast.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "aha-toast.vue.txt"
+    }
+  ],
+  "preview": "aha-toast.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP), on the static sticky success example with the DS defaults.",
+    "ready": "!!(document.querySelector('aha-toast[data-probe]')&&document.querySelector('aha-toast[data-probe]').shadowRoot&&document.querySelector('aha-toast[data-probe]').shadowRoot.querySelector('.surface'))",
+    "singleUI": true,
+    "measure": "(function(){var r=document.querySelector('aha-toast[data-probe]').shadowRoot;function cs(n){return n?getComputedStyle(n):{}}var s=cs(r.querySelector('.surface'));var t=cs(r.querySelector('.text'));var i=cs(r.querySelector('.icon'));return{surface:s.backgroundColor,radius:s.borderTopLeftRadius,padTop:s.paddingTop,padSide:s.paddingLeft,textColor:t.color,textSize:t.fontSize,lineHeight:t.lineHeight,iconColor:i.color};})()",
+    "expect": {
+      "surface": "rgb(255, 255, 255)",
+      "radius": "8px",
+      "padTop": "9px",
+      "padSide": "12px",
+      "textColor": "rgb(26, 26, 26)",
+      "textSize": "14px",
+      "lineHeight": "22px",
+      "iconColor": "rgb(74, 74, 74)"
+    }
+  }
+}
