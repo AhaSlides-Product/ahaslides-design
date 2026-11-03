@@ -24,6 +24,7 @@ const scenarios = String.raw`(async () => {
   const out = {};
 
   out.closedHidden = getComputedStyle(panel()).display;
+  out.parsedTopLayer = panel().hasAttribute('popover');
   trigger.focus(); trigger.click(); await frame(); await settle();
   out.opened = [pc.open, getComputedStyle(panel()).display, trigger.getAttribute('aria-expanded'), trigger.getAttribute('aria-haspopup')];
   out.focusOnOk = inside(ok);
@@ -69,13 +70,24 @@ const scenarios = String.raw`(async () => {
   const off = document.querySelector('#off');
   document.querySelector('#off-trigger').click(); await frame();
   out.disabledStaysShut = off.open;
+  document.querySelector('#dead-trigger').click(); await frame();
+  out.disabledTriggerStaysShut = document.querySelector('#dead').open;
+
+  const second = document.querySelector('#second');
+  pc.show(); await frame(); second.show(); await frame();
+  key('Escape'); await frame();
+  out.escapeTakesLatest = [pc.open, second.open];
+  pc.close(); await frame(); await settle();
 
   const modal = document.querySelector('#modal');
   const nested = document.querySelector('#nested');
+  const heardByModal = [];
+  for (const type of ['open', 'cancel', 'close', 'closed']) modal.addEventListener(type, () => heardByModal.push(type));
   modal.show(); await frame(); await settle();
   document.querySelector('#nested-trigger').click(); await frame(); await settle();
   key('Escape'); await frame(); await settle();
   out.escapeInModal = [nested.open, modal.open];
+  out.heardByModal = heardByModal.slice();
   modal.close(); await frame(); await settle();
 
   const built = document.createElement('aha-popconfirm');
@@ -83,12 +95,15 @@ const scenarios = String.raw`(async () => {
   built.setAttribute('open', 'false');
   document.body.append(built); await frame();
   out.falseStaysClosed = built.open;
+  built.open = '';
+  out.emptyStringOpens = built.open;
   return out;
 })()`;
 
 test('aha-popconfirm maps the antd props, moves focus in and back, and closes only through uncancelled confirm / cancel / close', { skip }, async () => {
   const r = await evaluateInPage(fixture, scenarios, { readyExpr: '!!window.popconfirmFixtureReady', timeout: 45000 });
   assert.equal(r.closedHidden, 'none');
+  assert.equal(r.parsedTopLayer, true);
   assert.deepEqual(r.opened, [true, 'block', 'true', 'dialog']);
   assert.equal(r.focusOnOk, true);
   assert.deepEqual(r.labels, ['Delete', 'Keep', 'primary', 'secondary', 'del-ok', 'del-cancel']);
@@ -115,7 +130,11 @@ test('aha-popconfirm maps the antd props, moves focus in and back, and closes on
   assert.equal(r.dangerFocusOnCancel, true);
   assert.deepEqual(r.falseFlagOff, [false, 'primary']);
   assert.equal(r.disabledStaysShut, false);
+  assert.equal(r.disabledTriggerStaysShut, false);
+  assert.deepEqual(r.escapeTakesLatest, [true, false]);
   assert.deepEqual(r.escapeInModal, [false, true]);
+  assert.deepEqual(r.heardByModal, []);
   assert.equal(r.createdUpgraded, true);
   assert.equal(r.falseStaysClosed, false);
+  assert.equal(r.emptyStringOpens, true);
 });
