@@ -218,21 +218,21 @@ test('two neighbouring sections on one surface show one Section space: the token
   assert.match(brand[1], /\.aha-header-section-hero-split--brand/);
   assert.doesNotMatch(white[1], /\.aha-footer[:,)]/, 'the Footer keeps its top padding below its divider');
   assert.doesNotMatch(white[0] + white[1], /\.aha-header[:,)]/, 'the Navigation is not a section');
-  const logos = tokens.split('\n').filter((line) => line.startsWith(':is(') && line.includes(')+:is(') && line.endsWith('>:first-child{margin-top:calc(var(--aha-section-space-group) - var(--aha-section-space-block));padding-top:0}'));
+  const logos = tokens.split('\n').filter((line) => line.startsWith(':is(') && line.includes(')+:is(') && line.endsWith('>:is(:first-child,[hidden]:first-child+*){margin-top:calc(var(--aha-section-space-group) - var(--aha-section-space-block));padding-top:0}'));
   assert.equal(logos.length, 3, 'Logos pulls up to one Group after a section on its own surface: White, Accent or Vivid Pink');
   const [whiteLogos, accentLogos, brandLogos] = logos.map((line) => line.split(')+:is(')[1]);
   assert.match(whiteLogos, /^\.aha-logos:not\(\.aha-logos--accent,\.aha-logos--brand\)\)/);
   assert.match(accentLogos, /^\.aha-logos--accent\)/);
   assert.match(brandLogos, /^\.aha-logos--brand\)/);
   assert.match(logos[2].split(')+:is(')[0], /\.aha-header-section-page-header--brand\.aha-header-section-page-header--no-tabs/, 'a Vivid Pink Page header with no tabs takes the Vivid Pink Logos as its last group');
-  const logosAfterScript = tokens.split('\n').filter((line) => line.includes(')+script+:is(.aha-logos') && line.endsWith('>:first-child{margin-top:calc(var(--aha-section-space-group) - var(--aha-section-space-block));padding-top:0}'));
+  const logosAfterScript = tokens.split('\n').filter((line) => line.includes(')+script+:is(.aha-logos') && line.endsWith('>:is(:first-child,[hidden]:first-child+*){margin-top:calc(var(--aha-section-space-group) - var(--aha-section-space-block));padding-top:0}'));
   assert.deepEqual(logosAfterScript, logos.map((line) => line.replace(')+:is(', ')+script+:is(')), 'a snippet\'s trailing init script between the section and Logos still pulls Logos up');
 });
 
 test('DSN-992: a Vivid Pink Logos strip nested in any Vivid Pink hero drops its fill and pulls up one Group, except under page-header tabs', () => {
   const tokens = readFileSync(new URL('../lib/tokens.css', import.meta.url), 'utf8');
   const fill = tokens.split('\n').find((line) => line.endsWith('>.aha-logos--brand{background:none;box-shadow:none}'));
-  const pullUp = tokens.split('\n').find((line) => line.endsWith('>.aha-logos--brand>:first-child{margin-top:calc(var(--aha-section-space-group) - var(--aha-section-space-block));padding-top:0}') && !line.includes('+'));
+  const pullUp = tokens.split('\n').find((line) => line.endsWith('>.aha-logos--brand>:is(:first-child,[hidden]:first-child+*){margin-top:calc(var(--aha-section-space-group) - var(--aha-section-space-block));padding-top:0}') && !line.includes(')+'));
   assert.ok(fill && pullUp);
   const heroes = readdirSync(new URL('../marketing/', import.meta.url))
     .filter((file) => file.endsWith('.json'))
