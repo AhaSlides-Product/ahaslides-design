@@ -33,6 +33,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.962.0 — 2026-11-03
+### Changed
+- aha-design skill, route table and Stop hook: presenter-app work on the presenting screen (`src/components-v2/presentation-editor/middle/**` in `stpancras-presenter-app`, the presenter control bar and its popovers, anything drawn over a live slide such as ink annotation) is always judged on `canvas` plus `app-shell` C6, whoever builds it (#616)
+- Canvas C10 and app-shell C6 now name the same host controls (every control-bar button, manifest actions included, the popovers they open, host layers over the slide such as ink annotation) and the same rule for them: the canvas C10 shortcut chip, sized and themed by the host, never `applyCanvasDeck` or the in-canvas `size="lg"` (#616)
+### Fixed
+- Every anti-slop surface's `skillRef` now names a skill the plugin ships (`ahaslides-design:aha-design`, settings `ahaslides-design:settings-design`) instead of the retired `aha-design:aha-design-<x>-judge` skills, and the standards gate fails a `skillRef` that does not resolve under `agent/skills` (#616)
+
 ## 0.959.1 — 2026-11-03
 ### Fixed
 - Website Logos strip: with the label hidden (the docs Label: Off switch, or a hidden `aha-logos__label` left in the markup) the logos sat 24px below the top and 96px above the bottom. A hidden label now counts as no label, so the strip has equal Section space above and below the logos, and the one-Group pull-up after a same-surface section still applies (#606)

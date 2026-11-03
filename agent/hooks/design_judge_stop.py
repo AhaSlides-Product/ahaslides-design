@@ -135,15 +135,32 @@ FILE_SURFACE_HINTS = (
 )
 
 
+PRESENTING_SCREEN = re.compile(
+    r"presentation-editor/middle/|presenter-?control-?bar|(^|/)ncb[\w-]*\.\w+$|present.*annotat")
+PRESENTING_SCREEN_SURFACES = ("canvas", "app-shell")
+PRESENTING_SCREEN_LINE = (
+    "Presenting-screen files (the slide stage, the presenter control bar and its popovers, anything "
+    "drawn over a live slide such as ink annotation): judge every `canvas` criterion and app-shell C6 "
+    "(from a recorded keyboard run of the real UI), whoever builds it.")
+
+
+def is_presenting_screen(path):
+    return bool(PRESENTING_SCREEN.search(path.lower()))
+
+
 def map_file(path):
     """The DS anti-slop surface(s) a single changed file should be judged against."""
     low = path.lower()
     base = os.path.basename(low)
-    if "audience" in low:
-        return {"audience"}
-    if "canvas" in low or "slide-type" in low or "slidetype" in low:
-        return {"canvas"}
+    presenting = is_presenting_screen(path)
+    if not presenting:
+        if "audience" in low:
+            return {"audience"}
+        if "canvas" in low or "slide-type" in low or "slidetype" in low:
+            return {"canvas"}
     surfaces = set(BASELINE_SURFACES)
+    if presenting:
+        surfaces.update(PRESENTING_SCREEN_SURFACES)
     for pattern, surface in FILE_SURFACE_HINTS:
         if pattern.search(base):
             surfaces.add(surface)
@@ -276,6 +293,9 @@ def render_block(files, surfaces, criteria, usability=False, settings_files=()):
         flows = flow_files(files)
         if flows:
             lines.append(FLOW_RENDER_LINE + " Files: " + ", ".join(flows) + ".")
+    presenting = [f for f in files if is_presenting_screen(f)]
+    if presenting:
+        lines += ["", PRESENTING_SCREEN_LINE + " Files: " + ", ".join(presenting) + "."]
     if settings_files:
         lines += ["", SETTINGS_LABEL_TABLE_LINE + " Files: " + ", ".join(settings_files) + "."]
     lines += [

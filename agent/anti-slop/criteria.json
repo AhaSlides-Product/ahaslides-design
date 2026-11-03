@@ -10,8 +10,8 @@
         "importedOn": "2026-09-11"
       },
       "skillRef": {
-        "build": "aha-design:aha-design-ux-writing",
-        "judge": "aha-design:aha-design-ux-writing-judge"
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
       },
       "criteria": [
         {
@@ -59,7 +59,10 @@
     "app-shell": {
       "surface": "shell",
       "origin": "authored",
-      "skillRef": null,
+      "skillRef": {
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
+      },
       "criteria": [
         {
           "id": "C1",
@@ -89,7 +92,7 @@
         {
           "id": "C6",
           "title": "Presenter control-bar keys: shown, scoped by Esc, listed in the cheatsheet",
-          "test": "*(Applies to every button the host paints on the presenter control bar (NCB, the bar the presenting view draws round a slide) and every popover, picker or menu one opens, such as Annotate's pen picker. A screen with no presenter control bar, such as the dashboard or editor, is N/A.)* **Evidence.** Judge from a recorded keyboard run of the real presenting UI (the running app, a PR sandbox or a built preview), never from reading code: a table of control · state · key pressed · what happened. Code that looks right is not evidence. If the real UI cannot be driven with the keyboard, mark this criterion `FAIL — UNVERIFIED: <why>`, never PASS or N/A. **Run and rule.** a. **Key in the tooltip.** Hover or Tab to each control-bar button: its tooltip shows the name followed by a shortcut chip (`<aha-tooltip size=\"lg\" text=\"Annotate\" shortcut=\"D\">`) and its `aria-label` is the name plus the key in parentheses, `Annotate (D)`. Then press that key with nothing open and record that it runs the same action. A control with no key, a tooltip with no chip, or a key that does nothing FAILs. b. **Focus in, focus back.** Open each popover (its key, or Enter on the focused trigger) and record where focus is: inside the popover, and Tab / Shift+Tab stay inside it. Press Esc and record that focus is back on the trigger button, not on the body or the slide. c. **Esc closes the innermost thing first.** With each popover open, press Esc once and record the result: the popover closes and the presenter is still presenting on the same slide. Only with nothing open does Esc reach the exit-presenting action; record that press too. An Esc that leaves the popover open, needs two presses, or exits presenting while a popover is open FAILs. d. **Every key is in the cheatsheet.** Open the presenter hotkey cheatsheet (its own key, or the help control) and match it against the keys recorded in a: every control-bar key is listed with the same key and the same name, and every listed key works. A control-bar key missing from the cheatsheet FAILs. Any sub-rule missed → FAIL. Canvas C10 and C24 cover controls a slide renders itself; this criterion is the host's half."
+          "test": "*(Applies to every **host control** on the presenting screen: every button the host paints on the presenter control bar (NCB, the bar the presenting view draws round a slide), manifest-declared slide actions included; every popover, picker or menu one opens, such as Annotate's pen picker; and every host layer drawn over the live slide, such as the ink-annotation layer and its toolbar. A screen with no presenter control bar, such as the dashboard or editor, is N/A.)* **Evidence.** Judge from a recorded keyboard run of the real presenting UI (the running app, a PR sandbox or a built preview), never from reading code: a table of control · state · key pressed · what happened. Code that looks right is not evidence. If the real UI cannot be driven with the keyboard, mark this criterion `FAIL — UNVERIFIED: <why>`, never PASS or N/A. **Run and rule.** a. **Key in the tooltip.** Hover or Tab to each control-bar button: its tooltip shows the name followed by a shortcut chip (`<aha-tooltip size=\"lg\" text=\"Annotate\" shortcut=\"D\">`) and its `aria-label` is the name plus the key in parentheses, `Annotate (D)`. Then press that key with nothing open and record that it runs the same action. A control with no key, a tooltip with no chip, or a key that does nothing FAILs. b. **Focus in, focus back.** Open each popover (its key, or Enter on the focused trigger) and record where focus is: inside the popover, and Tab / Shift+Tab stay inside it. Press Esc and record that focus is back on the trigger button, not on the body or the slide. c. **Esc closes the innermost thing first.** With each popover open, press Esc once and record the result: the popover closes and the presenter is still presenting on the same slide. Only with nothing open does Esc reach the exit-presenting action; record that press too. An Esc that leaves the popover open, needs two presses, or exits presenting while a popover is open FAILs. d. **Every key is in the cheatsheet.** Open the presenter hotkey cheatsheet (its own key, or the help control) and match it against the keys recorded in a: every control-bar key is listed with the same key and the same name, and every listed key works. A control-bar key missing from the cheatsheet FAILs. Any sub-rule missed → FAIL. The chip is the canvas C10 b chip (a **24 × 24 square, radius 4**, key 14px / 400; a longer key keeps the 24px height and grows with 6px side padding, never a wide pill); the host sizes and themes the control itself; `applyCanvasDeck` and canvas C17's `size=\"lg\"` are for controls inside a canvas, never host controls. Canvas C10 and C24 cover controls a slide renders itself; this criterion is the host's half."
         }
       ]
     },
@@ -102,8 +105,8 @@
         "importedOn": "2026-09-28"
       },
       "skillRef": {
-        "build": "aha-design:aha-design-component-standard",
-        "judge": "aha-design:aha-design-component-standard-judge"
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
       },
       "targets": [
         {
@@ -167,8 +170,8 @@
         "importedOn": "2026-09-28"
       },
       "skillRef": {
-        "build": "aha-design:aha-design-icons",
-        "judge": "aha-design:aha-design-icons-judge"
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
       },
       "targets": [
         {
@@ -227,8 +230,8 @@
         "importedOn": "2026-09-28"
       },
       "skillRef": {
-        "build": "aha-design:aha-design-typography",
-        "judge": "aha-design:aha-design-typography-judge"
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
       },
       "targets": [
         {
@@ -283,8 +286,8 @@
         "importedOn": "2026-09-28"
       },
       "skillRef": {
-        "build": "aha-design:aha-design-table",
-        "judge": "aha-design:aha-design-table-judge"
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
       },
       "targets": [
         {
@@ -348,8 +351,8 @@
         "importedOn": "2026-09-28"
       },
       "skillRef": {
-        "build": "aha-design:aha-design-shared-components",
-        "judge": "aha-design:aha-design-shared-components-judge"
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
       },
       "targets": [
         {
@@ -415,7 +418,10 @@
     "background": {
       "surface": "background",
       "origin": "authored",
-      "skillRef": null,
+      "skillRef": {
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
+      },
       "targets": [
         {
           "source": "guidelines/background.json",
@@ -517,7 +523,10 @@
     "colour": {
       "surface": "colour",
       "origin": "authored",
-      "skillRef": null,
+      "skillRef": {
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
+      },
       "targets": [
         {
           "source": "brand/colour-rules.json",
@@ -633,8 +642,8 @@
         "importedOn": "2026-09-28"
       },
       "skillRef": {
-        "build": "aha-design:aha-design-paywall",
-        "judge": "aha-design:aha-design-paywall-judge"
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
       },
       "targets": [
         {
@@ -689,8 +698,8 @@
         "importedOn": "2026-09-28"
       },
       "skillRef": {
-        "build": "aha-design:aha-design-status-badges",
-        "judge": "aha-design:aha-design-status-badges-judge"
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
       },
       "targets": [
         {
@@ -749,8 +758,8 @@
         "importedOn": "2026-09-28"
       },
       "skillRef": {
-        "build": "aha-design:aha-design-settings",
-        "judge": "aha-design:aha-design-settings-judge"
+        "build": "ahaslides-design:settings-design",
+        "judge": "ahaslides-design:settings-design"
       },
       "targets": [
         {
@@ -874,8 +883,8 @@
         "importedOn": "2026-09-28"
       },
       "skillRef": {
-        "build": "aha-design:aha-design-feedback",
-        "judge": "aha-design:aha-design-feedback-judge"
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
       },
       "targets": [
         {
@@ -941,8 +950,8 @@
         "importedOn": "2026-09-28"
       },
       "skillRef": {
-        "build": "aha-design:aha-design-overlays",
-        "judge": "aha-design:aha-design-overlays-judge"
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
       },
       "targets": [
         {
@@ -1018,8 +1027,8 @@
         "importedOn": "2026-09-28"
       },
       "skillRef": {
-        "build": "aha-design:aha-design-canvas",
-        "judge": "aha-design:aha-design-canvas-judge"
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
       },
       "targets": [
         {
@@ -1080,7 +1089,7 @@
         {
           "id": "C10",
           "title": "Keyboard-shortcut affordances",
-          "test": "**Scope.** This criterion is about controls the **canvas renders itself** — a bespoke overlay the host control bar (NCB, §C3) doesn't paint: an animated game's play / pause, a reveal toggle, a music-mute button, a settings popover. Host-painted NCB actions, and the popovers they open, are judged by app-shell C6 (key in the tooltip, focus in and back, Esc closes the popover before exit-presenting, every key in the presenter hotkey cheatsheet) with a recorded keyboard run of the real UI; a canvas review does not skip them as the host's job. **Rule.** a. A modal / overlay / popover moves focus in on open, traps Tab / Shift+Tab, and returns focus to the trigger on close. b. Every actionable button shows its shortcut as a chip: a **24 × 24 square, radius 4**, key 14px / 400; a longer key keeps the 24px height and grows with 6px side padding — never a wide pill. On `<aha-button>` it is the `shortcut` attribute, not a hand-made `<kbd>`. c. A labelled button shows the chip **inline** after its label, never only in a hover `title=\"Press X\"`. d. An icon-only button sits in a tooltip that shows its **name followed by the shortcut chip** (`<aha-tooltip size=\"lg\" text=\"Mute music\" shortcut=\"M\">`), and its `aria-label` is the name plus the shortcut in parentheses, `Mute music (M)`. Any sub-rule missed → FAIL."
+          "test": "**Scope.** This criterion is about controls the **canvas renders itself** — a bespoke overlay the host control bar (NCB, §C3) doesn't paint: an animated game's play / pause, a reveal toggle, a music-mute button, a settings popover. Everything the presenter app paints on the presenting screen instead is a **host control**: every NCB button (manifest-declared slide actions included), every popover, picker or menu one opens, and every host layer drawn over the live slide, such as the ink-annotation layer and its toolbar. Host controls are judged by app-shell C6 (key in the tooltip, focus in and back, Esc closes the popover before exit-presenting, every key in the presenter hotkey cheatsheet) with a recorded keyboard run of the real UI; a canvas review does not skip them as the host's job. They use the same shortcut chip and tooltip as rule b to d below, but the host sizes and themes them: `applyCanvasDeck` and C17's `size=\"lg\"` are for controls inside the canvas, never host controls. **Rule.** a. A modal / overlay / popover moves focus in on open, traps Tab / Shift+Tab, and returns focus to the trigger on close. b. Every actionable button shows its shortcut as a chip: a **24 × 24 square, radius 4**, key 14px / 400; a longer key keeps the 24px height and grows with 6px side padding — never a wide pill. On `<aha-button>` it is the `shortcut` attribute, not a hand-made `<kbd>`. c. A labelled button shows the chip **inline** after its label, never only in a hover `title=\"Press X\"`. d. An icon-only button sits in a tooltip that shows its **name followed by the shortcut chip** (`<aha-tooltip size=\"lg\" text=\"Mute music\" shortcut=\"M\">`), and its `aria-label` is the name plus the shortcut in parentheses, `Mute music (M)`. Any sub-rule missed → FAIL."
         },
         {
           "id": "C11",
@@ -1163,8 +1172,8 @@
         "importedOn": "2026-09-28"
       },
       "skillRef": {
-        "build": "aha-design:aha-design-audience",
-        "judge": "aha-design:aha-design-audience-judge"
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
       },
       "targets": [
         {
@@ -1357,7 +1366,10 @@
     "charts": {
       "surface": "charts",
       "origin": "authored",
-      "skillRef": null,
+      "skillRef": {
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
+      },
       "targets": [
         {
           "source": "contracts/chart.json",
@@ -1380,7 +1392,10 @@
     "report-images": {
       "surface": "reports (static report images and read-only report pages)",
       "origin": "authored",
-      "skillRef": null,
+      "skillRef": {
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
+      },
       "targets": [
         {
           "source": "guidelines/report-images.json",
@@ -1470,7 +1485,10 @@
     "usability": {
       "surface": "usability",
       "origin": "authored",
-      "skillRef": null,
+      "skillRef": {
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
+      },
       "targets": [
         {
           "source": "tokens.canonical.json",
@@ -1533,7 +1551,10 @@
     "website": {
       "surface": "website",
       "origin": "authored",
-      "skillRef": null,
+      "skillRef": {
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
+      },
       "targets": [
         {
           "source": "guidelines/website.json",
