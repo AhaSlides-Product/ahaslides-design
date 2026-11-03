@@ -56,6 +56,6 @@
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Composite shown as a CDN-React page mounted at #react-root; the measure reads the real antd v6 input + primary button bound to formTheme.",
     "ready": "!!document.querySelector('#react-root .ant-input') && !!document.querySelector('#react-root .ant-btn-primary') && !!document.querySelector('#react-root .ant-form-item-label label')",
     "measure": "(function(){var g=function(sel,p){var el=document.querySelector('#react-root '+sel);return el?getComputedStyle(el)[p]:null;};return{inputRadius:g('.ant-input','borderTopLeftRadius'),inputBorder:g('.ant-input','borderTopColor'),inputBorderWidth:g('.ant-input','borderTopWidth'),inputHeight:g('.ant-input','height'),primaryBg:g('.ant-btn-primary','backgroundColor'),labelColor:g('.ant-form-item-label label','color')};})()",
-    "expect": { "inputRadius": "8px", "inputBorder": "rgb(227, 227, 227)", "inputBorderWidth": "1px", "inputHeight": "40px", "primaryBg": "rgb(231, 14, 104)", "labelColor": "rgb(74, 74, 74)" }
+    "expect": { "inputRadius": "8px", "inputBorder": "rgb(227, 227, 227)", "inputBorderWidth": "1px", "inputHeight": "40px", "primaryBg": "rgb(231, 14, 104)", "labelColor": "rgb(26, 26, 26)" }
   }
 }
