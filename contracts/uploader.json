@@ -30,6 +30,7 @@
     { "name": "label", "type": "string", "default": "Click to upload", "desc": "Bold lead of the drop-zone text; on a picture-card add-box the whole text (default Upload). Set it to localise or reword" },
     { "name": "hint", "type": "string", "default": "or drag files here", "desc": "Plain text after the label in the drop zone. Empty string hides it" },
     { "name": "limitlabel", "type": "string", "default": "Upload limit reached", "desc": "Zone text once maxcount is reached" },
+    { "name": "removelabel", "type": "string", "default": "Remove {name}", "desc": "aria-label template for each item's ✕; {name} is replaced by the file name. Set it to localise" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Dims and disables the zone / add-box" },
     { "name": "change", "type": "CustomEvent<{files}>", "default": "—", "desc": "Composed event on select; read e.detail.files (File[])" },
     { "name": "remove", "type": "CustomEvent<{name,index}>", "default": "—", "desc": "Composed event when an item's ✕ is clicked" }
