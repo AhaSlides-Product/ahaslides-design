@@ -5,8 +5,8 @@
 <div class="pad">
   <div class="lbl">Static, sticky (duration 0): plain, with a status glyph, with one action</div>
   <div class="notification-stack">
-    <aha-notification data-probe heading="Export ready" duration="0">Your CSV is ready to download.</aha-notification>
-    <aha-notification type="warning" heading="Sync paused" duration="0">We will try again when you are back online.</aha-notification>
+    <aha-notification data-probe heading="Export ready" duration="0">Your CSV is good to go.<aha-button slot="action" variant="secondary" size="sm">Download</aha-button></aha-notification>
+    <aha-notification type="warning" heading="Sync paused" duration="0">We'll try again when you're back online.</aha-notification>
     <aha-notification type="success" heading="Slide deleted" duration="0">You can find it in Trash.<aha-button slot="action" variant="secondary" size="sm">Undo</aha-button></aha-notification>
   </div>
   <div class="lbl" style="margin-top:24px">Live: notify() opens a card at the bottom-right of the window for 4.5 seconds; hover or focus pauses it</div>
@@ -20,6 +20,6 @@
 <script type="module">
   import '../lib/aha-button.js';
   import { notify } from '../lib/aha-notification.js';
-  document.getElementById('notify-plain').addEventListener('click', () => notify({ title: 'Export ready', description: 'Your CSV is ready to download.' }));
+  document.getElementById('notify-plain').addEventListener('click', () => notify({ title: 'Export ready', description: 'Your CSV is good to go.', action: { label: 'Download', onClick: () => {} } }));
   document.getElementById('notify-action').addEventListener('click', () => notify.success({ title: 'Slide deleted', description: 'You can find it in Trash.', action: { label: 'Undo', onClick: () => {} } }));
 </script>

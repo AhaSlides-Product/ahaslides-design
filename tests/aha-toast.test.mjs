@@ -39,6 +39,14 @@ const toastScenarios = String.raw`(async () => {
   await wait(1000);
   out.resumedAfterLeave = !hoveredItem.isConnected;
 
+  toaster.dispatchEvent(new PointerEvent('pointerenter'));
+  toast.info('Copied', { duration: 0 }).close();
+  await wait(700);
+  toast.info('Link copied', { duration: 0.4 });
+  const afterEmpty = toaster.querySelector('aha-toast');
+  await wait(900);
+  out.timerRunsAfterHoveredStackEmptied = !afterEmpty.isConnected;
+
   const saving = toast.loading('Saving…', { key: 'save', duration: 0 });
   const savingItem = toaster.querySelector('aha-toast');
   out.loadingSpin = !savingItem.shadowRoot.querySelector('aha-spin').hidden;
@@ -47,6 +55,8 @@ const toastScenarios = String.raw`(async () => {
   await wait(120);
   out.updatedInPlace = toaster.querySelectorAll('aha-toast').length === 1 && savingItem.textContent === 'Save failed';
   out.assertive = toaster.shadowRoot.querySelector('.assertive').textContent;
+  toast.error('Save failed', { key: 'save', duration: 0 });
+  out.unchangedUpdateSilent = toaster.shadowRoot.querySelector('.assertive').textContent;
 
   const opener = document.querySelector('#opener');
   opener.focus();
@@ -83,10 +93,12 @@ test('toast() opens antd-free toasts in the bottom-right toaster, announces them
   assert.equal(result.autoRemoved, true);
   assert.equal(result.pausedWhileHovered, true);
   assert.equal(result.resumedAfterLeave, true);
+  assert.equal(result.timerRunsAfterHoveredStackEmptied, true);
   assert.equal(result.loadingSpin, true);
   assert.equal(result.stickyHasClose, true);
   assert.equal(result.updatedInPlace, true);
   assert.equal(result.assertive, 'Save failed');
+  assert.equal(result.unchangedUpdateSilent, 'Save failed');
   assert.equal(result.escapeClosed, true);
   assert.equal(result.focusReturned, true);
   assert.deepEqual(result.capped, ['Toast 2', 'Toast 3', 'Toast 4', 'Toast 5', 'Toast 6']);
@@ -99,7 +111,7 @@ const notifyScenarios = String.raw`(async () => {
   const out = {};
   let undone = 0;
   let closedCallback = 0;
-  notify.success({ title: 'Slide deleted', description: 'It is in Trash for 30 days.', duration: 0,
+  notify.success({ title: 'Slide deleted', description: 'You can find it in Trash.', duration: 0,
     action: { label: 'Undo', onClick: () => { undone++; } }, onClose: () => { closedCallback++; } });
   const toaster = document.querySelector('aha-toaster');
   const card = toaster.querySelector('aha-notification');
@@ -118,7 +130,7 @@ const notifyScenarios = String.raw`(async () => {
   await wait(700);
   out.actionClosed = [undone, !card.isConnected, closedCallback];
 
-  notify({ title: 'Export ready', description: 'Your CSV is ready to download.', duration: 0 });
+  notify({ title: 'Export ready', description: 'Your CSV is good to go.', duration: 0 });
   const plain = toaster.querySelector('aha-notification');
   out.plainIcon = plain.shadowRoot.querySelector('.icon').hidden;
   out.plainActions = plain.shadowRoot.querySelector('.actions').hidden;
@@ -135,7 +147,7 @@ test('notify() opens antd-free notification cards in the same toaster with title
   assert.equal(result.title, 'Slide deleted');
   assert.equal(result.hasClose, true);
   assert.equal(result.actionShown, true);
-  assert.equal(result.polite, 'Slide deleted. It is in Trash for 30 days.');
+  assert.equal(result.polite, 'Slide deleted. You can find it in Trash.');
   assert.deepEqual(result.actionClosed, [1, true, 1]);
   assert.equal(result.plainIcon, true);
   assert.equal(result.plainActions, true);

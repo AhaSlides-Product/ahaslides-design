@@ -5,7 +5,11 @@
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-button.js';
 
   document.getElementById('export').addEventListener('click', () =>
-    notify({ title: 'Export ready', description: 'Your CSV is ready to download.' }));
+    notify({
+      title: 'Export ready',
+      description: 'Your CSV is good to go.',
+      action: { label: 'Download', onClick: () => console.log('download the CSV') },
+    }));
   document.getElementById('delete').addEventListener('click', () =>
     notify.success({
       title: 'Slide deleted',
