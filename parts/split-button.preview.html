@@ -1,0 +1,40 @@
+<div class="pad">
+  <div class="lbl">Live example (driven by the controls above)</div>
+  <div class="row" style="align-items:flex-start; min-height:140px">
+    <aha-split-button data-probe variant="primary" size="lg" caret-label="More present options"
+      items='[{"key":"start","label":"Present from start","icon":"system-play"},{"key":"current","label":"Present from current slide"}]'>Present</aha-split-button>
+  </div>
+
+  <div class="lbl">Primary, sm · md · lg</div>
+  <div class="row" style="align-items:center;flex-wrap:wrap">
+    <aha-split-button variant="primary" size="sm" caret-label="More present options" items='[{"key":"start","label":"Present from start"},{"key":"current","label":"Present from current slide"}]'>Present</aha-split-button>
+    <aha-split-button variant="primary" size="md" caret-label="More present options" items='[{"key":"start","label":"Present from start"},{"key":"current","label":"Present from current slide"}]'>Present</aha-split-button>
+    <aha-split-button variant="primary" size="lg" caret-label="More present options" items='[{"key":"start","label":"Present from start"},{"key":"current","label":"Present from current slide"}]'>Present</aha-split-button>
+  </div>
+
+  <div class="lbl">Secondary, sm · md · lg</div>
+  <div class="row" style="align-items:center;flex-wrap:wrap">
+    <aha-split-button variant="secondary" size="sm" caret-label="More share options" items='[{"key":"link","label":"Copy link"},{"key":"invite","label":"Invite by email"}]'>Share</aha-split-button>
+    <aha-split-button variant="secondary" size="md" caret-label="More share options" items='[{"key":"link","label":"Copy link"},{"key":"invite","label":"Invite by email"}]'>Share</aha-split-button>
+    <aha-split-button variant="secondary" size="lg" caret-label="More share options" items='[{"key":"link","label":"Copy link"},{"key":"invite","label":"Invite by email"}]'>Share</aha-split-button>
+  </div>
+
+  <div class="lbl">With a leading icon</div>
+  <div class="row" style="align-items:center;flex-wrap:wrap">
+    <aha-split-button variant="primary" caret-label="More present options" items='[{"key":"start","label":"Present from start"},{"key":"current","label":"Present from current slide"}]'><aha-icon slot="icon" name="system-play" size="16" decorative></aha-icon>Present</aha-split-button>
+    <aha-split-button variant="secondary" caret-label="More share options" items='[{"key":"link","label":"Copy link"},{"key":"invite","label":"Invite by email"}]'><aha-icon slot="icon" name="system-share-network" size="16" decorative></aha-icon>Share</aha-split-button>
+  </div>
+
+  <div class="lbl">Disabled · loading</div>
+  <div class="row" style="align-items:center;flex-wrap:wrap">
+    <aha-split-button variant="primary" disabled items='[{"key":"start","label":"Present from start"}]'>Present</aha-split-button>
+    <aha-split-button variant="secondary" disabled items='[{"key":"link","label":"Copy link"}]'>Share</aha-split-button>
+    <aha-split-button variant="primary" loading caret-label="More present options" items='[{"key":"start","label":"Present from start"}]'>Present</aha-split-button>
+    <aha-split-button variant="secondary" loading caret-label="More share options" items='[{"key":"link","label":"Copy link"}]'>Share</aha-split-button>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element, so the preview can never drift from lib/ and qa measures what consumers get. -->
+<script type="module">
+  import '../lib/aha-split-button.js';   // registers <aha-split-button> (+ aha-button, aha-dropdown, aha-icon)
+</script>

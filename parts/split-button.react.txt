@@ -1,0 +1,34 @@
+import '@ahaslides-product/design/aha-split-button';  // registers <aha-split-button> (+ aha-button, aha-dropdown, aha-icon)
+import { useRef, useEffect } from 'react';
+
+// React 18 needs a thin wrapper for the composed `select` event; React 19 can bind it directly.
+// onClick is the main half only: the caret's click opens the menu and never reaches it.
+function AhaSplitButton({ variant, size, items, caretLabel, placement, disabled, loading, onClick, onSelect, children }) {
+  const ref = useRef();
+  useEffect(() => {
+    const el = ref.current;
+    const select = (e) => onSelect?.(e.detail.key);
+    el.addEventListener('select', select);
+    return () => el.removeEventListener('select', select);
+  });
+  return (
+    <aha-split-button ref={ref} variant={variant} size={size} items={JSON.stringify(items)} caret-label={caretLabel}
+      placement={placement} disabled={disabled ? '' : undefined} loading={loading ? '' : undefined} onClick={onClick}>
+      {children}
+    </aha-split-button>
+  );
+}
+
+// usage — the Present button with its present-from menu
+<AhaSplitButton
+  variant="primary"
+  caretLabel="More present options"
+  items={[
+    { key: 'start', label: 'Present from start', icon: 'system-play' },
+    { key: 'current', label: 'Present from current slide' },
+  ]}
+  onClick={() => present()}
+  onSelect={(key) => present(key)}
+>
+  Present
+</AhaSplitButton>
