@@ -125,6 +125,7 @@ test('the value filter matches text by substring, numbers exactly and dates by c
   assert.equal(name.onFilter('bob', { name: 'Ana Silva' }), false);
   assert.equal(score.onFilter(88, { score: '88' }), true);
   assert.equal(score.onFilter(8, { score: 88 }), false);
+  assert.equal(score.onFilter(0, { score: '' }), false, 'an empty cell is not 0');
   assert.equal(joined.onFilter('2026-03-14', { joined: '2026-03-14' }), true);
   assert.equal(joined.onFilter('2026-03-14', { joined: new Date(2026, 2, 14, 18, 30) }), true);
   assert.equal(joined.onFilter('2026-03-14', { joined: new Date(2026, 2, 15) }), false);
