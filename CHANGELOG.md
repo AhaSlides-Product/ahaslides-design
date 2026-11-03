@@ -33,12 +33,17 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.934.0 — 2026-11-03
+## 0.936.0 — 2026-11-03
 ### Added
 - Marketing → Hero split: an opt-in Rise picture switch for a tall phone screenshot, so the picture no longer makes the hero far taller than its copy. Rise (`aha-header-section-hero-split--rise`) drops the hero's bottom padding and lets the screenshot rise from the hero's bottom edge, cut off there at 560 px tall; a Logos strip goes in its own white band after the hero, never inside it. Inset stays the default, so no existing page moves (#586)
 ### Changed
 - Website guideline W6 (in `guidelines/website.json`, `anti-slop/criteria.json` and `agent/anti-slop/criteria.json`) gets one named exception: Hero split Rise may show a phone screenshot cut off by the hero's bottom edge; nothing else changes in W6 (#586)
 - Revert: revert the PR; additive CSS behind one modifier class in `marketing/hero.json`, and the W6 exception sentence
+
+## 0.934.1 — 2026-11-03
+
+- Split button is part of the Button page: a "Split" section shows the shipped `<aha-split-button>` live (primary with and without an icon, secondary, disabled) and links to its full spec. Split button no longer has its own Components sidebar item; its spec page stays (props, events, code, agent feeds) and lights up Button in the sidebar. No API, token or icon change. (#595)
+- Revert: revert this PR; the sidebar item comes back from the `generate.mjs` catalogue.
 
 ## 0.932.0 — 2026-11-03
 ### Added
