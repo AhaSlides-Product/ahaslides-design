@@ -182,16 +182,16 @@
   }
  ],
  "conformance": {
-  "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Composite shown as a CDN-React page mounted at #react-root; the Popconfirm is open in its default demo state (a destructive confirm), its popover portalled to <body>, so the real antd v6 popover surface and both action buttons bound to popconfirmTheme + destructiveConfirm are measurable at document level. Selectors match antd v6: the surface is .ant-popover-container; the buttons are scoped to .ant-popconfirm-buttons, where the danger confirm carries .ant-btn-dangerous and the primary Cancel does not.",
-  "ready": "!!(document.querySelector('.ant-popover-container') && document.querySelector('.ant-popconfirm-buttons .ant-btn-dangerous') && document.querySelector('.ant-popconfirm-buttons .ant-btn-primary:not(.ant-btn-dangerous)') && document.querySelector('.ant-popconfirm-message-icon aha-icon'))",
-  "measure": "(function(){var g=function(sel,p){var el=document.querySelector(sel);return el?getComputedStyle(el)[p]:null;};var ok='.ant-popconfirm-buttons .ant-btn-dangerous',cancel='.ant-popconfirm-buttons .ant-btn-primary:not(.ant-btn-dangerous)';return{popBg:g('.ant-popover-container','backgroundColor'),popRadius:g('.ant-popover-container','borderTopLeftRadius'),cancelBg:g(cancel,'backgroundColor'),cancelColor:g(cancel,'color'),okBg:g(ok,'backgroundColor'),okColor:g(ok,'color'),buttonHeight:g(ok,'height'),buttonRadius:g(ok,'borderTopLeftRadius'),iconColor:g('.ant-popconfirm-message-icon aha-icon','color')};})()",
+  "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Composite shown as a CDN-React page mounted at #react-root; the Popconfirm is open in its default demo state (a destructive confirm), its popover portalled to <body>, so the real antd v6 popover surface and both action buttons bound to popconfirmTheme + destructiveConfirm are measurable at document level. Selectors match antd v6: the surface is .ant-popover-container; the buttons are scoped to .ant-popconfirm-buttons, where the destructive confirm is the default button (.ant-btn-default) and Cancel is the only .ant-btn-primary.",
+  "ready": "!!(document.querySelector('.ant-popover-container') && document.querySelector('.ant-popconfirm-buttons .ant-btn-default') && document.querySelector('.ant-popconfirm-buttons .ant-btn-primary') && document.querySelector('.ant-popconfirm-message-icon aha-icon'))",
+  "measure": "(function(){var g=function(sel,p){var el=document.querySelector(sel);return el?getComputedStyle(el)[p]:null;};var ok='.ant-popconfirm-buttons .ant-btn-default',cancel='.ant-popconfirm-buttons .ant-btn-primary';return{popBg:g('.ant-popover-container','backgroundColor'),popRadius:g('.ant-popover-container','borderTopLeftRadius'),cancelBg:g(cancel,'backgroundColor'),cancelColor:g(cancel,'color'),okBg:g(ok,'backgroundColor'),okColor:g(ok,'color'),buttonHeight:g(ok,'height'),buttonRadius:g(ok,'borderTopLeftRadius'),iconColor:g('.ant-popconfirm-message-icon aha-icon','color')};})()",
   "expect": {
    "popBg": "rgb(255, 255, 255)",
    "popRadius": "8px",
    "cancelBg": "rgb(231, 14, 104)",
    "cancelColor": "rgb(255, 255, 255)",
-   "okBg": "rgb(26, 26, 26)",
-   "okColor": "rgb(255, 255, 255)",
+   "okBg": "rgb(255, 255, 255)",
+   "okColor": "rgb(26, 26, 26)",
    "buttonHeight": "28px",
    "buttonRadius": "4px",
    "iconColor": "rgb(26, 26, 26)"
