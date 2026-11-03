@@ -44,6 +44,45 @@ test('an interactive <aha-card> is a keyboard button: Enter and Space click it o
   assert.deepEqual(result.after, { role: null, tabindex: null }, 'removing interactive removes the role and tabindex it added');
 });
 
+test('a disabled interactive <aha-card> is inert and drops out of the tab order; removing disabled restores it; a non-interactive card ignores disabled', { skip }, async () => {
+  const result = await withPage(fixture, async (command) => {
+    const evaluate = async (expression) => (await command('Runtime.evaluate', { expression, returnByValue: true, awaitPromise: true })).result.value;
+    const byId = (id) => `document.getElementById('${id}')`;
+    const press = async (name) => {
+      await evaluate(`${byId('disabled-card')}.focus()`);
+      const { text, ...key } = KEYS[name];
+      await command('Input.dispatchKeyEvent', { type: 'keyDown', text, unmodifiedText: text, ...key });
+      await command('Input.dispatchKeyEvent', { type: 'keyUp', ...key });
+    };
+    const mouseClick = async () => {
+      const { x, y } = JSON.parse(await evaluate(`(() => { const r = ${byId('disabled-card')}.getBoundingClientRect(); return JSON.stringify({ x: r.x + r.width / 2, y: r.y + r.height / 2 }); })()`));
+      for (const type of ['mousePressed', 'mouseReleased']) await command('Input.dispatchMouseEvent', { type, x, y, button: 'left', clickCount: 1 });
+    };
+    const state = (id) => evaluate(`(() => { const el = ${byId(id)}; const c = getComputedStyle(el.shadowRoot.querySelector('.card')); return JSON.stringify({ ariaDisabled: el.getAttribute('aria-disabled'), tabindex: el.getAttribute('tabindex'), background: c.backgroundColor }); })()`).then(JSON.parse);
+    const clicks = () => evaluate(`window.clicks['disabled-card']`);
+    const disabled = await state('disabled-card');
+    await press('Enter');
+    await press('Space');
+    await mouseClick();
+    await evaluate(`${byId('disabled-card')}.click(); ${byId('disabled-card')}.dispatchEvent(new MouseEvent('click', { bubbles: true, composed: true }))`);
+    const whileDisabled = await clicks();
+    await evaluate(`${byId('disabled-card')}.disabled = false`);
+    const enabled = await state('disabled-card');
+    await press('Enter');
+    const afterEnable = await clicks();
+    return { disabled, whileDisabled, enabled, afterEnable, plain: await state('disabled-plain') };
+  }, { readyExpr: '!!window.cardFixtureReady' });
+
+  assert.equal(result.disabled.ariaDisabled, 'true');
+  assert.equal(result.disabled.tabindex, '-1');
+  assert.equal(result.disabled.background, 'rgb(241, 241, 241)', 'the disabled look reuses bg-container-disabled');
+  assert.equal(result.whileDisabled, 0, 'Enter, Space, a mouse click, click() and a dispatched click all fire nothing');
+  assert.deepEqual({ ...result.enabled, background: undefined }, { ariaDisabled: null, tabindex: '0', background: undefined }, 'removing disabled restores the tab stop and drops aria-disabled');
+  assert.equal(result.afterEnable, 1, 'an enabled card clicks again');
+  assert.deepEqual({ ...result.plain, background: undefined }, { ariaDisabled: null, tabindex: null, background: undefined });
+  assert.notEqual(result.plain.background, 'rgb(241, 241, 241)', 'a non-interactive card keeps its normal look');
+});
+
 test('<aha-card> title slot wins over card-title, an empty title hides the header, loading toggles in place, stretch evens a grid and a flex row', { skip }, async () => {
   const result = await withPage(fixture, async (command) => {
     const evaluate = async (expression) => (await command('Runtime.evaluate', { expression, returnByValue: true, awaitPromise: true })).result.value;

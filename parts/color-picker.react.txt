@@ -3,17 +3,18 @@ import '@ahaslides-product/design/aha-color-picker';   // registers <aha-color-p
 import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper; React 19 can use <aha-color-picker> directly.
-function AhaColorPicker({ value, swatches, size, disabled, onChange }) {
+function AhaColorPicker({ value, swatches, size, disabled, custom, onChange }) {
   const ref = useRef();
   useEffect(() => {
     const el = ref.current;
     if (value) el.value = value;
-    const h = (e) => onChange?.(e.detail.value);   // composed CustomEvent
+    const h = (e) => onChange?.(e.detail.value, e.detail.source);   // composed CustomEvent; source: swatch | hex | native | eyedropper
     el.addEventListener('change', h);
     return () => el.removeEventListener('change', h);
   });
-  return <aha-color-picker ref={ref} swatches={swatches} size={size} disabled={disabled || undefined} />;
+  return <aha-color-picker ref={ref} swatches={swatches} size={size} disabled={disabled || undefined} custom={custom || undefined} />;
 }
 
 // usage
 <AhaColorPicker value={colour} size="large" onChange={setColour} />
+<AhaColorPicker value={overlayColour} custom onChange={setOverlayColour} />   // any colour: hex field, browser picker, Pick from screen

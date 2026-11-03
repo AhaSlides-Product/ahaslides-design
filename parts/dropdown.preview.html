@@ -58,6 +58,20 @@
     </aha-dropdown>
   </div>
 </div>
+<div class="pad">
+  <div class="lbl">Locked rows: a plan-gated row keeps its look, shows the Paywall crown and opens the Paywall beside it</div>
+  <div class="row" style="align-items:flex-start; min-height:300px">
+    <aha-dropdown label="Export"
+      items='[
+        {"key":"png","label":"Image","icon":"system-file-image"},
+        {"key":"pdf","label":"PDF","icon":"system-file-pdf","locked":true,"featureKey":"export_pdf","upgradeBody":"Export your responses as a PDF report."},
+        {"key":"xlsx","label":"Excel","icon":"system-file-xls","locked":true,"plan":"essential","featureKey":"export_excel","upgradeBody":"Export raw responses to Excel."},
+        {"type":"divider"},
+        {"key":"delete","label":"Delete","icon":"system-trash","danger":true}
+      ]'>
+    </aha-dropdown>
+  </div>
+</div>
 <script type="module">
   import '../lib/icons.js';         // registers <aha-icon> so the caret + leading glyphs resolve from the DS library
   import '../lib/aha-button.js';    // the kebab trigger is an icon-only aha-button

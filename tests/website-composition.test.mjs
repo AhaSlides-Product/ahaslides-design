@@ -117,10 +117,61 @@ test('the Steps row and the image-led grid keep their own layout', () => {
   assert.match(cardsCss, /\.aha-marketing-cards__grid:not\(\.aha-marketing-cards__grid--image-led\):not\(\.aha-marketing-cards__grid--row\):has/);
 });
 
+test('three icon cards fill three columns and four steps lay out 2 by 2, leaving no empty column (W11)', () => {
+  const iconCards = features.layouts.find((layout) => layout.slug === 'icon-cards').css;
+  const cards = '\\.aha-features--icon-cards \\.aha-features__cards';
+  assert.match(iconCards, new RegExp(`${cards}:has\\(>:nth-child\\(3\\):last-child\\)\\{grid-template-columns:repeat\\(3,`));
+  assert.match(iconCards, new RegExp(`${cards}:has\\(>:nth-child\\(2\\):last-child\\)\\{grid-template-columns:repeat\\(2,`));
+  assert.match(iconCards, new RegExp(`${cards}:has\\(>:first-child:last-child\\)\\{grid-template-columns:minmax\\(0,36rem\\)`));
+  assert.doesNotMatch(iconCards, new RegExp(`${cards}:has\\(>:nth-child\\(4\\):last-child\\)`), 'four icon cards stay one row of four');
+  assert.match(cardsCss, /\.aha-marketing-cards__grid--row:has\(>:nth-child\(4\):last-child\)\{grid-template-columns:repeat\(2,/);
+  assert.match(cardsCss, /\.aha-marketing-cards__grid--row:has\(>:nth-child\(3n\+2\):last-child:nth-child\(n\+5\)\)>:last-child\{grid-column:4 \/ span 2\}/);
+});
+
 test('the Numbers centred stats balance by item count', () => {
   assert.match(numbersCss, /\.aha-numbers--divided \.aha-numbers__stats:has\(>:nth-child\(2\):last-child\)\{grid-template-columns:repeat\(2,/);
   assert.match(numbersCss, /\.aha-numbers--divided \.aha-numbers__stats:has\(>:nth-child\(4\):last-child\)\{grid-template-columns:repeat\(2,/);
   assert.match(numbersCss, /:nth-child\(3n\+2\):last-child:nth-child\(n\+5\)\)>:last-child\{grid-column:4 \/ span 2\}/);
+});
+
+const layoutCss = (file, slug) => readJson(`marketing/${file}.json`).layouts.find((layout) => layout.slug === slug).css;
+const esc = (selector) => selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const itemGrids = [
+  { name: 'Numbers centred', css: layoutCss('numbers', 'centred'), grid: '.aha-numbers--centred:not(.aha-numbers--divided) .aha-numbers__stats', cols: [1, 2, 3, 5, 'six'] },
+  { name: 'Numbers divided', css: numbersCss, grid: '.aha-numbers--divided .aha-numbers__stats', cols: [2, 'six'] },
+  { name: 'Numbers split image', css: layoutCss('numbers', 'split-image'), grid: '.aha-numbers--split-image .aha-numbers__stats', cols: [], odd: true },
+  { name: 'Numbers actions with icons', css: layoutCss('numbers', 'actions-icons'), grid: '.aha-numbers--actions-icons .aha-numbers__stats', cols: [], odd: true },
+  { name: 'Testimonials quote cards', css: testimonialsCss, grid: '.aha-testimonials__grid', cols: [1, 2, 'six'] },
+  { name: 'Features icon grid', css: featuresCss, grid: '.aha-features__grid', cols: [1, 2, 'six'], odd: true },
+  { name: 'Features icon cards', css: layoutCss('features', 'icon-cards'), grid: '.aha-features--icon-cards .aha-features__cards', cols: [1, 2, 3, 5, 'six'], odd: true },
+  { name: 'Features compact see-all', css: layoutCss('features', 'compact-see-all'), grid: '.aha-features--compact-see-all .aha-features__cards', cols: [1, 2, 'six'] },
+  { name: 'Pricing plan grid', css: pricingCss, grid: '.aha-pricing__grid', cols: [1, 2, 'six'] },
+];
+
+for (const { name, css, grid, cols, odd } of itemGrids) {
+  test(`${name} balances by item count and centres the short last row (W11)`, () => {
+    const g = esc(grid);
+    if (cols.includes(1)) assert.match(css, new RegExp(`${g}:has\\(>:first-child:last-child\\)\\{grid-template-columns:minmax\\(0,36rem\\);justify-content:center`));
+    if (cols.includes(2)) assert.match(css, new RegExp(`${g}:has\\(>:nth-child\\(2\\):last-child\\)[^{]*\\{grid-template-columns:repeat\\(2,`));
+    if (cols.includes(3)) assert.match(css, new RegExp(`${g}:has\\(>:nth-child\\(3\\):last-child\\)\\{grid-template-columns:repeat\\(3,`));
+    if (cols.includes(5)) assert.match(css, new RegExp(`${g}:has\\(>:nth-child\\(5\\)\\)\\{grid-template-columns:repeat\\(3,`));
+    if (cols.includes('six')) {
+      assert.match(css, new RegExp(`${g}:has\\(>:nth-child\\(3n\\+2\\):last-child:nth-child\\(n\\+5\\)\\)>:last-child\\{grid-column:4 / span 2\\}`));
+      assert.match(css, new RegExp(`${g}:has\\(>:nth-child\\(3n\\+1\\):last-child:nth-child\\(n\\+7\\)\\)>:last-child\\{grid-column:2\\}`));
+    }
+    if (odd || name === 'Numbers centred') assert.match(css, new RegExp(`${g}:has\\(>:nth-child\\(odd\\):last-child\\)>:last-child\\{grid-column:1 / -1;justify-self:center;width:calc\\(50% - var\\(--aha-section-space-item\\) / 2\\)\\}`));
+  });
+}
+
+test('Numbers centred keeps four stats as one row of four', () => {
+  const css = layoutCss('numbers', 'centred');
+  assert.match(css, /\.aha-numbers--centred \.aha-numbers__stats\{grid-template-columns:repeat\(4,/);
+  assert.doesNotMatch(css, /:has\(>:nth-child\(4\):last-child\)/);
+});
+
+test('the Pricing plan card styles gallery and the phone trio are not count-balanced', () => {
+  assert.doesNotMatch(pricingCss, /\.aha-pricing__styles:has/);
+  assert.doesNotMatch(layoutCss('features', 'icons-phone-screenshot'), /__trio:has/);
 });
 
 const topLevelCss = (css) => css.replace(/@[^{]+\{(?:[^{}]*\{[^{}]*\})*[^{}]*\}/g, '');

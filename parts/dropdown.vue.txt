@@ -15,13 +15,17 @@ const items = computed(() => JSON.stringify([
     { key: 'pptx', label: 'PowerPoint', icon: 'system-file' },
     { key: 'xlsx', label: 'Excel', icon: 'system-file' },
   ] },
+  { key: 'pdf', label: 'Export PDF', icon: 'system-file-pdf', locked: true, featureKey: 'export_pdf', upgradeBody: 'Export your responses as a PDF report.' },
   { type: 'divider' },
   { key: 'delete', label: 'Delete', icon: 'system-trash', danger: true },
 ]));
 function onSelect(e) { runAction(e.detail.key); }
+// a locked row opens the Paywall instead of selecting; preventDefault() runs your own upgrade flow
+function onUpgrade(e) { e.preventDefault(); openUpgradeModal(e.detail.feature); }
 
 // a single-choice picker: `value` selects the row and the trigger shows its label
 const role = ref('editor');
+const menuOpen = ref(false);
 const roleItems = JSON.stringify([
   { key: 'editor', label: 'Editor', description: 'Edit and present' },
   { key: 'presenter', label: 'Presenter', description: 'Present only, cannot edit' },
@@ -29,6 +33,7 @@ const roleItems = JSON.stringify([
 </script>
 
 <template>
-  <aha-dropdown label="Actions" placement="bottomLeft" :items="items" @select="onSelect" />
+  <!-- @open / @close report every user open and close; :open drives it from code. The panel renders in the top layer, so a card cannot clip it. -->
+  <aha-dropdown label="Actions" placement="bottomLeft" :items="items" :open="menuOpen" @select="onSelect" @open="menuOpen = true" @close="menuOpen = false" @paywall-upgrade="onUpgrade" />
   <aha-dropdown :value="role" :items="roleItems" @select="role = $event.detail.key" />
 </template>

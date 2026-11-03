@@ -10,6 +10,8 @@ Glyphs for courses and rich text (22): system-arrow-line-down, system-caret-circ
 
 Glyphs for survey building (5): system-arrows-split, system-flag, system-hash, system-megaphone, and the tick inside system-check-square (its frame is the DS `system-minus-square` frame). Same redraw (Phosphor Regular stroke source `raw/regular/<name>.svg`, scaled 1.1x onto 16x16, stroke 1.5); `system-megaphone` is scaled about the centre of its own outline rather than the 256 frame, so its stroke stays inside the 16 grid.
 
+Glyphs for survey blocks and rating states (7): system-door, system-chalkboard and system-address-book are the same redraw (Phosphor Regular stroke centrelines of `Door`, `Chalkboard` and `AddressBook`, scaled 1.1x onto 16x16, stroke 1.5, the door knob a filled dot). system-check-circle-filled and system-smiley-filled are the Phosphor Fill `CheckCircle` and `Smiley` shapes, scaled so the disc matches the outer edge of their outline twins (radius 7.75), with the tick, eyes and mouth knocked out (even-odd fill). system-heart-straight-filled is the `system-heart-straight` outline filled; system-thumbs-up-filled fills the hand of `system-thumbs-up` and keeps the cuff open, as the Phosphor Fill `ThumbsUp` does.
+
 Not derived from Phosphor (kept as drawn in Figma): system-file, system-files, system-file-arrow-down, system-file-arrow-up, system-file-audio, system-file-xls.
 
 ## Licence

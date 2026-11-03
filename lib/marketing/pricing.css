@@ -127,6 +127,16 @@
 @container aha-marketing-cards (max-width:767px){
   .aha-marketing-cards__grid--row{grid-template-columns:minmax(0,1fr)}
 }
+@container aha-marketing-cards (min-width:768px){
+  .aha-marketing-cards__grid--row:has(>:nth-child(4):last-child){grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@container aha-marketing-cards (min-width:768px){
+  .aha-marketing-cards__grid--row:has(>:nth-child(3n+1):last-child:nth-child(n+7))>:last-child{grid-column:2}
+  .aha-marketing-cards__grid--row:has(>:nth-child(3n+2):last-child:nth-child(n+5)){grid-template-columns:repeat(6,minmax(0,1fr))}
+  .aha-marketing-cards__grid--row:has(>:nth-child(3n+2):last-child:nth-child(n+5))>*{grid-column:span 2}
+  .aha-marketing-cards__grid--row:has(>:nth-child(3n+2):last-child:nth-child(n+5))>:nth-last-child(2){grid-column:2 / span 2}
+  .aha-marketing-cards__grid--row:has(>:nth-child(3n+2):last-child:nth-child(n+5))>:last-child{grid-column:4 / span 2}
+}
 @container aha-marketing-cards (min-width:992px){
   .aha-marketing-cards__grid:not(.aha-marketing-cards__grid--image-led):not(.aha-marketing-cards__grid--row):not(.aha-marketing-cards__grid--templates):has(>:first-child:last-child){grid-template-columns:minmax(0,36rem);justify-content:center}
   .aha-marketing-cards__grid:not(.aha-marketing-cards__grid--image-led):not(.aha-marketing-cards__grid--row):not(.aha-marketing-cards__grid--templates):has(>:nth-child(2):last-child),.aha-marketing-cards__grid:not(.aha-marketing-cards__grid--image-led):not(.aha-marketing-cards__grid--row):not(.aha-marketing-cards__grid--templates):has(>:nth-child(4):last-child){grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -329,6 +339,17 @@
 @container aha-pricing (max-width:479px){
   .aha-pricing__inner{--aha-web-gutter:var(--aha-space-16)}
   .aha-pricing__title{font-size:var(--aha-size-h4)}
+}
+@container aha-pricing (min-width:992px){
+  .aha-pricing__grid:has(>:first-child:last-child){grid-template-columns:minmax(0,36rem);justify-content:center}
+  .aha-pricing__grid:has(>:nth-child(2):last-child){grid-template-columns:repeat(2,minmax(0,1fr))}
+  .aha-pricing__grid:has(>:nth-child(4):last-child){grid-template-columns:repeat(2,minmax(0,1fr))}
+  .aha-pricing__grid:has(>:nth-child(5)){grid-template-columns:repeat(3,minmax(0,1fr))}
+  .aha-pricing__grid:has(>:nth-child(3n+1):last-child:nth-child(n+7))>:last-child{grid-column:2}
+  .aha-pricing__grid:has(>:nth-child(3n+2):last-child:nth-child(n+5)){grid-template-columns:repeat(6,minmax(0,1fr))}
+  .aha-pricing__grid:has(>:nth-child(3n+2):last-child:nth-child(n+5))>*{grid-column:span 2}
+  .aha-pricing__grid:has(>:nth-child(3n+2):last-child:nth-child(n+5))>:nth-last-child(2){grid-column:2 / span 2}
+  .aha-pricing__grid:has(>:nth-child(3n+2):last-child:nth-child(n+5))>:last-child{grid-column:4 / span 2}
 }
 .aha-pricing--simple-cards-callout .aha-pricing__grid{margin-top:var(--aha-space-32)}
 .aha-pricing--featured-cards-callout .aha-pricing__plans{padding-top:var(--aha-space-32)}
