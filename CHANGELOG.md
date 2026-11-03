@@ -36,10 +36,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.943.0 — 2026-11-03
 
 ### Added
-- Marketing: a screenshot outline for product screenshots whose own edge is white, so they no longer float shapeless on a white band. `aha-features__photo--outline` on the Features photo slot draws a 1 px `--aha-border-default` hairline on the slot's radius; `aha-marketing-card__media--outline` draws the same line between the picture and the card body. No fill, no shadow, no inset; never on a photo or with the Vivid Pink frame. Features Alternating with screenshots gets an Outline choice in its Image switch (Fill, Outline, Pink frame) (#NNN)
+- Marketing: a screenshot outline for product screenshots whose own edge is white, so they no longer float shapeless on a white band. `aha-features__photo--outline` on the Features photo slot draws a 1 px `--aha-border-default` hairline on the slot's radius; `aha-marketing-card__media--outline` draws the same line between the picture and the card body. No fill, no shadow, no inset; never on a photo or with the Vivid Pink frame. Features Alternating with screenshots gets an Outline choice in its Image switch (Fill, Outline, Pink frame) (#599)
 
 ### Changed
-- W6 (website imagery) names the screenshot outline as its one exception to the light grey frame ban, in every copy (`guidelines/website.json`, `anti-slop/criteria.json`, `agent/anti-slop/criteria.json`); a light grey fill or rail still fails (#NNN)
+- W6 (website imagery) names the screenshot outline as its one exception to the light grey frame ban, in every copy (`guidelines/website.json`, `anti-slop/criteria.json`, `agent/anti-slop/criteria.json`); a light grey fill or rail still fails (#599)
 
 ## 0.941.0 — 2026-11-03
 
