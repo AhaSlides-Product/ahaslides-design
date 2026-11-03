@@ -15,7 +15,7 @@ import { tableTheme } from '../lib/table-theme.js';
 
 const React = window.React, antd = window.antd, h = React.createElement;
 const DataTable = createDataTable({ React, antd });
-const { Button, Space, Table, ConfigProvider, Typography } = antd;
+const { Button, Space, Table, ConfigProvider, Typography, Input } = antd;
 const { useExpandableRows } = createExpandableRows({ React });
 const { useState } = React;
 
@@ -138,6 +138,17 @@ function SavedColumnsTable() {
     log.length ? h('pre', { style: { margin: 'var(--aha-space-8) 0 0', fontSize: 'var(--aha-size-sm)' } }, log.join('\n')) : null);
 }
 
+function SearchHighlightTable() {
+  const [query, setQuery] = useState('');
+  const [current, setCurrent] = useState('c');
+  const needle = query.trim().toLowerCase();
+  const shown = needle ? people.filter((person) => person.name.toLowerCase().includes(needle)) : people;
+  return h(DataTable, { rowKey: 'key', dataSource: shown, columns: peopleColumns, pagination: false, columnsEditable: true, columnsSearchable: true,
+    toolbarTitle: 'Participants', highlightedRowKey: current, onRow: (record) => ({ onClick: () => setCurrent(record.key) }),
+    toolbarSearch: h(Input, { value: query, allowClear: true, placeholder: 'Search participants', 'aria-label': 'Search participants',
+      prefix: icon('system-magnifying-glass'), onChange: (event) => setQuery(event.target.value) }) });
+}
+
 function LazyDetailTable() {
   const [loadingKeys, setLoadingKeys] = useState([]);
   const [loaded, setLoaded] = useState({});
@@ -168,7 +179,7 @@ function App() {
         toolbarTitle: 'Leaderboard', toolbarActions: h(Button, { icon: icon('system-download-simple') }, 'Export') })),
     h(Case, { title: 'No rows', hint: 'the empty-table illustration at 64 px with the noData caption; locale.emptyText replaces it' },
       h(DataTable, { rowKey: 'key', dataSource: [], columns: base, pagination: false })),
-    h(Case, { title: 'Sorting', hint: 'single directional arrow; click a header to cycle ↓ → ↑ → none' },
+    h(Case, { title: 'Sorting', hint: 'single directional arrow; the first click sorts ascending: ↑ → ↓ → none' },
       h(DataTable, { rowKey: 'key', dataSource: rows.slice(0, 5), pagination: false, columns: [
         { ...base[0], sorter: byName, help: 'Participant display name' },
         base[1],
@@ -195,8 +206,10 @@ function App() {
     h(Case, { title: 'Add / remove columns', hint: 'Edit columns → checklist' },
       h(DataTable, { rowKey: 'key', dataSource: rows.slice(0, 5), pagination: false, columnsEditable: true, toolbarTitle: 'Leaderboard',
         columns: [{ ...base[0], hideable: false }, base[1], base[2], base[3]] })),
-    h(Case, { title: 'Saved columns', hint: 'visibleColumns + onVisibleColumnsChange; Edit columns events and Reset logged below' },
+    h(Case, { title: 'Saved columns', hint: 'visibleColumns + onVisibleColumnsChange; Edit columns events and Reset columns logged below' },
       h(SavedColumnsTable)),
+    h(Case, { title: 'Search · highlighted row', hint: 'toolbarSearch slot; columnsSearchable adds Search columns; click a row to make it the highlightedRowKey' },
+      h(SearchHighlightTable)),
     h(Case, { title: 'Expandable rows · detail panel', hint: 'chevron or row click opens a nested sub-table; header toggle expands all; the first row starts open' },
       h(DataTable, { rowKey: 'key', dataSource: pageRows, columns: pageColumns, pagination: false,
         expandableRows: { renderDetail: subTable, expandAllToggle: true, defaultExpandedRowKeys: ['p1'], getRowLabel: (record) => record.page,

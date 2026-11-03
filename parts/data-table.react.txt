@@ -46,11 +46,17 @@ const participantColumns = [
   dataSource={participants}
   columnsEditable
   visibleColumns={savedColumns}                        // e.g. ['name', 'dept', 'joined'] from the creator's settings
-  defaultVisibleColumns={['name', 'dept', 'joined']}   // what Reset restores
+  defaultVisibleColumns={['name', 'dept', 'joined']}   // what Reset columns restores
   onVisibleColumnsChange={saveColumns}                 // next visible keys, in display order (also what export takes)
   onColumnsEditorOpenChange={(open) => open && track('TABLE_COLUMNS_OPENED')}
   onColumnToggle={(column, visible) => track('TABLE_COLUMN_TOGGLED', { column, visible })}
   onColumnsReset={() => track('TABLE_COLUMNS_RESET')}
+  columnsSearchable                                    // Search columns field in Edit columns
+  toolbarTitle={t('participants.title')}               // an <h2>; toolbarTitleLevel picks another level
+  toolbarSearch={<Input allowClear prefix={<aha-icon name="system-magnifying-glass" size="16" decorative="" />} onChange={onSearch} />}
+  highlightedRowKey={currentParticipantId}             // the current row: bg-accent + aria-current
+  testIdPrefix="participants"                          // participants-toolbar, participants-filter-dept, …
+  labels={{ freezeColumn: t('table.freeze'), defreezeColumn: t('table.defreeze'), filterColumn: t('table.filter') }}
 />
 
 // Expandable rows — pass expandableRows; the chevron, panel and a11y come from the DS.

@@ -6,10 +6,10 @@
 import { dataTableTheme } from '@ahaslides-product/design/aha-data-table';
 
 const columns = [
-  { key: 'name',      title: 'Name',      dataIndex: 'name',  sorter: (a, b) => a.name.localeCompare(b.name), sortDirections: ['descend', 'ascend'] },
+  { key: 'name',      title: 'Name',      dataIndex: 'name',  sorter: (a, b) => a.name.localeCompare(b.name), sortDirections: ['ascend', 'descend'] },
   { key: 'team',      title: 'Team',      dataIndex: 'team' },
   { key: 'responses', title: 'Responses', dataIndex: 'responses' },
-  { key: 'score',     title: 'Score',     dataIndex: 'score', sorter: (a, b) => a.score - b.score, sortDirections: ['descend', 'ascend'] },
+  { key: 'score',     title: 'Score',     dataIndex: 'score', sorter: (a, b) => a.score - b.score, sortDirections: ['ascend', 'descend'] },
 ];
 </script>
 

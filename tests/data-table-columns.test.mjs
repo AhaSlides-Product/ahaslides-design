@@ -19,7 +19,7 @@ function fakeReact() {
   const noop = () => { cursor++; };
   const useId = () => useState(() => `id${cursor}`)[0];
   return {
-    React: { createElement, useState, useMemo, useRef, useCallback, useId, useInsertionEffect: noop, useLayoutEffect: noop },
+    React: { createElement, useState, useMemo, useRef, useCallback, useId, useEffect: noop, useInsertionEffect: noop, useLayoutEffect: noop },
     begin: () => { cursor = 0; },
   };
 }
@@ -52,6 +52,7 @@ function mount(props) {
     shown: () => table().columns.map((column) => column.key),
     table,
     editor,
+    editorElement: () => find(tree, (node) => typeof node.type === 'function' && node.type.name === 'ColumnsEditor'),
     rerender: (next) => { if (next) current = { ...current, ...next }; tree = render(); },
   };
 }
@@ -130,4 +131,95 @@ test('the value filter matches text by substring, numbers exactly and dates by c
   assert.equal(joined.onFilter('2026-03-14', { joined: new Date(2026, 2, 14, 18, 30) }), true);
   assert.equal(joined.onFilter('2026-03-14', { joined: new Date(2026, 2, 15) }), false);
   assert.equal(joined.onFilter('2026-03-14', { joined: null }), false);
+});
+
+test('a filter trigger is a named <button> in the Tab order that opens without sorting the column', () => {
+  const grid = mount({
+    columns: [{ key: 'team', title: 'Team', dataIndex: 'team', sorter: () => 0, filter: { type: 'checklist', options: ['A'] } }],
+    labels: { filterColumn: 'Lọc' },
+  });
+  const trigger = grid.table().columns[0].filterDropdownProps.children;
+  assert.equal(trigger.type, 'button');
+  assert.equal(trigger.props.type, 'button');
+  assert.ok(!(trigger.props.tabIndex < 0), 'never taken out of the Tab order');
+  assert.equal(trigger.props['aria-label'], 'Lọc: Team');
+  assert.equal(trigger.props['data-testid'], 'aha-data-table-filter-team');
+  let stopped = 0;
+  trigger.props.onKeyDown({ key: 'Enter', stopPropagation: () => { stopped += 1; } });
+  trigger.props.onClick({ stopPropagation: () => { stopped += 1; } });
+  assert.equal(stopped, 2, 'Enter and click stay on the trigger, so the header does not sort');
+});
+
+test('the filter panel is a named dialog whose keys stay inside it, and Escape refocuses its trigger', () => {
+  const grid = mount({ columns: [{ key: 'team', title: 'Team', dataIndex: 'team', filter: { type: 'checklist', options: ['A'] } }] });
+  const column = grid.table().columns[0];
+  let refocused = 0;
+  column.filterDropdownProps.children.props.ref({ focus: () => { refocused += 1; } });
+  let closed = 0;
+  const element = column.filterDropdown({ selectedKeys: [], setSelectedKeys: () => {}, confirm: () => {}, close: () => { closed += 1; } });
+  const panel = element.type(element.props);
+  assert.equal(panel.props.role, 'dialog');
+  assert.equal(panel.props['aria-label'], 'Filter: Team');
+  let stopped = 0;
+  const stopPropagation = () => { stopped += 1; };
+  panel.props.onKeyDown({ key: 'ArrowLeft', altKey: true, stopPropagation });
+  assert.equal(stopped, 1, 'Alt+Arrow never reaches the header cell that moves columns');
+  assert.equal(closed, 0);
+  panel.props.onKeyDown({ key: 'Escape', stopPropagation });
+  assert.deepEqual([closed, refocused], [1, 1]);
+});
+
+test('a column with antd filters and no DS filter keeps antd\'s own trigger', () => {
+  const grid = mount({ columns: [{ key: 'team', title: 'Team', dataIndex: 'team', filters: [{ text: 'A', value: 'A' }] }] });
+  const [team] = grid.table().columns;
+  assert.equal(team.filterDropdownProps, undefined);
+  assert.equal(team.filterIcon, undefined);
+});
+
+test('the first sort click sorts ascending unless the column sets its own order', () => {
+  const grid = mount({
+    columns: [
+      { key: 'name', title: 'Name', dataIndex: 'name', sorter: () => 0 },
+      { key: 'score', title: 'Score', dataIndex: 'score', sorter: () => 0, sortDirections: ['descend'] },
+    ],
+  });
+  const [name, score] = grid.table().columns;
+  assert.deepEqual(name.sortDirections, ['ascend', 'descend']);
+  assert.deepEqual(score.sortDirections, ['descend']);
+  const idleArrow = (column) => find(column.sortIcon({ sortOrder: null }), (node) => node.type === 'aha-icon').props.name;
+  assert.equal(idleArrow(name), 'system-arrow-up');
+  assert.equal(idleArrow(score), 'system-arrow-down', 'the idle arrow points the way the first click sorts');
+});
+
+test('the date filter has a Clear button that empties the typed date', () => {
+  const grid = mount({ columns: [{ key: 'joined', title: 'Joined', dataIndex: 'joined', filter: { type: 'value', inputType: 'date' } }] });
+  const picked = [];
+  const panel = grid.table().columns[0].filterDropdown({
+    selectedKeys: ['2026-03-14'], setSelectedKeys: (keys) => picked.push(keys), confirm: () => {}, clearFilters: () => {},
+  });
+  const tree = panel.type(panel.props);
+  const clear = find(tree, (node) => node.props?.['data-testid'] === 'aha-data-table-filter-joined-panel-clear');
+  assert.ok(clear, 'a date filter shows Clear');
+  assert.equal(clear.props.disabled, false);
+  const field = find(tree, (node) => node.props?.['data-testid'] === 'aha-data-table-filter-joined-panel-input');
+  let focused = 0;
+  field.props.ref.current = { focus: () => { focused += 1; } };
+  clear.props.onClick();
+  assert.deepEqual(picked, [[]]);
+  assert.equal(focused, 1, 'focus leaves the now-disabled Clear for the date field');
+});
+
+test('the Edit columns search says when nothing matches and clears when the popover closes', () => {
+  const grid = mount({ columns, columnsEditable: true, columnsSearchable: true });
+  const renderEditor = () => { grid.rerender(); const element = grid.editorElement(); return element.type(element.props); };
+  const byTestId = (tree, id) => find(tree, (node) => node.props?.['data-testid'] === id);
+  let popover = renderEditor();
+  assert.ok(byTestId(popover.props.content, 'aha-data-table-columns-column-team'), 'checkbox ids are scoped apart from the toolbar ids');
+  byTestId(popover.props.content, 'aha-data-table-columns-search').props.onChange({ target: { value: 'zzz' } });
+  popover = renderEditor();
+  assert.equal(byTestId(popover.props.content, 'aha-data-table-columns-empty').props.children[0], 'No columns match');
+  popover.props.onOpenChange(false);
+  popover = renderEditor();
+  assert.equal(byTestId(popover.props.content, 'aha-data-table-columns-empty'), null);
+  assert.equal(byTestId(popover.props.content, 'aha-data-table-columns-search').props.value, '');
 });
