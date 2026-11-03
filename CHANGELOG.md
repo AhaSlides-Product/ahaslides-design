@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.915.0 — 2026-11-03
 ### Added
-- `<aha-dropdown>` locked rows: a leaf item with `locked: true` (plus optional `plan: 'pro' | 'essential'`, `featureKey`, `upgradeBody`) keeps its normal look, shows the shared `<aha-paywall>` crown at its trailing edge, and a click, Enter or Space opens that row's Paywall popover beside the row (above or below it via `fitPaywall` when the side lacks room) instead of emitting `select`. Tab moves into Upgrade / See all plans, Escape closes the popover and then the menu, and choosing Upgrade or See all plans closes the menu. The Paywall's composed `paywall-shown`, `paywall-upgrade` and `paywall-plans` events bubble out of the dropdown. No new icon or token; rows without `locked` are unchanged. (#NNN)
+- `<aha-dropdown>` locked rows: a leaf item with `locked: true` (plus optional `plan: 'pro' | 'essential'`, `featureKey`, `upgradeBody`) keeps its normal look, shows the shared `<aha-paywall>` crown at its trailing edge, and a click, Enter or Space opens that row's Paywall popover beside the row (above or below it via `fitPaywall` when the side lacks room) instead of emitting `select`. Tab moves into Upgrade / See all plans, Escape closes the popover and then the menu, and choosing Upgrade or See all plans closes the menu. The Paywall's composed `paywall-shown`, `paywall-upgrade` and `paywall-plans` events bubble out of the dropdown. No new icon or token; rows without `locked` are unchanged. (#579)
 - Revert: revert the PR; additive code in `lib/aha-dropdown.js` behind the `locked` item field, plus docs
 
 ## 0.914.0 — 2026-11-03
