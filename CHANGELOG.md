@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.933.0 — 2026-11-03
+## 0.935.0 — 2026-11-03
 ### Added
 - Navigation: new Join bar layout (`aha-join-bar`, Webflow component Join bar), the dark "Are you a participant?" bar with the access-code field and Join button, taken out of the Site navbar. Place it directly before the Site navbar as a sibling and it scrolls away while the navbar stays stuck to the top, with no positioning script (#594)
 ### Changed
@@ -41,6 +41,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Navigation Site navbar: the Products menu preview slot is a video, the same clips as the live ahaslides.com menu: Word cloud by default, and the clip of each Interactive slides entry under the pointer or focus. It has no `autoplay`: it plays muted and looped only while the Products menu is open, pauses when it closes, shows only its poster under prefers-reduced-motion or `data-aha-motion="off"`, and is hidden at 991px and below, where its clip never loads (#594)
 - W9 (website guideline, anti-slop criterion and the Hero video note): the Products menu preview clip is allowed beside the one autoplaying hero video and does not count as a second autoplaying video (#594)
 - Revert: revert the PR; it changes marketing/navigation.json, the generated Marketing CSS and the W9 prose only, with no token or component API change
+
+## 0.934.1 — 2026-11-03
+
+- Split button is part of the Button page: a "Split" section shows the shipped `<aha-split-button>` live (primary with and without an icon, secondary, disabled) and links to its full spec. Split button no longer has its own Components sidebar item; its spec page stays (props, events, code, agent feeds) and lights up Button in the sidebar. No API, token or icon change. (#595)
+- Revert: revert this PR; the sidebar item comes back from the `generate.mjs` catalogue.
 
 ## 0.932.0 — 2026-11-03
 ### Added

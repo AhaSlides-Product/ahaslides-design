@@ -52,6 +52,15 @@
     <aha-button icon-only variant="tertiary" size="xs" aria-label="Close extra small"><aha-icon name="system-x" size="16" decorative></aha-icon></aha-button>
   </div>
 
+  <div class="lbl" id="split">Split: a main action with a caret menu</div>
+  <div class="row" style="align-items:center;flex-wrap:wrap">
+    <aha-split-button variant="primary" size="md" caret-label="More present options" items='[{"key":"start","label":"Present from start","icon":"system-play"},{"key":"current","label":"Present from current slide"}]'><aha-icon slot="icon" name="system-play" size="16" decorative></aha-icon>Present</aha-split-button>
+    <aha-split-button variant="primary" size="md" caret-label="More present options" items='[{"key":"start","label":"Present from start","icon":"system-play"},{"key":"current","label":"Present from current slide"}]'>Present</aha-split-button>
+    <aha-split-button variant="secondary" size="md" caret-label="More share options" items='[{"key":"link","label":"Copy link"},{"key":"invite","label":"Invite by email"}]'>Share</aha-split-button>
+    <aha-split-button variant="primary" size="md" disabled items='[{"key":"start","label":"Present from start","icon":"system-play"},{"key":"current","label":"Present from current slide"}]'>Present</aha-split-button>
+  </div>
+  <p class="lbl" style="text-transform:none; letter-spacing:0">Use <code>&lt;aha-split-button&gt;</code>; never join an aha-button and an aha-dropdown by hand. Props, menu rows, events and code: <a href="../split-button/index.html">Split button spec</a>.</p>
+
   <p class="lbl" style="text-transform:none; letter-spacing:0">Presenter controls drawn inside the slide canvas (size lg, applyCanvasDeck, shortcut chip) now live on the <a href="../canvas/index.html">Canvas Library › Components</a> page.</p>
 
   <div class="lbl">Close (tertiary icon-only, xs) — the dismiss ✕</div>
@@ -70,5 +79,6 @@
 <script type="module">
   import '../lib/icons.js';        // registers <aha-icon> so the icon-slot glyphs resolve from the DS library
   import '../lib/aha-alert.js';   // its closable ✕ is the xs tertiary icon-only button above
-  import '../lib/aha-button.js';   // registers <aha-button> — the shipped primitive, byte-identical to what consumers get
+  import '../lib/aha-button.js';
+  import '../lib/aha-split-button.js';   // the Split section above   // registers <aha-button> — the shipped primitive, byte-identical to what consumers get
 </script>
