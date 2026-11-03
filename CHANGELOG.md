@@ -33,13 +33,27 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.921.0 — 2026-11-03
+## 0.927.0 — 2026-11-03
 ### Changed
 - Colour rule 2.6: a third-party logo in any interface (website header, pricing row, presenter app) is its line mark from `logo/line/` in `--aha-icon-default`, 24px, with no tile or border; a row after a label sits 12px after it and 8px apart. Only a listing page (Marketplace) shows the colour image, greyscale at rest and in colour on card hover and keyboard focus, with no fade under reduced motion. Anti-slop C7, the colour evals, the skill, AGENTS.md and PRINCIPLES.md follow. (#557)
 - Navigation: the Products menu app entries show the line logos straight on the menu, without the white square tile. (#557)
 - Integration card: the logo is the colour file with the `brand-logo-listing` class, greyscale until the card is hovered or focused. The `brand-logo-colour` lint accepts that class. (#557)
 ### Added
 - Logo library: line marks for 29 brands under `logo/line/`, a G2 logo (original, greyscale and line), and copy-paste patterns for a line logo, a logo row after a label and a listing card. Redrawn Canva, Zapier and Claude line stand-ins. (#557)
+
+## 0.925.0 — 2026-11-03
+### Changed
+- Destructive confirm: `destructiveConfirm` now gives the confirm button `type: 'default'` (white, 1px #E3E3E3 border, #1A1A1A label, the look of `aha-button` secondary) instead of a solid #1A1A1A danger fill, so a destructive confirm shows one primary, the pink Cancel. The overlays rule `danger-confirm-button`, its anti-slop criterion, the Modal and Popconfirm examples and contracts say the same (#581)
+- antd Button disabled colours match `aha-button`: #E3E3E3 fill and border, #B5B5B5 label, set on the Button component only (#581)
+- Popconfirm theme pins the small button radius to 4px, so a host's own `borderRadiusSM` no longer applies inside it (#581)
+- Documented difference: antd has no hover-shadow token, so an antd primary hovers Darker Pink without `aha-button`'s pink glow; the Popconfirm spec says so (#581)
+- Form render contract expects the #1A1A1A label that `form-theme` has set since 0.915.2, so the standards gate passes again (#581)
+- Revert: revert the PR; `lib/popconfirm-theme.js` and one block in `lib/antd-base-theme.js` return to the previous values
+
+## 0.920.1 — 2026-11-03
+### Changed
+- Docs → Leaderboard: the previews sit in a fixed 16:9 slide frame, and the phone example is gone from the page (the phone size and its code sample are unchanged). The Show winner banner fills the same frame however many rows the leaderboard has; it no longer grows with the list (#585)
+- Canvas Library → Leaderboard: the light, dark and orange deck demos are 16:9 slide frames with an outline instead of a fixed 300px strip, so the list scrolls inside the frame and Show winner covers the same size at 5 or 14 rows. On a narrow screen the frame scrolls rather than cutting off the winner banner (#585)
 
 ## 0.917.2 — 2026-11-03
 ### Fixed
