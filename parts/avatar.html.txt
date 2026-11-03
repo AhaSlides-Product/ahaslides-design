@@ -22,7 +22,7 @@
   <aha-avatar name="Katherine Johnson"></aha-avatar>
 </aha-avatar-group>
 
-<!-- `add` appends a round + button at the group's size and shape; it fires a bubbling `aha-add` -->
+<!-- `add` appends a round + button at the group's size and shape, and spaces the avatars apart instead of overlapping; it fires a bubbling `aha-add` -->
 <aha-avatar-group id="people" add add-label="Invite people">
   <aha-avatar name="Ada Lovelace"></aha-avatar>
 </aha-avatar-group>

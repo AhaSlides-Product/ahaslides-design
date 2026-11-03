@@ -83,3 +83,14 @@ test('adding an avatar keeps the same add button node, so focus stays on it', ()
 test('importing aha-avatar alone registers aha-icon for the + glyph', () => {
   assert.ok(defined.has('aha-icon'));
 });
+
+test('add spaces the group apart in proportion to size; without add it keeps the overlap', () => {
+  const sizes = { small: '24', default: '40', large: '64' };
+  for (const [size, px] of Object.entries(sizes)) {
+    const { el } = mount({ add: '', size }, 3);
+    assert.equal(el._stack.classList.contains('spaced'), true);
+    assert.equal(el._stack.style['--aha-avatar-px'], px);
+  }
+  const { el } = mount({ max: '3' }, 4);
+  assert.equal(el._stack.classList.contains('spaced'), false);
+});
