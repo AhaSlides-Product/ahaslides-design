@@ -131,7 +131,7 @@
  "conformance": {
   "$about": "Measured by qa.mjs on the rendered CDN-React preview: a real antd v6 Tooltip inside a ConfigProvider bound to the shared base theme.",
   "ready": "!!document.querySelector('.ant-tooltip-container')",
-  "measure": "(function(){var g=function(sel,p){var el=document.querySelector(sel);return el?getComputedStyle(el)[p]:null;};var b='.ant-tooltip-container';var el=document.querySelector(b);return{bg:g(b,'backgroundColor'),color:g(b,'color'),fontSize:g(b,'fontSize'),lineHeight:g(b,'lineHeight'),radius:g(b,'borderTopLeftRadius'),padTop:g(b,'paddingTop'),padLeft:g(b,'paddingLeft'),height:el?Math.round(el.getBoundingClientRect().height)+'px':null,maxWidth:g('.ant-tooltip','maxWidth')};})()",
+  "measure": "(function(){var g=function(sel,p){var el=document.querySelector(sel);return el?getComputedStyle(el)[p]:null;};var b='.ant-tooltip-container';var el=document.querySelector(b);return{bg:g(b,'backgroundColor'),color:g(b,'color'),fontSize:g(b,'fontSize'),lineHeight:g(b,'lineHeight'),radius:g(b,'borderTopLeftRadius'),padTop:g(b,'paddingTop'),padLeft:g(b,'paddingLeft'),height:el?el.offsetHeight+'px':null,maxWidth:g('.ant-tooltip','maxWidth')};})()",
   "expect": {
    "bg": "rgb(26, 26, 26)",
    "color": "rgb(255, 255, 255)",
