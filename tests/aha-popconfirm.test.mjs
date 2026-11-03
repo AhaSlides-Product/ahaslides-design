@@ -69,13 +69,24 @@ const scenarios = String.raw`(async () => {
   const off = document.querySelector('#off');
   document.querySelector('#off-trigger').click(); await frame();
   out.disabledStaysShut = off.open;
+  document.querySelector('#dead-trigger').click(); await frame();
+  out.disabledTriggerStaysShut = document.querySelector('#dead').open;
+
+  const second = document.querySelector('#second');
+  pc.show(); await frame(); second.show(); await frame();
+  key('Escape'); await frame();
+  out.escapeTakesLatest = [pc.open, second.open];
+  pc.close(); await frame(); await settle();
 
   const modal = document.querySelector('#modal');
   const nested = document.querySelector('#nested');
+  const heardByModal = [];
+  for (const type of ['open', 'cancel', 'close', 'closed']) modal.addEventListener(type, () => heardByModal.push(type));
   modal.show(); await frame(); await settle();
   document.querySelector('#nested-trigger').click(); await frame(); await settle();
   key('Escape'); await frame(); await settle();
   out.escapeInModal = [nested.open, modal.open];
+  out.heardByModal = heardByModal.slice();
   modal.close(); await frame(); await settle();
 
   const built = document.createElement('aha-popconfirm');
@@ -115,7 +126,10 @@ test('aha-popconfirm maps the antd props, moves focus in and back, and closes on
   assert.equal(r.dangerFocusOnCancel, true);
   assert.deepEqual(r.falseFlagOff, [false, 'primary']);
   assert.equal(r.disabledStaysShut, false);
+  assert.equal(r.disabledTriggerStaysShut, false);
+  assert.deepEqual(r.escapeTakesLatest, [true, false]);
   assert.deepEqual(r.escapeInModal, [false, true]);
+  assert.deepEqual(r.heardByModal, []);
   assert.equal(r.createdUpgraded, true);
   assert.equal(r.falseStaysClosed, false);
 });

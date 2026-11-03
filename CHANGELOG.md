@@ -33,6 +33,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.972.1 — 2026-11-04
+
+### Fixed
+- **`aha-popconfirm`: a prompt inside an `aha-modal` no longer closes the modal, a disabled trigger never opens it, and Escape
+  closes the newest prompt** (#NNN). Its `open`, `confirm`, `cancel`, `close` and `closed` events stay composed but no longer
+  bubble, so a modal's or drawer's own `cancel` / `closed` listener (the documented React pattern) never runs when the prompt
+  is dismissed. A trigger with `disabled`, `:disabled` or `aria-disabled="true"` no longer opens it. With two prompts open,
+  Escape closes the one opened last instead of the first. Demo copy follows the UX writing review (UXWR-27).
+
 ## 0.972.0 — 2026-11-04
 
 ### Added

@@ -18,7 +18,7 @@
 
 <div style="padding:160px 24px 24px">
   <!-- The trigger is the child. ok-danger: Cancel is the primary, so Enter keeps the member. -->
-  <aha-popconfirm id="remove-member" heading="Remove Lan from the team?" description="She keeps her own presentations."
+  <aha-popconfirm id="remove-member" heading="Remove Lan from the team?" description="Lan keeps their own presentations."
     ok-text="Remove" ok-danger ok-test-id="remove-confirm" cancel-test-id="remove-cancel">
     <aha-button variant="secondary" size="sm">Remove</aha-button>
   </aha-popconfirm>
