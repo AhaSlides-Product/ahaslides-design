@@ -37,7 +37,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ### Added
 - **Voice rules: never invent a fact (rule 13.26) and a new section 17 for personal email sent in a named person's
-  name** (#PRNUM). Proposed from the Head of Growth's corrections to customer emails on 3 November; awaiting the brand
+  name** (#627). Proposed from the Head of Growth's corrections to customer emails on 3 November; awaiting the brand
   director's decision.
 
 ## 0.972.1 — 2026-11-04
