@@ -33,6 +33,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.958.0 — 2026-11-03
+### Added
+- Upload: `removelabel` attribute sets the aria-label of each item's remove button; `{name}` becomes the escaped file name, default `Remove {name}` (identical output when absent). Stacked on #609: with its `label`, `hint` and `limitlabel`, an app can localise all of the Upload copy. (#612)
+- Revert: revert the PR; opt-in attribute with the old text as default, no other change.
+
+## 0.957.0 — 2026-11-03
+### Added
+- Upload: `label`, `hint` and `limitlabel` attributes set the drop-zone text, so an app can localise or reword it instead of the fixed English; the defaults are the current text. `label` is also the picture-card add-box text. (#609)
+- Revert: revert the PR; opt-in attributes with the old text as default, no other change.
+
 ## 0.956.3 — 2026-11-03
 ### Fixed
 - Dropdown: a closed menu no longer takes up space under its trigger (it stretched scrolling lists and added a horizontal scrollbar), and opening one dropdown closes any other open one, even when the click lands on another dropdown's trigger (#611)
