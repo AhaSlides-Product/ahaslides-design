@@ -427,7 +427,7 @@ function sectionAdjacencyCss() {
   const followerGroups = [
     [sections.filter(section => !section.keepsTopSpace && !section.joinsSectionAbove && section.root !== STEPS_BAND_ROOT), '>[class*="__inner"]{padding-top:0}'],
     [sections.filter(section => section.root === STEPS_BAND_ROOT), '>:is(.aha-marketing-cards__header,.aha-marketing-cards__grid):first-child{padding-top:0}'],
-    [sections.filter(section => section.joinsSectionAbove), '>:first-child{margin-top:calc(var(--aha-section-space-group) - var(--aha-section-space-block));padding-top:0}'],
+    [sections.filter(section => section.joinsSectionAbove), '>:is(:first-child,[hidden]:first-child+*){margin-top:calc(var(--aha-section-space-group) - var(--aha-section-space-block));padding-top:0}'],
   ];
   return followerGroups.map(([followers, declaration]) => ['', ...SECTION_SURFACE_MODIFIERS].map(surface => {
     const before = onSurface(surface, sections, section => section.bottomSpaceModifier), after = onSurface(surface, followers);
@@ -444,7 +444,7 @@ function logosInsideBrandHeroCss() {
   const hero = `:is(${heroes.map(section => `.${section.root}--brand`).join(',')})`;
   const heroEndingOnSectionPadding = `:is(${heroes.map(section => `.${section.root}--brand${section.bottomSpaceModifier ? `.${section.root}--${section.bottomSpaceModifier}` : ''}`).join(',')})`;
   return `\n${hero}>.aha-logos--brand{background:none;box-shadow:none}` +
-    `\n${heroEndingOnSectionPadding}>.aha-logos--brand>:first-child{margin-top:calc(var(--aha-section-space-group) - var(--aha-section-space-block));padding-top:0}`;
+    `\n${heroEndingOnSectionPadding}>.aha-logos--brand>:is(:first-child,[hidden]:first-child+*){margin-top:calc(var(--aha-section-space-group) - var(--aha-section-space-block));padding-top:0}`;
 }
 
 /* ===== structural shell styles — AntD docs IA (sticky header + left nav + main),
