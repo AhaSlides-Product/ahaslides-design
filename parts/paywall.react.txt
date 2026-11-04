@@ -25,14 +25,15 @@ export function CustomUrlSetting() {
         <button>Streak bonus</button>
       </aha-paywall>
 
-      {/* Translated product → unlock-label ({plan} becomes the bold plan name) + plan-label */}
+      {/* Translated product → unlock-label ({plan} becomes the bold plan name) + plan-label + mark-label */}
       <aha-paywall
         feature-key="remove_branding"
         feature-label="Gỡ thương hiệu"
         body="Ẩn logo AhaSlides khỏi bài trình bày."
         required-plan="pro"
         unlock-label="Mở khoá với {plan}."
-        plan-label="gói Pro" />
+        plan-label="gói Pro"
+        mark-label="Cần nâng cấp. Xem các gói" />
 
       {/* Essential gate, no natural anchor → the crown badge is the anchor */}
       <aha-paywall

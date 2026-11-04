@@ -41,7 +41,7 @@
   <span slot="body">Share a memorable link instead of the generated code. </span><a slot="body" href="https://help.ahaslides.com">How it works</a>
 </aha-paywall>
 
-<!-- Translated product → unlock-label ({plan} becomes the bold plan name) + plan-label -->
+<!-- Translated product → unlock-label ({plan} becomes the bold plan name) + plan-label + mark-label -->
 <aha-paywall
   feature-key="remove_branding"
   feature-label="Gỡ thương hiệu"
@@ -49,6 +49,7 @@
   required-plan="pro"
   unlock-label="Mở khoá với {plan}."
   plan-label="gói Pro"
+  mark-label="Cần nâng cấp. Xem các gói"
   cta-label="Nâng cấp"
   plans-label="Xem tất cả gói"></aha-paywall>
 
