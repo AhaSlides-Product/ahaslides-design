@@ -57,6 +57,10 @@
       "value": "funnel trigger: a real <button> in the header, reached with Tab, named \"Filter: <column>\" (labels.filterColumn), opens on Enter / Space a role=\"dialog\" panel with the same name, and Escape closes it and returns focus to the trigger; grey → pale pink hover → pale pink open → filled brand when applied; checklist (search + list; multi-select checkboxes, or single-choice DS radios with filter.multiple:false), min/max range, or one typed value (text, number or date field under the column label; Enter applies; a date field has a Clear button that empties it and puts focus back in the field), Reset + Apply footer"
     },
     {
+      "label": "Panel placement",
+      "value": "filter panels and the Edit columns panel open at the trigger's bottom-right corner and shift along the viewport edge when they do not fit, so they stay on screen with no page overflow from a 320px viewport up (antd's corner placements only flip). A column can replace this through filterDropdownProps.autoAdjustOverflow"
+    },
+    {
       "label": "Single-choice filter",
       "value": "filter: { type: 'checklist', options, multiple: false } — DS radios in the same search + list + Reset / Apply panel: picking an option replaces the last, Reset clears it, the column gets antd filterMultiple:false; multiple defaults to true (checkboxes, unchanged). Needs antd.Radio in createDataTable's antd (only for a column that sets it). Server-side: drive filteredValue + onChange(pagination, filters); filters[key] is a one-item array (['live']) or null, so read filters.status?.[0]"
     },

@@ -14,6 +14,7 @@
   "spec": [
     { "label": "Card", "value": "icon 20 over label 13; padding 8; inner gap 6; radius 8; 1px #E3E3E3 border" },
     { "label": "Grid", "value": "repeat(columns, minmax(0,1fr)) — tiles stretch to fill; columns default 3; 8px gap" },
+    { "label": "Narrow widths", "value": "min-tile-width keeps columns while each tile can stay at least that wide, then wraps to fewer columns. It reads the element's own width, not the viewport, so it holds inside a modal or side panel; never fewer than one column and no sideways overflow. Off by default: without it columns never change. iconOnly ignores it" },
     { "label": "iconOnly", "value": "repeat(columns, 44px) — fixed 44px squares packed to the start; label hidden, kept as aria-label and shown as an aha-tooltip bubble (mouse hover and keyboard focus, never a tap; flips below or aligns to the grid edge near the viewport edge; no native title)" },
     { "label": "Preview tile", "value": "tile=\"preview\": padding 0, preview frame full width at --aha-card-select-preview-ratio (default 4 / 3, overflow hidden, clipped by the radius 8 card), label row 13/20 with 6px 8px padding below; hide-labels keeps the label as aria-label only" },
     { "label": "Selected", "value": "as the checkable Tag at size large: #E70E68 border + Vivid Pink 5% fill (bg-accent) + #E70E68 icon; label text-link-hover #DB005B, the text-link colour that keeps 4.5:1 on the pale pink fill (Vivid Pink #E70E68 is 4.16:1 there) (persistent node)" },
@@ -28,6 +29,7 @@
     { "name": "options", "type": "Array<{value,label,icon?,slot?}>", "default": "[]", "desc": "The cards: a value, a label and an icon name, or a slot name whose light-DOM child (slot=\"<name>\") is the card's preview; set as a property or a JSON attribute" },
     { "name": "value", "type": "string", "default": "—", "desc": "The selected option's value (single-select); empty or unknown checks no card" },
     { "name": "columns", "type": "number", "default": "3", "desc": "Grid column count — labelled tiles fill each track; iconOnly lays out that many 44px squares" },
+    { "name": "minTileWidth", "type": "number (px)", "default": "—", "desc": "Attribute min-tile-width. The narrowest a tile may get: the grid shows columns while tiles fit, and fewer when the element gets narrower. For labelled and preview tiles; ignored with iconOnly. The element needs a definite width, which a block element has by default" },
     { "name": "iconOnly", "type": "boolean", "default": "false", "desc": "Compact layout — fixed 44px icon squares packed to the start; the label is hidden, kept as aria-label and shown as an aha-tooltip bubble on mouse hover and keyboard focus" },
     { "name": "tile", "type": "'default' | 'preview'", "default": "'default'", "desc": "preview = tiles that show each option's slotted preview in a frame (aspect ratio from --aha-card-select-preview-ratio) with a brand ring when selected; ignored with iconOnly" },
     { "name": "hideLabels", "type": "boolean", "default": "false", "desc": "Preview tiles only: hide each visible label, keeping it as the card's aria-label (for previews that draw the name); \"false\" reads as off" },
@@ -69,6 +71,7 @@
     { "label": "one tab-stop; Arrow keys move-and-select (roving radiogroup)", "verdict": "PASS" },
     { "label": "selected = #E70E68 border + bg-accent fill + text-link-hover label on a persistent node (transition fires)", "verdict": "PASS" },
     { "label": "icons summoned by name via <aha-icon> — no inline svg", "verdict": "PASS" },
+    { "label": "min-tile-width drops columns with the element's own width, keeps columns while tiles fit, and never overflows sideways", "verdict": "PASS" },
     { "label": "preview tiles show the app's slotted preview in place of the icon; selected = brand ring with no fill over the preview", "verdict": "PASS" },
     { "label": "empty or unknown value checks no card and the first card holds the tab stop", "verdict": "PASS" }
   ],

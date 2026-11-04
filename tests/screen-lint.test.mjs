@@ -47,6 +47,20 @@ test('overflow-x is a warning, not a hard finding', () => {
   assert.equal(finding.severity, 'warn');
 });
 
+const button = (label) => `<aha-button variant="primary">${label}</aha-button>`;
+for (const [name, source] of [
+  ['opposite arms of a multi-line ternary', `const actions = valid ? (\n  <>\n    ${button("Don't save")}\n  </>\n) : (\n  <>\n    ${button('Restore')}\n  </>\n);`],
+  ['opposite arms split across two lines', `{valid ? <Save variant="primary" />\n  : <Restore variant="primary" />}`],
+  ['every arm of a chained ternary', `{a ? (\n  ${button('A')}\n) : b ? (\n  ${button('B')}\n) : (\n  ${button('C')}\n)}`],
+]) test(`multi-primary ignores ${name}`, () => assert.ok(!rulesOf(source).includes('multi-primary')));
+
+for (const [name, source] of [
+  ['two primaries in the same arm', `{valid ? (\n  <>\n    ${button('A')}\n    ${button('B')}\n  </>\n) : (\n  ${button('C')}\n)}`],
+  ['a primary beside a ternary', `${button('A')}\n{valid ? (\n  ${button('B')}\n) : (\n  ${button('C')}\n)}`],
+  ['two separate conditionals', `{a ? (\n  ${button('A')}\n) : null}\n{b ? (\n  ${button('B')}\n) : null}`],
+  ['prose with a question mark before the markup', `<p>Save? <b>Yes</b></p>\n${button('A')}\n${button('B')}`],
+]) test(`multi-primary still reports ${name}`, () => assert.ok(rulesOf(source).includes('multi-primary')));
+
 test('the named rule is suppressed with a reason', () => {
   const source = '<div style="color: #abc"></div> <!-- ds-lint-allow: hex (brand logo) -->';
   assert.deepEqual(rulesOf(source), []);

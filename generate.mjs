@@ -2991,7 +2991,7 @@ Series colours for charts on Report and other app screens. On the presenting/aud
 ${tbl(viz)}
 
 ## Typography
-Font **Plus Jakarta Sans** (self-hosted), weights **400 / 600** only. Base body **14** at line-height ratio **1.5**.
+Font **Plus Jakarta Sans** (self-hosted), weights **400 / 600** only. Cairo follows it in the stack as an Arabic script fallback: Latin text is unchanged, and an app that serves Arabic self-hosts Cairo with an Arabic unicode-range. Base body **14** at line-height ratio **1.5**.
 Size scale: 12 · 14 · 16 · 18 · 20 · 24 · 32 · 40 · 48 · 56 · 64. Letter-spacing: headings 0, body 0.2px, subtext 0.3px. No Inter.
 
 ## Shape & density
@@ -3093,7 +3093,7 @@ function renderTokenPage(pageSlug) {
   </section>`,
     },
     typography: {
-      title: 'Typography', highlights: ["Product face Plus Jakarta Sans, self-hosted", "Weights 400 and 600 only", "No Inter"], lead: 'Product face <b>Plus Jakarta Sans</b> (self-hosted); weights <b>400 / 600</b> only. No Inter.',
+      title: 'Typography', highlights: ["Product face Plus Jakarta Sans, self-hosted", "Weights 400 and 600 only", "No Inter"], lead: 'Product face <b>Plus Jakarta Sans</b> (self-hosted); weights <b>400 / 600</b> only. No Inter. Cairo is the Arabic script fallback, so Latin text is unchanged; an app that serves Arabic loads it itself.',
       body: `
   <p class="body">Line-height ratios: tight 1.2 · heading 1.3 · body 1.5. Letter-spacing: headlines 0 · body 0.2px · subtext 0.3px.</p>
   ${docTable('<th>Role</th><th>Size</th>', typeRows)}`,
