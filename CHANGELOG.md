@@ -33,9 +33,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1002.0 — 2026-11-04
+## 0.1007.0 — 2026-11-04
 ### Added
 - `<aha-empty size="small">` for a side panel or inspector about 240 to 320 px wide (an editor inspector with no options): the empty-list art at 32 px, 16/12 padding, gap 8 and a 12 px caption; it combines with every `image` mode (`image="none"` for text only). The Empty state guideline, its guide, the contract and the snippets say when to use it instead of the default size or the pattern's compact scale (#655)
+
+## 0.1005.0 — 2026-11-04
+### Added
+- Paywall: `unlock-label` and `plan-label` attributes so a translated product can pass its own unlock line. `unlock-label` is the whole line and its `{plan}` token becomes the bold plan name (`unlock-label="Mở khoá với gói {plan}."`); `plan-label` renames the plan ("Pro plan" / "Essential plan"). Both render as text, never HTML. With neither set the English line is unchanged. (#657)
+
+### Changed
+- Paywall judge criterion C2 and the paywall guide now describe the shipped two-button popover (Upgrade positive + See all plans secondary, both `<aha-button>`) instead of a single Upgrade CTA; the settings criterion, the paywall evals and the flavour snippets match. The agent copy of the criteria is regenerated. (#657)
 
 ## 0.1000.0 — 2026-11-04
 ### Changed
