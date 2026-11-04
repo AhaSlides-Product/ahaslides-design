@@ -2,7 +2,9 @@
      <aha-avatar> is the SAME shared custom element React and Vue consume.
      Content is one of three: `name` (initials + alt), `src` (photo), or `icon` (a DS glyph).
      `size` is a named step (small/default/large) or any px; `shape` is circle/square;
-     `color` tints the initials/icon ground with an --aha-* token. -->
+     `color` tints the initials/icon ground with an --aha-* token.
+     `tooltip` shows the shared Tooltip on hover and keyboard focus (a bare `tooltip` shows `name`);
+     on a group, `overflow-tooltip` does the same for the +N chip and `add-tooltip` for the + button. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';       // <aha-icon>
@@ -20,6 +22,15 @@
   <aha-avatar name="Grace Hopper"></aha-avatar>
   <aha-avatar name="Alan Turing"></aha-avatar>
   <aha-avatar name="Katherine Johnson"></aha-avatar>
+</aha-avatar-group>
+
+<!-- Tooltips in a group: each avatar keeps its place in the stack, the tint cycle and the +N count.
+     overflow-tooltip (empty) lists the hidden names on the +N chip; add-tooltip names the + button on hover and focus. -->
+<aha-avatar-group max="2" overflow-tooltip add add-label="Add collaborators" add-tooltip>
+  <aha-avatar name="Ada Lovelace" tooltip></aha-avatar>
+  <aha-avatar name="Grace Hopper" tooltip="Grace Hopper (owner)"></aha-avatar>
+  <aha-avatar name="Alan Turing" tooltip></aha-avatar>
+  <aha-avatar name="Katherine Johnson" tooltip></aha-avatar>
 </aha-avatar-group>
 
 <!-- `add` appends a round + button at the group's size and shape, and overlaps the avatars only slightly; it fires a bubbling `aha-add` -->
