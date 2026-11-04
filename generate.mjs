@@ -3563,7 +3563,10 @@ const BRANDS_JS = `
     tabs.forEach(function(x){var on=x===tab;x.setAttribute('aria-selected',on);x.tabIndex=on?0:-1;document.getElementById(x.getAttribute('aria-controls')).hidden=!on;});
     if(!push)return;
     var u=new URL(location.href);u.hash='';
-    if(tab===brandsTab)u.searchParams.set('tab','brands');else{u.searchParams.delete('tab');u.searchParams.delete('mode');}
+    if(tab===brandsTab){
+      u.searchParams.set('tab','brands');
+      if(!root.dataset.mode||root.dataset.mode==='line')u.searchParams.delete('mode');else u.searchParams.set('mode',root.dataset.mode);
+    }else{u.searchParams.delete('tab');u.searchParams.delete('mode');}
     history.replaceState(history.state,'',u);
   }
   tabs.forEach(function(tab,i){
