@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.980.1 — 2026-11-04
+### Fixed
+- Logo library, Brands tab: each brand card puts the name on top and its versions in one row of three equal cells, in the order Line, One colour, Original. Each cell holds its preview tile, its label and its own SVG download link (the full path is in the link's tooltip and accessible name), so no file name is cut off. Every line cell is labelled Line; a drawn stand-in carries a Stand-in tag instead of a different label. A missing version shows an empty cell, cards in a row are the same height, and the white Claude mark sits on a Vivid Pink tile. (#635)
+
 ## 0.979.1 — 2026-11-04
 
 ### Fixed
