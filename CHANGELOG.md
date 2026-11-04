@@ -36,10 +36,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.983.0 — 2026-11-04
 
 ### Added
-- Avatar `tooltip`: the shared Tooltip on an avatar, on mouse hover and keyboard focus (never a tap), with the avatar focusable; a bare `tooltip` shows its `name`. Works inside `aha-avatar-group` with the same stack, overlap, tint cycle and +N count. Absent, nothing changes (#000)
-- Avatar group `overflow-tooltip`: the shared Tooltip on the +N chip, listing the hidden names (or your own text), and the chip becomes focusable (#000)
-- Avatar group `add-tooltip`: the shared Tooltip on the round + button, with your text or its `add-label` (#000)
-- Dropdown per-row `selected` (true or false) on a leaf: the current choice inside that one list, such as a Visibility submenu. Its rows are `menuitemradio` with `aria-checked` and the selected look; other rows stay `menuitem`; the mark moves only when you re-set `items`. `value` is unchanged (#000)
+- Avatar `tooltip`: the shared Tooltip on an avatar, on mouse hover and keyboard focus (never a tap), with the avatar focusable; a bare `tooltip` shows its `name`. Works inside `aha-avatar-group` with the same stack, overlap, tint cycle and +N count. Absent, nothing changes (#638)
+- Avatar group `overflow-tooltip`: the shared Tooltip on the +N chip, listing the hidden names (or your own text), and the chip becomes focusable (#638)
+- Avatar group `add-tooltip`: the shared Tooltip on the round + button, with your text or its `add-label` (#638)
+- Dropdown per-row `selected` (true or false) on a leaf: the current choice inside that one list, such as a Visibility submenu. Its rows are `menuitemradio` with `aria-checked` and the selected look; other rows stay `menuitem`; the mark moves only when you re-set `items`. `value` is unchanged (#638)
 
 ## 0.981.0 — 2026-11-04
 
