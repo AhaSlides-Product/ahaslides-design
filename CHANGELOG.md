@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1011.1 — 2026-11-04
+### Fixed
+- The v2.3 brand guidelines PDF carries the chart order of rule 8.1 on pages 58, 59, 65 and 78, with rules 8.2 and 8.6 on page 65; title, version line and file name are unchanged (#661)
+
 ## 0.1011.0 — 2026-11-04
 ### Added
 - Token `--aha-viz-mix-fade` (15%): the opacity of a chart mark out of focus on hover or keyboard focus (#652)
