@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1010.0 — 2026-11-04
 ### Added
-- Answer option: `no-control` attribute hides the radio or checkbox control for rows that are already big filled buttons, such as True or False. The control stays in the DOM, visually hidden, so focus, role and keyboard behaviour are unchanged on plain, `other` and empty `expandable` rows; tones, stroke, dimming, the verdict mark and the bold label are untouched, and a row without the attribute renders exactly as before. With `letter` the chip goes too. (#PR)
+- Answer option: `no-control` attribute hides the radio or checkbox control for rows that are already big filled buttons, such as True or False. The control stays in the DOM, visually hidden, so focus, role and keyboard behaviour are unchanged on plain, `other` and empty `expandable` rows; tones, stroke, dimming, the verdict mark and the bold label are untouched, and a row without the attribute renders exactly as before. With `letter` the chip goes too. (#660)
 
 ## 0.1005.1 — 2026-11-04
 ### Fixed
