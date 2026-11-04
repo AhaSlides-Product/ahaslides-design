@@ -14,6 +14,7 @@ class FakeNode {
   }
   setAttribute(k, v) { this.attrs.set(k, String(v)); if (this.attributeChangedCallback) this.attributeChangedCallback(); }
   getAttribute(k) { return this.attrs.has(k) ? this.attrs.get(k) : null; }
+  removeAttribute(k) { this.attrs.delete(k); }
   hasAttribute(k) { return this.attrs.has(k); }
   appendChild(n) { this.children.push(n); return n; }
   append(...ns) { this.children.push(...ns); }
