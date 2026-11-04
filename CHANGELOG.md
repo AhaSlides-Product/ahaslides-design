@@ -36,7 +36,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.977.0 — 2026-11-04
 
 ### Added
-- **Google Sheets in the Logo library** (#NNN). `logo/google-sheets.svg` (greyscale, colour rule 2.6) and
+- **Google Sheets in the Logo library** (#631). `logo/google-sheets.svg` (greyscale, colour rule 2.6) and
   `logo/original/google-sheets.svg` (brand colours, for hover and listing pages), beside Microsoft Excel. Survey's
   Connect results modal can drop its inline brand SVGs.
 
