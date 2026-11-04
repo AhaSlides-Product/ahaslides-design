@@ -33,6 +33,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.979.1 — 2026-11-04
+
+### Fixed
+- **The Site navbar preview shows its open menu** (#634). The preview frame was sized to the closed navbar, so the
+  Products, Solutions and Resources panels were clipped and looked blank. A layout can now set `previewMinHeight`;
+  the Site navbar reserves 560 px so the open panel fits.
+
 ## 0.979.0 — 2026-11-04
 ### Changed
 - Colour rule 2.6: a third-party logo in any interface (website header, pricing row, presenter app) is its line mark from `logo/line/` in `--aha-icon-default`, 24px, with no tile or border; a row after a label sits 12px after it and 8px apart. Only a listing page (Marketplace) shows the colour image, greyscale at rest and in colour on card hover and keyboard focus, with no fade under reduced motion. Anti-slop C7, the colour evals, the skill, AGENTS.md and PRINCIPLES.md follow. (#557)
