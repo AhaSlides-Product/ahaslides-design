@@ -2957,7 +2957,7 @@ Pink text, links included, sits on white only (Darker Pink links 5.04:1); the se
 Status carries no colour: success \`${c.success}\` · warning \`${c.warning}\` · error \`${c.error}\` · info \`${c.info}\` are the default ink (the same \`${c.textDefault}\` as body text), shown with an icon, clear wording and an outline or a dark fill. Never red, amber, green or blue. The one green and one red in the token set (\`--aha-answer-*\`, below) mark a correct or wrong answer and nothing else: never a status, an alert, validation, a rise or a fall.
 Purple \`${P.logoPurple}\` (\`--aha-logo-purple\`) is the logo only: never text, buttons, links, states, charts or backgrounds in the product.
 The correct and wrong answer pair (\`--aha-answer-*\`) is the only other colour, for marking an answer correct or wrong and nothing else; text stays the default ink (${SITE}/colour-rules.md, section 11). No other colour exists in the token set. Photos and customer or presenter content (deck themes, deck-palette charts) are exempt. Black is \`${P.black}\`, the same value as grey 100 and the default ink (\`--aha-black\` aliases \`--aha-gray-100\`); a pure, zero-value black is never painted solid, only as a transparency for a shadow, a scrim or an ink alpha. The dark surface \`--aha-bg-dark\` is black and \`--aha-bg-dark-raised\` is grey 95 \`${c.bgDarkRaised}\`, one step above it.
-The DS's own art is drawn in the allowed colours (\`node recolour-art.mjs\`): third-party logos in greyscale, with a line mark in \`logo/line/\` for interfaces and an original-colour file in \`logo/original/\` for listing pages and sign-in hover (colour rule 2.6), file-type icons in one colour, and illustrations in the illustration tints, one Vivid Pink ramp (${ILLUSTRATION_TINTS.map(tint => '\`' + tint + '\`').join(', ')}) with white and the default ink. The 10, 20, 45, 60 and 80% tints are for illustrations only: they are not tokens and never colour UI. The 5% and 30% tints and Darker Pink keep their interface roles. The AhaSlides logo and The Splash are the logo purple with Vivid Pink hooks.
+The DS's own art is drawn in the allowed colours (\`node recolour-art.mjs\`): third-party logos in greyscale, as \`brand-<id>\` icons for interfaces and an original-colour file in \`logo/original/\` for listing pages and sign-in hover (colour rule 2.6), file-type icons in one colour, and illustrations in the illustration tints, one Vivid Pink ramp (${ILLUSTRATION_TINTS.map(tint => '\`' + tint + '\`').join(', ')}) with white and the default ink. The 10, 20, 45, 60 and 80% tints are for illustrations only: they are not tokens and never colour UI. The 5% and 30% tints and Darker Pink keep their interface roles. The AhaSlides logo and The Splash are the logo purple with Vivid Pink hooks.
 
 ## Colour — the palette
 White, black, Vivid Pink (\`5\` and \`30\` are Vivid Pink at 5% and at 30% transparency, #E70E680D and #E70E684D, so they take the colour of the surface under them; \`30\` is for charts only), the logo purple and one neutral grey ramp. Semantic tokens below alias into these; **never hardcode a palette value in a component** — bind to a semantic \`--aha-*\` token.
@@ -3317,6 +3317,11 @@ function writeIconRuntime() {
   writeFileSync(join(OUT, 'icons', 'registry.js'), 'window.AHA_ICONS=' + JSON.stringify(glyphsOnly) + ';\n');
   writeFileSync(join(OUT, 'icons', 'aha-icon.js'), AHA_ICON_JS);
 }
+/* Links from before brand logos became the Brand icon family (Logo page anchors, the old Brands tab, its ?mode= switch). */
+const MOVED_BRAND_ANCHORS = ['brands', 'tab-brands', 'panel-brands', 'line', 'brand-logo-colour', 'third-party-marks', 'brand-logo-line', 'brand-logo-row', 'brand-logo-listing'];
+const isOldBrandLink = `(p.get('tab')==='brands'||p.has('mode')||${JSON.stringify(MOVED_BRAND_ANCHORS)}.indexOf(h)>=0)`;
+const ICON_FAMILY_ORDER = ['filetype', 'slidetype', 'system', 'brand'];
+const iconFamilies = () => [...ICON_FAMILY_ORDER.filter(f => ICONS.families.includes(f)), ...ICONS.families.filter(f => !ICON_FAMILY_ORDER.includes(f))];
 const GALLERY_JS = `
 (function(){
   var q=document.getElementById('icon-search'), grid=document.getElementById('icon-grid'),
@@ -3331,9 +3336,19 @@ const GALLERY_JS = `
     });
     count.textContent=n+' icon'+(n===1?'':'s');
   }
+  function setFam(f,push){
+    var chip=fams.filter(function(b){return b.dataset.fam===f;})[0]||fams[0];
+    fams.forEach(function(x){var on=x===chip;x.classList.toggle('on',on);x.setAttribute('aria-pressed',on);});
+    fam=chip.dataset.fam;apply();
+    if(!push)return;
+    var u=new URL(location.href);u.searchParams.delete('tab');u.searchParams.delete('mode');
+    if(fam==='all')u.searchParams.delete('family');else u.searchParams.set('family',fam);
+    history.replaceState(history.state,'',u);
+  }
   q.addEventListener('input',apply);
-  var linked=new URLSearchParams(location.search).get('q'); if(linked) q.value=linked;
-  fams.forEach(function(b){b.addEventListener('click',function(){fams.forEach(function(x){x.classList.remove('on')});b.classList.add('on');fam=b.dataset.fam;apply();});});
+  var p=new URLSearchParams(location.search),h=decodeURIComponent(location.hash.slice(1));
+  if(p.get('q')) q.value=p.get('q');
+  fams.forEach(function(b){b.addEventListener('click',function(){setFam(b.dataset.fam,true);});});
   grid.addEventListener('click',function(e){
     var c=e.target.closest('.ic'); if(!c)return;
     var name=c.dataset.name;
@@ -3341,25 +3356,23 @@ const GALLERY_JS = `
     var was=c.querySelector('.icn').textContent; c.classList.add('copied'); c.querySelector('.icn').textContent='copied!';
     setTimeout(function(){c.classList.remove('copied');c.querySelector('.icn').textContent=was;},900);
   });
-  apply();
+  setFam(${isOldBrandLink}?'brand':(p.get('family')||'all'),false);
+  if(${isOldBrandLink})document.getElementById('brand-logos').scrollIntoView();
 })();
 `;
 function renderIconGallery() {
-  const entries = Object.entries(ICONS.icons).filter(([, v]) => !v.aliasOf).sort((a, b) => a[0].localeCompare(b[0]));
-  const strip = (n) => n.replace(/^(system|slidetype|filetype)-/, '');
+  const families = iconFamilies();
+  const familyRank = Object.fromEntries(families.map((f, i) => [f, i]));
+  const entries = Object.entries(ICONS.icons).filter(([, v]) => !v.aliasOf)
+    .sort((a, b) => familyRank[a[1].family] - familyRank[b[1].family] || a[0].localeCompare(b[0]));
+  const strip = (n) => n.replace(/^(system|slidetype|filetype|brand)-/, '');
   const cells = entries.map(([name, v]) =>
     `<button class="ic" type="button" data-name="${esc(name)}" data-words="${esc((v.meaning || []).join(' '))}" data-fam="${esc(v.family)}" title="${esc(name)}${v.meaning && v.meaning.length ? ` (${esc(v.meaning.join(', '))})` : ''} — click to copy"><aha-icon name="${esc(name)}" size="24"></aha-icon><span class="icn">${esc(strip(name))}</span></button>`).join('');
-  const chips = ['all', ...ICONS.families].map((f, i) =>
-    `<button class="fam-chip${i === 0 ? ' on' : ''}" type="button" data-fam="${esc(f)}">${esc(f)}${f === 'all' ? '' : ` <b>${Object.values(ICONS.icons).filter(x => !x.aliasOf && x.family === f).length}</b>`}</button>`).join('');
-  const brands = renderBrandsPanel();
+  const chips = ['all', ...families].map((f, i) =>
+    `<button class="fam-chip${i === 0 ? ' on' : ''}" type="button" aria-pressed="${i === 0}" data-fam="${esc(f)}">${esc(f)}${f === 'all' ? '' : ` <b>${Object.values(ICONS.icons).filter(x => !x.aliasOf && x.family === f).length}</b>`}</button>`).join('');
   const main = `
   <h1>Icon library</h1>
-  <div class="lib-tabs" role="tablist" aria-label="Icon library sections">
-    <button class="lib-tab" id="tab-icons" role="tab" type="button" aria-selected="true" aria-controls="panel-icons">Icons <b>${ICONS.count}</b></button>
-    <button class="lib-tab" id="tab-brands" role="tab" type="button" aria-selected="false" aria-controls="panel-brands" tabindex="-1">Brands <b>${LOGO_BRANDS.length}</b></button>
-  </div>
-  <div id="panel-icons" role="tabpanel" aria-labelledby="tab-icons" class="lib-panel">
-  ${headline([`${ICONS.count} glyphs across ${ICONS.families.length} families, imported from Figma Design System V3`, 'Call any glyph by name with <aha-icon name="…">; never inline an SVG', 'Search by meaning (help, delete, settings) before drawing a new glyph: a near-duplicate fails the build', 'Click a glyph to copy its name', 'Stroke follows size: 12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px, applied by the runtime'])}
+  ${headline([`${ICONS.count} glyphs across ${ICONS.families.length} families, imported from Figma Design System V3, plus the third-party brand logos as the Brand family`, 'Call any glyph by name with <aha-icon name="…">; never inline an SVG', 'Search by meaning (help, delete, settings) before drawing a new glyph: a near-duplicate fails the build', 'Click a glyph to copy its name', 'Stroke follows size: 12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px, applied by the runtime'])}
   <p class="gen">◆ generated from icons/registry.json (built by build-icons.mjs from ${esc(ICONS.$generatedFrom || 'Figma')}) — do not edit by hand</p>
 
   <h3 class="tok-h3">Stroke by size</h3>
@@ -3369,32 +3382,24 @@ function renderIconGallery() {
   <h3 class="tok-h3">Reuse before you draw</h3>
   <p class="body">Every glyph carries meaning words, so a search for <b>help</b> finds <code>system-question</code> and <b>delete</b> finds <code>system-trash</code>. Search here, or run <code>npm run icon-search &lt;words&gt;</code> in the design-system repo (<code>node node_modules/@ahaslides-product/design/icon-search.mjs &lt;words&gt;</code> in an app). Add a glyph only when nothing fits: the build fails a new glyph that looks nearly identical to an existing one, and the pull request names what was searched and why each close match did not fit (an <code>Icon search:</code> line).</p>
 
+  <h3 class="tok-h3" id="brand-logos">Brand logos</h3>
+  <p class="body">A third-party brand logo in an interface (Zoom, Google Slides, Slack and the rest) is its Brand icon, <code>&lt;aha-icon name="brand-zoom"&gt;</code>, and follows the icon rules above, with the tool&rsquo;s name beside it (<a href="../foundations/brand-colour-rules.html#r2.6">colour rule 2.6</a>). The brand&rsquo;s own files are only for two places: a Marketplace listing card shows <code>${esc(SITE)}/logo/original/&lt;id&gt;.svg</code> (class <code>brand-logo-listing</code>: greyscale at rest, its own colours on hover and keyboard focus), and a Sign in with Google, Microsoft or Apple button keeps the provider&rsquo;s full-colour <code>${esc(SITE)}/logo/original/&lt;id&gt;.svg</code> (class <code>brand-logo-original</code>). The one-colour files at <code>${esc(SITE)}/logo/&lt;id&gt;.svg</code> serve the <a href="../foundations/logo.html#co-brand">co-brand lockup</a>; the index is <code>${esc(SITE)}/logo/manifest.json</code>.</p>
+
   <div class="gal-bar">
-    <input id="icon-search" type="search" placeholder="Search ${ICONS.count} icons by name or meaning: help, delete, settings…" autocomplete="off" spellcheck="false" />
+    <input id="icon-search" type="search" placeholder="Search ${ICONS.count} icons by name or meaning: help, delete, settings…" aria-label="Search icons" autocomplete="off" spellcheck="false" />
     <div class="fam-chips">${chips}</div>
-    <span id="icon-count" class="gal-count"></span>
+    <span id="icon-count" class="gal-count" aria-live="polite"></span>
   </div>
   <div id="icon-grid" class="icon-grid">${cells}</div>
-  </div>
-  <div id="panel-brands" role="tabpanel" aria-labelledby="tab-brands" class="lib-panel" data-mode="line" hidden>${brands.html}
-  </div>
 
   <script src="registry.js"></script>
   <script src="aha-icon.js"></script>
-  <script>${GALLERY_JS}</script>
-  <script>${BRANDS_JS}</script>`;
+  <script>${GALLERY_JS}</script>`;
   const extraCss = `
-  .lib-tabs{display:flex;gap:4px;margin:4px 0 16px;border-bottom:1px solid var(--aha-split)}
-  .lib-tab{font-family:var(--aha-font-product);font-size:14px;font-weight:600;color:var(--aha-text-secondary);background:transparent;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;padding:8px 14px 10px;cursor:pointer}
-  .lib-tab b{font-weight:400;margin-left:4px}
-  .lib-tab[aria-selected="true"]{color:var(--aha-text-default);border-bottom-color:var(--aha-color-primary)}
-  .lib-tab:hover{color:var(--aha-text-default)}
-  .lib-tab:focus-visible{outline:2px solid var(--aha-color-primary);outline-offset:2px}
-  .lib-panel[hidden]{display:none}
   .gal-bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:8px 0 18px;position:sticky;top:64px;background:#fff;padding:12px 0;z-index:5;border-bottom:1px solid var(--aha-split)}
   #icon-search{flex:1 1 320px;min-width:240px;height:38px;padding:0 14px;font-family:var(--aha-font-product);font-size:14px;border:1px solid var(--aha-border-default,#D4D4D4);border-radius:8px;outline:none}
   #icon-search:focus{border-color:var(--aha-color-primary);box-shadow:0 0 0 3px var(--aha-focus-ring-soft)}
-  .fam-chips{display:flex;gap:6px}
+  .fam-chips{display:flex;gap:6px;flex-wrap:wrap}
   .fam-chip{font-family:var(--aha-font-product);font-size:13px;color:var(--aha-text-secondary);background:var(--aha-gray-20);border:1px solid transparent;border-radius:999px;padding:6px 12px;cursor:pointer;text-transform:capitalize}
   .fam-chip b{opacity:.6;font-weight:600}
   .fam-chip.on{background:var(--aha-bg-accent);border-color:var(--aha-border-hover);color:var(--aha-text-default)}
@@ -3408,8 +3413,7 @@ function renderIconGallery() {
   .stroke-demo{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin:8px 0 24px}
   .stroke-cell{display:flex;flex-direction:column;align-items:center;gap:10px;padding:16px 8px 12px;background:#fff;border:1px solid var(--aha-split);border-radius:10px;color:var(--aha-icon-default,#4B4B4B);font-family:var(--aha-font-product)}
   .stroke-stage{display:flex;align-items:center;gap:14px;min-height:32px}
-  .stroke-cap{font-size:12px;color:var(--aha-text-secondary);font-family:Menlo,monospace}
-  ${brands.css}`;
+  .stroke-cap{font-size:12px;color:var(--aha-text-secondary);font-family:Menlo,monospace}`;
   return docShell({ base: '../', active: '__icons__', title: 'Icon library', section: 'foundations', main, extraCss });
 }
 /* ===== Foundations · Logo library (logo/manifest.json is the source of truth; the SVGs are copied to dist/logo) ===== */
@@ -3423,7 +3427,6 @@ function renderBackgroundLibraryPage() {
   return docShell({ base: '../', active: '__backgrounds__', title: 'Background library', section: 'foundations', main, extraCss });
 }
 const LOGO_AHA = LOGO_MANIFEST.filter(l => l.category === 'AhaSlides');
-const LOGO_BRANDS = LOGO_MANIFEST.filter(l => l.category !== 'AhaSlides');
 const LOGO_DARK_TILE = new Set(['ahaslides-logo-white', 'thesplash-white', 'claude-white']);
 const LOGO_DONTS = ['Change the colours', 'Stretch the logo', 'Rotate or tilt the logo', 'Apply a gradient to The Splash', 'Apply a gradient to the wordmark', 'Separate and move the elements'];
 const LOCKUP_SPEC = [
@@ -3450,91 +3453,6 @@ const COBRAND_SPEC = [
   ['Hover and focus', 'In an interface the partner logo shows its own colours on hover and keyboard focus (rule 2.6); a printed or exported lockup stays greyscale'],
 ];
 const COBRAND_DONTS = ['Set the partner logo larger than the AhaSlides logo', 'Use the letter x, a plus sign, a slash or a divider bar instead of ×', 'Put the partner logo in full colour at rest', 'Place the lockup on any ground other than white or Vivid Pink'];
-const lineLogo = (id, label) => `<span class="brand-line" ${label ? `role="img" aria-label="${label}"` : 'aria-hidden="true"'} style="--brand-line: url(${LIVE_SITE}/logo/line/${id}.svg)"></span>`;
-const BRAND_LINE_CSS = `.brand-line {
-  flex: none;
-  width: var(--aha-space-24);
-  height: var(--aha-space-24);
-  background: var(--aha-icon-default);
-  -webkit-mask: var(--brand-line) center / contain no-repeat;
-  mask: var(--brand-line) center / contain no-repeat;
-}`;
-const LOGO_PATTERNS = [
-  {
-    id: 'brand-logo-line',
-    title: 'Line logo beside its name',
-    intro: 'Menus, sidebars, dialogs, import sources and connect buttons. The line file is painted through a CSS mask in the default icon ink (white on Vivid Pink: <code>--aha-icon-inverse</code>), 24px beside 14 or 16px text, 8px from the name, with no tile, border or square around it. It keeps that ink on hover and focus; the entry itself shows the hover.',
-    html: `<a class="brand-entry" href="/integrations/zoom">
-  ${lineLogo('zoom')}
-  <span>Zoom</span>
-</a>`,
-    css: `/* Colour rule 2.6: the line logo in the default icon ink, sized to the text line, no tile around it. */
-${BRAND_LINE_CSS}
-.brand-entry {
-  display: flex;
-  align-items: center;
-  gap: var(--aha-space-8);
-}`,
-    demo: ['zoom', 'google-slides', 'microsoft-teams', 'slack'],
-  },
-  {
-    id: 'brand-logo-row',
-    title: 'Logo row after a label',
-    intro: 'A short label followed by the logos it names, such as the Full integrations on all plans line under a pricing headline. The logos sit on the label&rsquo;s line, centred on it, 24px each, 12px after the label and 8px apart. Each logo carries the tool&rsquo;s name as its accessible name, because no visible name sits beside it.',
-    html: `<p class="brand-row">
-  <span>Full integrations on all plans</span>
-  <span class="brand-row-logos">
-    ${lineLogo('microsoft-powerpoint', 'PowerPoint')}
-    ${lineLogo('microsoft-teams', 'Microsoft Teams')}
-    ${lineLogo('zoom', 'Zoom')}
-    ${lineLogo('google-slides', 'Google Slides')}
-    ${lineLogo('chatgpt', 'ChatGPT')}
-  </span>
-</p>`,
-    css: `/* Colour rule 2.6: a label and the line logos it names, on one centred line. */
-${BRAND_LINE_CSS}
-.brand-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: var(--aha-space-12);
-  line-height: var(--aha-space-24);
-}
-.brand-row-logos {
-  display: flex;
-  align-items: center;
-  gap: var(--aha-space-8);
-}`,
-  },
-  {
-    id: 'brand-logo-listing',
-    title: 'Marketplace listing card',
-    intro: 'Only a page that lists other products (the Marketplace, an integrations directory). The card keeps the colour logo image as published, rendered greyscale at rest and in full colour while the card is hovered or holds keyboard focus, over a short fade, with no fade when reduced motion is on. Use the page&rsquo;s own image; the <code>logo/original/</code> file stands in below.',
-    html: `<a class="brand-card" href="/integrations/zoom">
-  <img class="brand-logo-listing" src="${LIVE_SITE}/logo/original/zoom.svg" alt="" width="40" height="40">
-  <span>Zoom</span>
-</a>`,
-    css: `/* Colour rule 2.6, listing pages only: greyscale at rest, the logo's own colours on hover and keyboard focus. */
-.brand-logo-listing {
-  filter: grayscale(1);
-  transition: filter var(--aha-motion-mid) var(--aha-ease-in-out);
-}
-.brand-card:hover .brand-logo-listing,
-.brand-card:focus-within .brand-logo-listing {
-  filter: none;
-}
-@media (prefers-reduced-motion: reduce) {
-  .brand-logo-listing { transition: none; }
-}`,
-    demo: ['zoom', 'google-slides', 'microsoft-teams', 'slack'],
-  },
-];
-const LOGO_MODES = [
-  ['line', 'Line', 'The default for every brand logo in an interface: website headers and menus, pricing rows, the app sidebar, the Import dialog and social links. 24px in <code>--aha-icon-default</code>, no tile. In a tab or menu it takes the item&rsquo;s text colour.'],
-  ['colour', 'One colour', 'For a brand with no line logo yet, for customer logos in a Trusted by strip (one treatment per row), and for the partner logo in a co-brand lockup on white (rules 2.6 and 2.11).'],
-  ['original', 'Original', 'Only on a page that lists other products, such as the Marketplace (greyscale at rest, colour on hover and focus), and on Sign in with Google, Microsoft or Apple buttons.'],
-];
 const LOGO_COPY_JS = `
   root.addEventListener('click',function(e){
     var c=e.target.closest('.lg'); if(!c||e.target.closest('a'))return;
@@ -3554,61 +3472,7 @@ const LOGO_GALLERY_JS = `
   ${LOGO_COPY_JS}
 })();
 `;
-const BRANDS_JS = `
-(function(){
-  var root=document.getElementById('panel-brands'),brandsTab=document.getElementById('tab-brands');
-  if(!root||!brandsTab)return;
-  var tabs=[].slice.call(document.querySelectorAll('.lib-tab'));
-  function select(tab,push){
-    tabs.forEach(function(x){var on=x===tab;x.setAttribute('aria-selected',on);x.tabIndex=on?0:-1;document.getElementById(x.getAttribute('aria-controls')).hidden=!on;});
-    if(!push)return;
-    var u=new URL(location.href);u.hash='';
-    if(tab===brandsTab){
-      u.searchParams.set('tab','brands');
-      if(!root.dataset.mode||root.dataset.mode==='line')u.searchParams.delete('mode');else u.searchParams.set('mode',root.dataset.mode);
-    }else{u.searchParams.delete('tab');u.searchParams.delete('mode');}
-    history.replaceState(history.state,'',u);
-  }
-  tabs.forEach(function(tab,i){
-    tab.addEventListener('click',function(){select(tab,true);});
-    tab.addEventListener('keydown',function(e){
-      var d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0; if(!d)return;
-      var next=tabs[(i+d+tabs.length)%tabs.length];select(next,true);next.focus();e.preventDefault();
-    });
-  });
-  var q=document.getElementById('brand-search'),count=document.getElementById('brand-count'),cells=[].slice.call(root.querySelectorAll('.lg'));
-  function apply(){
-    var t=q.value.trim().toLowerCase(),n=0;
-    cells.forEach(function(c){var ok=!t||c.dataset.name.indexOf(t)>-1||c.dataset.label.indexOf(t)>-1;c.hidden=!ok;if(ok)n++;});
-    [].slice.call(root.querySelectorAll('.lg-sec')).forEach(function(s){s.hidden=!s.querySelector('.lg:not([hidden])');});
-    count.textContent=n+' of '+cells.length;
-  }
-  q.addEventListener('input',apply);
-  var modes=['line','colour','original'],seg=document.getElementById('logo-mode');
-  function setMode(m,push){
-    if(modes.indexOf(m)<0)m='line';
-    root.dataset.mode=m;if(seg.getAttribute('value')!==m)seg.setAttribute('value',m);
-    if(!push)return;
-    var u=new URL(location.href);u.searchParams.set('tab','brands');if(m==='line')u.searchParams.delete('mode');else u.searchParams.set('mode',m);
-    history.replaceState(history.state,'',u);
-  }
-  seg.addEventListener('change',function(e){setMode(e.detail.value,true);});
-  ${LOGO_COPY_JS}
-  function reveal(){
-    if(!document.body.contains(root))return;
-    var p=new URLSearchParams(location.search),h=decodeURIComponent(location.hash.slice(1)),target=h&&document.getElementById(h),m=p.get('mode');
-    if(m)setMode(m,false);
-    if(p.get('tab')==='brands'||m||h==='brands'||(target&&root.contains(target))){
-      select(brandsTab,false);
-      if(target&&root.contains(target))target.scrollIntoView();
-    }
-  }
-  window.__ahaBrandsReveal=reveal;
-  if(!window.__ahaBrandsHash){window.__ahaBrandsHash=true;window.addEventListener('hashchange',function(){window.__ahaBrandsReveal();});}
-  reveal();apply();
-})();
-`;
-const BRANDS_HOME = 'icons/index.html?tab=brands';
+const BRANDS_HOME = 'icons/index.html?family=brand';
 const LOGO_CARD_CSS = `
   .gal-count{font-size:12px;color:var(--aha-text-tertiary);font-family:Menlo,monospace;margin-left:auto}
   .logo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(176px,1fr));gap:10px;margin-bottom:24px}
@@ -3625,117 +3489,10 @@ const LOGO_CARD_CSS = `
   .lg-donts{margin:0;padding-left:20px;font-size:14px;line-height:1.8;color:var(--aha-text-default)}`;
 const logoSections = (list, cell, grid = '') => [...new Set(list.map(l => l.section))]
   .map(n => `<section class="lg-sec"><h3 class="tok-h3 lg-sec-h">${esc(n)}</h3><div class="logo-grid${grid}">${list.filter(l => l.section === n).map(cell).join('')}</div></section>`).join('');
-function renderBrandsPanel() {
-  const variantDownload = (l, file, label) => `<a class="lg-vdl" href="../logo/${esc(file)}" download title="logo/${esc(file)}" aria-label="Download ${esc(l.name)} logo, ${esc(label.toLowerCase())}: logo/${esc(file)}"><aha-icon name="system-download-simple" size="12" decorative></aha-icon>SVG</a>`;
-  const variantCell = (l, mode, label, file, art, note = '') => file
-    ? `<figure class="lg-var" data-mode="${mode}"><div class="lg-tile${LOGO_DARK_TILE.has(l.id) ? ' lg-dark' : ''}">${art}</div><figcaption>${label}</figcaption><span class="lg-note">${note}</span>${variantDownload(l, file, label)}</figure>`
-    : `<figure class="lg-var lg-var--none" data-mode="${mode}"><div class="lg-tile"></div><figcaption>${label}</figcaption><span class="lg-note"></span><span class="lg-vdl lg-vdl--none">None</span></figure>`;
-  const variants = l => {
-    const line = variantCell(l, 'line', 'Line', l.line, `<span class="lg-line" role="img" aria-label="${esc(l.name)} logo, line" style="--lg-line:url('../logo/${esc(l.line)}')"></span>`,
-      l.lineStatus === 'stand-in' ? `<aha-tag title="${esc(l.lineNote || l.lineSource)}">Stand-in</aha-tag>` : '');
-    const one = variantCell(l, 'colour', LOGO_DARK_TILE.has(l.id) ? 'White' : 'One colour', l.file, `<img src="../logo/${esc(l.file)}" alt="${esc(l.name)} logo, one colour" loading="lazy"/>`);
-    const original = variantCell(l, 'original', 'Original', l.originalFile, `<img src="../logo/${esc(l.originalFile)}" alt="${esc(l.name)} logo, original colours" loading="lazy"/>`);
-    return `<div class="lg-vars">${line}${one}${original}</div>`;
-  };
-  const brandCell = l =>
-    `<div class="lg lg-brand" data-name="${esc(l.id)}" data-label="${esc(l.name.toLowerCase())}" role="button" tabindex="0" title="${esc(l.name)} — click to copy its id"><span class="lgn">${esc(l.name)}</span>${variants(l)}</div>`;
-  const demoSite = text => text.replaceAll(`${LIVE_SITE}/logo/`, '../logo/');
-  const patternDemo = pattern => {
-    if (pattern.id === 'brand-logo-row') return `<div class="brand-demo brand-demo--row">${demoSite(pattern.html)}</div>`;
-    const brands = pattern.demo.map(id => LOGO_BRANDS.find(l => l.id === id)).filter(l => l && l.line && l.originalFile);
-    return pattern.id === 'brand-logo-listing'
-      ? `<div class="brand-demo brand-demo--cards">${brands.map(l => `<a class="brand-card" href="#brand-logo-listing"><img class="brand-logo-listing" src="../logo/${esc(l.originalFile)}" alt="" width="40" height="40"><span>${esc(l.name)}</span></a>`).join('')}</div>`
-      : `<div class="brand-demo">${brands.map(l => `<a class="brand-entry" href="#brand-logo-line"><span class="brand-line" aria-hidden="true" style="--brand-line:url('../logo/${esc(l.line)}')"></span><span>${esc(l.name)}</span></a>`).join('')}</div>`;
-  };
-  const patternCode = pattern => `<div class="code-tabs" data-open="false">
-    <div class="demo-toolbar"><aha-button class="show-code" variant="secondary" size="sm"><aha-icon slot="icon" name="system-caret-right" size="16" decorative></aha-icon><span>Show code</span></aha-button></div>
-    <div class="code-panel" hidden>
-      <div class="code-head"><div class="tabs"><button class="tab active" type="button" data-f="html">HTML</button><button class="tab" type="button" data-f="css">CSS</button></div><button class="copy" type="button">Copy</button></div>
-      <pre class="code html active">${esc(withBuildSite(pattern.html))}</pre>
-      <pre class="code css">${esc(pattern.css)}</pre>
-    </div></div>`;
-  const patterns = LOGO_PATTERNS.map(pattern => `<h3 class="tok-h3" id="${pattern.id}">${esc(pattern.title)}</h3>
-  <p class="body">${pattern.intro}</p>
-  ${patternDemo(pattern)}
-  ${patternCode(pattern)}`).join('\n  ');
-  const html = `
-  ${headline([`The ${LOGO_BRANDS.length} third-party brand logos the presenter app shows, each as a line mark, in one colour and in its original colours`, 'Each brand is the current official SVG, from theSVG or the Design System V3 Figma file, in one colour (greyscale) and its original colours, plus a line mark in logo/line/. In any interface a brand logo is its line mark in the default icon ink, with no tile around it; only a page listing other products (Marketplace) shows the colour logo, greyscale at rest and in colour on hover and keyboard focus (colour rule 2.6). Never redraw a brand mark or stand in a letter tile', 'Click a card to copy its id, or use the SVG link under each version'])}
-  <p class="gen">◆ generated from logo/manifest.json (each brand logo records its source URL, fetch date and where the presenter app shows it) — fetch files from ${esc(SITE)}/logo/&lt;file&gt;</p>
-  <div class="gal-bar">
-    <input id="brand-search" type="search" placeholder="Search ${LOGO_BRANDS.length} brand logos by name…" aria-label="Search brand logos" autocomplete="off" spellcheck="false" />
-    <span id="brand-count" class="gal-count" aria-live="polite"></span>
-  </div>
-  <div class="lg-modebar"><aha-segmented id="logo-mode" aria-label="Logo version" options="${esc(JSON.stringify(LOGO_MODES.map(([value, label]) => ({ value, label }))))}" value="line"></aha-segmented></div>
-  <dl class="lg-when">${LOGO_MODES.map(([value, label, when]) => `<div data-mode="${value}"><dt>${label}</dt><dd>${when}</dd></div>`).join('')}</dl>
-  <p class="lg-when-src">Full rule: <a href="../foundations/brand-colour-rules.html#r2.6">colour rule 2.6</a> and <a href="../foundations/brand-colour-rules.html#r2.6a">2.6a</a>.</p>
-  ${logoSections(LOGO_BRANDS, brandCell, ' logo-grid--brands')}
-  <script type="module">import '../lib/aha-tag.js';import '../lib/aha-segmented.js';</script>
-  <h3 class="tok-h3">Third-party marks</h3>
-  <p class="body">Brand logos belong to their owners and stay unaltered. Each one ships twice: <code>logo/&lt;file&gt;</code> in one colour (greyscale) and <code>logo/original/&lt;file&gt;</code> in the brand&rsquo;s own colours, the file exactly as published at its source. The list is what the presenter app renders today; to add a brand, add it to the app first, then fetch its current SVG from theSVG or the brand&rsquo;s own press page into both places, record the source in <code>logo/manifest.json</code> and run <code>node recolour-art.mjs</code>.</p>
-  <h3 class="tok-h3" id="line">Line logos</h3>
-  <p class="body">Every brand used in an interface also ships <code>logo/line/&lt;id&gt;.svg</code>: the brand&rsquo;s mark as an outline in Phosphor&rsquo;s Regular weight (256 grid, 16-unit stroke, round caps and joins), drawn in <code>currentColor</code> so it sits beside the DS line icons. Paint it through a CSS mask in <code>--aha-icon-default</code> (the patterns below), or inline it so it takes the surrounding text colour. Shapes are Phosphor&rsquo;s own <code>*-logo</code> icons (MIT) where Phosphor has the brand; a tile marked <b>stand-in</b> is drawn in the same line style because Phosphor has no logo for that brand. Each entry in <code>logo/manifest.json</code> records <code>line</code>, <code>lineSource</code>, <code>lineSourceUrl</code> and <code>lineFetched</code>, and a stand-in adds <code>lineStatus</code> and <code>lineNote</code>. A brand with no line file yet uses its greyscale file until one is drawn.</p>
-  <h3 class="tok-h3" id="brand-logo-colour">Brand logo colour (rule 2.6)</h3>
-  <p class="body">The same rule holds in every interface: the presenter app, website headers and menus, page rows, dialogs, import sources and connect buttons.</p>
-  <ul class="lg-donts">
-    <li><b>A brand logo is its line mark</b> from <code>logo/line/</code>, in <code>--aha-icon-default</code> (white on a Vivid Pink background), at rest, on hover and on focus.</li>
-    <li><b>No tile, border or square around it.</b> It is 24px beside 14 or 16px text, centred on the text line, 8px from its name or the next logo and 12px after a label.</li>
-    <li><b>The tool&rsquo;s name sits beside the logo.</b> Touch has no hover, so the name carries recognition. In a row of logos after a label that names them as a group, each logo carries the tool&rsquo;s name as its accessible name instead; a decorative row next to cards that name the tools may omit the visible names.</li>
-    <li><b>A page that lists other products</b> (the Marketplace, an integrations directory) is the one exception: each card keeps the colour logo image as published, greyscale at rest and in its own colours on hover and keyboard focus of the card, with a short fade and none when reduced motion is on, the name beside it. A tool not available yet hovers like a live card and adds a Coming soon tag, <code>&lt;aha-tag color="primary" bordered&gt;</code>.</li>
-    <li><b>A provider sign-in button</b> (Sign in with Google, Microsoft or Apple) is the one exception inside an interface: it keeps the provider&rsquo;s full-colour mark from <code>logo/original/</code>, at rest and on hover, as the providers&rsquo; brand guidelines require.</li>
-    <li><b>Menus and tabs:</b> a logo in a navigation menu stays in its ink on hover; a line logo used as a tab or menu icon takes the item&rsquo;s text colour, Vivid Pink when active. Social-media links use the line logos too.</li>
-    <li><b>Brand colour never spreads beyond the logo:</b> no brand-coloured buttons, tags, backgrounds or text.</li>
-    <li><b>Customer logos</b> in a Trusted by strip stay one colour, one treatment per row.</li>
-  </ul>
-  ${patterns}`;
-  const css = `${LOGO_CARD_CSS}
-  #brand-search{flex:1 1 320px;min-width:240px;height:38px;padding:0 14px;font-family:var(--aha-font-product);font-size:14px;border:1px solid var(--aha-border-default,#D4D4D4);border-radius:8px;outline:none}
-  #brand-search:focus{border-color:var(--aha-color-primary);box-shadow:0 0 0 3px var(--aha-focus-ring-soft)}
-  .lg-line{display:block;width:56px;height:56px;background:var(--aha-icon-default);-webkit-mask:var(--lg-line) center/contain no-repeat;mask:var(--lg-line) center/contain no-repeat}
-  .logo-grid--brands{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
-  .lg.lg-brand{align-items:stretch;gap:12px;padding:16px}
-  .lg-brand .lgn{font-size:14px;font-weight:600;text-align:left}
-  .lg-vars{display:grid;grid-template-columns:minmax(0,1fr)}
-  #panel-brands[data-mode="line"] .lg-var:not([data-mode="line"]),#panel-brands[data-mode="colour"] .lg-var:not([data-mode="colour"]),#panel-brands[data-mode="original"] .lg-var:not([data-mode="original"]){display:none}
-  .lg-modebar{margin:4px 0 12px}
-  .lg-when{display:grid;gap:8px;margin:0 0 4px;font-size:14px;line-height:1.5;color:var(--aha-text-default)}
-  .lg-when div{display:grid;grid-template-columns:96px minmax(0,1fr);gap:12px}
-  .lg-when dt{font-weight:600}
-  .lg-when dd{margin:0;color:var(--aha-text-secondary)}
-  #panel-brands[data-mode="line"] .lg-when [data-mode="line"] dt,#panel-brands[data-mode="colour"] .lg-when [data-mode="colour"] dt,#panel-brands[data-mode="original"] .lg-when [data-mode="original"] dt{color:var(--aha-color-primary)}
-  .lg-when-src{margin:0 0 8px;font-size:12px;color:var(--aha-text-tertiary)}
-  @media (max-width:600px){.lg-when div{grid-template-columns:minmax(0,1fr);gap:0}}
-  .lg-var{margin:0;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0}
-  .lg-tile{display:flex;align-items:center;justify-content:center;width:100%;height:128px;border-radius:6px;background:var(--aha-gray-10)}
-  .lg-tile.lg-dark{background:var(--aha-color-primary)}
-  .lg-tile img,.lg-tile .lg-line{width:64px;height:64px;object-fit:contain;display:block}
-  .lg-var--none .lg-tile{background:none;border:1px dashed var(--aha-border-default)}
-  .lg-var figcaption{margin-top:4px;font-size:12px;line-height:1.33;color:var(--aha-text-secondary)}
-  .lg-note{display:flex;align-items:center;justify-content:center;height:20px}
-  .lg-vdl{display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 8px;border-radius:var(--aha-radius-xs);font-size:12px;line-height:1.33;color:var(--aha-text-tertiary);text-decoration:none}
-  a.lg-vdl:hover{color:var(--aha-text-link);background:var(--aha-gray-10)}
-  .lg-vdl:focus-visible{outline:2px solid var(--aha-color-primary);outline-offset:1px}
-  .lg-vdl--none{color:var(--aha-text-tertiary)}
-  .brand-demo{display:flex;flex-direction:column;gap:2px;max-width:280px;padding:8px;margin:12px 0;border:1px solid var(--aha-border);border-radius:8px}
-  .brand-entry{display:flex;align-items:center;gap:12px;padding:8px 12px;border-radius:6px;color:var(--aha-text-default);text-decoration:none;font-family:var(--aha-font-product);font-size:14px}
-  .brand-entry:hover{background:var(--aha-bg-accent)}
-  .brand-entry:focus-visible{outline:2px solid var(--aha-color-primary);outline-offset:2px}
-  .brand-demo--row{display:block;max-width:none;padding:16px;font-family:var(--aha-font-product);font-size:16px;color:var(--aha-text-default)}
-  .brand-demo--row .brand-row{margin:0}
-  .brand-demo--cards{flex-direction:row;flex-wrap:wrap;max-width:none;gap:12px;border:none;padding:0}
-  .brand-card{display:flex;flex-direction:column;align-items:flex-start;gap:12px;width:160px;padding:16px;border:1px solid var(--aha-border);border-radius:8px;color:var(--aha-text-default);text-decoration:none;font-family:var(--aha-font-product);font-size:14px}
-  .brand-card:hover{border-color:var(--aha-border-strong)}
-  .brand-card:focus-visible{outline:2px solid var(--aha-color-primary);outline-offset:2px}
-  ${LOGO_PATTERNS.map(pattern => pattern.css.replace(/\/\*[\s\S]*?\*\/\n/, '')).join('\n  ')}`;
-  return { html, css };
-}
-/* Anchors that lived on the Logo page before the brand logos moved to the Icon library; the Logo page forwards them. */
-const MOVED_BRAND_ANCHORS = ['brands', 'tab-brands', 'panel-brands', 'line', 'brand-logo-colour', 'third-party-marks',
-  ...LOGO_PATTERNS.map(pattern => pattern.id)];
 const LOGO_MOVED_JS = `
 (function(){
-  var p=new URLSearchParams(location.search),h=decodeURIComponent(location.hash.slice(1)),m=p.get('mode');
-  if(p.get('tab')!=='brands'&&!m&&${JSON.stringify(MOVED_BRAND_ANCHORS)}.indexOf(h)<0)return;
-  location.replace('../${BRANDS_HOME}'+(m?'&mode='+encodeURIComponent(m):'')+(h&&h!=='brands'?'#'+encodeURIComponent(h):''));
+  var p=new URLSearchParams(location.search),h=decodeURIComponent(location.hash.slice(1));
+  if(${isOldBrandLink})location.replace('../${BRANDS_HOME}');
 })();
 `;
 function renderLogoPage() {
@@ -3747,7 +3504,7 @@ function renderLogoPage() {
   <h1>Logo library</h1>
   ${headline(['The AhaSlides logo, The Splash and the favicon set', 'Two versions of the logo only: the full-colour file on white and the white file on Vivid Pink. Never redraw, recolour or stretch it', 'Click a card to copy its id, or use the download link under it'])}
   <p class="gen">◆ generated from logo/manifest.json — fetch files from ${esc(SITE)}/logo/&lt;file&gt;</p>
-  <p class="body lg-moved">Third-party brand logos (Zoom, Google Slides, Slack and the rest) are in the <a href="../${BRANDS_HOME}">Brands tab of the Icon library</a>.</p>
+  <p class="body lg-moved">Third-party brand logos (Zoom, Google Slides, Slack and the rest) are the <a href="../${BRANDS_HOME}">Brand icons in the Icon library</a>.</p>
 
   <div id="logo-gallery">${logoSections(LOGO_AHA, cell)}</div><!-- ds-lint-allow: lockup (Logo library gallery tiles, not a header) -->
 
@@ -3763,7 +3520,7 @@ function renderLogoPage() {
   <h3 class="tok-h3" id="clear-space">Clear space and isotype (rules 2.8 to 2.10)</h3>
   <p class="body">Keep the height of the &ldquo;A&rdquo; in AhaSlides clear on every side of the logo. The isotype is The Splash on its own, for a favicon, an avatar or a small secondary graphic, at 256, 180, 152, 60 and 16 px: transparent, or white on Vivid Pink in a circle or a square.</p>
   <h3 class="tok-h3" id="co-brand">Co-brand lockup: AhaSlides &times; Partner</h3>
-  <p class="body">Use the lockup when AhaSlides appears next to a partner: a joint webinar, an integration launch, a co-marketing page. It is the AhaSlides logo, a &times;, and the partner logo, on one line. The partner&rsquo;s files are in the <a href="../${BRANDS_HOME}">Brands tab of the Icon library</a>.</p>
+  <p class="body">Use the lockup when AhaSlides appears next to a partner: a joint webinar, an integration launch, a co-marketing page. It is the AhaSlides logo, a &times;, and the partner logo, on one line. The partner&rsquo;s one-colour file is <code>logo/&lt;id&gt;.svg</code>; its icon is in the <a href="../${BRANDS_HOME}">Brand family of the Icon library</a>.</p>
   <div class="cobrand-demo">
     <div class="cobrand-tile"><div class="cobrand-row"><img class="cobrand-logo" src="../logo/ahaslides-logo.svg" alt="AhaSlides"><span class="cobrand-x" aria-hidden="true">&times;</span><span class="cobrand-partner">Partner</span></div><p>On white: partner in greyscale, at rest</p></div>
     <div class="cobrand-tile cobrand-tile--pink"><div class="cobrand-row"><img class="cobrand-logo" src="../logo/ahaslides-logo-white.svg" alt="AhaSlides"><span class="cobrand-x" aria-hidden="true">&times;</span><span class="cobrand-partner">Partner</span></div><p>On Vivid Pink: both logos in white</p></div>
@@ -3811,7 +3568,7 @@ function renderIconsLlms() {
   s += '- filled/active state → pick the `-filled` asset (e.g. system-bookmark-simple-filled).\n\n';
   s += `Static images (a report PNG for Slack, email or an export) cannot run <aha-icon>: take the status glyphs (and the how-to marks click here, check this, next step) as single-colour SVG files, same names, from https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@${CDN_REF}/lib/static-icons/<ink>/<size>/<name>.svg (ink: ink #1A1A1A or white; size 12, 16, 24, 32; the list is lib/static-icons/manifest.json). Rules: ${SITE}/guidelines/report-images/report-images.md\n\n`;
   s += `Search before you draw: find a glyph by what it means ("help" → system-question, "delete" → system-trash) in "Find by meaning" below, with \`npm run icon-search <words>\` (in an app: \`node node_modules/@ahaslides-product/design/icon-search.mjs <words>\`) or at ${SITE}/icons/index.html?q=<words>. Add a glyph to the DS only when nothing fits; a new glyph that looks nearly identical to an existing one fails the build.\n\n`;
-  s += `Third-party brand logos (Zoom, Google Slides, Slack and the rest) are not glyphs: take them from the Brands tab of the Icon library, ${SITE}/${BRANDS_HOME}. In an interface a brand logo is its line mark, ${SITE}/logo/line/<id>.svg, in --aha-icon-default, 24px, no tile, the name beside it (colour rule 2.6); index at ${SITE}/logo/manifest.json.\n\n`;
+  s += `Third-party brand logos (Zoom, Google Slides, Slack and the rest) are the brand family: in an interface a brand logo is <aha-icon name="brand-<id>">, following every icon rule above, with the tool's name beside it and no tile (colour rule 2.6); browse them at ${SITE}/${BRANDS_HOME}. The brand's own files are only for a Marketplace listing card (${SITE}/logo/original/<id>.svg, class brand-logo-listing: greyscale at rest, colour on hover and keyboard focus) and a Sign in with Google, Microsoft or Apple button (${SITE}/logo/original/<id>.svg, class brand-logo-original); index at ${SITE}/logo/manifest.json.\n\n`;
   for (const fam of ICONS.families) s += `## ${fam} (${(byFam[fam] || []).length})\n${(byFam[fam] || []).sort().join(', ')}\n\n`;
   s += '## Find by meaning\n';
   for (const [name, glyph] of Object.entries(ICONS.icons).sort((a, b) => a[0].localeCompare(b[0]))) {
@@ -3824,7 +3581,7 @@ function renderIconsAgentJson() {
     generatedFrom: ICONS.$generatedFrom, element: 'aha-icon',
     usage: '<aha-icon name="system-bell" size={16} label="Notifications" />',
     rules: { sizes: [12, 16, 24, 32, 40, 48, 64], strokeByPixelSize: { 12: 1, 16: 1.5, 24: 2, 32: 2.5, 40: 3, 48: 3.5, 64: 4 }, colour: 'currentColor (set on wrapper)', decorative: 'add `decorative`, drop `label`', filledState: 'use the -filled asset', reuseFirst: 'match your need against each icon\'s meaning words before drawing a glyph; a new glyph that looks nearly identical to an existing one fails the build' },
-    brandLogos: { page: `${SITE}/${BRANDS_HOME}`, line: `${SITE}/logo/line/<id>.svg`, manifest: `${SITE}/logo/manifest.json`, rule: 'colour rule 2.6: in an interface a brand logo is its line mark in --aha-icon-default, 24px, no tile, the name beside it' },
+    brandLogos: { family: 'brand', usage: '<aha-icon name="brand-zoom" size={24} label="Zoom" />', page: `${SITE}/${BRANDS_HOME}`, original: `${SITE}/logo/original/<id>.svg`, manifest: `${SITE}/logo/manifest.json`, rule: 'colour rule 2.6: in an interface a brand logo is its brand-<id> icon and follows the icon rules, the name beside it, no tile; the logo/original/ file only on a Marketplace listing card (class brand-logo-listing) and a Sign in with Google, Microsoft or Apple button (class brand-logo-original)' },
     search: { command: 'npm run icon-search <words>', inAnApp: 'node node_modules/@ahaslides-product/design/icon-search.mjs <words>', hosted: `${SITE}/icons/index.html?q=<words>`, fields: 'icons.<name>.meaning' },
     families: ICONS.families, count: ICONS.count,
     names: Object.keys(ICONS.icons).sort(),
@@ -4148,7 +3905,7 @@ const indexLines = [
   '>',
   `> Icons: search the icon library by meaning before drawing one ("help" → system-question, "delete" → system-trash): ${SITE}/icons.llms.txt "Find by meaning", npm run icon-search <words> (in an app: node node_modules/@ahaslides-product/design/icon-search.mjs <words>) or ${SITE}/icons/index.html?q=<words>. Never inline an <svg>; a new glyph that looks nearly identical to an existing one fails the build.`,
   `> Reports, as static images (charts, tables, number plates and KPI tiles rendered to PNG for Slack, email or an export) or as read-only report pages a report routine publishes: follow ${SITE}/guidelines/report-images/report-images.md (light grey zebra tables, <aha-stat-tile look="accent"> plates, colour rule 3.11); in an image, take status and how-to glyphs as single-colour SVG from https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@${CDN_REF}/lib/static-icons/<ink>/<size>/<name>.svg (registry names; ink or white; 12, 16, 24, 32).`,
-  `> Logos: every logo, AhaSlides or third-party brand, comes from the DS: the AhaSlides logo from the Logo library (${SITE}/foundations/logo.html), a third-party brand from the Brands tab of the Icon library (${SITE}/${BRANDS_HOME}); files at ${SITE}/logo/<file> — never redrawn, inlined as a hand-made SVG, recoloured or swapped for an icon or letter tile. A third-party brand logo in any interface, website headers and page rows included, is its line mark at ${SITE}/logo/line/<id>.svg in the default icon ink (--aha-icon-default), 24px, no tile or border around it, the name beside it; only a page listing other products (Marketplace) shows the colour logo image, greyscale at rest and in colour on hover and keyboard focus; colour rule 2.6, copy-paste patterns in the Brands tab of the Icon library.`,
+  `> Logos: every logo, AhaSlides or third-party brand, comes from the DS: the AhaSlides logo from the Logo library (${SITE}/foundations/logo.html), a third-party brand from the brand family of the Icon library (${SITE}/${BRANDS_HOME}) — never redrawn, inlined as a hand-made SVG, recoloured or swapped for a letter tile. A third-party brand logo in any interface, website headers and page rows included, is <aha-icon name="brand-<id>"> and follows the icon rules (sizes, stroke by size, currentColor ink), no tile or border around it, the name beside it; the brand's own file (${SITE}/logo/original/<id>.svg) only on a page listing other products (Marketplace: greyscale at rest, colour on hover and keyboard focus) and on a Sign in with Google, Microsoft or Apple button; colour rule 2.6.`,
   `> Page title and favicon: every page, route, site and app sets its own document <title> as "<specific part> | AhaSlides" (brand last, one " | " separator; a named site ends "| AhaSlides <Site name>"; only the marketing home page is brand-first) and links the one favicon set, The Splash in ${SITE}/logo/favicon/, with /favicon.ico answering at the site root. Rules: ${SITE}/guidelines/page-title-favicon/page-title-favicon.md`,
   `> Product lockup: the top-left brand of EVERY AhaSlides site, microsite, docs site, careers, landing or pricing page and app header is <aha-product-lockup product="<name>"> (${SITE}/product-lockup/index.html; spec on ${SITE}/foundations/logo.html#product-lockup) — The Splash + AhaSlides + the product name as one mark, full above a 480px header and compact below; no product attribute when no name is approved. Never hand-set it from the logo file and a text span.`,
   '>',
@@ -4167,7 +3924,7 @@ const indexLines = [
   ...colourRulesIndexLines(SITE, BACKGROUNDS),
   ...voiceRulesIndexLines(SITE),
   `>   ${SITE}/foundations/logo.html  logo library — the AhaSlides logo set, The Splash, the favicon files, the product lockup and co-brand rules`,
-  `>   ${SITE}/${BRANDS_HOME}  Icon library › Brands — the third-party brand logos the presenter app shows, each as a line mark, in one colour and in its original colours (Line / One colour / Original switch, ?mode=colour|original) (Google Slides, PowerPoint, Teams, Zoom, Excel, Word, PDF, Drive, OneDrive, Google, Microsoft, PayPal, Stripe, ChatGPT, YouTube, Facebook, Instagram, LinkedIn, X, Reddit, Medium), each the current SVG from thesvg.org; line files at ${SITE}/logo/line/<id>.svg, greyscale files at ${SITE}/logo/<file>.svg, original-colour files at ${SITE}/logo/original/<file>.svg, a copy-paste hover and focus pattern, index at ${SITE}/logo/manifest.json; never redraw a brand mark`,
+  `>   ${SITE}/${BRANDS_HOME}  Icon library › Brand — the third-party brand logos the presenter app shows, as icons: <aha-icon name="brand-<id>"> (brand-google-slides, brand-microsoft-powerpoint, brand-microsoft-teams, brand-zoom, brand-slack, brand-chatgpt and the rest), searchable with every other icon; original-colour files at ${SITE}/logo/original/<file>.svg for a Marketplace listing card and Sign in buttons only, index at ${SITE}/logo/manifest.json; never redraw a brand mark`,
   `>   ${SITE}/canvas/index.html  Canvas Library › Components — in-canvas presenter controls (<aha-button size="lg">, correct/incorrect count, status line, stepper, applyCanvasDeck, shortcut chip, <aha-tooltip size="lg">) with demos and rules; read before building a build-less slide's controls`,
   `>   ${SITE}/course-theme/index.html  Foundations › Course theme — re-skin every <aha-*> component under a customer's course theme with applyCourseTheme(root, { primary, pageBg, surface, textBody, textHeading, accent, fontBody, fontHeading, radius }) from @ahaslides-product/design/course-theme; every state contrast-floored; machine feed ${SITE}/course-theme.agent.json`,
   `>   ${SITE}/deck-tokens/index.html  Foundations › Deck tokens — the one --aha-deck-* ladder the canvas and the audience phone share (@ahaslides-product/design/deck, written by applyDeck and applyCanvasDeck), plus the canvas container and modal tokens`,
