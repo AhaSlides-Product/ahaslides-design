@@ -36,7 +36,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.976.0 — 2026-11-04
 
 ### Changed
-- **Textarea and Counted textarea contracts point to the plain multi-line answer** (#PR). An app that is not on antd uses
+- **Textarea and Counted textarea contracts point to the plain multi-line answer** (#630). An app that is not on antd uses
   `<aha-counted-textarea maxlength="none">` for plain multi-line text: no cap, no counter, `minrows` / `maxrows` for the
   height and `--aha-field-width:100%` for full width. No new element and no API change.
 
@@ -221,7 +221,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.964.1 — 2026-11-03
 ### Fixed
-- CHANGELOG: the 0.964.0 entry links its real PR number instead of the `(#PR)` placeholder that auto-merge shipped, which turned the standards gate red on master and held back the 0.964.0 publish; this release ships the Dropdown switch row and badge (#618)
+- CHANGELOG: the 0.964.0 entry links its real PR number instead of the `(#630)` placeholder that auto-merge shipped, which turned the standards gate red on master and held back the 0.964.0 publish; this release ships the Dropdown switch row and badge (#618)
 - Revert: revert the PR; changelog text only
 
 ## 0.964.0 — 2026-11-03
@@ -748,7 +748,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.621.1 — 2026-11-02
 ### Fixed
-- CHANGELOG: the 0.609.0 entry links its real PR number instead of the `(#PR)` placeholder that auto-merge shipped, which turned the standards gate red on master (#533)
+- CHANGELOG: the 0.609.0 entry links its real PR number instead of the `(#630)` placeholder that auto-merge shipped, which turned the standards gate red on master (#533)
 - Revert: revert the PR; changelog text only
 
 ## 0.621.0 — 2026-11-02
@@ -844,7 +844,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.596.2 — 2026-11-02
 ### Fixed
-- CHANGELOG: the 0.595.1 entry links its real PR number instead of the `(#PR)` placeholder that auto-merge shipped, which turned the standards gate red on master (#506)
+- CHANGELOG: the 0.595.1 entry links its real PR number instead of the `(#630)` placeholder that auto-merge shipped, which turned the standards gate red on master (#506)
 - Revert: revert the PR; changelog text only
 
 
