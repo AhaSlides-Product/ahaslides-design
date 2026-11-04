@@ -1,0 +1,34 @@
+// main.ts: register the elements and mark aha-* as custom elements
+import '@ahaslides-product/design/aha-slider';         // registers <aha-slider>
+import '@ahaslides-product/design/aha-input-number';   // registers <aha-input-number>
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<script setup>
+import { ref } from 'vue';
+const zoom = ref(1);
+const overlay = ref(30);
+const percent = (value) => `${Math.round(value * 100)}%`;
+</script>
+
+<template>
+  <!-- input while dragging, change on release; valueText formats the value label -->
+  <span id="zoom-label">Zoom</span>
+  <aha-slider
+    aria-labelledby="zoom-label"
+    min="1"
+    max="3"
+    step="0.01"
+    :value.prop="zoom"
+    :valueText.prop="percent"
+    @input="zoom = $event.detail.value"
+    @change="save(zoom)"
+  />
+
+  <!-- with an InputNumber field for the exact number -->
+  <div style="display: grid; grid-template-columns: 1fr 88px; gap: 8px; align-items: center">
+    <aha-slider aria-label="Overlay" min="0" max="100" :value.prop="overlay" @input="overlay = $event.detail.value" />
+    <aha-input-number aria-label="Overlay" min="0" max="100" style="width: 100%"
+                      :value.prop="overlay" @input="$event.detail.value != null && (overlay = $event.detail.value)" />
+  </div>
+</template>

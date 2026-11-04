@@ -1,0 +1,35 @@
+<div class="pad">
+  <div class="lbl">Default and disabled</div>
+  <div style="display:grid;gap:16px;max-width:320px">
+    <aha-slider data-probe value="40" aria-label="Volume"></aha-slider>
+    <aha-slider disabled value="60" aria-label="Volume, locked"></aha-slider>
+  </div>
+  <div class="lbl">Value label: a decimal step shown as a percent</div>
+  <div style="display:grid;gap:8px;max-width:320px">
+    <span id="zoom-label">Zoom</span>
+    <aha-slider id="zoom" min="1" max="3" step="0.01" value="1.5" aria-labelledby="zoom-label"></aha-slider>
+  </div>
+  <div class="lbl">With an InputNumber field for the exact number</div>
+  <div style="display:grid;gap:8px;max-width:360px">
+    <span id="overlay-label">Overlay</span>
+    <div style="display:grid;grid-template-columns:1fr 88px;gap:8px;align-items:center">
+      <aha-slider id="overlay" min="0" max="100" value="30" aria-labelledby="overlay-label"></aha-slider>
+      <aha-input-number id="overlay-number" min="0" max="100" value="30" aria-labelledby="overlay-label" style="width:100%"></aha-input-number>
+    </div>
+  </div>
+  <div class="lbl">Right to left</div>
+  <div dir="rtl" style="max-width:320px">
+    <aha-slider value="25" aria-label="Volume"></aha-slider>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped elements (../lib/*.js); no inlined copy, so the preview never drifts from lib/. -->
+<script type="module">
+  import '../lib/aha-slider.js';         // registers <aha-slider>
+  import '../lib/aha-input-number.js';   // registers <aha-input-number>
+  document.getElementById('zoom').valueText = (value) => `${Math.round(value * 100)}%`;
+  const slider = document.getElementById('overlay');
+  const number = document.getElementById('overlay-number');
+  slider.addEventListener('input', (e) => { number.value = e.detail.value; });
+  number.addEventListener('input', (e) => { if (e.detail.value != null) slider.value = e.detail.value; });
+</script>

@@ -1,0 +1,43 @@
+import '@ahaslides-product/design/aha-slider'; // registers <aha-slider>
+import { useRef, useEffect } from 'react';
+
+// React 18 needs a thin wrapper; React 19 can use <aha-slider> directly.
+// Drop-in for a single-thumb antd <Slider>: onChange while dragging, onChangeComplete on release.
+function AhaSlider({ value, onChange, onChangeComplete, min, max, step, disabled, tooltip, style, ...aria }) {
+  const ref = useRef();
+  useEffect(() => {
+    const el = ref.current;
+    el.value = value ?? null;
+    el.valueText = tooltip?.formatter ?? null;
+    const onInput = (e) => onChange?.(e.detail.value);
+    const onDone = (e) => onChangeComplete?.(e.detail.value);
+    el.addEventListener('input', onInput);
+    el.addEventListener('change', onDone);
+    return () => { el.removeEventListener('input', onInput); el.removeEventListener('change', onDone); };
+  });
+  return (
+    <aha-slider
+      ref={ref}
+      style={style}
+      {...aria}                                    // aria-label, aria-labelledby, data-testid
+      {...(min != null ? { min: String(min) } : {})}
+      {...(max != null ? { max: String(max) } : {})}
+      {...(step != null ? { step: String(step) } : {})}
+      {...(tooltip?.open === false ? { tooltip: 'false' } : {})}
+      {...(disabled ? { disabled: '' } : {})}
+    />
+  );
+}
+
+// usage: a zoom with a percent label, and an overlay paired with a number field
+<span id="zoom-label">{t('media.editor.zoom')}</span>
+<AhaSlider min={1} max={3} step={0.01} value={zoom} disabled={!edit}
+           tooltip={{ formatter: (v) => `${Math.round(v * 100)}%` }}
+           onChange={setZoom} onChangeComplete={() => track('zoom')}
+           aria-labelledby="zoom-label" data-testid="editor-zoom" />
+
+<div style={{ display: 'grid', gridTemplateColumns: '1fr 88px', gap: 8, alignItems: 'center' }}>
+  <AhaSlider min={0} max={100} value={overlay} onChange={setOverlay} aria-label="Overlay" />
+  <AhaInputNumber min={0} max={100} value={overlay} aria-label="Overlay"
+                  onChange={(v) => typeof v === 'number' && setOverlay(v)} style={{ width: '100%' }} />
+</div>
