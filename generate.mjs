@@ -3514,7 +3514,7 @@ ${BRAND_LINE_CSS}
 ];
 const LOGO_MODES = [
   ['line', 'Line', 'The default for every brand logo in an interface: website headers and menus, pricing rows, the app sidebar, the Import dialog and social links. 24px in <code>--aha-icon-default</code>, no tile. In a tab or menu it takes the item&rsquo;s text colour.'],
-  ['colour', 'One colour', 'A fallback only: a brand with no line logo yet uses this file until one is drawn. Rule 2.6 gives it no other use.'],
+  ['colour', 'One colour', 'For a brand with no line logo yet, for customer logos in a Trusted by strip (one treatment per row), and for the partner logo in a co-brand lockup on white (rules 2.6 and 2.11).'],
   ['original', 'Original', 'Only on a page that lists other products, such as the Marketplace (greyscale at rest, colour on hover and focus), and on Sign in with Google, Microsoft or Apple buttons.'],
 ];
 const LOGO_GALLERY_JS = `
