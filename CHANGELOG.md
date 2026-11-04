@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.984.1 — 2026-11-04
+
+### Changed
+- **Site navbar copy** (#641). The Features entry reads "Reports & analytics" and the Use cases entry reads "Training & workshops", in the Navigation docs preview and the anti-slop website fixtures that copy the navbar.
+
 ## 0.984.0 — 2026-11-04
 
 ### Added
