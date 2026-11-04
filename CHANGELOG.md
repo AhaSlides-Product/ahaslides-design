@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.998.1 — 2026-11-04
+### Fixed
+- `aha-answer-option` with `count-mode="off"` removes the count slot (`display:none`) instead of hiding it, so a short label such as "False" no longer truncates on a narrow phone (#NNN)
+
 ## 0.996.1 — 2026-11-04
 ### Fixed
 - Colour rule 11.1, True or False exception: on reveal the wrong answer's button dims (it read "the other button"), as the requester confirmed; the 0.990.0 entry links its PR (#646)
