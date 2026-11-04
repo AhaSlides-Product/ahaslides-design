@@ -1,10 +1,12 @@
 <!-- Vue 3 consumes the same <aha-button> custom element natively.
      Tell the compiler it's a custom element (vite: compilerOptions.isCustomElement = t => t.startsWith('aha-')). -->
 <script setup>
+import { ref } from 'vue';
 import '@ahaslides-product/design/aha-button';   // registers <aha-button>
 import '@ahaslides-product/design/icons';   // registers <aha-icon> for the icon slot
 defineProps({ saving: Boolean });
 const emit = defineEmits(['save', 'dismiss']);
+const open = ref(false);
 </script>
 
 <template>

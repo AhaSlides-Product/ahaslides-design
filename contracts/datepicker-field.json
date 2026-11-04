@@ -221,7 +221,7 @@
       },
       {
         "what": "DatePicker (antd theme)",
-        "when": "a date range, a time, a week, month or year picker, or presets: the antd composite themed by datepickerTheme"
+        "when": "a date range, a date with a time, a week, month or year picker, or presets: the antd composite themed by datepickerTheme"
       },
       {
         "what": "Audience date",

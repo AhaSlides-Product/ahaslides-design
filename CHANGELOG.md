@@ -36,6 +36,16 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.1022.0 — 2026-11-04
 ### Added
 - Button: `size="inline"` for `variant="text-link"`, one approved form for a control inside a sentence. It has no padding, border or fill, takes the sentence's font and line height, and keeps the hover, press and keyboard focus treatment of text-link. At `sm` the same text-link added 8px each side and grew the line from 21px to 28px. With `href` it renders `<a href>` and navigates; without one it renders `<button>` and acts on the page, with `aria-expanded` or `pressed` for a toggle. The rule is in the Button contract. (#667)
+- Button: `size="inline"` is underlined at rest, its text is selectable, a wrapped button label aligns to the start, and it draws no icon, spinner or shortcut, so a line never grows. The new `inline-button` screen-lint rule hard-fails it without `variant="text-link"` or with `shortcut`. (#667)
+
+### Changed
+- Background task: the `link` slot uses the approved form, `<aha-button variant="text-link" size="inline">`, in the contract and preview, replacing `<a href="#" role="button">`. (#667)
+
+## 0.1021.0 — 2026-11-04
+### Added
+- `<aha-timepicker>` (`@ahaslides-product/design/aha-timepicker`): a framework-free 24-hour time field with hour and minute columns, the sibling of `<aha-datepicker>`, so an app can drop antd TimePicker. The value is an `HH:mm` string, or null when empty, and seconds in a value are dropped; a pick commits at once; a typed time that is not real goes back to the last value. Sizes, error status, disabled, label, error and info messages, translated `hour-label`, `minute-label` and `clear-label`, form-associated, one tab stop, full keyboard path. 12-hour clock, seconds, ranges, minute steps and disabled times stay on the antd composite (#664)
+### Changed
+- `<aha-form-item>` reads, validates and resets `<aha-timepicker>`; a time that is not real reads as empty, so `required` fires (#664)
 
 ## 0.1020.3 — 2026-11-04
 ### Fixed

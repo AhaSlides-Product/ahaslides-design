@@ -58,6 +58,31 @@ test('size inline sits in a sentence: no padding, no box, the line stays its own
   }
 });
 
+test('size inline is underlined at rest in both forms, selectable, and a wrapped toggle stays aligned to the start', { skip }, async () => {
+  const read = await withPage(fixture, async (command) => {
+    const state = async () => (await command('Runtime.evaluate', {
+      expression: `(() => {
+        const style = (id) => getComputedStyle(document.getElementById(id).shadowRoot.querySelector('[part=button]'));
+        const height = (id) => document.getElementById(id).getBoundingClientRect().height;
+        return { toggle: style('toggle').textDecorationLine, anchor: style('anchor').textDecorationLine, select: style('toggle').userSelect, align: style('long-toggle').textAlign, longHeight: document.getElementById('long-toggle').shadowRoot.querySelector('[part=button]').getBoundingClientRect().height, plain: height('plain'), grown: height('grown') };
+      })()`,
+      returnByValue: true,
+    })).result.value;
+    const rest = await state();
+    await command('Emulation.setEmulatedMedia', { features: [{ name: 'forced-colors', value: 'active' }] });
+    const forced = await state();
+    return { rest, forced };
+  }, { readyExpr: '!!window.textLinkFixtureReady' });
+  assert.equal(read.rest.toggle, 'underline');
+  assert.equal(read.rest.anchor, 'underline');
+  assert.equal(read.forced.toggle, 'underline');
+  assert.equal(read.forced.anchor, 'underline');
+  assert.equal(read.rest.select, 'text');
+  assert.equal(read.rest.align, 'start');
+  assert.ok(read.rest.longHeight > 21, 'the button box wraps inside itself');
+  assert.equal(read.rest.grown, read.rest.plain, 'loading and an icon do not grow the line');
+});
+
 test('size inline keeps the keyboard focus ring and the underline in both forms', { skip }, async () => {
   const rings = await withPage(fixture, async (command) => {
     const tab = async () => {
