@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.988.0 — 2026-11-04
 ### Changed
-- Anti-slop app-shell criterion C6 d: a presenter control-bar key now passes only when the cheatsheet (K) shows it on a panel next to its control, joined by the same line and dot as the Back to Editor, QR code and Confetti panels, and still joined after the bar changes. The judge checks the connector, that its dot sits on the control's on-screen position, and that no panels overlap, from two whole-screen cheatsheet screenshots (at rest and after a bar change). A floating or corner-pinned panel fails even when the key and name match. New eval case 11 covers the floating Annotate panel (#NNN)
+- Anti-slop app-shell criterion C6 d: a presenter control-bar key now passes only when the cheatsheet (K) shows it on a panel next to its control, joined by the same line and dot as the Back to Editor, QR code and Confetti panels, and still joined after the bar changes. The judge checks the connector, that its dot sits on the control's on-screen position, and that no panels overlap, from two whole-screen cheatsheet screenshots (at rest and after a bar change). A floating or corner-pinned panel fails even when the key and name match. New eval case 11 covers the floating Annotate panel (#643)
 
 ## 0.985.0 — 2026-11-04
 ### Added
