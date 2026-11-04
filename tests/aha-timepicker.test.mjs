@@ -11,8 +11,8 @@ const fixture = pathToFileURL(fileURLToPath(new URL('./aha-timepicker.html', imp
 const skip = existsSync(resolveChrome()) ? false : 'needs headless Chrome (set CHROME_BIN)';
 
 test('parseTime reads a real 24-hour time and refuses the rest', () => {
-  for (const [text, minutes] of [['00:00', 0], ['9:30', 570], ['09.30', 570], ['0930', 570], ['23:59', 1439], ['０９：３０', 570], ['٠٩:٣٠', 570]]) assert.equal(parseTime(text), minutes, text);
-  for (const text of ['24:00', '12:60', '25:00', '9', '12:5', 'noon', '', null]) assert.equal(parseTime(text), null, String(text));
+  for (const [text, minutes] of [['00:00', 0], ['9:30', 570], ['09.30', 570], ['0930', 570], ['23:59', 1439], ['０９：３０', 570], ['٠٩:٣٠', 570], ['09:30:15', 570]]) assert.equal(parseTime(text), minutes, text);
+  for (const text of ['24:00', '12:60', '25:00', '09:30:75', '9', '12:5', 'noon', '', null]) assert.equal(parseTime(text), null, String(text));
 });
 
 test('aha-timepicker types, picks by keyboard and mouse, commits at once, clears, and aha-form-item reads it', { skip }, async () => {
@@ -32,9 +32,9 @@ test('aha-timepicker types, picks by keyboard and mouse, commits at once, clears
     const state = (id) => evaluate(`[${host(id)}.value, ${field(id)}.value]`);
     const active = (id) => evaluate(`(() => { const a = ${field(id)}.getAttribute('aria-activedescendant'); const row = a && ${root(id)}.getElementById(a); return row ? row.getAttribute('aria-label') : null; })()`);
     const row = (id, unit, text) => `[...${root(id)}.querySelectorAll('[role=option]')].find((o) => o.getAttribute('aria-label') === '${unit} ${text}')`;
-    const point = async (expression, kind) => {
+    const point = async (expression, kind, button = 'left') => {
       const box = await evaluate(`(() => { const e = ${expression}; e.scrollIntoView?.({ block: 'nearest' }); const b = e.getBoundingClientRect(); return [b.x + b.width / 2, b.y + b.height / 2]; })()`);
-      for (const type of kind) await command('Input.dispatchMouseEvent', { type, x: box[0], y: box[1], button: 'left', clickCount: 1 });
+      for (const type of kind) await command('Input.dispatchMouseEvent', { type, x: box[0], y: box[1], button, clickCount: 1 });
     };
     const click = (expression) => point(expression, ['mousePressed', 'mouseReleased']);
     const out = {};
@@ -129,6 +129,37 @@ test('aha-timepicker types, picks by keyboard and mouse, commits at once, clears
     await evaluate(`document.querySelector('#time-item aha-timepicker').value = '08:00'; document.getElementById('form').reset()`);
     out.formReset = await evaluate(`${timeItem}.value`);
     out.impossibleRequired = await evaluate(`(async () => [${host('bad-item')}.value, await ${host('bad-item')}.validate()])()`);
+
+    out.seconds = await state('seconds');
+    await evaluate(`${field('seconds')}.focus(); ${field('seconds')}.select()`);
+    await type('10:45');
+    await press('Escape');
+    await evaluate('document.activeElement.blur()');
+    out.closedEscapeDropsTyping = await state('seconds');
+    await click(field('seconds'));
+    await evaluate(`${field('seconds')}.select()`);
+    await type('10:4');
+    await press('ArrowLeft');
+    out.typingKeepsCaret = await evaluate(`${field('seconds')}.selectionStart`);
+    await press('Escape');
+    await click(field('seconds'));
+    await evaluate(`${host('seconds')}.value = '14:10'`);
+    await click(row('seconds', 'Minute', '45'));
+    out.minuteKeepsNewHour = await state('seconds');
+
+    await click(field('blank'));
+    await press('Enter');
+    out.enterInventsNoTime = await state('blank');
+    await point(field('blank'), ['mousePressed', 'mouseReleased'], 'right');
+    out.rightClickStaysShut = await evaluate(`${host('blank')}.open`);
+    const shutState = `[${host('blank')}.open, ${field('blank')}.getAttribute('aria-expanded'), ${field('blank')}.hasAttribute('aria-activedescendant')]`;
+    const reattach = `((blank) => { blank.remove(); document.body.append(blank); })(${host('blank')})`;
+    out.openState = await evaluate(`${host('blank')}.open = true; ${shutState}`);
+    out.reattachedShut = await evaluate(`${reattach}; ${shutState}`);
+    await click(field('blank'));
+    await press('ArrowDown');
+    out.reattachedFocusedShut = await evaluate(`${reattach}; ${shutState}`);
+    out.unbuiltCloses = await evaluate(`(() => { const spare = document.createElement('aha-timepicker'); spare.setAttribute('open', ''); spare.open = false; return spare.open; })()`);
     return out;
   }, { readyExpr: '!!window.fixtureReady' });
 
@@ -163,4 +194,14 @@ test('aha-timepicker types, picks by keyboard and mouse, commits at once, clears
   assert.equal(r.reset, '17:30');
   assert.equal(r.formReset, '17:30');
   assert.deepEqual(r.impossibleRequired, ['', 'We need this one.']);
+  assert.deepEqual(r.seconds, ['09:30', '09:30']);
+  assert.deepEqual(r.closedEscapeDropsTyping, ['09:30', '09:30']);
+  assert.equal(r.typingKeepsCaret, 3);
+  assert.deepEqual(r.minuteKeepsNewHour, ['14:45', '14:45']);
+  assert.deepEqual(r.enterInventsNoTime, [null, '']);
+  assert.equal(r.rightClickStaysShut, false);
+  assert.deepEqual(r.openState, [true, 'true', true]);
+  assert.deepEqual(r.reattachedShut, [false, 'false', false]);
+  assert.deepEqual(r.reattachedFocusedShut, [false, 'false', false]);
+  assert.equal(r.unbuiltCloses, false);
 });
