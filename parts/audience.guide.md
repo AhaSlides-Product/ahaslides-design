@@ -189,7 +189,7 @@ The same two-jobs split as the canvas, with less theme forwarded.
 
 - A slider / progress track is filled with `--aha-deck-stroke`, the deck ink at 12% (the same value as every track and
   panel hairline), and a filled part carries that same 1px hairline, so a coloured fill doesn't sink
-  into a same-hue deck. Tracks and panel hairlines are the only 12% edges: a tappable chip, the dashed image drop area and the radio / checkbox control of an answer row take `--aha-deck-stroke-chip`, the ink at 20%.
+  into a same-hue deck. Tracks and panel hairlines are the only 12% edges: a tappable chip, the dashed image drop area and an answer row's letter chip take `--aha-deck-stroke-chip`, the ink at 20%; the radio / checkbox control of an answer row takes `--aha-deck-stroke-hover`, the ink at 60% (3:1 against its surface), and the ink at 76% on hover.
 - A horizontal slider's rail **lines up** with its min/max end labels — zero out Ant's
   default slider margin (~`margin: 10px 6px`), then either run the rail flush under the captions or
   inset it by the same intended amount on both sides (`<aha-scale-slider>` insets 16px); never an
@@ -213,7 +213,7 @@ outer column with `gap-6`. The 8px gap is for rows INSIDE one group; don't stand
   600). No 700 / 800 / 900.
 
 **Borders are hairlines** (C32): a bounded white card **1px `--aha-border-default`** (#E3E3E3); a deck-owned
-surface (field, track, panel) a **1px** `--aha-deck-stroke` (the ink at 12%) on every deck, light or dark. The 20% controls: a tappable chip, the dashed image drop area and the radio / checkbox control of an answer row take `--aha-deck-stroke-chip` (the ink at 20%) (the dashed image drop area is the one 2px edge, dashed).
+surface (field, track, panel) a **1px** `--aha-deck-stroke` (the ink at 12%) on every deck, light or dark. The 20% controls: a tappable chip, the dashed image drop area and an answer row's letter chip take `--aha-deck-stroke-chip` (the ink at 20%); an answer row's radio / checkbox control takes `--aha-deck-stroke-hover` (the ink at 60%), so its outline holds 3:1 (the dashed image drop area is the one 2px edge, dashed).
 No other 2px outline: never at heavy ink (55% `textColour` on a chip is the miss).
 
 **One dark ink** (C33): `--aha-text-default` **#1A1A1A** on every surface — never the retired

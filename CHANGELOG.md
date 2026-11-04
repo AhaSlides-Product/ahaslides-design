@@ -45,6 +45,24 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
   array equal to the last one no longer rebuilds the cards. Manage's certificate design
   picker (MAAP-179) can drop its raw radio inputs. Icon and icon-only layouts render as before.
 
+## 0.983.1 — 2026-11-04
+
+### Fixed
+- **Placeholder text reads at 6.2:1 on white** (#637). `--aha-text-placeholder` is now `#616161` (gray-80, the
+  same value as `--aha-text-tertiary`) instead of `#999999` (2.85:1), and every antd composite theme
+  (`antd-base-theme`, select, autocomplete, datepicker, time-picker, input-number, form, textarea) sets
+  `colorTextPlaceholder` to the same `#616161` instead of `#8A8A8A` (3.45:1). This moves the placeholder in
+  `aha-select`, `aha-autocomplete`, `aha-select-tags`, `aha-counted-input`, `aha-counted-textarea`, the input-number
+  CSS and every antd input, select and picker. Course theming derives its placeholder from this token, so a themed
+  course placeholder darkens too. A disabled `aha-select`, `aha-autocomplete`, `aha-select-tags`, `aha-counted-input` or
+  `aha-counted-textarea` keeps its placeholder at `--aha-text-disabled`, so it still reads as disabled. The eight
+  `aha-select` placeholder contrast entries leave the state-check baseline.
+- **Answer row radio and checkbox outlines hold 3:1** (#637). The unchecked control in `aha-answer-option` (and so
+  `aha-answer-list`) takes `--aha-deck-stroke-hover`, the deck ink at 60% (4.5:1 on a white row), instead of
+  `--aha-deck-stroke-chip`, the ink at 20% (1.5:1); hover moves it to `--aha-deck-ink-secondary`, the ink at 76%.
+  The letter chip keeps its 20% outline, since the letter carries the meaning. The audience guide, deck ladder notes
+  and both contracts say so.
+
 ## 0.983.0 — 2026-11-04
 
 ### Added

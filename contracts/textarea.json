@@ -13,7 +13,7 @@
     { "label": "Box", "value": "radius 8 · 1px #E3E3E3 border · padding 4 11" },
     { "label": "Hover", "value": "#E70E68 (color-primary) border" },
     { "label": "Focus", "value": "brand #E70E68 border" },
-    { "label": "Text", "value": "Plus Jakarta 14/21; placeholder #8A8A8A" },
+    { "label": "Text", "value": "Plus Jakarta 14/21; placeholder #616161" },
     { "label": "Sizing", "value": "rows or autoSize={{minRows,maxRows}}" },
     { "label": "Counted variant", "value": "remaining characters (193 for 7 of 200) inside the field, bottom-right 12/6 · 12/18 #8A8A8A · focus only · 22px bottom gutter · no resize · hard cap at maxLength" },
     { "label": "Size", "value": "small · default · large (control height 24/40/48)" },
@@ -29,7 +29,7 @@
     { "name": "error message", "type": "<aha-field-error icon>", "default": "—", "desc": "Pair status=\"error\" with a sibling <aha-field-error icon message=\"…\"> below the control (12px glyph + --aha-size-sm text) and set aria-invalid=\"true\" + aria-describedby=\"<error id>\" on the control" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Non-interactive; greyed fill" },
     { "name": "readOnly", "type": "boolean", "default": "false", "desc": "Shows value but blocks editing" },
-    { "name": "placeholder", "type": "string", "default": "—", "desc": "Empty-state hint (#8A8A8A)" },
+    { "name": "placeholder", "type": "string", "default": "—", "desc": "Empty-state hint (#616161)" },
     { "name": "rows", "type": "number", "default": "—", "desc": "Fixed visible rows" },
     { "name": "autoSize", "type": "boolean | { minRows, maxRows }", "default": "false", "desc": "Grow with content between bounds" },
     { "name": "maxLength", "type": "number", "default": "—", "desc": "Cap length; the counted variant stops at 0 left" },
@@ -59,7 +59,7 @@
     { "label": "box radius 8 · #E3E3E3 border", "verdict": "PASS" },
     { "label": "hover border color-primary", "verdict": "PASS" },
     { "label": "focus border brand", "verdict": "PASS" },
-    { "label": "placeholder #8A8A8A", "verdict": "PASS" },
+    { "label": "placeholder #616161", "verdict": "PASS" },
     { "label": "counted: remaining count inside the field, focus only, no resize", "verdict": "PASS" }
   ],
   "conformance": {

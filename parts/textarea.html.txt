@@ -2,7 +2,7 @@
      Textarea is a COMPOSITE (antd, no framework-free element), so its HTML form is a CDN-React
      page — React + antd load from a CDN (esm.sh) and mount on open. It consumes the SAME shared
      `textareaTheme` the React/Vue wrappers use, so it renders the DS V3 look (radius 8, #E3E3E3
-     border, brand focus/hover, #8A8A8A placeholder).
+     border, brand focus/hover, #616161 placeholder).
      No JSX here (JSX needs a compiler) — we use React.createElement via the `h` alias. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/textarea-counted.css">
 <div id="root"></div>
