@@ -33,6 +33,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1022.0 — 2026-11-04
+### Added
+- Button: `size="inline"` for `variant="text-link"`, one approved form for a control inside a sentence. It has no padding, border or fill, takes the sentence's font and line height, and keeps the hover, press and keyboard focus treatment of text-link. At `sm` the same text-link added 8px each side and grew the line from 21px to 28px. With `href` it renders `<a href>` and navigates; without one it renders `<button>` and acts on the page, with `aria-expanded` or `pressed` for a toggle. The rule is in the Button contract. (#667)
+- Button: `size="inline"` is underlined at rest, its text is selectable, a wrapped button label aligns to the start, and it draws no icon, spinner or shortcut, so a line never grows. The new `inline-button` screen-lint rule hard-fails a fixed variant other than `text-link`, no variant, or `shortcut`; a variant bound at runtime is not flagged. (#667)
+
+### Changed
+- Background task: the `link` slot uses the approved form, `<aha-button variant="text-link" size="inline">`, in the contract and preview, replacing `<a href="#" role="button">`. (#667)
+
 ## 0.1021.2 — 2026-11-04
 ### Changed
 - **One answer for a retryable error, in every copy of the rule.** `overlays` C6 said `type="error"` and `ux-writing` C5 said a calm info or warning. A retryable error (the action failed, nothing was lost, trying again can work) is now `type="warning"` with a calm "Try again", on every surface, overlays included. `type="error"` is for a failure trying again can't fix, or one that lost the user's work. C6 still owns placement: inline, overlay open, no nested modal, no toast. The type now belongs to C5, and the `alert` contract note points at it. Criteria, guides, guidelines and evals changed together. (#666)

@@ -52,6 +52,18 @@ export function AudienceModalClose({ onClose }) {
   );
 }
 
+// A control inside a sentence: href = it navigates (<a>), no href = it acts on the page (<button>).
+export function ResponsesNote({ open, onToggle }) {
+  return (
+    <p>
+      Two responses are hidden.{' '}
+      <AhaButton variant="text-link" size="inline" aria-expanded={String(open)} aria-controls="hidden-responses" onClick={onToggle}>
+        {open ? 'Hide them' : 'Show them'}
+      </AhaButton>
+    </p>
+  );
+}
+
 export function SaveBar({ onSave, saving }) {
   return (
     <div style={{ display: 'flex', gap: 8 }}>
