@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.986.0 — 2026-11-04
+## 0.989.0 — 2026-11-04
 
 ### Changed
 - **Input and Input number small is 32px** (#640). `<aha-input size="small">` and `<aha-input-number size="small">`
@@ -43,6 +43,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
   buttons in every size (was 11px tall in small). Default 40px and large 48px are unchanged. A screen that used small
   for a 24px row grows 8px. Both contracts carry a From antd row: antd default 32 and antd small 24 map to
   `size="small"`, antd large 40 maps to the default.
+
+## 0.988.0 — 2026-11-04
+### Changed
+- Anti-slop app-shell criterion C6 d: a presenter control-bar key now passes only when the cheatsheet (K) shows it on a panel next to its control, joined by the same line and dot as the Back to Editor, QR code and Confetti panels, and still joined after the bar changes. The judge checks the connector, that its dot sits on the control's on-screen position, and that no panels overlap, from two whole-screen cheatsheet screenshots (at rest and after a bar change). A floating or corner-pinned panel fails even when the key and name match. New eval case 11 covers the floating Annotate panel (#643)
 
 ## 0.985.0 — 2026-11-04
 ### Added
