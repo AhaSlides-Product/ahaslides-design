@@ -40,7 +40,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
   app's own light-DOM child (`slot="<name>"`) as the card's preview, in a frame sized by
   `--aha-card-select-preview-ratio` (default 4 / 3). The element keeps the roving radiogroup, keyboard, checked state,
   focus ring and `change`. The selected preview tile is a white gap and a 2px brand ring, with no fill over the preview. `hide-labels`
-  keeps each label as the aria-label only. The host's `aria-label` now names the radiogroup. Manage's certificate design
+  keeps each label as the aria-label only. The host is now the radiogroup, so its `aria-label` names the group once. A
+  disabled preview takes no pointer events and greys its ring; forced colours draw the selected ring as an outline. An options
+  array equal to the last one no longer rebuilds the cards. Manage's certificate design
   picker (MAAP-179) can drop its raw radio inputs. Icon and icon-only layouts render as before.
 
 ## 0.977.1 — 2026-11-04
