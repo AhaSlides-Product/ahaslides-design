@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.997.0 — 2026-11-04
+## 0.1000.0 — 2026-11-04
 ### Changed
 - **Brand logos are now the Brand icon family in the Icon library** (#647). A fourth chip, Brand, sits after System in the Icon library; its 29 icons are ordinary icon cards in the same grid, search and totals, and are used by name, `<aha-icon name="brand-zoom">`, so they follow the icon rules (sizes, stroke by size, `--aha-icon-default` ink). The glyphs live in `icons/svg/brand/` with meaning words; sources and the stand-in list are in `icons/svg/brand/BRAND-CREDITS.md`.
 - Colour rules 2.6 and 2.6a, criterion C7, `llms.txt`, `icons.llms.txt`, `icons.agent.json`, `AGENTS.md`, `PRINCIPLES.md`, the aha-design skill, the icon guard hook and the `brand-logo-colour` lint message point at Brand icons instead of `logo/line/` files. Social links use `brand-youtube`, `brand-instagram`, `brand-linkedin`, `brand-facebook`, `brand-reddit`, `brand-x`, and `system-whatsapp-logo`.
@@ -41,7 +41,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Removed
 - The Icon library's Brands tab, its Line / One colour / Original switch and the per-version rule table. Old links (`?tab=brands`, `?mode=`, the Logo page's brand anchors) open the Icon library filtered to Brand.
 
-
+## 0.998.1 — 2026-11-04
+### Fixed
+- `aha-answer-option` with `count-mode="off"` removes the count slot (`display:none`) instead of hiding it, so a short label such as "False" no longer truncates on a narrow phone (#NNN)
 
 ## 0.996.1 — 2026-11-04
 ### Fixed

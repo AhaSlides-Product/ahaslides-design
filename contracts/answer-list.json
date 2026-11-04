@@ -118,7 +118,7 @@
       "name": "count-mode",
       "type": "off | percent | people",
       "default": "off",
-      "desc": "What the chip on each row shows; its box is kept when off, so revealing never relayouts"
+      "desc": "What the chip on each row shows; it takes no space when off, so a short label keeps the full row width"
     },
     {
       "name": "columns",
