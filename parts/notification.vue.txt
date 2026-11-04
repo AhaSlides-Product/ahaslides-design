@@ -25,7 +25,7 @@ const notify = (type, placement, key = `export-${Date.now()}`) =>
   <a-config-provider :theme="notificationTheme">
     <component :is="contextHolder" />
     <a-button type="primary" @click="notify('success', 'topRight')">Publish</a-button>
-    <a-button danger @click="notify('error', 'bottomLeft')">Retry sync</a-button>
+    <a-button danger @click="notify('warning', 'bottomLeft')">Retry sync</a-button>
   </a-config-provider>
 </template>
 <!-- The SAME notificationTheme as React → one DS V3 look across both vendor libraries. -->

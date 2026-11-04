@@ -251,6 +251,29 @@
           "C8": "PASS"
         }
       }
+    },
+    {
+      "id": 11,
+      "prompt": "Review this message inside a save dialog after a timed-out request. Nothing was lost and the same click can work: `<AhaAlert type=\"error\" heading=\"Error\">Couldn't save your changes. Try again.</AhaAlert>`. It is inline and the dialog stays open.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C5 — a retryable error is type=warning with a calm Try again, overlays included",
+      "expected_output": "C5 FAILs. A retryable error is handed to the surface as a red type=\"error\" under a bare \"Error\" heading, which overstates the impact. Fix: `<AhaAlert type=\"warning\">Couldn't save your changes. Try again.</AhaAlert>`, in the same inline place. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C5 is marked FAIL",
+        "Cites the retryable error given type=error",
+        "Prescribes type=warning with Try again"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C5": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "DESY-490 — DS-authored bad example for a retryable error handed red"
+      }
     }
   ]
 }

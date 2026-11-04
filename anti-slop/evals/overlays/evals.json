@@ -139,13 +139,13 @@
       "prompt": "Review this error handling inside a modal's confirm catch block: `catch (e) { Modal.error({ title: 'Failed' }); }`. On failure it stacks a second Modal.error dialog on top of the open modal to report the error.",
       "files": [],
       "label": "bad-example",
-      "notes": "C6 — errors surface inline via AntD Alert (title, not message), never a nested modal on top",
-      "expected_output": "C6 FAILs. The failure is reported by stacking a nested Modal.error on top of the overlay instead of surfacing it inline. Fix: keep the overlay open on failure and render the error inline with an AntD Alert — {error && <Alert type=\"error\" showIcon title={error.message} />} (AntD v6 uses title, not message); never stack a second modal to report an error. Overall: NEEDS FIX.",
+      "notes": "C6 — errors surface inline via the DS V3 AhaAlert, never a nested modal on top",
+      "expected_output": "C6 FAILs. The failure is reported by stacking a nested Modal.error on top of the overlay instead of surfacing it inline. Fix: keep the overlay open on failure and render the error inline with the DS V3 AhaAlert, type=\"warning\" for a retryable error and type=\"error\" for a failure trying again can't fix; never stack a second modal to report an error. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C6 is marked FAIL",
         "Cites a nested Modal.error stacked on top",
-        "Prescribes an inline AntD Alert type=error showIcon with title"
+        "Prescribes an inline DS V3 AhaAlert, not a bare AntD Alert"
       ],
       "expected": {
         "overall": "NEEDS_FIX",
@@ -298,6 +298,28 @@
       },
       "source": {
         "authored": "DESY-413 — DS-authored good control for the clipped-overlay criterion"
+      }
+    },
+    {
+      "id": 13,
+      "prompt": "Review this save modal's confirm handler. On a timed-out save the catch block keeps the modal open, clears busy and renders `<AhaAlert type=\"warning\">Couldn't save your changes. Try again.</AhaAlert>` above the footer. On a permission failure it renders `<AhaAlert type=\"error\">You don't have permission to edit this presentation.</AhaAlert>`. It never stacks a second modal and never fires a toast.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Good control — a retryable error in an overlay is an inline warning, a failure retry can't fix is an inline error; C6 passes both",
+      "expected_output": "C6 PASSes. Both failures stay inside the open overlay in a DS V3 AhaAlert, with no nested modal and no toast. The type follows ux-writing C5: warning for the retryable save, error for the permission failure trying again can't fix. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C6 is marked PASS",
+        "Does not ask for type=error on the retryable save"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C6": "PASS"
+        }
+      },
+      "source": {
+        "authored": "DESY-490 — DS-authored good control for a retryable error inside an overlay"
       }
     }
   ]
