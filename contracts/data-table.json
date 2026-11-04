@@ -30,7 +30,7 @@
   "spec": [
     {
       "label": "Container",
-      "value": "white surface, 1px #E3E3E3 border, radius 8 — wraps the grid"
+      "value": "white surface, 1px #E3E3E3 border, radius 8 — wraps the grid; the border is absorbed by the scroll container (−1px margin), so an empty table never overflows"
     },
     {
       "label": "Header",
@@ -380,7 +380,7 @@
   "conformance": {
     "$about": "Measured by qa.mjs against the doc page's rendered UI (getComputedStyle via headless CDP): the preview mounts the SHIPPED lib/aha-data-table.js, so this measures the real component. The first table is the basic grid; the sorted header/cell come from the Sorting case (Score sorted descending by default).",
     "ready": "!!(document.querySelector('#react-root .ant-table-thead th') && document.querySelector('#react-root th.ant-table-column-sort') && document.querySelector('#react-root .aha-data-table__sort aha-icon'))",
-    "measure": "(function(){var q=function(sel){return document.querySelector('#react-root '+sel);};var g=function(sel,p){var el=q(sel);return el?getComputedStyle(el)[p]:null;};var td='.ant-table-tbody .ant-table-cell';var arrow=q('.aha-data-table__sort aha-icon');return{headerBg:g('.ant-table-thead th','backgroundColor'),headerColor:g('.ant-table-thead th','color'),tdPadTop:g(td,'paddingTop'),tdPadLeft:g(td,'paddingLeft'),tdBorder:g(td,'borderBottomColor'),tdBorderW:g(td,'borderBottomWidth'),containerBorderW:g('.ant-table','borderTopWidth'),containerBorder:g('.ant-table','borderTopColor'),containerRadius:g('.ant-table','borderTopLeftRadius'),sortedHeaderBg:g('th.ant-table-column-sort','backgroundColor'),sortedCellBg:g('td.ant-table-column-sort','backgroundColor'),sortArrow:arrow?arrow.getAttribute('name'):null,dualCaret:String(document.querySelectorAll('#react-root .ant-table-column-sorter-up').length)};})()",
+    "measure": "(function(){var q=function(sel){return document.querySelector('#react-root '+sel);};var g=function(sel,p){var el=q(sel);return el?getComputedStyle(el)[p]:null;};var td='.ant-table-tbody .ant-table-cell';var arrow=q('.aha-data-table__sort aha-icon');return{headerBg:g('.ant-table-thead th','backgroundColor'),headerColor:g('.ant-table-thead th','color'),tdPadTop:g(td,'paddingTop'),tdPadLeft:g(td,'paddingLeft'),tdBorder:g(td,'borderBottomColor'),tdBorderW:g(td,'borderBottomWidth'),containerBorderW:g('.ant-table','borderTopWidth'),containerBorder:g('.ant-table','borderTopColor'),containerRadius:g('.ant-table','borderTopLeftRadius'),sortedHeaderBg:g('th.ant-table-column-sort','backgroundColor'),sortedCellBg:g('td.ant-table-column-sort','backgroundColor'),sortArrow:arrow?arrow.getAttribute('name'):null,dualCaret:String(document.querySelectorAll('#react-root .ant-table-column-sorter-up').length),emptyOverflow:(function(){var s=q('.ant-table-empty .ant-table-content');return s?String(s.scrollWidth-s.clientWidth):null;})()};})()",
     "expect": {
       "headerBg": "rgb(255, 255, 255)",
       "headerColor": "rgb(97, 97, 97)",
@@ -394,7 +394,8 @@
       "sortedHeaderBg": "rgb(255, 255, 255)",
       "sortedCellBg": "rgb(255, 255, 255)",
       "sortArrow": "system-arrow-up",
-      "dualCaret": "0"
+      "dualCaret": "0",
+      "emptyOverflow": "0"
     }
   }
 }
