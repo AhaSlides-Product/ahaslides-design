@@ -1,0 +1,17 @@
+// main.ts: register the element and mark aha-* as custom elements
+import '@ahaslides-product/design/aha-timepicker';   // registers <aha-timepicker>
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<script setup>
+import { ref } from 'vue';
+const deadline = ref('17:30');   // the 24-hour time 'HH:mm', or null when empty
+</script>
+
+<template>
+  <aha-timepicker
+    aria-label="Deadline time"
+    :value.prop="deadline"
+    @change="deadline = $event.detail.value"
+  />
+</template>

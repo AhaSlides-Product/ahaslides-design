@@ -1,0 +1,20 @@
+<div class="pad">
+  <div class="lbl">Sizes</div>
+  <div class="row">
+    <aha-timepicker size="small" value="09:30" aria-label="Small"></aha-timepicker>
+    <aha-timepicker label="Deadline time" value="17:30"></aha-timepicker>
+    <aha-timepicker size="large" value="09:30" aria-label="Large"></aha-timepicker>
+  </div>
+  <div class="lbl">States</div>
+  <div class="row">
+    <aha-timepicker data-probe status="error" error-message="Pick a time after the start time" value="08:00" aria-label="End time"></aha-timepicker>
+    <aha-timepicker info-message="In your time zone" value="12:00" aria-label="Reminder time"></aha-timepicker>
+    <aha-timepicker disabled value="09:00" aria-label="Created at"></aha-timepicker>
+    <aha-timepicker allow-clear="false" value="23:59" aria-label="Report time"></aha-timepicker>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element (../lib/aha-timepicker.js); no inlined copy, so the preview never drifts from lib/. -->
+<script type="module">
+  import '../lib/aha-timepicker.js';   // registers <aha-timepicker>
+</script>

@@ -1,0 +1,257 @@
+{
+  "name": "TimePicker field",
+  "slug": "timepicker-field",
+  "group": "Data entry",
+  "environment": [
+    "product"
+  ],
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-timepicker",
+  "summary": "Type or pick one 24-hour time from hour and minute columns in the same field as DatePicker field, without antd.",
+  "highlights": [
+    "One time in the Input field, typed or picked",
+    "Hour and minute columns; a pick commits at once",
+    "24-hour HH:mm value, empty is null, joins forms"
+  ],
+  "lead": "ONE custom element, <aha-timepicker>, defined once and imported unchanged by React and Vue: the framework-free counterpart of antd TimePicker for one 24-hour time, so an app can drop antd for its time fields. It is the sibling of <aha-datepicker>: the same field (same tokens, small 24 · default 40 · large 48, error status, disabled, label, error and info message), with a clock glyph that turns into a clear button on hover and focus once a time is set. A click on the field or ArrowDown opens an hour column and a minute column below it (above when there is no room), in the browser top layer so a card or modal never clips it. The value is a 24-hour HH:mm string, or null when empty. A pick commits at once, so there is no OK button: an hour leaves the columns open for the minute, a minute closes them. The time can be typed (HH:mm; 9:30, 09.30 and 0930 are accepted too); typed text that is not a real time goes back to the last value when the field is left. Focus stays in the field, a role=\"combobox\" over two role=\"listbox\" columns, so the whole control is one tab stop. The element is form-associated and <aha-form-item> reads, validates and resets it.",
+  "codeNote": "antd TimePicker → <aha-timepicker>: value (Dayjs) / onChange(time) → `value` (a 24-hour 'HH:mm' string, or null) + the `change` event, e.detail.value is the string or null (`input` fires with it too) — so dayjs(v, 'HH:mm') / d.format('HH:mm') wrappers go away · format=\"HH:mm\" is the only format · needConfirm={false} is the only behaviour: a pick commits at once · placeholder → placeholder (default \"HH:MM\") · status error/warning → status (warning renders as error) · disabled → disabled · size small/middle/large → size small/default/large · allowClear → allow-clear (on by default; allow-clear=\"false\" hides the button, and an emptied field goes back to the last value) · open / onOpenChange → the `open` property · aria-label / aria-labelledby → the same attributes, passed to the inner combobox · data-testid → on the host. Held, not supported, so these stay on the antd TimePicker: use12Hours, seconds, RangePicker, minuteStep and the other steps, disabledTime, renderExtraFooter. React 18: set `value` through a ref only when it differs (if (el.value !== (value ?? null)) el.value = value ?? null, so a parent render never wipes half-typed text) and listen with ref.current.addEventListener('change', …), since React 18 does not wire CustomEvents; pass a boolean as present or absent ({...(disabled ? { disabled: '' } : {})}); disabled=\"false\" reads as off. React 19 can use the element directly. Vue binds it natively (:value.prop, @change).",
+  "tokensUsed": [
+    "bg-container",
+    "bg-container-disabled",
+    "bg-elevated",
+    "bg-hover",
+    "border-default",
+    "border-hover",
+    "border-secondary",
+    "border-error",
+    "border-disabled",
+    "color-primary",
+    "focus-ring-soft",
+    "button-primary-bg",
+    "button-primary-text",
+    "text-default",
+    "text-tertiary",
+    "text-disabled",
+    "icon-muted",
+    "radius-default",
+    "radius-sm",
+    "weight-regular",
+    "font-product"
+  ],
+  "spec": [
+    {
+      "label": "Box",
+      "value": "the <aha-input> field: height 40 (default) · radius 8 · padding-inline 12 8 · 1px #E3E3E3 (border-default) · 240 wide, full width in <aha-form-item>"
+    },
+    {
+      "label": "Sizes",
+      "value": "small 24 · default 40 · large 48 (16/24 text), radius 8; sm / lg accepted as aliases"
+    },
+    {
+      "label": "Hover / focus / open",
+      "value": "#E70E68 border on hover; focus and open #E70E68 border + 2px #E70E68@30% ring (focus-ring-soft), on the persistent wrapper"
+    },
+    {
+      "label": "Status",
+      "value": "error #1A1A1A border, 2px #1A1A1A ring on focus, aria-invalid; warning renders as error"
+    },
+    {
+      "label": "Disabled",
+      "value": "#F1F1F1 fill, #EBEBEB border, #B5B5B5 text and glyph, no columns, no clear"
+    },
+    {
+      "label": "Text",
+      "value": "Plus Jakarta 14/21, tabular figures · placeholder #616161 (text-tertiary), as <aha-input>"
+    },
+    {
+      "label": "End glyph",
+      "value": "system-clock 16px #8A8A8A (icon-muted); with a time set it turns into system-x-circle 16px #616161, #1A1A1A on hover (the clear button, a 24×24 target), on hover and focus"
+    },
+    {
+      "label": "Panel",
+      "value": "#FFFFFF (bg-elevated), 1px #F1F1F1 (border-secondary), radius 8, shadow 0 6 20 #0000001A, 4px from the field, padding 4; fades and rises in (motion-mid, ease-out). Starts at the field's start edge and stays 8px inside the viewport"
+    },
+    {
+      "label": "Columns",
+      "value": "hour 00–23 and minute 00–59, 210 tall, 1px #F1F1F1 rule between them, hour on the left in every direction, as a time reads. The picked row is centred on open"
+    },
+    {
+      "label": "Rows",
+      "value": "48×28 14/21, radius 4 · hover and the row the keyboard left in a column #F7F7F7 (bg-hover) · selected #FFFFFF on #E70E68 (the primary button pair, as a DatePicker day) · keyboard row 2px #E70E68 inset ring, 2px #FFFFFF on a selected row, shown only after a key"
+    },
+    {
+      "label": "Messages",
+      "value": "error-message: 12px system-warning-circle + 12/18 #1A1A1A text below, 4px gap · info-message: 12/18 #4A4A4A; both through <aha-field-error>"
+    }
+  ],
+  "props": [
+    {
+      "name": "value",
+      "type": "string | null",
+      "default": "null",
+      "desc": "The time as 24-hour HH:mm. The getter returns null when empty or not a real time; set null or '' to empty it"
+    },
+    {
+      "name": "placeholder",
+      "type": "string",
+      "default": "HH:MM",
+      "desc": "Hint shown when empty; the default names the format the field reads"
+    },
+    {
+      "name": "allow-clear",
+      "type": "boolean",
+      "default": "true",
+      "desc": "With a time set, the clock glyph turns into a clear button on hover and focus; allow-clear=\"false\" hides it, and an emptied field goes back to the last value"
+    },
+    {
+      "name": "open",
+      "type": "boolean (property)",
+      "default": "false",
+      "desc": "Whether the columns show; set it to open or close them from code"
+    },
+    {
+      "name": "size",
+      "type": "small | default | large",
+      "default": "default",
+      "desc": "small 24 · default 40 · large 48 (sm / lg accepted)"
+    },
+    {
+      "name": "status",
+      "type": "default | error | warning",
+      "default": "default",
+      "desc": "Error border and ring plus aria-invalid; warning renders as error"
+    },
+    {
+      "name": "error-message",
+      "type": "string",
+      "default": "—",
+      "desc": "Shown below the field while status is error, linked through aria-describedby"
+    },
+    {
+      "name": "info-message",
+      "type": "string",
+      "default": "—",
+      "desc": "Help text below the field while there is no error"
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "—",
+      "desc": "Visible label above the field, a real <label for> on the inner field"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Not interactive, grey fill, no columns; disabled=\"false\" reads as off"
+    },
+    {
+      "name": "aria-label / aria-labelledby",
+      "type": "string / id list",
+      "default": "—",
+      "desc": "Name the inner combobox; aria-labelledby ids are resolved to their text across the shadow root and re-read on focus. A <label for> on the host works too"
+    },
+    {
+      "name": "aria-describedby",
+      "type": "string (id list)",
+      "default": "—",
+      "desc": "Ids describing the field, resolved on the inner field"
+    },
+    {
+      "name": "hour-label / minute-label / clear-label",
+      "type": "string",
+      "default": "Hour / Minute / Clear time",
+      "desc": "The built-in strings, for a translated UI: the column names, read with each row (Hour 09), and the clear button's name"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "default": "—",
+      "desc": "Form field name: the element is form-associated, submits the value ('' when empty), resets to its first value and follows a disabled fieldset"
+    },
+    {
+      "name": "input / change",
+      "type": "CustomEvent<{value}>",
+      "default": "—",
+      "desc": "Composed; both fire on each pick, clear or commit of typed text (blur, Enter) that leaves a new value"
+    }
+  ],
+  "a11y": {
+    "role": "the inner <input> is role=\"combobox\" with aria-haspopup=\"listbox\", aria-expanded and aria-controls naming both columns; each column is a role=\"listbox\" named by hour-label or minute-label, each row a role=\"option\" named with its column (Hour 09), aria-selected on the value; the field points at the keyboard row with aria-activedescendant",
+    "keyboard": "ArrowDown opens; open: ArrowUp / ArrowDown move a row and wrap round the clock, ArrowLeft / ArrowRight change column, Home / End the first or last row, PageUp / PageDown five rows, Enter commits both columns (or a typed time) and closes, Escape closes and restores the text, Alt+ArrowUp closes, Tab closes. Closed: Enter commits the typed time. The columns and the clear button are tabindex=-1, so the control is one tab stop",
+    "note": "Escape while the columns are open does not reach a surrounding modal. A click or tap outside closes them, and the keyboard ring shows only after a key, so a tap leaves nothing behind."
+  },
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "TimePicker field (this leaf)",
+        "when": "one 24-hour time in a product screen, filter or form: a deadline time, a reminder, a daily slot"
+      },
+      {
+        "what": "TimePicker (antd theme)",
+        "when": "a 12-hour clock, seconds, a time range, minute steps or disabled times: the antd composite themed by timePickerTheme"
+      },
+      {
+        "what": "DatePicker field",
+        "when": "one date; put a TimePicker field beside it for a date and a time"
+      },
+      {
+        "what": "Select",
+        "when": "a small fixed set of times (15-minute slots): a list beats two columns"
+      }
+    ],
+    "note": "Label it with a noun phrase (Deadline time); a placeholder is not a label. Keep the value as the HH:mm string end to end. Show the timezone beside the field when it is not the reader's.",
+    "dsv3": "COVERED — the <aha-datepicker> field chrome with the TimePicker look from timePickerTheme (brand selected cell, #F7F7F7 hover cell, radius 8 panel); sizes 24 / 40 / 48 and the error status as Input."
+  },
+  "surfaces": [
+    "dashboard",
+    "editor",
+    "settings"
+  ],
+  "reuse": {
+    "entry": "./aha-timepicker",
+    "registers": "aha-timepicker",
+    "exportsNamed": [
+      "AhaTimepicker",
+      "defineAhaTimepicker",
+      "parseTime"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "timepicker-field.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form: a version-pinned CDN import and plain HTML, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "timepicker-field.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "timepicker-field.vue.txt"
+    }
+  ],
+  "preview": "timepicker-field.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI on the [data-probe] field: an error field with a value.",
+    "ready": "!!(document.querySelector('aha-timepicker[data-probe]') && document.querySelector('aha-timepicker[data-probe]').shadowRoot && document.querySelector('aha-timepicker[data-probe]').shadowRoot.querySelector('.wrap'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-timepicker[data-probe]');var r=el.shadowRoot;var w=getComputedStyle(r.querySelector('.wrap'));var f=r.querySelector('.field');var p=getComputedStyle(r.querySelector('.panel'));return{height:w.height,radius:w.borderTopLeftRadius,border:w.borderTopColor,fontSize:getComputedStyle(f).fontSize,role:f.getAttribute('role'),ariaInvalid:f.getAttribute('aria-invalid'),panelRadius:p.borderTopLeftRadius,glyphColor:getComputedStyle(r.querySelector('.glyph')).color};})()",
+    "expect": {
+      "height": "40px",
+      "radius": "8px",
+      "border": "rgb(26, 26, 26)",
+      "fontSize": "14px",
+      "role": "combobox",
+      "ariaInvalid": "true",
+      "panelRadius": "8px",
+      "glyphColor": "rgb(138, 138, 138)"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../lib/tokens.css">
+<aha-timepicker id="plain" value="09:30"></aha-timepicker>
+<span id="ext-name">Reminder</span>
+<aha-timepicker id="named" aria-labelledby="ext-name" disabled="false" hour-label="Heure" minute-label="Minutes" clear-label="Effacer"></aha-timepicker>
+<aha-timepicker id="fixed" value="17:00" allow-clear="false" aria-label="Fixed"></aha-timepicker>
+<button id="after">after</button>
+<form id="form">
+  <aha-form-item id="time-item" label="Deadline time" name="deadline" required>
+    <aha-timepicker name="deadline" value="17:30"></aha-timepicker>
+  </aha-form-item>
+</form>
+<aha-form-item id="bad-item" label="Reminder" name="reminder" required>
+  <aha-timepicker name="reminder" value="25:00"></aha-timepicker>
+</aha-form-item>
+<div dir="rtl" style="width:300px;margin-inline-start:auto">
+  <aha-timepicker id="rtl" value="09:30" aria-label="RTL"></aha-timepicker>
+</div>
+<script type="module">
+  import '../lib/aha-timepicker.js';
+  import '../lib/aha-form.js';
+  window.log = [];
+  for (const el of document.querySelectorAll('aha-timepicker')) for (const type of ['input', 'change']) el.addEventListener(type, (e) => window.log.push([el.id || 'item', type, e.detail && e.detail.value]));
+  await customElements.whenDefined('aha-timepicker');
+  window.fixtureReady = true;
+</script>

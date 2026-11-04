@@ -1,0 +1,31 @@
+import '@ahaslides-product/design/aha-timepicker'; // registers <aha-timepicker>
+import { useRef, useEffect } from 'react';
+
+// React 18 needs a thin wrapper; React 19 can use <aha-timepicker> directly.
+// Drop-in for antd <TimePicker format="HH:mm" needConfirm={false}>, with the value kept as the 'HH:mm' string (no Day.js).
+function AhaTimepicker({ value, onChange, placeholder, status, disabled, size, allowClear = true, style, ...aria }) {
+  const ref = useRef();
+  useEffect(() => {
+    const el = ref.current;
+    if (el.value !== (value ?? null)) el.value = value ?? null;   // only when it differs: a write refreshes the field's text
+    const h = (e) => onChange?.(e.detail.value);                  // 'HH:mm', or null when cleared
+    el.addEventListener('change', h);
+    return () => el.removeEventListener('change', h);
+  });
+  return (
+    <aha-timepicker
+      ref={ref}
+      style={style}
+      {...aria}                                    // aria-label, aria-labelledby, data-testid
+      {...(placeholder != null ? { placeholder } : {})}
+      {...(status ? { status } : {})}
+      {...(size && size !== 'middle' ? { size } : {})}
+      {...(disabled ? { disabled: '' } : {})}
+      {...(allowClear ? {} : { 'allow-clear': 'false' })}
+    />
+  );
+}
+
+// usage: a required time that can never go empty
+<AhaTimepicker aria-label="Deadline time" value={time} onChange={setTime} allowClear={false} disabled={saving}
+               data-testid="course-deadline-time-input" />
