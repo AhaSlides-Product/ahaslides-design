@@ -36,7 +36,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.1022.0 — 2026-11-04
 ### Added
 - Button: `size="inline"` for `variant="text-link"`, one approved form for a control inside a sentence. It has no padding, border or fill, takes the sentence's font and line height, and keeps the hover, press and keyboard focus treatment of text-link. At `sm` the same text-link added 8px each side and grew the line from 21px to 28px. With `href` it renders `<a href>` and navigates; without one it renders `<button>` and acts on the page, with `aria-expanded` or `pressed` for a toggle. The rule is in the Button contract. (#667)
-- Button: `size="inline"` is underlined at rest, its text is selectable, a wrapped button label aligns to the start, and it draws no icon, spinner or shortcut, so a line never grows. The new `inline-button` screen-lint rule hard-fails it without `variant="text-link"` or with `shortcut`. (#667)
+- Button: `size="inline"` is underlined at rest, its text is selectable, a wrapped button label aligns to the start, and it draws no icon, spinner or shortcut, so a line never grows. The new `inline-button` screen-lint rule hard-fails a fixed variant other than `text-link`, no variant, or `shortcut`; a variant bound at runtime is not flagged. (#667)
 
 ### Changed
 - Background task: the `link` slot uses the approved form, `<aha-button variant="text-link" size="inline">`, in the contract and preview, replacing `<a href="#" role="button">`. (#667)
