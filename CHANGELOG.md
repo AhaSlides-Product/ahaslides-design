@@ -33,6 +33,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.977.1 — 2026-11-04
+
+### Fixed
+- **Avatar group never shows a solid pink avatar** (#632). The default tint cycle was Vivid Pink 5%, 30%, then solid
+  Vivid Pink 100 with white initials, so a third child (or one left alone among hidden siblings) competed with a
+  primary button. It is now a four-step cycle of Vivid Pink 5%, grey 40, grey 25 and grey 50 with ink #1A1A1A
+  (11.7:1 or better); the +N chip moves to grey 60 so it stays distinct. The `color` attribute still overrides.
+
 ## 0.977.0 — 2026-11-04
 
 ### Added
