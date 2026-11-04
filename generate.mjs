@@ -3386,7 +3386,7 @@ function renderIconGallery() {
   const extraCss = `
   .lib-tabs{display:flex;gap:4px;margin:4px 0 16px;border-bottom:1px solid var(--aha-split)}
   .lib-tab{font-family:var(--aha-font-product);font-size:14px;font-weight:600;color:var(--aha-text-secondary);background:transparent;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;padding:8px 14px 10px;cursor:pointer}
-  .lib-tab b{opacity:.6;font-weight:600;margin-left:4px}
+  .lib-tab b{font-weight:400;margin-left:4px}
   .lib-tab[aria-selected="true"]{color:var(--aha-text-default);border-bottom-color:var(--aha-color-primary)}
   .lib-tab:hover{color:var(--aha-text-default)}
   .lib-tab:focus-visible{outline:2px solid var(--aha-color-primary);outline-offset:2px}
