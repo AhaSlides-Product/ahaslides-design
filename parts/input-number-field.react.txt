@@ -1,0 +1,41 @@
+import '@ahaslides-product/design/aha-input-number'; // registers <aha-input-number>
+import { useRef, useEffect } from 'react';
+
+// React 18 needs a thin wrapper; React 19 can use <aha-input-number> directly.
+// Drop-in for antd <InputNumber>: onChange gets a number (a string with stringMode) or null when empty.
+function AhaInputNumber({ value, onChange, stringMode, min, max, step, precision, controls = true,
+                          placeholder, status, disabled, readOnly, size, prefix, addonAfter, style, ...aria }) {
+  const ref = useRef();
+  useEffect(() => {
+    const el = ref.current;
+    el.value = value ?? null;
+    const h = (e) => onChange?.(e.detail.value);   // fires on every value change, like antd onChange
+    el.addEventListener('input', h);
+    return () => el.removeEventListener('input', h);
+  });
+  return (
+    <aha-input-number
+      ref={ref}
+      style={style}
+      placeholder={placeholder}
+      {...aria}                                    // aria-label, aria-labelledby, data-testid
+      {...(min != null ? { min: String(min) } : {})}
+      {...(max != null ? { max: String(max) } : {})}
+      {...(step != null ? { step: String(step) } : {})}
+      {...(precision != null ? { precision: String(precision) } : {})}
+      {...(stringMode ? { 'string-mode': '' } : {})}
+      {...(controls ? {} : { controls: 'false' })}
+      {...(status ? { status } : {})}
+      {...(size && size !== 'middle' ? { size } : {})}
+      {...(disabled ? { disabled: '' } : {})}
+      {...(readOnly ? { readonly: '' } : {})}
+      {...(prefix ? { prefix } : {})}
+      {...(addonAfter ? { suffix: addonAfter } : {})}
+    />
+  );
+}
+
+// usage: a predicate value kept as a string, and a min / max range filter
+<AhaInputNumber stringMode placeholder="Value" aria-label="Value" value={text} onChange={setText}
+                data-testid="predicate-value" style={{ minWidth: 160 }} />
+<AhaInputNumber controls={false} placeholder="Min" aria-label="Minimum" value={min} onChange={setMin} style={{ width: '100%' }} />
