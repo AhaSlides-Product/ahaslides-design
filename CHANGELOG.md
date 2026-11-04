@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.985.0 — 2026-11-04
 ### Added
-- Logo library, Brands tab: a Line / One colour / Original switch (`aha-segmented`, default Line, kept in `?mode=`) shows one larger version per card, with a one-line rule per version on when to use it, linked to colour rule 2.6 (#PRNUM)
+- Logo library, Brands tab: a Line / One colour / Original switch (`aha-segmented`, default Line, kept in `?mode=`) shows one larger version per card, with a one-line rule per version on when to use it, linked to colour rule 2.6 (#639)
 
 ## 0.984.0 — 2026-11-04
 
