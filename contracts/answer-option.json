@@ -54,6 +54,10 @@
       "value": "opt-in: a 24px chip (6px corners, 14/600 tabular, deck ink, 1px ink-at-20% border) replaces the radio or checkbox control and carries the pick: filled with the deck accent mark and a white letter on my pick; hidden from assistive technology, the row keeps its radio or checkbox role"
     },
     {
+      "label": "No control (no-control)",
+      "value": "opt-in: removes the radio or checkbox control from the row, for rows that are already big filled buttons (True or False); the control stays in the DOM visually hidden (1px, clipped, out of the flex flow) so there is no gap or indent and the focus target, role, aria and tab stops are unchanged, including the other row and an empty expandable row; tones, stroke, dimming, the verdict mark and the bold label are unchanged. With letter the chip lives inside the control, so it goes too. The pick is then carried by the full-ink 1px stroke (12% ink at rest), the 600 label weight and aria-checked; after the reveal the tone edge, the tint and the verdict mark"
+    },
+    {
       "label": "Roving focus (roving)",
       "value": "opt-in: the sibling rows are one Tab stop (the last focused open row, else the first pick, else the first open row); Arrow keys move (and pick, in single mode), Home and End jump to the first and last open row, Space or Enter picks; without it every open row stays its own Tab stop"
     },
@@ -132,6 +136,12 @@
       "type": "string",
       "default": "—",
       "desc": "Opt-in. The option letter (A, B, C) in a 24px chip in place of the radio or checkbox; the chip fills with the deck accent mark on my pick. Visual only: hidden from assistive technology"
+    },
+    {
+      "name": "no-control",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Opt-in. Hides the radio or checkbox control (and the letter chip inside it) when the row is already a big filled button, as on True or False. The control stays focusable but visually hidden, so focus, role and keyboard behaviour are unchanged; the pick shows on the stroke and the bold label"
     },
     {
       "name": "roving",

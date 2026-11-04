@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1010.0 — 2026-11-04
+## 0.1012.0 — 2026-11-04
 ### Added
 - `aha-card-select` takes `min-tile-width`: it keeps `columns` while a tile can stay that wide, then wraps to fewer, reading the element's own width, so `columns="3" min-tile-width="110"` drops to 2 across inside a narrow modal (#656)
 - `empty-courses` and `empty-automation` join the `empty-*` illustrations (#656)
@@ -41,6 +41,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Fixed
 - DataTable filter panels and the Edit columns panel stay inside the viewport from 320px with no page overflow. antd's corner placements only flip, so a panel too wide for either side of a mid-table trigger stayed off-screen and `placement` looked ignored; they now shift along the edge (#656)
 - `screen-lint` `multi-primary` no longer counts primary buttons in opposite arms of a ternary as two loud actions; only the louder arm counts (#656)
+
+## 0.1010.0 — 2026-11-04
+### Added
+- Answer option: `no-control` attribute hides the radio or checkbox control for rows that are already big filled buttons, such as True or False. The control stays in the DOM, visually hidden, so focus, role and keyboard behaviour are unchanged on plain, `other` and empty `expandable` rows; tones, stroke, dimming, the verdict mark and the bold label are untouched, and a row without the attribute renders exactly as before. With `letter` the chip goes too. (#660)
 
 ## 0.1005.1 — 2026-11-04
 ### Fixed
