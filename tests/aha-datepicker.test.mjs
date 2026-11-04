@@ -36,8 +36,11 @@ test('aha-datepicker types, picks by keyboard and mouse, keeps min / max, clears
     await press('ArrowRight');
     await press('End');
     out.movedActive = await active('plain');
+    const activeId = () => evaluate(`${field('plain')}.getAttribute('aria-activedescendant')`);
+    const idBefore = await activeId();
     await press('PageDown');
     out.clampedToMax = await active('plain');
+    out.newActiveId = idBefore !== await activeId();
     out.disabledAfterMax = await evaluate(`${root('plain')}.querySelector('td[data-date][aria-label*="16 December"]').getAttribute('aria-disabled')`);
     await press('Enter');
     out.picked = await state('plain');
@@ -73,10 +76,37 @@ test('aha-datepicker types, picks by keyboard and mouse, keeps min / max, clears
     await click(`${root('plain')}.querySelector('.clear')`);
     out.cleared = [...(await state('plain')), await evaluate('window.log.slice(-1)[0]')];
 
+    await evaluate(`document.getElementById('plain').focus()`);
+    await evaluate(`${field('plain')}.select()`);
+    await type('\uFF12\uFF10\uFF12\uFF16\uFF0D\uFF11\uFF11\uFF0D\uFF10\uFF13');
+    await press('Enter');
+    out.fullWidthCommits = await state('plain');
+
+    await evaluate(`${field('plain')}.select()`);
+    await type('2026-11-10');
+    await press('ArrowDown');
+    await press('ArrowRight');
+    await press('Enter');
+    out.arrowAfterTyping = await state('plain');
+
+    await press('ArrowDown');
+    await evaluate(`${field('plain')}.select()`);
+    await type('2026-11-20');
+    await evaluate(`${field('plain')}.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', keyCode: 229, bubbles: true }))`);
+    out.imeEnterIgnored = [await evaluate(`document.getElementById('plain').open`), ...(await state('plain'))];
+    await press('Escape');
+
     out.named = await evaluate(`(() => { const f = ${field('named')}; return [f.getAttribute('aria-label'), f.getAttribute('role'), f.disabled, f.placeholder]; })()`);
     await evaluate(`document.getElementById('named').value = '2026-03-01'; document.getElementById('named').open = true`);
     out.sundayFirst = await evaluate(`[[...${root('named')}.querySelectorAll('th')].map((th) => th.getAttribute('abbr'))[0], ${root('named')}.querySelector('.title').textContent, ${root('named')}.querySelector('tbody tr td[data-date]').cellIndex]`);
     await evaluate(`document.getElementById('named').open = false`);
+    await evaluate(`document.getElementById('named').setAttribute('locale', 'th-TH'); document.getElementById('named').open = true`);
+    out.gregorianTitle = await evaluate(`${root('named')}.querySelector('.title').textContent.includes('2026')`);
+    await evaluate(`document.getElementById('named').open = false; document.getElementById('named').value = null`);
+    await evaluate(`${field('named')}.focus()`);
+    await type('2026-05-06');
+    await evaluate(`document.getElementById('named').value = null; document.activeElement.blur()`);
+    out.clearedTyping = await evaluate(`[document.getElementById('named').value, ${field('named')}.value]`);
 
     out.itemValue = await evaluate(`(() => { const item = document.getElementById('date-item'); return [item.value, JSON.stringify([...new FormData(document.getElementById('form'))])]; })()`);
     out.itemWidth = await evaluate(`getComputedStyle(document.querySelector('#date-item aha-datepicker')).width === getComputedStyle(document.getElementById('date-item').shadowRoot.querySelector('.body')).width`);
@@ -84,6 +114,7 @@ test('aha-datepicker types, picks by keyboard and mouse, keeps min / max, clears
     out.required = await evaluate(`document.getElementById('date-item').validate()`);
     await evaluate(`document.getElementById('date-item').reset()`);
     out.reset = await evaluate(`document.getElementById('date-item').value`);
+    out.impossibleRequired = await evaluate(`(async () => [document.getElementById('bad-item').value, await document.getElementById('bad-item').validate()])()`);
     return out;
   }, { readyExpr: '!!window.fixtureReady' });
 
@@ -91,6 +122,7 @@ test('aha-datepicker types, picks by keyboard and mouse, keeps min / max, clears
   assert.deepEqual(r.startActive, ['November 2026', 'Wednesday 4 November 2026']);
   assert.deepEqual(r.movedActive, ['November 2026', 'Sunday 15 November 2026']);
   assert.deepEqual(r.clampedToMax, ['December 2026', 'Tuesday 15 December 2026']);
+  assert.equal(r.newActiveId, true);
   assert.equal(r.disabledAfterMax, 'true');
   assert.deepEqual(r.picked, ['2026-12-15', '2026-12-15']);
   assert.equal(r.pickedOpen, false);
@@ -99,14 +131,20 @@ test('aha-datepicker types, picks by keyboard and mouse, keeps min / max, clears
   assert.deepEqual(r.outsideMaxReverts, ['2026-12-15', '2026-12-15']);
   assert.deepEqual(r.typedCommits, ['2026-10-02', '2026-10-02']);
   assert.deepEqual(r.typeEvents, ['plain:input:2026-10-02', 'plain:change:2026-10-02']);
+  assert.deepEqual(r.fullWidthCommits, ['2026-11-03', '2026-11-03']);
+  assert.deepEqual(r.arrowAfterTyping, ['2026-11-11', '2026-11-11']);
+  assert.deepEqual(r.imeEnterIgnored, [true, '2026-11-11', '2026-11-20']);
   assert.deepEqual(r.escape, [false, '2026-10-02', '2026-10-02']);
   assert.equal(r.clickOpens, true);
   assert.deepEqual(r.clickPicked, ['2026-10-15', '2026-10-15']);
   assert.deepEqual(r.cleared, [null, '', ['plain', 'change', null]]);
   assert.deepEqual(r.named, ['Joined on', 'combobox', false, 'YYYY-MM-DD']);
   assert.deepEqual(r.sundayFirst, ['Sunday', 'March 2026', 0]);
+  assert.equal(r.gregorianTitle, true);
+  assert.deepEqual(r.clearedTyping, [null, '']);
   assert.deepEqual(r.itemValue, ['2026-01-31', '[["joined","2026-01-31"]]']);
   assert.equal(r.itemWidth, true);
   assert.equal(r.required, 'We need this one.');
   assert.equal(r.reset, '2026-01-31');
+  assert.deepEqual(r.impossibleRequired, ['', 'We need this one.']);
 });

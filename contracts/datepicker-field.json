@@ -210,7 +210,7 @@
   ],
   "a11y": {
     "role": "the inner <input> is role=\"combobox\" with aria-haspopup=\"grid\", aria-expanded and aria-controls; the calendar is a role=\"grid\" named by its month heading, each day a gridcell with its full date as its name, aria-selected on the value, aria-current=\"date\" on today and aria-disabled outside min and max; the field points at the keyboard day with aria-activedescendant",
-    "keyboard": "ArrowDown (or Alt+ArrowUp) opens; open: arrows move a day or a week, Home / End the start or end of the week, PageUp / PageDown a month, Shift+PageUp / PageDown a year, Enter picks (or commits a typed date), Escape closes and restores the text, Tab closes. Closed: Enter commits the typed date. The panel buttons are tabindex=-1, so the control is one tab stop",
+    "keyboard": "ArrowDown opens; open: Alt+ArrowUp closes, arrows move a day or a week, Home / End the start or end of the week, PageUp / PageDown a month, Shift+PageUp / PageDown a year, Enter picks (or commits a typed date), Escape closes and restores the text, Tab closes. Closed: Enter commits the typed date. The panel buttons are tabindex=-1, so the control is one tab stop",
     "note": "Escape while the calendar is open does not reach a surrounding modal. The month heading is a polite live region, so paging months is announced."
   },
   "opinion": {
