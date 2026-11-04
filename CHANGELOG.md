@@ -36,10 +36,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 <<<<<<< HEAD
 ## 0.1005.0 — 2026-11-04
 ### Added
-- Paywall: `unlock-label` and `plan-label` attributes so a translated product can pass its own unlock line. `unlock-label` is the whole line and its `{plan}` token becomes the bold plan name (`unlock-label="Mở khoá với gói {plan}."`); `plan-label` renames the plan ("Pro plan" / "Essential plan"). Both render as text, never HTML. With neither set the English line is unchanged. (#)
+- Paywall: `unlock-label` and `plan-label` attributes so a translated product can pass its own unlock line. `unlock-label` is the whole line and its `{plan}` token becomes the bold plan name (`unlock-label="Mở khoá với gói {plan}."`); `plan-label` renames the plan ("Pro plan" / "Essential plan"). Both render as text, never HTML. With neither set the English line is unchanged. (#657)
 
 ### Changed
-- Paywall judge criterion C2 and the paywall guide now describe the shipped two-button popover (Upgrade positive + See all plans secondary, both `<aha-button>`) instead of a single Upgrade CTA; the settings criterion, the paywall evals and the flavour snippets match. The agent copy of the criteria is regenerated. (#)
+- Paywall judge criterion C2 and the paywall guide now describe the shipped two-button popover (Upgrade positive + See all plans secondary, both `<aha-button>`) instead of a single Upgrade CTA; the settings criterion, the paywall evals and the flavour snippets match. The agent copy of the criteria is regenerated. (#657)
 =======
 ## 0.1000.0 — 2026-11-04
 ### Changed
