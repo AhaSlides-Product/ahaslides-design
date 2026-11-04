@@ -33,9 +33,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.987.0 — 2026-11-04
+## 0.989.0 — 2026-11-04
 ### Changed
 - **Brand logos move into the Icon library** (#642). The third-party brand logos, with their Line / One colour / Original switch, the when-to-use rule per version, Stand-in tags, None cells, SVG links, the Line logos and Brand logo colour (rule 2.6) sections and the three copy-paste patterns, are now the Brands tab of the Icon library (`icons/index.html?tab=brands`, `?mode=` kept). The Logo library keeps the AhaSlides logo, The Splash, the favicon set and the lockup rules, and links to the new tab. Old Logo library links (`?tab=brands`, `?mode=`, `#brands`, `#line`, `#third-party-marks`, `#brand-logo-*`) forward to the Brands tab. Rule 2.6 and 2.6a, the C7 criterion, `llms.txt`, `icons.llms.txt`, `icons.agent.json` (`brandLogos`), the environment routes, the aha-design skill and the icon guard hook point at the new home. Logo files, their paths and `logo/manifest.json` are unchanged.
+
+
+## 0.988.0 — 2026-11-04
+### Changed
+- Anti-slop app-shell criterion C6 d: a presenter control-bar key now passes only when the cheatsheet (K) shows it on a panel next to its control, joined by the same line and dot as the Back to Editor, QR code and Confetti panels, and still joined after the bar changes. The judge checks the connector, that its dot sits on the control's on-screen position, and that no panels overlap, from two whole-screen cheatsheet screenshots (at rest and after a bar change). A floating or corner-pinned panel fails even when the key and name match. New eval case 11 covers the floating Annotate panel (#643)
 
 ## 0.985.0 — 2026-11-04
 ### Added

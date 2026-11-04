@@ -98,7 +98,8 @@ Read the list from the DS each time — surfaces get added.
   pickers and menus its buttons open; anything drawn over a live slide, such as ink annotation) is
   always judged on `canvas` plus `app-shell` C6, plus the product-app baseline and every surface it
   touches, whoever builds it. Canvas C10 covers controls a slide renders itself; every control the
-  host paints there is app-shell C6, proved by a recorded keyboard run.
+  host paints there is app-shell C6, proved by a recorded keyboard run and screenshots of the
+  open cheatsheet (each shortcut panel joined to its control).
 
 ## 3. Build
 
