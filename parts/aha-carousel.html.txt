@@ -8,7 +8,7 @@
   // say what the slides are; override all four labels to translate
   gallery.dotLabel = (position, total) => `Go to image ${position} of ${total}`;
   gallery.positionText = (position, total) => `Image ${position} of ${total}`;
-  gallery.addEventListener('change', (e) => console.log('moving to:', e.detail.index, 'from:', e.detail.from));   // antd beforeChange
+  gallery.addEventListener('change', (e) => { if (e.target === gallery) console.log('moving to:', e.detail.index, 'from:', e.detail.from); });   // antd beforeChange; a field in a slide bubbles its own change
   gallery.addEventListener('after-change', (e) => console.log('resting on:', e.detail.index));                    // antd afterChange
 </script>
 

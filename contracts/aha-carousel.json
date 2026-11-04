@@ -14,7 +14,7 @@
     "The element owns the position: index, the dots and the spoken position move together",
     "change at the start of a move, after-change at the end, each fired once"
   ],
-  "lead": "ONE custom element, <aha-carousel>, defined once and imported unchanged by React and Vue: the framework-free counterpart of the antd Carousel, so an app can drop antd and slick for its carousels. It draws what the shared carouselTheme draws (16x4 grey 70 rest dots, a 28 wide brand active dot, 8 between them). Each child element is one slide. There are no cloned slides, so an id or a form field in a slide exists once, and slides that are not showing are inert, so Tab and a screen reader skip them. The element owns the position: `index` moves as a move starts, together with the dots, the arrows and a polite live region that says \"Slide 2 of 5\", so a screen needs no state of its own to announce where the person is. `change` fires once with the destination as a move starts, `after-change` fires once when the track comes to rest. Swipe or drag, the arrows (`arrows`), the dots, or the Left and Right keys on any control all move it. Autoplay, fade and vertical dots stay on the antd Carousel composite.",
+  "lead": "ONE custom element, <aha-carousel>, defined once and imported unchanged by React and Vue: the framework-free counterpart of the antd Carousel, so an app can drop antd and slick for its carousels. It draws what the shared carouselTheme draws (16x4 grey 70 rest dots, a 28 wide brand active dot, 8 between them). Each child element is one slide. There are no cloned slides, so an id or a form field in a slide exists once, and slides that are not showing are inert, so Tab and a screen reader skip them. The element owns the position: `index` moves as a move starts, together with the dots, the arrows and a polite live region that says \"Item 2 of 5\", so a screen needs no state of its own to announce where the person is. `change` fires once with the destination as a move starts, `after-change` fires once when the track comes to rest. Swipe or drag, the arrows (`arrows`), the dots, or the Left and Right keys on any control all move it. Autoplay, fade and vertical dots stay on the antd Carousel composite.",
   "codeNote": "antd Carousel → <aha-carousel>: children → child elements, each one slide (no wrapper div is needed) · arrows → arrows · dots → on by default, dots=\"false\" removes them · adaptiveHeight → adaptive-height · infinite → loop, off by default: without it the ends stop and the arrow there turns disabled; add it to keep antd's default wrap (the track runs back across the slides, because nothing is cloned) · initialSlide → index · beforeChange(from, to) → the `change` event, e.detail = { index, from } · afterChange(current) → the `after-change` event, e.detail = { index }; a second press during a move gives one after-change, for where the track came to rest · goTo(i) / next() / prev() → the same methods; they fire both events, and setting `index` moves the track silently · prevArrow / nextArrow → prev-label and next-label: the arrows are always <aha-button> with the caret glyphs, which flip right to left · customPaging → the `dotLabel` property, a function (position, total) => string, position counting from 1 · a hand-built role=\"status\" region → the `positionText` property, same signature, or nothing for the default · reading the position → `carousel.index`, zero-based, and `carousel.count`; there is no need for React state to name the dots or to drive aria-current · autoplay, fade, dotPosition, vertical, speed: not supported, use the antd Carousel composite. React 18: set the function properties through a ref and listen with ref.current.addEventListener('change' | 'after-change', …), since React 18 does not wire CustomEvents; pass a boolean as present or absent ({...(loop ? { loop: '' } : {})}). A native change event from a field inside a slide also bubbles through the element, so check e.target === e.currentTarget if a slide holds a form. React 19 can use the element directly. Vue binds it natively (:index.prop, :dot-label.prop, @change, @after-change).",
   "tokensUsed": [
     "gray-70",
@@ -85,7 +85,7 @@
     },
     {
       "label": "Swipe",
-      "value": "sideways past 72px, or a quarter of the width if smaller, or a flick; otherwise it springs back. Past the first or last slide the drag resists to 30%. Vertical movement stays with the page; a drag that starts on a control in a slide is left to it"
+      "value": "sideways past 72px, or a quarter of the width if smaller, or a flick; otherwise it springs back. Past the first or last slide the drag resists to 30%. Vertical movement and pinch zoom stay with the page. A drag that starts on a field, a slider or a media control in a slide is left to it; one that starts on a link or button moves the track and does not click it, and a press stays a click"
     },
     {
       "label": "One slide, none",
@@ -93,7 +93,7 @@
     },
     {
       "label": "Right to left",
-      "value": "in a dir=\"rtl\" context the slides run from the right, swipes reverse, ArrowLeft / ArrowRight swap and the caret glyphs flip"
+      "value": "in a dir=\"rtl\" context (the attribute, not CSS direction) the slides run from the right, swipes reverse, ArrowLeft / ArrowRight swap and the caret glyphs flip"
     },
     {
       "label": "From antd",
@@ -140,19 +140,19 @@
     {
       "name": "prev-label / next-label",
       "type": "string",
-      "default": "Previous slide / Next slide",
+      "default": "Previous item / Next item",
       "desc": "Name the arrows; override to translate, or to name the content (\"Previous image\")"
     },
     {
       "name": "dotLabel",
       "type": "(position: number, total: number) => string",
-      "default": "Go to slide 2 of 5",
+      "default": "Go to item 2 of 5",
       "desc": "Names one dot (antd customPaging); a property, position counting from 1. Override to translate"
     },
     {
       "name": "positionText",
       "type": "(position: number, total: number) => string",
-      "default": "Slide 2 of 5",
+      "default": "Item 2 of 5",
       "desc": "The polite live region's text after each move; a property, position counting from 1. Override to translate"
     },
     {
@@ -171,7 +171,7 @@
       "name": "change",
       "type": "CustomEvent<{index: number, from: number}>",
       "default": "—",
-      "desc": "Composed; fires once as a move starts, with the destination already in `index` (antd beforeChange)"
+      "desc": "Fires once on the element as a move starts, with the destination already in `index` (antd beforeChange). It does not bubble, so a form or tabs around the carousel never read it as their own. A native change from a field in a slide does bubble through, so check e.target === carousel"
     },
     {
       "name": "after-change",
@@ -182,7 +182,7 @@
   ],
   "a11y": {
     "role": "the carousel is a named role=\"group\"; the active dot has aria-current=\"true\"; slides that are not showing are inert; a polite live region says the position after each move",
-    "keyboard": "on an arrow or a dot, ArrowLeft / ArrowRight step (they swap right to left) and Home / End jump to the first and last; the dots are one tab stop and focus follows the active dot. Keys pressed inside a slide stay with the slide",
+    "keyboard": "on an arrow or a dot, ArrowLeft / ArrowRight step (they swap right to left) and Home / End jump to the first and last; the dots are one tab stop and focus follows the active dot. Keys pressed inside a slide stay with the slide. If a move takes focus off the slide it was in, focus lands on the carousel, so Tab carries on from the showing slide",
     "note": "Name the carousel with aria-label or aria-labelledby. Say what the slides are in the labels (\"Next image\", \"Go to image 2 of 5\", \"Image 2 of 5\")."
   },
   "opinion": {
@@ -208,7 +208,7 @@
         "when": "a row of chips or cards where several show at once"
       }
     ],
-    "note": "Keep it to a handful of slides and keep the dots, so people know there is more. Name what the slides are in the labels: \"Next image\" says more than \"Next slide\".",
+    "note": "Keep it to a handful of slides and keep the dots, so people know there is more. Name what the slides are in the labels: \"Next image\" says more than \"Next item\". A carousel showing deck slides overrides the labels back to \"slide\" (\"Next slide\").",
     "dsv3": "COVERED — the DS V3 Carousel look as carouselTheme renders it on antd v6 (dots, active dot, focus ring), with the Button for the arrows."
   },
   "surfaces": [

@@ -25,8 +25,9 @@ test('aha-carousel keeps one set of slides, moves by arrow, dot, key and swipe, 
       await command('Input.dispatchMouseEvent', { type: 'mousePressed', x, y, button: 'left', buttons: 1, clickCount: 1 });
       await command('Input.dispatchMouseEvent', { type: 'mouseReleased', x, y, button: 'left', buttons: 0, clickCount: 1 });
     };
-    const drag = async (id, dx, dy = 0) => {
-      const { x, y } = await centre(part(id, '.viewport'));
+    const drag = (id, dx, dy = 0) => dragFrom(part(id, '.viewport'), dx, dy);
+    const dragFrom = async (expression, dx, dy = 0) => {
+      const { x, y } = await centre(expression);
       const points = (px, py) => ({ touchPoints: [{ x: px, y: py, id: 1 }] });
       await command('Input.dispatchTouchEvent', { type: 'touchStart', ...points(x, y) });
       for (let step = 1; step <= 6; step += 1) {
@@ -165,6 +166,106 @@ test('aha-carousel keeps one set of slides, moves by arrow, dot, key and swipe, 
     out.restReduced = await restLatency('rtl');
     await log();
 
+    const byId = (id) => `document.getElementById('${id}')`;
+    const toGestureStart = `(async () => { const c = document.getElementById('gesture'); c.index = 0; await new Promise((done) => setTimeout(done, 20)); window.log.splice(0); window.clicks = []; })()`;
+    await evaluate(`document.addEventListener('click', (e) => { (window.clicks = window.clicks || []).push(e.target.id || e.target.localName); })`);
+
+    await evaluate(toGestureStart);
+    await dragFrom(byId('away'), -120);
+    await wait(50);
+    out.swipeFromLink = [await log(), await evaluate('window.clicks')];
+    await evaluate(toGestureStart);
+    await drag('gesture', -120);
+    await wait(50);
+    out.clickAfterTouchSwipe = await evaluate(`(() => { const b = document.getElementById('there'); let got = 0; b.addEventListener('click', () => { got += 1; }, { once: true }); b.click(); return got; })()`);
+
+    await evaluate(toGestureStart);
+    await dragFrom(byId('field'), -120);
+    await wait(50);
+    out.swipeFromField = await log();
+    await click(byId('press'));
+    await wait(50);
+    out.pressStaysClick = await evaluate('window.clicks');
+
+    const edge = await evaluate(`(() => { const b = ${part('gesture', '.viewport')}.getBoundingClientRect(); return { x: b.left + b.width / 2, y: b.bottom - 1 }; })()`);
+    await command('Input.dispatchMouseEvent', { type: 'mousePressed', x: edge.x, y: edge.y, button: 'left', buttons: 1, clickCount: 1 });
+    await command('Input.dispatchMouseEvent', { type: 'mouseMoved', x: edge.x, y: edge.y + 4, button: 'left', buttons: 1 });
+    await command('Input.dispatchMouseEvent', { type: 'mouseReleased', x: edge.x, y: edge.y + 4, button: 'left', buttons: 0, clickCount: 1 });
+    await command('Input.dispatchMouseEvent', { type: 'mouseMoved', x: edge.x, y: edge.y - 2, button: 'none', buttons: 0 });
+    await command('Input.dispatchMouseEvent', { type: 'mouseMoved', x: edge.x - 60, y: edge.y - 2, button: 'none', buttons: 0 });
+    out.releasedOutside = await evaluate(`document.getElementById('gesture').hasAttribute('_dragging')`);
+
+    await evaluate(toGestureStart);
+    out.moves = await evaluate(`(async () => {
+      const c = document.getElementById('gesture'), settle = () => new Promise((done) => setTimeout(done, 20));
+      let bubbled = 0;
+      const count = () => { bubbled += 1; };
+      document.body.addEventListener('change', count);
+      const fraction = [c.goTo(1.5), c.getAttribute('index')];
+      document.body.removeEventListener('change', count);
+      c.index = 0.7;
+      fraction.push(c.getAttribute('index'));
+      await settle();
+      c.append(document.createElement('div'));
+      const appended = [c.count, c.goTo(3), c.index];
+      await settle();
+      c.lastElementChild.remove();
+      await settle();
+      return { fraction, bubbled, appended };
+    })()`);
+    out.fractionLog = await log();
+
+    await evaluate(toGestureStart);
+    out.focus = await evaluate(`(async () => {
+      const c = document.getElementById('gesture'), r = c.shadowRoot;
+      document.getElementById('press').focus();
+      c.goTo(1);
+      const held = [document.activeElement.id, r.activeElement && r.activeElement.className];
+      document.getElementById('there').focus();
+      const dots = r.querySelectorAll('.dot');
+      c.index = 2;
+      dots[2].focus();
+      c.lastElementChild.remove();
+      await new Promise((done) => setTimeout(done, 20));
+      const dotGone = r.activeElement && r.activeElement.className;
+      r.querySelector('.carousel').blur();
+      return [...held, dotGone, r.querySelector('.carousel').hasAttribute('tabindex')];
+    })()`);
+    await log();
+
+    out.lateCopy = await evaluate(`(async () => {
+      const c = document.getElementById('quiet'), live = c.shadowRoot.querySelector('aha-live-region');
+      let spoken = 0;
+      new MutationObserver((changes) => { if (live.textContent) spoken += changes.length; }).observe(live, { childList: true, characterData: true, subtree: true });
+      c.positionText = (p, t) => 'Image ' + p + ' of ' + t;
+      await new Promise((done) => setTimeout(done, 100));
+      c.append(document.createElement('div'));
+      await new Promise((done) => setTimeout(done, 100));
+      const quiet = spoken;
+      c.next();
+      await new Promise((done) => setTimeout(done, 100));
+      return [quiet, live.textContent];
+    })()`);
+    await log();
+
+    out.images = await evaluate(`(async () => {
+      const png = (w, h) => { const k = document.createElement('canvas'); k.width = w; k.height = h; return k.toDataURL(); };
+      const [wide, square] = document.querySelectorAll('#images img');
+      wide.src = png(800, 200);
+      square.src = png(800, 800);
+      await Promise.all([wide.decode(), square.decode()]);
+      const b = wide.getBoundingClientRect();
+      return b.height / b.width;
+    })()`);
+
+    out.hiddenAdaptive = await evaluate(`(async () => {
+      const c = document.getElementById('late'), v = c.shadowRoot.querySelector('.viewport');
+      const hidden = v.style.height;
+      c.style.display = '';
+      await new Promise((done) => requestAnimationFrame(() => setTimeout(done, 20)));
+      return [hidden, getComputedStyle(v).height];
+    })()`);
+
     out.removed = await evaluate(`(async () => {
       const c = document.getElementById('plain');
       c.goTo(2);
@@ -181,9 +282,9 @@ test('aha-carousel keeps one set of slides, moves by arrow, dot, key and swipe, 
 
   assert.deepEqual(r.opening, {
     index: 0, attr: null, inert: [false, true, true], current: ['true', null, null], tabbable: [0, -1, -1],
-    status: 'Slide 1 of 3', prevOff: true, nextOff: false,
+    status: 'Item 1 of 3', prevOff: true, nextOff: false,
   });
-  assert.deepEqual(r.names, ['Previous slide', 'Next slide', 'Go to slide 1 of 3', 'Photos', 'group']);
+  assert.deepEqual(r.names, ['Previous item', 'Next item', 'Go to item 1 of 3', 'Photos', 'group']);
   assert.deepEqual(r.geometry, [28, 4, 16, 8, 'rgb(138, 138, 138)', 24]);
   assert.deepEqual(r.ids, [1, 4, 3]);
 
@@ -191,7 +292,7 @@ test('aha-carousel keeps one set of slides, moves by arrow, dot, key and swipe, 
   assert.deepEqual(r.afterArrow, ['plain:change:1:1', 'plain:after-change:1:1']);
   assert.deepEqual(r.second, {
     index: 1, attr: '1', inert: [true, false, true], current: [null, 'true', null], tabbable: [-1, 0, -1],
-    status: 'Slide 2 of 3', prevOff: false, nextOff: false,
+    status: 'Item 2 of 3', prevOff: false, nextOff: false,
   });
 
   assert.equal(r.atEnd.index, 2);
@@ -229,4 +330,16 @@ test('aha-carousel keeps one set of slides, moves by arrow, dot, key and swipe, 
   assert.ok(r.restWithMotion >= 250, `after-change waits for the track, got ${r.restWithMotion}ms`);
   assert.ok(r.restReduced < 100, `reduced motion rests at once, got ${r.restReduced}ms`);
   assert.deepEqual(r.removed, [1, 2, 2, false, false]);
+
+  assert.deepEqual(r.swipeFromLink, [['gesture:change:1:1', 'gesture:after-change:1:1'], []]);
+  assert.equal(r.clickAfterTouchSwipe, 1);
+  assert.deepEqual(r.swipeFromField, []);
+  assert.deepEqual(r.pressStaysClick, ['press']);
+  assert.equal(r.releasedOutside, false);
+  assert.deepEqual(r.moves, { fraction: [true, '1', '0'], bubbled: 0, appended: [4, true, 3] });
+  assert.ok(r.fractionLog.includes('gesture:change:1:1'), r.fractionLog.join());
+  assert.deepEqual(r.focus, ['gesture', 'carousel', 'carousel', false]);
+  assert.deepEqual(r.lateCopy, [0, 'Image 2 of 4']);
+  assert.equal(r.images, 0.25);
+  assert.deepEqual(r.hiddenAdaptive, ['', '100px']);
 });
