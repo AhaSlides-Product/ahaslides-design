@@ -3342,6 +3342,7 @@ const GALLERY_JS = `
     fam=chip.dataset.fam;apply();
     if(!push)return;
     var u=new URL(location.href);u.searchParams.delete('tab');u.searchParams.delete('mode');
+    if(${JSON.stringify(MOVED_BRAND_ANCHORS)}.indexOf(decodeURIComponent(u.hash.slice(1)))>=0)u.hash='';
     if(fam==='all')u.searchParams.delete('family');else u.searchParams.set('family',fam);
     history.replaceState(history.state,'',u);
   }
