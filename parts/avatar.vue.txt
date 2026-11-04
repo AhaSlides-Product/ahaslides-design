@@ -17,6 +17,11 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
     <aha-avatar name="Katherine Johnson" />
   </aha-avatar-group>
 
+  <!-- Tooltips: `tooltip` per avatar (bare = its name), `overflow-tooltip` lists the hidden names on +N, `add-tooltip` names the + button -->
+  <aha-avatar-group max="3" overflow-tooltip add add-label="Add collaborators" add-tooltip @aha-add="openInvite">
+    <aha-avatar v-for="person in people" :key="person.id" :name="person.name" :src="person.photo" :tooltip="person.name" />
+  </aha-avatar-group>
+
   <!-- `add` appends a round + button; it fires a bubbling `aha-add` -->
   <aha-avatar-group add add-label="Invite people" @aha-add="openInvite">
     <aha-avatar name="Ada Lovelace" />

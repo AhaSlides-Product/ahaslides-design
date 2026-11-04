@@ -100,6 +100,30 @@
     </aha-dropdown>
   </div>
 </div>
+<div class="pad">
+  <div class="lbl">Per-row selected: the Visibility submenu marks its current choice; Copy link stays a plain action</div>
+  <div class="row" style="align-items:flex-start; min-height:200px">
+    <aha-dropdown id="share-visibility" label="Share"
+      items='[
+        {"key":"copy","label":"Copy link","icon":"system-link"},
+        {"key":"visibility","label":"Visibility","icon":"system-eye","children":[
+          {"key":"private","label":"Only me","selected":false},
+          {"key":"workspace","label":"Workspace","selected":true},
+          {"key":"public","label":"Anyone with the link","selected":false}
+        ]}
+      ]'>
+    </aha-dropdown>
+  </div>
+</div>
+<script type="module">
+  const share = document.getElementById('share-visibility');
+  share.addEventListener('select', (e) => {
+    if (e.detail.key === 'copy') return;
+    const items = JSON.parse(share.getAttribute('items'));
+    items[1].children.forEach((row) => { row.selected = row.key === e.detail.key; });
+    share.setAttribute('items', JSON.stringify(items));
+  });
+</script>
 <script type="module">
   import '../lib/icons.js';         // registers <aha-icon> so the caret + leading glyphs resolve from the DS library
   import '../lib/aha-button.js';    // the kebab trigger is an icon-only aha-button
