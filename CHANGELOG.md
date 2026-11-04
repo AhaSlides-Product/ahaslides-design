@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1002.0 — 2026-11-04
 ### Added
-- `<aha-empty size="small">` for a side panel or inspector about 240 to 320 px wide (an editor inspector with no options): the empty-list art at 32 px, 16/12 padding, gap 8 and a 12 px caption; it combines with every `image` mode (`image="none"` for text only). The Empty state guideline, its guide, the contract and the snippets say when to use it instead of the default size or the pattern's compact scale (#NNN)
+- `<aha-empty size="small">` for a side panel or inspector about 240 to 320 px wide (an editor inspector with no options): the empty-list art at 32 px, 16/12 padding, gap 8 and a 12 px caption; it combines with every `image` mode (`image="none"` for text only). The Empty state guideline, its guide, the contract and the snippets say when to use it instead of the default size or the pattern's compact scale (#655)
 
 ## 0.998.2 — 2026-11-04
 ### Fixed
