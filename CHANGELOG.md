@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1012.0 — 2026-11-04
+## 0.1013.0 — 2026-11-04
 ### Added
 - Paywall: `mark-label` attribute, the accessible name of the crown upgrade mark, so a translated product can pass its own. It applies only when the mark is the anchor and a later change applies in place. (#658)
 - Paywall: public `close()` method, for a host closing the popover from code. It returns focus to the element that opened it, and leaves focus alone when no opener was recorded and focus is not inside the popover. Click-away and the two buttons still close without moving focus. (#658)
@@ -47,6 +47,16 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Paywall: an open popover no longer closes itself inside a drawer. The visibility check counted the body as a clip box, and a drawer's scroll lock sets body overflow on a body as tall as the page behind it; the visibility check now walks the flat tree (slotted content in an `aha-drawer` included), applies each ancestor's clip and stops at a fixed-position ancestor, and the body clips only when its overflow does not propagate to the viewport. Real scroll containers still clip. (#658)
 - Paywall: `toggleLockedPaywall` records the opener only from the path up to the row's own handler, so a focusable ancestor (`main tabindex=-1`, a drawer body) is never the opener; focus restore works on a `delegatesFocus` host such as `aha-button` and does not scroll; an element connected already open records its opener; an empty `mark-label` keeps the default name. (#658)
 - Paywall: the focus fallback no longer matches the aria-hidden mark in the popover header, so a slotted anchor gets focus back. (#658)
+
+## 0.1011.0 — 2026-11-04
+### Added
+- Token `--aha-viz-mix-fade` (15%): the opacity of a chart mark out of focus on hover or keyboard focus (#652)
+
+### Changed
+- **The `aha-chart` brand series order is now Vivid Pink, Vivid Pink at 30%, dark grey `#303030`, light grey `#A8A8A8`** (#652). `--aha-viz-series-2` and `-6` are Vivid Pink at 30%, `--aha-viz-series-3` is dark grey, and tint 3 and 4 are `gray-20`. A host that reads `--aha-viz-series-2` or `-3` directly for a dark mark gets a different colour: pick the series by colour. Colour rule 8.1, section 10 and v33, decided by Dave Bui
+- **Marks out of focus on hover or keyboard focus fade to 15%, their text stays at 40%** (#652), so a faded Vivid Pink cannot pass for the 30% series. New colour rule 8.6. `highlight-top` at rest stays at `--aha-viz-mix-dim`
+- With no host palette, a word cloud sets the words in the pale series in secondary ink, because Vivid Pink at 30% and light grey miss 3 to 1 on white (#652)
+- The NPS detractor default is the second series, so it is now pale pink; it draws as a solid colour over the bracket track when the host sets no `colors` (#652)
 
 ## 0.1010.0 — 2026-11-04
 ### Added

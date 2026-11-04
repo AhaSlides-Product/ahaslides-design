@@ -116,7 +116,7 @@
     },
     {
       "id": "series-order",
-      "rule": "Colour series in the chart order (Vivid Pink, black, Vivid Pink at 30%, light grey #A8A8A8), the main series first. A breakdown with more than four parts shows the top three by value and folds the rest into Other, in light grey and last. Never more than four colours.",
+      "rule": "Colour series in the chart order (Vivid Pink, Vivid Pink at 30%, dark grey #303030, light grey #A8A8A8), the main series first. A breakdown with more than four parts shows the top three by value and folds the rest into Other, in light grey and last. Never more than four colours.",
       "ref": [
         "C3"
       ]
