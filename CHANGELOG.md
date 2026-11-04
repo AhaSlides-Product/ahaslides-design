@@ -33,12 +33,21 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.977.2 — 2026-11-04
+## 0.979.1 — 2026-11-04
 
 ### Fixed
 - **The Site navbar preview shows its open menu** (#634). The preview frame was sized to the closed navbar, so the
   Products, Solutions and Resources panels were clipped and looked blank. A layout can now set `previewMinHeight`;
   the Site navbar reserves 560 px so the open panel fits.
+
+## 0.979.0 — 2026-11-04
+### Changed
+- Colour rule 2.6: a third-party logo in any interface (website header, pricing row, presenter app) is its line mark from `logo/line/` in `--aha-icon-default`, 24px, with no tile or border; a row after a label sits 12px after it and 8px apart. Only a listing page (Marketplace) shows the colour image, greyscale at rest and in colour on card hover and keyboard focus, with no fade under reduced motion. Anti-slop C7, the colour evals, the skill, AGENTS.md and PRINCIPLES.md follow. (#557)
+- Navigation: the Products menu app entries show the line logos straight on the menu, without the white square tile. (#557)
+- Integration card: the logo is the colour file with the `brand-logo-listing` class, greyscale until the card is hovered or focused. The `brand-logo-colour` lint accepts that class. (#557)
+- Colour rule 2.6 finalised: provider sign-in buttons (Google, Microsoft, Apple) keep the provider's full-colour mark; a navigation-menu logo stays in its ink on hover; a line logo as a tab or menu icon takes the item's text colour (pink when active); a Coming soon card hovers like a live one; a decorative logo row next to named cards may omit the names. Rule 2.6a: social links use line logos. (#557)
+### Added
+- Logo library: line marks for 29 brands under `logo/line/`, a G2 logo (original, greyscale and line), and copy-paste patterns for a line logo, a logo row after a label and a listing card. Redrawn Canva, Zapier and Claude line stand-ins. (#557)
 
 ## 0.977.1 — 2026-11-04
 
@@ -719,7 +728,6 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `<aha-menu>` disabled rows now carry `aria-disabled="true"` beside the native `disabled`; the render is unchanged. (#526)
 - Revert: revert the PR; the new item fields are opt-in
 
-
 ## 0.702.0 — 2026-11-02
 ### Added
 - Chart: `colors` now applies with either palette. On the default `palette="brand"` it replaces the `--aha-viz-series-*` series (and their tints) with the host's own colours, in series order, and keeps the brand ink, so an app screen can pass its own palette (a survey's answer colours, Yes / No). The host picks the hues; a chart without `colors` renders exactly as before, and `palette="deck"` is unchanged (#532)
@@ -745,12 +753,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `aha-counted-input` takes `type="email"`, `"url"` and `"password"` (masked), and passes `inputmode` and `dir` to its inner field: `inputmode="decimal"` gives a number keypad on a text field and keeps partial input such as `1e`, and `dir="auto"` reads a right-to-left answer right to left. `aha-audience-field` documents the new field options. Fields without the new values render unchanged (#539)
 - Revert: revert the PR; nothing else depends on the new values
 
-
 ## 0.670.0 — 2026-11-02
 ### Added
 - `aha-input` passes `inputmode` and `dir` to its inner field, so `inputmode="decimal"` gives a number keypad on a text field and `dir="auto"` reads a right-to-left entry right to left, and gains a `select()` method that selects the field's text. Fields without the new attributes render unchanged (#520)
 - Revert: revert the PR; nothing else depends on the new attributes
-
 
 ## 0.660.0 — 2026-11-02
 ### Added
@@ -834,12 +840,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Fixed
 - Security: text from attributes and JSON no longer renders as HTML in five elements. `aha-card` `card-title`, `aha-rate` `icon`, `aha-card-select` option `icon`, `aha-descriptions` `items` label and value, and `aha-tabs` panel `id` (in `aria-controls`) are now escaped, so a survey question title like `<img src=x onerror=…>` shows as literal text and creates no element. Light-DOM content of `aha-descriptions` keeps its markup. No visual change (#513)
 
-
 ## 0.601.0 — 2026-11-02
 ### Added
 - Chart: `<aha-chart type="pie">`, a solid pie with no centre hole. It is the donut renderer with the same slices, palette, labels, legend, tooltip, empty state and screen-reader summary (named "Pie chart"). `type="donut"` with `options.variant: "pie"` keeps working. Contract, all flavour files, docs and a Pie default snippet updated together.
 - Revert: revert the PR; `pie` is one new value in the chart type list that reuses the donut renderer, so existing donut and `variant: "pie"` markup is untouched (#508)
-
 
 ## 0.600.0 — 2026-11-02
 ### Added
@@ -850,11 +854,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - The interactive-state colour-list check also waives a subtree that carries a course theme (`--aha-color-primary` set inline); contrast and focus are still measured, and the checkbox tick now carries its colour as `color` so the probe reads it
 - Revert: revert the PR; additive module and docs page, the loader change is one background value
 
-
 ## 0.599.0 — 2026-11-02
 ### Added
 - Icons for course and rich-text UI, 22 one-colour glyphs from Phosphor Icons Regular (MIT) on the DS 16px grid with the 1.5 stroke: the rich-text toolbar set `system-text-b`, `system-text-italic`, `system-text-underline`, `system-text-strikethrough`, `system-text-h-one`, `system-text-h-two`, `system-text-h-three`; device preview `system-monitor` and `system-device-tablet` (beside `system-device-mobile`); and `system-arrow-line-down`, `system-caret-circle-down`, `system-certificate`, `system-crop`, `system-flow-arrow`, `system-gauge`, `system-image-broken`, `system-map-pin`, `system-minus-circle`, `system-puzzle-piece`, `system-ruler`, `system-scroll`, `system-target`. Each has meaning words for `npm run icon-search`; the registry now holds 353 names (#509)
-
 
 ## 0.597.0 — 2026-11-02
 ### Added
@@ -863,12 +865,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Shared components rule `text-and-colour` and its judge criterion name `<aha-text>` for visible text in place of AntD Typography (#507)
 - Revert: revert the PR; the element is a new file and nothing else imports it (#507)
 
-
 ## 0.596.2 — 2026-11-02
 ### Fixed
 - CHANGELOG: the 0.595.1 entry links its real PR number instead of the `(#630)` placeholder that auto-merge shipped, which turned the standards gate red on master (#506)
 - Revert: revert the PR; changelog text only
-
 
 ## 0.596.1 — 2026-11-02
 ### Fixed
@@ -879,7 +879,6 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Features Marketing page: the Accent code pane of the Alternating screenshots layout wrote `aha-features--alternating-screenshots--accent`, which no CSS defines, so a pasted snippet rendered white. It now writes `aha-features--accent`; the state class of every Marketing section now comes from the section, then the layout (#504)
 - Revert: revert the PR; only the generated Accent code pane of one layout changes, no CSS or markup
 
-
 ## 0.595.0 — 2026-11-02
 ### Added
 - `lib/marketing.css`: every website Marketing section's CSS in one generated stylesheet (`@ahaslides-product/design/marketing.css`), and `lib/marketing/<slug>.css` for one section. A no-build website page now links `tokens.css`, `marketing.css`, `all.js` and `marketing-motion.js` from a pinned tag and pastes only each section's HTML; it renders pixel-identical to the paste-and-run snippet at 1440, 768 and 375 px. Paste-and-run stays the Webflow route (#503)
@@ -888,7 +887,6 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - The Websites pages, `marketing.llms.txt`, `marketing.agent.json` (`consume.noBuild`), `llms.txt`, the README and website rule W1 document the linked-stylesheet recipe first, paste-and-run second (#503)
 - Docs: the leaf components are described as standard, dependency-free web components (Custom Elements + shadow DOM), usable in plain HTML, React, Vue or any framework, not as Lit components: the README, the site header label (now `HTML · React · Vue`), the agent feed overview, the Components page and 58 contract badges. No `lib/aha-*.js` file has ever imported Lit; the internal tier id `leaf-lit` is unchanged. The 16 of those contracts that had no `environment` now declare one and leave the environments baseline (#503)
 - Revert: revert the PR; the stylesheets are new generated files and the docs return to paste-and-run only, no section CSS or markup changes (#503)
-
 
 ## 0.593.0 — 2026-11-02
 ### Added
@@ -1141,7 +1139,6 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - A node test fails when a marketing blockquote reset leaves the border, when a section title rule has no `display`, or when the Step number rule leaves the Cards base CSS.
 - Supersedes the earlier 0.497.1 attempt. Revert: revert the PR; the sections go back to relying on the host CSS (#438)
-
 
 ## 0.551.0 — 2026-10-29
 ### Added
@@ -1465,7 +1462,6 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `generate.mjs`: an optional `options` list on a marketing layout (each choice either adds a `--<value>` modifier or keeps the elements marked `data-choice="<value>"`), rendered as switches beside the surface switch, with one code tab per choice and the choices in the `.md` and `.agent.json` feeds; and an optional page-level `previewFit`. Pages without them render byte-identically.
 - Revert: revert the PR; `marketing/header.json`, the `options` and `previewFit` branches in `generate.mjs` and two source lines in `guidelines/website.json`, the eval fixture heroes and `fixtures/sections.css` (#399)
 
-
 ## 0.472.0 — 2026-10-27
 ### Changed
 - Website > Marketing > Features: the Compact tabs layout puts the Create your quiz free button in the text column of each panel, under Learn more and left aligned, instead of centred under the whole section. Uses the `aha-features__column` and `aha-features__cta--start` classes. (#406)
@@ -1521,7 +1517,6 @@ Revert: restore `lib/marketing-motion.js`, `marketing/testimonials.json` and `ma
 - Audience and canvas kits, Marketing sections (Cards, FAQ, Header badges, Pricing slider) and the docs search chips follow the same rule; the Foundations Radius page, `design.md` and the canvas / audience / settings / feedback / report-image guidelines say there is no pill shape (#337).
 - `standards.mjs` fails a 999px radius and any `--aha-radius-pill` reference in component source (#337).
 - `screen-lint` fails a 999px or 9999px `border-radius` as `radius-off-scale` (#337).
-
 
 ## 0.437.0 — 2026-10-26
 ### Added
@@ -1828,7 +1823,6 @@ Revert: restore `brand/colour-rules.json`, `marketing/header.json`, `marketing/f
 ## 0.319.0 — 2026-10-21
 ### Added
 - Question list: a body slot `body-<id>` puts interactive light-DOM content (a SettingRow with a time input and stepper, say) inside the open body of question `<id>`, above the "Question" row. Children stay focusable; clicks, keys and edits in the slot never toggle the collapse; a closed question hides it; it follows its question by id across reorder, add and delete. Native `input` / `change` events from slotted children now reach the list's host (the list's own `change` still carries `detail.questions`). Revert: remove the `.body-slot` holder, its CSS and the `slotted('body-slot', …)` call in `lib/aha-question-list.js`, and restore the `stopPropagation` guard to unconditional. (#335)
-
 
 ## 0.315.0 — 2026-10-21
 ### Removed

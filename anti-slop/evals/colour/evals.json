@@ -136,7 +136,7 @@
       "files": [],
       "label": "bad-example",
       "notes": "Targets C7: logos and file-type icons.",
-      "expected_output": "C7 FAILs: integration logos in their own colours at rest in an interface, and a two-colour file-type icon. Fix: the greyscale files from the Logo library at rest, the original-colour files only on hover and keyboard focus, and the one-colour file-type icon. Overall: NEEDS FIX.",
+      "expected_output": "C7 FAILs: integration logos in their own colours at rest in an interface, and a two-colour file-type icon. Fix: the line marks from the Logo library (logo/line/) in the default icon ink, and the one-colour file-type icon. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX"
       ],
@@ -174,7 +174,7 @@
     },
     {
       "id": 9,
-      "prompt": "Review a Report screen. The primary button is the DS primary (Vivid Pink, white label), links are Vivid Pink on white, a selected card on Vivid Pink at 5% sets its text and link to the default ink, status uses the DS status badge, the chart is `<aha-chart palette=\"brand\">` with three series, integration logos are the greyscale Logo library files, and shadows are black at low opacity. No colour is defined outside --aha-* tokens.",
+      "prompt": "Review a Report screen. The primary button is the DS primary (Vivid Pink, white label), links are Vivid Pink on white, a selected card on Vivid Pink at 5% sets its text and link to the default ink, status uses the DS status badge, the chart is `<aha-chart palette=\"brand\">` with three series, integration logos are the Logo library line marks in the default icon ink with no tile, and shadows are black at low opacity. No colour is defined outside --aha-* tokens.",
       "files": [],
       "label": "good-control",
       "notes": "Control: every rule followed.",
@@ -224,11 +224,11 @@
     },
     {
       "id": 11,
-      "prompt": "Review the website header's Integrations menu. Each entry shows a 24px Logo library logo in greyscale beside the tool's name. On hover and keyboard focus the entry swaps to the logo's original-colour file from the Logo library with a 150ms opacity fade, and the fade is off under prefers-reduced-motion. Everything else is DS components.",
+      "prompt": "Review the website header's Integrations menu. Each entry shows the tool's 24px line mark from the Logo library (logo/line/) in the default icon ink, with no tile or border around it, beside the tool's name; on hover the entry gets the DS hover background and the logo keeps its ink. Everything else is DS components.",
       "files": [],
       "label": "good-control",
-      "notes": "Control: rule 2.6, one colour at rest and brand colours on hover and focus, the same in a website header as in the presenter app.",
-      "expected_output": "C7 PASSES: the logos are one colour at rest, show their own colours only on hover and keyboard focus, and each has its name beside it. Overall: OK TO SHIP.",
+      "notes": "Control: rule 2.6, the line mark in the icon ink with no tile, the same in a website header as in the presenter app.",
+      "expected_output": "C7 PASSES: the logos are line marks in the icon ink with no tile around them, and each has its name beside it. Overall: OK TO SHIP.",
       "assertions": [
         "Overall verdict is OK TO SHIP"
       ],
@@ -245,11 +245,11 @@
     },
     {
       "id": 12,
-      "prompt": "Review the Marketplace page, which lists the tools AhaSlides connects to. Each available tool shows its logo in its own brand colours at rest, 32px inside a white tile with a grey border, with the tool's name beside it; a tool not available yet shows its logo in greyscale and a Coming soon tag in black text with a Vivid Pink outline. The Connect button under the Slack card is filled in Slack's purple.",
+      "prompt": "Review the Marketplace page, which lists the tools AhaSlides connects to. Each card shows the tool's colour logo image greyscale at rest and in its own colours on hover and keyboard focus of the card, with the tool's name beside it; a tool not available yet adds a Coming soon tag in black text with a Vivid Pink outline. The Connect button under the Slack card is filled in Slack's purple.",
       "files": [],
       "label": "bad-example",
       "notes": "Targets C7: the listing-page exception covers the logo only, never a brand-coloured button.",
-      "expected_output": "C7 FAILs: the logos in their own colours are fine on a listing page, but the Slack-purple Connect button spreads brand colour beyond the logo. Fix: the DS button. Overall: NEEDS FIX.",
+      "expected_output": "C7 FAILs: the colour logos on hover and focus are fine on a listing page, but the Slack-purple Connect button spreads brand colour beyond the logo. Fix: the DS button. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX"
       ],
@@ -304,6 +304,48 @@
       "source": {
         "authored": "ahaslides-design",
         "why": "written with the criteria from brand/colour-rules.json; the plugin judge dataset predates the colour rules of 7 October 2026"
+      }
+    },
+    {
+      "id": 15,
+      "prompt": "Review a Login screen. It has a Sign in with Google button showing the Google G in its four brand colours at rest and on hover, and a Sign in with Microsoft button showing the four-square mark in colour. The buttons are DS components and nothing else on the screen carries brand colour.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Targets C7 (rule 2.6).",
+      "expected_output": "C7 PASSES: a provider sign-in button keeps the provider's full-colour mark per the providers' brand guidelines, the named exception to line marks. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C7": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; DESY-445 round 16 picks"
+      }
+    },
+    {
+      "id": 16,
+      "prompt": "Review the Settings page's tab bar. Each tab pairs the tool's name with its Logo library line mark at 24px. The active tab's logo and text are Vivid Pink, inactive tabs show the logo in the same grey as their text, and the Zoom tab shows the Zoom logo in its brand blue at rest.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C7 (rule 2.6).",
+      "expected_output": "C7 FAILs: the Zoom tab uses the colour logo; a line logo as a tab icon takes the item's text colour. Fix: logo/line/zoom.svg in the text colour, pink when active. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C7": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; DESY-445 round 16 picks"
       }
     }
   ]

@@ -54,6 +54,7 @@ const CASES = {
       '<img class="brand-logo-original" src="https://design.ahaslides.io/logo/original/google.svg" alt="">',
       '<img\n  class="brand-logo-original"\n  src="/logo/original/google.svg"\n  alt="Google">',
       '<img src="/logo/original/zoom.svg" alt="Zoom"> <!-- ds-lint-allow: brand-logo (Marketplace listing, logos are the content) -->',
+      '<img class="brand-logo-listing" src="/logo/original/zoom.svg" alt="" width="40" height="40">',
     ],
   },
 };
