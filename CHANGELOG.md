@@ -35,12 +35,12 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1002.0 — 2026-11-04
 ### Added
-- `aha-card-select` takes `min-tile-width`: it keeps `columns` while a tile can stay that wide, then wraps to fewer, reading the element's own width, so `columns="3" min-tile-width="110"` drops to 2 across inside a narrow modal (#NNN)
-- `empty-courses` and `empty-automation` join the `empty-*` illustrations (#NNN)
-- `--aha-font-product` adds Cairo after Plus Jakarta Sans as an Arabic script fallback. Latin text is unchanged; an app that serves Arabic self-hosts Cairo, and without it the browser skips the name (#NNN)
+- `aha-card-select` takes `min-tile-width`: it keeps `columns` while a tile can stay that wide, then wraps to fewer, reading the element's own width, so `columns="3" min-tile-width="110"` drops to 2 across inside a narrow modal (#656)
+- `empty-courses` and `empty-automation` join the `empty-*` illustrations (#656)
+- `--aha-font-product` adds Cairo after Plus Jakarta Sans as an Arabic script fallback. Latin text is unchanged; an app that serves Arabic self-hosts Cairo, and without it the browser skips the name (#656)
 ### Fixed
-- DataTable filter panels and the Edit columns panel stay inside the viewport from 320px with no page overflow. antd's corner placements only flip, so a panel too wide for either side of a mid-table trigger stayed off-screen and `placement` looked ignored; they now shift along the edge (#NNN)
-- `screen-lint` `multi-primary` no longer counts primary buttons in opposite arms of a ternary as two loud actions; only the louder arm counts (#NNN)
+- DataTable filter panels and the Edit columns panel stay inside the viewport from 320px with no page overflow. antd's corner placements only flip, so a panel too wide for either side of a mid-table trigger stayed off-screen and `placement` looked ignored; they now shift along the edge (#656)
+- `screen-lint` `multi-primary` no longer counts primary buttons in opposite arms of a ternary as two loud actions; only the louder arm counts (#656)
 
 ## 0.998.2 — 2026-11-04
 ### Fixed
