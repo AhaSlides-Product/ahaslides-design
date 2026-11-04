@@ -33,6 +33,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1021.1 — 2026-11-04
+### Fixed
+- Paywall: the popover is 300px wide outside, padding included, as the contract says (it rendered 332px). `width` now means the outer width, padding included, so a consumer passing `width` gets a popover 32px narrower than before. To keep today's size, add 32: aha-survey's `width={216}` (`BrandThemeCard.tsx:121`, `SurveyCustomisePanel.tsx:298`) renders 248 today and should become `width={248}` on its next bump. Content narrows from 300 to 268px; Upgrade and See all plans still sit on one row, and the row wraps when translated labels do not fit. (#665)
+- Paywall: the title line height is 1.5 on the type scale (it was 1.4). (#665)
+- Paywall: the See all plans border is `--aha-gray-70` #8A8A8A, as the contract says (it resolved #616161), 3.82:1 on the dark surface where it was 2.14:1. (#665)
+- Paywall: `fitPaywall` no longer clips in a viewport too short for above or below, such as a 280px-tall report iframe: it sits beside the anchor, and with no room there it scrolls inside, keeping See all plans reachable by Tab. Normal placement is unchanged. (#665)
+
+### Docs
+- Paywall: the guide, the contract and judge criteria C1 and C7 cover a crown beside its own button, with examples in every flavour; criterion C7 says the mark is a real button with an accessible name, not `role="img"`; `toggleLockedPaywall` is documented for any control and `togglePopover({ source })` beside it. (#665)
+
 ## 0.1021.0 — 2026-11-04
 ### Added
 - `<aha-timepicker>` (`@ahaslides-product/design/aha-timepicker`): a framework-free 24-hour time field with hour and minute columns, the sibling of `<aha-datepicker>`, so an app can drop antd TimePicker. The value is an `HH:mm` string, or null when empty, and seconds in a value are dropped; a pick commits at once; a typed time that is not real goes back to the last value. Sizes, error status, disabled, label, error and info messages, translated `hour-label`, `minute-label` and `clear-label`, form-associated, one tab stop, full keyboard path. 12-hour clock, seconds, ranges, minute steps and disabled times stay on the antd composite (#664)

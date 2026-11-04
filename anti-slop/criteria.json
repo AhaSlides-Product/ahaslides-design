@@ -655,7 +655,7 @@
         {
           "id": "C1",
           "title": "The gated affordance uses the shared Paywall component",
-          "test": "**Rule.** Every pro-gated affordance wraps in `<Paywall>` (or uses `<PaywallCrownBadge>` as the anchor when the feature has no natural anchor). No hand-rolled upgrade modal, tooltip, or popover for monetisation — a bespoke upsell drifts from the presenter app's `UpgradePopover` and breaks the single-source-of-truth contract (PAYWALL-01)."
+          "test": "**Rule.** Every pro-gated affordance wraps in `<Paywall>`, uses `<PaywallCrownBadge>` as the anchor when the feature has no natural anchor, or keeps its own button with the crown beside it and the button's click routed to the same popover through `toggleLockedPaywall`. No hand-rolled upgrade modal, tooltip, or popover for monetisation — a bespoke upsell drifts from the presenter app's `UpgradePopover` and breaks the single-source-of-truth contract (PAYWALL-01)."
         },
         {
           "id": "C2",
@@ -685,7 +685,7 @@
         {
           "id": "C7",
           "title": "Crown-badge-only anchor used where the feature has no anchor",
-          "test": "**Rule.** When a feature has no natural clickable anchor (e.g. a bare field label), the visible anchor is `<PaywallCrownBadge>`, which carries `role=\"img\"` and an `aria-label` (default \"Upgrade required\"). Don't invent a bespoke lock icon or an unlabelled glyph for this job."
+          "test": "**Rule.** When a feature has no natural clickable anchor (e.g. a bare field label), the visible anchor is `<PaywallCrownBadge>` (`<aha-paywall>` with no slotted child), a real focusable `<button>` with an accessible name (default \"Upgrade required. See plans\", `mark-label` to translate). Don't invent a bespoke lock icon or an unlabelled glyph for this job. A control that keeps its own button with the crown beside it has an anchor, its click routed through `toggleLockedPaywall` (C1), so C7 is N/A there; that crown is the same real button with the same accessible name."
         }
       ]
     },
