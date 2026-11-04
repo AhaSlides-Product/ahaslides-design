@@ -35,9 +35,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1021.0 — 2026-11-04
 ### Added
-- `<aha-timepicker>` (`@ahaslides-product/design/aha-timepicker`): a framework-free 24-hour time field with hour and minute columns, the sibling of `<aha-datepicker>`, so an app can drop antd TimePicker. The value is an `HH:mm` string, or null when empty; a pick commits at once; a typed time that is not real goes back to the last value. Sizes, error status, disabled, label, error and info messages, translated `hour-label`, `minute-label` and `clear-label`, form-associated, one tab stop, full keyboard path. 12-hour clock, seconds, ranges, minute steps and disabled times stay on the antd composite (#PR)
+- `<aha-timepicker>` (`@ahaslides-product/design/aha-timepicker`): a framework-free 24-hour time field with hour and minute columns, the sibling of `<aha-datepicker>`, so an app can drop antd TimePicker. The value is an `HH:mm` string, or null when empty; a pick commits at once; a typed time that is not real goes back to the last value. Sizes, error status, disabled, label, error and info messages, translated `hour-label`, `minute-label` and `clear-label`, form-associated, one tab stop, full keyboard path. 12-hour clock, seconds, ranges, minute steps and disabled times stay on the antd composite (#664)
 ### Changed
-- `<aha-form-item>` reads, validates and resets `<aha-timepicker>`; a time that is not real reads as empty, so `required` fires (#PR)
+- `<aha-form-item>` reads, validates and resets `<aha-timepicker>`; a time that is not real reads as empty, so `required` fires (#664)
 
 ## 0.1020.2 — 2026-11-04
 
