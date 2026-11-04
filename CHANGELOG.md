@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1021.2 — 2026-11-04
+### Changed
+- **One answer for a retryable error, in every copy of the rule.** `overlays` C6 said `type="error"` and `ux-writing` C5 said a calm info or warning. A retryable error (the action failed, nothing was lost, trying again can work) is now `type="warning"` with a calm "Try again", on every surface, overlays included. `type="error"` is for a failure trying again can't fix, or one that lost the user's work. C6 still owns placement: inline, overlay open, no nested modal, no toast. The type now belongs to C5, and the `alert` contract note points at it. Criteria, guides, guidelines and evals changed together. (#NNN)
+- **`ux-writing` C7 carries its full rule again.** Seeding kept only the scope line, so the store, `anti-slop.md` and `anti-slop.agent.json` had no sub-tests. The two sub-tests, (a) Survives and (b) Shape, are restored word for word from the original judge, and the C5 sentence on destructive outcomes that seeding cut is back. `sync-skills.mjs` no longer drops a rule that follows a scope line or a fail-on-any lead-in. (#NNN)
+
 ## 0.1020.3 — 2026-11-04
 ### Fixed
 - Alert: small text is 12px, on the type scale, as the guideline already said (it was 13px, which no step of the scale allows); the small close button's line height follows at 18px. The contract matches, and the feedback guideline now states the shipped padding and radius (regular 10/14, small 6/10, both 8px radius). (#659)

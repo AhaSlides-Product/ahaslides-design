@@ -19,13 +19,12 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = dirname(fileURLToPath(import.meta.url));
-const STORE = join(root, 'anti-slop', 'criteria.json');
-
 function arg(name, dflt) {
   const i = process.argv.indexOf(`--${name}`);
   return i >= 0 ? process.argv[i + 1] : dflt;
 }
 
+const STORE = arg('store', join(root, 'anti-slop', 'criteria.json'));
 const TEST_MAX_CHARS = 400;
 
 function truncateAtWord(text, max) {
@@ -49,8 +48,11 @@ function parseCriteria(md) {
     let body = paragraphs.shift() || '';
     // A lead-in ending in ":" introduces the actual test, so pull in the paragraph it points at.
     while (body.endsWith(':') && paragraphs.length) body += ' ' + paragraphs.shift();
+    // A scope line or a fail-on-any lead-in says when the rule applies, not what it is.
+    const leadOnly = /^\*\*Scope\.\*\*|\*\*Any one → FAIL\.\*\*$/.test(body);
+    while (leadOnly && paragraphs.length && !/^(✅|❌|\*\*Common failure modes|---)/.test(paragraphs[0])) body += ' ' + paragraphs.shift();
     body = body.replace(/\s+/g, ' ');
-    const test = truncateAtWord(body.split(/(?<=[.])\s/).slice(0, 2).join(' '), TEST_MAX_CHARS);
+    const test = leadOnly ? body : truncateAtWord(body.split(/(?<=[.])\s/).slice(0, 2).join(' '), TEST_MAX_CHARS);
     out.push({ id, title, test });
   }
   return out;

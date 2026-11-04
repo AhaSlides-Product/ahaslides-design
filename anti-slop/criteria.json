@@ -37,7 +37,7 @@
         {
           "id": "C5",
           "title": "Proportional — severity of wording matches real impact",
-          "test": "**Rule.** The words (and the type handed to the surface) match actual impact. A transient, retryable hiccup is a calm info/warning, not a blaring red \"Error\"."
+          "test": "**Rule.** The words (and the type handed to the surface) match actual impact. A **retryable error** (the action failed, nothing was lost, and trying again can work) is `type=\"warning\"` with a calm \"Try again\", on every surface, overlays included, never a blaring red \"Error\". `type=\"error\"` is for a failure trying again can't fix, or one that lost the user's work. A hiccup that needs nothing from the user is `type=\"info\"`. A destructive / data-loss outcome states the stakes plainly rather than being softened into a cheerful line."
         },
         {
           "id": "C6",
@@ -47,7 +47,7 @@
         {
           "id": "C7",
           "title": "Right home & shape",
-          "test": "**Scope.** If the surface has **no** recovery-required message and **no** title+body message at all (e.g. a labels-only surface), C7 is **`N/A`** in full — not PASS."
+          "test": "**Scope.** If the surface has **no** recovery-required message and **no** title+body message at all (e.g. a labels-only surface), C7 is **`N/A`** in full — not PASS. The sub-tests below only run once such a message is present. **Rule.** Two independent, clearly-scoped sub-tests — FAIL on either: **(a) Survives.** Recovery-required copy must **not** live only in an auto-dismissing toast (a 3s toast can't hold an error the user must act on — it belongs in an inline Alert or on the page). This is the primary test and applies whenever a recovery-required message exists. **(b) Shape** — *only when the surface actually has a title + body.* The title must carry the **outcome** and the body the **next step** (not inverted). Do **not** apply this sub-test to a shapeless single-string message — its vagueness is judged under C2, not double-penalised here. If there is no title/body structure to get wrong, sub-test (b) is a PASS."
         },
         {
           "id": "C8",
@@ -1004,7 +1004,7 @@
         {
           "id": "C6",
           "title": "Errors surface inline, never a nested modal",
-          "test": "**Rule.** Failures are surfaced **inside** the overlay with an inline **DS V3 Alert** (`AhaAlert type=\"error\"` — the banner component owned by [[aha-design-feedback]], **not** a bare AntD `<Alert>` with default styling). This judge owns *placement* (error goes inline, overlay stays open); feedback owns the Alert's *styling*. **Never** stack a second modal on top to report an error, and never downgrade it to a transient toast. The overlay stays open on failure so the user can retry without re-opening."
+          "test": "**Rule.** Failures are surfaced **inside** the overlay with an inline **DS V3 Alert** (`AhaAlert` — the banner component owned by [[aha-design-feedback]], **not** a bare AntD `<Alert>` with default styling). This judge owns *placement* (the message goes inline, overlay stays open); feedback owns the Alert's *styling*; ux-writing C5 owns its *type*: a retryable error is `type=\"warning\"`, a failure trying again can't fix is `type=\"error\"`. **Never** stack a second modal on top to report an error, and never downgrade it to a transient toast. The overlay stays open on failure so the user can retry without re-opening."
         },
         {
           "id": "C7",
