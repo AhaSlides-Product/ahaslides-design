@@ -3,7 +3,7 @@ import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper; React 19 can use <aha-card-select> directly.
 // options is a PROPERTY (array), so set it imperatively; the grid is one roving radiogroup.
-function AhaCardSelect({ options, value, columns, iconOnly, tile, hideLabels, disabled, onChange, children, ...rest }) {
+function AhaCardSelect({ options, value, columns, minTileWidth, iconOnly, tile, hideLabels, disabled, onChange, children, ...rest }) {
   const ref = useRef();
   useEffect(() => {
     const el = ref.current;
@@ -17,7 +17,7 @@ function AhaCardSelect({ options, value, columns, iconOnly, tile, hideLabels, di
     el.addEventListener('change', h);
     return () => el.removeEventListener('change', h);
   }, [options, value, iconOnly, tile, hideLabels, disabled, onChange]);
-  return <aha-card-select ref={ref} {...rest} {...(columns ? { columns: String(columns) } : {})}>{children}</aha-card-select>;
+  return <aha-card-select ref={ref} {...rest} {...(columns ? { columns: String(columns) } : {})} {...(minTileWidth ? { 'min-tile-width': String(minTileWidth) } : {})}>{children}</aha-card-select>;
 }
 
 // usage: labelled tiles (default) or compact iconOnly squares
@@ -32,6 +32,9 @@ function AhaCardSelect({ options, value, columns, iconOnly, tile, hideLabels, di
   ]}
   onChange={setChartType}
 />
+
+// minTileWidth: 3 across while a tile can stay 110px wide, fewer when the element gets narrower
+<AhaCardSelect columns={3} minTileWidth={110} value={chartType} options={chartOptions} onChange={setChartType} />
 
 // preview tiles: the app draws each card (here Manage's certificate look), the element owns the radiogroup
 <AhaCardSelect

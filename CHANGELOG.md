@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1017.0 — 2026-11-04
+## 0.1019.0 — 2026-11-04
 ### Added
 - Paywall: `mark-label` attribute, the accessible name of the crown upgrade mark, so a translated product can pass its own. It applies only when the mark is the anchor and a later change applies in place. (#658)
 - Paywall: `togglePopover({ source })` names the element that opened the popover, so `close()` and Escape return focus to it. Dropdown locked rows pass their row. (#658)
@@ -48,6 +48,15 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Paywall: an open popover no longer closes itself inside a drawer. The visibility check counted the body as a clip box, and a drawer's scroll lock sets body overflow on a body as tall as the page behind it; the visibility check now walks the flat tree (slotted content in an `aha-drawer` included), applies each ancestor's clip and stops at a fixed-position ancestor, and the body clips only when its overflow does not propagate to the viewport. Real scroll containers still clip. (#658)
 - Paywall: `toggleLockedPaywall` records the opener only from the path up to the row's own handler, so a focusable ancestor (`main tabindex=-1`, a drawer body) is never the opener; focus restore works on a `delegatesFocus` host such as `aha-button` and does not scroll; an element connected already open records its opener; an empty `mark-label` keeps the default name. (#658)
 - Paywall: the focus fallback no longer matches the aria-hidden mark in the popover header, so a slotted anchor gets focus back. (#658)
+
+## 0.1018.0 — 2026-11-04
+### Added
+- `aha-card-select` takes `min-tile-width`: it keeps `columns` while a tile can stay that wide, then wraps to fewer, reading the element's own width, so `columns="3" min-tile-width="110"` drops to 2 across inside a narrow modal (#656)
+- `empty-courses` and `empty-automation` join the `empty-*` illustrations (#656)
+- `--aha-font-product` adds Cairo after Plus Jakarta Sans as an Arabic script fallback. Latin text is unchanged; an app that serves Arabic self-hosts Cairo, and without it the browser skips the name (#656)
+### Fixed
+- DataTable filter panels and the Edit columns panel stay inside the viewport from 320px with no page overflow. antd's corner placements only flip, so a panel too wide for either side of a mid-table trigger stayed off-screen and `placement` looked ignored; they now shift along the edge (#656)
+- `screen-lint` `multi-primary` no longer counts primary buttons in opposite arms of a ternary as two loud actions; only the louder arm counts (#656)
 
 ## 0.1016.0 — 2026-11-04
 ### Added
@@ -132,7 +141,6 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.989.0 — 2026-11-04
 ### Changed
 - **Brand logos move into the Icon library** (#642). The third-party brand logos, with their Line / One colour / Original switch, the when-to-use rule per version, Stand-in tags, None cells, SVG links, the Line logos and Brand logo colour (rule 2.6) sections and the three copy-paste patterns, are now the Brands tab of the Icon library (`icons/index.html?tab=brands`, `?mode=` kept). The Logo library keeps the AhaSlides logo, The Splash, the favicon set and the lockup rules, and links to the new tab. Old Logo library links (`?tab=brands`, `?mode=`, `#brands`, `#line`, `#third-party-marks`, `#brand-logo-*`) forward to the Brands tab. Rule 2.6 and 2.6a, the C7 criterion, `llms.txt`, `icons.llms.txt`, `icons.agent.json` (`brandLogos`), the environment routes, the aha-design skill and the icon guard hook point at the new home. Logo files, their paths and `logo/manifest.json` are unchanged.
-
 
 ## 0.988.0 — 2026-11-04
 ### Changed
@@ -484,7 +492,6 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ### Changed
 - W6 (website imagery) names the screenshot outline as an exception to the light grey frame ban, beside the Hero split Rise exception (both now worded "Named exception, <name>:"), in every copy (`guidelines/website.json`, `anti-slop/criteria.json`, `agent/anti-slop/criteria.json`); a light grey fill or rail still fails (#599)
-
 
 ## 0.953.0 — 2026-11-03
 ### Changed

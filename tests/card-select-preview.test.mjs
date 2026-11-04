@@ -101,3 +101,41 @@ test('preview tiles: one group name on the host, equal options keep the cards, a
   assert.deepEqual(r.disabled, [false, 'rgb(181, 181, 181) 0px 0px 0px 2px'], 'a disabled preview takes no hit and mutes the ring');
   assert.deepEqual(r.forced, ['solid', 'none'], 'forced colours outline only the selected preview tile');
 });
+
+test('min-tile-width drops columns with the element\'s own width and keeps columns while tiles fit', { skip }, async () => {
+  const across = String.raw`(async () => {
+    const frame = () => new Promise((done) => requestAnimationFrame(() => requestAnimationFrame(done)));
+    const box = document.body.appendChild(document.createElement('div'));
+    const make = (attrs) => {
+      const el = document.createElement('aha-card-select');
+      for (const [name, value] of Object.entries(attrs)) el.setAttribute(name, value);
+      el.options = ['a', 'b', 'c', 'd'].map((value) => ({ value, label: value }));
+      return box.appendChild(el);
+    };
+    const count = (el) => new Set([...el.shadowRoot.querySelectorAll('.tip')].map((tip) => tip.offsetLeft)).size;
+    const fluid = make({ columns: '3', 'min-tile-width': '110' });
+    const fixed = make({ columns: '3' });
+    const out = { sweep: [], fixedCounts: new Set(), overflow: 0 };
+    for (let width = 100; width <= 700; width += 7) {
+      box.style.width = width + 'px';
+      await frame();
+      out.sweep.push([width, count(fluid)]);
+      out.fixedCounts.add(count(fixed));
+      if (fluid.shadowRoot.querySelector('.grid').scrollWidth > width) out.overflow++;
+    }
+    out.fixedCounts = [...out.fixedCounts];
+    box.style.width = '320px';
+    fluid.minTileWidth = 140; await frame();
+    out.after140 = count(fluid);
+    fluid.minTileWidth = null; await frame();
+    out.afterRemoved = count(fluid);
+    return out;
+  })()`;
+  const r = await evaluateInPage(fixture, across, { readyExpr: '!!window.cardSelectFixtureReady', timeout: 45000 });
+  const wrong = r.sweep.filter(([width, n]) => n !== Math.max(1, Math.min(3, Math.floor((width + 8) / 118))));
+  assert.deepEqual(wrong, [], 'tiles per row at each width');
+  assert.equal(r.overflow, 0);
+  assert.deepEqual(r.fixedCounts, [3], 'without the attribute columns never drop');
+  assert.equal(r.after140, 2);
+  assert.equal(r.afterRemoved, 3);
+});
