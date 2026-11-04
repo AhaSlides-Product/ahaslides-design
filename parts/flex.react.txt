@@ -20,3 +20,8 @@ import '@ahaslides-product/design/aha-flex';   // registers <aha-flex>
 <aha-flex wrap gap="small">
   {tags.map((t) => <Tag key={t}>{t}</Tag>)}
 </aha-flex>
+
+{/* one line that scrolls sideways; the edge with more to see fades out */}
+<aha-flex scroll gap="small">
+  {presets.map((p) => <Tag key={p}>{p}</Tag>)}
+</aha-flex>

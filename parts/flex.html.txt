@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-flex.js';   // registers <aha-flex>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-tag.js';    // registers <aha-tag>
 </script>
 
 <!-- gap takes a named DS step (small 8 / middle 16 / large 24) or a raw pixel number -->
@@ -29,3 +30,10 @@
 <aha-flex wrap gap="small" style="margin-top:24px">
   <span>Poll</span><span>Quiz</span><span>Word cloud</span><span>Q&amp;A</span><span>Brainstorm</span>
 </aha-flex>
+
+<!-- one line that scrolls sideways in its own box: the edge with more to see fades out -->
+<div style="max-width:320px; margin-top:24px">
+  <aha-flex scroll gap="small">
+    <aha-tag>Colours</aha-tag><aha-tag>Font</aha-tag><aha-tag>Logo</aha-tag><aha-tag>Background</aha-tag><aha-tag>Buttons</aha-tag><aha-tag>Layout</aha-tag>
+  </aha-flex>
+</div>
