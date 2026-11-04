@@ -347,6 +347,73 @@
         "authored": "ahaslides-design",
         "why": "written with the criteria from brand/colour-rules.json; DESY-445 round 16 picks"
       }
+    },
+    {
+      "id": 17,
+      "prompt": "Review a True or False question on the presenter canvas and the audience phone. The two answer buttons are filled with the fixed answer tokens: True with `var(--aha-answer-correct)` and False with `var(--aha-answer-wrong)`, each label white (`--aha-white`) at regular weight, the same on every deck theme. On reveal, where False is the correct answer, the red False button carries the white tick on its green correct disc (`<aha-answer-mark result=\"correct\">`) and the True button dims; the participant who picked True sees the cross disc on True. Everything else on the screen is the deck palette and DS components.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Targets C1 and C5 (rule 11.1, True or False exception). Pairs with cases 18 and 19.",
+      "expected_output": "C1 PASSES: the answer pair fills the two True or False answer buttons, the one named exception in rule 11.1, with fixed tokens, never the deck palette. C5 PASSES: the colours mark the answers, not a status; the tick or cross disc gives the verdict, so a red False carrying the correct tick is right. Labels are white, not green or red text. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "Does not flag the correct tick on the red False button"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C1": "PASS",
+          "C5": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; SLPV-260 True or False exception to rule 11.1"
+      }
+    },
+    {
+      "id": 18,
+      "prompt": "Review a Pick Answer question on the audience phone with four answer options. To make it feel like True or False, the first option is filled with `var(--aha-answer-correct)` and the second with `var(--aha-answer-wrong)`, white labels, before anyone answers; the other two options are the deck surface. On reveal the correct option shows the tick disc. Everything else is DS components.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C1 (rule 11.1): the True or False exception does not reach other question types or answer options. Pairs with case 17.",
+      "expected_output": "C1 FAILs: green and red fill two answer options of a Pick Answer question; only the two answer buttons of a True or False question may be filled with the pair. Fix: the options use the deck surface, and the tick or cross disc marks the verdict on reveal. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C1": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; SLPV-260 True or False exception to rule 11.1"
+      }
+    },
+    {
+      "id": 19,
+      "prompt": "Review a True or False question on the audience phone. The True and False answer buttons are filled with `var(--aha-answer-correct)` and `var(--aha-answer-wrong)` with white labels. After the participant taps one, a banner under the buttons reads \"Answer sent\" on a `var(--aha-answer-correct-tint-5)` fill with a green check icon, and the Submit button turns `var(--aha-answer-correct)` while it sends.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C1 and C5 (rules 11.1, 7.1): the answer buttons follow the True or False exception, but the sent banner and the Submit button use the pair for status. Pairs with case 17.",
+      "expected_output": "C1 FAILs: the green fill of the Submit button and the green sent banner are not the two True or False answer buttons. C5 FAILs: \"Answer sent\" is a status shown in green. The True and False answer button fills themselves are allowed by rule 11.1. Fix: the Submit button stays the deck primary, and the sent state uses the DS submitted card in the default ink. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "Does not flag the green True and red False answer button fills"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C1": "FAIL",
+          "C5": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; SLPV-260 True or False exception to rule 11.1"
+      }
     }
   ]
 }
