@@ -386,8 +386,9 @@ actions: [
 
 §5's host-painted actions are the host's to get right, and the judge checks them under
 app-shell C6: a key in each control-bar tooltip, popover focus in and back, Esc closing the
-popover before exit-presenting, and every key in the presenter hotkey cheatsheet, proved by a
-recorded keyboard run of the real UI. A slide that renders its **own** interactive controls (a
+popover before exit-presenting, and every key in the presenter hotkey cheatsheet on a panel
+joined to its control by the same line and dot as the existing panels, proved by a recorded
+keyboard run of the real UI and screenshots of the open cheatsheet. A slide that renders its **own** interactive controls (a
 bespoke overlay, a play/pause, a mute button, a settings popover) owns those affordances —
 skipping any is a defect.
 
