@@ -136,7 +136,7 @@
       "files": [],
       "label": "bad-example",
       "notes": "Targets C7: logos and file-type icons.",
-      "expected_output": "C7 FAILs: integration logos in their own colours at rest in an interface, and a two-colour file-type icon. Fix: the line marks from the Icon library's Brands tab (logo/line/) in the default icon ink, and the one-colour file-type icon. Overall: NEEDS FIX.",
+      "expected_output": "C7 FAILs: integration logos in their own colours at rest in an interface, and a two-colour file-type icon. Fix: the Brand icons (<aha-icon name=\"brand-<id>\">) in the default icon ink, and the one-colour file-type icon. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX"
       ],
@@ -174,7 +174,7 @@
     },
     {
       "id": 9,
-      "prompt": "Review a Report screen. The primary button is the DS primary (Vivid Pink, white label), links are Vivid Pink on white, a selected card on Vivid Pink at 5% sets its text and link to the default ink, status uses the DS status badge, the chart is `<aha-chart palette=\"brand\">` with three series, integration logos are the Icon library Brands line marks in the default icon ink with no tile, and shadows are black at low opacity. No colour is defined outside --aha-* tokens.",
+      "prompt": "Review a Report screen. The primary button is the DS primary (Vivid Pink, white label), links are Vivid Pink on white, a selected card on Vivid Pink at 5% sets its text and link to the default ink, status uses the DS status badge, the chart is `<aha-chart palette=\"brand\">` with three series, integration logos are the Brand icons from the Icon library in the default icon ink with no tile, and shadows are black at low opacity. No colour is defined outside --aha-* tokens.",
       "files": [],
       "label": "good-control",
       "notes": "Control: every rule followed.",
@@ -224,11 +224,11 @@
     },
     {
       "id": 11,
-      "prompt": "Review the website header's Integrations menu. Each entry shows the tool's 24px line mark from the Icon library's Brands tab (logo/line/) in the default icon ink, with no tile or border around it, beside the tool's name; on hover the entry gets the DS hover background and the logo keeps its ink. Everything else is DS components.",
+      "prompt": "Review the website header's Integrations menu. Each entry shows the tool's 24px Brand icon (<aha-icon name=\"brand-<id>\">) in the default icon ink, with no tile or border around it, beside the tool's name; on hover the entry gets the DS hover background and the logo keeps its ink. Everything else is DS components.",
       "files": [],
       "label": "good-control",
-      "notes": "Control: rule 2.6, the line mark in the icon ink with no tile, the same in a website header as in the presenter app.",
-      "expected_output": "C7 PASSES: the logos are line marks in the icon ink with no tile around them, and each has its name beside it. Overall: OK TO SHIP.",
+      "notes": "Control: rule 2.6, the Brand icon in the icon ink with no tile, the same in a website header as in the presenter app.",
+      "expected_output": "C7 PASSES: the logos are Brand icons in the icon ink with no tile around them, and each has its name beside it. Overall: OK TO SHIP.",
       "assertions": [
         "Overall verdict is OK TO SHIP"
       ],
@@ -312,7 +312,7 @@
       "files": [],
       "label": "good-control",
       "notes": "Targets C7 (rule 2.6).",
-      "expected_output": "C7 PASSES: a provider sign-in button keeps the provider's full-colour mark per the providers' brand guidelines, the named exception to line marks. Overall: OK TO SHIP.",
+      "expected_output": "C7 PASSES: a provider sign-in button keeps the provider's full-colour mark per the providers' brand guidelines, the named exception to Brand icons. Overall: OK TO SHIP.",
       "assertions": [
         "Overall verdict is OK TO SHIP"
       ],
@@ -329,11 +329,11 @@
     },
     {
       "id": 16,
-      "prompt": "Review the Settings page's tab bar. Each tab pairs the tool's name with its Icon library Brands line mark at 24px. The active tab's logo and text are Vivid Pink, inactive tabs show the logo in the same grey as their text, and the Zoom tab shows the Zoom logo in its brand blue at rest.",
+      "prompt": "Review the Settings page's tab bar. Each tab pairs the tool's name with its Brand icon from the Icon library at 24px. The active tab's logo and text are Vivid Pink, inactive tabs show the logo in the same grey as their text, and the Zoom tab shows the Zoom logo in its brand blue at rest.",
       "files": [],
       "label": "bad-example",
       "notes": "Targets C7 (rule 2.6).",
-      "expected_output": "C7 FAILs: the Zoom tab uses the colour logo; a line logo as a tab icon takes the item's text colour. Fix: logo/line/zoom.svg in the text colour, pink when active. Overall: NEEDS FIX.",
+      "expected_output": "C7 FAILs: the Zoom tab uses the colour logo; a Brand icon as a tab icon takes the item's text colour. Fix: <aha-icon name=\"brand-zoom\"> in the text colour, pink when active. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX"
       ],

@@ -5,7 +5,7 @@
 </script>
 
 <!-- Pro gate — the affordance is the anchor. The popover ships the crown mark, title, description,
-     the fixed unlock line, and BOTH CTAs (Upgrade positive + See all plans) — all baked in. -->
+     the unlock line, and BOTH CTAs (Upgrade positive + See all plans) — all baked in. -->
 <aha-paywall
   feature-key="streak_bonus"
   feature-label="Streak answer bonus point"
@@ -40,6 +40,17 @@
   <button>Survey link</button>
   <span slot="body">Share a memorable link instead of the generated code. </span><a slot="body" href="https://help.ahaslides.com">How it works</a>
 </aha-paywall>
+
+<!-- Translated product → unlock-label ({plan} becomes the bold plan name) + plan-label -->
+<aha-paywall
+  feature-key="remove_branding"
+  feature-label="Gỡ thương hiệu"
+  body="Ẩn logo AhaSlides khỏi bài trình bày."
+  required-plan="pro"
+  unlock-label="Mở khoá với {plan}."
+  plan-label="gói Pro"
+  cta-label="Nâng cấp"
+  plans-label="Xem tất cả gói"></aha-paywall>
 
 <script>
   // analytics contract — the app wires these to its tracker (fires for every paywall)
