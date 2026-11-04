@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.981.0 — 2026-11-04
+## 0.982.0 — 2026-11-04
 
 ### Added
 - **Card select preview tiles** (#633). `<aha-card-select tile="preview">`: an option with `slot: '<name>'` shows the
@@ -44,6 +44,12 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
   disabled preview takes no pointer events and greys its ring; forced colours draw the selected ring as an outline. An options
   array equal to the last one no longer rebuilds the cards. Manage's certificate design
   picker (MAAP-179) can drop its raw radio inputs. Icon and icon-only layouts render as before.
+
+- **Data table checklist filter can be single-choice** (#636). `filter: { type: 'checklist', options, multiple: false }`
+  shows DS radios in the same panel, so picking an option replaces the last, and sets antd `filterMultiple: false`
+  on the column. Without `multiple` the filter is multi-select exactly as before. A column that uses it needs
+  `Radio` in the antd members passed to `createDataTable`. For a server that takes one value, `onChange` receives
+  a one-item array: read `filters.status?.[0]`.
 
 ## 0.980.1 — 2026-11-04
 ### Fixed
