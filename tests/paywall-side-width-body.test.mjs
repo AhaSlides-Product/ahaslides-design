@@ -159,3 +159,31 @@ test('close() and Escape return focus to the element that opened the popover, fa
   assert.equal(result.stoppedClosed, true);
   assert.equal(result.stoppedThenClose, 'b2', 'close() restores focus to the opener after the host swallowed Escape');
 });
+
+const clipPage = `<!doctype html><body style="margin:0;height:0;overflow:hidden;font-family:sans-serif">
+<div style="position:fixed;top:100px;left:100px;width:300px;height:200px;background:#eee"><aha-paywall id="drawer" feature-label="Drawer" body="Sentence."><button>Gated</button></aha-paywall></div>
+<div id="scroller" style="position:fixed;top:400px;left:100px;width:300px;height:100px;overflow:auto"><div style="height:300px"><aha-paywall id="inner" feature-label="Inner" body="Sentence."><button>Gated</button></aha-paywall></div></div>
+<script type="module">import '${lib}'; window.ready = true;</script>`;
+
+test('an open popover stays open under a scroll-locked body of height 0, and still closes when its anchor scrolls out of a real scroll container', { skip }, async () => {
+  const file = join(mkdtempSync(join(tmpdir(), 'paywall-clip-')), 'page.html');
+  writeFileSync(file, clipPage);
+  const result = await evaluateInPage(pathToFileURL(file).href, `(async () => {
+    const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+    const drawer = document.getElementById('drawer');
+    const inner = document.getElementById('inner');
+    drawer.setAttribute('open', '');
+    await wait(100);
+    window.dispatchEvent(new Event('resize')); await wait(50);
+    const out = { drawerOpen: drawer.open };
+    inner.setAttribute('open', ''); await wait(100);
+    out.innerOpenBefore = inner.open;
+    document.getElementById('scroller').scrollTop = 250; await wait(100);
+    out.innerOpenAfterScroll = inner.open;
+    return out;
+  })()`, { readyExpr: '!!window.ready && !!customElements.get("aha-paywall")' });
+
+  assert.equal(result.drawerOpen, true, 'the body overflow of a scroll-locked page does not clip the anchor');
+  assert.equal(result.innerOpenBefore, true);
+  assert.equal(result.innerOpenAfterScroll, false, 'a real scroll container still clips the anchor');
+});

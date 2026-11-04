@@ -44,6 +44,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Paywall: Escape and `close()` return focus to the element that opened the popover (a locked-row button through `toggleLockedPaywall` included), falling back to the anchor when it is gone or refuses focus, instead of always landing on the mark. (#658)
 
 ### Fixed
+- Paywall: an open popover no longer closes itself inside a drawer. The visibility check counted the body as a clip box, and a drawer's scroll lock sets body overflow on a body as tall as the page behind it; the body (and html) now clip only when the body's overflow does not propagate to the viewport. Real scroll containers still clip. (#658)
 - Paywall: the focus fallback no longer matches the aria-hidden mark in the popover header, so a slotted anchor gets focus back. (#658)
 
 ## 0.1005.0 — 2026-11-04
