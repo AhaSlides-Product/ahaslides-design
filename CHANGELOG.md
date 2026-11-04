@@ -33,17 +33,9 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## X.Y.Z — YYYY-MM-DD   ← "## Unreleased" instead while AUTO_VERSION is on
-### Added        ← new component / prop / token / export
-### Changed      ← behaviour or API change to something that already shipped
-### Fixed        ← bug / gate / doc fix, no API change
-### Removed       ← a removed export / component / token
-- one short bullet per change, written for a consumer; link the real PR: (#123) — never a bare (#125)
-```
-
-Include only the sections you touched. **Versioning is [SemVer](https://semver.org)** — pre-1.0:
-an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
-bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
+## 0.990.2 — 2026-11-04
+### Fixed
+- DataTable: an empty table no longer overflows its container by 2px (permanent right-edge scroll shadow, empty state centred 1px off at every width). The 1px table border no longer narrows the scroll container; populated tables, sticky headers, scroll y and radius clipping are unchanged. (#644)
 
 ## 0.990.0 — 2026-11-04
 ### Changed
