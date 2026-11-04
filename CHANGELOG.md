@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1001.0 — 2026-11-04
 ### Added
-- `<aha-flex scroll>`: a chip or toggle row stays on one line and scrolls sideways inside its own box, fading the start or end edge only while there is more to see that way (the fade grows with the distance left, so it is none at an edge already reached and needs no motion). No scrollbar; Tab scrolls a clipped item clear of the fade; RTL fades the right-hand start edge. The responsive rule in `AGENTS.md` and the `overflow-x-scroll` lint hint name it as the one-line row exception (#NNN)
+- `<aha-flex scroll>`: a chip or toggle row stays on one line and scrolls sideways inside its own box, fading the start or end edge only while there is more to see that way (the fade grows with the distance left, so it is none at an edge already reached and needs no motion). No scrollbar; Tab scrolls a clipped item clear of the fade; RTL fades the right-hand start edge. The responsive rule in `AGENTS.md` and the `overflow-x-scroll` lint hint name it as the one-line row exception (#654)
 
 ## 0.998.1 — 2026-11-04
 ### Fixed
