@@ -1,0 +1,290 @@
+{
+  "name": "Popconfirm (web component)",
+  "slug": "aha-popconfirm",
+  "group": "Feedback",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-popconfirm",
+  "environment": [
+    "product"
+  ],
+  "summary": "The popconfirm as a framework-free element, for code that cannot load the antd Popconfirm: a small prompt anchored to its trigger with a warning glyph, a title, an optional description and Cancel and OK buttons.",
+  "highlights": [
+    "Same look as the antd Popconfirm, no antd needed",
+    "ok-text, ok-danger, confirm-loading, test ids on both buttons",
+    "Esc and an outside click cancel; focus moves in and back"
+  ],
+  "lead": "ONE custom element, <aha-popconfirm>, that reproduces the antd Popconfirm as themed by popconfirmTheme value for value: the prompt is the shared <aha-popover> (white, radius 8, its border, shadow and arrow, twelve placements, flip and top layer), holding the warning glyph in the default ink 8 before a 14/22 SemiBold title, an optional description 4 below it, and Cancel and OK at the DS small size (28 high, 4 corners) on the right. The trigger is its child, as in antd. It exists for apps that are dropping antd (the Manage app) and pages that never load it. Its attributes follow the antd props one for one (title → heading, okText → ok-text, okButtonProps.danger or destructiveConfirm → ok-danger, okButtonProps.disabled → ok-disabled, okButtonProps.loading → confirm-loading, disabled, placement, open), so a migration is a rename. The antd Popconfirm with popconfirm-theme.js stays the choice in React and Vue 3 apps that keep antd.",
+  "codeNote": "Same element, same shadow-DOM CSS, so the render is identical in React, Vue and plain HTML. The trigger is the element's child. Every event is composed and does not bubble, so an enclosing aha-modal or aha-drawer (which fires the same `cancel`, `close` and `closed`) never sees the prompt's: listen on the element itself. A trigger click emits a cancelable `open` (detail.source trigger) and opens it unless cancelled; OK emits a cancelable `confirm`; Cancel, Escape, an outside click and a second trigger click emit a cancelable `cancel` (detail.source cancel-button, escape, outside or trigger); unless cancelled either goes on to the cancelable `close`, then the prompt closes and emits `closed`. Controlled open: set `open` from your state and call preventDefault() on `open` and `close`, then flip your state yourself; or let the element open and close itself and mirror it from `open` and `closed`. For an async confirm, preventDefault() the `confirm`, set `confirm-loading`, and remove `open` when the work resolves. React 18 has no custom-element event props: bind `open`, `confirm`, `cancel` and `closed` through a ref with addEventListener, pass booleans as `attr={flag ? '' : undefined}` (React 18 writes `false` as the string \"false\", which the element also reads as off), and write the kebab-case attribute names. The antd props map: title → heading (or slot=\"title\"), description → description (or slot=\"description\"), icon → a child with slot=\"icon\" (the warning glyph is the default, so `<aha-icon name=\"system-warning-circle\">` can go), icon={null} → no-icon, okText → ok-text, cancelText → cancel-text, {...destructiveConfirm} or okButtonProps={{ danger }} → ok-danger, okButtonProps={{ disabled }} → ok-disabled, {{ loading }} → confirm-loading, okButtonProps / cancelButtonProps={{ 'data-testid' }} → ok-test-id / cancel-test-id, disabled → disabled, placement → placement, open → open, onConfirm / onCancel → the `confirm` / `cancel` events, onOpenChange → `open` and `closed`. ok-text defaults to OK only as a fallback: set a verb that says what happens (Delete, Remove member).",
+  "tokensUsed": [
+    "bg-elevated",
+    "text-default",
+    "border-default",
+    "radius-default",
+    "size-default",
+    "space-4",
+    "space-8",
+    "space-12",
+    "font-product"
+  ],
+  "spec": [
+    {
+      "label": "Prompt",
+      "value": "the shared aha-popover panel: white (bg-elevated), 1px border-default, radius 8, its shadow and arrow, 12 padding, 180 to 280 wide; pops from the trigger, top by default"
+    },
+    {
+      "label": "Message",
+      "value": "system-warning-circle 16 in the default ink (never a status hue), centred on the title's first line, 8 before the text; title 14/22 SemiBold ink; description 14/22 ink, 4 below the title"
+    },
+    {
+      "label": "Buttons",
+      "value": "8 below the message, right aligned, 8 apart: Cancel (secondary) then OK (primary), both aha-button sm (28 high, 4 corners, 14 label)"
+    },
+    {
+      "label": "Destructive confirm",
+      "value": "`ok-danger`: Cancel is the primary (Vivid Pink, white label), OK a secondary (white, border-default, ink label), as popconfirm-theme destructiveConfirm"
+    },
+    {
+      "label": "Busy",
+      "value": "`confirm-loading`: OK shows its spinner and ignores clicks; Cancel is disabled, Escape and an outside click do nothing"
+    },
+    {
+      "label": "Placement",
+      "value": "the twelve aha-popover placements (top default); while open it flips to the roomier side and stays 8 inside the viewport, shown in the top layer so no overflow or z-index ancestor clips it"
+    },
+    {
+      "label": "Behaviour",
+      "value": "role dialog named by the title (or `label`); the trigger carries aria-haspopup dialog and aria-expanded; on open focus moves to the primary button (OK, or Cancel when ok-danger or ok-disabled), on close back to the trigger except after an outside click; Escape is taken before an enclosing aha-modal sees it"
+    }
+  ],
+  "props": [
+    {
+      "name": "open",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Shows the prompt. Removing it hides it and emits `closed`"
+    },
+    {
+      "name": "heading",
+      "type": "string",
+      "default": "—",
+      "desc": "The title (antd `title`). Fill `slot=\"title\"` instead for rich content"
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "default": "—",
+      "desc": "Text under the title. Fill `slot=\"description\"` instead for rich content"
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "—",
+      "desc": "Accessible name; overrides the title as the name"
+    },
+    {
+      "name": "ok-text",
+      "type": "string",
+      "default": "OK",
+      "desc": "OK button label. Name the action (\"Delete\"), not OK"
+    },
+    {
+      "name": "cancel-text",
+      "type": "string",
+      "default": "Cancel",
+      "desc": "Cancel button label"
+    },
+    {
+      "name": "ok-danger",
+      "type": "boolean",
+      "default": "false",
+      "desc": "A destructive confirm: Cancel primary, OK secondary"
+    },
+    {
+      "name": "ok-disabled",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Disables OK (antd okButtonProps.disabled)"
+    },
+    {
+      "name": "confirm-loading",
+      "type": "boolean",
+      "default": "false",
+      "desc": "OK shows its spinner; Cancel, Escape and an outside click do nothing while set"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "desc": "A trigger click does not open it; a trigger that is itself disabled (disabled or aria-disabled=\"true\") does not open it either"
+    },
+    {
+      "name": "placement",
+      "type": "top | bottom | left | right | top-start | top-end | bottom-start | bottom-end | left-start | left-end | right-start | right-end",
+      "default": "top",
+      "desc": "Side of the trigger it opens on; flips when that side lacks room"
+    },
+    {
+      "name": "arrow",
+      "type": "\"false\"",
+      "default": "true",
+      "desc": "`arrow=\"false\"` drops the arrow"
+    },
+    {
+      "name": "no-icon",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Drops the warning glyph (antd icon={null})"
+    },
+    {
+      "name": "ok-test-id",
+      "type": "string",
+      "default": "—",
+      "desc": "data-testid on the OK button"
+    },
+    {
+      "name": "cancel-test-id",
+      "type": "string",
+      "default": "—",
+      "desc": "data-testid on the Cancel button"
+    },
+    {
+      "name": "inline",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Stays in the page flow with no keys, no outside click and no focus move. For docs and previews"
+    },
+    {
+      "name": "default slot",
+      "type": "slot",
+      "default": "—",
+      "desc": "The trigger, usually an aha-button"
+    },
+    {
+      "name": "slot=\"title\"",
+      "type": "slot",
+      "default": "—",
+      "desc": "Rich title content instead of `heading`"
+    },
+    {
+      "name": "slot=\"description\"",
+      "type": "slot",
+      "default": "—",
+      "desc": "Rich description instead of `description`"
+    },
+    {
+      "name": "slot=\"icon\"",
+      "type": "slot",
+      "default": "—",
+      "desc": "Replaces the warning glyph"
+    },
+    {
+      "name": "close()",
+      "type": "method",
+      "default": "—",
+      "desc": "Asks to close: emits `close` (source method), closes unless cancelled"
+    },
+    {
+      "name": "open",
+      "type": "event",
+      "default": "—",
+      "desc": "Cancelable, composed, does not bubble. The trigger was clicked; unless cancelled the prompt opens"
+    },
+    {
+      "name": "confirm",
+      "type": "event",
+      "default": "—",
+      "desc": "Cancelable, composed, does not bubble. OK was pressed; unless cancelled the prompt closes"
+    },
+    {
+      "name": "cancel",
+      "type": "event",
+      "default": "—",
+      "desc": "Cancelable, composed, does not bubble. detail.source is cancel-button, escape, outside or trigger; unless cancelled the prompt closes"
+    },
+    {
+      "name": "close",
+      "type": "event",
+      "default": "—",
+      "desc": "Cancelable, composed, does not bubble. Fires before any close; detail.source is confirm, cancel-button, escape, outside, trigger or method"
+    },
+    {
+      "name": "closed",
+      "type": "event",
+      "default": "—",
+      "desc": "Composed, does not bubble. The prompt is closed; detail.source as on `close`, or attribute when `open` was removed directly"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Popconfirm (web component)",
+        "when": "a quick yes or no on one low-risk action, next to its button, on a page that does not load antd or is dropping it"
+      },
+      {
+        "what": "Popconfirm (antd)",
+        "when": "a React or Vue 3 app that keeps antd and themes it with popconfirm-theme.js"
+      },
+      {
+        "what": "Modal (web component)",
+        "when": "a confirmation that needs more than two lines, a form field, or blocks the whole page"
+      }
+    ],
+    "note": "Phrase the title as a question and name OK the action. A destructive confirm sets `ok-danger`, so Cancel is the primary and Enter on the focused button keeps the item. Keep the description to one or two short lines; anything longer is a Modal."
+  },
+  "surfaces": [
+    "editor",
+    "dashboard",
+    "settings"
+  ],
+  "reuse": {
+    "entry": "./aha-popconfirm",
+    "registers": "aha-popconfirm",
+    "exportsNamed": [
+      "AhaPopconfirm",
+      "defineAhaPopconfirm"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "aha-popconfirm.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form: a version-pinned CDN import and plain HTML, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "aha-popconfirm.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "aha-popconfirm.vue.txt"
+    }
+  ],
+  "preview": "aha-popconfirm.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP), on the inline, open destructive example.",
+    "ready": "!!(document.querySelector('aha-popconfirm[data-probe]')&&document.querySelector('aha-popconfirm[data-probe]').shadowRoot&&document.querySelector('aha-popconfirm[data-probe]').shadowRoot.querySelector('.pop').shadowRoot&&document.querySelector('aha-popconfirm[data-probe]').shadowRoot.querySelector('.ok').shadowRoot)",
+    "singleUI": true,
+    "measure": "(function(){var r=document.querySelector('aha-popconfirm[data-probe]').shadowRoot;function cs(n){return n?getComputedStyle(n):{}}var pop=r.querySelector('.pop').shadowRoot.querySelector('.pop');var p=cs(pop);var t=cs(r.querySelector('.title'));var d=cs(r.querySelector('.description'));var ok=cs(r.querySelector('.ok').shadowRoot.querySelector('button'));var cancel=cs(r.querySelector('.cancel').shadowRoot.querySelector('button'));var icon=r.querySelector('slot[name=icon] aha-icon');return{surface:p.backgroundColor,radius:p.borderTopLeftRadius,pad:p.paddingTop,role:pop.getAttribute('role'),titleColor:t.color,titleSize:t.fontSize,titleWeight:t.fontWeight,titleLine:t.lineHeight,descColor:d.color,buttonHeight:ok.height,buttonRadius:ok.borderTopLeftRadius,cancelBg:cancel.backgroundColor,okBg:ok.backgroundColor,icon:icon?icon.getAttribute('name'):null};})()",
+    "expect": {
+      "surface": "rgb(255, 255, 255)",
+      "radius": "8px",
+      "pad": "12px",
+      "role": "dialog",
+      "titleColor": "rgb(26, 26, 26)",
+      "titleSize": "14px",
+      "titleWeight": "600",
+      "titleLine": "22px",
+      "descColor": "rgb(26, 26, 26)",
+      "buttonHeight": "28px",
+      "buttonRadius": "4px",
+      "cancelBg": "rgb(231, 14, 104)",
+      "okBg": "rgb(255, 255, 255)",
+      "icon": "system-warning-circle"
+    }
+  }
+}

@@ -31,6 +31,7 @@
   "opinion": {
     "whenToUse": [
       { "what": "Form", "when": "two or more related fields submitted together, with validation" },
+      { "what": "Form (web component)", "when": "the same form from code that cannot reach antd (Vue 2, plain HTML, React without antd): <aha-form> + <aha-form-item>, the same look" },
       { "what": "a single Input/Select", "when": "one value that applies on its own — no submit step" },
       { "what": "Settings pattern", "when": "a settings surface — see the Settings pattern for grouping and spacing" }
     ],

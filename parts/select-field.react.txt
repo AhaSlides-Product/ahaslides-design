@@ -46,3 +46,23 @@ function AhaTagsSelect({ values, placeholder, onChange }) {
 
 // Server search: show-search + filter="off" keeps every option you set; loading shows the spinner.
 // <aha-select show-search filter="off" loading={busy ? '' : undefined} ...> and listen for 'search' (e.detail.query).
+
+// Pick several (antd mode="multiple"): the same wrapper shape, reading e.detail.values.
+// antd → aha: allowClear → allow-clear, showSearch → show-search, optionFilterProp="title" → filter-prop="title",
+// maxCount → max-count, mode={allowNew ? 'tags' : 'multiple'} → mode={allowNew ? 'tags' : 'multiple'} with the same options.
+function AhaMultiSelect({ values, options, mode = 'multiple', allowClear, showSearch, filterProp, maxCount, ariaLabel, onChange }) {
+  const ref = useRef();
+  useEffect(() => {
+    const el = ref.current;
+    el.options = options || [];              // option groups: { label, options: [...] }; a trailing count: suffix
+    el.values = values || [];
+    const h = (e) => onChange?.(e.detail.values);
+    el.addEventListener('change', h);
+    return () => el.removeEventListener('change', h);
+  });
+  return (
+    <aha-select ref={ref} mode={mode} aria-label={ariaLabel}
+      allow-clear={allowClear ? '' : undefined} show-search={showSearch ? '' : undefined}
+      filter-prop={filterProp} max-count={maxCount} />
+  );
+}

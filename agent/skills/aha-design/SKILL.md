@@ -93,6 +93,12 @@ Read the list from the DS each time — surfaces get added.
   each rule tagged with its environment. Read the rules for your environment there, never from memory.
 - A slide-type iframe is `canvas` (presenter stage) or `audience` (participant phone) — a
   separate runtime; the product-app baseline does not apply.
+- Presenter-app work on the presenting screen (in `stpancras-presenter-app`,
+  `src/components-v2/presentation-editor/middle/**`; the presenter control bar and the popovers,
+  pickers and menus its buttons open; anything drawn over a live slide, such as ink annotation) is
+  always judged on `canvas` plus `app-shell` C6, plus the product-app baseline and every surface it
+  touches, whoever builds it. Canvas C10 covers controls a slide renders itself; every control the
+  host paints there is app-shell C6, proved by a recorded keyboard run.
 
 ## 3. Build
 
@@ -112,10 +118,10 @@ Read the list from the DS each time — surfaces get added.
    (`logo/line/<id>.svg`) in `--aha-icon-default`, 24px, with no tile or border around it and the
    tool's name beside it (the Logo library has the copy-paste patterns); only a page listing other
    products (Marketplace) shows the colour logo image, greyscale at rest and in colour on hover and
-   keyboard focus of its card. A Log in with Google / Microsoft button shows the
-   brand's glyph from the icon library (`<aha-icon name="system-google-logo">`, `system-microsoft-logo`,
-   default ink) at rest, never the greyscale logo, and the original colour logo (`logo/original/`) on
-   hover and keyboard focus. Colour rule 2.6 has the detail; the `brand-logo-colour` lint fails a
+   keyboard focus of its card. A provider sign-in button (Sign in with
+   Google / Microsoft / Apple) keeps the provider's full-colour mark (`logo/original/`) at rest and on
+   hover. A line logo used as a tab or menu icon takes the item's text colour (pink when active); a
+   navigation-menu logo stays in its ink on hover; social links use line logos. Colour rule 2.6 has the detail; the `brand-logo-colour` lint fails a
    brand-colour file or `icon-maintain-color` at rest.
    The top-left brand of any site, microsite, docs site, careers, landing or pricing page, internal
    tool or app header is `<aha-product-lockup product="<name>">` (no `product` when no name is

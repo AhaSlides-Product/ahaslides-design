@@ -111,7 +111,7 @@
       "files": [],
       "label": "bad-example",
       "notes": "C5 — DS V3 sort/filter/freeze/pagination.",
-      "expected_output": "FAILs C5. Shipped behaviour must match DS V3: sort = a single directional arrow (not the dual caret); filter = the canonical checklist (search + Reset/Apply) or Min/Max range popover; pagination = brand-outlined active page + the 'N / page' size changer (showSizeChanger). Fix: override sortIcon to the single arrow, use the canonical filter popovers, and enable the size changer. Overall NEEDS FIX.",
+      "expected_output": "FAILs C5. Shipped behaviour must match DS V3: sort = a single directional arrow (not the dual caret); filter = the canonical checklist (search + Reset/Apply) or Min/Max range popover or the typed-value popover; pagination = brand-outlined active page + the 'N / page' size changer (showSizeChanger). Fix: override sortIcon to the single arrow, use the canonical filter popovers, and enable the size changer. Overall NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C5 is marked FAIL",

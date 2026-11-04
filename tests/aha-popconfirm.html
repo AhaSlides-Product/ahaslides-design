@@ -1,0 +1,21 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../lib/tokens.css">
+<div style="padding:200px 40px">
+  <button id="elsewhere">Elsewhere</button>
+  <aha-popconfirm id="pc" heading="Delete this slide?" description="Its responses go too." ok-text="Delete" cancel-text="Keep" ok-test-id="del-ok" cancel-test-id="del-cancel">
+    <button id="trigger">Delete</button>
+  </aha-popconfirm>
+  <aha-popconfirm id="off" disabled heading="Leave?"><button id="off-trigger">Leave</button></aha-popconfirm>
+  <aha-popconfirm id="dead" heading="Archive?"><button id="dead-trigger" aria-disabled="true">Archive</button></aha-popconfirm>
+  <aha-popconfirm id="second" heading="Rename?"><button id="second-trigger">Rename</button></aha-popconfirm>
+  <aha-modal id="modal" heading="Settings" no-footer>
+    <aha-popconfirm id="nested" heading="Reset?"><button id="nested-trigger">Reset</button></aha-popconfirm>
+  </aha-modal>
+</div>
+<script type="module">
+  import '../lib/aha-popconfirm.js';
+  import '../lib/aha-modal.js';
+  await customElements.whenDefined('aha-popconfirm');
+  window.popconfirmFixtureReady = true;
+</script>

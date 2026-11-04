@@ -1,0 +1,23 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-datepicker> is the SAME shared custom element React and Vue consume, here in its native form. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-datepicker.js';   // registers <aha-datepicker>
+</script>
+
+<!-- one date, typed as YYYY-MM-DD or picked; click the field or press ArrowDown to open the calendar -->
+<aha-datepicker id="start" label="Start date" value="2026-11-04"></aha-datepicker>
+
+<!-- min / max: days outside are disabled, and typed dates outside go back to the last value -->
+<aha-datepicker min="2026-11-01" max="2026-12-31" aria-label="Due date"></aha-datepicker>
+
+<!-- states: error · disabled · no clear button · Monday first, French names -->
+<aha-datepicker status="error" error-message="Pick a date on or after the start date" value="2026-10-01" aria-label="End date"></aha-datepicker>
+<aha-datepicker disabled value="2026-11-04" aria-label="Created"></aha-datepicker>
+<aha-datepicker allow-clear="false" value="2026-11-04" aria-label="Report date"></aha-datepicker>
+<aha-datepicker locale="fr" week-start="1" aria-label="Date" previous-month-label="Mois précédent" next-month-label="Mois suivant" today-label="Aujourd’hui" clear-label="Effacer la date"></aha-datepicker>
+
+<script>
+  // e.detail.value is the ISO date 'YYYY-MM-DD', or null when cleared
+  document.getElementById('start').addEventListener('change', (e) => console.log('date:', e.detail.value));
+</script>

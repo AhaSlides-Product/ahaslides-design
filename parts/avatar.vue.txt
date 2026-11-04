@@ -16,4 +16,9 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
     <aha-avatar name="Alan Turing" />
     <aha-avatar name="Katherine Johnson" />
   </aha-avatar-group>
+
+  <!-- `add` appends a round + button; it fires a bubbling `aha-add` -->
+  <aha-avatar-group add add-label="Invite people" @aha-add="openInvite">
+    <aha-avatar name="Ada Lovelace" />
+  </aha-avatar-group>
 </template>

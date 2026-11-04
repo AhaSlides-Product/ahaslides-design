@@ -33,13 +33,246 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.960.0 — 2026-11-03
+## 0.979.0 — 2026-11-04
 ### Changed
 - Colour rule 2.6: a third-party logo in any interface (website header, pricing row, presenter app) is its line mark from `logo/line/` in `--aha-icon-default`, 24px, with no tile or border; a row after a label sits 12px after it and 8px apart. Only a listing page (Marketplace) shows the colour image, greyscale at rest and in colour on card hover and keyboard focus, with no fade under reduced motion. Anti-slop C7, the colour evals, the skill, AGENTS.md and PRINCIPLES.md follow. (#557)
 - Navigation: the Products menu app entries show the line logos straight on the menu, without the white square tile. (#557)
 - Integration card: the logo is the colour file with the `brand-logo-listing` class, greyscale until the card is hovered or focused. The `brand-logo-colour` lint accepts that class. (#557)
+- Colour rule 2.6 finalised: provider sign-in buttons (Google, Microsoft, Apple) keep the provider's full-colour mark; a navigation-menu logo stays in its ink on hover; a line logo as a tab or menu icon takes the item's text colour (pink when active); a Coming soon card hovers like a live one; a decorative logo row next to named cards may omit the names. Rule 2.6a: social links use line logos. (#557)
 ### Added
 - Logo library: line marks for 29 brands under `logo/line/`, a G2 logo (original, greyscale and line), and copy-paste patterns for a line logo, a logo row after a label and a listing card. Redrawn Canva, Zapier and Claude line stand-ins. (#557)
+
+## 0.977.1 — 2026-11-04
+
+### Fixed
+- **Avatar group never shows a solid pink avatar** (#632). The default tint cycle was Vivid Pink 5%, 30%, then solid
+  Vivid Pink 100 with white initials, so a third child (or one left alone among hidden siblings) competed with a
+  primary button. It is now a four-step cycle of Vivid Pink 5%, grey 40, grey 25 and grey 50 with ink #1A1A1A
+  (11.7:1 or better); the +N chip moves to grey 60 so it stays distinct. The `color` attribute still overrides.
+
+## 0.977.0 — 2026-11-04
+
+### Added
+- **Google Sheets in the Logo library** (#631). `logo/google-sheets.svg` (greyscale, colour rule 2.6) and
+  `logo/original/google-sheets.svg` (brand colours, for hover and listing pages), beside Microsoft Excel. Survey's
+  Connect results modal can drop its inline brand SVGs.
+
+## 0.976.0 — 2026-11-04
+
+### Changed
+- **Textarea and Counted textarea contracts point to the plain multi-line answer** (#630). An app that is not on antd uses
+  `<aha-counted-textarea maxlength="none">` for plain multi-line text: no cap, no counter, `minrows` / `maxrows` for the
+  height and `--aha-field-width:100%` for full width. No new element and no API change.
+
+## 0.975.0 — 2026-11-04
+
+### Added
+- **`<aha-datepicker>`: a single-date field that replaces antd `DatePicker` for one date** (#629). It looks like
+  `aha-input` (40px, `size="small"` 24px, `size="large"` 48px, radius 8) with a calendar glyph that turns into a clear
+  button on hover and focus once a date is set (`allow-clear="false"` hides it). A click or ArrowDown opens a month
+  calendar in the top layer: arrows move a day or a week, Home / End the week, PageUp / PageDown a month (Shift for a
+  year), Enter picks, Escape closes. The value is an ISO `YYYY-MM-DD` string or `null`, with no Day.js; it can be typed,
+  and text that is not a real date inside `min` / `max` goes back to the last value. `input` and `change` carry
+  `e.detail.value`. Month and weekday names follow `locale`, the first column follows `week-start` or the locale. It has
+  `role="combobox"` over a `role="grid"` calendar, passes `aria-label` and `aria-labelledby` through, supports
+  `disabled`, `status`, `label` and the field messages, and joins forms. The antd `datepicker-theme` composite stays
+  for ranges, times and the week, month and year pickers.
+- **`aha-form-item` reads `aha-datepicker`** (#629): the value is the ISO date, `''` when empty, and the field fills the
+  item's width.
+
+## 0.974.0 — 2026-11-04
+
+### Added
+- **`<aha-input-number>`: a numeric field that replaces antd `InputNumber`** (#628). It looks like `aha-input` (40px,
+  `size="small"` 24px, `size="large"` 48px, radius 8) with the ▲/▼ stepper revealed on hover and focus;
+  `controls="false"` hides it. It takes decimals and negatives, `min`, `max`, `step` and `precision`, clamps and rounds
+  when the field is left or Enter is pressed, and steps with ArrowUp / ArrowDown (Shift for ten). `string-mode` keeps
+  the value an exact decimal string with no float rounding; `valueAsNumber` reads it as a number, and an empty field is
+  `null`. A pasted number keeps its exponent (`1e5` is 100000), pasted text with no number in it is refused, and IME
+  input (full-width digits too) is read when composition ends. `input` and `change` carry `e.detail.value`. It has `role="spinbutton"` with `aria-valuenow/min/max`, passes
+  `aria-label` and `aria-labelledby` through, supports `disabled`, `readonly`, `status`, `prefix`, `suffix`, `label`
+  and the field messages, and joins forms. `increase-label` / `decrease-label` rename the stepper buttons
+  (default "Increase" / "Decrease"). The `input-number` antd theme and `aha-number-with-unit` are unchanged.
+- **`aha-form-item` reads `aha-input-number`** (#628): the value is a number (its string under `string-mode`) or `null`,
+  and the field fills the item's width.
+
+## 0.973.0 — 2026-11-04
+
+### Added
+- **`aha-select` `mode="multiple"`: pick several options as closable `aha-tag` chips** (#626). The list stays open after a
+  pick, with checked rows (`aria-multiselectable`, `aria-selected`). It reads `values` and emits `change` with
+  `{values}`, like tags mode. With `show-search` the inline field filters the rows. Also new: `max-count` (antd
+  `maxCount`), which disables the rows not yet picked once the limit is reached, and `filter-prop` (antd
+  `optionFilterProp`), which picks the option field the filter matches. `allow-clear` empties every value and Backspace
+  removes the last chip. An option `suffix` (a trailing count) shows in the rows.
+- **`aha-select` `mode="tags"` with `options` shows them as suggestions**, as antd tags mode does (#626). Typing filters
+  them, Arrow keys and Enter pick one, and typed text is still added as a free-entry tag. Without options, tags mode is
+  unchanged.
+- **`aha-select` option groups** (#626): an options entry `{ label, options: [...] }` renders a header row over its
+  options (`role="group"`) in single, multiple and tags modes. The keyboard skips headers, and filtering hides a group
+  with no match.
+- **`aha-autocomplete` option `suffix`** (#626): trailing text in tertiary ink at the end of a row, the same look as
+  `aha-select`. Typing matches it as well as the label.
+- **Spoken names for rows and chips** (#626). An option `ariaLabel` (in `aha-select` and `aha-autocomplete`) names a row
+  for screen readers when its visible text is only a label and a count, such as "Design, 6 members". Rows without it are
+  unchanged. A chip's close button is now named "Remove {label}" (for example "Remove Design"); `remove-label` on
+  `aha-select` changes the wording, and a standalone `aha-tag` takes `close-label` (default "Remove").
+
+### Fixed
+- **`aha-form-item` treats an `aha-select mode="multiple"` as a list** (#626), as it does tags mode, so `required` fails
+  on an empty list and passes once a value is picked.
+- **`aha-select` multiple and tags-with-options keyboard and pointer fixes** (#626). Home and End move to the first or
+  last enabled row, the active row survives an options update while open, clicking a chip's close button or the clear
+  button keeps the list open with focus in the field, an IME word filters the list when composition ends, and text that
+  `max-count` refuses stays in the field instead of being lost.
+
+## 0.972.1 — 2026-11-04
+
+### Fixed
+- **`aha-popconfirm`: a prompt inside an `aha-modal` no longer closes the modal, a disabled trigger never opens it, and Escape
+  closes the newest prompt** (#625). Its `open`, `confirm`, `cancel`, `close` and `closed` events stay composed but no longer
+  bubble, so a modal's or drawer's own `cancel` / `closed` listener (the documented React pattern) never runs when the prompt
+  is dismissed. A trigger with `disabled`, `:disabled` or `aria-disabled="true"` no longer opens it. With two prompts open,
+  Escape closes the one opened last instead of the first. A prompt already in the page when the script loads now opens in the
+  browser top layer too (it was left at z-index 20, so a sticky header or a transformed ancestor could cover or clip it), and
+  `open = ''` (what React 19 assigns) opens it instead of closing it. Demo copy follows the UX writing review (UXWR-27).
+
+## 0.972.0 — 2026-11-04
+
+### Added
+- **`aha-popconfirm`: the Popconfirm as a web component** (#624). A small prompt anchored to its trigger (the element's child)
+  that matches the antd Popconfirm themed by `popconfirm-theme.js` value for value: the shared `aha-popover` frame with its arrow,
+  twelve placements, flip and top layer, the warning glyph in the default ink, a 14/22 SemiBold title, an optional description,
+  and Cancel and OK at the DS small size (28 high, 4 corners). Its attributes follow the antd props one for one: `heading`,
+  `description` (or the `title` / `description` slots), an `icon` slot or `no-icon`, `ok-text`, `cancel-text`, `ok-danger` (the
+  `destructiveConfirm` look: Cancel is the primary), `ok-disabled`, `confirm-loading`, `disabled`, `placement`, `open`, and
+  `ok-test-id` / `cancel-test-id` for a data-testid on each button. A trigger click emits a cancelable `open`; OK a cancelable
+  `confirm`; Cancel, Escape and an outside click a cancelable `cancel` with its source, then `close` and `closed`. Focus moves to
+  the primary button on open and back to the trigger on close. The antd `popconfirm-theme.js` is unchanged.
+
+## 0.971.0 — 2026-11-04
+
+### Added
+- **`aha-modal`: the Modal as a web component** (#623). A white dialog over a dimmed mask that matches the antd Modal themed by
+  `modal-theme.js` value for value (radius 8, 20/24 padding, 18px SemiBold ink title with the shared ✕, Cancel and OK at 36 high,
+  the simple / complexity / rich size cap), for apps dropping antd and pages that never load it. Its attributes follow the antd
+  props one for one: `ok-text`, `cancel-text`, `ok-disabled`, `ok-danger` (Cancel becomes the primary and a mask click never
+  closes it), `confirm-loading` (Cancel, ✕, Escape and the mask wait), `width`, `size`, `centered`, `closable`, `mask-closable`,
+  `keyboard`, `no-footer` and a `footer` slot that replaces the buttons. OK emits a cancelable `ok`, every dismiss a cancelable
+  `cancel` with its source, then `close` and `closed`. It traps Tab, locks page scroll and gives focus back to the opener. The
+  antd `modal-theme.js` is unchanged.
+
+## 0.970.0 — 2026-11-04
+
+### Added
+- **`aha-form` and `aha-form-item`: the antd Form and Form.Item as web components** (#622). The label, an ink
+  required `*` (or `required-mark="optional"`), help text and the error row around any DS control, with the
+  form-theme.js look: 14/22 ink label 4 above the field, 20 between items, the 12/18 ink error with its glyph,
+  never a status hue. `required`, `required-message` and a `validator(value)` property (sync or async) validate on
+  leaving a field and on submit; `<aha-form>` lays items out vertical, horizontal or inline, submits on a
+  `type="submit"` button or Enter, focuses the first invalid field and fires `submit` with `{ values }` or
+  `invalid` with `{ errors }`. No provider: works in React, Vue and plain HTML.
+
+### Changed
+- `aha-input`, `aha-counted-input`, `aha-counted-textarea` and `aha-select` forward `aria-required` to their
+  inner field, and `aha-counted-input` now forwards `aria-describedby` like `aha-input`, so a form item's
+  error and help describe the field (#622).
+- `aha-audience-contact`: the default required message is now "We need this one." (was "This field is
+  required"), the same as `aha-form-item`'s (#622).
+
+## 0.969.0 — 2026-11-04
+
+### Added
+- **`aha-toast` and `aha-notification`: the toast and the notification card as web components with an imperative API**
+  (#620). `toast.success('Slide saved')` and `notify({ title, description, action })` work from any handler in React, Vue
+  or plain HTML, with no provider and no antd. Both stack in one bottom-right `<aha-toaster>` region (Feedback C1) and
+  match the antd message and Notification themes value for value; the glyph stays in the default icon colour (C6). They
+  are announced through a persistent live region (assertive for an error), never take focus, pause on hover or focus,
+  close on Esc or the shared ✕, and `duration: 0` keeps them until dismissed. A call with a `key` updates in place
+  (loading, then saved). The antd `toast-theme.js` and `notification-theme.js` are unchanged.
+- `STATUS_GLYPH` is now exported from `status-icon-css.js`.
+## 0.968.1 — 2026-11-03
+### Fixed
+- `<aha-avatar-group add>` stacks left over right: each avatar and the +N chip sits on top of the item to its right, so the + button tucks under the item on its left (it rises above its neighbour on hover and keyboard focus so the focus ring shows whole); groups without `add` are unchanged (#621)
+- `<aha-avatar-group>`: the 2px white ring around each avatar and the +N chip now follows the avatar's shape (round on a circle, radius 8 on a square). It was drawn square, so where avatars overlapped it showed as a straight white strip cutting across the neighbour instead of a curve; with and without `add` (#621)
+- Revert: revert the PR; stacking order only
+
+## 0.967.1 — 2026-11-03
+### Fixed
+- Option row, Counted textarea, Counted input and Input: a typed space (or the last few keystrokes) no longer disappears when the host writes back an older or trimmed copy of the value while the field has focus, for example after a debounced save. A value the field itself sent earlier in the same focus session no longer overwrites what is typed; an empty value (a clear after submit), a value set from the `input` handler itself (a filter or clamp) and any other value (a reset, a collaborator's edit) still apply. A value set during IME composition (Vietnamese Telex, Chinese, Japanese) no longer breaks the composition (#613)
+
+## 0.967.0 — 2026-11-03
+### Changed
+- Tokens: `--aha-text-tertiary` is grey 80 `#616161` (6.19:1 on white) instead of `#8A8A8A` (3.45:1), so tertiary text passes AA. `--aha-icon-muted` stays `#8A8A8A`: icons need 3:1 (#619)
+- Tokens: `--aha-text-link` is Darker Pink `#DB005B` (`--aha-vivid-pink-dark`) instead of Vivid Pink. A link now passes AA on white (5.04:1), on the alert grey `#F3F3F3` (4.55:1) and on Vivid Pink at 5% (4.65:1); it was 4.51, 4.06 and 4.16:1. `--aha-color-primary` and every button and fill keep Vivid Pink. Colour rule 6.7 is updated (#619)
+- Course theme: tertiary text is floored at 4.5:1 on the surface, page and light greys; links are floored at 4.5:1 on the alert grey and the accent tint too; the secondary text floor also covers the grey-30 tag fill, so a default `<aha-tag>` keeps 4.5:1 in a tinted theme. Muted icons keep their 3:1 floor (#619)
+- `<aha-flex>` no longer sets a text colour; its children inherit the parent's (#619)
+
+### Fixed
+- `<aha-collapse>` header text is the 14px body size, not 15px (#619)
+- `<aha-chart>` value sub-line and `<aha-result>` subtitle use the secondary text grey `#4A4A4A` instead of `#8A8A8A` (#619)
+- The shared dismiss ✕ (`<aha-button variant="tertiary" icon-only size="xs" corner>`, drawn by `dismissibleModalTitle` and the Toast, Notification and Drawer close rows) keeps its 20px look and gets an invisible 32 × 32 hit area (#619)
+- `antd-base-theme` sets `fontHeight` from the DS line height 1.5 (21 at 14px; `dsAntdTheme` recomputes it when a composite sets `fontSize` or `lineHeight`), so a Select is 40px, not 39. It also sets `colorTextPlaceholder` to `#8A8A8A`, as the input composites do, instead of antd's 25% black (#619)
+- `<aha-avatar>` initials take the type-scale step nearest 38% of the size, never below 12px: 12 at 24 (was 9), 16 at 40 (was 15), 24 at 64 (#619)
+- DataTable: the idle sort arrow is the muted icon grey `#8A8A8A` (3.45:1), not the disabled grey `#B5B5B5`, which is for disabled states only (#619)
+- `table-theme` (Table and DataTable): header labels use the tertiary text grey `#616161` (6.19:1 on white, 5.48:1 on the hover fill) instead of `#8A8A8A` (3.45:1) (#619)
+- `state-check.mjs` no longer waives a Vivid Pink link in an Alert or info box: links are Darker Pink and pass 4.5:1 there (#619)
+- antd base theme: `colorLink` is `--aha-text-link` Darker Pink `#DB005B` instead of Vivid Pink, so an antd `Typography.Link` or `Button type="link"` matches the DS link (#619)
+- antd base theme: Message and Notification pin their own text colours, so a toast or notification never inherits a faint page colour. Message text and the notification title are `--aha-text-default` `#1A1A1A` (17.4:1 on white), the notification description is `--aha-text-secondary` `#4A4A4A` (8.86:1) (#619)
+
+## 0.966.0 — 2026-11-03
+### Fixed
+- DataTable: each column filter trigger is now a real `<button>` reached with Tab, named "Filter: <column>" (`labels.filterColumn`), opened with Enter or Space into a `role="dialog"` panel of the same name, and closed with Escape, which puts focus back on the trigger. Keys pressed in the panel stay in it, so Alt+Arrow no longer moves the column. Columns using antd's own `filters` keep antd's trigger and icon. Before, antd's trigger had `tabIndex=-1` and no name, so a keyboard user could not filter (#614)
+- DataTable: the toolbar title is a heading (`<h2>` by default, `toolbarTitleLevel` picks 1–6) instead of a `<span>`; it looks the same (#614)
+- DataTable: the first click on a sortable column now sorts ascending (↑ → ↓ → none), and an unsorted column's grey arrow points up to match. A column's own `sortDirections` still wins, and its idle arrow follows the first entry (#614)
+
+### Changed
+- DataTable: the Edit columns footer button reads "Reset columns" (`labels.resetColumns`); the filter popovers keep "Reset" (#614)
+
+### Added
+- DataTable `columnsSearchable`: a Search columns field above the Edit columns list (`labels.searchColumns`), cleared when the popover closes, with "No columns match" (`labels.noColumnsMatch`) when nothing matches (#614)
+- DataTable `highlightedRowKey`: marks the current row with Vivid Pink 5% (`--aha-bg-accent`) and `aria-current="true"` (#614)
+- DataTable `toolbarSearch`: a search slot between the toolbar title and its actions (#614)
+- DataTable `data-testid` hooks on the toolbar, every filter trigger and panel control, and the Edit columns button, panel, search, checkboxes (`<prefix>-columns-column-<key>`), empty line and Reset columns; `testIdPrefix` (default `aha-data-table`) keeps two tables on a page apart (#614)
+- DataTable: the date value filter has a Clear button (`labels.clearValue`); it empties the date and puts focus back in the field (#614)
+- DataTable: the contract lists every `labels` key; `freezeColumn` and `defreezeColumn` translate the freeze menu (#614)
+
+## 0.965.0 — 2026-11-03
+### Added
+- `<aha-avatar-group add>` appends a round + button after the avatars and the +N chip, at the group's size and shape with the same white ring, and a group with `add` overlaps its avatars, the +N chip and the button only slightly (an eighth of the size: 3px, 5px, 8px) instead of the default stack overlap, drawn like the secondary Button (pink on hover and press, the pink focus ring). Click, Enter or Space fires a bubbling `aha-add` event; `add-label` names it (default "Add") and `add-disabled` disables it. Groups without `add` render as before (#615) The default `add-label` is "Add person".
+### Changed
+- `<aha-avatar-group>` builds its shadow tree once and updates it in place, so a member added by an `aha-add` handler keeps keyboard focus on the add button (#615)
+
+## 0.964.1 — 2026-11-03
+### Fixed
+- CHANGELOG: the 0.964.0 entry links its real PR number instead of the `(#630)` placeholder that auto-merge shipped, which turned the standards gate red on master and held back the 0.964.0 publish; this release ships the Dropdown switch row and badge (#618)
+- Revert: revert the PR; changelog text only
+
+## 0.964.0 — 2026-11-03
+### Added
+- Dropdown: a `{type:'switch', key, label, checked?, description?, icon?, badge?, disabled?, testid?}` row draws the shared Switch at the row's trailing edge for a setting inside the menu (Full screen beside Present). It is a `menuitemcheckbox` with `aria-checked`; click, Enter or Space flips it in place, the menu stays open with focus on the row, and a composed `change` fires with detail `{ key, checked }` (never `select`). Re-set `items` with a new `checked` to control it: only the switch updates (#617)
+- Dropdown: `badge` ("Beta", "New") on a leaf or switch row draws the shared Badge kind tag right after the label, before a shortcut chip, crown or switch; "New" is the pink New tag, any other text the grey Beta tag, and the row's accessible name gains ", Beta". Use it instead of a "(Beta)" suffix in the label (#617)
+
+## 0.962.0 — 2026-11-03
+### Changed
+- aha-design skill, route table and Stop hook: presenter-app work on the presenting screen (`src/components-v2/presentation-editor/middle/**` in `stpancras-presenter-app`, the presenter control bar and its popovers, anything drawn over a live slide such as ink annotation) is always judged on `canvas` plus `app-shell` C6, whoever builds it (#616)
+- Canvas C10 and app-shell C6 now name the same host controls (every control-bar button, manifest actions included, the popovers they open, host layers over the slide such as ink annotation) and the same rule for them: the canvas C10 shortcut chip, sized and themed by the host, never `applyCanvasDeck` or the in-canvas `size="lg"` (#616)
+### Fixed
+- Every anti-slop surface's `skillRef` now names a skill the plugin ships (`ahaslides-design:aha-design`, settings `ahaslides-design:settings-design`) instead of the retired `aha-design:aha-design-<x>-judge` skills, and the standards gate fails a `skillRef` that does not resolve under `agent/skills` (#616)
+
+## 0.959.1 — 2026-11-03
+### Fixed
+- Website Logos strip: with the label hidden (the docs Label: Off switch, or a hidden `aha-logos__label` left in the markup) the logos sat 24px below the top and 96px above the bottom. A hidden label now counts as no label, so the strip has equal Section space above and below the logos, and the one-Group pull-up after a same-surface section still applies (#606)
+
+## 0.959.0 — 2026-11-03
+
+### Added
+- Rate: `min="0"` on `character="number"` adds a 0 cell before 1, so `<aha-rate count="10" character="number" min="0" readonly>` shows a 0 to 10 score in the product app; `value="0"` fills the 0 cell and no `value` fills nothing (#598)
+
+### Fixed
+- Chart, stacked: series 5 and 6 repeat Vivid Pink and black with a white diagonal hatch on the segment, its legend swatch and its tooltip swatch, so every series up to the fold reads apart (colour rule 8.2); a short `colors` list that wraps gets the same hatch (#598)
+- Chart, stacked: the "Other (n)" legend item lists the merged series on hover, the Other segment's tooltip lists each merged series with its value in that row, and the hidden data table keeps every series as its own column (#598)
+- Chart: every label taken from data (options, series, rows, ticks, words, mind-map nodes, tooltips, table cells) has `dir="auto"`, so mixed right-to-left and left-to-right labels each keep their own direction (#598)
 
 ## 0.958.0 — 2026-11-03
 ### Added
@@ -536,7 +769,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.621.1 — 2026-11-02
 ### Fixed
-- CHANGELOG: the 0.609.0 entry links its real PR number instead of the `(#PR)` placeholder that auto-merge shipped, which turned the standards gate red on master (#533)
+- CHANGELOG: the 0.609.0 entry links its real PR number instead of the `(#630)` placeholder that auto-merge shipped, which turned the standards gate red on master (#533)
 - Revert: revert the PR; changelog text only
 
 ## 0.621.0 — 2026-11-02
@@ -627,7 +860,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.596.2 — 2026-11-02
 ### Fixed
-- CHANGELOG: the 0.595.1 entry links its real PR number instead of the `(#PR)` placeholder that auto-merge shipped, which turned the standards gate red on master (#506)
+- CHANGELOG: the 0.595.1 entry links its real PR number instead of the `(#630)` placeholder that auto-merge shipped, which turned the standards gate red on master (#506)
 - Revert: revert the PR; changelog text only
 
 ## 0.596.1 — 2026-11-02

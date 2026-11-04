@@ -1,0 +1,302 @@
+{
+  "name": "Modal (web component)",
+  "slug": "aha-modal",
+  "group": "Feedback",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-modal",
+  "environment": [
+    "product"
+  ],
+  "summary": "The modal as a framework-free element, for code that cannot load the antd Modal: a white dialog over a dimmed mask with a title, a scrolling body and Cancel and OK buttons, capped to the viewport.",
+  "highlights": [
+    "Same look as the antd Modal, no antd needed",
+    "ok-text, ok-danger, confirm-loading, footer slot",
+    "Esc, mask and ✕ close it; focus trapped and returned"
+  ],
+  "lead": "ONE custom element, <aha-modal>, that reproduces the antd Modal as themed by modalTheme value for value: the white dialog with radius 8 and 20/24 padding, the 18px SemiBold ink title with the shared dismiss ✕ on its first line, the 14/22 body, Cancel and OK at 36 high on the right, the dimmed mask and the DS size cap (simple 504 · 75vh, complexity 720 · 80vh, rich 1280 · 90vh, never wider than the viewport less 32). It exists for apps that are dropping antd (the Manage app) and for pages that never load it: Vue 2 apps that only take <aha-*> elements and plain HTML. Its attributes follow the antd Modal props one for one (okText → ok-text, okButtonProps.disabled → ok-disabled, okButtonProps.danger → ok-danger, confirmLoading → confirm-loading, maskClosable → mask-closable, keyboard, closable, width), so a migration is a rename. The antd Modal with modal-theme.js stays the choice in React and Vue 3 apps that keep antd.",
+  "codeNote": "Same element, same shadow-DOM CSS, so the render is identical in React, Vue and plain HTML. The element does not own its state: set or remove `open`. OK emits a cancelable `ok`; Cancel, ✕, Escape and the mask emit a cancelable `cancel` (detail.source); unless cancelled either goes on to the cancelable `close`, then the modal closes and emits `closed`. For an async OK, preventDefault() the `ok`, set `confirm-loading`, and remove `open` when the work resolves; keep it open and show an inline Alert when it fails (overlays C5, C6). React 18 has no custom-element event props: bind `ok`, `cancel` and `closed` through a ref with addEventListener, pass booleans as `attr={flag ? '' : undefined}` (React 18 writes `false` as the string \"false\", which the element also reads as off), and write the kebab-case attribute names. The antd props map: okText → ok-text, cancelText → cancel-text, okButtonProps={{ disabled }} → ok-disabled, {{ danger }} → ok-danger, {{ loading }} or confirmLoading → confirm-loading, footer={…} → children with slot=\"footer\", footer={null} → no-footer, maskClosable={false} → mask-closable=\"false\", keyboard={false} → keyboard=\"false\", closable={false} → closable=\"false\", width → width, onOk / onCancel → the `ok` / `cancel` events, afterClose → `closed`. There is no imperative confirm(); render the element. ok-text defaults to OK only as a fallback: set a verb that says what happens (Move, Delete team).",
+  "tokensUsed": [
+    "bg-elevated",
+    "text-default",
+    "bg-overlay",
+    "radius-default",
+    "size-h6",
+    "size-default",
+    "space-8",
+    "space-12",
+    "space-16",
+    "space-24",
+    "border-focus",
+    "motion-slow",
+    "ease-out",
+    "ease-in-out",
+    "font-product"
+  ],
+  "spec": [
+    {
+      "label": "Dialog",
+      "value": "white (bg-elevated), radius 8, padding 20 24, the antd modal shadow (0 6 16 0 ink 8%, 0 3 6 -4 ink 12%, 0 9 28 8 ink 5%); 100 from the top of the viewport (10vh on a short one), or vertically centred with `centered`"
+    },
+    {
+      "label": "Size",
+      "value": "size=\"simple\" (default) 504 wide · 75vh, \"complexity\" 720 · 80vh, \"rich\" 1280 · 90vh; `width` overrides the width (a bare number is px); never wider than the viewport less 16 each side, never taller than the cap: past it the body scrolls while the title and footer stay put"
+    },
+    {
+      "label": "Title",
+      "value": "18/27 SemiBold ink, 8 above the body; the shared dismiss ✕ (tertiary icon-only xs aha-button, system-x 16) pinned to its first line, 8 from the title; `closable=\"false\"` hides the ✕"
+    },
+    {
+      "label": "Body",
+      "value": "14/22 ink, scrolls on its own past the cap and becomes a Tab stop only then; scroll does not chain to the page"
+    },
+    {
+      "label": "Footer",
+      "value": "12 above, right aligned, 8 between: Cancel (secondary) then OK (primary), both md (36 high); `ok-danger` swaps them to Cancel primary and OK secondary (overlays C7); `slot=\"footer\"` replaces both buttons, `no-footer` drops the footer"
+    },
+    {
+      "label": "Busy",
+      "value": "`confirm-loading`: OK shows its spinner and ignores clicks; Cancel and ✕ are disabled and Escape and the mask do nothing (overlays C2)"
+    },
+    {
+      "label": "Mask",
+      "value": "the overlay colour (ink at 40%), fades in over 0.3s; a click cancels unless `mask-closable=\"false\"` or `ok-danger`"
+    },
+    {
+      "label": "Motion",
+      "value": "the dialog zooms from 0.2 and fades in over 0.3s, the mask fades over 0.3s; prefers-reduced-motion switches both off"
+    },
+    {
+      "label": "Behaviour",
+      "value": "role dialog, aria-modal, named by the title (or `label`); traps Tab, locks page scroll, returns focus to whatever opened it; Escape cancels unless `keyboard=\"false\"`; Esc and Tab leave an open popup inside the modal (aha-select, aha-dropdown, aha-menu, aha-popover, an expanded combobox) and another dialog stacked over it to handle their own keys"
+    }
+  ],
+  "props": [
+    {
+      "name": "open",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Shows the modal. Removing it hides it and emits `closed`"
+    },
+    {
+      "name": "heading",
+      "type": "string",
+      "default": "—",
+      "desc": "The title (antd `title`). Fill `slot=\"title\"` instead for rich content"
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "—",
+      "desc": "Accessible name; overrides the title as the name"
+    },
+    {
+      "name": "ok-text",
+      "type": "string",
+      "default": "OK",
+      "desc": "OK button label. Name the action (\"Delete team\"), not OK"
+    },
+    {
+      "name": "cancel-text",
+      "type": "string",
+      "default": "Cancel",
+      "desc": "Cancel button label"
+    },
+    {
+      "name": "ok-disabled",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Disables OK (antd okButtonProps.disabled)"
+    },
+    {
+      "name": "ok-danger",
+      "type": "boolean",
+      "default": "false",
+      "desc": "A destructive confirmation: OK secondary, Cancel primary, a mask click never closes it"
+    },
+    {
+      "name": "confirm-loading",
+      "type": "boolean",
+      "default": "false",
+      "desc": "OK shows its spinner; Cancel, ✕, Escape and the mask do nothing while set"
+    },
+    {
+      "name": "size",
+      "type": "simple | complexity | rich",
+      "default": "simple",
+      "desc": "The DS tier: 504 · 75vh, 720 · 80vh or 1280 · 90vh"
+    },
+    {
+      "name": "width",
+      "type": "number | CSS length",
+      "default": "504",
+      "desc": "Dialog width; a bare number is px. Wins over the size's width, never wider than the viewport less 32"
+    },
+    {
+      "name": "centered",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Centres the dialog vertically"
+    },
+    {
+      "name": "closable",
+      "type": "\"false\"",
+      "default": "true",
+      "desc": "`closable=\"false\"` hides the ✕"
+    },
+    {
+      "name": "close-label",
+      "type": "string",
+      "default": "Close",
+      "desc": "Accessible name of the ✕"
+    },
+    {
+      "name": "mask-closable",
+      "type": "\"false\"",
+      "default": "true",
+      "desc": "`mask-closable=\"false\"` ignores a click on the mask"
+    },
+    {
+      "name": "keyboard",
+      "type": "\"false\"",
+      "default": "true",
+      "desc": "`keyboard=\"false\"` ignores Escape"
+    },
+    {
+      "name": "no-footer",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Drops the footer (antd footer={null})"
+    },
+    {
+      "name": "contained",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Centres it in the nearest positioned ancestor instead of the viewport, keeps the trap"
+    },
+    {
+      "name": "inline",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Static display inside a positioned ancestor: no trap, no scroll lock, no keys. For docs and previews"
+    },
+    {
+      "name": "slot=\"footer\"",
+      "type": "slot",
+      "default": "—",
+      "desc": "Replaces Cancel and OK with your own buttons"
+    },
+    {
+      "name": "slot=\"title\"",
+      "type": "slot",
+      "default": "—",
+      "desc": "Rich title content instead of `heading`"
+    },
+    {
+      "name": "close()",
+      "type": "method",
+      "default": "—",
+      "desc": "Asks to close: emits `close` (source method), closes unless cancelled"
+    },
+    {
+      "name": "ok",
+      "type": "event",
+      "default": "—",
+      "desc": "Cancelable, composed. OK was pressed; unless cancelled the modal closes"
+    },
+    {
+      "name": "cancel",
+      "type": "event",
+      "default": "—",
+      "desc": "Cancelable, composed. detail.source is cancel-button, close-button, escape or mask; unless cancelled the modal closes"
+    },
+    {
+      "name": "close",
+      "type": "event",
+      "default": "—",
+      "desc": "Cancelable, composed. Fires before any close; detail.source is ok, cancel-button, close-button, escape, mask or method"
+    },
+    {
+      "name": "closed",
+      "type": "event",
+      "default": "—",
+      "desc": "Composed. The modal is closed; detail.source as on `close`, or attribute when `open` was removed directly"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Modal (web component)",
+        "when": "a short, blocking decision or task on a page that does not load antd or is dropping it: the Manage app, Vue 2 apps taking <aha-*>, plain HTML"
+      },
+      {
+        "what": "Modal (antd)",
+        "when": "a React or Vue 3 app that keeps antd and themes it with modal-theme.js"
+      },
+      {
+        "what": "Drawer (web component)",
+        "when": "a longer edit form or detail panel that keeps page context"
+      },
+      {
+        "what": "Audience modal",
+        "when": "anything on the audience phone"
+      }
+    ],
+    "note": "Name the OK button the action and phrase a confirmation title as a question. A destructive confirmation sets `ok-danger`, so Cancel is the primary and a stray mask click cannot confirm it. For async work, cancel the `ok` event, set `confirm-loading`, and close only once the work succeeds; show a failure inline in the body. Never hand-draw a dialog with a fixed div: the trap, the scroll lock and the focus return come with the element."
+  },
+  "surfaces": [
+    "editor",
+    "dashboard",
+    "settings"
+  ],
+  "reuse": {
+    "entry": "./aha-modal",
+    "registers": "aha-modal",
+    "exportsNamed": [
+      "AhaModal",
+      "defineAhaModal"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "aha-modal.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form: a version-pinned CDN import and plain HTML, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "aha-modal.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "aha-modal.vue.txt"
+    }
+  ],
+  "preview": "aha-modal.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP), on the inline, open example with the DS defaults.",
+    "ready": "!!(document.querySelector('aha-modal[data-probe]')&&document.querySelector('aha-modal[data-probe]').shadowRoot&&document.querySelector('aha-modal[data-probe]').shadowRoot.querySelector('.panel'))",
+    "singleUI": true,
+    "measure": "(function(){var r=document.querySelector('aha-modal[data-probe]').shadowRoot;function cs(n){return n?getComputedStyle(n):{}}var p=cs(r.querySelector('.panel'));var t=cs(r.querySelector('.title'));var b=cs(r.querySelector('.body'));var f=cs(r.querySelector('.footer'));var m=cs(r.querySelector('.mask'));return{surface:p.backgroundColor,radius:p.borderTopLeftRadius,padTop:p.paddingTop,padSide:p.paddingLeft,titleColor:t.color,titleSize:t.fontSize,titleWeight:t.fontWeight,titleLine:t.lineHeight,bodySize:b.fontSize,bodyLine:b.lineHeight,footerGap:f.marginTop,mask:m.backgroundColor,role:r.querySelector('.panel').getAttribute('role'),modal:r.querySelector('.panel').getAttribute('aria-modal')};})()",
+    "expect": {
+      "surface": "rgb(255, 255, 255)",
+      "radius": "8px",
+      "padTop": "20px",
+      "padSide": "24px",
+      "titleColor": "rgb(26, 26, 26)",
+      "titleSize": "18px",
+      "titleWeight": "600",
+      "titleLine": "27px",
+      "bodySize": "14px",
+      "bodyLine": "22px",
+      "footerGap": "12px",
+      "mask": "rgba(0, 0, 0, 0.4)",
+      "role": "dialog",
+      "modal": "true"
+    }
+  }
+}

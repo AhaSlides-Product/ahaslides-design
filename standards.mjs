@@ -559,6 +559,9 @@ const TAG_TO_SLUG = new Map(contracts.filter(c => c.reuse?.registers).map(c => [
 const ANTISLOP_PATH = join(root, 'anti-slop', 'criteria.json');
 const ANTISLOP = existsSync(ANTISLOP_PATH) ? JSON.parse(read(ANTISLOP_PATH)) : null;
 const JUDGE_CRITERION_ID = /^[A-Z]\d+$/;
+const PLUGIN_NAME = JSON.parse(read(join(root, 'agent', '.claude-plugin', 'plugin.json'))).name;
+const unshippedSkillRefs = (ref) => ['build', 'judge'].map(k => ref?.[k]).filter(v => typeof v === 'string' && /^[\w-]+:[\w-]+$/.test(v))
+  .filter(v => { const [plugin, skill] = v.split(':'); return plugin !== PLUGIN_NAME || !existsSync(join(root, 'agent', 'skills', skill, 'SKILL.md')); });
 const LIVE_TARGET_SOURCE = /^(tokens\.canonical\.json|contracts|marketing|icons\/registry\.json|contracts\/[a-z0-9-]+\.json|guidelines\/[a-z0-9-]+\.json|brand\/colour-rules\.json)$/;
 const guidelines = existsSync(GDIR)
   ? readdirSync(GDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(GDIR, f))))
@@ -575,6 +578,8 @@ for (const p of guidelines) {
   chk('docs page highlights (1–4 short bullets)', Array.isArray(p.highlights) && p.highlights.length >= 1 && p.highlights.length <= 4 && p.highlights.every(h => typeof h === 'string' && h.trim()), 'add highlights: 1–4 short bullet strings (rendered under the page title)');
   chk('kind is "guideline"', p.kind === 'guideline');
   chk('links a build skill (skillRef.build)', p.skillRef && typeof p.skillRef.build === 'string', 'add skillRef.build — the design skill it distils');
+  chk('skillRef names a skill this plugin ships', unshippedSkillRefs(p.skillRef).length === 0,
+    `${unshippedSkillRefs(p.skillRef).join(', ')} is not under agent/skills; point it at the skill that runs it (${PLUGIN_NAME}:aha-design)`);
 
   // 2) composedOf — the reuse graph must resolve into the component set (the teeth)
   chk('declares composedOf (what it reuses)', Array.isArray(p.composedOf) && p.composedOf.length >= 1);
@@ -674,6 +679,8 @@ if (ANTISLOP) {
     for (const c of (s.criteria || []))
       achk(`surface "${key}": ${c.id} states its whole rule`, !/(…|:|:\s*\d+\.)[*_\s]*$/.test(c.test || ''),
         'the test ends in "…", a lead-in ":" or a list number with nothing after it — write the rest of the rule');
+    achk(`surface "${key}": skillRef names a skill this plugin ships`, unshippedSkillRefs(s.skillRef).length === 0,
+      `${unshippedSkillRefs(s.skillRef).join(', ')} is not under agent/skills; point it at the skill that runs it (${PLUGIN_NAME}:aha-design)`);
     if (s.origin === 'seeded')
       achk(`surface "${key}": records its seed provenance`, !!(s.seededFrom?.version && s.skillRef?.judge),
         'a seeded surface needs seededFrom.version + skillRef.judge — re-run sync-skills.mjs import');

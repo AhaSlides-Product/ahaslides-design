@@ -1,0 +1,34 @@
+import '@ahaslides-product/design/aha-datepicker'; // registers <aha-datepicker>
+import { useRef, useEffect } from 'react';
+
+// React 18 needs a thin wrapper; React 19 can use <aha-datepicker> directly.
+// Drop-in for antd <DatePicker> on one date, with the value kept as the ISO 'YYYY-MM-DD' string (no Day.js).
+function AhaDatepicker({ value, onChange, min, max, placeholder, status, disabled, size, allowClear = true, style, ...aria }) {
+  const ref = useRef();
+  useEffect(() => {
+    const el = ref.current;
+    el.value = value ?? null;
+    const h = (e) => onChange?.(e.detail.value);   // the ISO string, or null when cleared
+    el.addEventListener('change', h);
+    return () => el.removeEventListener('change', h);
+  });
+  return (
+    <aha-datepicker
+      ref={ref}
+      style={style}
+      {...aria}                                    // aria-label, aria-labelledby, data-testid
+      {...(placeholder != null ? { placeholder } : {})}
+      {...(min ? { min } : {})}
+      {...(max ? { max } : {})}
+      {...(status ? { status } : {})}
+      {...(size && size !== 'middle' ? { size } : {})}
+      {...(disabled ? { disabled: '' } : {})}
+      {...(allowClear ? {} : { 'allow-clear': 'false' })}
+    />
+  );
+}
+
+// usage: a predicate value, and a date attribute inside a form
+<AhaDatepicker aria-label="Value" value={clause.value || null} onChange={(v) => onChange(v)}
+               data-testid="segments-predicate-value-date" />
+<AhaDatepicker aria-label="Joined on" value={joined} onChange={setJoined} style={{ width: '100%' }} />

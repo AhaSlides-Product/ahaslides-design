@@ -315,6 +315,22 @@
       "lineFetched": "2026-11-02"
     },
     {
+      "id": "google-sheets",
+      "name": "Google Sheets",
+      "category": "Brands",
+      "file": "google-sheets.svg",
+      "originalFile": "original/google-sheets.svg",
+      "originalFetched": "2026-11-04",
+      "sourceUrl": "https://thesvg.org/icons/google-sheets-2026/default.svg",
+      "sourcePage": "https://thesvg.org/icon/google-sheets-2026",
+      "fetched": "2026-11-04",
+      "usedIn": "not rendered in presenter-app yet; Survey Connect results modal (SUR-395)",
+      "section": "Import, export and cloud",
+      "environment": [
+        "product"
+      ]
+    },
+    {
       "id": "microsoft-word",
       "name": "Microsoft Word",
       "category": "Brands",

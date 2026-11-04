@@ -103,7 +103,7 @@
     {
       "name": "required-message / email-message / phone-message",
       "type": "string",
-      "default": "This field is required / Enter a real email address / Enter a real phone number",
+      "default": "We need this one. / Enter a real email address / Enter a real phone number",
       "desc": "The respondent errors; pass translated text. Each wins over the same key in `strings`"
     },
     {

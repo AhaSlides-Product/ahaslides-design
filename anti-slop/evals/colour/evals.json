@@ -305,6 +305,48 @@
         "authored": "ahaslides-design",
         "why": "written with the criteria from brand/colour-rules.json; the plugin judge dataset predates the colour rules of 7 October 2026"
       }
+    },
+    {
+      "id": 15,
+      "prompt": "Review a Login screen. It has a Sign in with Google button showing the Google G in its four brand colours at rest and on hover, and a Sign in with Microsoft button showing the four-square mark in colour. The buttons are DS components and nothing else on the screen carries brand colour.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Targets C7 (rule 2.6).",
+      "expected_output": "C7 PASSES: a provider sign-in button keeps the provider's full-colour mark per the providers' brand guidelines, the named exception to line marks. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C7": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; DESY-445 round 16 picks"
+      }
+    },
+    {
+      "id": 16,
+      "prompt": "Review the Settings page's tab bar. Each tab pairs the tool's name with its Logo library line mark at 24px. The active tab's logo and text are Vivid Pink, inactive tabs show the logo in the same grey as their text, and the Zoom tab shows the Zoom logo in its brand blue at rest.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C7 (rule 2.6).",
+      "expected_output": "C7 FAILs: the Zoom tab uses the colour logo; a line logo as a tab icon takes the item's text colour. Fix: logo/line/zoom.svg in the text colour, pink when active. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C7": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; DESY-445 round 16 picks"
+      }
     }
   ]
 }

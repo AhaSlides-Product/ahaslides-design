@@ -31,7 +31,8 @@
   ],
   "opinion": {
     "whenToUse": [
-      { "what": "DatePicker", "when": "a single date — a deadline, a start date" },
+      { "what": "DatePicker field (aha-datepicker)", "when": "one date in a screen moving off antd: the framework-free leaf, no Day.js" },
+      { "what": "DatePicker", "when": "a single date with time, week, month, quarter or year granularity, in an antd screen" },
       { "what": "RangePicker", "when": "a start and end together — a reporting window, a schedule" },
       { "what": "Input", "when": "a free-form date the user already knows precisely — but prefer the picker for validity" }
     ],

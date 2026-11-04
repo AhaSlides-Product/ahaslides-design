@@ -1,0 +1,17 @@
+import { notify } from '@ahaslides-product/design/aha-notification';   // registers <aha-notification> + <aha-toaster>; no provider, no hook
+
+export function DeleteSlideButton({ slide, onDelete, onRestore }) {
+  const remove = async () => {
+    await onDelete(slide.id);
+    notify.success({
+      key: `deleted-${slide.id}`,
+      title: 'Slide deleted',
+      description: 'You can find it in Trash.',
+      action: { label: 'Undo', onClick: () => onRestore(slide.id) },   // a click also closes the card
+    });
+  };
+  return <aha-button variant="secondary" onClick={remove}>Delete</aha-button>;
+}
+
+// Drop-in for antd's notification: notify({ title, description, type, duration, key, action, onClose })
+// notify.success / info / warning / error · notify.close(key) · notify.closeAll() · returns { key, close, update, closed }.

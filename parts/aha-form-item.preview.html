@@ -1,0 +1,30 @@
+<div class="pad">
+  <div class="lbl">Rest: label above, help below (tone="info")</div>
+  <div style="max-width:360px">
+    <aha-form-item label="Project name" help="Only your team sees this."><aha-input placeholder="Untitled project"></aha-input></aha-form-item>
+  </div>
+  <div class="lbl">Required, after validate(): the ink * before the label, the error row (12/18 ink + glyph) above the help, the input's error border</div>
+  <div style="max-width:360px">
+    <aha-form-item data-probe id="fi-email" label="Email" required help="We'll send the invite here."><aha-input type="email"></aha-input></aha-form-item>
+  </div>
+  <div class="lbl">error set by you (a server answer): shows until removed, never blocks submit</div>
+  <div style="max-width:360px">
+    <aha-form-item label="Join code" error="That code has expired. Ask the presenter for a new one."><aha-input value="1234"></aha-input></aha-form-item>
+  </div>
+  <div class="lbl">Any DS control: a select, a counted textarea, a checkbox</div>
+  <div style="max-width:360px">
+    <aha-form-item label="Role" required><aha-select value="editor" options='[{"value":"editor","label":"Editor"},{"value":"viewer","label":"Viewer"}]'></aha-select></aha-form-item>
+    <aha-form-item label="Message" help="Optional note sent with the invite."><aha-counted-textarea maxlength="200"></aha-counted-textarea></aha-form-item>
+    <aha-form-item name="terms"><aha-checkbox>Send me product updates</aha-checkbox></aha-form-item>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element, so the preview can never drift from lib/. -->
+<script type="module">
+  import '../lib/aha-form-item.js';
+  import '../lib/aha-input.js';
+  import '../lib/aha-select.js';
+  import '../lib/aha-counted-textarea.js';
+  import '../lib/aha-checkbox.js';
+  customElements.whenDefined('aha-form-item').then(() => document.getElementById('fi-email').validate());
+</script>

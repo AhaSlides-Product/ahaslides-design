@@ -10,8 +10,8 @@
         "importedOn": "2026-09-11"
       },
       "skillRef": {
-        "build": "aha-design:aha-design-ux-writing",
-        "judge": "aha-design:aha-design-ux-writing-judge"
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
       },
       "criteria": [
         {
@@ -59,7 +59,10 @@
     "app-shell": {
       "surface": "shell",
       "origin": "authored",
-      "skillRef": null,
+      "skillRef": {
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
+      },
       "criteria": [
         {
           "id": "C1",
@@ -89,7 +92,7 @@
         {
           "id": "C6",
           "title": "Presenter control-bar keys: shown, scoped by Esc, listed in the cheatsheet",
-          "test": "*(Applies to every button the host paints on the presenter control bar (NCB, the bar the presenting view draws round a slide) and every popover, picker or menu one opens, such as Annotate's pen picker. A screen with no presenter control bar, such as the dashboard or editor, is N/A.)* **Evidence.** Judge from a recorded keyboard run of the real presenting UI (the running app, a PR sandbox or a built preview), never from reading code: a table of control · state · key pressed · what happened. Code that looks right is not evidence. If the real UI cannot be driven with the keyboard, mark this criterion `FAIL — UNVERIFIED: <why>`, never PASS or N/A. **Run and rule.** a. **Key in the tooltip.** Hover or Tab to each control-bar button: its tooltip shows the name followed by a shortcut chip (`<aha-tooltip size=\"lg\" text=\"Annotate\" shortcut=\"D\">`) and its `aria-label` is the name plus the key in parentheses, `Annotate (D)`. Then press that key with nothing open and record that it runs the same action. A control with no key, a tooltip with no chip, or a key that does nothing FAILs. b. **Focus in, focus back.** Open each popover (its key, or Enter on the focused trigger) and record where focus is: inside the popover, and Tab / Shift+Tab stay inside it. Press Esc and record that focus is back on the trigger button, not on the body or the slide. c. **Esc closes the innermost thing first.** With each popover open, press Esc once and record the result: the popover closes and the presenter is still presenting on the same slide. Only with nothing open does Esc reach the exit-presenting action; record that press too. An Esc that leaves the popover open, needs two presses, or exits presenting while a popover is open FAILs. d. **Every key is in the cheatsheet.** Open the presenter hotkey cheatsheet (its own key, or the help control) and match it against the keys recorded in a: every control-bar key is listed with the same key and the same name, and every listed key works. A control-bar key missing from the cheatsheet FAILs. Any sub-rule missed → FAIL. Canvas C10 and C24 cover controls a slide renders itself; this criterion is the host's half."
+          "test": "*(Applies to every **host control** on the presenting screen: every button the host paints on the presenter control bar (NCB, the bar the presenting view draws round a slide), manifest-declared slide actions included; every popover, picker or menu one opens, such as Annotate's pen picker; and every host layer drawn over the live slide, such as the ink-annotation layer and its toolbar. A screen with no presenter control bar, such as the dashboard or editor, is N/A.)* **Evidence.** Judge from a recorded keyboard run of the real presenting UI (the running app, a PR sandbox or a built preview), never from reading code: a table of control · state · key pressed · what happened. Code that looks right is not evidence. If the real UI cannot be driven with the keyboard, mark this criterion `FAIL — UNVERIFIED: <why>`, never PASS or N/A. **Run and rule.** a. **Key in the tooltip.** Hover or Tab to each control-bar button: its tooltip shows the name followed by a shortcut chip (`<aha-tooltip size=\"lg\" text=\"Annotate\" shortcut=\"D\">`) and its `aria-label` is the name plus the key in parentheses, `Annotate (D)`. Then press that key with nothing open and record that it runs the same action. A control with no key, a tooltip with no chip, or a key that does nothing FAILs. b. **Focus in, focus back.** Open each popover (its key, or Enter on the focused trigger) and record where focus is: inside the popover, and Tab / Shift+Tab stay inside it. Press Esc and record that focus is back on the trigger button, not on the body or the slide. c. **Esc closes the innermost thing first.** With each popover open, press Esc once and record the result: the popover closes and the presenter is still presenting on the same slide. Only with nothing open does Esc reach the exit-presenting action; record that press too. An Esc that leaves the popover open, needs two presses, or exits presenting while a popover is open FAILs. d. **Every key is in the cheatsheet.** Open the presenter hotkey cheatsheet (its own key, or the help control) and match it against the keys recorded in a: every control-bar key is listed with the same key and the same name, and every listed key works. A control-bar key missing from the cheatsheet FAILs. Any sub-rule missed → FAIL. The chip is the canvas C10 b chip (a **24 × 24 square, radius 4**, key 14px / 400; a longer key keeps the 24px height and grows with 6px side padding, never a wide pill); the host sizes and themes the control itself; `applyCanvasDeck` and canvas C17's `size=\"lg\"` are for controls inside a canvas, never host controls. Canvas C10 and C24 cover controls a slide renders itself; this criterion is the host's half."
         }
       ]
     },
@@ -102,8 +105,8 @@
         "importedOn": "2026-09-28"
       },
       "skillRef": {
-        "build": "aha-design:aha-design-component-standard",
-        "judge": "aha-design:aha-design-component-standard-judge"
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
       },
       "targets": [
         {
@@ -167,8 +170,8 @@
         "importedOn": "2026-09-28"
       },
       "skillRef": {
-        "build": "aha-design:aha-design-icons",
-        "judge": "aha-design:aha-design-icons-judge"
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
       },
       "targets": [
         {
@@ -227,8 +230,8 @@
         "importedOn": "2026-09-28"
       },
       "skillRef": {
-        "build": "aha-design:aha-design-typography",
-        "judge": "aha-design:aha-design-typography-judge"
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
       },
       "targets": [
         {
@@ -283,8 +286,8 @@
         "importedOn": "2026-09-28"
       },
       "skillRef": {
-        "build": "aha-design:aha-design-table",
-        "judge": "aha-design:aha-design-table-judge"
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
       },
       "targets": [
         {
@@ -348,8 +351,8 @@
         "importedOn": "2026-09-28"
       },
       "skillRef": {
-        "build": "aha-design:aha-design-shared-components",
-        "judge": "aha-design:aha-design-shared-components-judge"
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
       },
       "targets": [
         {
@@ -415,7 +418,10 @@
     "background": {
       "surface": "background",
       "origin": "authored",
-      "skillRef": null,
+      "skillRef": {
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
+      },
       "targets": [
         {
           "source": "guidelines/background.json",
@@ -517,7 +523,10 @@
     "colour": {
       "surface": "colour",
       "origin": "authored",
-      "skillRef": null,
+      "skillRef": {
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
+      },
       "targets": [
         {
           "source": "brand/colour-rules.json",
@@ -549,7 +558,7 @@
             "1.2",
             "2.7"
           ],
-          "test": "Vivid Pink is the one primary colour. Darker Pink is hover and press only. Vivid Pink at 30% appears in charts only. The 10, 20, 45, 60 and 80% tints appear in illustrations only, never in the interface. Purple appears in the logo only: never in text, buttons, links, states, charts or backgrounds of the product app. A colour used outside its role fails."
+          "test": "Vivid Pink is the one primary colour. Darker Pink is hover and press, plus the text-link colour (`--aha-text-link`, rule 6.7). Vivid Pink at 30% appears in charts only. The 10, 20, 45, 60 and 80% tints appear in illustrations only, never in the interface. Purple appears in the logo only: never in text, buttons, links, states, charts or backgrounds of the product app. A colour used outside its role fails."
         },
         {
           "id": "C3",
@@ -560,7 +569,7 @@
             "6.6",
             "6.7"
           ],
-          "test": "Pink text and pink links sit on white only. On Vivid Pink at 5% or on grey, text and links are the default ink, except an inline link in an Alert or info box message, which is the DS text-link in Vivid Pink (underline on hover and focus). That is the one recorded exception (rule 6.7). On Vivid Pink, text is solid white, never white at a reduced opacity. Pink text on pale pink or on grey fails, and so does see-through white on Vivid Pink."
+          "test": "Pink text and pink links sit on white only. On Vivid Pink at 5% or on grey, text and links are the default ink, except an inline link in an Alert or info box message, which is the DS text-link in Darker Pink #DB005B (underline on hover and focus), which keeps 4.5:1 there. That is the one recorded exception (rule 6.7). On Vivid Pink, text is solid white, never white at a reduced opacity. Pink text on pale pink or on grey fails, and so does see-through white on Vivid Pink."
         },
         {
           "id": "C4",
@@ -604,7 +613,7 @@
             "2.6",
             "7.4"
           ],
-          "test": "A third-party brand logo in any interface (presenter app, website header or menu, page row, dialog, import source, connect button) is its line mark from the Logo library (logo/line/), in the default icon ink (white on Vivid Pink), with no tile, border or square around it, about 24px beside its text, and the tool's name beside it (a row of logos after a label that names them carries each name as the accessible name). A colour logo, a greyscale copy where a line mark exists, or a logo inside a bordered tile fails. A Log in with Google or Log in with Microsoft button shows the brand's one-colour glyph from the icon library (<aha-icon name=\"system-google-logo\"> or system-microsoft-logo, default ink) at rest and the original colour logo (logo/original/) on hover and keyboard focus; a greyscale copy of the colour logo there fails. On a page that lists other products (Marketplace, an integrations directory) each card keeps the colour logo image, greyscale at rest and in its own colours on hover and keyboard focus of the card, name beside it, with a Coming soon tag (`<aha-tag color=\"primary\" bordered>`) on a tool not available yet; brand colours at rest there fail. Brand colour on anything beyond the logo (a button, tag, background or text) fails everywhere. Customer logos in a Trusted by strip are one colour, greyscale or Vivid Pink, one treatment per row. A file-type icon is one colour. The AhaSlides logo is the colour logo on white or the white logo on Vivid Pink, never an all-pink logo on white."
+          "test": "A third-party brand logo in any interface (presenter app, website header or menu, page row, dialog, import source, connect button) is its line mark from the Logo library (logo/line/), in the default icon ink (white on Vivid Pink), with no tile, border or square around it, about 24px beside its text, and the tool's name beside it (a row of logos after a label that names them carries each name as the accessible name; a decorative row next to cards that name the tools may omit visible names). A colour logo, a greyscale copy where a line mark exists, or a logo inside a bordered tile fails. A provider sign-in button (Sign in with Google, Microsoft or Apple) is the one exception: it keeps the provider's full-colour mark (logo/original/) at rest and on hover, and a line mark or greyscale copy there fails. A line logo used as a tab or menu icon takes the item's text colour (Vivid Pink when active), a logo in a navigation menu stays in its ink on hover, and social-media links use line logos from logo/line/. On a page that lists other products (Marketplace, an integrations directory) each card keeps the colour logo image, greyscale at rest and in its own colours on hover and keyboard focus of the card, name beside it, with a Coming soon tag (`<aha-tag color=\"primary\" bordered>`) on a tool not available yet, which hovers like a live card; brand colours at rest there fail. Brand colour on anything beyond the logo (a button, tag, background or text) fails everywhere. Customer logos in a Trusted by strip are one colour, greyscale or Vivid Pink, one treatment per row. A file-type icon is one colour. The AhaSlides logo is the colour logo on white or the white logo on Vivid Pink, never an all-pink logo on white."
         },
         {
           "id": "C8",
@@ -633,8 +642,8 @@
         "importedOn": "2026-09-28"
       },
       "skillRef": {
-        "build": "aha-design:aha-design-paywall",
-        "judge": "aha-design:aha-design-paywall-judge"
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
       },
       "targets": [
         {
@@ -689,8 +698,8 @@
         "importedOn": "2026-09-28"
       },
       "skillRef": {
-        "build": "aha-design:aha-design-status-badges",
-        "judge": "aha-design:aha-design-status-badges-judge"
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
       },
       "targets": [
         {
@@ -749,8 +758,8 @@
         "importedOn": "2026-09-28"
       },
       "skillRef": {
-        "build": "aha-design:aha-design-settings",
-        "judge": "aha-design:aha-design-settings-judge"
+        "build": "ahaslides-design:settings-design",
+        "judge": "ahaslides-design:settings-design"
       },
       "targets": [
         {
@@ -874,8 +883,8 @@
         "importedOn": "2026-09-28"
       },
       "skillRef": {
-        "build": "aha-design:aha-design-feedback",
-        "judge": "aha-design:aha-design-feedback-judge"
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
       },
       "targets": [
         {
@@ -928,7 +937,7 @@
         {
           "id": "C6",
           "title": "One shared dismiss ✕ on banners, toasts, notifications and overlays",
-          "test": "**Rule.** Every dismiss ✕ on an Alert, Info box, Background task, Toast, Notification, Modal or Drawer is the shared `tertiary icon-only <aha-button> (size xs)` (`contracts/button.json`): a 20 × 20 hit area (radius 6) with the 14px `system-x` glyph in #8A8A8A (`--aha-icon-muted`) that turns #1A1A1A (`--aha-text-default`) on a #F7F7F7 hover fill (`--aha-bg-hover`), top-pinned with its centre 2.5px above the first line's centre so it stays put when the text wraps, and 2px into the container's end padding (Info box: 15px from the right, 11px from the top). A sticky Toast takes it through `dismissibleToast`, a Notification through `dismissibleTitle` with `closable: false`. **FAIL** when any of these surfaces hand-rolls a ✕ (a bare `<button>×</button>`, an inline SVG, a raw icon with its own size or hover, a tertiary or 28 × 28 `<aha-button>` holding a 16px ✕, a circular ✕ — a disc, a 50% or pill radius, or `system-x-circle` used as a control rather than a status icon), shows antd's own message or notification close, or centres the ✕ on the whole card so it drifts down when the text wraps. Modal and Drawer carry it in the title through dismissibleModalTitle / dismissibleDrawerTitle with `closable={false}`. **N/A** when the material has no dismissible feedback surface."
+          "test": "**Rule.** Every dismiss ✕ on an Alert, Info box, Background task, Toast, Notification, Modal or Drawer is the shared `tertiary icon-only <aha-button> (size xs)` (`contracts/button.json`): 20 × 20 drawn with an invisible 32 × 32 hit area (radius 6) with the 14px `system-x` glyph in #8A8A8A (`--aha-icon-muted`) that turns #1A1A1A (`--aha-text-default`) on a #F7F7F7 hover fill (`--aha-bg-hover`), top-pinned with its centre 2.5px above the first line's centre so it stays put when the text wraps, and 2px into the container's end padding (Info box: 15px from the right, 11px from the top). A sticky Toast takes it through `dismissibleToast`, a Notification through `dismissibleTitle` with `closable: false`. **FAIL** when any of these surfaces hand-rolls a ✕ (a bare `<button>×</button>`, an inline SVG, a raw icon with its own size or hover, a tertiary or 28 × 28 `<aha-button>` holding a 16px ✕, a circular ✕ — a disc, a 50% or pill radius, or `system-x-circle` used as a control rather than a status icon), shows antd's own message or notification close, or centres the ✕ on the whole card so it drifts down when the text wraps. Modal and Drawer carry it in the title through dismissibleModalTitle / dismissibleDrawerTitle with `closable={false}`. **N/A** when the material has no dismissible feedback surface."
         }
       ]
     },
@@ -941,8 +950,8 @@
         "importedOn": "2026-09-28"
       },
       "skillRef": {
-        "build": "aha-design:aha-design-overlays",
-        "judge": "aha-design:aha-design-overlays-judge"
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
       },
       "targets": [
         {
@@ -1018,8 +1027,8 @@
         "importedOn": "2026-09-28"
       },
       "skillRef": {
-        "build": "aha-design:aha-design-canvas",
-        "judge": "aha-design:aha-design-canvas-judge"
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
       },
       "targets": [
         {
@@ -1080,7 +1089,7 @@
         {
           "id": "C10",
           "title": "Keyboard-shortcut affordances",
-          "test": "**Scope.** This criterion is about controls the **canvas renders itself** — a bespoke overlay the host control bar (NCB, §C3) doesn't paint: an animated game's play / pause, a reveal toggle, a music-mute button, a settings popover. Host-painted NCB actions, and the popovers they open, are judged by app-shell C6 (key in the tooltip, focus in and back, Esc closes the popover before exit-presenting, every key in the presenter hotkey cheatsheet) with a recorded keyboard run of the real UI; a canvas review does not skip them as the host's job. **Rule.** a. A modal / overlay / popover moves focus in on open, traps Tab / Shift+Tab, and returns focus to the trigger on close. b. Every actionable button shows its shortcut as a chip: a **24 × 24 square, radius 4**, key 14px / 400; a longer key keeps the 24px height and grows with 6px side padding — never a wide pill. On `<aha-button>` it is the `shortcut` attribute, not a hand-made `<kbd>`. c. A labelled button shows the chip **inline** after its label, never only in a hover `title=\"Press X\"`. d. An icon-only button sits in a tooltip that shows its **name followed by the shortcut chip** (`<aha-tooltip size=\"lg\" text=\"Mute music\" shortcut=\"M\">`), and its `aria-label` is the name plus the shortcut in parentheses, `Mute music (M)`. Any sub-rule missed → FAIL."
+          "test": "**Scope.** This criterion is about controls the **canvas renders itself** — a bespoke overlay the host control bar (NCB, §C3) doesn't paint: an animated game's play / pause, a reveal toggle, a music-mute button, a settings popover. Everything the presenter app paints on the presenting screen instead is a **host control**: every NCB button (manifest-declared slide actions included), every popover, picker or menu one opens, and every host layer drawn over the live slide, such as the ink-annotation layer and its toolbar. Host controls are judged by app-shell C6 (key in the tooltip, focus in and back, Esc closes the popover before exit-presenting, every key in the presenter hotkey cheatsheet) with a recorded keyboard run of the real UI; a canvas review does not skip them as the host's job. They use the same shortcut chip and tooltip as rule b to d below, but the host sizes and themes them: `applyCanvasDeck` and C17's `size=\"lg\"` are for controls inside the canvas, never host controls. **Rule.** a. A modal / overlay / popover moves focus in on open, traps Tab / Shift+Tab, and returns focus to the trigger on close. b. Every actionable button shows its shortcut as a chip: a **24 × 24 square, radius 4**, key 14px / 400; a longer key keeps the 24px height and grows with 6px side padding — never a wide pill. On `<aha-button>` it is the `shortcut` attribute, not a hand-made `<kbd>`. c. A labelled button shows the chip **inline** after its label, never only in a hover `title=\"Press X\"`. d. An icon-only button sits in a tooltip that shows its **name followed by the shortcut chip** (`<aha-tooltip size=\"lg\" text=\"Mute music\" shortcut=\"M\">`), and its `aria-label` is the name plus the shortcut in parentheses, `Mute music (M)`. Any sub-rule missed → FAIL."
         },
         {
           "id": "C11",
@@ -1163,8 +1172,8 @@
         "importedOn": "2026-09-28"
       },
       "skillRef": {
-        "build": "aha-design:aha-design-audience",
-        "judge": "aha-design:aha-design-audience-judge"
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
       },
       "targets": [
         {
@@ -1357,7 +1366,10 @@
     "charts": {
       "surface": "charts",
       "origin": "authored",
-      "skillRef": null,
+      "skillRef": {
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
+      },
       "targets": [
         {
           "source": "contracts/chart.json",
@@ -1380,7 +1392,10 @@
     "report-images": {
       "surface": "reports (static report images and read-only report pages)",
       "origin": "authored",
-      "skillRef": null,
+      "skillRef": {
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
+      },
       "targets": [
         {
           "source": "guidelines/report-images.json",
@@ -1470,7 +1485,10 @@
     "usability": {
       "surface": "usability",
       "origin": "authored",
-      "skillRef": null,
+      "skillRef": {
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
+      },
       "targets": [
         {
           "source": "tokens.canonical.json",
@@ -1533,7 +1551,10 @@
     "website": {
       "surface": "website",
       "origin": "authored",
-      "skillRef": null,
+      "skillRef": {
+        "build": "ahaslides-design:aha-design",
+        "judge": "ahaslides-design:aha-design"
+      },
       "targets": [
         {
           "source": "guidelines/website.json",
