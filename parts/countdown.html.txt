@@ -12,4 +12,4 @@
 <aha-countdown total-ms="30000" urgent-below-ms="5000" label="Time remaining"></aha-countdown>
 
 <!-- Points variant (self-paced quiz): no clock, 500p at the left end, 1000p at the right, the bar drains toward 500p. -->
-<aha-countdown variant="points" min="500" max="1000" label-format="{n}p" total-ms="30000" label="Points available"></aha-countdown>
+<aha-countdown variant="points" min="500" max="1000" label-format="{n} pts" spoken-format="{n} points" total-ms="30000" label="Points available"></aha-countdown>

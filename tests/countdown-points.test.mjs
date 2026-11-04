@@ -28,7 +28,7 @@ test('without variant the countdown keeps its clock, its timer role and adds no 
 });
 
 test('variant="points" hides the clock, prints min left and max right through label-format, and reports the points left', { skip }, async () => {
-  const result = await run('variant="points" min="500" max="1000" label-format="{n}p" progress="40" label="Points"', `
+  const result = await run('variant="points" min="500" max="1000" label-format="{n} pts" spoken-format="{n} points" progress="40" label="Points"', `
     const track = r.querySelector('.track').getBoundingClientRect();
     const min = r.querySelector('.min').getBoundingClientRect();
     const max = r.querySelector('.max').getBoundingClientRect();
@@ -36,8 +36,14 @@ test('variant="points" hides the clock, prints min left and max right through la
     return { clock: shown('.clock'), labels: [r.querySelector('.min').textContent, r.querySelector('.max').textContent],
       order: min.right <= track.left && track.right <= max.left, filled: Math.round(fill.width / track.width * 100),
       value: el.value, role: el.getAttribute('role'), aria: ['aria-valuemin', 'aria-valuemax', 'aria-valuenow', 'aria-valuetext', 'aria-label'].map((a) => el.getAttribute(a)) };`);
-  assert.deepEqual(result, { clock: false, labels: ['500p', '1000p'], order: true, filled: 40, value: 700, role: 'progressbar',
-    aria: ['500', '1000', '700', '700p', 'Points'] });
+  assert.deepEqual(result, { clock: false, labels: ['500 pts', '1,000 pts'], order: true, filled: 40, value: 700, role: 'progressbar',
+    aria: ['500', '1000', '700', '700 points', 'Points'] });
+});
+
+test('variant="points" groups numbers by the closest lang and speaks the label-format when spoken-format is absent', { skip }, async () => {
+  const result = await run('lang="de" variant="points" min="500" max="1000" label-format="{n} Pkt." progress="100"',
+    `return { labels: [r.querySelector('.min').textContent, r.querySelector('.max').textContent], spoken: el.getAttribute('aria-valuetext') };`);
+  assert.deepEqual(result, { labels: ['500 Pkt.', '1.000 Pkt.'], spoken: '1.000 Pkt.' });
 });
 
 test('variant="points" without progress drains from max toward min off ends-at, and removing the variant restores the timer', { skip }, async () => {

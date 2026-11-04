@@ -33,9 +33,17 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.994.2 — 2026-11-04
+## 0.996.2 — 2026-11-04
 ### Fixed
 - DataTable: an empty table no longer overflows its container by 2px (permanent right-edge scroll shadow, empty state centred 1px off at every width). The 1px table border no longer narrows the scroll container; populated tables, sticky headers, scroll y and radius clipping are unchanged. (#644)
+
+## 0.996.1 — 2026-11-04
+### Fixed
+- Colour rule 11.1, True or False exception: on reveal the wrong answer's button dims (it read "the other button"), as the requester confirmed; the 0.990.0 entry links its PR (#646)
+
+## 0.996.0 — 2026-11-04
+### Changed
+- **The `aha-countdown` points bar reads "500 pts" and "1,000 pts", and speaks "700 points"** (#649). `p` read as pence or pixels, so the sample format is now `label-format="{n} pts"`, and `{n}` is grouped with `Intl.NumberFormat` in the element's language (closest `lang`, else the document's, else English). A new `spoken-format` attribute (default: the `label-format` value) feeds `aria-valuetext`, so a screen reader says "700 points" rather than "seven hundred p". Both formats come from the consumer's i18n catalogue, never hard-coded English; translator note for `label-format`: short for points, keep it to 3 or 4 characters. The default timer render is unchanged. Contract props, snippets, preview and the Audience Library describe it.
 
 ## 0.994.0 — 2026-11-04
 
@@ -54,7 +62,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.990.0 — 2026-11-04
 ### Changed
-- **Colour rule 11.1, True or False exception** (#PR). The two answer buttons of a True or False question may be filled with the answer pair, True in `--aha-answer-correct` and False in `--aha-answer-wrong`, with a white label (4.5 to 1 or more on both), on the canvas and the audience phone. On reveal the tick or cross disc still gives the verdict and the other button dims, so a red False carrying the correct tick is right. Every other button, answer option, status and question type still fails. Rule 11.3, the colour criteria C1 and C5, canvas C2 and C19, audience C31 and the answer token note say the same; `screen-lint` accepts a True or False button selector (`tof-true`, `true-false-button`) as an answer context. New colour eval cases 17 to 19: True or False buttons pass, the pair on Pick Answer options or a sent status fails.
+- **Colour rule 11.1, True or False exception** (#645). The two answer buttons of a True or False question may be filled with the answer pair, True in `--aha-answer-correct` and False in `--aha-answer-wrong`, with a white label (4.5 to 1 or more on both), on the canvas and the audience phone. On reveal the tick or cross disc still gives the verdict and the wrong answer's button dims, so a red False carrying the correct tick is right. Every other button, answer option, status and question type still fails. Rule 11.3, the colour criteria C1 and C5, canvas C2 and C19, audience C31 and the answer token note say the same; `screen-lint` accepts a True or False button selector (`tof-true`, `true-false-button`) as an answer context. New colour eval cases 17 to 19: True or False buttons pass, the pair on Pick Answer options or a sent status fails.
 
 ## 0.989.0 — 2026-11-04
 ### Changed
