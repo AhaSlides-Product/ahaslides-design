@@ -38,7 +38,7 @@
  * Every surface hard-fails three colour and icon rules (lib/screen-lint-status-hue.js): status-hue-class (a text-red-*,
  * bg-green-*, border-yellow-*, text-danger or similar utility class; red and green next to a correct or wrong answer
  * are left to the answer-colour rules), foreign-icon-library (<font-awesome-icon>, fa fa-*, zmdi, material-icons and
- * other icon libraries) and brand-logo-colour (a logo/original/ file outside the Logo library hover pattern, or the
+ * other icon libraries) and brand-logo-colour (a logo/original/ file outside the Logo library sign-in or listing pattern, or the
  * kit's icon-maintain-color, colour rule 2.6).
  * Every surface also hard-fails alert-button-link: an <aha-button> inside an <aha-alert> or <aha-info-box> message (a link there is a plain <a href>; only slot="action" takes a button).
  *
