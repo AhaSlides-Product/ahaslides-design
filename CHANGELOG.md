@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1013.0 — 2026-11-04
+## 0.1017.0 — 2026-11-04
 ### Added
 - Paywall: `mark-label` attribute, the accessible name of the crown upgrade mark, so a translated product can pass its own. It applies only when the mark is the anchor and a later change applies in place. (#658)
 - Paywall: `togglePopover({ source })` names the element that opened the popover, so `close()` and Escape return focus to it. Dropdown locked rows pass their row. (#658)
@@ -48,6 +48,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Paywall: an open popover no longer closes itself inside a drawer. The visibility check counted the body as a clip box, and a drawer's scroll lock sets body overflow on a body as tall as the page behind it; the visibility check now walks the flat tree (slotted content in an `aha-drawer` included), applies each ancestor's clip and stops at a fixed-position ancestor, and the body clips only when its overflow does not propagate to the viewport. Real scroll containers still clip. (#658)
 - Paywall: `toggleLockedPaywall` records the opener only from the path up to the row's own handler, so a focusable ancestor (`main tabindex=-1`, a drawer body) is never the opener; focus restore works on a `delegatesFocus` host such as `aha-button` and does not scroll; an element connected already open records its opener; an empty `mark-label` keeps the default name. (#658)
 - Paywall: the focus fallback no longer matches the aria-hidden mark in the popover header, so a slotted anchor gets focus back. (#658)
+
+## 0.1015.0 — 2026-11-04
+### Added
+- `<aha-flex scroll>`: a chip or toggle row stays on one line and scrolls sideways inside its own box, fading the start or end edge only while there is more to see that way (the fade grows with the distance left, so it is none at an edge already reached and needs no motion). No scrollbar; Tab scrolls a clipped item clear of the fade; RTL and `direction="row-reverse"` fade the right-hand start edge. The responsive rule in `AGENTS.md` and the `overflow-x-scroll` lint hint name it as the one-line row exception (#654)
 
 ## 0.1011.1 — 2026-11-04
 ### Fixed

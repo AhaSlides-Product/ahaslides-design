@@ -1,5 +1,6 @@
 // main.ts — register the element + mark aha-* as custom elements
 import '@ahaslides-product/design/aha-flex';
+import '@ahaslides-product/design/aha-tag';
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
 // Component.vue
@@ -22,5 +23,10 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
   <aha-flex wrap gap="small">
     <span v-for="t in tags" :key="t">{{ t }}</span>
+  </aha-flex>
+
+  <!-- one line that scrolls sideways; the edge with more to see fades out -->
+  <aha-flex scroll gap="small">
+    <aha-tag v-for="p in presets" :key="p">{{ p }}</aha-tag>
   </aha-flex>
 </template>
