@@ -19,14 +19,16 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = dirname(fileURLToPath(import.meta.url));
-const STORE = join(root, 'anti-slop', 'criteria.json');
-
 function arg(name, dflt) {
   const i = process.argv.indexOf(`--${name}`);
   return i >= 0 ? process.argv[i + 1] : dflt;
 }
 
+const STORE = arg('store', join(root, 'anti-slop', 'criteria.json'));
 const TEST_MAX_CHARS = 400;
+// Multi-part rules are whole paragraphs, so they stop at a paragraph boundary, never mid-sentence.
+const RULE_MAX_CHARS = 5000;
+const RULE_END = /^(?:#|> |✅|❌|---|```|\*\*(?:Common failure modes|Failure modes|Why\b|Worked FAIL example|Evidence:|Where:|Fix\b|FAIL\b|NOT this|How to check|Distinct from))/;
 
 function truncateAtWord(text, max) {
   if (text.length <= max) return text;
@@ -50,7 +52,16 @@ function parseCriteria(md) {
     // A lead-in ending in ":" introduces the actual test, so pull in the paragraph it points at.
     while (body.endsWith(':') && paragraphs.length) body += ' ' + paragraphs.shift();
     body = body.replace(/\s+/g, ' ');
-    const test = truncateAtWord(body.split(/(?<=[.])\s/).slice(0, 2).join(' '), TEST_MAX_CHARS);
+    // A scope line or a fail-on-any lead-in says when the rule applies, not what it is.
+    const leadOnly = /^\*\*Scope\.\*\*|\*\*Any one → FAIL\.\*\*$/.test(body);
+    if (leadOnly) {
+      for (const next of paragraphs) {
+        const flat = next.replace(/\s+/g, ' ');
+        if (RULE_END.test(flat) || body.length + flat.length + 1 > RULE_MAX_CHARS) break;
+        body += ' ' + flat;
+      }
+    }
+    const test = leadOnly ? body : truncateAtWord(body.split(/(?<=[.])\s/).slice(0, 2).join(' '), TEST_MAX_CHARS);
     out.push({ id, title, test });
   }
   return out;

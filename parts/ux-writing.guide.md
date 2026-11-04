@@ -88,8 +88,11 @@ support). The recovery lives **in the message**, not only in a toast that vanish
 
 ### Match severity to reality · UXW-5
 
-- A **transient, retryable** hiccup is an info/warning with a calm "Try again", not a blaring red
-  "Error" — over-alarming trains users to ignore real errors.
+- A **retryable error** (the action failed, nothing was lost, trying again can work) is
+  `type="warning"` with a calm "Try again", on every surface, overlays included, not a blaring red
+  "Error". Over-alarming trains users to ignore real errors.
+- `type="error"` is for a failure trying again can't fix, or one that lost the user's work. A hiccup
+  that needs nothing from the user is `type="info"`.
 - A **destructive or data-loss** outcome states the stakes plainly ("This permanently deletes 12
   responses."). Don't cry wolf; don't bury the lede.
 

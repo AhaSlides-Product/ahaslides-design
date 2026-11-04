@@ -164,7 +164,7 @@
     },
     {
       "id": "errors-inline",
-      "rule": "Surface failures inside the overlay with an inline DS V3 Alert (AhaAlert type=\"error\", styling owned by the `feedback` guide) — never a bare AntD Alert, never a nested modal stacked on top, never a downgrade to a transient toast. The overlay stays open on failure so the user can retry without re-opening.",
+      "rule": "Surface failures inside the overlay with an inline DS V3 Alert (AhaAlert, styling owned by the `feedback` guide, type owned by `ux-writing` UXW-5: a retryable error is type=\"warning\", a failure trying again can't fix is type=\"error\") — never a bare AntD Alert, never a nested modal stacked on top, never a downgrade to a transient toast. The overlay stays open on failure so the user can retry without re-opening.",
       "ref": [
         "OVERLAY-08"
       ]

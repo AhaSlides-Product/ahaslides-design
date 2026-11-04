@@ -33,11 +33,36 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1022.1 — 2026-11-04
+## 0.1022.1 — 2026-11-05
 
 ### Changed
 
 - Colour rule 7.2 (v34), Background C2 and C5, Colour C5, the Background guideline and evals: a status surface is neutral, and the neutral grey `--aha-gray-25` that the DS Alert, Info box and quiet Status badge ship with is one of three allowed grounds, beside white with an outline and a black fill. Nothing changes on screen: the rule said status surfaces stay white, which never matched the shipped Alert. (#668)
+
+## 0.1022.0 — 2026-11-04
+### Added
+- Button: `size="inline"` for `variant="text-link"`, one approved form for a control inside a sentence. It has no padding, border or fill, takes the sentence's font and line height, and keeps the hover, press and keyboard focus treatment of text-link. At `sm` the same text-link added 8px each side and grew the line from 21px to 28px. With `href` it renders `<a href>` and navigates; without one it renders `<button>` and acts on the page, with `aria-expanded` or `pressed` for a toggle. The rule is in the Button contract. (#667)
+- Button: `size="inline"` is underlined at rest, its text is selectable, a wrapped button label aligns to the start, and it draws no icon, spinner or shortcut, so a line never grows. The new `inline-button` screen-lint rule hard-fails a fixed variant other than `text-link`, no variant, or `shortcut`; a variant bound at runtime is not flagged. (#667)
+
+### Changed
+- Background task: the `link` slot uses the approved form, `<aha-button variant="text-link" size="inline">`, in the contract and preview, replacing `<a href="#" role="button">`. (#667)
+
+## 0.1021.2 — 2026-11-04
+### Changed
+- **One answer for a retryable error, in every copy of the rule.** `overlays` C6 said `type="error"` and `ux-writing` C5 said a calm info or warning. A retryable error (the action failed, nothing was lost, trying again can work) is now `type="warning"` with a calm "Try again", on every surface, overlays included. `type="error"` is for a failure trying again can't fix, or one that lost the user's work. C6 still owns placement: inline, overlay open, no nested modal, no toast. The type now belongs to C5, and the `alert` contract note points at it. Criteria, guides, guidelines and evals changed together. (#666)
+- **`ux-writing` C7 carries its full rule again.** Seeding kept only the scope line, so the store, `anti-slop.md` and `anti-slop.agent.json` had no sub-tests. The two sub-tests, (a) Survives and (b) Shape, are restored word for word from the original judge, and the C5 sentence on destructive outcomes that seeding cut is back. `sync-skills.mjs` no longer drops a rule that follows a scope line or a fail-on-any lead-in. (#666)
+- **Every criterion that lost its rule at seeding carries it again.** Restored word for word from the source judges, rationale left out: `canvas` C9, `audience` C5 (touch targets, spacing, mobile readability), C9 (visual, interaction state, wiring and secondary action checks), C10, C14, C22, C24 (b), C25 (b, c), C28 (b) and C29 (b, c, d). The seeder now normalises whitespace before it spots a lead-in, stops at headings, quotes and rationale labels, and caps a multi-part rule at 5,000 characters on a paragraph boundary (#666)
+- **Examples follow the retryable rule.** The toast and notification snippets for a failure the user can retry now use `warning`, a self-retrying sync message is `info`, and the `aha-toast` contract and the `empty-state` guideline state the type. An upload over the size limit stays `error`, because trying again can't fix it (#666)
+
+## 0.1021.1 — 2026-11-04
+### Fixed
+- Paywall: the popover is 300px wide outside, padding included, as the contract says (it rendered 332px). `width` now means the outer width, padding included, so a consumer passing `width` gets a popover 32px narrower than before. To keep today's size, add 32: aha-survey's `width={216}` (`BrandThemeCard.tsx:121`, `SurveyCustomisePanel.tsx:298`) renders 248 today and should become `width={248}` on its next bump. Content narrows from 300 to 268px; Upgrade and See all plans still sit on one row, and the row wraps when translated labels do not fit. (#665)
+- Paywall: the title line height is 1.5 on the type scale (it was 1.4). (#665)
+- Paywall: the See all plans border is `--aha-gray-70` #8A8A8A, as the contract says (it resolved #616161), 3.82:1 on the dark surface where it was 2.14:1. (#665)
+- Paywall: `fitPaywall` no longer clips in a viewport too short for above or below, such as a 280px-tall report iframe: it sits beside the anchor, and with no room there it scrolls inside, keeping See all plans reachable by Tab. Normal placement is unchanged. (#665)
+
+### Docs
+- Paywall: the guide, the contract and judge criteria C1 and C7 cover a crown beside its own button, with examples in every flavour; criterion C7 says the mark is a real button with an accessible name, not `role="img"`; `toggleLockedPaywall` is documented for any control and `togglePopover({ source })` beside it. (#665)
 
 ## 0.1021.0 — 2026-11-04
 ### Added

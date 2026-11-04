@@ -59,7 +59,7 @@ Never close a destructive overlay before its action resolves, and **never fire-a
 
 ## Errors stay inline
 
-- Surface failures **inside** the overlay with an inline **DS V3 Alert** (`AhaAlert type="error"` — the banner component and its styling are owned by the `feedback` guide; do **not** drop in a bare AntD `<Alert>`). This pattern owns *where* the error goes (inline, in the overlay); feedback owns *what it looks like*.
+- Surface failures **inside** the overlay with an inline **DS V3 Alert** (`AhaAlert` — the banner component and its styling are owned by the `feedback` guide; do **not** drop in a bare AntD `<Alert>`). This pattern owns *where* the error goes (inline, in the overlay); feedback owns *what it looks like*; `ux-writing` UXW-5 owns its *type*: a retryable error is `type="warning"`, a failure trying again can't fix is `type="error"`.
 - **Never** stack a second modal on top, and **never** downgrade the error to a transient toast.
 - The overlay **remains open on failure** so the user can retry without re-opening.
 

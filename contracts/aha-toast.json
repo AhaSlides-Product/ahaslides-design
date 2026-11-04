@@ -146,7 +146,7 @@
         "when": "the message must stay on the page next to what it is about"
       }
     ],
-    "note": "Keep it to one short line in sentence case with no full stop. Never put the only way to do something in a toast: it leaves on its own. An error the user must act on is sticky (duration 0) or an inline Alert."
+    "note": "Keep it to one short line in sentence case with no full stop. Never put the only way to do something in a toast: it leaves on its own. An error the user must act on is sticky (duration 0) or an inline Alert. A retryable error is type warning with a calm \"Try again\"; type error is for a failure trying again can't fix (ux-writing C5)."
   },
   "surfaces": [
     "editor",
