@@ -266,8 +266,14 @@ test('the answer marker is found in a selector list and in an open tag spread ov
   assert.deepEqual(answerRulesOf('<div class="save"\n  :style="{ background: \'var(--aha-answer-correct)\' }">'), ['answer-colour-context']);
 });
 
-test('"across", "ticket" and "crossword" are not answer markers', () => {
-  for (const name of ['across-panel', 'ticket', 'crossword'])
+test('the two True or False answer buttons may take the answer fill', () => {
+  for (const name of ['tof-true', 'tof-false', 'true-false-button', 'trueOrFalseOption'])
+    assert.deepEqual(answerRulesOf(`.${name} { background: var(--aha-answer-correct); }`), [], name);
+  assert.deepEqual(answerRulesOf('.tof-true { color: var(--aha-answer-correct); }'), ['answer-colour-text']);
+});
+
+test('"across", "ticket", "crossword" and "tofu" are not answer markers', () => {
+  for (const name of ['across-panel', 'ticket', 'crossword', 'tofu-card', 'option-true'])
     assert.deepEqual(answerRulesOf(`.${name} { background: var(--aha-answer-correct); }`), ['answer-colour-context'], name);
 });
 

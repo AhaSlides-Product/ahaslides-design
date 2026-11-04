@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.990.0 — 2026-11-04
+### Changed
+- **Colour rule 11.1, True or False exception** (#PR). The two answer buttons of a True or False question may be filled with the answer pair, True in `--aha-answer-correct` and False in `--aha-answer-wrong`, with a white label (4.5 to 1 or more on both), on the canvas and the audience phone. On reveal the tick or cross disc still gives the verdict and the other button dims, so a red False carrying the correct tick is right. Every other button, answer option, status and question type still fails. Rule 11.3, the colour criteria C1 and C5, canvas C2 and C19, audience C31 and the answer token note say the same; `screen-lint` accepts a True or False button selector (`tof-true`, `true-false-button`) as an answer context. New colour eval cases 17 to 19: True or False buttons pass, the pair on Pick Answer options or a sent status fails.
+
 ## 0.989.0 — 2026-11-04
 ### Changed
 - **Brand logos move into the Icon library** (#642). The third-party brand logos, with their Line / One colour / Original switch, the when-to-use rule per version, Stand-in tags, None cells, SVG links, the Line logos and Brand logo colour (rule 2.6) sections and the three copy-paste patterns, are now the Brands tab of the Icon library (`icons/index.html?tab=brands`, `?mode=` kept). The Logo library keeps the AhaSlides logo, The Splash, the favicon set and the lockup rules, and links to the new tab. Old Logo library links (`?tab=brands`, `?mode=`, `#brands`, `#line`, `#third-party-marks`, `#brand-logo-*`) forward to the Brands tab. Rule 2.6 and 2.6a, the C7 criterion, `llms.txt`, `icons.llms.txt`, `icons.agent.json` (`brandLogos`), the environment routes, the aha-design skill and the icon guard hook point at the new home. Logo files, their paths and `logo/manifest.json` are unchanged.
