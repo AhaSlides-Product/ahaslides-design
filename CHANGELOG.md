@@ -42,7 +42,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
   `colorTextPlaceholder` to the same `#616161` instead of `#8A8A8A` (3.45:1). This moves the placeholder in
   `aha-select`, `aha-autocomplete`, `aha-select-tags`, `aha-counted-input`, `aha-counted-textarea`, the input-number
   CSS and every antd input, select and picker. Course theming derives its placeholder from this token, so a themed
-  course placeholder darkens too. The eight `aha-select` placeholder contrast entries leave the state-check baseline.
+  course placeholder darkens too. A disabled `aha-select`, `aha-autocomplete`, `aha-select-tags`, `aha-counted-input` or
+  `aha-counted-textarea` keeps its placeholder at `--aha-text-disabled`, so it still reads as disabled. The eight
+  `aha-select` placeholder contrast entries leave the state-check baseline.
 - **Answer row radio and checkbox outlines hold 3:1** (#637). The unchecked control in `aha-answer-option` (and so
   `aha-answer-list`) takes `--aha-deck-stroke-hover`, the deck ink at 60% (4.5:1 on a white row), instead of
   `--aha-deck-stroke-chip`, the ink at 20% (1.5:1); hover moves it to `--aha-deck-ink-secondary`, the ink at 76%.
