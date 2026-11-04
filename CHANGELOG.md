@@ -39,6 +39,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Changed
 - `<aha-form-item>` reads, validates and resets `<aha-timepicker>`; a time that is not real reads as empty, so `required` fires (#664)
 
+## 0.1020.3 — 2026-11-04
+### Fixed
+- Alert: small text is 12px, on the type scale, as the guideline already said (it was 13px, which no step of the scale allows); the small close button's line height follows at 18px. The contract matches, and the feedback guideline now states the shipped padding and radius (regular 10/14, small 6/10, both 8px radius). (#659)
+
 ## 0.1020.2 — 2026-11-04
 
 ### Fixed
