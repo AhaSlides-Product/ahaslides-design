@@ -36,6 +36,66 @@ test('a criterion that opens with a scope line keeps its rule text', () => {
   assert.doesNotMatch(c.test, /GOOD|Common failure/);
 });
 
+test('a hard-wrapped fail-on-any lead-in keeps its sub-rules and stops before rationale', () => {
+  const [c] = seed(`### C1. Restraint → PASS / FAIL
+
+Three choices read as machine-made. **Any one
+→ FAIL.**
+
+**a. Wash.** No pastel wash.
+
+**b. Corners.** No big radius.
+
+**Why it slips past C1.** Rationale.
+
+**c. Late.** Never reached.
+`);
+  assert.match(c.test, /\*\*a\. Wash\.\*\*.*\*\*b\. Corners\.\*\*/);
+  assert.doesNotMatch(c.test, /Why it slips|Late/);
+});
+
+for (const stop of ['# Heading', '> A quote', '**Worked FAIL example — real.** Rationale.', '**FAIL if:**']) {
+  test(`a multi-part rule stops at: ${stop}`, () => {
+    const [c] = seed(`### C1. Stops → PASS / FAIL
+
+**Scope.** Scope line.
+
+**Rule.** The rule.
+
+${stop}
+
+**After.** Never reached.
+`);
+    assert.equal(c.test, '**Scope.** Scope line. **Rule.** The rule.');
+  });
+}
+
+test('a multi-part rule stops at the cap on a whole paragraph', () => {
+  const part = 'word '.repeat(600).trim();
+  const [c] = seed(`### C1. Cap → PASS / FAIL
+
+**Scope.** Scope line.
+
+${part} one.
+
+${part} two.
+`);
+  assert.ok(c.test.length <= 5000, `${c.test.length}`);
+  assert.match(c.test, /one\.$/);
+});
+
+test('every restored multi-part criterion in the store carries its sub-rules', () => {
+  const store = JSON.parse(readFileSync(join(root, 'anti-slop/criteria.json'), 'utf8')).surfaces;
+  const text = (surface, id) => store[surface].criteria.find(c => c.id === id).test;
+  assert.match(text('canvas', 'C9'), /\*\*e\. Meaningful visual polish clipped by the iframe edge\.\*\*/);
+  assert.match(text('audience', 'C10'), /\*\*c\. Extra-bold weight\.\*\*/);
+  assert.match(text('audience', 'C5'), /\*\*Touch targets\*\*/);
+  assert.match(text('audience', 'C14'), /\*\*b\. The overall reveal VERDICT\.\*\*/);
+  assert.match(text('audience', 'C22'), /\*\*c\. No FIXED void\.\*\*/);
+  assert.match(text('audience', 'C25'), /\*\*c\. Renders within the reported iframe box/);
+  assert.match(text('audience', 'C29'), /\*\*d\. Muted FIELD ink, not deck ink\.\*\*/);
+});
+
 test('a plain rule is still the first two sentences', () => {
   const [c] = seed(`### C1. Plain → PASS / FAIL
 

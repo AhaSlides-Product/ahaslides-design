@@ -236,7 +236,7 @@
     },
     {
       "id": "not-an-error",
-      "rule": "An absence of content is never an error, and an error is never drawn as an absence. A request that failed (a 500, a timeout, a blocked embed) takes <aha-error-page> or an inline alert that names the object and offers Retry (UXW-2, UXW-3); a list that errored must not fall back to \"No sessions\" because that hides the Retry the user needs. An empty state has no red, no warning icon and no error wording.",
+      "rule": "An absence of content is never an error, and an error is never drawn as an absence. A request that failed (a 500, a timeout, a blocked embed) takes <aha-error-page> or an inline alert that names the object and offers Retry (UXW-2, UXW-3): type=\"warning\" when trying again can work, type=\"error\" when it can't (ux-writing C5); a list that errored must not fall back to \"No sessions\" because that hides the Retry the user needs. An empty state has no red, no warning icon and no error wording.",
       "ref": [
         "EMPTY-09",
         "UXW-6"

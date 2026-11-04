@@ -37,6 +37,14 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Changed
 - **One answer for a retryable error, in every copy of the rule.** `overlays` C6 said `type="error"` and `ux-writing` C5 said a calm info or warning. A retryable error (the action failed, nothing was lost, trying again can work) is now `type="warning"` with a calm "Try again", on every surface, overlays included. `type="error"` is for a failure trying again can't fix, or one that lost the user's work. C6 still owns placement: inline, overlay open, no nested modal, no toast. The type now belongs to C5, and the `alert` contract note points at it. Criteria, guides, guidelines and evals changed together. (#666)
 - **`ux-writing` C7 carries its full rule again.** Seeding kept only the scope line, so the store, `anti-slop.md` and `anti-slop.agent.json` had no sub-tests. The two sub-tests, (a) Survives and (b) Shape, are restored word for word from the original judge, and the C5 sentence on destructive outcomes that seeding cut is back. `sync-skills.mjs` no longer drops a rule that follows a scope line or a fail-on-any lead-in. (#666)
+- **Every criterion that lost its rule at seeding carries it again.** Restored word for word from the source judges, rationale left out: `canvas` C9, `audience` C5 (touch targets, spacing, mobile readability), C9 (visual, interaction state, wiring and secondary action checks), C10, C14, C22, C24 (b), C25 (b, c), C28 (b) and C29 (b, c, d). The seeder now normalises whitespace before it spots a lead-in, stops at headings, quotes and rationale labels, and caps a multi-part rule at 5,000 characters on a paragraph boundary (#666)
+- **Examples follow the retryable rule.** The toast and notification snippets for a failure the user can retry now use `warning`, a self-retrying sync message is `info`, and the `aha-toast` contract and the `empty-state` guideline state the type. An upload over the size limit stays `error`, because trying again can't fix it (#666)
+
+## 0.1021.0 — 2026-11-04
+### Added
+- `<aha-timepicker>` (`@ahaslides-product/design/aha-timepicker`): a framework-free 24-hour time field with hour and minute columns, the sibling of `<aha-datepicker>`, so an app can drop antd TimePicker. The value is an `HH:mm` string, or null when empty, and seconds in a value are dropped; a pick commits at once; a typed time that is not real goes back to the last value. Sizes, error status, disabled, label, error and info messages, translated `hour-label`, `minute-label` and `clear-label`, form-associated, one tab stop, full keyboard path. 12-hour clock, seconds, ranges, minute steps and disabled times stay on the antd composite (#664)
+### Changed
+- `<aha-form-item>` reads, validates and resets `<aha-timepicker>`; a time that is not real reads as empty, so `required` fires (#664)
 
 ## 0.1020.3 — 2026-11-04
 ### Fixed
