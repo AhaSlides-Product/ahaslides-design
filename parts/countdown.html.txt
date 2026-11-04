@@ -6,8 +6,10 @@
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-countdown.js';   // registers <aha-countdown>
   import { applyDeck } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/audience-deck.js';
   applyDeck(document.documentElement, window.xprops?.slide ?? { textColour: '#1A1A1A', presentationColorPalette: ['#E70E68'] });
-  const timer = document.querySelector('aha-countdown');
-  timer.setAttribute('ends-at', String(Date.now() + 30000));   // the host's end instant, in a real slide
+  for (const timer of document.querySelectorAll('aha-countdown')) timer.setAttribute('ends-at', String(Date.now() + 30000));   // the host's end instant, in a real slide
 </script>
 
 <aha-countdown total-ms="30000" urgent-below-ms="5000" label="Time remaining"></aha-countdown>
+
+<!-- Points variant (self-paced quiz): no clock, 500p at the left end, 1000p at the right, the bar drains toward 500p. -->
+<aha-countdown variant="points" min="500" max="1000" label-format="{n}p" total-ms="30000" label="Points available"></aha-countdown>
