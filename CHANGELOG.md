@@ -33,13 +33,29 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.995.0 — 2026-11-04
+## 0.997.0 — 2026-11-04
 ### Changed
 - **Brand logos are now the Brand icon family in the Icon library** (#647). A fourth chip, Brand, sits after System in the Icon library; its 29 icons are ordinary icon cards in the same grid, search and totals, and are used by name, `<aha-icon name="brand-zoom">`, so they follow the icon rules (sizes, stroke by size, `--aha-icon-default` ink). The glyphs live in `icons/svg/brand/` with meaning words; sources and the stand-in list are in `icons/svg/brand/BRAND-CREDITS.md`.
 - Colour rules 2.6 and 2.6a, criterion C7, `llms.txt`, `icons.llms.txt`, `icons.agent.json`, `AGENTS.md`, `PRINCIPLES.md`, the aha-design skill, the icon guard hook and the `brand-logo-colour` lint message point at Brand icons instead of `logo/line/` files. Social links use `brand-youtube`, `brand-instagram`, `brand-linkedin`, `brand-facebook`, `brand-reddit`, `brand-x`, and `system-whatsapp-logo`.
 - `logo/line/`, `logo/original/` and `logo/manifest.json` stay at the same paths, unchanged. The original-colour files are only for a Marketplace listing and the Sign in with Google, Microsoft or Apple buttons; the Icon library's brand note lists their URLs.
 ### Removed
 - The Icon library's Brands tab, its Line / One colour / Original switch and the per-version rule table. Old links (`?tab=brands`, `?mode=`, the Logo page's brand anchors) open the Icon library filtered to Brand.
+
+
+## 0.996.0 — 2026-11-04
+### Changed
+- **The `aha-countdown` points bar reads "500 pts" and "1,000 pts", and speaks "700 points"** (#649). `p` read as pence or pixels, so the sample format is now `label-format="{n} pts"`, and `{n}` is grouped with `Intl.NumberFormat` in the element's language (closest `lang`, else the document's, else English). A new `spoken-format` attribute (default: the `label-format` value) feeds `aria-valuetext`, so a screen reader says "700 points" rather than "seven hundred p". Both formats come from the consumer's i18n catalogue, never hard-coded English; translator note for `label-format`: short for points, keep it to 3 or 4 characters. The default timer render is unchanged. Contract props, snippets, preview and the Audience Library describe it.
+
+## 0.994.0 — 2026-11-04
+
+### Changed
+- **Input and Input number small is 32px** (#640). `<aha-input size="small">` and `<aha-input-number size="small">`
+  (and `sm`) are 32px tall, was 24px: the same small as `<aha-select>` and `<aha-counted-input>`, and the height of
+  antd's default field, so an app leaving antd (Manage, MAAP-179) keeps its compact rows. Padding is unchanged (0 8 on
+  Input, 0 4 0 8 on Input number); the small clear button is 24px (was 20px) and the ▲/▼ stepper keeps its 18×14
+  buttons in every size (was 11px tall in small). Default 40px and large 48px are unchanged. A screen that used small
+  for a 24px row grows 8px. Both contracts carry a From antd row: antd default 32 and antd small 24 map to
+  `size="small"`, antd large 40 maps to the default.
 
 ## 0.993.0 — 2026-11-04
 ### Added
