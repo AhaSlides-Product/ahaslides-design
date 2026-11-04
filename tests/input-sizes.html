@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Input sizes</title>
+</head>
+<body>
+  <aha-input id="input-sm" size="sm" clearable value="a" aria-label="Small"></aha-input>
+  <aha-input id="input-small" size="small" clearable value="a" aria-label="Small"></aha-input>
+  <aha-input id="input-default" clearable value="a" aria-label="Default"></aha-input>
+  <aha-input id="input-large" size="large" clearable value="a" aria-label="Large"></aha-input>
+  <aha-input-number id="number-sm" size="sm" value="1" aria-label="Small"></aha-input-number>
+  <aha-input-number id="number-small" size="small" value="1" aria-label="Small"></aha-input-number>
+  <aha-input-number id="number-default" value="1" aria-label="Default"></aha-input-number>
+  <aha-input-number id="number-large" size="large" value="1" aria-label="Large"></aha-input-number>
+  <script type="module">
+    await import('../lib/aha-input.js');
+    await import('../lib/aha-input-number.js');
+    await customElements.whenDefined('aha-input');
+    await customElements.whenDefined('aha-input-number');
+    window.inputSizesFixtureReady = true;
+  </script>
+</body>
+</html>

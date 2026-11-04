@@ -14,8 +14,8 @@
     "Exact decimal strings: no float rounding, empty is null",
     "Min, max, step, precision, ▲/▼ stepper and arrow keys"
   ],
-  "lead": "ONE custom element, <aha-input-number>, defined once and imported unchanged by React and Vue: the framework-free counterpart of antd InputNumber, so an app can drop antd for its number fields. It is the <aha-input> field (same tokens, small 24 · default 40 · large 48, error status, disabled, readonly, label, error and info message) holding a number. The value is a decimal string worked out with exact decimal arithmetic (0.1 + 0.2 is 0.3; a 20-digit id keeps every digit); empty is null and `valueAsNumber` reads it as a number. While typing, the value follows the text whenever it is a number inside min and max; on blur or Enter the text is committed: clamped, rounded to `precision`, and text that is not a number goes back to the last value. A hover-revealed ▲/▼ stepper (the InputNumber look) and ArrowUp / ArrowDown step it (Shift for ten steps). The inner field is the role=\"spinbutton\"; the element is form-associated and <aha-form-item> reads, validates and resets it.",
-  "codeNote": "antd InputNumber → <aha-input-number>: value / onChange → `value` (string, number or null) + the `input` event (fires on every value change, as onChange does; `change` fires on each commit or step), e.detail.value is a number, or a string under `string-mode`, or null when empty · stringMode → `string-mode` · min / max / step / precision → the same attributes (precision rounds half away from zero on commit) · controls={false} → controls=\"false\" · placeholder → placeholder · status error/warning → status (warning renders as error) · disabled → disabled · readOnly → readonly · size small/middle/large → size small/default/large · prefix → prefix (text) · addonAfter → suffix (muted text unit after the stepper) · keyboard ↑/↓ and Shift ×10 → the same keys · onPressEnter → listen for keydown Enter (Enter commits the value) · aria-label / aria-labelledby → the same attributes, passed to the inner spinbutton · formatter / parser, decimalSeparator, changeOnWheel, hold-to-repeat on the stepper: not supported. React 18: set `value` through a ref (el.value = v, null for empty) and listen with ref.current.addEventListener('input', …), since React 18 does not wire CustomEvents; pass a boolean as present or absent ({...(disabled ? { disabled: '' } : {})}); disabled=\"false\", readonly=\"false\" and string-mode=\"false\" read as off, and controls={false} renders controls=\"false\", which hides the stepper. React 19 can use the element directly. Vue binds it natively (:value.prop, @input).",
+  "lead": "ONE custom element, <aha-input-number>, defined once and imported unchanged by React and Vue: the framework-free counterpart of antd InputNumber, so an app can drop antd for its number fields. It is the <aha-input> field (same tokens, small 32 · default 40 · large 48, error status, disabled, readonly, label, error and info message) holding a number. The value is a decimal string worked out with exact decimal arithmetic (0.1 + 0.2 is 0.3; a 20-digit id keeps every digit); empty is null and `valueAsNumber` reads it as a number. While typing, the value follows the text whenever it is a number inside min and max; on blur or Enter the text is committed: clamped, rounded to `precision`, and text that is not a number goes back to the last value. A hover-revealed ▲/▼ stepper (the InputNumber look) and ArrowUp / ArrowDown step it (Shift for ten steps). The inner field is the role=\"spinbutton\"; the element is form-associated and <aha-form-item> reads, validates and resets it.",
+  "codeNote": "antd InputNumber → <aha-input-number>: value / onChange → `value` (string, number or null) + the `input` event (fires on every value change, as onChange does; `change` fires on each commit or step), e.detail.value is a number, or a string under `string-mode`, or null when empty · stringMode → `string-mode` · min / max / step / precision → the same attributes (precision rounds half away from zero on commit) · controls={false} → controls=\"false\" · placeholder → placeholder · status error/warning → status (warning renders as error) · disabled → disabled · readOnly → readonly · size → see the From antd spec row · prefix → prefix (text) · addonAfter → suffix (muted text unit after the stepper) · keyboard ↑/↓ and Shift ×10 → the same keys · onPressEnter → listen for keydown Enter (Enter commits the value) · aria-label / aria-labelledby → the same attributes, passed to the inner spinbutton · formatter / parser, decimalSeparator, changeOnWheel, hold-to-repeat on the stepper: not supported. React 18: set `value` through a ref (el.value = v, null for empty) and listen with ref.current.addEventListener('input', …), since React 18 does not wire CustomEvents; pass a boolean as present or absent ({...(disabled ? { disabled: '' } : {})}); disabled=\"false\", readonly=\"false\" and string-mode=\"false\" read as off, and controls={false} renders controls=\"false\", which hides the stepper. React 19 can use the element directly. Vue binds it natively (:value.prop, @input).",
   "tokensUsed": [
     "bg-container",
     "bg-container-secondary",
@@ -43,7 +43,11 @@
     },
     {
       "label": "Sizes",
-      "value": "small 24 · default 40 · large 48 (16/24 text), radius 8; sm / lg accepted as aliases"
+      "value": "small 32 · default 40 · large 48 (16/24 text), radius 8, the same heights as <aha-input>; sm / lg accepted as aliases"
+    },
+    {
+      "label": "From antd",
+      "value": "antd sizes by height: on stock antd heights (controlHeight 32 · SM 24 · LG 40, as the Manage app sets them) antd default (middle) 32 → size=\"small\" 32 · antd size=\"small\" 24 → size=\"small\" 32 (the DS has no 24px field; the row grows 8px) · antd size=\"large\" 40 → default 40; on the DS antd theme (default 40, large 48) small / middle / large map to small / default / large"
     },
     {
       "label": "Hover / focus",
@@ -63,7 +67,7 @@
     },
     {
       "label": "Stepper",
-      "value": "18×14 ▲/▼ buttons (system-caret-up / down, 12px) 6px after the digits, #8A8A8A (icon-muted), hover #1A1A1A on #E70E680D (bg-accent), radius 4; shown on hover and focus (opacity), 11px tall in the small size; a button at the bound is disabled #B5B5B5; controls=\"false\" hides it"
+      "value": "18×14 ▲/▼ buttons (system-caret-up / down, 12px) 6px after the digits, #8A8A8A (icon-muted), hover #1A1A1A on #E70E680D (bg-accent), radius 4; shown on hover and focus (opacity), the same size in every field size; a button at the bound is disabled #B5B5B5; controls=\"false\" hides it"
     },
     {
       "label": "Affixes",
@@ -127,7 +131,7 @@
       "name": "size",
       "type": "small | default | large",
       "default": "default",
-      "desc": "small 24 · default 40 · large 48 (sm / lg accepted)"
+      "desc": "small 32 · default 40 · large 48 (sm / lg accepted)"
     },
     {
       "name": "status",
@@ -241,7 +245,7 @@
       }
     ],
     "note": "Set min and max to the real limits so the field constrains instead of validating after the fact. Use string-mode for ids, money and anything past 2^53. Label it with a noun phrase; a placeholder is not a label.",
-    "dsv3": "COVERED — the <aha-input> field chrome with the InputNumber stepper look from input-number.css (18×14 ▲/▼, icon-muted, bg-accent hover, revealed on hover and focus); sizes 24 / 40 / 48 and the error status as Input."
+    "dsv3": "COVERED — the <aha-input> field chrome with the InputNumber stepper look from input-number.css (18×14 ▲/▼, icon-muted, bg-accent hover, revealed on hover and focus); sizes 32 / 40 / 48 and the error status as Input."
   },
   "surfaces": [
     "dashboard",
