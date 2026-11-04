@@ -12,7 +12,7 @@
 <aha-datepicker min="2026-11-01" max="2026-12-31" aria-label="Due date"></aha-datepicker>
 
 <!-- states: error · disabled · no clear button · Monday first, French names -->
-<aha-datepicker status="error" error-message="Pick a date after the start date" value="2026-10-01" aria-label="End date"></aha-datepicker>
+<aha-datepicker status="error" error-message="Pick a date on or after the start date" value="2026-10-01" aria-label="End date"></aha-datepicker>
 <aha-datepicker disabled value="2026-11-04" aria-label="Created"></aha-datepicker>
 <aha-datepicker allow-clear="false" value="2026-11-04" aria-label="Report date"></aha-datepicker>
 <aha-datepicker locale="fr" week-start="1" aria-label="Date" previous-month-label="Mois précédent" next-month-label="Mois suivant" today-label="Aujourd’hui" clear-label="Effacer la date"></aha-datepicker>
