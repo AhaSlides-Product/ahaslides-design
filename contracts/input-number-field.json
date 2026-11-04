@@ -279,7 +279,7 @@
     "$about": "Measured by qa.mjs against the RENDERED UI on the [data-probe] field: an error field with a value.",
     "ready": "!!(document.querySelector('aha-input-number[data-probe]') && document.querySelector('aha-input-number[data-probe]').shadowRoot && document.querySelector('aha-input-number[data-probe]').shadowRoot.querySelector('.wrap'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-input-number[data-probe]');var r=el.shadowRoot;var w=getComputedStyle(r.querySelector('.wrap'));var f=r.querySelector('.field');var s=getComputedStyle(r.querySelector('.step'));return{height:w.height,radius:w.borderTopLeftRadius,border:w.borderTopColor,fontSize:getComputedStyle(f).fontSize,role:f.getAttribute('role'),ariaInvalid:f.getAttribute('aria-invalid'),stepHeight:s.height,stepColor:s.color};})()",
+    "measure": "(function(){var el=document.querySelector('aha-input-number[data-probe]');var r=el.shadowRoot;var w=getComputedStyle(r.querySelector('.wrap'));var f=r.querySelector('.field');var s=getComputedStyle(r.querySelector('.step-down'));return{height:w.height,radius:w.borderTopLeftRadius,border:w.borderTopColor,fontSize:getComputedStyle(f).fontSize,role:f.getAttribute('role'),ariaInvalid:f.getAttribute('aria-invalid'),stepHeight:s.height,stepColor:s.color};})()",
     "expect": {
       "height": "40px",
       "radius": "8px",
