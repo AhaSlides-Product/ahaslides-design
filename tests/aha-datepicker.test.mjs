@@ -28,6 +28,9 @@ test('aha-datepicker types, picks by keyboard and mouse, keeps min / max, clears
     };
     const out = {};
 
+    out.early = [await evaluate(`document.getElementById('early').open`), ...await active('early')];
+    await evaluate(`document.getElementById('early').open = false`);
+
     await evaluate(`document.getElementById('plain').focus()`);
     await press('ArrowDown');
     out.opened = await evaluate(`[document.getElementById('plain').open, ${field('plain')}.getAttribute('aria-expanded'), [...${root('plain')}.querySelectorAll('th')].map((th) => th.getAttribute('abbr'))[0]]`);
@@ -147,4 +150,5 @@ test('aha-datepicker types, picks by keyboard and mouse, keeps min / max, clears
   assert.equal(r.required, 'We need this one.');
   assert.equal(r.reset, '2026-01-31');
   assert.deepEqual(r.impossibleRequired, ['', 'We need this one.']);
+  assert.deepEqual(r.early, [true, 'November 99', 'Wednesday 4 November 99']);
 });
