@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.990.1 — 2026-11-04
+### Fixed
+- Colour rule 11.1, True or False exception: on reveal the wrong answer's button dims (it read "the other button"), as the requester confirmed; the 0.990.0 entry links its PR (#PR)
+
 ## 0.990.0 — 2026-11-04
 ### Changed
 - **Colour rule 11.1, True or False exception** (#645). The two answer buttons of a True or False question may be filled with the answer pair, True in `--aha-answer-correct` and False in `--aha-answer-wrong`, with a white label (4.5 to 1 or more on both), on the canvas and the audience phone. On reveal the tick or cross disc still gives the verdict and the wrong answer's button dims, so a red False carrying the correct tick is right. Every other button, answer option, status and question type still fails. Rule 11.3, the colour criteria C1 and C5, canvas C2 and C19, audience C31 and the answer token note say the same; `screen-lint` accepts a True or False button selector (`tof-true`, `true-false-button`) as an answer context. New colour eval cases 17 to 19: True or False buttons pass, the pair on Pick Answer options or a sent status fails.
