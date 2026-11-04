@@ -36,7 +36,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.977.2 — 2026-11-04
 
 ### Fixed
-- **The Site navbar preview shows its open menu** (#NNN). The preview frame was sized to the closed navbar, so the
+- **The Site navbar preview shows its open menu** (#634). The preview frame was sized to the closed navbar, so the
   Products, Solutions and Resources panels were clipped and looked blank. A layout can now set `previewMinHeight`;
   the Site navbar reserves 560 px so the open panel fits.
 
