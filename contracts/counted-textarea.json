@@ -43,6 +43,7 @@
   ],
   "opinion": {
     "whenToUse": [
+      { "what": "Counted textarea with maxlength=\"none\"", "when": "plain multi-line text with no limit: no cap, no counter; minrows / maxrows set the height and --aha-field-width:100% on the element makes it fill its row (the default is 240px)" },
       { "what": "Counted textarea", "when": "a multi-line settings field — a description, a long answer — that needs a character cap; the counter appears only on focus" },
       { "what": "Counted input", "when": "the single-line sibling — option/answer/label text with a cap" },
       { "what": "Input", "when": "a general single-line field with no counter (names, search)" }
