@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1020.0 — 2026-11-04
+
+### Added
+- **`<aha-carousel>`, the Carousel as a framework-free element (#NNN).** An app can now drop antd and slick for its carousels. It draws what `carouselTheme` draws, with arrows as `<aha-button>`, and moves by swipe, arrows, dots and keys, right to left included. Each child is one slide and nothing is cloned. The element owns the position: `index` moves as a move starts, together with the dots, `aria-current` and a polite live region ("Slide 2 of 5"). `change` fires once as a move starts and `after-change` once at rest. `adaptive-height`, `loop` and overridable labels (`prev-label`, `next-label`, `dotLabel`, `positionText`) cover the rest. One slide shows no controls; no slides renders nothing. Autoplay, fade and side dots stay on the antd Carousel, unchanged apart from a pointer to this element.
+
 ## 0.1016.0 — 2026-11-04
 ### Added
 - Slider field: `<aha-slider>`, a framework-free single-thumb slider in the antd Slider look (4px gray-30 rail, brand track, 14px handle). Drag or use the arrow keys, Page Up / Page Down, Home and End; `input` fires while dragging and `change` on release (antd onChange and onChangeComplete), `e.detail.value` is a number snapped exactly to `step` (0.01 included). `valueText` formats the value label above the handle and its aria-valuetext (an empty string shows the number), `tooltip="false"` hides the label and a disabled slider shows none, right to left fills from the right, and the handle is the role="slider" named by `aria-label` or `aria-labelledby`. Form-associated, and `<aha-form-item>` reads it as a number. The contract shows it beside an `<aha-input-number>` in a 1fr 88px grid; range, marks and vertical stay on the antd Slider composite, which is unchanged (#650)

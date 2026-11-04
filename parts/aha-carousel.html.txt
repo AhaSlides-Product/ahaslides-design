@@ -1,0 +1,26 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-carousel> is the SAME shared custom element React and Vue consume, here in its native form. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-carousel.js';   // registers <aha-carousel>
+
+  const gallery = document.getElementById('gallery');
+  // say what the slides are; override all four labels to translate
+  gallery.dotLabel = (position, total) => `Go to image ${position} of ${total}`;
+  gallery.positionText = (position, total) => `Image ${position} of ${total}`;
+  gallery.addEventListener('change', (e) => console.log('moving to:', e.detail.index, 'from:', e.detail.from));   // antd beforeChange
+  gallery.addEventListener('after-change', (e) => console.log('resting on:', e.detail.index));                    // antd afterChange
+</script>
+
+<!-- each child element is one slide; loop keeps antd's wrap at the ends -->
+<aha-carousel id="gallery" arrows loop adaptive-height aria-label="Workshop photos"
+              prev-label="Previous image" next-label="Next image" style="max-width:480px">
+  <div style="height:140px;background:var(--aha-bg-accent)">A short slide</div>
+  <div style="height:260px;background:var(--aha-bg-accent)">A tall slide</div>
+  <div style="height:200px;background:var(--aha-bg-accent)">A medium slide</div>
+</aha-carousel>
+
+<!-- one slide shows no arrows and no dots -->
+<aha-carousel arrows aria-label="One photo" style="max-width:480px">
+  <div style="height:120px;background:var(--aha-bg-accent)">The only slide</div>
+</aha-carousel>

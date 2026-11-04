@@ -1,0 +1,47 @@
+import '@ahaslides-product/design/aha-carousel'; // registers <aha-carousel>
+import { useRef, useEffect } from 'react';
+
+// React 18 needs a thin wrapper; React 19 can use <aha-carousel> directly.
+// Drop-in for an antd <Carousel>: beforeChange at the start of a move, afterChange at the end.
+function AhaCarousel({ arrows, dots, infinite, adaptiveHeight, dotLabel, positionText, beforeChange, afterChange, prevLabel, nextLabel, children, ...rest }) {
+  const ref = useRef();
+  useEffect(() => {
+    const el = ref.current;
+    el.dotLabel = dotLabel ?? null;
+    el.positionText = positionText ?? null;
+    const onChange = (e) => { if (e.target === el) beforeChange?.(e.detail.from, e.detail.index); };
+    const onRest = (e) => afterChange?.(e.detail.index);
+    el.addEventListener('change', onChange);
+    el.addEventListener('after-change', onRest);
+    return () => { el.removeEventListener('change', onChange); el.removeEventListener('after-change', onRest); };
+  });
+  return (
+    <aha-carousel
+      ref={ref}
+      {...rest}                                    // aria-label, data-testid
+      {...(arrows ? { arrows: '' } : {})}
+      {...(dots === false ? { dots: 'false' } : {})}
+      {...(infinite ? { loop: '' } : {})}
+      {...(adaptiveHeight ? { 'adaptive-height': '' } : {})}
+      {...(prevLabel ? { 'prev-label': prevLabel } : {})}
+      {...(nextLabel ? { 'next-label': nextLabel } : {})}
+    >
+      {children}
+    </aha-carousel>
+  );
+}
+
+// usage: a gallery. The element owns the position, so no state, no role="status" and no aria-current here.
+<AhaCarousel
+  arrows
+  infinite
+  adaptiveHeight
+  aria-label={t('gallery.label')}
+  prevLabel={t('gallery.previousImage')}
+  nextLabel={t('gallery.nextImage')}
+  dotLabel={(position, total) => t('gallery.goToImage', { position, total })}
+  positionText={(position, total) => t('gallery.imagePosition', { position, total })}
+  afterChange={() => trackBlockInteraction({ action: 'carousel_advance' })}
+>
+  {items.map((item, i) => <GalleryImage key={i} item={item} />)}
+</AhaCarousel>
