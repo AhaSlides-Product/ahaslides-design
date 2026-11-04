@@ -5,11 +5,14 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
 // Component.vue
 // `description` is the caption (or use the default slot); description="" hides it.
-// image="default" | "simple"; slot="image" swaps in a custom picture; slot="action" is a CTA.
+// image="default" | "simple" | "none"; size="small" for a side panel or inspector; slot="image" swaps in a custom picture; slot="action" is a CTA.
 <template>
   <aha-empty description="No responses yet — share the join link">
     <aha-button slot="action" variant="primary" @click="copyJoinLink">Copy link</aha-button>
   </aha-empty>
+
+  <!-- a side panel or inspector: 32 px art, 12 px caption -->
+  <aha-empty size="small" description="No options yet" />
 
   <!-- a table body: the empty-table illustration replaces the built-in empty-list art -->
   <aha-empty description="No data">

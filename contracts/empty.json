@@ -6,21 +6,22 @@
   "tier": "leaf-lit",
   "badge": "shared web component",
   "element": "aha-empty",
-  "summary": "The placeholder for a surface that has no data yet.",
-  "highlights": ["Placeholder for a surface with no data yet"],
-  "lead": "ONE custom element — <aha-empty> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens. The DS V3 Empty is a small family: an `image` (the pink empty-list illustration at 64 px by default, the same art at 48 px as `simple` for tight surfaces, `none` for a text-only empty state, or a custom picture via slot=\"image\"), a caption from the `description` attribute or the default slot (description=\"\" hides it), and an optional action (slot=\"action\"). A static marker — no interactive state, so no motion. Zero drift — the same element.",
+  "summary": "The placeholder for a surface that has no data yet, with a small size for side panels and inspectors.",
+  "highlights": ["Placeholder for a surface with no data yet", "size=\"small\" for a side panel or inspector"],
+  "lead": "ONE custom element — <aha-empty> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens. The DS V3 Empty is a small family: an `image` (the pink empty-list illustration at 64 px by default, the same art at 48 px as `simple` for tight surfaces, `none` for a text-only empty state, or a custom picture via slot=\"image\"), a `size=\"small\"` for a side panel or inspector about 240 to 320 px wide (32 px art, 16/12 padding, 12 px caption), a caption from the `description` attribute or the default slot (description=\"\" hides it), and an optional action (slot=\"action\"). A static marker — no interactive state, so no motion. Zero drift — the same element.",
   "codeNote": "The built-in illustration is empty-list from the illustration registry, called by name through <aha-illustration>, never inline SVG. Importing the element loads <aha-illustration> with only empty-list and empty-table, not the whole catalogue, so an empty state stays small in a bundle; slot=\"image\" can supersede the art with any picture (empty-table in a table body, or an <aha-icon>), and any other illustration name also needs import '@ahaslides-product/design/illustrations'. antd components draw their own grey Empty picture: pass createRenderEmpty({ h }) from @ahaslides-product/design/antd-render-empty as the root ConfigProvider's renderEmpty and every Select, Cascader, TreeSelect, Transfer, List and Table shows <aha-empty> instead. Defined once in @ahaslides-product/design.",
   "tokensUsed": ["text-tertiary", "font-product"],
   "spec": [
-    { "label": "Layout", "value": "centred column · gap 10 · padding 32/16 (simple: gap 8 · 20/16)" },
-    { "label": "Illustration", "value": "empty-list from the illustration registry · default 64 px wide (64×46) · simple 48 px (48×35) · fixed pink illustration tints" },
-    { "label": "Caption", "value": "default body type (--aha-size-default 14, --aha-line-height-body 1.5) in every image mode · #616161 (text-tertiary) · hidden when description=\"\"" },
+    { "label": "Layout", "value": "centred column · gap 10 · padding 32/16 (simple: gap 8 · 20/16; size small: gap 8 · 16/12)" },
+    { "label": "Illustration", "value": "empty-list from the illustration registry · default 64 px wide (64×46) · simple 48 px (48×35) · size small 32 px (32×23) in every image mode but none · fixed pink illustration tints" },
+    { "label": "Caption", "value": "default body type (--aha-size-default 14, --aha-line-height-body 1.5) in every image mode; size small: --aha-size-sm 12 · #616161 (text-tertiary) · hidden when description=\"\"" },
     { "label": "Custom image", "value": "slot=\"image\" · supersedes the built-in art" },
     { "label": "Action", "value": "slot=\"action\" · hidden when empty" },
     { "label": "antd components", "value": "createRenderEmpty({ h }) → ConfigProvider renderEmpty · Table: empty-table at 64 · Select, TreeSelect, Cascader, AutoComplete, Mentions, Transfer, Table filter: simple · List and the rest: default" }
   ],
   "props": [
     { "name": "image", "type": "'default' | 'simple' | 'none'", "default": "default", "desc": "Built-in illustration: the empty-list illustration at 64 px, or at 48 px with tighter spacing for tight surfaces (simple); none hides the illustration (text-only)" },
+    { "name": "size", "type": "'default' | 'small'", "default": "default", "desc": "small fits a side panel or inspector about 240 to 320 px wide: the art at 32 px, 16/12 padding, gap 8 and a 12 px caption. Combines with every image mode (image=\"none\" for text only)" },
     { "name": "description", "type": "string", "default": "—", "desc": "The caption; falls back to the default slot when absent, and renders nothing when set to \"\"" },
     { "name": "(default slot)", "type": "slot", "default": "No data", "desc": "The caption (alternative to the `description` attribute)" },
     { "name": "image", "type": "slot", "default": "—", "desc": "A custom picture (e.g. an <aha-icon>) that supersedes the built-in illustration" },
@@ -29,10 +30,11 @@
   "opinion": {
     "whenToUse": [
       { "what": "Empty", "when": "a list, table, or panel has nothing to show yet" },
+      { "what": "Empty size=\"small\"", "when": "a section of a side panel or inspector (about 240 to 320 px wide) has nothing in it yet, such as an editor inspector with no options; the default art would dwarf the panel" },
       { "what": "Result", "when": "reporting the outcome of an action (success, 404)" },
       { "what": "Skeleton", "when": "content is loading, not absent" }
     ],
-    "note": "The caption says what's missing and, ideally, the next step — 'No responses yet — share the join link'. Keep one action; an empty state is a nudge, not a menu. <aha-empty> is for small, tight surfaces (a table body, a list, a dropdown, under 240 px). In a table body it holds the pink empty-table illustration in slot=\"image\" at 64 px (DataTable does this by default); a list, dropdown or widget shows its built-in pink empty-list illustration (image=\"simple\" when tight). antd components get the same through createRenderEmpty on the root ConfigProvider, so no screen shows antd's grey Empty picture. A page or a panel uses the full Empty state pattern, with a pink empty-* illustration (guidelines/empty-state).",
+    "note": "The caption says what's missing and, ideally, the next step — 'No responses yet — share the join link'. Keep one action; an empty state is a nudge, not a menu. <aha-empty> is for small, tight surfaces (a table body, a list, a dropdown, under 240 px). In a table body it holds the pink empty-table illustration in slot=\"image\" at 64 px (DataTable does this by default); a list, dropdown or widget shows its built-in pink empty-list illustration (image=\"simple\" when tight); a side panel or inspector takes size=\"small\" (32 px art, 12 px caption) and a small action at most. antd components get the same through createRenderEmpty on the root ConfigProvider, so no screen shows antd's grey Empty picture. A page or a panel uses the full Empty state pattern, with a pink empty-* illustration (guidelines/empty-state).",
     "dsv3": "COVERED — enumerated from the DS V3 <Empty> component-set (fileKey MwjvUjVI0HnfwD9EwPXRAy: <Empty> set + Empty/Customize + a separate Illustration component), matching antd Empty's matrix: a default illustration vs a smaller `simple` image, a `description` (or none), a custom picture (Customize / slot=\"image\"), and an optional action. The caption colour comes from the token layer (text-tertiary); the art is the DS empty-list illustration in the illustration tints, replacing the grey line art — a deliberate extension, not a per-cell measured match."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
@@ -50,6 +52,10 @@
         { "label": "Simple", "value": "simple" },
         { "label": "None (text only)", "value": "none" }
       ] },
+      { "prop": "size", "label": "Size", "default": "default", "options": [
+        { "label": "Default", "value": "default" },
+        { "label": "Small (side panel)", "value": "small" }
+      ] },
       { "prop": "description", "label": "Description", "default": "on", "options": [
         { "label": "On", "value": "No responses yet" },
         { "label": "Off", "value": "" }
@@ -61,7 +67,8 @@
     { "label": "illustration empty-list by name · default 64 / simple 48", "verdict": "PASS" },
     { "label": "caption 14/22 #616161 · hidden when description=\"\"", "verdict": "PASS" },
     { "label": "custom slot=\"image\" supersedes built-in art", "verdict": "PASS" },
-    { "label": "action hidden when empty", "verdict": "PASS" }
+    { "label": "action hidden when empty", "verdict": "PASS" },
+    { "label": "size small · art 32 · padding 16/12 · caption 12", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",

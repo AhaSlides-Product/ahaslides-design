@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Empty small size</title>
+<style>body{margin:0}.panel{width:280px}</style>
+</head>
+<body>
+  <div class="panel"><aha-empty id="small" size="small" description="No options yet"></aha-empty></div>
+  <div class="panel"><aha-empty id="default" description="No options yet"></aha-empty></div>
+  <script type="module">
+    import '../lib/aha-empty.js';
+    await customElements.whenDefined('aha-empty');
+    await customElements.whenDefined('aha-illustration');
+    window.emptyFixtureReady = true;
+  </script>
+</body>
+</html>

@@ -2,7 +2,7 @@ import '@ahaslides-product/design/aha-empty';  // registers <aha-empty> and <aha
 import '@ahaslides-product/design/aha-button'; // registers <aha-button>
 
 // `description` is the caption (or use children); description="" hides it.
-// image="default" | "simple"; slot="image" swaps in a custom picture; slot="action" is a CTA.
+// image="default" | "simple" | "none"; size="small" for a side panel or inspector; slot="image" swaps in a custom picture; slot="action" is a CTA.
 // Any other illustration name in slot="image" also needs import '@ahaslides-product/design/illustrations'.
 function NoResponses({ onShare }) {
   return (
@@ -10,6 +10,11 @@ function NoResponses({ onShare }) {
       <aha-button slot="action" variant="primary" onClick={onShare}>Copy link</aha-button>
     </aha-empty>
   );
+}
+
+// a side panel or inspector: 32 px art, 12 px caption
+function NoOptions() {
+  return <aha-empty size="small" description="No options yet" />;
 }
 
 // a table body: the empty-table illustration replaces the built-in empty-list art

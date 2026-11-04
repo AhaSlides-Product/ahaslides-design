@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1002.0 — 2026-11-04
+### Added
+- `<aha-empty size="small">` for a side panel or inspector about 240 to 320 px wide (an editor inspector with no options): the empty-list art at 32 px, 16/12 padding, gap 8 and a 12 px caption; it combines with every `image` mode (`image="none"` for text only). The Empty state guideline, its guide, the contract and the snippets say when to use it instead of the default size or the pattern's compact scale (#NNN)
+
 ## 0.998.2 — 2026-11-04
 ### Fixed
 - DataTable: an empty table no longer overflows its container by 2px (permanent right-edge scroll shadow, empty state centred 1px off at every width). The 1px table border no longer narrows the scroll container; populated tables, sticky headers, scroll y and radius clipping are unchanged. (#644)

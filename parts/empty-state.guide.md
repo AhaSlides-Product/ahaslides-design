@@ -22,6 +22,7 @@ art. (EMPTY-01 to EMPTY-13)
 | A tab panel or card that is the main content of its area, 240 px tall or more | Full pattern, **panel scale** | Enough room for the art; the tabs and card stay |
 | A card or panel under 240 px whose content is the empty thing (Session detail Insights card) | Full pattern, **compact scale** | The card is the empty thing; small art, no action |
 | A table body with no rows | `<aha-empty>` with `empty-table` in its `image` slot at 64 px, one caption | A small pink table names what is missing; DataTable shows it by default |
+| A side panel or inspector, about 240 to 320 px wide (the Survey editor inspector with no options) | `<aha-empty size="small">`: 32 px art (or `image="none"`), 12 px caption, at most one small action | The default art and the full pattern dwarf a narrow panel; this is not the compact scale, which is for a short card whose whole content is empty |
 | A list, dropdown or widget | Plain `<aha-empty>` (`image="simple"` when tight); antd components through `createRenderEmpty` | Its built-in `empty-list` art is small enough to stay out of the way of the items |
 | A small item repeated per slide or row (an answer card per skipped slide) | A plain one-line caption, `No answer`, no art | The same picture on every item is noise |
 | A failed request, a missing page, a denied page | `<aha-error-page>` or `<aha-result>` | Something went wrong: not an empty state |

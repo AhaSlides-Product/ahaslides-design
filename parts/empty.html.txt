@@ -9,6 +9,7 @@
 
 <!-- description="…" is the caption (or use the default slot); description="" hides it.
      image="default" (empty-list art, 64 px) | "simple" (48 px, for tight surfaces) | "none" (text only).
+     size="small" fits a side panel or inspector (32 px art, 12 px caption).
      slot="image" swaps in a custom picture; slot="action" is an optional CTA.
      Any other illustration name in slot="image" also needs lib/illustrations.js. -->
 <aha-empty description="No responses yet — share the join link" style="width:280px">
@@ -17,6 +18,9 @@
 
 <!-- simple variant for a dropdown, no action -->
 <aha-empty image="simple" description="No results"></aha-empty>
+
+<!-- a side panel or inspector, about 280 px wide -->
+<aha-empty size="small" description="No options yet" style="width:280px"></aha-empty>
 
 <!-- a table body: the empty-table illustration replaces the built-in art -->
 <aha-empty description="No data">
