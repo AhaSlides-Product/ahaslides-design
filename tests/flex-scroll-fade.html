@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flex scroll fade</title>
+<style>body{margin:0}.row{width:200px}.item{width:80px;height:24px}</style>
+</head>
+<body>
+  <div class="row"><aha-flex id="scroller" scroll gap="small"><button class="item">A</button><button class="item">B</button><button class="item">C</button><button class="item">D</button></aha-flex></div>
+  <div class="row"><aha-flex id="fits" scroll gap="small"><button class="item">A</button></aha-flex></div>
+  <div class="row"><aha-flex id="plain" gap="small"><button class="item">A</button><button class="item">B</button><button class="item">C</button></aha-flex></div>
+  <script type="module">
+    import '../lib/aha-flex.js';
+    await customElements.whenDefined('aha-flex');
+    window.flexFixtureReady = true;
+  </script>
+</body>
+</html>
