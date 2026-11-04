@@ -2133,7 +2133,7 @@ const marketingOptionsAgent = (b, layout) => layout.options ? { options: layout.
   ...(choice === (option.choices.find(candidate => candidate.default) || option.choices[0]) ? {} : { html: resolveDefaultStateVariants(b, layout, marketingOptionChoiceHtml(layout, option, choice)) }) })) })) } : {};
 function marketingLayoutPreview(b, layout) {
   const options = JSON.stringify(MARKETING_WIDTHS.map(([label, width]) => ({ value: String(width), label: `${label} ${width}` })));
-  return `<div class="mfv${b.previewFit ? ' mfv--fit' : ''}" data-default="${MARKETING_DEFAULT_WIDTH}">
+  return `<div class="mfv${b.previewFit ? ' mfv--fit' : ''}" data-default="${MARKETING_DEFAULT_WIDTH}"${layout.previewMinHeight ? ` data-min-height="${Number(layout.previewMinHeight)}"` : ''}>
     <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="${esc(layout.name)} preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented>${marketingStateSwitch(b, layout)}${marketingReviewsSwitch(b, layout)}${marketingOptionSwitches(layout)}<span class="mbp-label" aria-live="polite"></span></div>
     <div class="mbp-viewport" role="region" tabindex="0" aria-label="${esc(layout.name)} preview, scrolls inside"><div class="mbp-sizer"><iframe class="mbp-frame" title="${esc(layout.name)} preview" scrolling="no"></iframe></div></div>
     <template class="mbp-doc"><style>${tokenVars(TOK)}</style>${marketingPreviewAssets(b, marketingLayoutSnippet(b, layout.choiceHtml ? { ...layout, html: layout.choiceHtml } : layout))}</template>
@@ -2149,14 +2149,15 @@ const MARKETING_LAYOUT_PREVIEW_SCRIPT = `<script type="module">
     var report='var c=document.getElementById("mbp-content"),last=-1;function send(){var h=Math.ceil(c.getBoundingClientRect().height);if(h!==last){last=h;parent.postMessage({mbpHeight:h},"*")}}new ResizeObserver(send).observe(c);'+
       '["click","mouseover","mouseout","focusin","transitionend","animationend"].forEach(function(t){document.addEventListener(t,function(){requestAnimationFrame(send)},true)});';
     var previews=[].slice.call(document.querySelectorAll('.mfv')).map(function(root){
-      var p={root:root,seg:root.querySelector('aha-segmented'),frame:root.querySelector('.mbp-frame'),view:root.querySelector('.mbp-viewport'),sizer:root.querySelector('.mbp-sizer'),label:root.querySelector('.mbp-label'),width:+root.dataset.default,contentHeight:0};
+      var p={root:root,seg:root.querySelector('aha-segmented'),frame:root.querySelector('.mbp-frame'),view:root.querySelector('.mbp-viewport'),sizer:root.querySelector('.mbp-sizer'),label:root.querySelector('.mbp-label'),width:+root.dataset.default,contentHeight:0,minHeight:+root.dataset.minHeight||0};
       p.layout=function(retried){
         var available=p.view.clientWidth;
         var scale=Math.min(1,available/p.width);
         p.frame.style.width=p.width+'px';
-        p.frame.style.height=p.contentHeight+'px';
+        var height=Math.max(p.contentHeight,p.minHeight);
+        p.frame.style.height=height+'px';
         p.frame.style.transform=scale<1?'scale('+scale+')':'none';
-        p.sizer.style.height=Math.ceil(p.contentHeight*scale)+'px';
+        p.sizer.style.height=Math.ceil(height*scale)+'px';
         p.sizer.style.width=Math.floor(p.width*scale)+'px';
         if(!retried&&p.view.clientWidth!==available)return p.layout(true);
         p.label.textContent=p.width+' px'+(scale<1?' · '+Math.round(scale*100)+'%':'');
