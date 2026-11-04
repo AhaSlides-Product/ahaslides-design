@@ -255,3 +255,20 @@ test('the default checklist still renders checkboxes that accumulate', () => {
   find(panel, (node) => node.type === antd.Checkbox && node.props.children[0] === 'B').props.onChange({ target: { checked: true } });
   assert.deepEqual(selected, ['A', 'B']);
 });
+
+test('filter and column panels shift to stay on screen; a column can still override it', () => {
+  const grid = mount({
+    columnsEditable: true,
+    columns: [
+      { key: 'status', title: 'Status', dataIndex: 'status', filter: { type: 'checklist', options: ['A'], multiple: false } },
+      { key: 'team', title: 'Team', dataIndex: 'team', filter: { type: 'checklist', options: ['A'] } },
+      { key: 'age', title: 'Age', dataIndex: 'age', filter: { type: 'range' }, filterDropdownProps: { autoAdjustOverflow: false } },
+    ],
+  });
+  const [status, team, age] = grid.table().columns;
+  assert.deepEqual(status.filterDropdownProps.autoAdjustOverflow, { shiftX: true });
+  assert.deepEqual(team.filterDropdownProps.autoAdjustOverflow, { shiftX: true });
+  assert.equal(age.filterDropdownProps.autoAdjustOverflow, false);
+  const editor = grid.editorElement().type(grid.editor());
+  assert.deepEqual(find(editor, (node) => node.type === antd.Popover).props.autoAdjustOverflow, { shiftX: true });
+});

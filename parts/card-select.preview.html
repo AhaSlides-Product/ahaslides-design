@@ -43,6 +43,11 @@
       <span slot="blush" class="cs-look cs-blush"><span class="cs-sheet"><span class="cs-title">Certificate</span><span class="cs-name">Blush</span><span class="cs-line"></span><span class="cs-line cs-short"></span></span></span>
     </aha-card-select>
   </div>
+  <div class="lbl">Narrow: columns 3, min-tile-width 110, in a 256px box</div>
+  <div class="row" style="display:block; max-width:256px">
+    <aha-card-select columns="3" min-tile-width="110" value="bar"
+      options='[{"value":"bar","label":"Bar","icon":"system-chart-bar"},{"value":"line","label":"Line","icon":"system-chart-line-up"},{"value":"pie","label":"Pie","icon":"system-chart-pie"}]'></aha-card-select>
+  </div>
   <div class="lbl">Disabled</div>
   <div class="row" style="display:block; max-width:420px">
     <aha-card-select disabled columns="3" value="line"
