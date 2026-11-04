@@ -36,7 +36,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.977.1 — 2026-11-04
 
 ### Fixed
-- **Avatar group never shows a solid pink avatar** (#NNN). The default tint cycle was Vivid Pink 5%, 30%, then solid
+- **Avatar group never shows a solid pink avatar** (#632). The default tint cycle was Vivid Pink 5%, 30%, then solid
   Vivid Pink 100 with white initials, so a third child (or one left alone among hidden siblings) competed with a
   primary button. It is now a four-step cycle of Vivid Pink 5%, grey 40, grey 25 and grey 50 with ink #1A1A1A
   (11.7:1 or better); the +N chip moves to grey 60 so it stays distinct. The `color` attribute still overrides.
