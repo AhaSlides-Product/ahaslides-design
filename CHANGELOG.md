@@ -36,7 +36,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.986.0 — 2026-11-04
 
 ### Changed
-- **Input and Input number small is 32px** (#NNN). `<aha-input size="small">` and `<aha-input-number size="small">`
+- **Input and Input number small is 32px** (#640). `<aha-input size="small">` and `<aha-input-number size="small">`
   (and `sm`) are 32px tall, was 24px: the same small as `<aha-select>` and `<aha-counted-input>`, and the height of
   antd's default field, so an app leaving antd (Manage, MAAP-179) keeps its compact rows. Padding is unchanged (0 8 on
   Input, 0 4 0 8 on Input number); the small clear button is 24px (was 20px) and the ▲/▼ stepper keeps its 18×14
