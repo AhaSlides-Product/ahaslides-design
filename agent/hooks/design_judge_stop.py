@@ -141,7 +141,8 @@ PRESENTING_SCREEN_SURFACES = ("canvas", "app-shell")
 PRESENTING_SCREEN_LINE = (
     "Presenting-screen files (the slide stage, the presenter control bar and its popovers, anything "
     "drawn over a live slide such as ink annotation): judge every `canvas` criterion and app-shell C6 "
-    "(from a recorded keyboard run of the real UI), whoever builds it.")
+    "(from a recorded keyboard run of the real UI and screenshots of the open cheatsheet, each "
+    "shortcut panel joined to its control), whoever builds it.")
 
 
 def is_presenting_screen(path):
