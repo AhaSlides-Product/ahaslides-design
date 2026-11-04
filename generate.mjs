@@ -3606,7 +3606,6 @@ const BRANDS_JS = `
 })();
 `;
 const BRANDS_HOME = 'icons/index.html?tab=brands';
-const headingSlug = text => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 const LOGO_CARD_CSS = `
   .gal-count{font-size:12px;color:var(--aha-text-tertiary);font-family:Menlo,monospace;margin-left:auto}
   .logo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(176px,1fr));gap:10px;margin-bottom:24px}
@@ -3728,7 +3727,7 @@ function renderBrandsPanel() {
 }
 /* Anchors that lived on the Logo page before the brand logos moved to the Icon library; the Logo page forwards them. */
 const MOVED_BRAND_ANCHORS = ['brands', 'tab-brands', 'panel-brands', 'line', 'brand-logo-colour', 'third-party-marks',
-  ...LOGO_PATTERNS.map(pattern => pattern.id), ...new Set(LOGO_BRANDS.map(l => headingSlug(l.section)))];
+  ...LOGO_PATTERNS.map(pattern => pattern.id)];
 const LOGO_MOVED_JS = `
 (function(){
   var p=new URLSearchParams(location.search),h=decodeURIComponent(location.hash.slice(1)),m=p.get('mode');
