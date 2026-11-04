@@ -36,7 +36,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.975.0 — 2026-11-04
 
 ### Added
-- **`<aha-datepicker>`: a single-date field that replaces antd `DatePicker` for one date** (#PR). It looks like
+- **`<aha-datepicker>`: a single-date field that replaces antd `DatePicker` for one date** (#629). It looks like
   `aha-input` (40px, `size="small"` 24px, `size="large"` 48px, radius 8) with a calendar glyph that turns into a clear
   button on hover and focus once a date is set (`allow-clear="false"` hides it). A click or ArrowDown opens a month
   calendar in the top layer: arrows move a day or a week, Home / End the week, PageUp / PageDown a month (Shift for a
@@ -46,7 +46,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
   `role="combobox"` over a `role="grid"` calendar, passes `aria-label` and `aria-labelledby` through, supports
   `disabled`, `status`, `label` and the field messages, and joins forms. The antd `datepicker-theme` composite stays
   for ranges, times and the week, month and year pickers.
-- **`aha-form-item` reads `aha-datepicker`** (#PR): the value is the ISO date, `''` when empty, and the field fills the
+- **`aha-form-item` reads `aha-datepicker`** (#629): the value is the ISO date, `''` when empty, and the field fills the
   item's width.
 
 ## 0.974.0 — 2026-11-04
