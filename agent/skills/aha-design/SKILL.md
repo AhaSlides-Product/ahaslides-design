@@ -112,12 +112,14 @@ Read the list from the DS each time — surfaces get added.
    `<aha-field-error>` or `<aha-alert type="error">`, never a `text-red-*` or other status-hue
    utility class (the `status-hue-class` lint, colour rules 7.1 and 7.2).
 4. Every logo (the AhaSlides logo / The Splash, or a third-party brand such as Google, Zoom or
-   Microsoft) comes from the Logo library: `https://design.ahaslides.io/foundations/logo.html`, files at
+   Microsoft) comes from the DS: the AhaSlides logo from the Logo library
+   (`https://design.ahaslides.io/foundations/logo.html`), a third-party brand from the Brands tab of
+   the Icon library (`https://design.ahaslides.io/icons/index.html?tab=brands`), files at
    `https://design.ahaslides.io/logo/<file>`. Never redraw one, inline a
    hand-made SVG, recolour it, or substitute an icon or letter tile.
    A third-party logo in any UI, website headers and page rows included, is its line mark
    (`logo/line/<id>.svg`) in `--aha-icon-default`, 24px, with no tile or border around it and the
-   tool's name beside it (the Logo library has the copy-paste patterns); only a page listing other
+   tool's name beside it (the Icon library's Brands tab has the copy-paste patterns); only a page listing other
    products (Marketplace) shows the colour logo image, greyscale at rest and in colour on hover and
    keyboard focus of its card. A provider sign-in button (Sign in with
    Google / Microsoft / Apple) keeps the provider's full-colour mark (`logo/original/`) at rest and on
@@ -180,7 +182,7 @@ Read the list from the DS each time — surfaces get added.
 
 1. **Mechanical gate first** (when the package is installed):
    `node node_modules/@ahaslides-product/design/screen-lint.mjs --surface=<product|canvas|audience|settings|website> <files>`
-   — fix every HARD finding before judging. An `--aha-answer-*` token as a text colour, or on anything that is not an answer, a correct or wrong mark or a result, is HARD (`answer-colour-text`, `answer-colour-context`; colour rules 11.1 and 11.2). A slide type's `presenter.*` is `canvas`, its
+   — fix every HARD finding before judging. An `--aha-answer-*` token as a text colour, or on anything that is not an answer, a correct or wrong mark, a result or one of the two True or False answer buttons (rule 11.1), is HARD (`answer-colour-text`, `answer-colour-context`; colour rules 11.1 and 11.2). A slide type's `presenter.*` is `canvas`, its
    `audience.*` is `audience` and its `settings.*` is `settings` (the `settings-design` skill runs
    that gate). On both slide surfaces a raw
    `<button>` or `role="button"`, `<aha-button size="xl">`, sizing through `::part(button)` or an
