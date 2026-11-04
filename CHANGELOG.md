@@ -34,6 +34,10 @@ an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix w
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
 <<<<<<< HEAD
+## 0.1009.1 — 2026-11-04
+### Fixed
+- Alert: small text is 12px, on the type scale, as the guideline already said (it was 13px, which no step of the scale allows); the small close button's line height follows at 18px. The contract matches, and the feedback guideline now states the shipped padding and radius (regular 10/14, small 6/10, both 8px radius). (#NNN)
+
 ## 0.1005.0 — 2026-11-04
 ### Added
 - Paywall: `unlock-label` and `plan-label` attributes so a translated product can pass its own unlock line. `unlock-label` is the whole line and its `{plan}` token becomes the bold plan name (`unlock-label="Mở khoá với gói {plan}."`); `plan-label` renames the plan ("Pro plan" / "Essential plan"). Both render as text, never HTML. With neither set the English line is unchanged. (#657)
