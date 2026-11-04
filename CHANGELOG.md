@@ -33,6 +33,22 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.975.0 — 2026-11-04
+
+### Added
+- **`<aha-datepicker>`: a single-date field that replaces antd `DatePicker` for one date** (#629). It looks like
+  `aha-input` (40px, `size="small"` 24px, `size="large"` 48px, radius 8) with a calendar glyph that turns into a clear
+  button on hover and focus once a date is set (`allow-clear="false"` hides it). A click or ArrowDown opens a month
+  calendar in the top layer: arrows move a day or a week, Home / End the week, PageUp / PageDown a month (Shift for a
+  year), Enter picks, Escape closes. The value is an ISO `YYYY-MM-DD` string or `null`, with no Day.js; it can be typed,
+  and text that is not a real date inside `min` / `max` goes back to the last value. `input` and `change` carry
+  `e.detail.value`. Month and weekday names follow `locale`, the first column follows `week-start` or the locale. It has
+  `role="combobox"` over a `role="grid"` calendar, passes `aria-label` and `aria-labelledby` through, supports
+  `disabled`, `status`, `label` and the field messages, and joins forms. The antd `datepicker-theme` composite stays
+  for ranges, times and the week, month and year pickers.
+- **`aha-form-item` reads `aha-datepicker`** (#629): the value is the ISO date, `''` when empty, and the field fills the
+  item's width.
+
 ## 0.974.0 — 2026-11-04
 
 ### Added
