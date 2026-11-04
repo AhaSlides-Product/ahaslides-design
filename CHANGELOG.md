@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1014.0 — 2026-11-04
+## 0.1016.0 — 2026-11-04
 ### Added
 - `aha-card-select` takes `min-tile-width`: it keeps `columns` while a tile can stay that wide, then wraps to fewer, reading the element's own width, so `columns="3" min-tile-width="110"` drops to 2 across inside a narrow modal (#656)
 - `empty-courses` and `empty-automation` join the `empty-*` illustrations (#656)
@@ -41,6 +41,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Fixed
 - DataTable filter panels and the Edit columns panel stay inside the viewport from 320px with no page overflow. antd's corner placements only flip, so a panel too wide for either side of a mid-table trigger stayed off-screen and `placement` looked ignored; they now shift along the edge (#656)
 - `screen-lint` `multi-primary` no longer counts primary buttons in opposite arms of a ternary as two loud actions; only the louder arm counts (#656)
+
+## 0.1015.0 — 2026-11-04
+### Added
+- `<aha-flex scroll>`: a chip or toggle row stays on one line and scrolls sideways inside its own box, fading the start or end edge only while there is more to see that way (the fade grows with the distance left, so it is none at an edge already reached and needs no motion). No scrollbar; Tab scrolls a clipped item clear of the fade; RTL and `direction="row-reverse"` fade the right-hand start edge. The responsive rule in `AGENTS.md` and the `overflow-x-scroll` lint hint name it as the one-line row exception (#654)
 
 ## 0.1011.1 — 2026-11-04
 ### Fixed
