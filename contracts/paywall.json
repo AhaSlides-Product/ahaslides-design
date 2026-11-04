@@ -7,9 +7,9 @@
   "tier": "leaf-lit",
   "badge": "shared web component",
   "element": "aha-paywall",
-  "summary": "Wrap a pro-gated affordance; the shared upsell renders itself — the crown upgrade mark, title, one-sentence body, the fixed unlock line, and Upgrade + See all plans CTAs are baked in.",
+  "summary": "Wrap a pro-gated affordance; the shared upsell renders itself — the crown upgrade mark, title, one-sentence body, the unlock line, and Upgrade + See all plans CTAs are baked in.",
   "highlights": ["Wraps a pro-gated affordance", "Shared upsell renders itself: crown mark, title, one-sentence body", "Fixed unlock line, Upgrade and See all plans buttons baked in"],
-  "lead": "EVERY pro-gated affordance routes through one element so both products feel like one. You give <aha-paywall> the feature, the copy and the plan; it renders the compliant popover — the Vivid Pink crown upgrade mark (never a generic crown glyph), the title, the one-sentence benefit, the fixed \"Unlock with the <Plan> plan.\" line, and two shared <aha-button> CTAs: Upgrade (positive/green) + See all plans (secondary). Analytics comes back as events. A hand-rolled upgrade modal/tooltip is the drift this replaces.",
+  "lead": "EVERY pro-gated affordance routes through one element so both products feel like one. You give <aha-paywall> the feature, the copy and the plan; it renders the compliant popover — the Vivid Pink crown upgrade mark (never a generic crown glyph), the title, the one-sentence benefit, the \"Unlock with the <Plan> plan.\" line (English default; a translated product passes `unlock-label`), and two shared <aha-button> CTAs: Upgrade (positive/green) + See all plans (secondary). Analytics comes back as events. A hand-rolled upgrade modal/tooltip is the drift this replaces.",
   "tokensUsed": ["color-primary", "color-primary-hover", "color-primary-active", "bg-dark-raised", "text-inverse", "text-secondary", "radius-lg", "radius-pill", "button-positive-bg", "button-default-border", "button-default-text", "button-focus-ring", "focus-ring"],
   "spec": [
     { "label": "Upgrade mark", "value": "16×16 Vivid Pink circle (--aha-color-primary) + white crown — a focusable control with Default/Hover/Active states; the custom mark, not a Phosphor crown" },
@@ -34,6 +34,8 @@
     { "name": "trigger", "type": "click | hover", "default": "click", "desc": "How the popover opens; click-away + Escape close a click popover" },
     { "name": "cta-label", "type": "string", "default": "Upgrade", "desc": "The positive CTA verb; override only with a clear reason" },
     { "name": "plans-label", "type": "string", "default": "See all plans", "desc": "The secondary CTA label — routes to the full pricing page" },
+    { "name": "unlock-label", "type": "string", "default": "Unlock with the {plan}.", "desc": "The whole unlock line, for a translated product. `{plan}` is replaced by the plan name in bold (e.g. \"Mở khoá với gói {plan}.\"); with no `{plan}` the line is plain text. Set as text, never HTML" },
+    { "name": "plan-label", "type": "string", "default": "Pro plan | Essential plan", "desc": "The plan name shown (bold) in the unlock line; pass a translated name. Drives display only, required-plan still sets the analytics plan" },
     { "name": "upgrade-url", "type": "string (URL)", "default": "ahaslides.com/pricing", "desc": "Where Upgrade navigates (new tab, noopener)" },
     { "name": "plans-url", "type": "string (URL)", "default": "ahaslides.com/pricing", "desc": "Where See all plans navigates (new tab, noopener)" },
     { "name": "slot (default)", "type": "element", "default": "upgrade mark", "desc": "The gated affordance = the anchor; omit it to use the crown upgrade mark as the anchor" },
@@ -47,7 +49,7 @@
       { "what": "required-plan pro", "when": "the default gate; use essential only for essential-tier features" },
       { "what": "never a bespoke upsell", "when": "a hand-rolled upgrade modal/tooltip drifts from the presenter app — always this element" }
     ],
-    "note": "Feature label is a short noun phrase; body is exactly one sentence about the benefit (not \"This is a Pro feature\"); the unlock line is fixed — do not reword. Popover/placement mechanics defer to aha-design-overlays; a single plan-gated setting row lives in the Settings surface."
+    "note": "Feature label is a short noun phrase; body is exactly one sentence about the benefit (not \"This is a Pro feature\"); the unlock line keeps its English format; a translated product passes `unlock-label` with `{plan}` instead of rewording it in place. Popover/placement mechanics defer to aha-design-overlays; a single plan-gated setting row lives in the Settings surface."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "reuse": { "entry": "./aha-paywall", "registers": "aha-paywall", "exportsNamed": ["AhaPaywall", "defineAhaPaywall", "fitPaywall"] },
