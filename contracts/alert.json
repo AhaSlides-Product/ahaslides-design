@@ -12,7 +12,7 @@
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper for the composed `close` event; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
   "tokensUsed": ["gray-25", "icon-default", "bg-accent", "color-primary", "text-default", "radius-default"],
   "spec": [
-    { "label": "Box", "value": "flex row, gap 10 · padding 10 14 · radius 8 · no border on any type" },
+    { "label": "Box", "value": "flex row, gap 10 · padding 10 14 · radius 8 · no border on any type; on info, success, warning and error the neutral grey fill is the status surface, the same on every type (colour rule 7.2)" },
     { "label": "Text", "value": "Plus Jakarta 14/1.5; heading SemiBold 600" },
     { "label": "Info", "value": "bg gray-25 #F3F3F3, no border, icon-default #4A4A4A" },
     { "label": "Success", "value": "bg gray-25 #F3F3F3, no border, icon-default #4A4A4A" },

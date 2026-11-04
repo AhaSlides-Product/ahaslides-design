@@ -33,6 +33,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1022.1 — 2026-11-05
+
+### Changed
+
+- Colour rule 7.2 (v34), Background C2 and C5, Colour C5, the Background guideline and evals: a status surface is neutral, and the neutral grey `--aha-gray-25` that the DS Alert, Info box and quiet Status badge ship with is one of three allowed grounds, beside white with an outline and a black fill. Nothing changes on screen: the rule said status surfaces stay white, which never matched the shipped Alert. (#668)
+
 ## 0.1022.0 — 2026-11-04
 ### Added
 - Button: `size="inline"` for `variant="text-link"`, one approved form for a control inside a sentence. It has no padding, border or fill, takes the sentence's font and line height, and keeps the hover, press and keyboard focus treatment of text-link. At `sm` the same text-link added 8px each side and grew the line from 21px to 28px. With `href` it renders `<a href>` and navigates; without one it renders `<button>` and acts on the page, with `aria-expanded` or `pressed` for a toggle. The rule is in the Button contract. (#667)

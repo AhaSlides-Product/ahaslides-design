@@ -279,7 +279,7 @@ test('the page, the feed and the markdown all carry every rule', () => {
     assert.ok(rules.environment.every(name => feed.rulesByEnvironment[name].includes(id)), `splash rule ${id} applies to every environment`);
   }
   assert.ok(feed.rulesByEnvironment.web.includes('6.9') && !feed.rulesByEnvironment.product.includes('6.9'));
-  assert.equal(rules.changes[0].version, 'v33');
+  assert.equal(rules.changes[0].version, 'v34');
   const reportRule = rules.sections.flatMap(section => section.blocks || []).flatMap(block => block.rules || []).find(rule => rule.id === '3.11').text;
   assert.match(reportRule, /read-only report page/);
   assert.match(reportRule, /table rows alternate white and light grey/);
@@ -341,4 +341,14 @@ test('the Splash CSS recipe carries the generator figures and the 802-unit frame
   assert.ok(recipe.includes(`${Math.round(centre.meetingPointDown * 100)}cqh`) && centre.meetingPointDown === right.meetingPointDown);
   assert.ok(recipe.includes('@supports'));
   for (const id of ['5.3', '5.4']) assert.ok(ruleText(id).includes('802-unit frame') && ruleText(id).includes('4.104'), id);
+});
+
+test('the status rules name the grey the Alert, Info box and quiet Status badge ship with', () => {
+  const fill = read('lib/aha-alert.js').match(/\.alert\{[^}]*background:var\((--aha-gray-\d+),(#[0-9A-F]{6})\)/);
+  assert.ok(fill, 'the Alert fill is a grey primitive');
+  assert.match(read('lib/aha-status-badge.js'), new RegExp(`--_bg:var\\(${fill[1]},${fill[2]}\\)`));
+  const c5 = JSON.parse(read('anti-slop/criteria.json')).surfaces.background.criteria.find(c => c.id === 'C5').test;
+  assert.ok(c5.includes(fill[1]) && c5.includes(fill[2]), 'Background C5 allows the shipped fill');
+  const rule72 = loadColourRules(root).sections.flatMap(s => s.blocks || []).flatMap(b => b.rules || []).find(r => r.id === '7.2').text;
+  assert.ok(rule72.includes(fill[2]), 'rule 7.2 allows the shipped fill');
 });
