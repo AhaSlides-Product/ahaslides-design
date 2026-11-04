@@ -37,7 +37,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ### Changed
 
-- Colour rule 7.2 (v34), Background C2 and C5, Colour C5, the Background guideline and evals: a status surface is neutral, and the neutral grey `--aha-gray-25` that the DS Alert, Info box and quiet Status badge ship with is one of three allowed grounds, beside white with an outline and a black fill. Nothing changes on screen: the rule said status surfaces stay white, which never matched the shipped Alert. (#NNN)
+- Colour rule 7.2 (v34), Background C2 and C5, Colour C5, the Background guideline and evals: a status surface is neutral, and the neutral grey `--aha-gray-25` that the DS Alert, Info box and quiet Status badge ship with is one of three allowed grounds, beside white with an outline and a black fill. Nothing changes on screen: the rule said status surfaces stay white, which never matched the shipped Alert. (#668)
 
 ## 0.1021.0 — 2026-11-04
 ### Added
