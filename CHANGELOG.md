@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1011.1 — 2026-11-04
 ### Fixed
-- The v2.3 brand guidelines PDF carries the chart order of rule 8.1 on pages 58, 59, 65 and 78, with rules 8.2 and 8.6 on page 65; title, version line and file name are unchanged (#000)
+- The v2.3 brand guidelines PDF carries the chart order of rule 8.1 on pages 58, 59, 65 and 78, with rules 8.2 and 8.6 on page 65; title, version line and file name are unchanged (#661)
 
 ## 0.1011.0 — 2026-11-04
 ### Added
