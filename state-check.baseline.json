@@ -8,7 +8,6 @@
    "contrast · hover · aha-audience-submit » aha-button[variant=primary][size=touch] » button: text #FFFFFF on #EB327F is 3.97:1, needs 4.5:1"
   ],
   "autocomplete": [
-   "contrast · focus · button.ant-select-clear[type=button] “Clear”: icon #BFBFBF on #FFFFFF is 1.83:1, needs 3:1",
    "contrast · rest · button.ant-select-clear[type=button] “Clear”: icon #BFBFBF on #FFFFFF is 1.83:1, needs 3:1"
   ],
   "chart": [
@@ -46,7 +45,6 @@
    "contrast · hover · aha-image » div.frame[role=button] “Preview: Deck cover”: text #FFFFFF on #949494 is 3.03:1, needs 4.5:1"
   ],
   "select": [
-   "contrast · focus · button.ant-select-clear[type=button] “Clear”: icon #BFBFBF on #FFFFFF is 1.83:1, needs 3:1",
    "contrast · rest · button.ant-select-clear[type=button] “Clear”: icon #BFBFBF on #FFFFFF is 1.83:1, needs 3:1"
   ],
   "select-field": [
