@@ -602,7 +602,7 @@
             "8.3",
             "8.4"
           ],
-          "test": "A chart on an app screen uses four colours in this order and never more: Vivid Pink, black, Vivid Pink at 30%, light grey (the brand palette of <aha-chart>). Beyond four series the four repeat with a dashed line or a pattern and a label beside each mark. Anything drawn in Vivid Pink at 30% or light grey shows its value in writing. A fifth colour, a reordered palette or a hand-picked series colour fails. A presenter's own deck palette on the canvas is exempt."
+          "test": "A chart on an app screen uses four colours in this order and never more: Vivid Pink, Vivid Pink at 30%, dark grey #303030, light grey (the brand palette of <aha-chart>). Beyond four series the four repeat with a dashed line or a pattern and a label beside each mark. Anything drawn in Vivid Pink at 30% or light grey shows its value in writing. A fifth colour, a reordered palette or a hand-picked series colour fails. A presenter's own deck palette on the canvas is exempt."
         },
         {
           "id": "C7",
@@ -1428,7 +1428,7 @@
         {
           "id": "C3",
           "title": "Series follow the chart order; past four parts, the top 3 plus Other",
-          "test": "**Rule.** Series are coloured in the chart order (Vivid Pink, black, Vivid Pink at 30%, light grey #A8A8A8), the main series first. A breakdown with more than four parts shows the top three by value and folds the rest into Other, in light grey and last. A fifth colour, a palette in another order, Other placed first or in pink, or two Other slots (a source Other beside the folded one) fails."
+          "test": "**Rule.** Series are coloured in the chart order (Vivid Pink, Vivid Pink at 30%, dark grey #303030, light grey #A8A8A8), the main series first. A breakdown with more than four parts shows the top three by value and folds the rest into Other, in light grey and last. A fifth colour, a palette in another order, Other placed first or in pink, or two Other slots (a source Other beside the folded one) fails."
         },
         {
           "id": "C4",
