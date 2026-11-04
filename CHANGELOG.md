@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1010.0 — 2026-11-04
+## 0.1011.0 — 2026-11-04
 ### Added
 - Token `--aha-viz-mix-fade` (15%): the opacity of a chart mark out of focus on hover or keyboard focus (#652)
 
@@ -42,6 +42,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - **Marks out of focus on hover or keyboard focus fade to 15%, their text stays at 40%** (#652), so a faded Vivid Pink cannot pass for the 30% series. New colour rule 8.6. `highlight-top` at rest stays at `--aha-viz-mix-dim`
 - With no host palette, a word cloud sets the words in the pale series in secondary ink, because Vivid Pink at 30% and light grey miss 3 to 1 on white (#652)
 - The NPS detractor default is the second series, so it is now pale pink; it draws as a solid colour over the bracket track when the host sets no `colors` (#652)
+
+## 0.1010.0 — 2026-11-04
+### Added
+- Answer option: `no-control` attribute hides the radio or checkbox control for rows that are already big filled buttons, such as True or False. The control stays in the DOM, visually hidden, so focus, role and keyboard behaviour are unchanged on plain, `other` and empty `expandable` rows; tones, stroke, dimming, the verdict mark and the bold label are untouched, and a row without the attribute renders exactly as before. With `letter` the chip goes too. (#660)
 
 ## 0.1005.1 — 2026-11-04
 ### Fixed
