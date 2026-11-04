@@ -16,7 +16,7 @@
     { "label": "Focus", "value": "brand #E70E68 border" },
     { "label": "Active option", "value": "#F7F7F7 (gray-20) row" },
     { "label": "Selected option", "value": "brand-tint #E70E680D row" },
-    { "label": "Placeholder", "value": "#8A8A8A" }
+    { "label": "Placeholder", "value": "#616161" }
   ],
   "props": [
     { "name": "options", "type": "{ value, label? }[] | { label, options }[]", "default": "[]", "desc": "Suggestions shown as the user types — flat, or grouped ({ label, options }) for section headers" },
@@ -53,12 +53,12 @@
     { "label": "control 40 · radius 8 · #E3E3E3 border", "verdict": "PASS" },
     { "label": "focus border brand", "verdict": "PASS" },
     { "label": "active option gray-20 row", "verdict": "PASS" },
-    { "label": "placeholder #8A8A8A", "verdict": "PASS" }
+    { "label": "placeholder #616161", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Composite shown as a CDN-React page mounted at #react-root; the measure reads the real antd v6 AutoComplete (Select internals) bound to autocompleteTheme.",
     "ready": "!!document.querySelector('#react-root .ant-select-content') && !!document.querySelector('#react-root .ant-select-placeholder')",
     "measure": "(function(){var g=function(sel,p){var el=document.querySelector('#react-root '+sel);return el?getComputedStyle(el)[p]:null;};return{radius:g('.ant-select','borderTopLeftRadius'),radiusBR:g('.ant-select','borderBottomRightRadius'),border:g('.ant-select','borderTopColor'),borderWidth:g('.ant-select','borderTopWidth'),height:g('.ant-select','height'),placeholder:g('.ant-select-placeholder','color')};})()",
-    "expect": { "radius": "8px", "radiusBR": "8px", "border": "rgb(227, 227, 227)", "borderWidth": "1px", "height": "40px", "placeholder": "rgb(138, 138, 138)" }
+    "expect": { "radius": "8px", "radiusBR": "8px", "border": "rgb(227, 227, 227)", "borderWidth": "1px", "height": "40px", "placeholder": "rgb(97, 97, 97)" }
   }
 }

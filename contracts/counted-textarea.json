@@ -21,7 +21,7 @@
     { "label": "Error", "value": "#1A1A1A border + error-tinted ring; sets aria-invalid" },
     { "label": "Error message", "value": "below the field, 4px gap · 12×12 system-warning-circle + text at --aha-size-sm 12/18 · #1A1A1A (text-negative)" },
     { "label": "Disabled", "value": "#F1F1F1 fill, #EBEBEB border, not-allowed" },
-    { "label": "Text", "value": "Plus Jakarta 14/21; placeholder #999999" }
+    { "label": "Text", "value": "Plus Jakarta 14/21; placeholder #616161" }
   ],
   "props": [
     { "name": "value", "type": "string", "default": "\"\"", "desc": "Controlled text value" },
