@@ -7,6 +7,9 @@
 </head>
 <body>
   <aha-button id="link" variant="text-link">View details</aha-button>
+  <p id="plain" style="margin:0; width:520px; font:400 14px/1.5 sans-serif">A sentence with no control in it at all.</p>
+  <p id="sentence" style="margin:0; width:520px; font:400 14px/1.5 sans-serif">A sentence with a <aha-button id="toggle" variant="text-link" size="inline" aria-expanded="false">toggle</aha-button> and a <aha-button id="anchor" variant="text-link" size="inline" href="#plans">link</aha-button> in it.</p>
+  <p id="wrapped" style="margin:0; width:120px; font:400 14px/1.5 sans-serif">Long <aha-button id="long" variant="text-link" size="inline" href="#plans">link that has to wrap over two lines</aha-button> here.</p>
   <script type="module">
     await import('../lib/aha-button.js');
     await customElements.whenDefined('aha-button');

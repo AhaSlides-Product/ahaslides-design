@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1022.0 — 2026-11-04
+### Added
+- Button: `size="inline"` for `variant="text-link"`, one approved form for a control inside a sentence. It has no padding, border or fill, takes the sentence's font and line height, and keeps the hover, press and keyboard focus treatment of text-link. At `sm` the same text-link added 8px each side and grew the line from 21px to 28px. With `href` it renders `<a href>` and navigates; without one it renders `<button>` and acts on the page, with `aria-expanded` or `pressed` for a toggle. The rule is in the Button contract. (#NNN)
+
 ## 0.1020.3 — 2026-11-04
 ### Fixed
 - Alert: small text is 12px, on the type scale, as the guideline already said (it was 13px, which no step of the scale allows); the small close button's line height follows at 18px. The contract matches, and the feedback guideline now states the shipped padding and radius (regular 10/14, small 6/10, both 8px radius). (#659)

@@ -32,6 +32,14 @@ const emit = defineEmits(['save', 'dismiss']);
     <aha-icon name="system-x" :size="16" decorative />
   </aha-button>
 
+  <!-- A control inside a sentence: href = it navigates (<a>), no href = it acts on the page (<button>). -->
+  <p>
+    Two responses are hidden.
+    <aha-button variant="text-link" size="inline" :aria-expanded="String(open)" aria-controls="hidden-responses" @click="open = !open">
+      {{ open ? 'Hide them' : 'Show them' }}
+    </aha-button>
+  </p>
+
   <!-- Audience close (✕): tertiary-deck icon-only md, 36 x 36 drawn with a 44 x 44 hit area; `sheet` on a white modal. -->
   <aha-button variant="tertiary-deck" size="md" icon-only sheet aria-label="Close" @click="emit('close')">
     <aha-icon name="system-x" :size="16" decorative />
