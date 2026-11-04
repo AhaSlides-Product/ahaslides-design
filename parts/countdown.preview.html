@@ -3,9 +3,16 @@
   <div class="row" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:420px;box-sizing:border-box">
     <aha-countdown data-probe total-ms="30000" urgent-below-ms="5000"></aha-countdown>
   </div>
-  <div class="lbl">Dark deck — applyDeck() with a white ink and a Vivid Pink accent</div>
+  <div class="lbl">Points variant (variant="points" min="500" max="1000" label-format="{n}p"): draining, pinned at 50%, stopped</div>
+  <div class="row" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:420px;box-sizing:border-box">
+    <aha-countdown variant="points" min="500" max="1000" label-format="{n}p" total-ms="30000"></aha-countdown>
+    <aha-countdown variant="points" min="500" max="1000" label-format="{n}p" progress="50"></aha-countdown>
+    <aha-countdown variant="points" min="500" max="1000" label-format="{n}p" total-ms="30000" stopped></aha-countdown>
+  </div>
+  <div class="lbl">Dark deck: applyDeck() with a white ink and a Vivid Pink accent</div>
   <div class="row aud-dark" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:420px;box-sizing:border-box;padding:var(--aha-space-16);background:var(--aha-bg-dark);border-radius:var(--aha-radius-lg)">
     <aha-countdown total-ms="30000" urgent-below-ms="5000"></aha-countdown>
+    <aha-countdown variant="points" min="500" max="1000" label-format="{n}p" total-ms="30000"></aha-countdown>
   </div>
 </div>
 
