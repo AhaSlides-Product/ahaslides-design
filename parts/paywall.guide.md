@@ -40,10 +40,10 @@ A paywall popover, top to bottom, is always:
    **feature label**. Never the generic Phosphor Crown — it lacks the circular background.
 2. **Body** — a one-sentence value prop, then the line **"Unlock with the _\<Plan\> plan_."**
    (plan name bold).
-3. **Footer** — a single full-width (`block`) primary **Upgrade** CTA.
+3. **Footer** — two shared `<aha-button>` CTAs: **Upgrade** (positive) and **See all plans**
+   (secondary).
 
-No secondary "View plans" button, no dismiss link, no multi-paragraph body inside the
-popover. *(`PAYWALL-02`, `PAYWALL-03`, `PAYWALL-04`)*
+No further buttons, no dismiss link, no multi-paragraph body inside the popover. *(`PAYWALL-02`, `PAYWALL-03`, `PAYWALL-04`)*
 
 ## Props contract
 
@@ -56,6 +56,8 @@ popover. *(`PAYWALL-02`, `PAYWALL-03`, `PAYWALL-04`)*
 | `placement` | Popover side: `'top'` (default), `'bottom'`, or `'left'` / `'right'` (beside the anchor, vertically centred). |
 | `width` | Popover width for longer copy; defaults to 300px, never past 82vw. |
 | `slot="body"` | Optional rich body: the same one sentence when it needs a link or emphasis. Replaces `body`; the unlock line and CTAs stay fixed. Slot a link directly (`<a slot="body">`) so it reads white on the dark surface. |
+| `unlock-label` | Optional. The whole unlock line in the user's language; `{plan}` becomes the bold plan name. |
+| `plan-label` | Optional. The displayed plan name ("Pro plan" by default), for translation. |
 | `trigger` | `'click'` (default) or `'hover'`. |
 | `onUpgrade` | Optional. Runs *instead of* opening the pricing page (e.g. an in-app upgrade modal). Analytics still fires first. |
 
@@ -66,7 +68,9 @@ popover. *(`PAYWALL-02`, `PAYWALL-03`, `PAYWALL-04`)*
 - **Feature label:** short noun phrase, the name of the locked feature. Not a sentence.
 - **Body:** exactly one sentence, describing the *benefit* of unlocking — not "This is a Pro
   feature." Ends with a period.
-- **Unlock line:** fixed format — "Unlock with the **\<Plan\> plan**." Do not reword.
+- **Unlock line:** fixed format in English — "Unlock with the **\<Plan\> plan**." Do not reword it
+  in place. A translated product passes `unlock-label` with a `{plan}` token (for example
+  `unlock-label="Mở khoá với gói {plan}."`) and, to translate the plan name, `plan-label`.
 - **CTA:** "Upgrade" by default; keep it a verb. Override via `ctaLabel` only with a clear reason.
 
 *(`PAYWALL-03`, `PAYWALL-04`)*

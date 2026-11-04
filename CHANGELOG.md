@@ -33,15 +33,30 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1003.0 — 2026-11-04
+## 0.1009.0 — 2026-11-04
 ### Added
 - Token `--aha-viz-mix-fade` (15%): the opacity of a chart mark out of focus on hover or keyboard focus (#652)
 
 ### Changed
-- **The `aha-chart` brand series order is now Vivid Pink, Vivid Pink at 30%, dark grey `#303030`, light grey `#A8A8A8`** (#652). `--aha-viz-series-2` and `-6` are Vivid Pink at 30%, `--aha-viz-series-3` is dark grey, and tint 3 and 4 are `gray-20`. A host that reads `--aha-viz-series-2` or `-3` directly for a dark mark gets a different colour: pick the series by colour. Colour rule 8.1, section 10 and v32, decided by Dave Bui
+- **The `aha-chart` brand series order is now Vivid Pink, Vivid Pink at 30%, dark grey `#303030`, light grey `#A8A8A8`** (#652). `--aha-viz-series-2` and `-6` are Vivid Pink at 30%, `--aha-viz-series-3` is dark grey, and tint 3 and 4 are `gray-20`. A host that reads `--aha-viz-series-2` or `-3` directly for a dark mark gets a different colour: pick the series by colour. Colour rule 8.1, section 10 and v33, decided by Dave Bui
 - **Marks out of focus on hover or keyboard focus fade to 15%, their text stays at 40%** (#652), so a faded Vivid Pink cannot pass for the 30% series. New colour rule 8.6. `highlight-top` at rest stays at `--aha-viz-mix-dim`
 - With no host palette, a word cloud sets the words in the pale series in secondary ink, because Vivid Pink at 30% and light grey miss 3 to 1 on white (#652)
 - The NPS detractor default is the second series, so it is now pale pink; it draws as a solid colour over the bracket track when the host sets no `colors` (#652)
+
+## 0.1005.0 — 2026-11-04
+### Added
+- Paywall: `unlock-label` and `plan-label` attributes so a translated product can pass its own unlock line. `unlock-label` is the whole line and its `{plan}` token becomes the bold plan name (`unlock-label="Mở khoá với gói {plan}."`); `plan-label` renames the plan ("Pro plan" / "Essential plan"). Both render as text, never HTML. With neither set the English line is unchanged. (#657)
+
+### Changed
+- Paywall judge criterion C2 and the paywall guide now describe the shipped two-button popover (Upgrade positive + See all plans secondary, both `<aha-button>`) instead of a single Upgrade CTA; the settings criterion, the paywall evals and the flavour snippets match. The agent copy of the criteria is regenerated. (#657)
+
+## 0.1000.0 — 2026-11-04
+### Changed
+- **Brand logos are now the Brand icon family in the Icon library** (#647). A fourth chip, Brand, sits after System in the Icon library; its 29 icons are ordinary icon cards in the same grid, search and totals, and are used by name, `<aha-icon name="brand-zoom">`, so they follow the icon rules (sizes, stroke by size, `--aha-icon-default` ink). The glyphs live in `icons/svg/brand/` with meaning words; sources and the stand-in list are in `icons/svg/brand/BRAND-CREDITS.md`.
+- Colour rules 2.6 and 2.6a, criterion C7, `llms.txt`, `icons.llms.txt`, `icons.agent.json`, `AGENTS.md`, `PRINCIPLES.md`, the aha-design skill, the icon guard hook and the `brand-logo-colour` lint message point at Brand icons instead of `logo/line/` files. Social links use `brand-youtube`, `brand-instagram`, `brand-linkedin`, `brand-facebook`, `brand-reddit`, `brand-x`, and `system-whatsapp-logo`.
+- `logo/line/`, `logo/original/` and `logo/manifest.json` stay at the same paths, unchanged. The original-colour files are only for a Marketplace listing and the Sign in with Google, Microsoft or Apple buttons; the Icon library's brand note lists their URLs.
+### Removed
+- The Icon library's Brands tab, its Line / One colour / Original switch and the per-version rule table. Old links (`?tab=brands`, `?mode=`, the Logo page's brand anchors) open the Icon library filtered to Brand.
 
 ## 0.998.2 — 2026-11-04
 ### Fixed
