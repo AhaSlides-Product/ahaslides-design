@@ -5,10 +5,13 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
 // Component.vue
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 const zoom = ref(1);
 const overlay = ref(30);
-const percent = (value) => `${Math.round(value * 100)}%`;
+const { locale } = useI18n();
+const percentFormat = computed(() => new Intl.NumberFormat(locale.value, { style: 'percent' }));
+const percent = (value) => percentFormat.value.format(value);
 </script>
 
 <template>
@@ -27,8 +30,8 @@ const percent = (value) => `${Math.round(value * 100)}%`;
 
   <!-- with an InputNumber field for the exact number -->
   <div style="display: grid; grid-template-columns: 1fr 88px; gap: 8px; align-items: center">
-    <aha-slider aria-label="Overlay" min="0" max="100" :value.prop="overlay" @input="overlay = $event.detail.value" />
-    <aha-input-number aria-label="Overlay" min="0" max="100" style="width: 100%"
+    <aha-slider aria-label="Overlay opacity" min="0" max="100" :value.prop="overlay" @input="overlay = $event.detail.value" />
+    <aha-input-number aria-label="Overlay opacity" min="0" max="100" style="width: 100%"
                       :value.prop="overlay" @input="$event.detail.value != null && (overlay = $event.detail.value)" />
   </div>
 </template>

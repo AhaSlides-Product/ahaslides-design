@@ -29,15 +29,16 @@ function AhaSlider({ value, onChange, onChangeComplete, min, max, step, disabled
   );
 }
 
-// usage: a zoom with a percent label, and an overlay paired with a number field
+// usage: a zoom with a percent label, and an overlay opacity paired with a number field
+const percent = new Intl.NumberFormat(i18n.language, { style: 'percent' });
 <span id="zoom-label">{t('media.editor.zoom')}</span>
 <AhaSlider min={1} max={3} step={0.01} value={zoom} disabled={!edit}
-           tooltip={{ formatter: (v) => `${Math.round(v * 100)}%` }}
+           tooltip={{ formatter: (v) => percent.format(v) }}
            onChange={setZoom} onChangeComplete={() => track('zoom')}
            aria-labelledby="zoom-label" data-testid="editor-zoom" />
 
 <div style={{ display: 'grid', gridTemplateColumns: '1fr 88px', gap: 8, alignItems: 'center' }}>
-  <AhaSlider min={0} max={100} value={overlay} onChange={setOverlay} aria-label="Overlay" />
-  <AhaInputNumber min={0} max={100} value={overlay} aria-label="Overlay"
+  <AhaSlider min={0} max={100} value={overlay} onChange={setOverlay} aria-label="Overlay opacity" />
+  <AhaInputNumber min={0} max={100} value={overlay} aria-label="Overlay opacity"
                   onChange={(v) => typeof v === 'number' && setOverlay(v)} style={{ width: '100%' }} />
 </div>

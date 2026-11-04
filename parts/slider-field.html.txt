@@ -7,7 +7,8 @@
 
   // valueText formats the value label and the spoken value
   const zoom = document.getElementById('zoom');
-  zoom.valueText = (value) => `${Math.round(value * 100)}%`;
+  const percent = new Intl.NumberFormat(document.documentElement.lang || undefined, { style: 'percent' });
+  zoom.valueText = (value) => percent.format(value);
   zoom.addEventListener('input', (e) => console.log('zooming:', e.detail.value));    // antd onChange
   zoom.addEventListener('change', (e) => console.log('zoomed:', e.detail.value));    // antd onChangeComplete
 
@@ -23,7 +24,7 @@
 <aha-slider id="zoom" min="1" max="3" step="0.01" value="1" aria-labelledby="zoom-label"></aha-slider>
 
 <!-- with an InputNumber field when the exact number matters: a 1fr 88px grid -->
-<span id="overlay-label">Overlay</span>
+<span id="overlay-label">Overlay opacity</span>
 <div style="display:grid;grid-template-columns:1fr 88px;gap:8px;align-items:center">
   <aha-slider id="overlay" min="0" max="100" value="30" aria-labelledby="overlay-label"></aha-slider>
   <aha-input-number id="overlay-number" min="0" max="100" value="30" aria-labelledby="overlay-label" style="width:100%"></aha-input-number>
