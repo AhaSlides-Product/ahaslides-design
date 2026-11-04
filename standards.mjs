@@ -927,7 +927,7 @@ const repoChecks = [];
     const embedded = /data:image\/(?:png|jpe?g|webp|gif)|data:image\/svg\+xml;base64/i.test(text) ? ['an embedded image the colour scan cannot read'] : [];
     return [...new Set([...outsideLibrary, ...embedded])].map(what => `${f} (${what})`);
   });
-  rchk('every service and file mark in a demo comes from logo/ (the Logo library or the Icon library Brands tab)', foreignMarks.length === 0,
+  rchk('every service and file mark in a demo comes from logo/ (the Logo library or the Brand icons)', foreignMarks.length === 0,
     `reference a file in logo/ (recoloured by recolour-art.mjs) or an <aha-icon>; never a raster or base64 mark: ${foreignMarks.slice(0, 8).join(', ')}${foreignMarks.length > 8 ? ` (+${foreignMarks.length - 8} more)` : ''}`);
 
   /* antd derives hover, press, focus and status shades from its seed colours; only the shared base pins them. */
