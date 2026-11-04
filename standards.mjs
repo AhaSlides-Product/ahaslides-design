@@ -919,7 +919,7 @@ const repoChecks = [];
     `black is the default ink: bind --aha-black, --aha-bg-dark or --aha-text-default (fallback #1A1A1A); keep rgba(0,0,0,a) for a shadow or scrim: ${pureBlackSources.join(', ')}`);
 
   /* A service or file mark reaches a component as <img src=".../logo/<file>">, which no colour scan of the
-     markup can see into, so the reference itself is held to the Logo library and its recoloured files. */
+     markup can see into, so the reference itself is held to the files in logo/ and their recoloured copies. */
   const markSources = [...sourceFiles, 'audience/library.json'];
   const foreignMarks = markSources.flatMap(f => {
     const text = read(join(root, f));
@@ -927,7 +927,7 @@ const repoChecks = [];
     const embedded = /data:image\/(?:png|jpe?g|webp|gif)|data:image\/svg\+xml;base64/i.test(text) ? ['an embedded image the colour scan cannot read'] : [];
     return [...new Set([...outsideLibrary, ...embedded])].map(what => `${f} (${what})`);
   });
-  rchk('every service and file mark in a demo comes from the Logo library', foreignMarks.length === 0,
+  rchk('every service and file mark in a demo comes from logo/ (the Logo library or the Icon library Brands tab)', foreignMarks.length === 0,
     `reference a file in logo/ (recoloured by recolour-art.mjs) or an <aha-icon>; never a raster or base64 mark: ${foreignMarks.slice(0, 8).join(', ')}${foreignMarks.length > 8 ? ` (+${foreignMarks.length - 8} more)` : ''}`);
 
   /* antd derives hover, press, focus and status shades from its seed colours; only the shared base pins them. */

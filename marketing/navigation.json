@@ -10,7 +10,7 @@
     "Mega-menus open on hover with a fade and slide, the chevron turns; Products has three columns and a video preview, Solutions has use cases and integration logos, Resources two columns",
     "Products preview is a muted looping clip of the interactive slide under the pointer (the clips of the live ahaslides.com menu): it plays only while the menu is open, shows its poster under reduced motion, and is hidden at 991px and below, where its clip never loads",
     "Hamburger drawer at 991px and below slides down; its menus are an accordion; the language menu opens on click",
-    "Brand mark is <aha-product-lockup>, icons are <aha-icon> by name, integration logos come from the Logo library; Log in and Sign up are <aha-button variant=\"secondary|primary\" size=\"lg\" href> and Join is <aha-button size=\"sm\" type=\"submit\">, with no button CSS of their own",
+    "Brand mark is <aha-product-lockup>, icons are <aha-icon> by name, integration logos come from the Brands tab of the Icon library; Log in and Sign up are <aha-button variant=\"secondary|primary\" size=\"lg\" href> and Join is <aha-button size=\"sm\" type=\"submit\">, with no button CSS of their own",
     "Webflow component Header, variant name \"Variant\", matched to the live ahaslides.com at 1440px and 390px"
   ],
   "layoutsIntro": "One layout, the Site navbar. A page with a Join bar (Marketing > Join bar) places it directly before the Site navbar, as siblings in the same parent, so the bar scrolls away and the navbar sticks.",
