@@ -10,6 +10,10 @@
 <!-- labelled tiles — stretch to fill each of `columns` tracks -->
 <aha-card-select id="chart" columns="3" value="bar" style="max-width:360px"></aha-card-select>
 
+<!-- min-tile-width — 3 across while a tile can stay 110px wide, fewer when the element itself gets narrower -->
+<aha-card-select id="chartFluid" columns="3" min-tile-width="110" value="bar" style="max-width:256px"
+  options='[{"value":"bar","label":"Bar","icon":"system-chart-bar"},{"value":"line","label":"Line","icon":"system-chart-line-up"},{"value":"pie","label":"Pie","icon":"system-chart-pie"}]'></aha-card-select>
+
 <!-- iconOnly — compact 44px squares packed to the start; the label is kept as aria-label and shown as a tooltip on hover and keyboard focus -->
 <aha-card-select id="chartCompact" icon-only columns="3" value="bar"></aha-card-select>
 
