@@ -33,9 +33,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.990.1 — 2026-11-04
+## 0.993.1 — 2026-11-04
 ### Fixed
 - Colour rule 11.1, True or False exception: on reveal the wrong answer's button dims (it read "the other button"), as the requester confirmed; the 0.990.0 entry links its PR (#646)
+
+## 0.993.0 — 2026-11-04
+### Added
+- **`<aha-countdown variant="points">`, the points bar of a self-paced quiz** (#648). No seconds count: `min` sits at the left end and `max` at the right, each written through `label-format` (`"{n}p"` gives `500p` and `1000p`), in the deck ink with tabular numerals. The bar starts full (max points) and drains toward `min` off the same `ends-at` / `total-ms` sync, or sits at `progress` (0 to 100) when the host drives it; `stopped` freezes it. The element's `value` property reads the points still available, and it announces as a progress bar (`aria-valuenow`, `aria-valuetext` in the label format, named "Points available" by default). Without `variant` the countdown renders exactly as before. Contract props, spec, self-check, snippets, preview, the Audience Library and the audience guideline describe it.
 
 ## 0.990.0 — 2026-11-04
 ### Changed
