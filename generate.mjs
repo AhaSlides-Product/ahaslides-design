@@ -3512,6 +3512,11 @@ ${BRAND_LINE_CSS}
     demo: ['zoom', 'google-slides', 'microsoft-teams', 'slack'],
   },
 ];
+const LOGO_MODES = [
+  ['line', 'Line', 'The default for every brand logo in an interface: website headers and menus, pricing rows, the app sidebar, the Import dialog and social links. 24px in <code>--aha-icon-default</code>, no tile. In a tab or menu it takes the item&rsquo;s text colour.'],
+  ['colour', 'One colour', 'A fallback only: a brand with no line logo yet uses this file until one is drawn. Rule 2.6 gives it no other use.'],
+  ['original', 'Original', 'Only on a page that lists other products, such as the Marketplace (greyscale at rest, colour on hover and focus), and on Sign in with Google, Microsoft or Apple buttons.'],
+];
 const LOGO_GALLERY_JS = `
 (function(){
   var root=document.getElementById('logo-gallery'),q=document.getElementById('logo-search'),count=document.getElementById('logo-count');
@@ -3539,6 +3544,17 @@ const LOGO_GALLERY_JS = `
     });
   });
   q.addEventListener('input',apply);
+  var modes=['line','colour','original'],seg=document.getElementById('logo-mode'),brands=document.getElementById('panel-brands');
+  function setMode(m,push){
+    if(modes.indexOf(m)<0)m='line';
+    brands.dataset.mode=m;if(seg.getAttribute('value')!==m)seg.setAttribute('value',m);
+    if(!push)return;
+    var u=new URL(location.href);if(m==='line')u.searchParams.delete('mode');else u.searchParams.set('mode',m);
+    history.replaceState(null,'',u);
+  }
+  seg.addEventListener('change',function(e){setMode(e.detail.value,true);});
+  var urlMode=new URLSearchParams(location.search).get('mode');
+  if(urlMode){setMode(urlMode,false);select(document.getElementById('tab-brands'));}
   root.addEventListener('click',function(e){
     var c=e.target.closest('.lg'); if(!c||e.target.closest('a'))return;
     if(c.classList.contains('copied'))return;
@@ -3558,15 +3574,15 @@ function renderLogoPage() {
   const download = (file, label) => `<a class="lg-dl" href="../logo/${esc(file)}" download${label ? ` aria-label="${esc(label)}"` : ''}><span class="lg-file">${esc(file)}</span><span class="lg-arrow">&darr;</span></a>`;
   const stage = l => `<div class="lg-stage${LOGO_DARK_TILE.has(l.id) ? ' lg-dark' : ''}"><img${l.id.startsWith('ahaslides-logo') ? ' class="lg-lockup"' : ''} src="../logo/${esc(l.file)}" alt="${esc(l.name)} logo" loading="lazy"/></div>`;
   const variantDownload = (l, file, label) => `<a class="lg-vdl" href="../logo/${esc(file)}" download title="logo/${esc(file)}" aria-label="Download ${esc(l.name)} logo, ${esc(label.toLowerCase())}: logo/${esc(file)}"><aha-icon name="system-download-simple" size="12" decorative></aha-icon>SVG</a>`;
-  const variantCell = (l, label, file, art, note = '') => file
-    ? `<figure class="lg-var"><div class="lg-tile${LOGO_DARK_TILE.has(l.id) ? ' lg-dark' : ''}">${art}</div><figcaption>${label}</figcaption><span class="lg-note">${note}</span>${variantDownload(l, file, label)}</figure>`
-    : `<figure class="lg-var lg-var--none"><div class="lg-tile"></div><figcaption>${label}</figcaption><span class="lg-note"></span><span class="lg-vdl lg-vdl--none">None</span></figure>`;
+  const variantCell = (l, mode, label, file, art, note = '') => file
+    ? `<figure class="lg-var" data-mode="${mode}"><div class="lg-tile${LOGO_DARK_TILE.has(l.id) ? ' lg-dark' : ''}">${art}</div><figcaption>${label}</figcaption><span class="lg-note">${note}</span>${variantDownload(l, file, label)}</figure>`
+    : `<figure class="lg-var lg-var--none" data-mode="${mode}"><div class="lg-tile"></div><figcaption>${label}</figcaption><span class="lg-note"></span><span class="lg-vdl lg-vdl--none">None</span></figure>`;
   const variants = l => {
-    const line = variantCell(l, 'Line', l.line, `<span class="lg-line" role="img" aria-label="${esc(l.name)} logo, line" style="--lg-line:url('../logo/${esc(l.line)}')"></span>`,
+    const line = variantCell(l, 'line', 'Line', l.line, `<span class="lg-line" role="img" aria-label="${esc(l.name)} logo, line" style="--lg-line:url('../logo/${esc(l.line)}')"></span>`,
       l.lineStatus === 'stand-in' ? `<aha-tag title="${esc(l.lineNote || l.lineSource)}">Stand-in</aha-tag>` : '');
-    const one = variantCell(l, LOGO_DARK_TILE.has(l.id) ? 'White' : 'One colour', l.file, `<img src="../logo/${esc(l.file)}" alt="${esc(l.name)} logo, one colour" loading="lazy"/>`);
-    const original = variantCell(l, 'Original', l.originalFile, `<img src="../logo/${esc(l.originalFile)}" alt="${esc(l.name)} logo, original colours" loading="lazy"/>`);
-    return `<div class="lg-vars">${l.line || l.originalFile ? `${line}${one}${original}` : one}</div>`;
+    const one = variantCell(l, 'colour', LOGO_DARK_TILE.has(l.id) ? 'White' : 'One colour', l.file, `<img src="../logo/${esc(l.file)}" alt="${esc(l.name)} logo, one colour" loading="lazy"/>`);
+    const original = variantCell(l, 'original', 'Original', l.originalFile, `<img src="../logo/${esc(l.originalFile)}" alt="${esc(l.name)} logo, original colours" loading="lazy"/>`);
+    return `<div class="lg-vars">${line}${one}${original}</div>`;
   };
   const brandCell = l =>
     `<div class="lg lg-brand" data-name="${esc(l.id)}" data-label="${esc(l.name.toLowerCase())}" role="button" tabindex="0" title="${esc(l.name)} — click to copy its id"><span class="lgn">${esc(l.name)}</span>${variants(l)}</div>`;
@@ -3609,9 +3625,13 @@ function renderLogoPage() {
       <span id="logo-count" class="gal-count" aria-live="polite"></span>
     </div>
     <div id="panel-aha" role="tabpanel" aria-labelledby="tab-aha" class="lg-panel">${sections(LOGO_AHA)}</div><!-- ds-lint-allow: lockup (Logo library gallery tiles, not a header) -->
-    <div id="panel-brands" role="tabpanel" aria-labelledby="tab-brands" class="lg-panel" hidden>${sections(LOGO_BRANDS)}</div>
+    <div id="panel-brands" role="tabpanel" aria-labelledby="tab-brands" class="lg-panel" data-mode="line" hidden>
+      <div class="lg-modebar"><aha-segmented id="logo-mode" aria-label="Logo version" options="${esc(JSON.stringify(LOGO_MODES.map(([value, label]) => ({ value, label }))))}" value="line"></aha-segmented></div>
+      <dl class="lg-when">${LOGO_MODES.map(([value, label, when]) => `<div data-mode="${value}"><dt>${label}</dt><dd>${when}</dd></div>`).join('')}</dl>
+      <p class="lg-when-src">Full rule: <a href="brand-colour-rules.html#r2.6">colour rule 2.6</a> and <a href="brand-colour-rules.html#r2.6a">2.6a</a>.</p>
+      ${sections(LOGO_BRANDS)}</div>
   </div>
-  <script type="module">import '../lib/aha-tag.js';</script>
+  <script type="module">import '../lib/aha-tag.js';import '../lib/aha-segmented.js';</script>
 
   <h3 class="tok-h3">AhaSlides logo rules</h3>
   <p class="body">The logo is The Splash plus the wordmark. Two versions are allowed: the full-colour file on white and the white file on Vivid Pink. An all-pink logo on white is not allowed. Minimum size <b>154 &times; 35 px</b> on screen, <b>175 &times; 40 mm</b> in print.</p>
@@ -3699,14 +3719,23 @@ function renderLogoPage() {
   .cobrand-x{font-size:24px;line-height:1;color:var(--aha-text-secondary)}
   .cobrand-partner{font-size:32px;line-height:1;font-weight:600;color:var(--aha-text-secondary)}
   .cobrand-tile--pink .cobrand-x,.cobrand-tile--pink .cobrand-partner{color:var(--aha-text-inverse)}
-  .logo-grid--brands{grid-template-columns:repeat(auto-fill,minmax(296px,1fr));gap:12px}
+  .logo-grid--brands{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
   .lg.lg-brand{align-items:stretch;gap:12px;padding:16px}
   .lg-brand .lgn{font-size:14px;font-weight:600;text-align:left}
-  .lg-vars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .lg-vars{display:grid;grid-template-columns:minmax(0,1fr)}
+  #panel-brands[data-mode="line"] .lg-var:not([data-mode="line"]),#panel-brands[data-mode="colour"] .lg-var:not([data-mode="colour"]),#panel-brands[data-mode="original"] .lg-var:not([data-mode="original"]){display:none}
+  .lg-modebar{margin:4px 0 12px}
+  .lg-when{display:grid;gap:8px;margin:0 0 4px;font-size:14px;line-height:1.5;color:var(--aha-text-default)}
+  .lg-when div{display:grid;grid-template-columns:96px minmax(0,1fr);gap:12px}
+  .lg-when dt{font-weight:600}
+  .lg-when dd{margin:0;color:var(--aha-text-secondary)}
+  #panel-brands[data-mode="line"] .lg-when [data-mode="line"] dt,#panel-brands[data-mode="colour"] .lg-when [data-mode="colour"] dt,#panel-brands[data-mode="original"] .lg-when [data-mode="original"] dt{color:var(--aha-color-primary)}
+  .lg-when-src{margin:0 0 8px;font-size:12px;color:var(--aha-text-tertiary)}
+  @media (max-width:600px){.lg-when div{grid-template-columns:minmax(0,1fr);gap:0}}
   .lg-var{margin:0;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0}
-  .lg-tile{display:flex;align-items:center;justify-content:center;width:100%;aspect-ratio:1;max-height:88px;border-radius:6px;background:var(--aha-gray-10)}
+  .lg-tile{display:flex;align-items:center;justify-content:center;width:100%;height:128px;border-radius:6px;background:var(--aha-gray-10)}
   .lg-tile.lg-dark{background:var(--aha-color-primary)}
-  .lg-tile img,.lg-tile .lg-line{width:40px;height:40px;object-fit:contain;display:block}
+  .lg-tile img,.lg-tile .lg-line{width:64px;height:64px;object-fit:contain;display:block}
   .lg-var--none .lg-tile{background:none;border:1px dashed var(--aha-border-default)}
   .lg-var figcaption{margin-top:4px;font-size:12px;line-height:1.33;color:var(--aha-text-secondary)}
   .lg-note{display:flex;align-items:center;justify-content:center;height:20px}
