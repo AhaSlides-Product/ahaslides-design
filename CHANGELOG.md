@@ -36,6 +36,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.993.2 — 2026-11-04
 ### Fixed
 - DataTable: an empty table no longer overflows its container by 2px (permanent right-edge scroll shadow, empty state centred 1px off at every width). The 1px table border no longer narrows the scroll container; populated tables, sticky headers, scroll y and radius clipping are unchanged. (#644)
+
 ## 0.993.0 — 2026-11-04
 ### Added
 - **`<aha-countdown variant="points">`, the points bar of a self-paced quiz** (#648). No seconds count: `min` sits at the left end and `max` at the right, each written through `label-format` (`"{n}p"` gives `500p` and `1000p`), in the deck ink with tabular numerals. The bar starts full (max points) and drains toward `min` off the same `ends-at` / `total-ms` sync, or sits at `progress` (0 to 100) when the host drives it; `stopped` freezes it. The element's `value` property reads the points still available, and it announces as a progress bar (`aria-valuenow`, `aria-valuetext` in the label format, named "Points available" by default). Without `variant` the countdown renders exactly as before. Contract props, spec, self-check, snippets, preview, the Audience Library and the audience guideline describe it.
