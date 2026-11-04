@@ -33,6 +33,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.976.0 — 2026-11-04
+
+### Changed
+- **Textarea and Counted textarea contracts point to the plain multi-line answer** (#PR). An app that is not on antd uses
+  `<aha-counted-textarea maxlength="none">` for plain multi-line text: no cap, no counter, `minrows` / `maxrows` for the
+  height and `--aha-field-width:100%` for full width. No new element and no API change.
+
 ## 0.975.0 — 2026-11-04
 
 ### Added

@@ -39,6 +39,7 @@
   "opinion": {
     "whenToUse": [
       { "what": "Textarea", "when": "multi-line free text — a description, a message, notes" },
+      { "what": "Counted textarea (aha-counted-textarea)", "when": "plain multi-line text in a screen not on antd: set maxlength=\"none\" to drop the cap and hide the counter, minrows / maxrows for the height, --aha-field-width:100% for full width" },
       { "what": "Input", "when": "short single-line text — a name, a title, a search term" },
       { "what": "Select", "when": "one value from a known set — don't make the user type it" }
     ],
