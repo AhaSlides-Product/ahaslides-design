@@ -8,7 +8,6 @@
    "contrast · hover · aha-audience-submit » aha-button[variant=primary][size=touch] » button: text #FFFFFF on #EB327F is 3.97:1, needs 4.5:1"
   ],
   "autocomplete": [
-   "contrast · focus · button.ant-select-clear[type=button] “Clear”: icon #BFBFBF on #FFFFFF is 1.83:1, needs 3:1",
    "contrast · rest · button.ant-select-clear[type=button] “Clear”: icon #BFBFBF on #FFFFFF is 1.83:1, needs 3:1"
   ],
   "chart": [
@@ -46,18 +45,9 @@
    "contrast · hover · aha-image » div.frame[role=button] “Preview: Deck cover”: text #FFFFFF on #949494 is 3.03:1, needs 4.5:1"
   ],
   "select": [
-   "contrast · focus · button.ant-select-clear[type=button] “Clear”: icon #BFBFBF on #FFFFFF is 1.83:1, needs 3:1",
    "contrast · rest · button.ant-select-clear[type=button] “Clear”: icon #BFBFBF on #FFFFFF is 1.83:1, needs 3:1"
   ],
   "select-field": [
-   "contrast · active · aha-select » button.trigger[type=button][role=combobox] “Pick a theme”: text #999999 on #FFFFFF is 2.85:1, needs 4.5:1",
-   "contrast · active · aha-select[status=error] » button.trigger[type=button][role=combobox] “Required”: text #999999 on #FFFFFF is 2.85:1, needs 4.5:1",
-   "contrast · focus · aha-select » button.trigger[type=button][role=combobox] “Pick a theme”: text #999999 on #FFFFFF is 2.85:1, needs 4.5:1",
-   "contrast · focus · aha-select[status=error] » button.trigger[type=button][role=combobox] “Required”: text #999999 on #FFFFFF is 2.85:1, needs 4.5:1",
-   "contrast · hover · aha-select » button.trigger[type=button][role=combobox] “Pick a theme”: text #999999 on #FFFFFF is 2.85:1, needs 4.5:1",
-   "contrast · hover · aha-select[status=error] » button.trigger[type=button][role=combobox] “Required”: text #999999 on #FFFFFF is 2.85:1, needs 4.5:1",
-   "contrast · rest · aha-select » button.trigger[type=button][role=combobox] “Pick a theme”: text #999999 on #FFFFFF is 2.85:1, needs 4.5:1",
-   "contrast · rest · aha-select[status=error] » button.trigger[type=button][role=combobox] “Required”: text #999999 on #FFFFFF is 2.85:1, needs 4.5:1"
   ],
   "slider": [
    "focus · focus · div.ant-slider-handle[role=slider]: keyboard focus draws no outline, ring, border or fill change"

@@ -1,13 +1,47 @@
+<style>
+  .cs-looks{ --aha-card-select-preview-ratio:297 / 210 }
+  .cs-look{ box-sizing:border-box; padding:7%; background:var(--look-page) }
+  .cs-sheet{ box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;
+    height:100%; padding:4px; border:2px solid var(--look-primary); background:var(--look-surface); text-align:center }
+  .cs-title{ color:var(--look-accent); font-size:8px; font-weight:600; letter-spacing:.2em; line-height:1; text-transform:uppercase }
+  .cs-name{ color:var(--look-heading); font-size:14px; font-weight:600; line-height:1.1 }
+  .cs-line{ display:block; width:46%; height:2px; background:var(--look-heading); opacity:.35 }
+  .cs-short{ width:30% }
+  .cs-classic{ --look-page:var(--aha-bg-layout); --look-surface:var(--aha-bg-container); --look-primary:var(--aha-text-default);
+    --look-accent:var(--aha-text-secondary); --look-heading:var(--aha-text-default) }
+  .cs-midnight{ --look-page:var(--aha-bg-dark); --look-surface:var(--aha-bg-dark-raised); --look-primary:var(--aha-text-inverse);
+    --look-accent:var(--aha-text-inverse); --look-heading:var(--aha-text-inverse) }
+  .cs-blush{ --look-page:var(--aha-color-primary); --look-surface:var(--aha-bg-container); --look-primary:var(--aha-color-primary);
+    --look-accent:var(--aha-text-link); --look-heading:var(--aha-text-default) }
+</style>
 <div class="pad">
-  <div class="lbl">Single-select card grid — Tab in, then Arrow keys move-and-select</div>
+  <div class="lbl">Single-select card grid: Tab in, then Arrow keys move and select</div>
   <div class="row" style="display:block; max-width:420px">
     <aha-card-select data-probe columns="3" value="bar"
       options='[{"value":"bar","label":"Bar","icon":"system-chart-bar"},{"value":"line","label":"Line","icon":"system-chart-line-up"},{"value":"pie","label":"Pie","icon":"system-chart-pie"}]'></aha-card-select>
   </div>
-  <div class="lbl">Icon only — compact 44px squares (label kept as aria-label and shown as a tooltip on hover and keyboard focus)</div>
+  <div class="lbl">Icon only: compact 44px squares (label kept as aria-label and shown as a tooltip on hover and keyboard focus)</div>
   <div class="row" style="display:block; max-width:420px">
     <aha-card-select icon-only columns="3" value="bar"
       options='[{"value":"bar","label":"Bar","icon":"system-chart-bar"},{"value":"line","label":"Line","icon":"system-chart-line-up"},{"value":"pie","label":"Pie","icon":"system-chart-pie"}]'></aha-card-select>
+  </div>
+  <div class="lbl">Preview tiles: the app draws each card's preview in a named slot (Certificate design)</div>
+  <div class="row" style="display:block; max-width:480px">
+    <aha-card-select class="cs-looks" tile="preview" hide-labels columns="3" value="midnight" aria-label="Certificate design"
+      options='[{"value":"classic","label":"Classic","slot":"classic"},{"value":"midnight","label":"Midnight","slot":"midnight"},{"value":"blush","label":"Blush","slot":"blush"}]'>
+      <span slot="classic" class="cs-look cs-classic"><span class="cs-sheet"><span class="cs-title">Certificate</span><span class="cs-name">Classic</span><span class="cs-line"></span><span class="cs-line cs-short"></span></span></span>
+      <span slot="midnight" class="cs-look cs-midnight"><span class="cs-sheet"><span class="cs-title">Certificate</span><span class="cs-name">Midnight</span><span class="cs-line"></span><span class="cs-line cs-short"></span></span></span>
+      <span slot="blush" class="cs-look cs-blush"><span class="cs-sheet"><span class="cs-title">Certificate</span><span class="cs-name">Blush</span><span class="cs-line"></span><span class="cs-line cs-short"></span></span></span>
+    </aha-card-select>
+  </div>
+  <div class="lbl">Preview tiles with no value (a custom theme): no card is checked, the first card holds the tab stop</div>
+  <div class="row" style="display:block; max-width:480px">
+    <aha-card-select class="cs-looks" tile="preview" hide-labels columns="3" aria-label="Certificate design"
+      options='[{"value":"classic","label":"Classic","slot":"classic"},{"value":"midnight","label":"Midnight","slot":"midnight"},{"value":"blush","label":"Blush","slot":"blush"}]'>
+      <span slot="classic" class="cs-look cs-classic"><span class="cs-sheet"><span class="cs-title">Certificate</span><span class="cs-name">Classic</span><span class="cs-line"></span><span class="cs-line cs-short"></span></span></span>
+      <span slot="midnight" class="cs-look cs-midnight"><span class="cs-sheet"><span class="cs-title">Certificate</span><span class="cs-name">Midnight</span><span class="cs-line"></span><span class="cs-line cs-short"></span></span></span>
+      <span slot="blush" class="cs-look cs-blush"><span class="cs-sheet"><span class="cs-title">Certificate</span><span class="cs-name">Blush</span><span class="cs-line"></span><span class="cs-line cs-short"></span></span></span>
+    </aha-card-select>
   </div>
   <div class="lbl">Disabled</div>
   <div class="row" style="display:block; max-width:420px">

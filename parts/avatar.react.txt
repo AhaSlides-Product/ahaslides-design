@@ -20,6 +20,11 @@ function AhaAvatar({ name, src, icon, size = 'default', shape = 'circle', color 
   <aha-avatar name="Katherine Johnson" />
 </aha-avatar-group>
 
+// Tooltips: `tooltip` per avatar (bare = its name), `overflow-tooltip` lists the hidden names on +N, `add-tooltip` names the + button
+<aha-avatar-group max={3} overflow-tooltip="" add="" add-label="Add collaborators" add-tooltip="">
+  {people.map((p) => <aha-avatar key={p.id} name={p.name} src={p.photo} tooltip={p.name} />)}
+</aha-avatar-group>
+
 // `add` appends a round + button; it fires a bubbling `aha-add` (React < 19: listen through a ref)
 function People({ onInvite }) {
   const ref = useRef(null);

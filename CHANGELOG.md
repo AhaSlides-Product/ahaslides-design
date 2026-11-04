@@ -33,6 +33,62 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.984.1 — 2026-11-04
+
+### Changed
+- **Site navbar copy** (#NNN). The Features entry reads "Reports & analytics" and the Use cases entry reads "Training & workshops", in the Navigation docs preview and the anti-slop website fixtures that copy the navbar.
+
+## 0.984.0 — 2026-11-04
+
+### Added
+- **Card select preview tiles** (#633). `<aha-card-select tile="preview">`: an option with `slot: '<name>'` shows the
+  app's own light-DOM child (`slot="<name>"`) as the card's preview, in a frame sized by
+  `--aha-card-select-preview-ratio` (default 4 / 3). The element keeps the roving radiogroup, keyboard, checked state,
+  focus ring and `change`. The selected preview tile is a white gap and a 2px brand ring, with no fill over the preview. `hide-labels`
+  keeps each label as the aria-label only. The host is now the radiogroup, so its `aria-label` names the group once. A
+  disabled preview takes no pointer events and greys its ring; forced colours draw the selected ring as an outline. An options
+  array equal to the last one no longer rebuilds the cards. Manage's certificate design
+  picker (MAAP-179) can drop its raw radio inputs. Icon and icon-only layouts render as before.
+
+## 0.983.1 — 2026-11-04
+
+### Fixed
+- **Placeholder text reads at 6.2:1 on white** (#637). `--aha-text-placeholder` is now `#616161` (gray-80, the
+  same value as `--aha-text-tertiary`) instead of `#999999` (2.85:1), and every antd composite theme
+  (`antd-base-theme`, select, autocomplete, datepicker, time-picker, input-number, form, textarea) sets
+  `colorTextPlaceholder` to the same `#616161` instead of `#8A8A8A` (3.45:1). This moves the placeholder in
+  `aha-select`, `aha-autocomplete`, `aha-select-tags`, `aha-counted-input`, `aha-counted-textarea`, the input-number
+  CSS and every antd input, select and picker. Course theming derives its placeholder from this token, so a themed
+  course placeholder darkens too. A disabled `aha-select`, `aha-autocomplete`, `aha-select-tags`, `aha-counted-input` or
+  `aha-counted-textarea` keeps its placeholder at `--aha-text-disabled`, so it still reads as disabled. The eight
+  `aha-select` placeholder contrast entries leave the state-check baseline.
+- **Answer row radio and checkbox outlines hold 3:1** (#637). The unchecked control in `aha-answer-option` (and so
+  `aha-answer-list`) takes `--aha-deck-stroke-hover`, the deck ink at 60% (4.5:1 on a white row), instead of
+  `--aha-deck-stroke-chip`, the ink at 20% (1.5:1); hover moves it to `--aha-deck-ink-secondary`, the ink at 76%.
+  The letter chip keeps its 20% outline, since the letter carries the meaning. The audience guide, deck ladder notes
+  and both contracts say so.
+
+## 0.983.0 — 2026-11-04
+
+### Added
+- Avatar `tooltip`: the shared Tooltip on an avatar, on mouse hover and keyboard focus (never a tap), with the avatar focusable; a bare `tooltip` shows its `name`. Works inside `aha-avatar-group` with the same stack, overlap, tint cycle and +N count. Absent, nothing changes (#638)
+- Avatar group `overflow-tooltip`: the shared Tooltip on the +N chip, listing the hidden names (or your own text), and the chip becomes focusable (#638)
+- Avatar group `add-tooltip`: the shared Tooltip on the round + button, with your text or its `add-label` (#638)
+- Dropdown per-row `selected` (true or false) on a leaf: the current choice inside that one list, such as a Visibility submenu. Its rows are `menuitemradio` with `aria-checked` and the selected look; other rows stay `menuitem`; the mark moves only when you re-set `items`. `value` is unchanged (#638)
+
+## 0.981.0 — 2026-11-04
+
+### Added
+- **Data table checklist filter can be single-choice** (#636). `filter: { type: 'checklist', options, multiple: false }`
+  shows DS radios in the same panel, so picking an option replaces the last, and sets antd `filterMultiple: false`
+  on the column. Without `multiple` the filter is multi-select exactly as before. A column that uses it needs
+  `Radio` in the antd members passed to `createDataTable`. For a server that takes one value, `onChange` receives
+  a one-item array: read `filters.status?.[0]`.
+
+## 0.980.1 — 2026-11-04
+### Fixed
+- Logo library, Brands tab: each brand card puts the name on top and its versions in one row of three equal cells, in the order Line, One colour, Original. Each cell holds its preview tile, its label and its own SVG download link (the full path is in the link's tooltip and accessible name), so no file name is cut off. Every line cell is labelled Line; a drawn stand-in carries a Stand-in tag instead of a different label. A missing version shows an empty cell, cards in a row are the same height, and the white Claude mark sits on a Vivid Pink tile. (#635)
+
 ## 0.979.1 — 2026-11-04
 
 ### Fixed

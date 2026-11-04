@@ -13,6 +13,15 @@
 <!-- iconOnly — compact 44px squares packed to the start; the label is kept as aria-label and shown as a tooltip on hover and keyboard focus -->
 <aha-card-select id="chartCompact" icon-only columns="3" value="bar"></aha-card-select>
 
+<!-- tile="preview": each option names a slot; the app draws the preview as a light-DOM child with that slot.
+     hide-labels keeps the label as aria-label only, for previews that already show the name. An empty value checks no card. -->
+<aha-card-select id="looks" tile="preview" hide-labels columns="3" value="classic" aria-label="Certificate design"
+  style="max-width:480px; --aha-card-select-preview-ratio:297 / 210">
+  <div slot="classic" style="height:100%; background:var(--aha-bg-layout)"></div>
+  <div slot="midnight" style="height:100%; background:var(--aha-bg-dark)"></div>
+  <div slot="blush" style="height:100%; background:var(--aha-color-primary)"></div>
+</aha-card-select>
+
 <script type="module">
   // options: value + label + an icon NAME from the DS library
   const options = [
@@ -25,4 +34,10 @@
   el.addEventListener('change', (e) => console.log('chart type:', e.detail.value));
 
   document.getElementById('chartCompact').options = options;
+
+  document.getElementById('looks').options = [
+    { value: 'classic',  label: 'Classic',  slot: 'classic' },
+    { value: 'midnight', label: 'Midnight', slot: 'midnight' },
+    { value: 'blush',    label: 'Blush',    slot: 'blush' },
+  ];
 </script>

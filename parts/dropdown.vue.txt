@@ -41,6 +41,15 @@ const presentItems = computed(() => JSON.stringify([
   { type: 'switch', key: 'fullscreen', label: 'Full screen', checked: fullScreen.value },
 ]));
 
+// one list as a choice: `selected` marks the Visibility row; Copy link stays a plain action
+const visibility = ref('workspace');
+const shareItems = computed(() => JSON.stringify([
+  { key: 'copy', label: 'Copy link', icon: 'system-link' },
+  { key: 'visibility', label: 'Visibility', children: ['private', 'workspace', 'public'].map((key) => (
+    { key, label: { private: 'Only me', workspace: 'Workspace', public: 'Anyone with the link' }[key], selected: key === visibility.value })) },
+]));
+const onShare = (e) => { if (e.detail.key === 'copy') copyLink(); else visibility.value = e.detail.key; };
+
 // a single-choice picker: `value` selects the row and the trigger shows its label
 const role = ref('editor');
 const menuOpen = ref(false);
@@ -56,4 +65,5 @@ const roleItems = JSON.stringify([
   <aha-dropdown label="Slide" :items="slideItems" @select="onSelect" />
   <aha-dropdown label="Present" :items="presentItems" @select="onSelect" @change="fullScreen = $event.detail.checked" />
   <aha-dropdown :value="role" :items="roleItems" @select="role = $event.detail.key" />
+  <aha-dropdown label="Share" :items="shareItems" @select="onShare" />
 </template>

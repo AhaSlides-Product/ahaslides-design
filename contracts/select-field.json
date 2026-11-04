@@ -47,7 +47,7 @@
     },
     {
       "label": "Placeholder",
-      "value": "#999999 (text-placeholder)"
+      "value": "#616161 (text-placeholder)"
     },
     {
       "label": "Caret",
@@ -252,7 +252,7 @@
       }
     ],
     "note": "Pre-select the recommended default rather than leaving it empty. Keep option labels short and sentence case; keep product nouns — Q&A, Word cloud. This is the leaf half of the hybrid — reach for the composite Select the moment you need several values picked from a list, option groups or a virtualised list; type-to-filter is the opt-in show-search here, server search adds filter=\"off\" and loading, and free-entry tags are mode=\"tags\".",
-    "dsv3": "COVERED — the DS V3 select chrome measured against the Select component set on fileKey MwjvUjVI0HnfwD9EwPXRAy: control 40 · radius 8 · 1px border #E3E3E3 (border-default), size axis small 32 / default 40 / large 48, brand #E70E68 focus border + soft 2px ring (focus-ring-soft, 30% #E70E68), #999999 placeholder, status error #1A1A1A / warning #1A1A1A. This is the LEAF form of that chrome (the composite Select carries the virtualised list and option groups). Token layer: white surface, rest border border-default #E3E3E3, hover border color-primary #E70E68, disabled bg-container-disabled #F1F1F1 / border-disabled #EBEBEB. a11y: a button role=combobox over a role=listbox with Arrow/Home/End, typeahead, Enter and Escape; the border/focus transition lives on the PERSISTENT trigger and the open fade on the persistent listbox, which repopulates in place. The trailing caret is summoned by name via <aha-icon name=\"system-caret-down\">, never an inline glyph."
+    "dsv3": "COVERED — the DS V3 select chrome measured against the Select component set on fileKey MwjvUjVI0HnfwD9EwPXRAy: control 40 · radius 8 · 1px border #E3E3E3 (border-default), size axis small 32 / default 40 / large 48, brand #E70E68 focus border + soft 2px ring (focus-ring-soft, 30% #E70E68), #616161 placeholder, status error #1A1A1A / warning #1A1A1A. This is the LEAF form of that chrome (the composite Select carries the virtualised list and option groups). Token layer: white surface, rest border border-default #E3E3E3, hover border color-primary #E70E68, disabled bg-container-disabled #F1F1F1 / border-disabled #EBEBEB. a11y: a button role=combobox over a role=listbox with Arrow/Home/End, typeahead, Enter and Escape; the border/focus transition lives on the PERSISTENT trigger and the open fade on the persistent listbox, which repopulates in place. The trailing caret is summoned by name via <aha-icon name=\"system-caret-down\">, never an inline glyph."
   },
   "a11y": {
     "role": "the trigger is a <button role=\"combobox\" aria-haspopup=\"listbox\" aria-expanded> controlling a themed role=\"listbox\"; with show-search the open popup is driven from an <input role=\"combobox\" aria-autocomplete=\"list\"> carrying aria-activedescendant; in mode=\"multiple\" (and tags with options) the inline <input role=\"combobox\" aria-haspopup=\"listbox\"> controls a role=\"listbox\" with aria-multiselectable=\"true\", each row carrying aria-selected; an option group is a role=\"group\" labelled by its header row",
@@ -342,7 +342,7 @@
       "verdict": "PASS"
     },
     {
-      "label": "placeholder #999999 when empty",
+      "label": "placeholder #616161 when empty",
       "verdict": "PASS"
     },
     {
@@ -368,7 +368,7 @@
       "border": "rgb(227, 227, 227)",
       "borderWidth": "1px",
       "height": "40px",
-      "placeholder": "rgb(153, 153, 153)",
+      "placeholder": "rgb(97, 97, 97)",
       "listboxRadius": "8px"
     }
   }
