@@ -54,7 +54,7 @@ No further buttons, no dismiss link, no multi-paragraph body inside the popover.
 | `featureLabel` | Short noun phrase shown next to the crown. **Required.** |
 | `body` | One sentence describing what unlocks. **Required.** |
 | `requiredPlan` | `'essential'` or `'pro'`. Defaults to `'pro'`. Drives the unlock line + analytics plan prop. |
-| `placement` | Popover side: `'top'` (default), `'bottom'`, or `'left'` / `'right'` (beside the anchor, vertically centred). |
+| `placement` | Popover side: `'top'` (default), `'bottom'`, or `'left'` / `'right'` (beside the anchor, vertically centred). In a viewport too short for above or below, such as a report iframe, `fitPaywall` sits it beside the anchor, then scrolls it inside the taller side. |
 | `width` | Popover outer width, padding included, for longer copy; defaults to 300px, never past 82vw. |
 | `slot="body"` | Optional rich body: the same one sentence when it needs a link or emphasis. Replaces `body`; the unlock line and CTAs stay fixed. Slot a link directly (`<a slot="body">`) so it reads white on the dark surface. |
 | `unlock-label` | Optional. The whole unlock line in the user's language; `{plan}` becomes the bold plan name. |

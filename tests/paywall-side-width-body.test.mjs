@@ -204,6 +204,60 @@ const htmlScrollPage = `<!doctype html><html style="overflow-y:scroll"><body sty
 <div style="position:fixed;top:400px;left:100px;width:300px;height:200px"><aha-paywall id="fp" feature-label="Fixed" body="Sentence."><button>Gated</button></aha-paywall></div>
 <script type="module">import '${lib}'; window.ready = true;</script>`;
 
+test('fitPaywall keeps the popover inside a 280px-tall iframe: beside the anchor with room, scrolling without it, and normal placement stays', async (t) => {
+  if (skip) return t.skip(skip);
+  const frame = (top, left) => `<!doctype html><body style='margin:0'><aha-paywall id=p style='position:absolute;top:${top}px;left:${left}px' feature-label='Report' body='Unlock this report and every chart in it with a longer sentence.'></aha-paywall><script type=module>import {fitPaywall} from '${lib}'; window.fit = fitPaywall; window.ready = true<\/script>`;
+  const frames = [['side', 110, 300, 700], ['scroll', 130, 150, 320], ['normal', 20, 300, 700]];
+  const file = join(mkdtempSync(join(tmpdir(), 'paywall-fit-')), 'page.html');
+  writeFileSync(file, `<!doctype html><body style="margin:0">${frames.map(([id, top, left, width]) =>
+    `<iframe id="${id}" style="display:block;border:0;width:${width}px;height:280px" srcdoc="${frame(top, left).replace(/"/g, '&quot;')}"></iframe>`).join('')}`);
+  const result = await evaluateInPage(pathToFileURL(file).href, `new Promise((resolve) => setTimeout(async () => {
+    const out = {};
+    for (const iframe of document.querySelectorAll('iframe')) {
+      const win = iframe.contentWindow, doc = iframe.contentDocument, host = doc.getElementById('p');
+      const root = host.shadowRoot, pop = root.querySelector('.pop'), mark = root.querySelector('.anchor .mark');
+      mark.focus();
+      win.fit(host);
+      host.togglePopover({ source: mark });
+      await new Promise((done) => setTimeout(done, 350));
+      const box = pop.getBoundingClientRect();
+      const viewport = doc.documentElement.clientHeight;
+      const reach = root.querySelector('.plans');
+      reach.shadowRoot.querySelector('button').focus();
+      await new Promise((done) => setTimeout(done, 50));
+      const shown = reach.getBoundingClientRect();
+      const inside = pop.getBoundingClientRect();
+      const arrow = root.querySelector('.arrow').getBoundingClientRect();
+      const anchorBox = host.getBoundingClientRect();
+      out[iframe.id] = {
+        placement: host.getAttribute('placement'),
+        overflow: Math.max(0, -box.top) + Math.max(0, box.bottom - viewport),
+        plansReached: shown.top >= inside.top - 1 && shown.bottom <= inside.bottom + 1 && shown.bottom <= viewport,
+        scrolls: host.hasAttribute('data-scroll'),
+        arrowOffset: Math.abs((arrow.top + arrow.height / 2) - (anchorBox.top + anchorBox.height / 2)),
+      };
+      doc.activeElement.dispatchEvent(new win.KeyboardEvent('keydown', { key: 'Escape', bubbles: true, composed: true }));
+      await new Promise((done) => setTimeout(done, 50));
+      out[iframe.id].closed = !host.open;
+      out[iframe.id].focusBack = root.activeElement === mark;
+    }
+    resolve(out);
+  }, 800))`, { timeout: 20000, readyExpr: 'document.querySelectorAll("iframe").length === 3' });
+  assert.equal(result.side.placement, 'right');
+  assert.equal(result.side.overflow, 0);
+  assert.equal(result.side.scrolls, false);
+  assert.ok(result.side.arrowOffset < 2, `arrow on the anchor: ${result.side.arrowOffset}`);
+  assert.equal(result.scroll.overflow, 0);
+  assert.equal(result.scroll.scrolls, true);
+  assert.equal(result.normal.placement, 'bottom');
+  assert.equal(result.normal.scrolls, false);
+  for (const name of ['side', 'scroll', 'normal']) {
+    assert.ok(result[name].plansReached, `${name}: See all plans reachable`);
+    assert.ok(result[name].closed, `${name}: Escape closes`);
+    assert.ok(result[name].focusBack, `${name}: focus returns to the crown`);
+  }
+});
+
 test('an open popover stays open inside an aha-drawer under a short locked body, and inside a fixed panel under a scrolling html', { skip }, async () => {
   const run = async (html, expr) => {
     const file = join(mkdtempSync(join(tmpdir(), 'paywall-drawer-')), 'page.html');
