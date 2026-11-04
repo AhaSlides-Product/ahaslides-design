@@ -1,0 +1,24 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../lib/tokens.css">
+<style>body{ margin:40px; width:400px } .s{ height:100px } .tall{ height:220px }</style>
+<aha-carousel id="plain" arrows aria-label="Photos">
+  <div class="s" id="one">1</div><div class="s" id="two"><a href="#two" id="link">two</a></div><div class="s" id="three">3</div>
+</aha-carousel>
+<aha-carousel id="adaptive" adaptive-height loop arrows prev-label="Previous image" next-label="Next image">
+  <div class="s">1</div><div class="tall">2</div><div class="s">3</div>
+</aha-carousel>
+<div dir="rtl"><aha-carousel id="rtl" arrows><div class="s">1</div><div class="s">2</div><div class="s">3</div></aha-carousel></div>
+<aha-carousel id="single" arrows><div class="s">1</div></aha-carousel>
+<aha-carousel id="empty" arrows></aha-carousel>
+<aha-carousel id="gesture"><div class="s"><button id="press">b</button> <a id="away" href="#away">a</a> <input id="field"></div><div class="s"><button id="there">b</button></div><div class="s">3</div></aha-carousel>
+<aha-carousel id="quiet"><div class="s">1</div><div class="s">2</div><div class="s">3</div></aha-carousel>
+<aha-carousel id="images"><img alt="wide"><img alt="square"></aha-carousel>
+<aha-carousel id="late" adaptive-height style="display:none"><div class="s">1</div><div class="tall">2</div></aha-carousel>
+<script type="module">
+  import '../lib/aha-carousel.js';
+  window.log = [];
+  for (const el of document.querySelectorAll('aha-carousel')) for (const type of ['change', 'after-change']) el.addEventListener(type, (e) => window.log.push([el.id, type, e.detail.index, el.index].join(':')));
+  await customElements.whenDefined('aha-carousel');
+  window.fixtureReady = true;
+</script>

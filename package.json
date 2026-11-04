@@ -1,6 +1,6 @@
 {
   "name": "@ahaslides-product/design",
-  "version": "0.1019.1",
+  "version": "0.1020.1",
   "description": "AhaSlides design system for agents — single source of truth (tokens + component contracts) → generated docs, llms.txt, design.md, and per-component agent feeds. Hybrid: shared web-component primitives + antd/ant-design-vue composites.",
   "type": "module",
   "publishConfig": {
@@ -49,6 +49,7 @@
     "./lib/aha-input-number.js",
     "./lib/aha-datepicker.js",
     "./lib/aha-slider.js",
+    "./lib/aha-carousel.js",
     "./lib/aha-tag.js",
     "./lib/aha-answer-list.js",
     "./lib/aha-answer-option.js",
@@ -185,6 +186,7 @@
     "./aha-input-number": "./lib/aha-input-number.js",
     "./aha-datepicker": "./lib/aha-datepicker.js",
     "./aha-slider": "./lib/aha-slider.js",
+    "./aha-carousel": "./lib/aha-carousel.js",
     "./aha-tag": "./lib/aha-tag.js",
     "./aha-answer-list": "./lib/aha-answer-list.js",
     "./aha-answer-option": "./lib/aha-answer-option.js",
