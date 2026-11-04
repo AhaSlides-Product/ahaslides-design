@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Card select preview tiles</title>
+<style>body{margin:0} .wrap{width:480px} .look{height:100%;background:var(--look-page)}</style>
+</head>
+<body>
+  <div class="wrap">
+    <aha-card-select id="looks" aria-label="Certificate design" tile="preview" hide-labels columns="3" style="--aha-card-select-preview-ratio:297 / 210">
+      <div slot="classic" class="look" style="--look-page:#1A1A1A">Classic</div>
+      <div slot="modern" class="look" style="--look-page:#F1F1F1">Modern</div>
+      <div slot="bold" class="look" style="--look-page:#E70E68">Bold</div>
+    </aha-card-select>
+  </div>
+  <div class="wrap">
+    <aha-card-select id="shown" tile="preview" hide-labels="false" columns="3" value="modern">
+      <div slot="classic" class="look">Classic</div>
+      <div slot="modern" class="look">Modern</div>
+    </aha-card-select>
+  </div>
+  <script type="module">
+    await import('../lib/aha-card-select.js');
+    const options = [
+      { value: 'classic', label: 'Classic', slot: 'classic' },
+      { value: 'modern', label: 'Modern', slot: 'modern' },
+      { value: 'bold', label: 'Bold', slot: 'bold' },
+    ];
+    document.querySelector('#looks').options = options;
+    document.querySelector('#shown').options = options.slice(0, 2);
+    window.cardSelectFixtureReady = true;
+  </script>
+</body>
+</html>

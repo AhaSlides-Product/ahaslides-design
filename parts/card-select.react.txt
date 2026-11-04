@@ -3,22 +3,24 @@ import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper; React 19 can use <aha-card-select> directly.
 // options is a PROPERTY (array), so set it imperatively; the grid is one roving radiogroup.
-function AhaCardSelect({ options, value, columns, iconOnly, disabled, onChange }) {
+function AhaCardSelect({ options, value, columns, iconOnly, tile, hideLabels, disabled, onChange, children, ...rest }) {
   const ref = useRef();
   useEffect(() => {
     const el = ref.current;
     el.options = options || [];
-    if (value != null) el.value = value;
+    el.value = value ?? '';   // '' checks no card (e.g. a custom theme); the first card keeps the tab stop
+    el.tile = tile || 'default';   // 'preview' shows each option's slotted child as its preview
+    el.hideLabels = !!hideLabels;   // preview tiles that already draw the name: label stays as aria-label only
     el.iconOnly = !!iconOnly;   // compact 44px squares; label kept as aria-label and shown as a tooltip on hover and keyboard focus
     el.disabled = !!disabled;
     const h = (e) => onChange?.(e.detail.value);   // composed CustomEvent
     el.addEventListener('change', h);
     return () => el.removeEventListener('change', h);
-  }, [options, value, iconOnly, disabled, onChange]);
-  return <aha-card-select ref={ref} {...(columns ? { columns: String(columns) } : {})} />;
+  }, [options, value, iconOnly, tile, hideLabels, disabled, onChange]);
+  return <aha-card-select ref={ref} {...rest} {...(columns ? { columns: String(columns) } : {})}>{children}</aha-card-select>;
 }
 
-// usage — labelled tiles (default) or compact iconOnly squares
+// usage: labelled tiles (default) or compact iconOnly squares
 <AhaCardSelect
   value={chartType}
   columns={3}
@@ -30,3 +32,21 @@ function AhaCardSelect({ options, value, columns, iconOnly, disabled, onChange }
   ]}
   onChange={setChartType}
 />
+
+// preview tiles: the app draws each card (here Manage's certificate look), the element owns the radiogroup
+<AhaCardSelect
+  tile="preview"
+  hideLabels
+  aria-label={t('certificates.field.theme')}
+  columns={3}
+  style={{ '--aha-card-select-preview-ratio': '297 / 210' }}
+  value={activeLook?.id ?? ''}
+  options={CERTIFICATE_LOOKS.map((look) => ({ value: look.id, label: t(`certificates.theme.${look.id}`), slot: look.id }))}
+  onChange={(id) => applyLook(CERTIFICATE_LOOKS.find((look) => look.id === id))}
+>
+  {CERTIFICATE_LOOKS.map((look) => (
+    <span key={look.id} slot={look.id} className="certificate-look-page" style={lookStyle(look)}>
+      {/* sample title, look name, two lines */}
+    </span>
+  ))}
+</AhaCardSelect>
