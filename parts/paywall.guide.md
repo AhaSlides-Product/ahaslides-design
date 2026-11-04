@@ -58,6 +58,7 @@ No further buttons, no dismiss link, no multi-paragraph body inside the popover.
 | `slot="body"` | Optional rich body: the same one sentence when it needs a link or emphasis. Replaces `body`; the unlock line and CTAs stay fixed. Slot a link directly (`<a slot="body">`) so it reads white on the dark surface. |
 | `unlock-label` | Optional. The whole unlock line in the user's language; `{plan}` becomes the bold plan name. |
 | `plan-label` | Optional. The displayed plan name ("Pro plan" by default), for translation. |
+| `mark-label` | Optional. The accessible name of the crown upgrade mark ("Upgrade required. See plans" by default), for translation. Applies only when the mark is the anchor. |
 | `trigger` | `'click'` (default) or `'hover'`. |
 | `onUpgrade` | Optional. Runs *instead of* opening the pricing page (e.g. an in-app upgrade modal). Analytics still fires first. |
 
@@ -70,7 +71,7 @@ No further buttons, no dismiss link, no multi-paragraph body inside the popover.
   feature." Ends with a period.
 - **Unlock line:** fixed format in English — "Unlock with the **\<Plan\> plan**." Do not reword it
   in place. A translated product passes `unlock-label` with a `{plan}` token (for example
-  `unlock-label="Mở khoá với gói {plan}."`) and, to translate the plan name, `plan-label`.
+  `unlock-label="Mở khoá với gói {plan}."`) and, to translate the plan name, `plan-label`; the crown mark's accessible name is `mark-label`.
 - **CTA:** "Upgrade" by default; keep it a verb. Override via `ctaLabel` only with a clear reason.
 
 *(`PAYWALL-03`, `PAYWALL-04`)*
@@ -90,6 +91,7 @@ The upsell funnel's denominator and conversion — never gate a feature without 
 - The default CTA opens `UPGRADE_URL` (`https://ahaslides.com/pricing`) in a new tab
   (`noopener,noreferrer`) and closes the popover.
 - When `onUpgrade` is provided, it runs instead (analytics still fires) and the popover closes.
+- Escape and `close()` close the popover and return focus to the element that opened it, falling back to the anchor when that element is gone or refuses focus. A host that stops Escape calls `close()`. Click-away and the CTAs close without moving focus.
 - The anchor is wrapped in a `<span>` so children don't need to forward refs.
 
 ## Visual

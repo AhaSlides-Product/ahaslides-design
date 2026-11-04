@@ -91,3 +91,71 @@ test('unlock-label swaps the unlock line with {plan} in bold, plan-label renames
   assert.deepEqual(result.nolabel, { text: 'Nâng cấp ngay.', bold: [''], markup: 0 });
   assert.deepEqual(result.live, { text: 'Đổi Pro rồi.', bold: ['Pro'], markup: 0 });
 });
+
+const focusPage = `<!doctype html><body style="margin:0;font-family:sans-serif">
+<button id="btn">Locked row</button><button id="dis" disabled>Disabled</button><button id="gone">Gone</button>
+<aha-paywall id="mark" feature-label="Mark" body="Sentence." mark-label="Cần nâng cấp"></aha-paywall>
+<aha-paywall id="slot" feature-label="Slot" body="Sentence."><span slot="body">Rich </span><button id="anchor">Gated</button></aha-paywall>
+<script type="module">import '${lib}'; window.ready = true;</script>`;
+
+test('close() and Escape return focus to the element that opened the popover, falling back to the real anchor; mark-label names the mark', { skip }, async () => {
+  const file = join(mkdtempSync(join(tmpdir(), 'paywall-focus-')), 'page.html');
+  writeFileSync(file, focusPage);
+  const result = await evaluateInPage(pathToFileURL(file).href, `(async () => {
+    const { toggleLockedPaywall } = await import('${lib}');
+    const deep = () => { let el = document.activeElement; while (el && el.shadowRoot && el.shadowRoot.activeElement) el = el.shadowRoot.activeElement; return el; };
+    const idOf = (el) => (el && (el.id || el.className || el.localName));
+    const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+    const mark = document.getElementById('mark');
+    const slot = document.getElementById('slot');
+    const out = {};
+    out.markLabel = mark.shadowRoot.querySelector('button.mark').getAttribute('aria-label');
+    mark.setAttribute('mark-label', 'Changed');
+    out.markLabelLive = mark.shadowRoot.querySelector('button.mark').getAttribute('aria-label');
+    const press = () => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    const viaButton = (host, id) => { const b = document.getElementById(id); b.focus(); b.addEventListener('click', (e) => toggleLockedPaywall(host, e), { once: true }); b.click(); };
+
+    viaButton(mark, 'btn'); out.openedByButton = mark.open;
+    document.body.focus(); document.activeElement.blur?.();
+    press(); out.escapeToButton = idOf(deep());
+
+    viaButton(mark, 'btn'); document.getElementById('btn').blur();
+    mark.close(); out.closeToButton = idOf(deep()); out.closed = !mark.open;
+    mark.close(); out.closeWhenClosed = idOf(deep());
+
+    const dis = document.getElementById('dis');
+    mark.setAttribute('open', ''); mark._opener = dis; mark.close(); out.disabledOpener = idOf(deep());
+
+    document.getElementById('gone').focus(); mark.setAttribute('open', '');
+    document.getElementById('gone').remove(); mark.close(); out.removedOpener = idOf(deep());
+
+    document.activeElement.blur?.(); mark.setAttribute('open', ''); press(); out.markAnchor = idOf(deep());
+
+    deep().blur(); slot.setAttribute('open', ''); slot.close(); out.slottedAnchor = idOf(deep());
+
+    const stop = (e) => { if (e.key === 'Escape') e.stopPropagation(); };
+    const box = document.createElement('div'); document.body.append(box); box.append(slot);
+    box.addEventListener('keydown', stop);
+    const b2 = document.createElement('button'); b2.id = 'b2'; document.body.prepend(b2); b2.focus();
+    slot.setAttribute('open', ''); b2.focus();
+    slot.querySelector('#anchor').dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, composed: true }));
+    out.stoppedStillOpen = slot.open;
+    slot.close(); out.stoppedThenClose = idOf(deep()); out.stoppedClosed = !slot.open;
+    return out;
+  })()`, { readyExpr: '!!window.ready && !!customElements.get("aha-paywall")' });
+
+  assert.equal(result.markLabel, 'Cần nâng cấp');
+  assert.equal(result.markLabelLive, 'Changed');
+  assert.equal(result.openedByButton, true);
+  assert.equal(result.escapeToButton, 'btn', 'Escape returns focus to the button that opened the popover, not the mark');
+  assert.equal(result.closeToButton, 'btn');
+  assert.equal(result.closed, true);
+  assert.equal(result.closeWhenClosed, 'btn', 'close() on a closed popover does nothing');
+  assert.equal(result.disabledOpener, 'mark', 'a disabled opener refuses focus, so focus goes to the mark');
+  assert.equal(result.removedOpener, 'mark', 'a removed opener falls back to the mark');
+  assert.equal(result.markAnchor, 'mark');
+  assert.equal(result.slottedAnchor, 'anchor', 'a slotted anchor, not the aria-hidden header mark, takes the fallback focus');
+  assert.equal(result.stoppedStillOpen, true, 'a host that stops Escape keeps the popover open');
+  assert.equal(result.stoppedClosed, true);
+  assert.equal(result.stoppedThenClose, 'b2', 'close() restores focus to the opener after the host swallowed Escape');
+});

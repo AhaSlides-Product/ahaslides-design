@@ -34,6 +34,18 @@ an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix w
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
 <<<<<<< HEAD
+## 0.1009.0 — 2026-11-04
+### Added
+- Paywall: `mark-label` attribute, the accessible name of the crown upgrade mark, so a translated product can pass its own. It applies only when the mark is the anchor and a later change applies in place. (#NNN)
+- Paywall: public `close()` method. It closes the popover and returns focus to the element that opened it, for a host that swallows Escape (a drawer or modal). Click-away and the two buttons still close without moving focus. (#NNN)
+
+### Changed
+- Paywall: the mark's default accessible name is "Upgrade required. See plans" (no dash, ux-writing C8). (#NNN)
+- Paywall: Escape and `close()` return focus to the element that opened the popover (a locked-row button through `toggleLockedPaywall` included), falling back to the anchor when it is gone or refuses focus, instead of always landing on the mark. (#NNN)
+
+### Fixed
+- Paywall: the focus fallback no longer matches the aria-hidden mark in the popover header, so a slotted anchor gets focus back. (#NNN)
+
 ## 0.1005.0 — 2026-11-04
 ### Added
 - Paywall: `unlock-label` and `plan-label` attributes so a translated product can pass its own unlock line. `unlock-label` is the whole line and its `{plan}` token becomes the bold plan name (`unlock-label="Mở khoá với gói {plan}."`); `plan-label` renames the plan ("Pro plan" / "Essential plan"). Both render as text, never HTML. With neither set the English line is unchanged. (#657)
