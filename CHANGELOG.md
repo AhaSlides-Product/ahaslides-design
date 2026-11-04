@@ -33,10 +33,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-<<<<<<< HEAD
 ## 0.1010.0 — 2026-11-04
 ### Added
 - Answer option: `no-control` attribute hides the radio or checkbox control for rows that are already big filled buttons, such as True or False. The control stays in the DOM, visually hidden, so focus, role and keyboard behaviour are unchanged on plain, `other` and empty `expandable` rows; tones, stroke, dimming, the verdict mark and the bold label are untouched, and a row without the attribute renders exactly as before. With `letter` the chip goes too. (#PR)
+
+## 0.1005.1 — 2026-11-04
+### Fixed
+- The 0.998.1 entry links its PR (#651); 0.998.1 was not published, and its answer-option fix first shipped in 0.998.2 (#653)
 
 ## 0.1005.0 — 2026-11-04
 ### Added
@@ -44,7 +47,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ### Changed
 - Paywall judge criterion C2 and the paywall guide now describe the shipped two-button popover (Upgrade positive + See all plans secondary, both `<aha-button>`) instead of a single Upgrade CTA; the settings criterion, the paywall evals and the flavour snippets match. The agent copy of the criteria is regenerated. (#657)
-=======
+
 ## 0.1000.0 — 2026-11-04
 ### Changed
 - **Brand logos are now the Brand icon family in the Icon library** (#647). A fourth chip, Brand, sits after System in the Icon library; its 29 icons are ordinary icon cards in the same grid, search and totals, and are used by name, `<aha-icon name="brand-zoom">`, so they follow the icon rules (sizes, stroke by size, `--aha-icon-default` ink). The glyphs live in `icons/svg/brand/` with meaning words; sources and the stand-in list are in `icons/svg/brand/BRAND-CREDITS.md`.
@@ -52,7 +55,6 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `logo/line/`, `logo/original/` and `logo/manifest.json` stay at the same paths, unchanged. The original-colour files are only for a Marketplace listing and the Sign in with Google, Microsoft or Apple buttons; the Icon library's brand note lists their URLs.
 ### Removed
 - The Icon library's Brands tab, its Line / One colour / Original switch and the per-version rule table. Old links (`?tab=brands`, `?mode=`, the Logo page's brand anchors) open the Icon library filtered to Brand.
->>>>>>> origin/master
 
 ## 0.998.2 — 2026-11-04
 ### Fixed
@@ -60,7 +62,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.998.1 — 2026-11-04
 ### Fixed
-- `aha-answer-option` with `count-mode="off"` removes the count slot (`display:none`) instead of hiding it, so a short label such as "False" no longer truncates on a narrow phone (#NNN)
+- `aha-answer-option` with `count-mode="off"` removes the count slot (`display:none`) instead of hiding it, so a short label such as "False" no longer truncates on a narrow phone (#651)
 
 ## 0.996.1 — 2026-11-04
 ### Fixed
