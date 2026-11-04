@@ -41,6 +41,7 @@
     { "name": "plans-url", "type": "string (URL)", "default": "ahaslides.com/pricing", "desc": "Where See all plans navigates (new tab, noopener)" },
     { "name": "slot (default)", "type": "element", "default": "upgrade mark", "desc": "The gated affordance = the anchor; omit it to use the crown upgrade mark as the anchor" },
     { "name": "slot=\"body\"", "type": "element", "default": "—", "desc": "Rich body content that replaces the body/description text: the one benefit sentence with a link or emphasis, still never a multi-paragraph body; slot a link directly (<a slot=\"body\">) so it takes the white body text; the unlock line and CTAs stay fixed. A body-slot child alone keeps the crown mark as the anchor" },
+    { "name": "togglePopover({ source })", "type": "method", "default": "—", "desc": "Opens or closes the popover from code. `source` (optional) is the element that opened it, the one close() and Escape return focus to." },
     { "name": "close()", "type": "method", "default": "—", "desc": "For a host closing the popover from code. Closes it and returns focus to the element that opened it (the anchor when that element is gone or refuses focus); no-op when closed; leaves focus alone when no opener was recorded and focus is not inside the popover. Click-away and the CTAs close without moving focus" },
     { "name": "paywall-shown / paywall-upgrade / paywall-plans", "type": "CustomEvent<{feature,plan}>", "default": "—", "desc": "Analytics contract; paywall-upgrade + paywall-plans are cancelable (preventDefault to run your own flow)" }
   ],

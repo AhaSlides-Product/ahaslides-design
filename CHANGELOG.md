@@ -36,6 +36,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.1013.0 — 2026-11-04
 ### Added
 - Paywall: `mark-label` attribute, the accessible name of the crown upgrade mark, so a translated product can pass its own. It applies only when the mark is the anchor and a later change applies in place. (#658)
+- Paywall: `togglePopover({ source })` names the element that opened the popover, so `close()` and Escape return focus to it. Dropdown locked rows pass their row. (#658)
 - Paywall: public `close()` method, for a host closing the popover from code. It returns focus to the element that opened it, and leaves focus alone when no opener was recorded and focus is not inside the popover. Click-away and the two buttons still close without moving focus. (#658)
 
 ### Changed
