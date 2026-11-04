@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1022.0 — 2026-11-04
 ### Added
-- Button: `size="inline"` for `variant="text-link"`, one approved form for a control inside a sentence. It has no padding, border or fill, takes the sentence's font and line height, and keeps the hover, press and keyboard focus treatment of text-link. At `sm` the same text-link added 8px each side and grew the line from 21px to 28px. With `href` it renders `<a href>` and navigates; without one it renders `<button>` and acts on the page, with `aria-expanded` or `pressed` for a toggle. The rule is in the Button contract. (#NNN)
+- Button: `size="inline"` for `variant="text-link"`, one approved form for a control inside a sentence. It has no padding, border or fill, takes the sentence's font and line height, and keeps the hover, press and keyboard focus treatment of text-link. At `sm` the same text-link added 8px each side and grew the line from 21px to 28px. With `href` it renders `<a href>` and navigates; without one it renders `<button>` and acts on the page, with `aria-expanded` or `pressed` for a toggle. The rule is in the Button contract. (#667)
 
 ## 0.1020.3 — 2026-11-04
 ### Fixed
