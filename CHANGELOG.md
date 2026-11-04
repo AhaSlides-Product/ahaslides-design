@@ -33,13 +33,26 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.981.0 — 2026-11-04
+## 0.983.0 — 2026-11-04
 
 ### Added
 - Avatar `tooltip`: the shared Tooltip on an avatar, on mouse hover and keyboard focus (never a tap), with the avatar focusable; a bare `tooltip` shows its `name`. Works inside `aha-avatar-group` with the same stack, overlap, tint cycle and +N count. Absent, nothing changes (#000)
 - Avatar group `overflow-tooltip`: the shared Tooltip on the +N chip, listing the hidden names (or your own text), and the chip becomes focusable (#000)
 - Avatar group `add-tooltip`: the shared Tooltip on the round + button, with your text or its `add-label` (#000)
 - Dropdown per-row `selected` (true or false) on a leaf: the current choice inside that one list, such as a Visibility submenu. Its rows are `menuitemradio` with `aria-checked` and the selected look; other rows stay `menuitem`; the mark moves only when you re-set `items`. `value` is unchanged (#000)
+
+## 0.981.0 — 2026-11-04
+
+### Added
+- **Data table checklist filter can be single-choice** (#636). `filter: { type: 'checklist', options, multiple: false }`
+  shows DS radios in the same panel, so picking an option replaces the last, and sets antd `filterMultiple: false`
+  on the column. Without `multiple` the filter is multi-select exactly as before. A column that uses it needs
+  `Radio` in the antd members passed to `createDataTable`. For a server that takes one value, `onChange` receives
+  a one-item array: read `filters.status?.[0]`.
+
+## 0.980.1 — 2026-11-04
+### Fixed
+- Logo library, Brands tab: each brand card puts the name on top and its versions in one row of three equal cells, in the order Line, One colour, Original. Each cell holds its preview tile, its label and its own SVG download link (the full path is in the link's tooltip and accessible name), so no file name is cut off. Every line cell is labelled Line; a drawn stand-in carries a Stand-in tag instead of a different label. A missing version shows an empty cell, cards in a row are the same height, and the white Claude mark sits on a Vivid Pink tile. (#635)
 
 ## 0.979.1 — 2026-11-04
 

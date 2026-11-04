@@ -193,6 +193,13 @@ function App() {
         base[2],
         { ...base[3], filter: { type: 'range' } },
       ] })),
+    h(Case, { title: 'Single-choice filter', hint: 'Status = multiple: false (radios, one at a time) next to Team = checklist (checkboxes)' },
+      h(DataTable, { rowKey: 'key', dataSource: rows.map((row, i) => ({ ...row, status: ['Draft', 'Live', 'Closed'][i % 3] })), pagination: false, columns: [
+        base[0],
+        { key: 'status', title: 'Status', dataIndex: 'status', filter: { type: 'checklist', options: ['Draft', 'Live', 'Closed'], multiple: false } },
+        { ...base[1], filter: { type: 'checklist', options: ['Product', 'Growth', 'Sales'] } },
+        base[3],
+      ] })),
     h(Case, { title: 'Value filter', hint: 'Department = text (contains), Age = number (equals), Joined = date (same day)' },
       h(DataTable, { rowKey: 'key', dataSource: people, columns: peopleColumns, pagination: false })),
     h(Case, { title: 'Config rows per page', hint: 'brand-outlined page + "N / page"' },
