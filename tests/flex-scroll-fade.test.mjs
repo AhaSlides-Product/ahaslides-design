@@ -24,6 +24,8 @@ const scenario = String.raw`(async () => {
   scroller.lastElementChild.focus();
   await frame();
   out.focusScrolled = scroller.scrollLeft > 0;
+  const reversed = document.getElementById('reversed');
+  out.reversed = [reversed.style.getPropertyValue('--aha-flex-fade-dir'), ...fade(reversed)];
   out.plainWraps = getComputedStyle(plain).overflowX;
   out.plainShrinks = getComputedStyle(plain.firstElementChild).flexShrink;
   out.page = document.documentElement.scrollWidth - document.documentElement.clientWidth;
@@ -40,6 +42,7 @@ test('a scroll row fades only the edge with more to see, and Tab reaches the las
   assert.deepEqual(r.near, ['10px', '24px'], 'the start fade grows with the distance scrolled');
   assert.deepEqual(r.atEnd, ['24px', '0px'], 'scrolled to end: no end fade');
   assert.deepEqual(r.fits, ['0px', '0px'], 'a row that fits never fades');
+  assert.deepEqual(r.reversed, ['to left', '0px', '24px'], 'row-reverse starts at the right, so the clipped left edge fades');
   assert.equal(r.focusScrolled, true, 'focusing a clipped item scrolls it into view');
   assert.equal(r.plainWraps, 'visible', 'a row without scroll keeps its overflow');
   assert.equal(r.plainShrinks, '1', 'a row without scroll keeps flex-shrink');
