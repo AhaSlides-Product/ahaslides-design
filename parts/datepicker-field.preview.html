@@ -1,0 +1,20 @@
+<div class="pad">
+  <div class="lbl">Sizes</div>
+  <div class="row">
+    <aha-datepicker size="small" value="2026-11-04" aria-label="Small"></aha-datepicker>
+    <aha-datepicker label="Start date" value="2026-11-04"></aha-datepicker>
+    <aha-datepicker size="large" aria-label="Large"></aha-datepicker>
+  </div>
+  <div class="lbl">States</div>
+  <div class="row">
+    <aha-datepicker data-probe status="error" error-message="Pick a date after the start date" value="2026-10-01" aria-label="End date"></aha-datepicker>
+    <aha-datepicker info-message="Any day this year" min="2026-01-01" max="2026-12-31" aria-label="Due date"></aha-datepicker>
+    <aha-datepicker disabled value="2026-11-04" aria-label="Created"></aha-datepicker>
+    <aha-datepicker allow-clear="false" value="2026-11-04" aria-label="Report date"></aha-datepicker>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element (../lib/aha-datepicker.js); no inlined copy, so the preview never drifts from lib/. -->
+<script type="module">
+  import '../lib/aha-datepicker.js';   // registers <aha-datepicker>
+</script>
