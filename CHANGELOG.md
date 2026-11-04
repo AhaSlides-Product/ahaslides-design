@@ -36,7 +36,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.978.0 — 2026-11-04
 
 ### Added
-- **Card select preview tiles** (#999). `<aha-card-select tile="preview">`: an option with `slot: '<name>'` shows the
+- **Card select preview tiles** (#633). `<aha-card-select tile="preview">`: an option with `slot: '<name>'` shows the
   app's own light-DOM child (`slot="<name>"`) as the card's preview, in a frame sized by
   `--aha-card-select-preview-ratio` (default 4 / 3). The element keeps the roving radiogroup, keyboard, checked state,
   focus ring and `change`. The selected preview tile is a white gap and a 2px brand ring, with no fill over the preview. `hide-labels`
