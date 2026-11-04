@@ -33,6 +33,22 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1019.0 — 2026-11-04
+### Added
+- Paywall: `mark-label` attribute, the accessible name of the crown upgrade mark, so a translated product can pass its own. It applies only when the mark is the anchor and a later change applies in place. (#658)
+- Paywall: `togglePopover({ source })` names the element that opened the popover, so `close()` and Escape return focus to it. Dropdown locked rows pass their row. (#658)
+- Paywall: public `close()` method, for a host closing the popover from code. It returns focus to the element that opened it, and leaves focus alone when no opener was recorded and focus is not inside the popover. Click-away and the two buttons still close without moving focus. (#658)
+
+### Changed
+- Paywall: the mark's default accessible name is "Upgrade required. See plans" (no dash, ux-writing C8). (#658)
+- Paywall: Escape closes an open popover first, before any host handler (Ant Drawer, aha-drawer, aha-modal never see that key press), so a popover can no longer be left floating after its host closes. The listener is taken on window in the capture phase. (#658)
+- Paywall: Escape and `close()` return focus to the element that opened the popover (a locked-row button through `toggleLockedPaywall` included), falling back to the anchor when it is gone or refuses focus, instead of always landing on the mark. (#658)
+
+### Fixed
+- Paywall: an open popover no longer closes itself inside a drawer. The visibility check counted the body as a clip box, and a drawer's scroll lock sets body overflow on a body as tall as the page behind it; the visibility check now walks the flat tree (slotted content in an `aha-drawer` included), applies each ancestor's clip and stops at a fixed-position ancestor, and the body clips only when its overflow does not propagate to the viewport. Real scroll containers still clip. (#658)
+- Paywall: `toggleLockedPaywall` records the opener only from the path up to the row's own handler, so a focusable ancestor (`main tabindex=-1`, a drawer body) is never the opener; focus restore works on a `delegatesFocus` host such as `aha-button` and does not scroll; an element connected already open records its opener; an empty `mark-label` keeps the default name. (#658)
+- Paywall: the focus fallback no longer matches the aria-hidden mark in the popover header, so a slotted anchor gets focus back. (#658)
+
 ## 0.1018.0 — 2026-11-04
 ### Added
 - `aha-card-select` takes `min-tile-width`: it keeps `columns` while a tile can stay that wide, then wraps to fewer, reading the element's own width, so `columns="3" min-tile-width="110"` drops to 2 across inside a narrow modal (#656)
