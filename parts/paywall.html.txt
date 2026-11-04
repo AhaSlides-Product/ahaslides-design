@@ -1,7 +1,7 @@
 <!-- Paste into an .html file and open — no build step. Wrap a gated affordance; the upsell renders itself. -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ahaslides-product/design/lib/tokens.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
-  import 'https://cdn.jsdelivr.net/npm/@ahaslides-product/design/lib/aha-paywall.js';   // registers <aha-paywall>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-paywall.js';   // registers <aha-paywall>
 </script>
 
 <!-- Pro gate — the affordance is the anchor. The popover ships the crown mark, title, description,
@@ -50,7 +50,7 @@
   body="Keep a copy of every slide to share after the session."
   required-plan="pro"></aha-paywall>
 <script type="module">
-  import { toggleLockedPaywall } from 'https://cdn.jsdelivr.net/npm/@ahaslides-product/design/lib/aha-paywall.js';
+  import { toggleLockedPaywall } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-paywall.js';
   const crown = document.getElementById('export-crown');
   document.getElementById('export-button').addEventListener('click', (event) => toggleLockedPaywall(crown, event));
 </script>

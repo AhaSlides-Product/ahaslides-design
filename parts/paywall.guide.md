@@ -123,9 +123,10 @@ button.addEventListener('click', (event) => toggleLockedPaywall(crown, event));
 - **`toggleLockedPaywall(paywall, event)`** works from any control, not only a disabled one: an
   enabled button, a whole row, or the wrapper of a disabled control (a disabled control fires no
   click of its own, so listen on its wrapper, as `<aha-setting-row>` does). Call it in the click
-  listener: it stops the click, fits the popover to the room around the crown, and records the
-  focusable control on the click's path, up to the listener, as the opener. Escape and `close()`
-  return focus there.
+  listener: it stops the native click, fits the popover to the room around the crown, and records
+  the focusable control on the click's path, up to the listener, as the opener. Escape and
+  `close()` return focus there. React handles clicks at the root, so a parent `onClick` still
+  fires: call `event.stopPropagation()` on the React event too.
 - **`togglePopover({ source })`** is the same toggle from code. `source` is the element focus
   returns to, read only when opening. Use it directly only when there is no click event to pass.
 

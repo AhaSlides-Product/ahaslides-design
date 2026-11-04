@@ -63,7 +63,7 @@ export function CustomUrlSetting() {
       </aha-paywall>
 
       {/* Crown beside its own button: the button keeps its place and look; its click opens the same popover */}
-      <button onClick={(event) => toggleLockedPaywall(crown.current, event.nativeEvent)}>Export</button>
+      <button onClick={(event) => { event.stopPropagation(); toggleLockedPaywall(crown.current, event.nativeEvent); }}>Export</button>
       <aha-paywall
         ref={crown}
         feature-key="export_pdf"
