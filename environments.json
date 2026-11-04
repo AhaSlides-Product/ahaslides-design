@@ -57,6 +57,7 @@
      "{site}/foundations/brand-colour-rules.html",
      "{site}/foundations/backgrounds.html",
      "{site}/foundations/logo.html",
+     "{site}/icons/index.html?tab=brands",
      "{site}/guidelines/page-title-favicon/page-title-favicon.md"
     ],
     "judge": "{site}/anti-slop.md (every surface the page touches, plus website, colour and background)",
@@ -74,7 +75,8 @@
      "{site}/voice-rules.md",
      "{site}/foundations/brand-colour-rules.html",
      "{site}/foundations/backgrounds.html",
-     "{site}/foundations/logo.html"
+     "{site}/foundations/logo.html",
+     "{site}/icons/index.html?tab=brands"
     ],
     "judge": "the aha-mkt skill (Marketing approves its own content)",
     "lint": "the aha-mkt skill's own check",
@@ -91,7 +93,8 @@
      "{site}/voice-rules.md",
      "{site}/foundations/brand-colour-rules.html",
      "{site}/foundations/backgrounds.html",
-     "{site}/foundations/logo.html"
+     "{site}/foundations/logo.html",
+     "{site}/icons/index.html?tab=brands"
     ],
     "judge": "the aha-mkt skill (Marketing approves its own content)",
     "lint": "the aha-mkt skill's own check",
