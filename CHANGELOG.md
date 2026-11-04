@@ -33,9 +33,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1006.0 — 2026-11-04
+## 0.1011.0 — 2026-11-04
 ### Added
 - `<aha-flex scroll>`: a chip or toggle row stays on one line and scrolls sideways inside its own box, fading the start or end edge only while there is more to see that way (the fade grows with the distance left, so it is none at an edge already reached and needs no motion). No scrollbar; Tab scrolls a clipped item clear of the fade; RTL and `direction="row-reverse"` fade the right-hand start edge. The responsive rule in `AGENTS.md` and the `overflow-x-scroll` lint hint name it as the one-line row exception (#654)
+
+## 0.1010.0 — 2026-11-04
+### Added
+- Answer option: `no-control` attribute hides the radio or checkbox control for rows that are already big filled buttons, such as True or False. The control stays in the DOM, visually hidden, so focus, role and keyboard behaviour are unchanged on plain, `other` and empty `expandable` rows; tones, stroke, dimming, the verdict mark and the bold label are untouched, and a row without the attribute renders exactly as before. With `letter` the chip goes too. (#660)
 
 ## 0.1005.1 — 2026-11-04
 ### Fixed
