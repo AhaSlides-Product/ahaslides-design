@@ -85,3 +85,40 @@ test('arrowing onto the other row picks it without moving focus into the field',
     return { picked: rows[1].hasAttribute('selected'), fieldShown: getComputedStyle(field).display, onControl: rows[1].shadowRoot.activeElement === choice(rows[1]) };`);
   assert.deepEqual(result, { picked: true, fieldShown: 'block', onControl: true });
 });
+
+const PIXEL = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+
+test('no-control hides the control out of the flex flow and leaves the focus target, role and tab stop alone on every row shape', { skip }, async () => {
+  const shapes = [
+    ['plain', 'selected', 'True'],
+    ['other', 'other', 'Other'],
+    ['image-only expandable', `expandable image="${PIXEL}"`, ''],
+  ];
+  const result = await run(`<div>${shapes.map(([, attrs, text]) => `<aha-answer-option ${attrs}>${text}</aha-answer-option>`).join('')}</div>`, `
+    return rows.map((row) => {
+      const control = row.shadowRoot.querySelector('.control');
+      const snapshot = () => {
+        const target = choice(row);
+        const box = control.getBoundingClientRect();
+        const label = row.shadowRoot.querySelector('.label').getBoundingClientRect();
+        const rowBox = row.shadowRoot.querySelector('.row').getBoundingClientRect();
+        return { target: target === control ? 'control' : target.className, role: target.getAttribute('role'),
+          checked: target.getAttribute('aria-checked'), tabindex: target.tabIndex, width: Math.round(box.width),
+          labelInset: Math.round(label.left - rowBox.left) };
+      };
+      const shown = snapshot();
+      row.setAttribute('no-control', '');
+      const hidden = snapshot();
+      row.focus();
+      const focusable = row.shadowRoot.activeElement === choice(row);
+      return { shown, hidden, focusable };
+    });`);
+  for (const [index, [shape]] of shapes.entries()) {
+    const { shown, hidden, focusable } = result[index];
+    assert.equal(hidden.width, 1, shape);
+    assert.equal(focusable, true, shape);
+    assert.deepEqual({ ...hidden, width: 0, labelInset: 0 }, { ...shown, width: 0, labelInset: 0 }, shape);
+  }
+  assert.equal(result[0].shown.width, 20);
+  assert.equal(result[0].shown.labelInset - result[0].hidden.labelInset, 32);
+});

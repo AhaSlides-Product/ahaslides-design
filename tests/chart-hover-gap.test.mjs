@@ -40,3 +40,16 @@ for (const type of ['column', 'bar']) {
     assert.ok(result.nextBarFadedOthers > 0);
   });
 }
+
+test('column: an out-of-focus bar fades further than its text, so it cannot pass for the 30% series', { skip }, async () => {
+  const opacities = await evaluateInPage(fixtureFor('column'), String.raw`(async () => {
+    const root = document.getElementById('chart').shadowRoot;
+    await new Promise((done) => setTimeout(done, 1500));
+    const slots = [...root.querySelectorAll('.col-slot[data-cat]')];
+    slots[1].dispatchEvent(new PointerEvent('pointermove', { bubbles: true, composed: true }));
+    await new Promise((done) => setTimeout(done, 450));
+    const effective = (node) => { let opacity = 1; for (let at = node; at && at !== root; at = at.parentElement) opacity *= parseFloat(getComputedStyle(at).opacity); return Math.round(opacity * 100) / 100; };
+    return { bar: effective(slots[0].querySelector('.col-bar')), value: effective(slots[0].querySelector('.value')) };
+  })()`, { readyExpr: '!!window.hoverFixtureReady', timeout: 45000 });
+  assert.deepEqual(opacities, { bar: 0.15, value: 0.4 });
+});
