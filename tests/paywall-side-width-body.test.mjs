@@ -8,6 +8,8 @@ import { evaluateInPage, resolveChrome } from '../cdp.mjs';
 
 const skip = existsSync(resolveChrome()) ? false : 'needs headless Chrome (set CHROME_BIN)';
 const lib = pathToFileURL(fileURLToPath(new URL('../lib/aha-paywall.js', import.meta.url))).href;
+const button = pathToFileURL(fileURLToPath(new URL('../lib/aha-button.js', import.meta.url))).href;
+const drawerLib = pathToFileURL(fileURLToPath(new URL('../lib/aha-drawer.js', import.meta.url))).href;
 
 const page = `<!doctype html><body style="margin:0;font-family:sans-serif">
 <aha-paywall id="plain" style="position:absolute;top:600px;left:500px" feature-label="Plain" body="Plain sentence." open></aha-paywall>
@@ -96,7 +98,10 @@ const focusPage = `<!doctype html><body style="margin:0;font-family:sans-serif">
 <button id="btn">Locked row</button><button id="dis" disabled>Disabled</button><button id="gone">Gone</button>
 <aha-paywall id="mark" feature-label="Mark" body="Sentence." mark-label="Cần nâng cấp"></aha-paywall>
 <aha-paywall id="slot" feature-label="Slot" body="Sentence."><span slot="body">Rich </span><button id="anchor">Gated</button></aha-paywall>
-<script type="module">import '${lib}'; window.ready = true;</script>`;
+<main id="main" tabindex="-1"><div id="row"><span id="rowlabel">Locked row</span></div></main>
+<aha-button id="ab" variant="primary">Button opener</aha-button>
+<aha-paywall id="hover" trigger="hover" feature-label="Hover" body="Sentence."></aha-paywall>
+<script type="module">import '${lib}'; import '${button}'; window.ready = true;</script>`;
 
 test('close() and Escape return focus to the element that opened the popover, falling back to the real anchor; mark-label names the mark', { skip }, async () => {
   const file = join(mkdtempSync(join(tmpdir(), 'paywall-focus-')), 'page.html');
@@ -129,18 +134,38 @@ test('close() and Escape return focus to the element that opened the popover, fa
     document.getElementById('gone').focus(); mark.setAttribute('open', '');
     document.getElementById('gone').remove(); mark.close(); out.removedOpener = idOf(deep());
 
-    document.activeElement.blur?.(); mark.setAttribute('open', ''); press(); out.markAnchor = idOf(deep());
+    mark.shadowRoot.querySelector('button.mark').focus(); mark.setAttribute('open', ''); deep().blur(); press(); out.markAnchor = idOf(deep());
 
-    deep().blur(); slot.setAttribute('open', ''); slot.close(); out.slottedAnchor = idOf(deep());
+    deep().blur(); slot._opener = dis; slot.setAttribute('open', ''); slot.close(); out.slottedAnchor = idOf(deep());
 
-    const stop = (e) => { if (e.key === 'Escape') e.stopPropagation(); };
+    deep().blur(); mark.setAttribute('open', ''); mark.close(); out.noOpenerNoFocus = idOf(deep());
+
     const box = document.createElement('div'); document.body.append(box); box.append(slot);
-    box.addEventListener('keydown', stop);
+    let hostSaw = 0;
+    box.addEventListener('keydown', (e) => { if (e.key === 'Escape') { hostSaw++; e.stopPropagation(); } });
     const b2 = document.createElement('button'); b2.id = 'b2'; document.body.prepend(b2); b2.focus();
-    slot.setAttribute('open', ''); b2.focus();
+    slot.setAttribute('open', '');
     slot.querySelector('#anchor').dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, composed: true }));
-    out.stoppedStillOpen = slot.open;
-    slot.close(); out.stoppedThenClose = idOf(deep()); out.stoppedClosed = !slot.open;
+    out.stoppedClosed = !slot.open; out.hostSaw = hostSaw; out.stoppedFocus = idOf(deep());
+
+    const main = document.getElementById('main');
+    const row = document.getElementById('row');
+    row.addEventListener('click', (e) => toggleLockedPaywall(mark, e));
+    deep().blur(); document.getElementById('rowlabel').click();
+    out.rowOpened = mark.open; mark.close(); out.rowFocus = idOf(deep()); out.mainFocused = document.activeElement === main;
+
+    const ab = document.getElementById('ab');
+    ab.addEventListener('click', (e) => toggleLockedPaywall(mark, e));
+    ab.focus(); ab.click(); deep().blur(); mark.close(); out.buttonHost = document.activeElement === ab;
+
+    const late = document.createElement('aha-paywall'); late.setAttribute('feature-label', 'Late'); late.setAttribute('open', '');
+    const lateBtn = document.createElement('button'); lateBtn.id = 'late'; document.body.append(lateBtn); lateBtn.focus();
+    document.body.append(late); lateBtn.blur(); late.close(); out.connectedOpen = idOf(deep());
+
+    const hover = document.getElementById('hover');
+    deep().blur(); hover.dispatchEvent(new MouseEvent('mouseenter')); out.hoverOpened = hover.open; hover.close(); out.hoverFocus = idOf(deep());
+
+    mark.setAttribute('mark-label', ''); out.emptyLabel = mark.shadowRoot.querySelector('button.mark').getAttribute('aria-label');
     return out;
   })()`, { readyExpr: '!!window.ready && !!customElements.get("aha-paywall")' });
 
@@ -155,9 +180,46 @@ test('close() and Escape return focus to the element that opened the popover, fa
   assert.equal(result.removedOpener, 'mark', 'a removed opener falls back to the mark');
   assert.equal(result.markAnchor, 'mark');
   assert.equal(result.slottedAnchor, 'anchor', 'a slotted anchor, not the aria-hidden header mark, takes the fallback focus');
-  assert.equal(result.stoppedStillOpen, true, 'a host that stops Escape keeps the popover open');
-  assert.equal(result.stoppedClosed, true);
-  assert.equal(result.stoppedThenClose, 'b2', 'close() restores focus to the opener after the host swallowed Escape');
+  assert.equal(result.noOpenerNoFocus, 'body', 'close() with no opener and focus outside the popover pulls no focus');
+  assert.equal(result.stoppedClosed, true, 'Escape closes the popover even when the host stops Escape on its panel');
+  assert.equal(result.hostSaw, 0, 'the host handler never sees the Escape that closed the popover');
+  assert.equal(result.stoppedFocus, 'b2');
+  assert.equal(result.rowOpened, true);
+  assert.equal(result.rowFocus, 'mark', 'a focusable ancestor of a locked row is not the opener');
+  assert.equal(result.mainFocused, false);
+  assert.equal(result.buttonHost, true, 'an aha-button host keeps focus as the opener');
+  assert.equal(result.connectedOpen, 'late', 'an element connected already open records its opener');
+  assert.equal(result.hoverOpened, true);
+  assert.equal(result.hoverFocus, 'body', 'close() on a hover-opened popover leaves focus alone');
+  assert.equal(result.emptyLabel, 'Upgrade required. See plans', 'an empty mark-label keeps the default name');
+});
+
+const drawerPage = `<!doctype html><body style="margin:0;height:100px;overflow:hidden">
+<aha-drawer id="d" heading="Drawer"><div style="height:150px"></div><aha-paywall id="dp" feature-label="Drawer" body="Sentence."><button>Gated</button></aha-paywall></aha-drawer>
+<script type="module">import '${lib}'; import '${drawerLib}'; window.ready = true;</script>`;
+
+const htmlScrollPage = `<!doctype html><html style="overflow-y:scroll"><body style="margin:0;height:200px;overflow:hidden">
+<div style="position:fixed;top:400px;left:100px;width:300px;height:200px"><aha-paywall id="fp" feature-label="Fixed" body="Sentence."><button>Gated</button></aha-paywall></div>
+<script type="module">import '${lib}'; window.ready = true;</script>`;
+
+test('an open popover stays open inside an aha-drawer under a short locked body, and inside a fixed panel under a scrolling html', { skip }, async () => {
+  const run = async (html, expr) => {
+    const file = join(mkdtempSync(join(tmpdir(), 'paywall-drawer-')), 'page.html');
+    writeFileSync(file, html);
+    return evaluateInPage(pathToFileURL(file).href, expr, { readyExpr: '!!window.ready && !!customElements.get("aha-paywall") && !!customElements.get("aha-drawer")' + '' });
+  };
+  const probe = (id, prelude) => `(async () => {
+    const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+    ${prelude}
+    const p = document.getElementById('${id}');
+    p.setAttribute('open', ''); await wait(150);
+    window.dispatchEvent(new Event('resize')); await wait(100);
+    return p.open;
+  })()`;
+  assert.equal(await run(drawerPage, probe('dp', `document.getElementById('d').setAttribute('open', ''); await wait(400);`)), true, 'aha-drawer lock sets html overflow hidden; the popover inside stays open');
+  const flat = join(mkdtempSync(join(tmpdir(), 'paywall-fixed-')), 'page.html');
+  writeFileSync(flat, htmlScrollPage);
+  assert.equal(await evaluateInPage(pathToFileURL(flat).href, probe('fp', ''), { readyExpr: '!!window.ready && !!customElements.get("aha-paywall")' }), true, 'a fixed panel is not clipped by the body');
 });
 
 const clipPage = `<!doctype html><body style="margin:0;height:0;overflow:hidden;font-family:sans-serif">

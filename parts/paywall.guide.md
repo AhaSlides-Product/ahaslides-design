@@ -91,7 +91,7 @@ The upsell funnel's denominator and conversion — never gate a feature without 
 - The default CTA opens `UPGRADE_URL` (`https://ahaslides.com/pricing`) in a new tab
   (`noopener,noreferrer`) and closes the popover.
 - When `onUpgrade` is provided, it runs instead (analytics still fires) and the popover closes.
-- Escape and `close()` close the popover and return focus to the element that opened it, falling back to the anchor when that element is gone or refuses focus. A host that stops Escape calls `close()`. Click-away and the CTAs close without moving focus.
+- Escape closes the popover first, before any host handler: a drawer or modal around it never sees that key press, so the popover cannot be left floating after its host closes. It returns focus to the element that opened the popover, falling back to the anchor when that element is gone or refuses focus. `close()` is for a host closing the popover from code; it leaves focus alone when no opener was recorded and focus is not inside the popover. Click-away and the CTAs close without moving focus.
 - The anchor is wrapped in a `<span>` so children don't need to forward refs.
 
 ## Visual

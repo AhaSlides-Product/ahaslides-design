@@ -31,7 +31,7 @@
     { "name": "placement", "type": "top | bottom | left | right", "default": "top", "desc": "Popover side relative to the anchor. left/right sit the popover 8px beside the anchor, vertically centred on it; `align` applies to top/bottom only, and fitPaywall picks top or bottom" },
     { "name": "width", "type": "CSS length (a bare number is px)", "default": "300px", "desc": "Popover width for longer copy or a rich body; never past 82vw. The --aha-paywall-width custom property on the host does the same" },
     { "name": "align", "type": "center | start | end", "default": "center", "desc": "Which popover edge sits on the anchor: center (default) centres it, start puts its left edge on the anchor's left with the arrow under the anchor, end mirrors that on the right. Use start/end for an anchor near a panel edge; `fitPaywall(el)` (exported) picks align and placement from the room around the anchor and slides the popover back inside the viewport through `--aha-paywall-shift`. <aha-setting-row> and <aha-settings-item> call it before the popover opens" },
-    { "name": "trigger", "type": "click | hover", "default": "click", "desc": "How the popover opens; click-away + Escape close a click popover; Escape returns focus to the opener" },
+    { "name": "trigger", "type": "click | hover", "default": "click", "desc": "How the popover opens; click-away + Escape close a click popover; Escape closes the popover first, before any host handler, and returns focus to the opener" },
     { "name": "cta-label", "type": "string", "default": "Upgrade", "desc": "The positive CTA verb; override only with a clear reason" },
     { "name": "plans-label", "type": "string", "default": "See all plans", "desc": "The secondary CTA label — routes to the full pricing page" },
     { "name": "unlock-label", "type": "string", "default": "Unlock with the {plan}.", "desc": "The whole unlock line, for a translated product. `{plan}` is replaced by the plan name in bold (e.g. \"Mở khoá với gói {plan}.\"); with no `{plan}` the line is plain text. Set as text, never HTML" },
@@ -41,7 +41,7 @@
     { "name": "plans-url", "type": "string (URL)", "default": "ahaslides.com/pricing", "desc": "Where See all plans navigates (new tab, noopener)" },
     { "name": "slot (default)", "type": "element", "default": "upgrade mark", "desc": "The gated affordance = the anchor; omit it to use the crown upgrade mark as the anchor" },
     { "name": "slot=\"body\"", "type": "element", "default": "—", "desc": "Rich body content that replaces the body/description text: the one benefit sentence with a link or emphasis, still never a multi-paragraph body; slot a link directly (<a slot=\"body\">) so it takes the white body text; the unlock line and CTAs stay fixed. A body-slot child alone keeps the crown mark as the anchor" },
-    { "name": "close()", "type": "method", "default": "—", "desc": "Closes the popover and returns focus to the element that opened it (the anchor when that element is gone or refuses focus); no-op when closed. Call it from a host that swallows Escape (a drawer or modal). Click-away and the CTAs close without moving focus" },
+    { "name": "close()", "type": "method", "default": "—", "desc": "For a host closing the popover from code. Closes it and returns focus to the element that opened it (the anchor when that element is gone or refuses focus); no-op when closed; leaves focus alone when no opener was recorded and focus is not inside the popover. Click-away and the CTAs close without moving focus" },
     { "name": "paywall-shown / paywall-upgrade / paywall-plans", "type": "CustomEvent<{feature,plan}>", "default": "—", "desc": "Analytics contract; paywall-upgrade + paywall-plans are cancelable (preventDefault to run your own flow)" }
   ],
   "opinion": {
@@ -60,7 +60,7 @@
     { "key": "react", "label": "React", "file": "paywall.react.txt" },
     { "key": "vue", "label": "Vue 3", "file": "paywall.vue.txt" }
   ],
-  "codeNote": "One zero-dep custom element renders the shared upsell; the paywall skill's rules (crown-not-Phosphor upgrade mark, one-sentence body, fixed unlock line, Upgrade + See all plans CTAs — both the shared <aha-button>, the analytics events, dark grey 300/16/12 surface) are baked into its shadow DOM — a consumer can't hand-roll a drifting prompt. The popover animates opacity+lift on a persistent node via the motion tokens; the anchor carries aria-expanded and Escape closes it and returns focus to the element that opened it. The judge/eval + copy voice stay in the aha-design skill.",
+  "codeNote": "One zero-dep custom element renders the shared upsell; the paywall skill's rules (crown-not-Phosphor upgrade mark, one-sentence body, fixed unlock line, Upgrade + See all plans CTAs — both the shared <aha-button>, the analytics events, dark grey 300/16/12 surface) are baked into its shadow DOM — a consumer can't hand-roll a drifting prompt. The popover animates opacity+lift on a persistent node via the motion tokens; the anchor carries aria-expanded and Escape closes it first, before any host handler, and returns focus to the element that opened it. The judge/eval + copy voice stay in the aha-design skill.",
   "preview": "paywall.preview.html",
   "playground": {
     "controls": [
