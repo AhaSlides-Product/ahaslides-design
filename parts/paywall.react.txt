@@ -3,7 +3,7 @@ import '@ahaslides-product/design/tokens.css';
 import { useRef, useEffect } from 'react';
 
 // Wrap the gated affordance; the element renders the compliant upsell (crown badge, one-sentence
-// body, fixed unlock line, single Upgrade CTA are baked in). analytics comes back as events.
+// body, unlock line, Upgrade and See all plans CTAs are baked in). analytics comes back as events.
 export function CustomUrlSetting() {
   const ref = useRef(null);
   useEffect(() => {
@@ -15,7 +15,7 @@ export function CustomUrlSetting() {
   return (
     <>
       {/* Pro gate — the affordance is the anchor. Popover ships crown mark, title, description,
-          the fixed unlock line, and BOTH CTAs (Upgrade positive + See all plans). */}
+          the unlock line, and BOTH CTAs (Upgrade positive + See all plans). */}
       <aha-paywall
         ref={ref}
         feature-key="streak_bonus"
@@ -24,6 +24,15 @@ export function CustomUrlSetting() {
         required-plan="pro">
         <button>Streak bonus</button>
       </aha-paywall>
+
+      {/* Translated product → unlock-label ({plan} becomes the bold plan name) + plan-label */}
+      <aha-paywall
+        feature-key="remove_branding"
+        feature-label="Gỡ thương hiệu"
+        body="Ẩn logo AhaSlides khỏi bài trình bày."
+        required-plan="pro"
+        unlock-label="Mở khoá với {plan}."
+        plan-label="gói Pro" />
 
       {/* Essential gate, no natural anchor → the crown badge is the anchor */}
       <aha-paywall
