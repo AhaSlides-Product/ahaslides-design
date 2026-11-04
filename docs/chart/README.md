@@ -291,7 +291,7 @@ chart.data = {
 chart.options = { format: 'compact', rightFormat: 'percent' };
 ```
 
-- 1 to 4 series, coloured in the chart order (Vivid Pink, black, Vivid Pink at 30%, light grey). A fifth series is dropped.
+- 1 to 4 series, coloured in the chart order (Vivid Pink, Vivid Pink at 30%, dark grey #303030, light grey). A fifth series is dropped.
 - `null` or a missing value breaks the line; a point with no neighbour keeps its marker so it still shows.
 - Each series has its own marker shape (circle, square, triangle, diamond), drawn only at labelled ticks and at its last point, so the chart reads in black and white.
 - The x labels thin out to every Nth period, counted back from the latest, so the last period is always labelled.
@@ -366,6 +366,8 @@ Types with defaults: `donut` (also `pie`), `radial`, `treemap`, `quadrant`, `bel
 | `brand` (default) | Dashboards, reports and any normal app screen | The `--aha-viz-series-1` to `--aha-viz-series-6` tokens from `tokens.css` (with built-in fallbacks if you skip it), or your own `colors` when set; the text stays the brand ink. More than six bar or column options share series 1. |
 | `deck` | A presentation or full-screen canvas with its own colour scheme | `colors`: your own list, in order. `ink`: your text colour. Text that sits on a fill picks a readable colour automatically. |
 
+Hovering or focusing a series fades the marks out of focus to `--aha-viz-mix-fade` (15%), so a faded Vivid Pink cannot pass for the 30% series. Their text stays at `--aha-viz-mix-dim` (40%), the level `highlight-top` uses at rest.
+
 ```html
 <div style="background:#1A1A1A; padding:24px">
   <aha-chart type="donut" palette="deck"
@@ -379,7 +381,7 @@ From JavaScript: `chart.colors = ['#E70E68', '#FFFFFF']`.
 On an app screen with its own palette (a survey's answer colours), set `colors` without `palette="deck"`: the series take your colours and the text keeps the brand ink. Your app picks the hues.
 
 ```html
-<aha-chart type="column" colors="var(--aha-viz-series-2),var(--aha-viz-series-4)" label="Would you recommend us?"
+<aha-chart type="column" colors="var(--aha-viz-series-3),var(--aha-viz-series-4)" label="Would you recommend us?"
   data='[{"label":"Yes","value":41},{"label":"No","value":12}]'></aha-chart>
 ```
 

@@ -13,7 +13,7 @@
   "On the website, Vivid Pink fills only each section's primary button; icons, borders, numbers and headings stay ink at rest (rule 6.9).",
   "Pink text is for white only. On Vivid Pink at 5% or on grey, text is black. On Vivid Pink, text is solid white.",
   "No red, yellow, green or blue for status. Use an icon, clear wording and an outline or black fill. One green and one red mark a correct or wrong answer, and nothing else (section 11).",
-  "Charts use four colours in order: Vivid Pink, black, Vivid Pink at 30%, light grey.",
+  "Charts use four colours in order: Vivid Pink, Vivid Pink at 30%, dark grey #303030, light grey.",
   "Illustrations use Vivid Pink tints, Darker Pink, white, the default ink and grey. The 10, 20, 45, 60 and 80% tints never appear in the interface."
  ],
  "palette": [
@@ -228,11 +228,12 @@
    "id": "s8", "key": "charts", "title": "Charts",
    "blocks": [
     { "type": "rules", "rules": [
-     { "id": "8.1", "text": "Four colours, in this order: Vivid Pink for the main series, black for the second, Vivid Pink at 30%, then light grey ([[#A8A8A8]])." },
+     { "id": "8.1", "text": "Four colours, in this order: Vivid Pink for the main series, Vivid Pink at 30% for the second, dark grey ([[#303030]]) for the third, light grey ([[#A8A8A8]]) for the fourth." },
      { "id": "8.2", "text": "Aim for four series or fewer. The four colours never increase. Beyond four, repeat them with a dashed line or a pattern and write the label beside each mark." },
      { "id": "8.3", "text": "Anything drawn in Vivid Pink at 30% or light grey carries its value in writing, because both are faint on white." },
      { "id": "8.4", "text": "Give each line its own end shape, so the chart still reads in black and white." },
-     { "id": "8.5", "text": "Up and down are shown as in section 7, never with green and red. The one green in a chart is the correct answer's column in a quiz result (section 11); it marks an answer, not a rise." }
+     { "id": "8.5", "text": "Up and down are shown as in section 7, never with green and red. The one green in a chart is the correct answer's column in a quiz result (section 11); it marks an answer, not a rise." },
+     { "id": "8.6", "origin": "Requested by Dave Bui (DESY-485)", "text": "When one series is hovered or focused, the marks out of focus fade to 15%, so a faded Vivid Pink cannot be mistaken for the 30% series. Their text stays at 40%, so it can still be read." }
     ] }
    ]
   },
@@ -265,7 +266,7 @@
        ["See-through white (86%) on Vivid Pink", "3.58 to 1", "Fails, so white text is solid"],
        ["Vivid Pink at 30% against white", "1.65 to 1", "Faint, so it always carries a written value"]
       ] },
-    { "type": "paragraph", "text": "For readers with red-green colour blindness, Vivid Pink and a mid grey look almost the same. That is why the chart greys are limited to black and one light grey, and why the tint is 30% and not 35%." },
+    { "type": "paragraph", "text": "For readers with red-green colour blindness, Vivid Pink and a mid grey look almost the same (ΔE 7.7 for #616161 and 19.5 for #8A8A8A under protanopia, Machado 2009). That is why the chart greys are limited to dark grey #303030 (ΔE 21) and one light grey, and why the tint is 30% and not 35%." },
     { "type": "paragraph", "origin": "aha-marketing-colors", "text": "The target is WCAG 2.1 AA: body text at 4.5 to 1 or more, large text at 3 to 1 or more." }
    ]
   },
@@ -301,6 +302,7 @@
  ],
  "open": [],
  "changes": [
+  { "version": "v32", "date": "4 Nov", "text": "Rule 8.1: the chart order is now Vivid Pink, Vivid Pink at 30%, dark grey #303030, light grey #A8A8A8, so a two-series chart stays in the pink family and the third series is softer than black. New rule 8.6: out-of-focus marks fade to 15% on hover or focus (token viz.mix.fade), because at 40% a faded Vivid Pink read as the 30% series; their text stays at 40%. Section 10: the chart greys are dark grey #303030 and one light grey. Decided by Dave Bui, DESY-485." },
   { "version": "v31", "date": "4 Nov", "text": "Rule 11.1: the two answer buttons of a True or False question may be filled with the answer pair, True in the correct green and False in the wrong red, with a white label; the tick or cross disc still gives the verdict on reveal. Rule 11.3 lists those buttons as a solid use. Every other button, answer option and question type is unchanged. Requested in SLPV-260." },
   { "version": "v30", "date": "4 Nov", "text": "Rule 2.6: provider sign-in buttons (Google, Microsoft, Apple) keep the provider's full-colour mark; a navigation-menu logo stays in its ink on hover; a line logo used as a tab or menu icon takes the item's text colour (pink when active); a Coming soon card hovers like a live card; a decorative logo row next to named cards may omit the names. Rule 2.6a: social-media links use line logos from logo/line/, not system icons." },
   { "version": "v29", "date": "3 Nov", "text": "Rule 6.7: text links (`--aha-text-link`) are Darker Pink `#DB005B` instead of Vivid Pink `#E70E68`, so a link reaches AA on white (5.04 to 1), on the alert grey (4.55 to 1) and on Vivid Pink at 5% (4.65 to 1); Vivid Pink at 4.06 and 4.16 to 1 failed there. Buttons, fills and the primary colour are unchanged. Found in the DESY-431 course staging review; changed in DESY-456." },
