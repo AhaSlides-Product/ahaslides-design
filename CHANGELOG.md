@@ -33,6 +33,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+<<<<<<< HEAD
+## 0.1005.0 — 2026-11-04
+### Added
+- Paywall: `unlock-label` and `plan-label` attributes so a translated product can pass its own unlock line. `unlock-label` is the whole line and its `{plan}` token becomes the bold plan name (`unlock-label="Mở khoá với gói {plan}."`); `plan-label` renames the plan ("Pro plan" / "Essential plan"). Both render as text, never HTML. With neither set the English line is unchanged. (#657)
+
+### Changed
+- Paywall judge criterion C2 and the paywall guide now describe the shipped two-button popover (Upgrade positive + See all plans secondary, both `<aha-button>`) instead of a single Upgrade CTA; the settings criterion, the paywall evals and the flavour snippets match. The agent copy of the criteria is regenerated. (#657)
+=======
 ## 0.1000.0 — 2026-11-04
 ### Changed
 - **Brand logos are now the Brand icon family in the Icon library** (#647). A fourth chip, Brand, sits after System in the Icon library; its 29 icons are ordinary icon cards in the same grid, search and totals, and are used by name, `<aha-icon name="brand-zoom">`, so they follow the icon rules (sizes, stroke by size, `--aha-icon-default` ink). The glyphs live in `icons/svg/brand/` with meaning words; sources and the stand-in list are in `icons/svg/brand/BRAND-CREDITS.md`.
@@ -40,6 +48,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `logo/line/`, `logo/original/` and `logo/manifest.json` stay at the same paths, unchanged. The original-colour files are only for a Marketplace listing and the Sign in with Google, Microsoft or Apple buttons; the Icon library's brand note lists their URLs.
 ### Removed
 - The Icon library's Brands tab, its Line / One colour / Original switch and the per-version rule table. Old links (`?tab=brands`, `?mode=`, the Logo page's brand anchors) open the Icon library filtered to Brand.
+>>>>>>> origin/master
 
 ## 0.998.2 — 2026-11-04
 ### Fixed
