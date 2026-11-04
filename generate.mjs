@@ -3405,7 +3405,7 @@ function renderBackgroundLibraryPage() {
 }
 const LOGO_AHA = LOGO_MANIFEST.filter(l => l.category === 'AhaSlides');
 const LOGO_BRANDS = LOGO_MANIFEST.filter(l => l.category !== 'AhaSlides');
-const LOGO_DARK_TILE = new Set(['ahaslides-logo-white', 'thesplash-white']);
+const LOGO_DARK_TILE = new Set(['ahaslides-logo-white', 'thesplash-white', 'claude-white']);
 const LOGO_DONTS = ['Change the colours', 'Stretch the logo', 'Rotate or tilt the logo', 'Apply a gradient to The Splash', 'Apply a gradient to the wordmark', 'Separate and move the elements'];
 const LOCKUP_SPEC = [
   ['Full', 'The Splash, AhaSlides (Plus Jakarta Sans 600), one normal space, the product name (400)'],
@@ -3555,14 +3555,21 @@ const LOGO_GALLERY_JS = `
 `;
 function renderLogoPage() {
   const download = (file, label) => `<a class="lg-dl" href="../logo/${esc(file)}" download${label ? ` aria-label="${esc(label)}"` : ''}><span class="lg-file">${esc(file)}</span><span class="lg-arrow">&darr;</span></a>`;
-  const lineFigure = l => l.line
-    ? `<figure><span class="lg-line" role="img" aria-label="${esc(l.name)} logo, line" style="--lg-line:url('../logo/${esc(l.line)}')"></span><figcaption>Line${l.lineStatus === 'stand-in' ? ` <span class="lg-standin" title="${esc(l.lineNote || l.lineSource)}">stand-in</span>` : ''}</figcaption></figure>`
-    : '';
-  const stage = l => (l.originalFile || l.line)
-    ? `<div class="lg-stage lg-pair${l.line ? ' lg-quad' : ''}"><figure><img src="../logo/${esc(l.file)}" alt="${esc(l.name)} logo, one colour" loading="lazy"/><figcaption>One colour</figcaption></figure>${l.originalFile ? `<figure><img src="../logo/${esc(l.originalFile)}" alt="${esc(l.name)} logo, original colours" loading="lazy"/><figcaption>Original</figcaption></figure>` : ''}${lineFigure(l)}</div>`
-    : `<div class="lg-stage${LOGO_DARK_TILE.has(l.id) ? ' lg-dark' : ''}"><img${l.id.startsWith('ahaslides-logo') ? ' class="lg-lockup"' : ''} src="../logo/${esc(l.file)}" alt="${esc(l.name)} logo" loading="lazy"/></div>`;
-  const cell = l =>
-    `<div class="lg" data-name="${esc(l.id)}" data-label="${esc(l.name.toLowerCase())}" role="button" tabindex="0" title="${esc(l.name)} — click to copy its id">${stage(l)}<span class="lgn">${esc(l.name)}</span>${download(l.file, l.originalFile ? `${l.name}, one colour` : '')}${l.originalFile ? download(l.originalFile, `${l.name}, original colours`) : ''}${l.line ? download(l.line, `${l.name}, line`) : ''}</div>`;
+  const stage = l => `<div class="lg-stage${LOGO_DARK_TILE.has(l.id) ? ' lg-dark' : ''}"><img${l.id.startsWith('ahaslides-logo') ? ' class="lg-lockup"' : ''} src="../logo/${esc(l.file)}" alt="${esc(l.name)} logo" loading="lazy"/></div>`;
+  const variantDownload = (l, file, label) => `<a class="lg-vdl" href="../logo/${esc(file)}" download title="logo/${esc(file)}" aria-label="Download ${esc(l.name)} logo, ${esc(label.toLowerCase())}: logo/${esc(file)}"><aha-icon name="system-download-simple" size="12" decorative></aha-icon>SVG</a>`;
+  const variantCell = (l, label, file, art, note = '') => file
+    ? `<figure class="lg-var"><div class="lg-tile${LOGO_DARK_TILE.has(l.id) ? ' lg-dark' : ''}">${art}</div><figcaption>${label}</figcaption><span class="lg-note">${note}</span>${variantDownload(l, file, label)}</figure>`
+    : `<figure class="lg-var lg-var--none"><div class="lg-tile"></div><figcaption>${label}</figcaption><span class="lg-note"></span><span class="lg-vdl lg-vdl--none">None</span></figure>`;
+  const variants = l => {
+    const line = variantCell(l, 'Line', l.line, `<span class="lg-line" role="img" aria-label="${esc(l.name)} logo, line" style="--lg-line:url('../logo/${esc(l.line)}')"></span>`,
+      l.lineStatus === 'stand-in' ? `<aha-tag title="${esc(l.lineNote || l.lineSource)}">Stand-in</aha-tag>` : '');
+    const one = variantCell(l, LOGO_DARK_TILE.has(l.id) ? 'White' : 'One colour', l.file, `<img src="../logo/${esc(l.file)}" alt="${esc(l.name)} logo, one colour" loading="lazy"/>`);
+    const original = variantCell(l, 'Original', l.originalFile, `<img src="../logo/${esc(l.originalFile)}" alt="${esc(l.name)} logo, original colours" loading="lazy"/>`);
+    return `<div class="lg-vars">${l.line || l.originalFile ? `${line}${one}${original}` : one}</div>`;
+  };
+  const brandCell = l =>
+    `<div class="lg lg-brand" data-name="${esc(l.id)}" data-label="${esc(l.name.toLowerCase())}" role="button" tabindex="0" title="${esc(l.name)} — click to copy its id"><span class="lgn">${esc(l.name)}</span>${variants(l)}</div>`;
+  const cell = l => l.category === 'AhaSlides' ? `<div class="lg" data-name="${esc(l.id)}" data-label="${esc(l.name.toLowerCase())}" role="button" tabindex="0" title="${esc(l.name)} — click to copy its id">${stage(l)}<span class="lgn">${esc(l.name)}</span>${download(l.file, '')}</div>` : brandCell(l);
   const demoSite = text => text.replaceAll(`${LIVE_SITE}/logo/`, '../logo/');
   const patternDemo = pattern => {
     if (pattern.id === 'brand-logo-row') return `<div class="brand-demo brand-demo--row">${demoSite(pattern.html)}</div>`;
@@ -3584,11 +3591,11 @@ function renderLogoPage() {
   ${patternCode(pattern)}`).join('\n  ');
   const sections = list => {
     const names = [...new Set(list.map(l => l.section))];
-    return names.map(n => `<section class="lg-sec"><h3 class="tok-h3 lg-sec-h">${esc(n)}</h3><div class="logo-grid">${list.filter(l => l.section === n).map(cell).join('')}</div></section>`).join('');
+    return names.map(n => `<section class="lg-sec"><h3 class="tok-h3 lg-sec-h">${esc(n)}</h3><div class="logo-grid${list === LOGO_BRANDS ? ' logo-grid--brands' : ''}">${list.filter(l => l.section === n).map(cell).join('')}</div></section>`).join('');
   };
   const main = `
   <h1>Logo library</h1>
-  ${headline([`The AhaSlides logo and the ${LOGO_BRANDS.length} third-party brand logos the presenter app shows`, 'Each brand is the current official SVG, from theSVG or the Design System V3 Figma file, in one colour (greyscale) and its original colours, plus a line mark in logo/line/. In any interface a brand logo is its line mark in the default icon ink, with no tile around it; only a page listing other products (Marketplace) shows the colour logo, greyscale at rest and in colour on hover and keyboard focus (colour rule 2.6). Never redraw a brand mark or stand in a letter tile', 'Click a tile to copy its id, or use the download link'])}
+  ${headline([`The AhaSlides logo and the ${LOGO_BRANDS.length} third-party brand logos the presenter app shows`, 'Each brand is the current official SVG, from theSVG or the Design System V3 Figma file, in one colour (greyscale) and its original colours, plus a line mark in logo/line/. In any interface a brand logo is its line mark in the default icon ink, with no tile around it; only a page listing other products (Marketplace) shows the colour logo, greyscale at rest and in colour on hover and keyboard focus (colour rule 2.6). Never redraw a brand mark or stand in a letter tile', 'Click a card to copy its id, or use the SVG link under each version'])}
   <p class="gen">◆ generated from logo/manifest.json (each Brands logo records its source URL, fetch date and where the presenter app shows it) — fetch files from ${esc(SITE)}/logo/&lt;file&gt;</p>
 
   <div id="logo-gallery">
@@ -3603,6 +3610,7 @@ function renderLogoPage() {
     <div id="panel-aha" role="tabpanel" aria-labelledby="tab-aha" class="lg-panel">${sections(LOGO_AHA)}</div><!-- ds-lint-allow: lockup (Logo library gallery tiles, not a header) -->
     <div id="panel-brands" role="tabpanel" aria-labelledby="tab-brands" class="lg-panel" hidden>${sections(LOGO_BRANDS)}</div>
   </div>
+  <script type="module">import '../lib/aha-tag.js';</script>
 
   <h3 class="tok-h3">AhaSlides logo rules</h3>
   <p class="body">The logo is The Splash plus the wordmark. Two versions are allowed: the full-colour file on white and the white file on Vivid Pink. An all-pink logo on white is not allowed. Minimum size <b>154 &times; 35 px</b> on screen, <b>175 &times; 40 mm</b> in print.</p>
@@ -3670,7 +3678,6 @@ function renderLogoPage() {
   .lg-stage img{width:56px;height:56px;object-fit:contain;display:block}
   .lg-stage img.lg-lockup{width:100%;max-width:156px;height:60px}
   .lg-line{display:block;width:56px;height:56px;background:var(--aha-icon-default);-webkit-mask:var(--lg-line) center/contain no-repeat;mask:var(--lg-line) center/contain no-repeat}
-  .lg-standin{font-size:10px;color:var(--aha-text-tertiary)}
   .lg .lgn{font-size:13px;line-height:1.3;color:var(--aha-text-default);text-align:center}
   .lg-dl{font-size:11px;color:var(--aha-text-tertiary);text-decoration:none;max-width:100%;display:flex;align-items:baseline;gap:4px;white-space:nowrap}
   .lg-file{min-width:0;overflow:hidden;text-overflow:ellipsis}
@@ -3691,13 +3698,21 @@ function renderLogoPage() {
   .cobrand-x{font-size:24px;line-height:1;color:var(--aha-text-secondary)}
   .cobrand-partner{font-size:32px;line-height:1;font-weight:600;color:var(--aha-text-secondary)}
   .cobrand-tile--pink .cobrand-x,.cobrand-tile--pink .cobrand-partner{color:var(--aha-text-inverse)}
-  .lg-pair{gap:12px}
-  .lg-pair figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:6px}
-  .lg-pair img{width:40px;height:40px}
-  .lg-pair .lg-line{width:40px;height:40px}
-  .lg-stage.lg-quad{flex-wrap:wrap;height:auto;min-height:104px;padding:10px 0;row-gap:8px}
-  .lg-quad figure{flex:0 0 calc(50% - 6px)}
-  .lg-pair figcaption{font-size:11px;line-height:1.3;color:var(--aha-text-tertiary)}
+  .logo-grid--brands{grid-template-columns:repeat(auto-fill,minmax(296px,1fr));gap:12px}
+  .lg.lg-brand{align-items:stretch;gap:12px;padding:16px}
+  .lg-brand .lgn{font-size:14px;font-weight:600;text-align:left}
+  .lg-vars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .lg-var{margin:0;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0}
+  .lg-tile{display:flex;align-items:center;justify-content:center;width:100%;aspect-ratio:1;max-height:88px;border-radius:6px;background:var(--aha-gray-10)}
+  .lg-tile.lg-dark{background:var(--aha-color-primary)}
+  .lg-tile img,.lg-tile .lg-line{width:40px;height:40px;object-fit:contain;display:block}
+  .lg-var--none .lg-tile{background:none;border:1px dashed var(--aha-border-default)}
+  .lg-var figcaption{margin-top:4px;font-size:12px;line-height:1.33;color:var(--aha-text-secondary)}
+  .lg-note{display:flex;align-items:center;justify-content:center;height:20px}
+  .lg-vdl{display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 8px;border-radius:var(--aha-radius-xs);font-size:12px;line-height:1.33;color:var(--aha-text-tertiary);text-decoration:none}
+  a.lg-vdl:hover{color:var(--aha-text-link);background:var(--aha-gray-10)}
+  .lg-vdl:focus-visible{outline:2px solid var(--aha-color-primary);outline-offset:1px}
+  .lg-vdl--none{color:var(--aha-text-tertiary)}
   .brand-demo{display:flex;flex-direction:column;gap:2px;max-width:280px;padding:8px;margin:12px 0;border:1px solid var(--aha-border);border-radius:8px}
   .brand-entry{display:flex;align-items:center;gap:12px;padding:8px 12px;border-radius:6px;color:var(--aha-text-default);text-decoration:none;font-family:var(--aha-font-product);font-size:14px}
   .brand-entry:hover{background:var(--aha-bg-accent)}
