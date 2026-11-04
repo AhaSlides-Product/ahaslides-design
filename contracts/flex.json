@@ -6,9 +6,9 @@
   "tier": "leaf-lit",
   "badge": "shared web component",
   "element": "aha-flex",
-  "summary": "A flexbox container with the DS spacing scale baked into `gap` — direction, align, justify, wrap.",
-  "highlights": ["Flexbox container with the DS spacing scale baked into gap", "Direction, align, justify and wrap"],
-  "lead": "ONE custom element — <aha-flex> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; `gap` takes the named steps small/middle/large (8/16/24) or a raw pixel number, and direction/align/justify/wrap map straight to flexbox. Layout only — it never paints a background. Zero drift.",
+  "summary": "A flexbox container with the DS spacing scale baked into `gap` — direction, align, justify, wrap, and a one-line `scroll` row that fades its clipped edge.",
+  "highlights": ["Flexbox container with the DS spacing scale baked into gap", "Direction, align, justify and wrap", "scroll: a one-line chip or toggle row that fades the edge with more to see"],
+  "lead": "ONE custom element — <aha-flex> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; `gap` takes the named steps small/middle/large (8/16/24) or a raw pixel number, and direction/align/justify/wrap map straight to flexbox. Layout only — it never paints a background. `scroll` keeps a chip or toggle row on one line inside its own box and fades only the edge that has more to see, so the page never scrolls sideways. Zero drift.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": [],
   "spec": [
@@ -17,6 +17,7 @@
     { "label": "Direction", "value": "row · row-reverse · column · column-reverse (or `vertical` for column)" },
     { "label": "Align", "value": "start · center · end · baseline · stretch (align-items)" },
     { "label": "Justify", "value": "start · center · end · space-between/around/evenly" },
+    { "label": "Scroll row", "value": "`scroll`: one line, scrolls sideways in its own box, no scrollbar; the edge with more to see fades over up to 24px, growing with the distance left (none at an edge already reached); 4px block padding keeps focus rings unclipped" },
     { "label": "Text colour", "value": "inherited from the parent; Flex sets none" }
   ],
   "props": [
@@ -25,13 +26,15 @@
     { "name": "direction", "type": "row | row-reverse | column | column-reverse", "default": "row", "desc": "Main-axis direction (flex-direction) — the full matrix; overrides `vertical`" },
     { "name": "align", "type": "start | center | end | baseline | stretch", "default": "stretch", "desc": "Cross-axis alignment (align-items)" },
     { "name": "justify", "type": "start | center | end | space-between | space-around | space-evenly", "default": "start", "desc": "Main-axis distribution (justify-content)" },
-    { "name": "wrap", "type": "boolean", "default": "false", "desc": "Allow items to wrap onto multiple lines" }
+    { "name": "wrap", "type": "boolean", "default": "false", "desc": "Allow items to wrap onto multiple lines" },
+    { "name": "scroll", "type": "boolean", "default": "false", "desc": "Keep a row on one line and let it scroll sideways inside its own box, fading the start or end edge only while there is more to see that way. Row direction only; wins over wrap. Items keep their width; Tab scrolls a clipped item clear of the fade" }
   ],
   "opinion": {
     "whenToUse": [
       { "what": "Flex", "when": "arranging a block of items in one dimension with consistent DS spacing" },
       { "what": "Grid", "when": "you need two-dimensional rows-and-columns, not a single flow" },
-      { "what": "Space", "when": "you only need even gaps between a small inline set of items" }
+      { "what": "Space", "when": "you only need even gaps between a small inline set of items" },
+      { "what": "Flex scroll", "when": "a chip or toggle row (filters, presets, a Customise row) must stay on one line in a narrow box; it scrolls sideways and fades the clipped edge. If the items can wrap, use wrap instead: wrapping shows every choice at once" }
     ],
     "note": "Keep gaps on the named scale (small/middle/large) so spacing stays consistent across surfaces — reach for a raw pixel number only for a genuine one-off. Flex is layout, never decoration: it paints no background.",
     "dsv3": "COVERED — DS V3 has no measured Flex cell; spec derived from the DS spacing scale (8/16/24) + AntD Flex conventions (gap steps, direction/align/justify/wrap). A deliberate, documented layout extension; the only visual token it binds is inherited text colour."
@@ -79,7 +82,8 @@
     { "label": "gap middle → 16px", "verdict": "PASS" },
     { "label": "direction / align / justify map to flexbox", "verdict": "PASS" },
     { "label": "vertical shorthand → flex-direction column", "verdict": "PASS" },
-    { "label": "wrap enables flex-wrap", "verdict": "PASS" }
+    { "label": "wrap enables flex-wrap", "verdict": "PASS" },
+    { "label": "scroll fades only the edge with more to see; none when the row fits", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",

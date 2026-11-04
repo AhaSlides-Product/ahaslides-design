@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1015.0 — 2026-11-04
+### Added
+- `<aha-flex scroll>`: a chip or toggle row stays on one line and scrolls sideways inside its own box, fading the start or end edge only while there is more to see that way (the fade grows with the distance left, so it is none at an edge already reached and needs no motion). No scrollbar; Tab scrolls a clipped item clear of the fade; RTL and `direction="row-reverse"` fade the right-hand start edge. The responsive rule in `AGENTS.md` and the `overflow-x-scroll` lint hint name it as the one-line row exception (#654)
+
 ## 0.1011.1 — 2026-11-04
 ### Fixed
 - The v2.3 brand guidelines PDF carries the chart order of rule 8.1 on pages 58, 59, 65 and 78, with rules 8.2 and 8.6 on page 65; title, version line and file name are unchanged (#661)
