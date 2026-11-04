@@ -39,7 +39,7 @@
     },
     {
       "label": "Points variant",
-      "value": "variant=\"points\": no clock; min at the left end and max at the right in 14px semibold tabular deck ink, formatted by label-format; the bar starts full (max) and drains left toward min off the same ends-at / total-ms sync, or sits at progress (0-100) and eases between values on the shared motion tokens"
+      "value": "variant=\"points\": no clock; min at the left end and max at the right in 14px semibold tabular deck ink, formatted by label-format (numbers grouped by language, 1,000), announced through spoken-format; the bar starts full (max) and drains left toward min off the same ends-at / total-ms sync, or sits at progress (0-100) and eases between values on the shared motion tokens"
     }
   ],
   "props": [
@@ -113,7 +113,13 @@
       "name": "label-format",
       "type": "string",
       "default": "{n}",
-      "desc": "Points variant: how min, max and the announced value are written; {n} is the number (\"{n}p\" → \"500p\"). Translate it with the slide's locale"
+      "desc": "Points variant: how the visible min and max ends are written; {n} is the number, grouped by the element's language (\"{n} pts\" → \"500 pts\", \"1,000 pts\"). Take it from the i18n catalogue, never hard-coded English. Translator note: short for points, keep it to 3 or 4 characters"
+    },
+    {
+      "name": "spoken-format",
+      "type": "string",
+      "default": "the label-format value",
+      "desc": "Points variant: how the value is announced to screen readers (aria-valuetext); {n} grouped like label-format (\"{n} points\" → \"700 points\"). Take it from the i18n catalogue, never hard-coded English. Translator note: the full word for points, as it is read aloud"
     },
     {
       "name": "progress",
@@ -193,7 +199,7 @@
       "verdict": "PASS"
     },
     {
-      "label": "variant=\"points\": no clock, min left and max right through label-format, tabular",
+      "label": "variant=\"points\": no clock, min left and max right through label-format (grouped, 1,000 pts), spoken value through spoken-format, tabular",
       "verdict": "PASS"
     },
     {
