@@ -37,6 +37,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - Logo library, Brands tab: a Line / One colour / Original switch (`aha-segmented`, default Line, kept in `?mode=`) shows one larger version per card, with a one-line rule per version on when to use it, linked to colour rule 2.6 (#639)
 
+## 0.984.1 — 2026-11-04
+
+### Changed
+- **Site navbar copy** (#641). The Features entry reads "Reports & analytics" and the Use cases entry reads "Training & workshops", in the Navigation docs preview and the anti-slop website fixtures that copy the navbar.
+
 ## 0.984.0 — 2026-11-04
 
 ### Added
