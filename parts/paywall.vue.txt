@@ -1,8 +1,10 @@
 <script setup>
-import '@ahaslides-product/design/aha-paywall';   // registers <aha-paywall>
+import { ref } from 'vue';
+import { toggleLockedPaywall } from '@ahaslides-product/design/aha-paywall';   // registers <aha-paywall>
 import '@ahaslides-product/design/tokens.css';
 
 // The element renders the compliant upsell; analytics comes back as events.
+const crown = ref(null);
 const onShown = (e) => window.analytics?.track('PAYWALL_SHOWN', e.detail);
 const onUpgrade = (e) => window.analytics?.track('PAYWALL_UPGRADE_CLICKED', e.detail);
 const onPlans = (e) => window.analytics?.track('PAYWALL_PLANS_CLICKED', e.detail);   // See all plans
@@ -60,4 +62,13 @@ const onPlans = (e) => window.analytics?.track('PAYWALL_PLANS_CLICKED', e.detail
     <button>Survey link</button>
     <span slot="body">Share a memorable link instead of the generated code. </span><a slot="body" href="https://help.ahaslides.com">How it works</a>
   </aha-paywall>
+
+  <!-- Crown beside its own button: the button keeps its place and look; its click opens the same popover -->
+  <button @click="toggleLockedPaywall(crown, $event)">Export</button>
+  <aha-paywall
+    ref="crown"
+    feature-key="export_pdf"
+    feature-label="Export to PDF"
+    body="Keep a copy of every slide to share after the session."
+    required-plan="pro" />
 </template>

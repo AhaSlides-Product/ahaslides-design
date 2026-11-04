@@ -19,6 +19,7 @@ it composes a popover, the custom crown badge, an Icon and a Button, and defines
 | --- | --- |
 | **Paywall popover on the affordance** | A locked control/action that already has its own clickable anchor |
 | **`<PaywallCrownBadge>` as the anchor** | A feature with no natural clickable anchor (e.g. a field label) |
+| **Crown beside its own button** | A locked control that keeps its own place and look (a locked setting, a card's button) and cannot be wrapped: the crown sits beside it and the control's click opens the same popover through `toggleLockedPaywall` |
 | **`locked` row in a Dropdown** | A plan-gated action in an `<aha-dropdown>` menu: set `locked:true` (plus `plan`, `featureKey`, `upgradeBody`) on the item and the dropdown shows the crown and opens this Paywall beside the row; never wrap a menu row in your own popover |
 | **`onUpgrade` handler** | Upgrading inside the app instead of the pricing page — analytics still fires first |
 
@@ -28,8 +29,8 @@ share/distribution options, results features, dashboard actions.
 ## Always the shared component
 
 Do not hand-roll an upgrade prompt, tooltip, or modal for monetisation. Wrap the gated
-affordance in `<Paywall>`, or use `<PaywallCrownBadge>` as the anchor when the feature has
-no natural anchor of its own. A bespoke upsell drifts from the presenter app and breaks the
+affordance in `<Paywall>`, use `<PaywallCrownBadge>` as the anchor when the feature has
+no natural anchor of its own, or keep the control's own button with the crown beside it. A bespoke upsell drifts from the presenter app and breaks the
 single-source-of-truth contract. *(`PAYWALL-01`)*
 
 ## Anatomy — three stacked parts
@@ -54,7 +55,7 @@ No further buttons, no dismiss link, no multi-paragraph body inside the popover.
 | `body` | One sentence describing what unlocks. **Required.** |
 | `requiredPlan` | `'essential'` or `'pro'`. Defaults to `'pro'`. Drives the unlock line + analytics plan prop. |
 | `placement` | Popover side: `'top'` (default), `'bottom'`, or `'left'` / `'right'` (beside the anchor, vertically centred). |
-| `width` | Popover width for longer copy; defaults to 300px, never past 82vw. |
+| `width` | Popover outer width, padding included, for longer copy; defaults to 300px, never past 82vw. |
 | `slot="body"` | Optional rich body: the same one sentence when it needs a link or emphasis. Replaces `body`; the unlock line and CTAs stay fixed. Slot a link directly (`<a slot="body">`) so it reads white on the dark surface. |
 | `unlock-label` | Optional. The whole unlock line in the user's language; `{plan}` becomes the bold plan name. |
 | `plan-label` | Optional. The displayed plan name ("Pro plan" by default), for translation. |
@@ -96,15 +97,39 @@ The upsell funnel's denominator and conversion — never gate a feature without 
 
 ## Visual
 
-- Dark grey surface (`--aha-bg-dark-raised`, `#303030`), 300px wide (opt-in `width`), 16px padding, 12px radius.
+- Dark grey surface (`--aha-bg-dark-raised`, `#303030`), 300px outer width, padding included (opt-in `width`), 16px padding, 12px radius.
 - The crown badge is the Vivid Pink circle custom SVG — do not substitute a glyph; it lacks the
   circular background.
 
 ## Crown-badge-only anchor
 
 When a feature has no natural clickable anchor (e.g. a field label), use
-`<PaywallCrownBadge>` as the visible anchor. It carries `role="img"` and an `aria-label`
-(default "Upgrade required"). *(`PAYWALL-02`, `PAYWALL-08`)*
+`<PaywallCrownBadge>` as the visible anchor (`<aha-paywall>` with no slotted child). The mark is a
+real focusable `<button>` with an accessible name (default "Upgrade required. See plans";
+`mark-label` translates it). *(`PAYWALL-02`, `PAYWALL-08`)*
+
+## Crown beside its own button
+
+When a locked control keeps its own place and look and cannot be wrapped (a locked setting, a
+button in a card), the control stays outside `<aha-paywall>`. Set the crown mark beside it and send
+the control's click to the same popover, so the crown and the button open one upsell:
+
+```js
+import { toggleLockedPaywall } from '@ahaslides-product/design/aha-paywall';
+
+button.addEventListener('click', (event) => toggleLockedPaywall(crown, event));
+```
+
+- **`toggleLockedPaywall(paywall, event)`** works from any control, not only a disabled one: an
+  enabled button, a whole row, or the wrapper of a disabled control (a disabled control fires no
+  click of its own, so listen on its wrapper, as `<aha-setting-row>` does). Call it in the click
+  listener: it stops the click, fits the popover to the room around the crown, and records the
+  focusable control on the click's path, up to the listener, as the opener. Escape and `close()`
+  return focus there.
+- **`togglePopover({ source })`** is the same toggle from code. `source` is the element focus
+  returns to, read only when opening. Use it directly only when there is no click event to pass.
+
+*(`PAYWALL-01`, `PAYWALL-08`)*
 
 ---
 

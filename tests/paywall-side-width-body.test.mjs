@@ -33,6 +33,7 @@ test('paywall placement left/right sits beside the anchor, width sets the popove
       const visible = (sel) => getComputedStyle(root.querySelector(sel)).display !== 'none';
       return {
         width: parseFloat(getComputedStyle(root.querySelector('.pop')).width),
+        outerWidth: Math.round(pop.width),
         gapRight: Math.round(pop.left - anchor.right),
         gapLeft: Math.round(anchor.left - pop.right),
         centreOffset: Math.round((pop.top + pop.height / 2) - (anchor.top + anchor.height / 2)),
@@ -51,8 +52,9 @@ test('paywall placement left/right sits beside the anchor, width sets the popove
     setTimeout(() => resolve({ ...before, switched: state('left') }), 300);
   }, 400))`, { readyExpr: '!!window.ready && !!customElements.get("aha-paywall")' });
 
-  assert.deepEqual(result.plain, { ...result.plain, width: 300, above: true, textBody: true, richBody: false, markAnchor: true });
+  assert.deepEqual(result.plain, { ...result.plain, width: 300, outerWidth: 300, above: true, textBody: true, richBody: false, markAnchor: true });
   assert.equal(result.right.width, 360);
+  assert.equal(result.right.outerWidth, 360, 'the width attribute is the outer width, padding included');
   assert.equal(result.right.gapRight, 8);
   assert.ok(Math.abs(result.right.centreOffset) <= 1, `right popover centred on the anchor (offset ${result.right.centreOffset})`);
   assert.equal(result.right.markAnchor, false);

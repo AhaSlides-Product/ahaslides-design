@@ -1,4 +1,4 @@
-import '@ahaslides-product/design/aha-paywall';   // registers <aha-paywall>
+import { toggleLockedPaywall } from '@ahaslides-product/design/aha-paywall';   // registers <aha-paywall>
 import '@ahaslides-product/design/tokens.css';
 import { useRef, useEffect } from 'react';
 
@@ -6,6 +6,7 @@ import { useRef, useEffect } from 'react';
 // body, unlock line, Upgrade and See all plans CTAs are baked in). analytics comes back as events.
 export function CustomUrlSetting() {
   const ref = useRef(null);
+  const crown = useRef(null);
   useEffect(() => {
     const el = ref.current, track = (name) => (e) => window.analytics?.track(name, e.detail);
     el.addEventListener('paywall-shown', track('PAYWALL_SHOWN'));
@@ -60,6 +61,15 @@ export function CustomUrlSetting() {
         <button>Survey link</button>
         <span slot="body">Share a memorable link instead of the generated code. </span><a slot="body" href="https://help.ahaslides.com">How it works</a>
       </aha-paywall>
+
+      {/* Crown beside its own button: the button keeps its place and look; its click opens the same popover */}
+      <button onClick={(event) => toggleLockedPaywall(crown.current, event.nativeEvent)}>Export</button>
+      <aha-paywall
+        ref={crown}
+        feature-key="export_pdf"
+        feature-label="Export to PDF"
+        body="Keep a copy of every slide to share after the session."
+        required-plan="pro" />
     </>
   );
 }

@@ -33,6 +33,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1021.1 — 2026-11-04
+### Fixed
+- Paywall: the popover is 300px wide outside, padding included, as the contract says (it rendered 332px). `width` now means the outer width too, so a consumer passing `width` gets a popover 32px narrower than before, at the value it asked for. Content narrows from 300 to 268px; Upgrade and See all plans still sit on one row, and the row wraps when translated labels do not fit. (#NNN)
+- Paywall: the title line height is 1.5 on the type scale (it was 1.4). (#NNN)
+- Paywall: the See all plans border is `--aha-gray-70` #8A8A8A, as the contract says (it resolved #616161), 3.82:1 on the dark surface where it was 2.14:1. (#NNN)
+
+### Docs
+- Paywall: the guide, the contract and judge criterion C1 cover a crown beside its own button, with examples in every flavour; criterion C7 says the mark is a real button with an accessible name, not `role="img"`; `toggleLockedPaywall` is documented for any control and `togglePopover({ source })` beside it. (#NNN)
+
 ## 0.1020.3 — 2026-11-04
 ### Fixed
 - Alert: small text is 12px, on the type scale, as the guideline already said (it was 13px, which no step of the scale allows); the small close button's line height follows at 18px. The contract matches, and the feedback guideline now states the shipped padding and radius (regular 10/14, small 6/10, both 8px radius). (#659)
