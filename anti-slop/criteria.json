@@ -660,7 +660,7 @@
         {
           "id": "C2",
           "title": "Popover anatomy is exactly correct",
-          "test": "**Rule.** The popover is, top to bottom: **crown badge** (the Vivid Pink circle custom `CrownBadge`, 16×16 SVG — *not* the generic Phosphor Crown) + **feature label**; then a **one-sentence value prop**; then the line **\"Unlock with the _\\<Plan\\> plan_.\"** (plan name bold); then a **single** full-width (`block`) primary **Upgrade** CTA. No secondary \"View plans\" button, no dismiss link, no multi-paragraph body (PAYWALL-02, -03, -04)."
+          "test": "**Rule.** The popover is the shared `<aha-paywall>` popover (Figma Popover 3881:9078), top to bottom: **crown mark** (the Vivid Pink circle custom `CrownBadge`, 16×16 — *not* the generic Phosphor Crown) + **feature label**; then a **one-sentence value prop**; then the **unlock line** — the English \"Unlock with the _\\<Plan\\> plan_.\" (plan name bold) or, in a translated product, the consumer's translated `unlock-label` with `{plan}`; then **two shared `<aha-button>` CTAs**: **Upgrade** (positive) and **See all plans** (secondary). No extra buttons, no dismiss link, no multi-paragraph body (PAYWALL-02, -03, -04)."
         },
         {
           "id": "C3",
@@ -670,12 +670,12 @@
         {
           "id": "C4",
           "title": "Copy rules are followed",
-          "test": "**Rule.** **Feature label** is a short noun phrase (the locked feature's name), not a sentence. **Body** is exactly one sentence describing the *benefit* of unlocking (not \"This is a Pro feature.\"), ending in a period. **Unlock line** uses the fixed format — \"Unlock with the **\\<Plan\\> plan**.\" — not reworded. **CTA** is \"Upgrade\" by default (a verb); `ctaLabel` is overridden only with a clear reason and stays a verb."
+          "test": "**Rule.** **Feature label** is a short noun phrase (the locked feature's name), not a sentence. **Body** is exactly one sentence describing the *benefit* of unlocking (not \"This is a Pro feature.\"), ending in a period. **Unlock line** keeps the English format — \"Unlock with the **\\<Plan\\> plan**.\" — and is never reworded in place; a translated product passes `unlock-label` (with `{plan}`) instead. **CTA** is \"Upgrade\" by default (a verb); `ctaLabel` is overridden only with a clear reason and stays a verb."
         },
         {
           "id": "C5",
           "title": "The analytics contract is wired",
-          "test": "**Rule.** `PAYWALL_SHOWN` fires when the popover opens and `PAYWALL_UPGRADE_CLICKED` fires when the CTA is clicked — each with props `{ feature: featureKey, plan: requiredPlan }`, and the click event fires **before** navigation or `onUpgrade` runs. Never gate a feature without both events; they are the funnel's denominator and conversion (PAYWALL-06)."
+          "test": "**Rule.** `PAYWALL_SHOWN` fires when the popover opens and `PAYWALL_UPGRADE_CLICKED` fires when Upgrade is clicked (and `paywall-plans` when See all plans is clicked) — each with props `{ feature: featureKey, plan: requiredPlan }`, and the click event fires **before** navigation or `onUpgrade` runs. Never gate a feature without both events; they are the funnel's denominator and conversion (PAYWALL-06)."
         },
         {
           "id": "C6",
@@ -800,7 +800,7 @@
         {
           "id": "C6",
           "title": "Plan-gated settings are visible but locked",
-          "test": "A setting requiring a plan the user isn't on stays **visible** (not hidden), shown locked: the label, then a crown badge in the place of its normal \"?\" tooltip (no \"?\" while locked), and the real control rendered disabled. The badge opens the shared Paywall popover (owned by `aha-design-paywall` — one primary Upgrade CTA, not a bespoke two-CTA one). **FAIL** if a gated setting is hidden, the crown replaces the control, the control stays enabled, the \"?\" shows beside the crown, or the badge opens a custom popover."
+          "test": "A setting requiring a plan the user isn't on stays **visible** (not hidden), shown locked: the label, then a crown badge in the place of its normal \"?\" tooltip (no \"?\" while locked), and the real control rendered disabled. The badge opens the shared Paywall popover (owned by `aha-design-paywall` — the popover brings its own two CTAs, Upgrade and See all plans; a bespoke popover or extra buttons fail). **FAIL** if a gated setting is hidden, the crown replaces the control, the control stays enabled, the \"?\" shows beside the crown, or the badge opens a custom popover."
         },
         {
           "id": "C7",

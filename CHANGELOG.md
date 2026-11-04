@@ -33,6 +33,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1004.0 — 2026-11-04
+### Added
+- Paywall: `unlock-label` and `plan-label` attributes so a translated product can pass its own unlock line. `unlock-label` is the whole line and its `{plan}` token becomes the bold plan name (`unlock-label="Mở khoá với gói {plan}."`); `plan-label` renames the plan ("Pro plan" / "Essential plan"). Both render as text, never HTML. With neither set the English line is unchanged. (#NNN)
+
+### Changed
+- Paywall judge criterion C2 and the paywall guide now describe the shipped two-button popover (Upgrade positive + See all plans secondary, both `<aha-button>`) instead of a single Upgrade CTA; the settings criterion, the paywall evals and the flavour snippets match. The agent copy of the criteria is regenerated. (#NNN)
+
 ## 0.998.2 — 2026-11-04
 ### Fixed
 - DataTable: an empty table no longer overflows its container by 2px (permanent right-edge scroll shadow, empty state centred 1px off at every width). The 1px table border no longer narrows the scroll container; populated tables, sticky headers, scroll y and radius clipping are unchanged. (#644)

@@ -65,3 +65,29 @@ test('paywall placement left/right sits beside the anchor, width sets the popove
   assert.equal(result.switched.gapRight, 8, 'an open popover moves when placement changes');
   assert.ok(Math.abs(result.switched.centreOffset) <= 1, `an open side popover stays centred when its content grows (offset ${result.switched.centreOffset})`);
 });
+
+const unlockPage = `<!doctype html><body>
+<aha-paywall id="plain" feature-label="Plain" body="Sentence." required-plan="essential"></aha-paywall>
+<aha-paywall id="tr" feature-label="Tr" body="Câu." unlock-label="Mở khoá với gói {plan}!" plan-label="Pro"></aha-paywall>
+<aha-paywall id="html" feature-label="Html" body="B." unlock-label="Go <b>now</b> with {plan}" plan-label="<i>Pro</i>"></aha-paywall>
+<aha-paywall id="nolabel" feature-label="Nl" body="B." unlock-label="Nâng cấp ngay."></aha-paywall>
+<script type="module">import '${lib}'; window.ready = true;</script>`;
+
+test('unlock-label swaps the unlock line with {plan} in bold, plan-label renames the plan, and attribute values render as text never HTML', { skip }, async () => {
+  const file = join(mkdtempSync(join(tmpdir(), 'paywall-unlock-')), 'page.html');
+  writeFileSync(file, unlockPage);
+  const result = await evaluateInPage(pathToFileURL(file).href, `(() => {
+    const line = (id) => document.getElementById(id).shadowRoot.querySelector('.punlock');
+    const read = (id) => ({ text: line(id).textContent, bold: [...line(id).querySelectorAll('b')].map((b) => b.textContent), markup: line(id).querySelectorAll('i').length });
+    const out = { plain: read('plain'), tr: read('tr'), html: read('html'), nolabel: read('nolabel') };
+    document.getElementById('tr').setAttribute('unlock-label', 'Đổi {plan} rồi.');
+    out.live = read('tr');
+    return out;
+  })()`, { readyExpr: '!!window.ready && !!customElements.get("aha-paywall")' });
+
+  assert.deepEqual(result.plain, { text: 'Unlock with the Essential plan.', bold: ['Essential plan'], markup: 0 });
+  assert.deepEqual(result.tr, { text: 'Mở khoá với gói Pro!', bold: ['Pro'], markup: 0 });
+  assert.deepEqual(result.html, { text: 'Go <b>now</b> with <i>Pro</i>', bold: ['<i>Pro</i>'], markup: 0 });
+  assert.deepEqual(result.nolabel, { text: 'Nâng cấp ngay.', bold: [''], markup: 0 });
+  assert.deepEqual(result.live, { text: 'Đổi Pro rồi.', bold: ['Pro'], markup: 0 });
+});

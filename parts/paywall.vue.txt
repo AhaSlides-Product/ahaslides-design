@@ -10,7 +10,7 @@ const onPlans = (e) => window.analytics?.track('PAYWALL_PLANS_CLICKED', e.detail
 
 <template>
   <!-- Pro gate — the affordance is the anchor. Popover ships crown mark, title, description,
-       the fixed unlock line, and BOTH CTAs (Upgrade positive + See all plans). -->
+       the unlock line, and BOTH CTAs (Upgrade positive + See all plans). -->
   <aha-paywall
     feature-key="streak_bonus"
     feature-label="Streak answer bonus point"
@@ -21,6 +21,15 @@ const onPlans = (e) => window.analytics?.track('PAYWALL_PLANS_CLICKED', e.detail
     @paywall-plans="onPlans">
     <button>Streak bonus</button>
   </aha-paywall>
+
+  <!-- Translated product → unlock-label ({plan} becomes the bold plan name) + plan-label -->
+  <aha-paywall
+    feature-key="remove_branding"
+    feature-label="Gỡ thương hiệu"
+    body="Ẩn logo AhaSlides khỏi bài trình bày."
+    required-plan="pro"
+    unlock-label="Mở khoá với {plan}."
+    plan-label="gói Pro" />
 
   <!-- No natural anchor → the crown upgrade mark is the anchor (a focusable control) -->
   <aha-paywall
