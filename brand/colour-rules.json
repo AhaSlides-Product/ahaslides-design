@@ -12,7 +12,7 @@
   "Splash backgrounds come in three layouts only: centre, right and minimal.",
   "On the website, Vivid Pink fills only each section's primary button; icons, borders, numbers and headings stay ink at rest (rule 6.9).",
   "Pink text is for white only. On Vivid Pink at 5% or on grey, text is black. On Vivid Pink, text is solid white.",
-  "No red, yellow, green or blue for status. Use an icon, clear wording and an outline or black fill. One green and one red mark a correct or wrong answer, and nothing else (section 11).",
+  "No red, yellow, green or blue for status. Use an icon, clear wording and an outline, a black fill or the neutral alert grey. One green and one red mark a correct or wrong answer, and nothing else (section 11).",
   "Charts use four colours in order: Vivid Pink, Vivid Pink at 30%, dark grey #303030, light grey.",
   "Illustrations use Vivid Pink tints, Darker Pink, white, the default ink and grey. The 10, 20, 45, 60 and 80% tints never appear in the interface."
  ],
@@ -217,7 +217,7 @@
    "blocks": [
     { "type": "rules", "rules": [
      { "id": "7.1", "text": "Red, yellow, green and blue are no longer used for danger, warning, success or information. The correct green and wrong red of section 11 are not status colours: they mark a correct or wrong answer, and nothing else." },
-     { "id": "7.2", "text": "Show status with an icon, clear wording and an outline or a black fill." },
+     { "id": "7.2", "origin": "Changed in DESY-490 to match the Alert as designed in DESY-131 and shipped since 0.142.0", "text": "Show status with an icon, clear wording and an outline, a black fill or the neutral grey ([[#F3F3F3]]) the DS Alert, Info box and quiet Status badge ship with. That grey is the same on every status type and takes no outline." },
      { "id": "7.3", "text": "A rise is plain black with an up arrow. A fall is white on a black pill with a down arrow." },
      { "id": "7.4", "text": "File-type icons are one colour." },
      { "id": "7.5", "text": "Borders and shadows use black, white or a palette colour at any transparency." }
@@ -302,6 +302,7 @@
  ],
  "open": [],
  "changes": [
+  { "version": "v34", "date": "4 Nov", "text": "Rule 7.2: a status surface may also be the neutral grey `#F3F3F3` that the DS Alert, Info box and quiet Status badge ship with, the same on every status type and with no outline. The rule said only an outline or a black fill, which the Alert has never had; the grey is the shipped design and passes AA, including the Darker Pink link (4.55 to 1, rule 6.7). Nothing changes on screen." },
   { "version": "v33", "date": "4 Nov", "text": "Rule 8.1: the chart order is now Vivid Pink, Vivid Pink at 30%, dark grey #303030, light grey #A8A8A8, so a two-series chart stays in the pink family and the third series is softer than black. New rule 8.6: out-of-focus marks fade to 15% on hover or focus (token viz.mix.fade), because at 40% a faded Vivid Pink read as the 30% series; their text stays at 40%. Section 10: the chart greys are dark grey #303030 and one light grey. Decided by Dave Bui, DESY-485." },
   { "version": "v32", "date": "4 Nov", "text": "Rules 2.6 and 2.6a: a third-party brand logo in an interface, social links included, is its Brand icon (`<aha-icon name=\"brand-<id>\">`) and follows the icon rules; the original-colour files stay for Marketplace listing cards and Sign in buttons." },
   { "version": "v31", "date": "4 Nov", "text": "Rule 11.1: the two answer buttons of a True or False question may be filled with the answer pair, True in the correct green and False in the wrong red, with a white label; the tick or cross disc still gives the verdict on reveal. Rule 11.3 lists those buttons as a solid use. Every other button, answer option and question type is unchanged. Requested in SLPV-260." },
