@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.982.0 — 2026-11-04
+## 0.984.0 — 2026-11-04
 
 ### Added
 - **Card select preview tiles** (#633). `<aha-card-select tile="preview">`: an option with `slot: '<name>'` shows the
@@ -44,6 +44,14 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
   disabled preview takes no pointer events and greys its ring; forced colours draw the selected ring as an outline. An options
   array equal to the last one no longer rebuilds the cards. Manage's certificate design
   picker (MAAP-179) can drop its raw radio inputs. Icon and icon-only layouts render as before.
+
+## 0.983.0 — 2026-11-04
+
+### Added
+- Avatar `tooltip`: the shared Tooltip on an avatar, on mouse hover and keyboard focus (never a tap), with the avatar focusable; a bare `tooltip` shows its `name`. Works inside `aha-avatar-group` with the same stack, overlap, tint cycle and +N count. Absent, nothing changes (#638)
+- Avatar group `overflow-tooltip`: the shared Tooltip on the +N chip, listing the hidden names (or your own text), and the chip becomes focusable (#638)
+- Avatar group `add-tooltip`: the shared Tooltip on the round + button, with your text or its `add-label` (#638)
+- Dropdown per-row `selected` (true or false) on a leaf: the current choice inside that one list, such as a Visibility submenu. Its rows are `menuitemradio` with `aria-checked` and the selected look; other rows stay `menuitem`; the mark moves only when you re-set `items`. `value` is unchanged (#638)
 
 ## 0.981.0 — 2026-11-04
 

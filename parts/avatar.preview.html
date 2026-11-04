@@ -82,6 +82,16 @@
       <aha-avatar name="Ada Lovelace"></aha-avatar>
     </aha-avatar-group>
   </div>
+  <div class="lbl">Avatar group with tooltips (hover, or Tab to each avatar, the +N chip and the + button)</div>
+  <div class="row" style="align-items:center;gap:24px;padding-top:40px">
+    <aha-avatar-group max="3" overflow-tooltip add add-label="Add collaborators" add-tooltip>
+      <aha-avatar name="Ada Lovelace" tooltip></aha-avatar>
+      <aha-avatar name="Grace Hopper" tooltip="Grace Hopper (owner)"></aha-avatar>
+      <aha-avatar name="Alan Turing" tooltip></aha-avatar>
+      <aha-avatar name="Katherine Johnson" tooltip></aha-avatar>
+      <aha-avatar name="Edsger Dijkstra" tooltip></aha-avatar>
+    </aha-avatar-group>
+  </div>
 </div>
 
 <!-- Imports the REAL shipped element (../lib/aha-avatar.js) + the icon library — no inlined copy, so
