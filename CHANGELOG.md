@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.996.0 — 2026-11-04
 ### Changed
-- **The `aha-countdown` points bar reads "500 pts" and "1,000 pts", and speaks "700 points"** (#PR). `p` read as pence or pixels, so the sample format is now `label-format="{n} pts"`, and `{n}` is grouped with `Intl.NumberFormat` in the element's language (closest `lang`, else the document's, else English). A new `spoken-format` attribute (default: the `label-format` value) feeds `aria-valuetext`, so a screen reader says "700 points" rather than "seven hundred p". Both formats come from the consumer's i18n catalogue, never hard-coded English; translator note for `label-format`: short for points, keep it to 3 or 4 characters. The default timer render is unchanged. Contract props, snippets, preview and the Audience Library describe it.
+- **The `aha-countdown` points bar reads "500 pts" and "1,000 pts", and speaks "700 points"** (#649). `p` read as pence or pixels, so the sample format is now `label-format="{n} pts"`, and `{n}` is grouped with `Intl.NumberFormat` in the element's language (closest `lang`, else the document's, else English). A new `spoken-format` attribute (default: the `label-format` value) feeds `aria-valuetext`, so a screen reader says "700 points" rather than "seven hundred p". Both formats come from the consumer's i18n catalogue, never hard-coded English; translator note for `label-format`: short for points, keep it to 3 or 4 characters. The default timer render is unchanged. Contract props, snippets, preview and the Audience Library describe it.
 
 ## 0.994.0 — 2026-11-04
 
