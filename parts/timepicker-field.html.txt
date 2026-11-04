@@ -1,0 +1,20 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-timepicker> is the SAME shared custom element React and Vue consume, here in its native form. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-timepicker.js';   // registers <aha-timepicker>
+</script>
+
+<!-- one 24-hour time, typed as HH:mm or picked; click the field or press ArrowDown to open the columns -->
+<aha-timepicker id="deadline" label="Deadline time" value="17:30"></aha-timepicker>
+
+<!-- states: error · disabled · no clear button · French names for the columns and the clear button -->
+<aha-timepicker status="error" error-message="Pick a time after the start time" value="08:00" aria-label="End time"></aha-timepicker>
+<aha-timepicker disabled value="09:00" aria-label="Created at"></aha-timepicker>
+<aha-timepicker allow-clear="false" value="23:59" aria-label="Report time"></aha-timepicker>
+<aha-timepicker aria-label="Heure" hour-label="Heure" minute-label="Minute" clear-label="Effacer l’heure"></aha-timepicker>
+
+<script>
+  // e.detail.value is the time 'HH:mm', or null when cleared
+  document.getElementById('deadline').addEventListener('change', (e) => console.log('time:', e.detail.value));
+</script>

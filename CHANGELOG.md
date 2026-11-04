@@ -33,6 +33,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1021.0 — 2026-11-04
+### Added
+- `<aha-timepicker>` (`@ahaslides-product/design/aha-timepicker`): a framework-free 24-hour time field with hour and minute columns, the sibling of `<aha-datepicker>`, so an app can drop antd TimePicker. The value is an `HH:mm` string, or null when empty, and seconds in a value are dropped; a pick commits at once; a typed time that is not real goes back to the last value. Sizes, error status, disabled, label, error and info messages, translated `hour-label`, `minute-label` and `clear-label`, form-associated, one tab stop, full keyboard path. 12-hour clock, seconds, ranges, minute steps and disabled times stay on the antd composite (#664)
+### Changed
+- `<aha-form-item>` reads, validates and resets `<aha-timepicker>`; a time that is not real reads as empty, so `required` fires (#664)
+
 ## 0.1020.3 — 2026-11-04
 ### Fixed
 - Alert: small text is 12px, on the type scale, as the guideline already said (it was 13px, which no step of the scale allows); the small close button's line height follows at 18px. The contract matches, and the feedback guideline now states the shipped padding and radius (regular 10/14, small 6/10, both 8px radius). (#659)

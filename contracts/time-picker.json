@@ -32,7 +32,8 @@
   ],
   "opinion": {
     "whenToUse": [
-      { "what": "TimePicker", "when": "a time of day on its own — a reminder, a daily schedule slot" },
+      { "what": "TimePicker field (aha-timepicker)", "when": "one 24-hour time in a screen moving off antd: the framework-free leaf, no Day.js" },
+      { "what": "TimePicker", "when": "a time with a 12-hour clock, seconds, a range, minute steps or disabled times, in an antd screen" },
       { "what": "DatePicker showTime", "when": "a date AND a time together — a precise timestamp" },
       { "what": "Select", "when": "a small fixed set of times (e.g. 15-min slots) — a list beats scrolling" }
     ],
