@@ -33,6 +33,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.999.0 — 2026-11-04
+### Added
+- Token `--aha-viz-mix-fade` (15%): the opacity of a chart mark out of focus on hover or keyboard focus (#NNN)
+
+### Changed
+- **The `aha-chart` brand series order is now Vivid Pink, Vivid Pink at 30%, dark grey `#303030`, light grey `#A8A8A8`** (#NNN). `--aha-viz-series-2` and `-6` are Vivid Pink at 30%, `--aha-viz-series-3` is dark grey, and tint 3 and 4 are `gray-20`. A host that reads `--aha-viz-series-2` or `-3` directly for a dark mark gets a different colour: pick the series by colour. Colour rule 8.1, section 10 and v32, decided by Dave Bui
+- **Marks out of focus on hover or keyboard focus fade to 15%, their text stays at 40%** (#NNN), so a faded Vivid Pink cannot pass for the 30% series. New colour rule 8.6. `highlight-top` at rest stays at `--aha-viz-mix-dim`
+- With no host palette, a word cloud sets the words in the pale series in secondary ink, because Vivid Pink at 30% and light grey miss 3 to 1 on white (#NNN)
+- The NPS detractor default is the second series, so it is now pale pink; it draws as a solid colour over the bracket track when the host sets no `colors` (#NNN)
+
 ## 0.998.1 — 2026-11-04
 ### Fixed
 - `aha-answer-option` with `count-mode="off"` removes the count slot (`display:none`) instead of hiding it, so a short label such as "False" no longer truncates on a narrow phone (#NNN)
