@@ -1,0 +1,28 @@
+// main.ts: register the element and mark aha-* as custom elements
+import '@ahaslides-product/design/aha-carousel';   // registers <aha-carousel>
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<script setup>
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const dotLabel = (position, total) => t('gallery.goToImage', { position, total });
+const positionText = (position, total) => t('gallery.imagePosition', { position, total });
+</script>
+
+<template>
+  <!-- change at the start of a move, after-change at the end -->
+  <aha-carousel
+    arrows
+    loop
+    adaptive-height
+    :aria-label="t('gallery.label')"
+    :prev-label="t('gallery.previousImage')"
+    :next-label="t('gallery.nextImage')"
+    :dotLabel.prop="dotLabel"
+    :positionText.prop="positionText"
+    @after-change="track('carousel_advance')"
+  >
+    <GalleryImage v-for="item in items" :key="item.id" :item="item" />
+  </aha-carousel>
+</template>

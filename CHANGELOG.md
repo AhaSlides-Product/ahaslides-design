@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1020.0 — 2026-11-04
+
+### Added
+- **`<aha-carousel>`, the Carousel as a framework-free element (#662).** An app can now drop antd and slick for its carousels. It draws what `carouselTheme` draws, with arrows as `<aha-button>`, and moves by swipe, arrows, dots and keys, right to left included. Each child is one slide and nothing is cloned. The element owns the position: `index` moves as a move starts, together with the dots, `aria-current` and a polite live region ("Item 2 of 5"). `change` fires once on the element as a move starts, without bubbling, and `after-change` once at rest. `adaptive-height`, `loop` and overridable labels (`prev-label`, `next-label`, `dotLabel`, `positionText`) cover the rest. One slide shows no controls; no slides renders nothing. Autoplay, fade and side dots stay on the antd Carousel, unchanged apart from a pointer to this element.
+
 ## 0.1019.0 — 2026-11-04
 ### Added
 - Paywall: `mark-label` attribute, the accessible name of the crown upgrade mark, so a translated product can pass its own. It applies only when the mark is the anchor and a later change applies in place. (#658)
