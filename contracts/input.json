@@ -26,7 +26,7 @@
     { "label": "Readonly", "value": "#F7F7F7 fill, still selectable" },
     { "label": "Affixes", "value": "prefix/suffix icon (by name) or text; clearable circled ✕ (a tertiary icon-only <aha-button>: 16px system-x-circle, 28px target — 20px in the small input); password reveal (eye)" },
     { "label": "Prefix shrink", "value": "opt-in `prefix-shrink`: a text prefix that does not fit truncates with an ellipsis at its end (`start`: at its start, so the end of a URL stays beside the field) and the field keeps at least 96px; a prefix that fits renders as before, and the full text is the prefix's title" },
-    { "label": "Text", "value": "Plus Jakarta 14/21; placeholder #8A8A8A" }
+    { "label": "Text", "value": "Plus Jakarta 14/21; placeholder #616161" }
   ],
   "props": [
     { "name": "value", "type": "string", "default": "\"\"", "desc": "Controlled text value" },
@@ -98,7 +98,7 @@
     { "label": "focus #E70E68 border + ring (persistent wrapper)", "verdict": "PASS" },
     { "label": "error #1A1A1A border + aria-invalid; warning renders as error", "verdict": "PASS" },
     { "label": "prefix/suffix affix, clearable ✕, password reveal render", "verdict": "PASS" },
-    { "label": "placeholder #8A8A8A 14/21", "verdict": "PASS" }
+    { "label": "placeholder #616161 14/21", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",

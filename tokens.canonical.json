@@ -6,7 +6,7 @@
     "$source": "Full color system, transcribed from the DS-EXPORT (palette.css + semantic.css), which is 'verbatim from the Figma DS V3 Variable collections'. Verified 2026-09-08. Two corrections applied per Brian: bgContainerDisabled gray-40→gray-30 (Figma bg-container-disabled); checkboxBorder off-palette #B4BCCF→gray-50 #D4D4D4.",
     "primary": "#E70E68", "primaryHover": "#DB005B", "primaryActive": "#DB005B",
     "success": "{color.textDefault}", "warning": "{color.textDefault}", "error": "{color.textDefault}", "info": "{color.textDefault}",
-    "textDefault": "#1A1A1A", "textSecondary": "#4A4A4A", "textTertiary": "#616161", "textPlaceholder": "#999999", "textDisabled": "#B5B5B5",
+    "textDefault": "#1A1A1A", "textSecondary": "#4A4A4A", "textTertiary": "#616161", "textPlaceholder": "#616161", "textDisabled": "#B5B5B5",
     "textInverse": "#FFFFFF", "textLink": "{color.primitives.vividPink.dark}", "textLinkHover": "{color.primaryHover}",
     "textPrimaryInk": "#4A4A4A", "textPositive": "{color.textDefault}", "textNegative": "{color.textDefault}", "textWarning": "{color.textDefault}",
     "borderDefault": "#E3E3E3", "borderInput": "#D4D4D4", "borderSecondary": "#F1F1F1", "borderStrong": "#D4D4D4", "borderDisabled": "#EBEBEB",

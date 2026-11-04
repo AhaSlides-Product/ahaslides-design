@@ -16,7 +16,7 @@
     { "label": "Selected option", "value": "brand-tint #E70E680D row, #E70E68 label" },
     { "label": "Option row", "value": "40px · 9px 12px padding · 14/22 · radius 6; hover/active row #F7F7F7; popup padding 4 · radius 8 (same as Select field)" },
     { "label": "Caret", "value": "<aha-icon name=\"system-caret-down\" size=\"16\"> via suffixIcon, #8A8A8A, flips up while open — the same caret as Select field" },
-    { "label": "Placeholder", "value": "#8A8A8A" },
+    { "label": "Placeholder", "value": "#616161" },
     { "label": "Size", "value": "small 24 · default 40 · large 48" },
     { "label": "Status", "value": "error #1A1A1A · warning #1A1A1A border" },
     { "label": "Error message", "value": "<aha-field-error icon> below the control, 4px gap · 12×12 system-warning-circle + text at --aha-size-sm 12/18 · #1A1A1A" }
@@ -57,12 +57,12 @@
     { "label": "control 40 · radius 8 · #E3E3E3 border", "verdict": "PASS" },
     { "label": "type-to-search filters options", "verdict": "PASS" },
     { "label": "selected row brand-tint", "verdict": "PASS" },
-    { "label": "placeholder #8A8A8A", "verdict": "PASS" }
+    { "label": "placeholder #616161", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Composite shown as a CDN-React page mounted at #react-root; the measure reads the real antd v6 selector bound to selectTheme.",
     "ready": "!!document.querySelector('#react-root .ant-select-content') && !!document.querySelector('#react-root .ant-select-placeholder')",
     "measure": "(function(){var g=function(sel,p){var el=document.querySelector('#react-root '+sel);return el?getComputedStyle(el)[p]:null;};return{radius:g('.ant-select','borderTopLeftRadius'),radiusBR:g('.ant-select','borderBottomRightRadius'),border:g('.ant-select','borderTopColor'),borderWidth:g('.ant-select','borderTopWidth'),height:g('.ant-select','height'),placeholder:g('.ant-select-placeholder','color')};})()",
-    "expect": { "radius": "8px", "radiusBR": "8px", "border": "rgb(227, 227, 227)", "borderWidth": "1px", "height": "40px", "placeholder": "rgb(138, 138, 138)" }
+    "expect": { "radius": "8px", "radiusBR": "8px", "border": "rgb(227, 227, 227)", "borderWidth": "1px", "height": "40px", "placeholder": "rgb(97, 97, 97)" }
   }
 }
