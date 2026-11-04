@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.999.0 — 2026-11-04
+## 0.1001.0 — 2026-11-04
 ### Added
 - Token `--aha-viz-mix-fade` (15%): the opacity of a chart mark out of focus on hover or keyboard focus (#652)
 
