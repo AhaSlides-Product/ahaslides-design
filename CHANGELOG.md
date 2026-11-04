@@ -39,6 +39,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Changed
 - `<aha-form-item>` reads, validates and resets `<aha-timepicker>`; a time that is not real reads as empty, so `required` fires (#PR)
 
+## 0.1020.2 — 2026-11-04
+
+### Fixed
+- Answer option: the person icon beside a `count-mode="people"` count is 12px, one step down from 16px, with the paired 1px stroke. Every row in people mode changes, inside `<aha-answer-list>` too. (#663)
+
 ## 0.1020.0 — 2026-11-04
 
 ### Added
