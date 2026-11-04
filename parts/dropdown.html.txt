@@ -11,7 +11,8 @@
      trigger="click" (default) | "hover"
      open: reflects the panel state; set it to open or close from code (fires no event)
      value: key of the selected leaf (picker mode; omit for an action dropdown)
-     items: leaf {key,label,description?,shortcut?,icon?,badge?,disabled?,danger?}
+     items: leaf {key,label,description?,shortcut?,icon?,badge?,disabled?,danger?,selected?}
+              (selected: true or false makes the row's own list a radio set and marks the current choice)
               (shortcut: "Mod+D", "Del"… drawn as the DS chip at the row's trailing edge; display only)
               (badge: "Beta" or "New" drawn as the DS Badge tag right after the label)
             · switch row {type:"switch",key,label,checked?,description?,icon?,badge?,disabled?}
@@ -66,6 +67,20 @@
   ]'>
 </aha-dropdown>
 
+<!-- A Share menu: `selected` on the Visibility submenu's rows marks the current choice there only. Those rows are
+     radio rows (menuitemradio + aria-checked); Copy link stays a plain action. Choosing a row emits select but never
+     moves the mark: re-set items with the new `selected`. -->
+<aha-dropdown id="share" label="Share"
+  items='[
+    {"key":"copy","label":"Copy link","icon":"system-link"},
+    {"key":"visibility","label":"Visibility","children":[
+      {"key":"private","label":"Only me","selected":false},
+      {"key":"workspace","label":"Workspace","selected":true},
+      {"key":"public","label":"Anyone with the link","selected":false}
+    ]}
+  ]'>
+</aha-dropdown>
+
 <!-- A Present menu: a Beta badge after a label, and a Full screen switch row that flips in place
      and keeps the menu open. Re-set items with a new `checked` to drive the switch from code. -->
 <aha-dropdown id="present" label="Present"
@@ -80,6 +95,13 @@
 <script>
   document.getElementById('present').addEventListener('change', (e) => console.log('setting', e.detail.key, e.detail.checked));
   document.getElementById('role').addEventListener('select', (e) => console.log('role', e.detail.key));
+  const share = document.getElementById('share');
+  share.addEventListener('select', (e) => {
+    if (e.detail.key === 'copy') return console.log('copy link');
+    const items = JSON.parse(share.getAttribute('items'));
+    items[1].children.forEach((row) => { row.selected = row.key === e.detail.key; });
+    share.setAttribute('items', JSON.stringify(items));
+  });
   // Opens on click, closes on outside-click / Escape (focus returns to the trigger); choosing an
   // item emits a composed `select`. Every user open and close emits `open` / `close`; set the `open`
   // attribute to drive it from code. The panel renders in the top layer, so a card cannot clip it.
