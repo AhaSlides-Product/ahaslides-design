@@ -36,15 +36,15 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 <<<<<<< HEAD
 ## 0.1009.0 — 2026-11-04
 ### Added
-- Paywall: `mark-label` attribute, the accessible name of the crown upgrade mark, so a translated product can pass its own. It applies only when the mark is the anchor and a later change applies in place. (#NNN)
-- Paywall: public `close()` method. It closes the popover and returns focus to the element that opened it, for a host that swallows Escape (a drawer or modal). Click-away and the two buttons still close without moving focus. (#NNN)
+- Paywall: `mark-label` attribute, the accessible name of the crown upgrade mark, so a translated product can pass its own. It applies only when the mark is the anchor and a later change applies in place. (#658)
+- Paywall: public `close()` method. It closes the popover and returns focus to the element that opened it, for a host that swallows Escape (a drawer or modal). Click-away and the two buttons still close without moving focus. (#658)
 
 ### Changed
-- Paywall: the mark's default accessible name is "Upgrade required. See plans" (no dash, ux-writing C8). (#NNN)
-- Paywall: Escape and `close()` return focus to the element that opened the popover (a locked-row button through `toggleLockedPaywall` included), falling back to the anchor when it is gone or refuses focus, instead of always landing on the mark. (#NNN)
+- Paywall: the mark's default accessible name is "Upgrade required. See plans" (no dash, ux-writing C8). (#658)
+- Paywall: Escape and `close()` return focus to the element that opened the popover (a locked-row button through `toggleLockedPaywall` included), falling back to the anchor when it is gone or refuses focus, instead of always landing on the mark. (#658)
 
 ### Fixed
-- Paywall: the focus fallback no longer matches the aria-hidden mark in the popover header, so a slotted anchor gets focus back. (#NNN)
+- Paywall: the focus fallback no longer matches the aria-hidden mark in the popover header, so a slotted anchor gets focus back. (#658)
 
 ## 0.1005.0 — 2026-11-04
 ### Added
