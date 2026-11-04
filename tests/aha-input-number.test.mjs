@@ -70,6 +70,21 @@ test('aha-input-number types, steps, clamps and rounds exact decimals, and aha-f
 
     await evaluate(`document.getElementById('big').stepUp()`);
     out.bigStep = await state('big');
+    out.bigAria = await evaluate(`${field('big')}.getAttribute('aria-valuenow')`);
+    await focus('big');
+    await evaluate(`${field('big')}.select()`);
+    await command('Input.insertText', { text: 'abc' });
+    out.junkPaste = await state('big');
+    await evaluate(`${field('big')}.select()`);
+    await command('Input.insertText', { text: '1e5' });
+    out.exponentPaste = await state('big');
+    await evaluate(`${field('big')}.select()`);
+    await command('Input.imeSetComposition', { text: '\uFF11', selectionStart: 1, selectionEnd: 1 });
+    await command('Input.imeSetComposition', { text: '\uFF11\uFF12', selectionStart: 2, selectionEnd: 2 });
+    out.composing = await state('big');
+    await command('Input.insertText', { text: '\uFF11\uFF12' });
+    out.composed = await state('big');
+    await blur();
 
     out.aria = await evaluate(`(() => { const f = ${field('plain')}; return [f.getAttribute('role'), f.getAttribute('aria-valuemin'), f.getAttribute('aria-valuemax')]; })()`);
     out.named = await evaluate(`(() => { const el = document.getElementById('named'); const r = el.shadowRoot; const f = r.querySelector('.field'); return [f.getAttribute('aria-label'), f.getAttribute('aria-valuenow'), getComputedStyle(r.querySelector('.stepper')).display, f.disabled, f.readOnly, r.querySelector('.step-up').getAttribute('aria-label')]; })()`);
@@ -101,6 +116,11 @@ test('aha-input-number types, steps, clamps and rounds exact decimals, and aha-f
   assert.deepEqual(r.precisionCut, ['1', '1.00']);
   assert.deepEqual(r.stringEvents, ['string:1']);
   assert.deepEqual(r.bigStep, ['12345678901234567891.1', '12345678901234567891.1']);
+  assert.equal(r.bigAria, '12345678901234567891.1');
+  assert.deepEqual(r.junkPaste, ['12345678901234567891.1', '12345678901234567891.1']);
+  assert.deepEqual(r.exponentPaste, ['100000', '1e5']);
+  assert.deepEqual(r.composing, ['100000', '\uFF11\uFF12']);
+  assert.deepEqual(r.composed, ['12', '12']);
   assert.deepEqual(r.aria, ['spinbutton', '-5', '10']);
   assert.deepEqual(r.named, ['Minimum score', '3', 'none', false, false, 'Increase']);
   assert.equal(r.relabel, 'Plus');

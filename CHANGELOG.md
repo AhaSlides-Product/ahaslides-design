@@ -41,7 +41,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
   `controls="false"` hides it. It takes decimals and negatives, `min`, `max`, `step` and `precision`, clamps and rounds
   when the field is left or Enter is pressed, and steps with ArrowUp / ArrowDown (Shift for ten). `string-mode` keeps
   the value an exact decimal string with no float rounding; `valueAsNumber` reads it as a number, and an empty field is
-  `null`. `input` and `change` carry `e.detail.value`. It has `role="spinbutton"` with `aria-valuenow/min/max`, passes
+  `null`. A pasted number keeps its exponent (`1e5` is 100000), pasted text with no number in it is refused, and IME
+  input (full-width digits too) is read when composition ends. `input` and `change` carry `e.detail.value`. It has `role="spinbutton"` with `aria-valuenow/min/max`, passes
   `aria-label` and `aria-labelledby` through, supports `disabled`, `readonly`, `status`, `prefix`, `suffix`, `label`
   and the field messages, and joins forms. `increase-label` / `decrease-label` rename the stepper buttons
   (default "Increase" / "Decrease"). The `input-number` antd theme and `aha-number-with-unit` are unchanged.
