@@ -45,6 +45,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
   array equal to the last one no longer rebuilds the cards. Manage's certificate design
   picker (MAAP-179) can drop its raw radio inputs. Icon and icon-only layouts render as before.
 
+## 0.981.0 — 2026-11-04
+
+### Added
 - **Data table checklist filter can be single-choice** (#636). `filter: { type: 'checklist', options, multiple: false }`
   shows DS radios in the same panel, so picking an option replaces the last, and sets antd `filterMultiple: false`
   on the column. Without `multiple` the filter is multi-select exactly as before. A column that uses it needs
