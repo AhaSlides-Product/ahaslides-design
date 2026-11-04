@@ -49,6 +49,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Paywall: `toggleLockedPaywall` records the opener only from the path up to the row's own handler, so a focusable ancestor (`main tabindex=-1`, a drawer body) is never the opener; focus restore works on a `delegatesFocus` host such as `aha-button` and does not scroll; an element connected already open records its opener; an empty `mark-label` keeps the default name. (#658)
 - Paywall: the focus fallback no longer matches the aria-hidden mark in the popover header, so a slotted anchor gets focus back. (#658)
 
+## 0.1011.1 — 2026-11-04
+### Fixed
+- The v2.3 brand guidelines PDF carries the chart order of rule 8.1 on pages 58, 59, 65 and 78, with rules 8.2 and 8.6 on page 65; title, version line and file name are unchanged (#661)
+
 ## 0.1011.0 — 2026-11-04
 ### Added
 - Token `--aha-viz-mix-fade` (15%): the opacity of a chart mark out of focus on hover or keyboard focus (#652)
