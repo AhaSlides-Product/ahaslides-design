@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1016.0 — 2026-11-04
+## 0.1018.0 — 2026-11-04
 ### Added
 - `aha-card-select` takes `min-tile-width`: it keeps `columns` while a tile can stay that wide, then wraps to fewer, reading the element's own width, so `columns="3" min-tile-width="110"` drops to 2 across inside a narrow modal (#656)
 - `empty-courses` and `empty-automation` join the `empty-*` illustrations (#656)
@@ -41,6 +41,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Fixed
 - DataTable filter panels and the Edit columns panel stay inside the viewport from 320px with no page overflow. antd's corner placements only flip, so a panel too wide for either side of a mid-table trigger stayed off-screen and `placement` looked ignored; they now shift along the edge (#656)
 - `screen-lint` `multi-primary` no longer counts primary buttons in opposite arms of a ternary as two loud actions; only the louder arm counts (#656)
+
+## 0.1016.0 — 2026-11-04
+### Added
+- Slider field: `<aha-slider>`, a framework-free single-thumb slider in the antd Slider look (4px gray-30 rail, brand track, 14px handle). Drag or use the arrow keys, Page Up / Page Down, Home and End; `input` fires while dragging and `change` on release (antd onChange and onChangeComplete), `e.detail.value` is a number snapped exactly to `step` (0.01 included). `valueText` formats the value label above the handle and its aria-valuetext (an empty string shows the number), `tooltip="false"` hides the label and a disabled slider shows none, right to left fills from the right, and the handle is the role="slider" named by `aria-label` or `aria-labelledby`. Form-associated, and `<aha-form-item>` reads it as a number. The contract shows it beside an `<aha-input-number>` in a 1fr 88px grid; range, marks and vertical stay on the antd Slider composite, which is unchanged (#650)
 
 ## 0.1015.0 — 2026-11-04
 ### Added
