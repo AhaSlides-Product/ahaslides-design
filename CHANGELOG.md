@@ -33,9 +33,17 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.999.0 — 2026-11-04
+## 0.1004.0 — 2026-11-04
 ### Added
 - Slider field: `<aha-slider>`, a framework-free single-thumb slider in the antd Slider look (4px gray-30 rail, brand track, 14px handle). Drag or use the arrow keys, Page Up / Page Down, Home and End; `input` fires while dragging and `change` on release (antd onChange and onChangeComplete), `e.detail.value` is a number snapped exactly to `step` (0.01 included). `valueText` formats the value label above the handle and its aria-valuetext (an empty string shows the number), `tooltip="false"` hides the label and a disabled slider shows none, right to left fills from the right, and the handle is the role="slider" named by `aria-label` or `aria-labelledby`. Form-associated, and `<aha-form-item>` reads it as a number. The contract shows it beside an `<aha-input-number>` in a 1fr 88px grid; range, marks and vertical stay on the antd Slider composite, which is unchanged (#650)
+
+## 0.1000.0 — 2026-11-04
+### Changed
+- **Brand logos are now the Brand icon family in the Icon library** (#647). A fourth chip, Brand, sits after System in the Icon library; its 29 icons are ordinary icon cards in the same grid, search and totals, and are used by name, `<aha-icon name="brand-zoom">`, so they follow the icon rules (sizes, stroke by size, `--aha-icon-default` ink). The glyphs live in `icons/svg/brand/` with meaning words; sources and the stand-in list are in `icons/svg/brand/BRAND-CREDITS.md`.
+- Colour rules 2.6 and 2.6a, criterion C7, `llms.txt`, `icons.llms.txt`, `icons.agent.json`, `AGENTS.md`, `PRINCIPLES.md`, the aha-design skill, the icon guard hook and the `brand-logo-colour` lint message point at Brand icons instead of `logo/line/` files. Social links use `brand-youtube`, `brand-instagram`, `brand-linkedin`, `brand-facebook`, `brand-reddit`, `brand-x`, and `system-whatsapp-logo`.
+- `logo/line/`, `logo/original/` and `logo/manifest.json` stay at the same paths, unchanged. The original-colour files are only for a Marketplace listing and the Sign in with Google, Microsoft or Apple buttons; the Icon library's brand note lists their URLs.
+### Removed
+- The Icon library's Brands tab, its Line / One colour / Original switch and the per-version rule table. Old links (`?tab=brands`, `?mode=`, the Logo page's brand anchors) open the Icon library filtered to Brand.
 
 ## 0.998.2 — 2026-11-04
 ### Fixed
