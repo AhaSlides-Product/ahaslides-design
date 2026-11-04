@@ -37,6 +37,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - Slider field: `<aha-slider>`, a framework-free single-thumb slider in the antd Slider look (4px gray-30 rail, brand track, 14px handle). Drag or use the arrow keys, Page Up / Page Down, Home and End; `input` fires while dragging and `change` on release (antd onChange and onChangeComplete), `e.detail.value` is a number snapped exactly to `step` (0.01 included). `valueText` formats the value label above the handle and its aria-valuetext (an empty string shows the number), `tooltip="false"` hides the label and a disabled slider shows none, right to left fills from the right, and the handle is the role="slider" named by `aria-label` or `aria-labelledby`. Form-associated, and `<aha-form-item>` reads it as a number. The contract shows it beside an `<aha-input-number>` in a 1fr 88px grid; range, marks and vertical stay on the antd Slider composite, which is unchanged (#650)
 
+## 0.1011.1 — 2026-11-04
+### Fixed
+- The v2.3 brand guidelines PDF carries the chart order of rule 8.1 on pages 58, 59, 65 and 78, with rules 8.2 and 8.6 on page 65; title, version line and file name are unchanged (#661)
+
 ## 0.1011.0 — 2026-11-04
 ### Added
 - Token `--aha-viz-mix-fade` (15%): the opacity of a chart mark out of focus on hover or keyboard focus (#652)
