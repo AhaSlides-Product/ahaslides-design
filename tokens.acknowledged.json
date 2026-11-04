@@ -231,6 +231,7 @@
   "viz.mix.active",
   "viz.mix.axis",
   "viz.mix.dim",
+  "viz.mix.fade",
   "viz.mix.grid",
   "viz.mix.hover",
   "viz.mix.secondary",

@@ -35,25 +35,25 @@
       "gray": { "0": "#FFFFFF", "10": "#FDFDFD", "15": "#FAFAFA", "20": "#F7F7F7", "25": "#F3F3F3", "30": "#F1F1F1", "35": "#EBEBEB", "40": "#E3E3E3", "50": "#D4D4D4", "55": "#CCCCCC", "60": "#B5B5B5", "65": "#A8A8A8", "70": "#8A8A8A", "80": "#616161", "90": "#4A4A4A", "95": "#303030", "100": "#1A1A1A" }
     },
     "viz": {
-      "$source": "Data-visualisation palette for <aha-chart>. Every value aliases ({color.…}) a colour token; generate.mjs emits var(--aha-…) in tokens.css and resolves hex in tokens.js. Brand charts use four colours in order (colour rules section 8): Vivid Pink for the main series, black for the second, Vivid Pink at 30%, then light grey #A8A8A8; series 5 and 6 repeat the first two, so a chart past four series also separates them with a dashed line or pattern and a written label. Vivid Pink at 30% and light grey are faint on white, so every mark carries its value as text and a tooltip. Tints sit behind ink text: Vivid Pink at 5% for the pink series, light grey for the black and grey series. Ink is textDefault, the inverse is textInverse, and neutral (Other, non-correct Pick Answer) is iconMuted. Secondary/tertiary text, axis, grid, track, hover and mark outlines use textSecondary, textTertiary, borderStrong, borderDefault, borderSecondary, bgHover and inkA10 inside the element. A deck-palette chart replaces the series with the deck's presentationColorPalette (customer content, exempt from the colour rules).",
+      "$source": "Data-visualisation palette for <aha-chart>. Every value aliases ({color.…}) a colour token; generate.mjs emits var(--aha-…) in tokens.css and resolves hex in tokens.js. Brand charts use four colours in order (colour rules section 8): Vivid Pink for the main series, Vivid Pink at 30% for the second, dark grey #303030 for the third, light grey #A8A8A8 for the fourth; series 5 and 6 repeat the first two, so a chart past four series also separates them with a dashed line or pattern and a written label. Vivid Pink at 30% and light grey are faint on white, so every mark carries its value as text and a tooltip. Tints sit behind ink text: Vivid Pink at 5% for the pink series, light grey for the two grey series. Ink is textDefault, the inverse is textInverse, and neutral (Other, non-correct Pick Answer) is iconMuted. Secondary/tertiary text, axis, grid, track, hover and mark outlines use textSecondary, textTertiary, borderStrong, borderDefault, borderSecondary, bgHover and inkA10 inside the element. A deck-palette chart replaces the series with the deck's presentationColorPalette (customer content, exempt from the colour rules).",
       "ink": "{color.textDefault}",
       "inkInverse": "{color.textInverse}",
       "neutral": "{color.iconMuted}",
       "series": {
         "1": "{color.primitives.vividPink.100}",
-        "2": "{color.primitives.black}",
-        "3": "{color.primitives.vividPink.30}",
+        "2": "{color.primitives.vividPink.30}",
+        "3": "{color.primitives.gray.95}",
         "4": "{color.primitives.gray.65}",
         "5": "{color.primitives.vividPink.100}",
-        "6": "{color.primitives.black}"
+        "6": "{color.primitives.vividPink.30}"
       },
       "tint": {
         "1": "{color.bgAccent}",
-        "2": "{color.primitives.gray.20}",
-        "3": "{color.bgAccent}",
+        "2": "{color.bgAccent}",
+        "3": "{color.primitives.gray.20}",
         "4": "{color.primitives.gray.20}",
         "5": "{color.bgAccent}",
-        "6": "{color.primitives.gray.20}"
+        "6": "{color.bgAccent}"
       }
     },
     "answer": {
@@ -103,10 +103,10 @@
     "blur": { "md": 20 }
   },
   "viz": {
-    "$source": "Chart geometry + deck ink mixes for <aha-chart>. Geometry aliases the spacing scale ({space.N}) where a step exists; barThickness 38 and plotHeight 260 have no step and stay literal. Type sizes come from the type scale (--aha-size-*), not viz tokens. mix.* apply only to deck-palette charts, where the greys must be derived from the deck's own text colour; brand charts use the semantic text/border/bg tokens.",
+    "$source": "Chart geometry + deck ink mixes for <aha-chart>. Geometry aliases the spacing scale ({space.N}) where a step exists; barThickness 38 and plotHeight 260 have no step and stay literal. Type sizes come from the type scale (--aha-size-*), not viz tokens. mix.* apply only to deck-palette charts, where the greys must be derived from the deck's own text colour; brand charts use the semantic text/border/bg tokens. The exceptions are mix.dim and mix.fade, which apply on both palettes: dim (40) is the rest state of marks outside highlight-top and the text of an out-of-focus series, fade (15) is the mark of an out-of-focus series while another is hovered or focused, lighter than the 30% series so it cannot be mistaken for it.",
     "barThickness": 38, "barGap": "{space.32}", "columnWidth": "{space.96}", "columnGap": "{space.28}", "plotHeight": 260,
     "stubLength": "{space.12}", "markMinLength": "{space.24}", "columnMinHeight": "{space.16}", "legendSwatch": "{space.14}",
-    "mix": { "secondary": 76, "tertiary": 54, "axis": 24, "grid": 12, "track": 8, "stroke": 12, "strokeChip": 20, "hover": 12, "active": 16, "dim": 40 }
+    "mix": { "secondary": 76, "tertiary": 54, "axis": 24, "grid": 12, "track": 8, "stroke": 12, "strokeChip": 20, "hover": 12, "active": 16, "dim": 40, "fade": 15 }
   },
   "openItems": [
     "radius-64: off the 4/6/8/12/16 scale; export README documents an 80px outlier, not 64 — confirm 80 or remove.",

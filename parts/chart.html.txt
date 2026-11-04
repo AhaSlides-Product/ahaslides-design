@@ -27,7 +27,7 @@
   <aha-chart id="results" type="bar" sort="desc" label="Q4 priorities"></aha-chart>
 
   <!-- App screen with the host's own series colours (a survey palette, Yes / No): colors works with palette="brand" too -->
-  <aha-chart type="column" colors="var(--aha-viz-series-2),var(--aha-viz-series-4)" label="Would you recommend us?"
+  <aha-chart type="column" colors="var(--aha-viz-series-3),var(--aha-viz-series-4)" label="Would you recommend us?"
     data='[{"label":"Yes","value":41},{"label":"No","value":12}]'></aha-chart>
 
   <!-- The product's own copy: strings overrides any built-in key; the rest stays the locale's default -->
