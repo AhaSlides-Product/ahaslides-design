@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1008.0 — 2026-11-04
+## 0.1010.0 — 2026-11-04
 ### Added
 - `aha-card-select` takes `min-tile-width`: it keeps `columns` while a tile can stay that wide, then wraps to fewer, reading the element's own width, so `columns="3" min-tile-width="110"` drops to 2 across inside a narrow modal (#656)
 - `empty-courses` and `empty-automation` join the `empty-*` illustrations (#656)
@@ -41,6 +41,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Fixed
 - DataTable filter panels and the Edit columns panel stay inside the viewport from 320px with no page overflow. antd's corner placements only flip, so a panel too wide for either side of a mid-table trigger stayed off-screen and `placement` looked ignored; they now shift along the edge (#656)
 - `screen-lint` `multi-primary` no longer counts primary buttons in opposite arms of a ternary as two loud actions; only the louder arm counts (#656)
+
+## 0.1005.1 — 2026-11-04
+### Fixed
+- The 0.998.1 entry links its PR (#651); 0.998.1 was not published, and its answer-option fix first shipped in 0.998.2 (#653)
 
 ## 0.1005.0 — 2026-11-04
 ### Added
@@ -63,7 +67,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.998.1 — 2026-11-04
 ### Fixed
-- `aha-answer-option` with `count-mode="off"` removes the count slot (`display:none`) instead of hiding it, so a short label such as "False" no longer truncates on a narrow phone (#NNN)
+- `aha-answer-option` with `count-mode="off"` removes the count slot (`display:none`) instead of hiding it, so a short label such as "False" no longer truncates on a narrow phone (#651)
 
 ## 0.996.1 — 2026-11-04
 ### Fixed
@@ -95,7 +99,6 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.989.0 — 2026-11-04
 ### Changed
 - **Brand logos move into the Icon library** (#642). The third-party brand logos, with their Line / One colour / Original switch, the when-to-use rule per version, Stand-in tags, None cells, SVG links, the Line logos and Brand logo colour (rule 2.6) sections and the three copy-paste patterns, are now the Brands tab of the Icon library (`icons/index.html?tab=brands`, `?mode=` kept). The Logo library keeps the AhaSlides logo, The Splash, the favicon set and the lockup rules, and links to the new tab. Old Logo library links (`?tab=brands`, `?mode=`, `#brands`, `#line`, `#third-party-marks`, `#brand-logo-*`) forward to the Brands tab. Rule 2.6 and 2.6a, the C7 criterion, `llms.txt`, `icons.llms.txt`, `icons.agent.json` (`brandLogos`), the environment routes, the aha-design skill and the icon guard hook point at the new home. Logo files, their paths and `logo/manifest.json` are unchanged.
-
 
 ## 0.988.0 — 2026-11-04
 ### Changed
@@ -447,7 +450,6 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ### Changed
 - W6 (website imagery) names the screenshot outline as an exception to the light grey frame ban, beside the Hero split Rise exception (both now worded "Named exception, <name>:"), in every copy (`guidelines/website.json`, `anti-slop/criteria.json`, `agent/anti-slop/criteria.json`); a light grey fill or rail still fails (#599)
-
 
 ## 0.953.0 — 2026-11-03
 ### Changed
