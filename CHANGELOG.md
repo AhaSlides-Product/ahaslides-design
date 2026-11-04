@@ -33,6 +33,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.977.0 — 2026-11-04
+
+### Added
+- **Google Sheets in the Logo library** (#631). `logo/google-sheets.svg` (greyscale, colour rule 2.6) and
+  `logo/original/google-sheets.svg` (brand colours, for hover and listing pages), beside Microsoft Excel. Survey's
+  Connect results modal can drop its inline brand SVGs.
+
 ## 0.976.0 — 2026-11-04
 
 ### Changed
