@@ -31,7 +31,7 @@ Reports are their own environment in the colour rules, `report-image` (Reports: 
 | Zebra rows in white and light grey `#F7F7F7`, never pale pink | 3.11, 3.6 |
 | Text on the plate card and on a zebra row is black, never pink | 6.5 |
 | A rise is black with an up arrow; a fall is white on a black pill with a down arrow | 7.3, 8.5 |
-| Series colours run Vivid Pink, black, Vivid Pink at 30%, light grey | 8.1 to 8.3 |
+| Series colours run Vivid Pink, Vivid Pink at 30%, dark grey #303030, light grey | 8.1 to 8.3 |
 | Each line has its own marker shape, so the chart reads in black and white | 8.4 |
 
 On a screen of the product app the same pale pink is not free: the live `<aha-stat-tile>` is white (`look="plain"`) by default, and `look="accent"` is for the one highlighted panel rule 3.7 allows. On a report page every plate is `look="accent"`.
@@ -80,8 +80,8 @@ or emoji: draw them from `lib/static-icons`.
 
 ### Series order and the top 3 plus Other rule (C3)
 
-Colour series in the chart order, main series first: Vivid Pink, black, Vivid Pink at 30%,
-light grey `#A8A8A8`. A breakdown with more than four parts shows the **top three by value**
+Colour series in the chart order, main series first: Vivid Pink, Vivid Pink at 30%,
+dark grey #303030, light grey `#A8A8A8`. A breakdown with more than four parts shows the **top three by value**
 and folds the rest into **Other**, in light grey and last. Never more than four colours,
 and an Other that already exists in the source joins the folded remainder rather than
 taking a second slot.
