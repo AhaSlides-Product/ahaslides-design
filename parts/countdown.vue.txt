@@ -4,6 +4,6 @@ defineProps({ endsAt: Number, totalMs: Number, stopped: Boolean, points: Boolean
 </script>
 
 <template>
-  <aha-countdown v-if="points" variant="points" min="500" max="1000" label-format="{n}p" :ends-at="endsAt" :total-ms="totalMs" :stopped="stopped || null" />
+  <aha-countdown v-if="points" variant="points" min="500" max="1000" label-format="{n} pts" spoken-format="{n} points" :ends-at="endsAt" :total-ms="totalMs" :stopped="stopped || null" />
   <aha-countdown v-else :ends-at="endsAt" :total-ms="totalMs" :stopped="stopped || null" urgent-below-ms="5000" />
 </template>

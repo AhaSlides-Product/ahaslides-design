@@ -5,5 +5,5 @@ export function QuestionTimer({ endsAt, totalMs, stopped }) {
 }
 
 export function PointsBar({ endsAt, totalMs, stopped }) {
-  return <aha-countdown variant="points" min="500" max="1000" label-format="{n}p" ends-at={endsAt} total-ms={totalMs} stopped={stopped ? '' : undefined} />;
+  return <aha-countdown variant="points" min="500" max="1000" label-format="{n} pts" spoken-format="{n} points" ends-at={endsAt} total-ms={totalMs} stopped={stopped ? '' : undefined} />;
 }

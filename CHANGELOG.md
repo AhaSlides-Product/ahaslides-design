@@ -33,9 +33,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.994.1 — 2026-11-04
+## 0.996.1 — 2026-11-04
 ### Fixed
 - Colour rule 11.1, True or False exception: on reveal the wrong answer's button dims (it read "the other button"), as the requester confirmed; the 0.990.0 entry links its PR (#646)
+
+## 0.996.0 — 2026-11-04
+### Changed
+- **The `aha-countdown` points bar reads "500 pts" and "1,000 pts", and speaks "700 points"** (#649). `p` read as pence or pixels, so the sample format is now `label-format="{n} pts"`, and `{n}` is grouped with `Intl.NumberFormat` in the element's language (closest `lang`, else the document's, else English). A new `spoken-format` attribute (default: the `label-format` value) feeds `aria-valuetext`, so a screen reader says "700 points" rather than "seven hundred p". Both formats come from the consumer's i18n catalogue, never hard-coded English; translator note for `label-format`: short for points, keep it to 3 or 4 characters. The default timer render is unchanged. Contract props, snippets, preview and the Audience Library describe it.
 
 ## 0.994.0 — 2026-11-04
 
