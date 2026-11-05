@@ -33,9 +33,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1037.1 — 2026-11-05
+## 0.1040.1 — 2026-11-05
 ### Fixed
 - **`<aha-alert>` action wraps below the text in a narrow alert** (#680). The `slot="action"` button stays beside the text while the alert keeps at least 200 px of text beside it, and moves below the text (8 px under it, 6 px small) when it does not. It follows the alert's own width, not the viewport, so a 222 px card no longer squeezes the message to one word per line. Wide alerts look the same as before.
+
+## 0.1040.0 — 2026-11-05
+
+### Fixed
+- Marketing Cards: a link inside a linked card other than the card link (an Article topic or author) now sits above the stretched link, so it is clickable and shows its own focus ring; the Article snippet's topic is a link (#678)
 
 ## 0.1037.0 — 2026-11-05
 ### Fixed
