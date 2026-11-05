@@ -1,0 +1,17 @@
+// main.ts: register the element and mark aha-* as custom elements
+import '@ahaslides-product/design/aha-composer';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// ReplyBox.vue
+<template>
+  <aha-composer
+    placeholder="Join the conversation"
+    submit-label="Reply"
+    preview
+    @submit="(e) => emit('reply', e.detail.value)"
+  />
+</template>
+
+<script setup>
+const emit = defineEmits(['reply']);
+</script>

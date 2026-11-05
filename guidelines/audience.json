@@ -277,7 +277,7 @@
     },
     {
       "id": "single-column-mobile",
-      "rule": "Lay out one vertical mobile-first column — question on top, answer area beneath, feedback after. No side-by-side panels. No horizontal scroll at any width; fit the narrowest phone (~320px).",
+      "rule": "Lay out one vertical mobile-first column — question on top, answer area beneath, feedback after. No side-by-side panels. No horizontal scroll at any width; fit the narrowest phone (~320px). A mode C self-paced view follows self-paced-mode-c from 480px wide.",
       "ref": [
         "C4",
         "§1"
@@ -307,8 +307,20 @@
       ]
     },
     {
+      "id": "self-paced-mode-c",
+      "rule": "A mode C self-paced view (self-paced-view.* with setting.audienceQuizSelfPaced: true) keeps every phone value below 480px wide, with its self-painted question at 22px, weight 600. From 480px up its type may scale with the view's smaller side, never below the phone value, with these caps: question 48px, option labels and result stamps 40px, scene titles 56px, body lines and notices 32px, control labels, metadata and captions 20px; a countdown numeral has no cap. It may use grids and side rails, and from 960px must not be a stretched phone column. It draws its own single Time's up notice and verdict, from its own timer, because the host draws neither there. audience.* and modes A and B do not change.",
+      "ref": [
+        "C3",
+        "C5",
+        "C9",
+        "C14",
+        "C19",
+        "§1"
+      ]
+    },
+    {
       "id": "native-type-scale",
-      "rule": "Match the built-in type scale exactly: primary body copy, option labels and the submit-button label 16px (--aha-size-l); secondary metadata (vote-count chip, percentage, counter) 14px (--aha-size-default); help/caption 12px (--aha-size-sm — the token named 'sm' is 12px, not the 14px 'text-sm', so never use it for copy a participant must read); question/header 22px (host-painted in framed mode); form input 16px (dodges iOS auto-zoom); body line-height 1.5. Spacing on a multiple-of-8 rhythm (8/16/24).",
+      "rule": "Match the built-in type scale exactly: primary body copy, option labels and the submit-button label 16px (--aha-size-l); secondary metadata (vote-count chip, percentage, counter) 14px (--aha-size-default); help/caption 12px (--aha-size-sm — the token named 'sm' is 12px, not the 14px 'text-sm', so never use it for copy a participant must read); question/header 22px (host-painted in framed mode); form input 16px (dodges iOS auto-zoom); body line-height 1.5. Spacing on a multiple-of-8 rhythm (8/16/24). A mode C self-paced view follows self-paced-mode-c from 480px wide.",
       "ref": [
         "C19",
         "§1"
@@ -475,7 +487,7 @@
     },
     {
       "id": "primary-copy-16px",
-      "rule": "Primary body copy and option labels stay at the audience default 16px (--aha-size-l), never text-sm. 14px (--aha-size-default) is legitimate ONLY on secondary metadata beside a label (vote-count chip, percentage, character counter) — never on the option label, a chip label, a tag or the question restatement. The token --aha-size-sm is 12px, so a builder who maps 'text-sm' to --aha-size-sm lands two pixels smaller still: map by pixel value, not by name.",
+      "rule": "Primary body copy and option labels stay at the audience default 16px (--aha-size-l), never text-sm. 14px (--aha-size-default) is legitimate ONLY on secondary metadata beside a label (vote-count chip, percentage, character counter) — never on the option label, a chip label, a tag or the question restatement. The token --aha-size-sm is 12px, so a builder who maps 'text-sm' to --aha-size-sm lands two pixels smaller still: map by pixel value, not by name. A mode C self-paced view follows self-paced-mode-c from 480px wide.",
       "ref": [
         "C19",
         "§2b"

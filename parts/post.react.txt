@@ -1,0 +1,27 @@
+import '@ahaslides-product/design/aha-post';   // registers <aha-post> (+ <aha-avatar>, <aha-tag>, <aha-button>)
+
+// A plain custom element: every prop is an attribute and the body is its children. `liked` is present
+// or absent; React 19 passes `true` as an empty attribute, and `undefined` leaves it off. React 19
+// also binds the custom event with an `on` prop of the same name.
+function Post({ post, onAction }) {
+  return (
+    <aha-post
+      author={post.name}
+      username={post.username}
+      role={post.role}
+      avatar-src={post.avatarUrl}
+      author-href={post.profileUrl}
+      time={post.ago}
+      datetime={post.createdAt}
+      href={post.url}
+      likes={post.likes}
+      liked={post.liked ? '' : undefined}
+      onaha-post-action={(e) => onAction(post, e.detail.action)}
+    >
+      <div dangerouslySetInnerHTML={{ __html: post.cookedHtml /* sanitised on the server */ }} />
+    </aha-post>
+  );
+}
+
+// usage
+<div>{posts.map((p) => <Post key={p.id} post={p} onAction={handleAction} />)}</div>
