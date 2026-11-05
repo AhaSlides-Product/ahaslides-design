@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1074.0 — 2026-11-06
+### Fixed
+- Audience C5, C7 and C23 and canvas C7 and C12 no longer send a Developer Platform judge to `manifest.json`, which those pages do not have. They read the flag from `entry_setting` in the judge brief. (#710)
+
 ## 0.1072.0 — 2026-11-05
 
 ### Added
@@ -41,10 +45,6 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ### Fixed
 - The countdown points-drain test measures against the time actually left when it reads the value, so a slow CI runner no longer fails it (#705)
-
-## 0.1073.0 — 2026-11-06
-### Fixed
-- Audience C5, C7 and C23 and canvas C7 and C12 no longer send a Developer Platform judge to `manifest.json`, which those pages do not have. They read the flag from `entry_setting` in the judge brief. (#710)
 
 ## 0.1071.0 — 2026-11-05
 ### Changed
