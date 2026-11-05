@@ -6,6 +6,7 @@
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';      // registers <aha-icon> for leading + caret glyphs
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-menu.js';   // registers <aha-menu>
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-tag.js';    // registers <aha-tag> for the slotted Pro chip
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-badge.js';  // registers <aha-badge> for the nav rail's count and New badges
 </script>
 
 <!-- mode="vertical" (default) | "inline" (sidebar tree) | "horizontal" (top nav bar) -->
@@ -55,6 +56,23 @@
     {"key":"delete","label":"Delete","icon":"system-trash","danger":true,"attrs":{"data-testid":"menu-delete"}}
   ]'>
   <span slot="export">Export to PDF <aha-tag color="primary">Pro</aha-tag></span>
+</aha-menu>
+
+<!-- nav-rail: the app-shell side nav. No frame, sentence-case section headers (14px SemiBold);
+     badge projects the named light-DOM child (an <aha-badge>) at the row's trailing edge -->
+<aha-menu id="rail" mode="inline" nav-rail value="home"
+  items='[
+    {"type":"group","label":"Community","children":[
+      {"key":"home","label":"Home","icon":"system-house"},
+      {"key":"latest","label":"Latest topics","icon":"system-chats-circle","badge":"unread"}
+    ]},
+    {"type":"group","label":"Learn","children":[
+      {"key":"kb","label":"Knowledge base","icon":"system-book"},
+      {"key":"academy","label":"Academy","icon":"system-graduation-cap","badge":"new"}
+    ]}
+  ]'>
+  <aha-badge slot="unread" count="3"></aha-badge>
+  <aha-badge slot="new" kind="new"></aha-badge>
 </aha-menu>
 
 <script>
