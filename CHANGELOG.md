@@ -33,9 +33,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1046.0 — 2026-11-05
+## 0.1048.0 — 2026-11-05
 ### Added
 - **`aha-tag` `href`, `target` and `rel`** (#681). A category tag that navigates is now one element: `<aha-tag href="/blog/category/polls">Polls</aha-tag>` renders a real `<a>` that is keyboard focusable, with a `:focus-visible` ring and a hover state on existing tag and link tokens. `target="_blank"` without a `rel` gets `noopener noreferrer`. `href` is ignored on a `checkable` or `closable` tag. Without `href` nothing changes. Revert: drop the three attributes.
+
+## 0.1047.0 — 2026-11-05
+### Fixed
+- **Navigation: the open Products panel stays inside the viewport from 992px up.** At 992 to about 1105px the 988px panel lost up to 81px of content to the header's clip. On desktop it now narrows to the viewport width less a 32px gutter either side and shifts left only as far as needed, positioned from its Products item with CSS anchor positioning. From about 1105px the panel is where it was. Browsers without anchor positioning keep the previous placement (#685)
 
 ## 0.1044.1 — 2026-11-05
 ### Fixed
