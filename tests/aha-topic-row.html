@@ -1,0 +1,11 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../lib/tokens.css">
+<aha-topic-row id="row" topic-title="Poll results" href="#t1" author="Ada Lovelace"
+  excerpt="Rate it &lt;b&gt;now&lt;/b&gt; [poll name=rating]&lt;img src=x onerror=alert(1)&gt;" likes="1" replies="2"></aha-topic-row>
+<script type="module">
+  import '../lib/icons.js';
+  import '../lib/aha-topic-row.js';
+  await customElements.whenDefined('aha-topic-row');
+  window.topicRowFixtureReady = true;
+</script>
