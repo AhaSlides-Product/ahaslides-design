@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1059.1 — 2026-11-05
+
+### Fixed
+- CSAT docs preview: the inline-feedback example's wrapping popover now opens with `flip`, so it stays inside the viewport and the render-truth overlay check (OVERLAY-09) passes again on master. No component or API change. (#PR)
+
 ## 0.1059.0 — 2026-11-05
 
 ### Added
