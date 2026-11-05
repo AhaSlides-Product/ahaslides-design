@@ -13,7 +13,8 @@
 //
 // 2. Optional, for a SemiBold figure on the About page: Discourse renders each About stat as one string
 //    ("450 Members"), so CSS cannot set the figure apart. This initializer rebuilds the strip as
-//    <aha-stat-tile> elements. javascripts/discourse/api-initializers/aha-about-stats.js, plus in the head:
+//    <aha-stat-tile> elements; an item with no leading figure (the creation date) stays as it is.
+//    javascripts/discourse/api-initializers/aha-about-stats.js, plus in the head:
 //      <script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-stat-tile.js"></script>
 import { apiInitializer } from "discourse/lib/api";
 
@@ -23,13 +24,13 @@ function rebuild(strip) {
   if (strip.dataset.ahaTiles) return;
   const tiles = [...strip.querySelectorAll(".about__stats-item")].map((item) => {
     const match = FIGURE.exec(item.textContent);
-    if (!match) return null;
+    if (!match) return item;
     const tile = document.createElement("aha-stat-tile");
     tile.setAttribute("value", match[1]);
     tile.setAttribute("label", match[2]);
     return tile;
   });
-  if (!tiles.length || tiles.includes(null)) return;
+  if (!tiles.length) return;
   strip.dataset.ahaTiles = "1";
   strip.replaceChildren(...tiles);
 }
