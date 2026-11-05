@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1056.0 — 2026-11-05
+### Added
+- Colour rule 2.6b and exemption 9.6: third-party award badges (G2, Capterra and similar) sit only in an award row at one fixed height (80px, 64px on mobile), one treatment per row, full colour as published (recommended) or greyscale, with the colour criterion C7, the Footer rule and two eval cases updated to match (#PRNUM)
+
 ## 0.1051.1 — 2026-11-05
 
 ### Fixed

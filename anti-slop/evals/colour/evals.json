@@ -480,6 +480,48 @@
         "authored": "ahaslides-design",
         "why": "written with the criteria from brand/colour-rules.json; DESY-498 withdrew the True or False exceptions (SLPV-260, 5 Nov)"
       }
+    },
+    {
+      "id": 23,
+      "prompt": "Review the Community footer. Under the link columns sits one award row: three G2 badges in their published full colour, each 80px high (64px on mobile), 12px apart, no tile or border, each a new-tab link with the award and G2 as its accessible name. Nothing else on the page carries brand colour.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Targets C7 (rule 2.6b).",
+      "expected_output": "C7 PASSES: a third-party award row at one fixed height in one treatment is the rule 2.6b exemption. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C7": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; DESY-510 G9 award badge rule 2.6b"
+      }
+    },
+    {
+      "id": 24,
+      "prompt": "Review a pricing page. A G2 Leader badge in full colour sits inside the Pro plan card next to the Upgrade button, and a second G2 badge in greyscale and 120px high sits beside the footer links.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C7 (rule 2.6b).",
+      "expected_output": "C7 FAILs: an award badge belongs only in an award row, never in a card; the two badges differ in height and treatment. Fix: one award row, same height, one treatment. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C7": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; DESY-510 G9 award badge rule 2.6b"
+      }
     }
   ]
 }
