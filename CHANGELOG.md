@@ -37,7 +37,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1073.0 — 2026-11-06
 ### Fixed
-- Audience C5, C7 and C23 and canvas C7 and C12 no longer send a Developer Platform judge to `manifest.json`, which those pages do not have. They read the flag from `entry_setting` in the judge brief. (#129)
+- Audience C5, C7 and C23 and canvas C7 and C12 no longer send a Developer Platform judge to `manifest.json`, which those pages do not have. They read the flag from `entry_setting` in the judge brief. (#710)
 
 ## 0.1071.0 — 2026-11-05
 ### Changed
