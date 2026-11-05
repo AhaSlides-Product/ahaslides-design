@@ -33,11 +33,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1053.0 — 2026-11-05
+## 0.1058.0 — 2026-11-05
 
 ### Added
 - Topic row: `<aha-topic-row>`, one row of a forum or community topic list (40px avatar, title link with its category tag, a two-line plain-text excerpt, and a meta row of author, likes, replies and time), with `read` and `pinned` states and a hover tint. It reuses `<aha-avatar>` and `<aha-tag>` (#698)
 - `lib/topic-row.css`, the same row as a class layer for a host that renders its own markup; the Topic row page has a Discourse tab mapping each Discourse topic-list class to its DS class (#698)
+
+## 0.1054.0 — 2026-11-05
+
+### Added
+- Avatar: a Third-party initials rule. Any initials avatar on a host the DS does not own (a Discourse letter avatar) uses the Initials style already on the contract (bg-accent ground, ink #1A1A1A, SemiBold 600), never a hashed colour; no new value. A new Discourse theme tab carries an initializer that swaps each server-rendered letter-avatar `<img>` for `<aha-avatar name>` (#695)
 
 ## 0.1051.1 — 2026-11-05
 
