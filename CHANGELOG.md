@@ -36,7 +36,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.1070.0 — 2026-11-05
 
 ### Fixed
-- Footer: the eight contact and social icons now share one ink, `--aha-icon-default` (#4A4A4A), instead of the muted grey, and the six social links draw the `logo/line` marks (WhatsApp, LinkedIn, YouTube, Facebook, Instagram, Reddit) at 24px next to the envelope and people glyphs, so they look uniform. Order, links and labels are unchanged; no hover recolour (#708)
+- Footer: the eight contact and social icons now share one ink, `--aha-icon-default` (#4A4A4A), instead of the muted grey, and the six social links draw the `logo/line` marks (WhatsApp, LinkedIn, YouTube, Facebook, Instagram, Reddit) at 24px next to the envelope and people glyphs, so they look uniform. Order, links and labels are unchanged; no hover recolour. Colour rule 2.6a now names the Footer as the exception to Brand icons (#708)
 
 ## 0.1063.0 — 2026-11-05
 
