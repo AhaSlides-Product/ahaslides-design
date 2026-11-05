@@ -15,6 +15,7 @@ const page = `<!doctype html><body style="margin:0;padding:80px 200px">
 <aha-settings-list><aha-settings-item id="item" label="Slot form" locked plan="pro"><aha-switch slot="control"></aha-switch></aha-settings-item></aha-settings-list>
 <div><aha-radio id="radio" name="m" value="a" locked plan="pro">Radio</aha-radio></div>
 <div><aha-checkbox id="checkbox" locked plan="pro">Checkbox</aha-checkbox></div>
+<!-- a locked dropdown on the page is what makes the browser drop a click after a mid-press rewrite; the canary test below fails if that stops -->
 <aha-dropdown id="dd" label="Export" value="png" items="${items}"></aha-dropdown>
 <script type="module">import '${lib}'; window.open = () => null; window.ready = true;</script>`;
 
@@ -61,3 +62,64 @@ for (const where of Object.keys(lockIn)) {
     });
   }
 }
+
+const ready = { readyExpr: '!!window.ready && !!customElements.get("aha-switch") && !!customElements.get("aha-dropdown")' };
+const upgradeIn = (id) => `document.getElementById('${id}').shadowRoot.querySelector('.lock').shadowRoot.querySelector('.upgrade')`;
+const listenUpgrade = (id) => `const lock = ${lockIn[id]}; window.__fired = []; lock.addEventListener('paywall-upgrade', (e) => { e.preventDefault(); window.__fired.push(e.type); });`;
+
+test('harness check, not a wanted behaviour: this page drops a click when Upgrade is rewritten mid-press', { skip }, async () => {
+  const fired = await withPage(url, async (command) => {
+    await realClick(command, lockIn.row);
+    await evaluate(command, `${listenUpgrade('row')} const cta = ${upgradeIn('row')}; cta.addEventListener('pointerdown', () => { cta.textContent = cta.textContent; });`);
+    await realClick(command, upgradeIn('row'));
+    return evaluate(command, `return window.__fired;`);
+  }, ready);
+  assert.deepEqual(fired, [], 'the canary expects the browser to drop the click; if it keeps it, the other cases here prove nothing');
+});
+
+test('a row attribute re-written with the same value on pointerdown over Upgrade still fires paywall-upgrade', { skip }, async () => {
+  const fired = await withPage(url, async (command) => {
+    await realClick(command, lockIn.row);
+    await evaluate(command, `${listenUpgrade('row')} ${upgradeIn('row')}.addEventListener('pointerdown', () => { const row = document.getElementById('row'); row.setAttribute('label', row.getAttribute('label')); });`);
+    await realClick(command, upgradeIn('row'));
+    return evaluate(command, `return window.__fired;`);
+  }, ready);
+  assert.deepEqual(fired, ['paywall-upgrade']);
+});
+
+test('a stale open popover in a narrowed viewport still fires paywall-upgrade on a real press', { skip }, async () => {
+  const fired = await withPage(url, async (command) => {
+    await realClick(command, lockIn.row);
+    await command('Emulation.setDeviceMetricsOverride', { width: 420, height: 800, deviceScaleFactor: 1, mobile: false });
+    await evaluate(command, `${listenUpgrade('row')}`);
+    await realClick(command, upgradeIn('row'));
+    return evaluate(command, `return window.__fired;`);
+  }, ready);
+  assert.deepEqual(fired, ['paywall-upgrade']);
+});
+
+test('Tab from a locked radio to Upgrade after the viewport narrowed brings the popover back inside it', { skip }, async () => {
+  const box = await withPage(url, async (command) => {
+    await realClick(command, lockIn.radio);
+    await command('Emulation.setDeviceMetricsOverride', { width: 420, height: 800, deviceScaleFactor: 1, mobile: false });
+    await evaluate(command, `document.getElementById('radio').focus();`);
+    for (let i = 0; i < 6; i++) {
+      await command('Input.dispatchKeyEvent', { type: 'rawKeyDown', key: 'Tab', code: 'Tab', windowsVirtualKeyCode: 9 });
+      await command('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Tab', code: 'Tab', windowsVirtualKeyCode: 9 });
+      const onUpgrade = await evaluate(command, `const lock = ${lockIn.radio}; return lock.shadowRoot.activeElement === lock.shadowRoot.querySelector('.upgrade');`);
+      if (onUpgrade) break;
+    }
+    return evaluate(command, `const lock = ${lockIn.radio}; const r = lock.shadowRoot.querySelector('.pop').getBoundingClientRect(); return { focused: lock.shadowRoot.activeElement === lock.shadowRoot.querySelector('.upgrade'), left: r.left, right: r.right, width: innerWidth };`);
+  }, ready);
+  assert.equal(box.focused, true, 'Tab reached Upgrade');
+  assert.ok(box.left >= 0 && box.right <= box.width, `popover inside the viewport, got ${box.left}..${box.right} of ${box.width}`);
+});
+
+test('a real click on the popover text in a locked row keeps the popover open', { skip }, async () => {
+  const open = await withPage(url, async (command) => {
+    await realClick(command, lockIn.row);
+    await realClick(command, `${lockIn.row}.shadowRoot.querySelector('.pbody')`);
+    return evaluate(command, `return ${lockIn.row}.open;`);
+  }, ready);
+  assert.equal(open, true);
+});
