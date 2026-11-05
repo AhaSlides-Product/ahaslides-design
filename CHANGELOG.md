@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1049.0 — 2026-11-05
+### Added
+- Blog article website section family (`marketing/article.json`): post header, article body that styles plain CMS HTML (headings, lists, quote, figure, code, table, callout), the `aha-text-link` class with the Button text-link values, a table of contents that sticks on desktop and folds into a button on a phone, a share row with brand icons and Copy link, and the Article page layout that ties them together at a 720px measure; category and post tags use `aha-tag` link mode (#684)
+
 ## 0.1048.0 — 2026-11-05
 ### Added
 - **`aha-tag` `href`, `target` and `rel`** (#681). A category tag that navigates is now one element: `<aha-tag href="/blog/category/polls">Polls</aha-tag>` renders a real `<a>` that is keyboard focusable, with a `:focus-visible` ring and a hover state on existing tag and link tokens. `target="_blank"` without a `rel` gets `noopener noreferrer`. `href` is ignored on a `checkable` or `closable` tag. Without `href` nothing changes. Revert: drop the three attributes.
