@@ -182,7 +182,7 @@ Read the list from the DS each time — surfaces get added.
 
 1. **Mechanical gate first** (when the package is installed):
    `node node_modules/@ahaslides-product/design/screen-lint.mjs --surface=<product|canvas|audience|settings|website> <files>`
-   — fix every HARD finding before judging. An `--aha-answer-*` token as a text colour, or on anything that is not an answer, a correct or wrong mark, a result or one of the two True or False answer buttons (rule 11.1), is HARD (`answer-colour-text`, `answer-colour-context`; colour rules 11.1 and 11.2). A slide type's `presenter.*` is `canvas`, its
+   — fix every HARD finding before judging. An `--aha-answer-*` token as a text colour (the one exception is the True or False result stamp word on white, rule 11.2), or on anything that is not an answer, a correct or wrong mark, a result or one of the two True or False answer buttons (rule 11.1), is HARD (`answer-colour-text`, `answer-colour-context`; colour rules 11.1 and 11.2). A slide type's `presenter.*` is `canvas`, its
    `audience.*` is `audience` and its `settings.*` is `settings` (the `settings-design` skill runs
    that gate). On both slide surfaces a raw
    `<button>` or `role="button"`, `<aha-button size="xl">`, sizing through `::part(button)` or an

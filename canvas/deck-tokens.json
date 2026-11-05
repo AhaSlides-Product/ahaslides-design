@@ -69,7 +69,7 @@
         },
         {
           "label": "Correct and wrong",
-          "value": "`--aha-answer-correct` and `--aha-answer-wrong` on the mark only, with a white glyph (`--aha-white`) on the disc, as `<aha-canvas-count>` does (colour rules 11.1 and 11.2)"
+          "value": "`--aha-answer-correct` and `--aha-answer-wrong` on the mark only, with a white glyph (`--aha-white`) on the disc, as `<aha-canvas-count>` does (colour rules 11.1 and 11.2). The one text exception is the True or False result stamp on the audience phone: its word is `--aha-answer-correct` (True) or `--aha-answer-wrong` (False) on `--aha-white` only"
         },
         {
           "label": "Accent",

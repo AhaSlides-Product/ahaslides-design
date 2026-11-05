@@ -414,6 +414,72 @@
         "authored": "ahaslides-design",
         "why": "written with the criteria from brand/colour-rules.json; SLPV-260 True or False exception to rule 11.1"
       }
+    },
+    {
+      "id": 20,
+      "prompt": "Review the result screen of a True or False question on the audience phone, any deck theme. The True and False answer buttons are filled with the answer pair with white labels. At result a small tilted stamp on the corner of the card, on a white (`--aha-white`) fill, names the correct side: its word \"False\" is written in `var(--aha-answer-wrong)`, or \"True\" in `var(--aha-answer-correct)`. The question text, the rest of the card and every other label are the default ink; the verdict disc carries the tick.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Targets C1 and C5 (rule 11.2, True or False result stamp exception). Pairs with cases 21 and 22.",
+      "expected_output": "C1 PASSES: the stamp word in the answer colour is the one named exception in rule 11.2, on white, where green is 4.53 to 1 and red 5.02 to 1. C5 PASSES: it marks the correct side, not a status. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "Does not flag the green or red word of the result stamp"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C1": "PASS",
+          "C5": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; SLPV-263 True or False result stamp exception to rule 11.2"
+      }
+    },
+    {
+      "id": 21,
+      "prompt": "Review the result screen of a Pick Answer question on the audience phone. A small tilted stamp on the corner of the winning option reads \"Correct\" in `var(--aha-answer-correct)` on white, and under the options a heading \"Correct!\" is also written in `var(--aha-answer-correct)`. Everything else is the default ink and DS components.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C1 and C5 (rule 11.2): the text exception is only the True or False result stamp. Pairs with case 20.",
+      "expected_output": "C1 FAILs: green text on a Pick Answer stamp and in the heading; only the True or False result stamp word may be green or red. C5 FAILs: the heading is a success message in green. Fix: both stay the default ink and the tick disc marks the verdict. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C1": "FAIL",
+          "C5": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; SLPV-263 True or False result stamp exception to rule 11.2"
+      }
+    },
+    {
+      "id": 22,
+      "prompt": "Review the result screen of a True or False question on the audience phone, on a deck whose phone background is Vivid Pink at 30%. The result stamp on the card corner has no white fill: its word \"True\" is written in `var(--aha-answer-correct)` straight on the tinted deck background.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C1 (rule 11.2): the stamp word is green or red only on white. Pairs with case 20.",
+      "expected_output": "C1 FAILs: the stamp word in the answer colour sits on a deck tint, not on white, so the 4.5 to 1 reading is not guaranteed on any deck. Fix: the stamp keeps a white fill. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C1": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; SLPV-263 True or False result stamp exception to rule 11.2"
+      }
     }
   ]
 }
