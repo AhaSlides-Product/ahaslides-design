@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1067.0 — 2026-11-05
+## 0.1074.0 — 2026-11-05
 
 ### Added
 - Achievement badge: `<aha-achievement-badge>`, one badge a community member earned or can earn, as a card: a 32px registry glyph in ink, the title with its tier (Gold, Silver, Bronze) as a neutral `<aha-tag>`, a plain-text description and a meta row ("Granted 3 Oct 2026", "12 granted"). A tier is a label, never a gold, silver or bronze hue (#706)
