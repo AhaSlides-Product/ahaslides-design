@@ -44,7 +44,7 @@
   background: transparent;
   border-bottom: 1px solid var(--aha-border-secondary, #F1F1F1);
 }
-#reply-control .d-editor-button-bar .btn {
+#reply-control .d-editor-button-bar .btn { /* ds-lint-allow: hand-rolled-button (Discourse core renders this button; a theme cannot swap in <aha-button>, so it takes the Button values) */
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -59,18 +59,18 @@
   transition: background-color var(--aha-motion-mid, .2s) var(--aha-ease-in-out, ease-in-out),
     color var(--aha-motion-mid, .2s) var(--aha-ease-in-out, ease-in-out);
 }
-#reply-control .d-editor-button-bar .btn .d-icon {
+#reply-control .d-editor-button-bar .btn .d-icon { /* ds-lint-allow: hand-rolled-button (Discourse core renders this button; a theme cannot swap in <aha-button>, so it takes the Button values) */
   width: 16px;
   height: 16px;
   color: inherit;
 }
-#reply-control .d-editor-button-bar .btn:hover,
-#reply-control .d-editor-button-bar .btn:active,
-#reply-control .d-editor-button-bar .btn.active {
+#reply-control .d-editor-button-bar .btn:hover, /* ds-lint-allow: hand-rolled-button (Discourse core renders this button; a theme cannot swap in <aha-button>, so it takes the Button values) */
+#reply-control .d-editor-button-bar .btn:active, /* ds-lint-allow: hand-rolled-button (Discourse core renders this button; a theme cannot swap in <aha-button>, so it takes the Button values) */
+#reply-control .d-editor-button-bar .btn.active { /* ds-lint-allow: hand-rolled-button (Discourse core renders this button; a theme cannot swap in <aha-button>, so it takes the Button values) */
   background: var(--aha-button-ghost-bg-hover, #E70E680D);
   color: var(--aha-text-link-hover, #DB005B);
 }
-#reply-control .d-editor-button-bar .btn:focus-visible {
+#reply-control .d-editor-button-bar .btn:focus-visible { /* ds-lint-allow: hand-rolled-button (Discourse core renders this button; a theme cannot swap in <aha-button>, so it takes the Button values) */
   outline: 2px solid var(--aha-border-focus, #E70E68);
   outline-offset: 2px;
 }
@@ -120,7 +120,7 @@
   align-items: center;
   gap: var(--aha-space-8, 8px);
 }
-#reply-control .save-or-cancel :is(.btn-primary, .cancel) {
+#reply-control .save-or-cancel :is(.btn-primary, .cancel) { /* ds-lint-allow: hand-rolled-button (Discourse core renders this button; a theme cannot swap in <aha-button>, so it takes the Button values) */
   display: inline-flex;
   align-items: center;
   gap: var(--aha-space-8, 8px);
@@ -136,34 +136,34 @@
     color var(--aha-motion-mid, .2s) var(--aha-ease-in-out, ease-in-out),
     box-shadow var(--aha-motion-mid, .2s) var(--aha-ease-in-out, ease-in-out);
 }
-#reply-control .save-or-cancel .btn-primary {
+#reply-control .save-or-cancel .btn-primary { /* ds-lint-allow: hand-rolled-button (Discourse core renders this button; a theme cannot swap in <aha-button>, so it takes the Button values) */
   background: var(--aha-button-primary-bg, #E70E68);
   color: var(--aha-button-primary-text, #FFFFFF);
   box-shadow: var(--aha-button-elevate-primary, 0 2px 0 0 rgba(0, 0, 0, .04));
 }
-#reply-control .save-or-cancel .btn-primary:hover {
+#reply-control .save-or-cancel .btn-primary:hover { /* ds-lint-allow: hand-rolled-button (Discourse core renders this button; a theme cannot swap in <aha-button>, so it takes the Button values) */
   background: var(--aha-button-primary-bg-hover, #DB005B);
   box-shadow: var(--aha-button-elevate-primary-hover, 0 4px 12px rgba(231, 14, 104, .32));
 }
-#reply-control .save-or-cancel .btn-primary:active {
+#reply-control .save-or-cancel .btn-primary:active { /* ds-lint-allow: hand-rolled-button (Discourse core renders this button; a theme cannot swap in <aha-button>, so it takes the Button values) */
   background: var(--aha-button-primary-bg-press, #DB005B);
   box-shadow: var(--aha-button-elevate-primary, 0 2px 0 0 rgba(0, 0, 0, .04));
 }
-#reply-control .save-or-cancel .btn-primary:disabled {
+#reply-control .save-or-cancel .btn-primary:disabled { /* ds-lint-allow: hand-rolled-button (Discourse core renders this button; a theme cannot swap in <aha-button>, so it takes the Button values) */
   background: var(--aha-button-disabled-bg, #E3E3E3);
   color: var(--aha-button-disabled-text, #B5B5B5);
   box-shadow: none;
 }
-#reply-control .save-or-cancel .cancel {
+#reply-control .save-or-cancel .cancel { /* ds-lint-allow: hand-rolled-button (Discourse core renders this button; a theme cannot swap in <aha-button>, so it takes the Button values) */
   background: transparent;
   color: var(--aha-text-default, #1A1A1A);
 }
-#reply-control .save-or-cancel .cancel:hover,
-#reply-control .save-or-cancel .cancel:active {
+#reply-control .save-or-cancel .cancel:hover, /* ds-lint-allow: hand-rolled-button (Discourse core renders this button; a theme cannot swap in <aha-button>, so it takes the Button values) */
+#reply-control .save-or-cancel .cancel:active { /* ds-lint-allow: hand-rolled-button (Discourse core renders this button; a theme cannot swap in <aha-button>, so it takes the Button values) */
   background: var(--aha-button-ghost-bg-hover, #E70E680D);
   color: var(--aha-text-link-hover, #DB005B);
 }
-#reply-control .save-or-cancel :is(.btn-primary, .cancel):focus-visible {
+#reply-control .save-or-cancel :is(.btn-primary, .cancel):focus-visible { /* ds-lint-allow: hand-rolled-button (Discourse core renders this button; a theme cannot swap in <aha-button>, so it takes the Button values) */
   outline: 2px solid var(--aha-button-focus-ring, #E70E68);
   outline-offset: 2px;
 }
