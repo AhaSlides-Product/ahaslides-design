@@ -1,0 +1,34 @@
+// Discourse theme: javascripts/discourse/api-initializers/aha-letter-avatars.js
+// Discourse serves its letter avatars as server-rendered PNGs in a hashed colour, which the DS forbids
+// (initials avatar = Vivid Pink 5% ground, ink #1A1A1A, SemiBold 600). CSS cannot recolour a PNG, so the
+// theme swaps each letter-avatar <img> for the DS <aha-avatar>. Photo avatars are left alone.
+// Also add the two DS imports to the theme's <head> section (same lines as the HTML tab):
+//   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+//   <script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-avatar.js"></script>
+import { apiInitializer } from "discourse/lib/api";
+
+const LETTER_AVATAR = /\/letter_avatar(?:_proxy\/v\d+\/letter\/([^/]+)\/[^/]+\/|\/([^/]+)\/)/;
+
+function swap(img) {
+  const match = LETTER_AVATAR.exec(img.getAttribute("src") || "");
+  if (!match) return;
+  const avatar = document.createElement("aha-avatar");
+  avatar.setAttribute("name", decodeURIComponent(match[1] || match[2]));
+  avatar.setAttribute("size", img.getAttribute("width") || "40");
+  avatar.className = img.className;
+  img.replaceWith(avatar);
+}
+
+export default apiInitializer("1.0", () => {
+  const scan = (root) => root.querySelectorAll("img.avatar").forEach(swap);
+  scan(document);
+  new MutationObserver((records) => {
+    for (const record of records) {
+      for (const node of record.addedNodes) {
+        if (node.nodeType !== 1) continue;
+        if (node.matches("img.avatar")) swap(node);
+        else scan(node);
+      }
+    }
+  }).observe(document.body, { childList: true, subtree: true });
+});
