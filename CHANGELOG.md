@@ -33,6 +33,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1073.0 — 2026-11-05
+
+### Added
+- Profile header: `<aha-profile-header>`, the top of a person's profile page (144px avatar, 96px under 600px wide; the name at the h3 size, SemiBold 600; the username in text-secondary; a sentence-case details list) with `actions`, `stats` and `nav` slots for `<aha-button>`, a row of `<aha-statistic>` and `<aha-tabs>`. `variant="card"` is the same header as a user card. It reuses `<aha-avatar>` (#703)
+- `lib/discourse-profile.css` restyles Discourse's own profile page and user card on the same values (names and stat figures SemiBold, never Bold; section titles without uppercase); the Profile header page has a Discourse tab with the class map and the Admin text overrides that make the profile labels sentence case (#703)
+
+## 0.1059.1 — 2026-11-05
+
 ## 0.1072.0 — 2026-11-05
 
 ### Added
