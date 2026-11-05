@@ -1,0 +1,70 @@
+<div class="pad">
+  <div class="lbl">Single choice, results after you vote (pick one, then Vote)</div>
+  <div style="max-width:560px">
+    <aha-poll class="demo-vote" poll-title="Which slide type do you use most?" results="on-vote"
+      options='[{"id":"wc","label":"Word cloud"},{"id":"spin","label":"Spinner wheel"},{"id":"quiz","label":"Quiz"}]'
+      counts='{"wc":12,"spin":5,"quiz":19}' voters="36"></aha-poll>
+  </div>
+  <div class="lbl">Results after a vote (your pick marked)</div>
+  <div style="max-width:560px">
+    <aha-poll data-probe poll-title="Which slide type do you use most?" results="on-vote" voted value='["quiz"]'
+      options='[{"id":"wc","label":"Word cloud"},{"id":"spin","label":"Spinner wheel"},{"id":"quiz","label":"Quiz"}]'
+      counts='{"wc":12,"spin":5,"quiz":20}' voters="37"></aha-poll>
+  </div>
+  <div class="lbl">Multiple choice (percent of voters)</div>
+  <div style="max-width:560px">
+    <aha-poll class="demo-vote" poll-title="What would you like more of in the Community?" selection-mode="multiple"
+      options='[{"id":"tips","label":"Tips from other hosts"},{"id":"tpl","label":"Templates to copy"},{"id":"live","label":"Live sessions with the team"}]'
+      counts='{"tips":21,"tpl":30,"live":9}' voters="40"></aha-poll>
+  </div>
+  <div class="lbl">Closed</div>
+  <div style="max-width:560px">
+    <aha-poll poll-title="Best time for our next live session?" status="closed"
+      options='[{"id":"am","label":"Morning"},{"id":"pm","label":"Afternoon"},{"id":"eve","label":"Evening"}]'
+      counts='{"am":8,"pm":14,"eve":6}'></aha-poll>
+  </div>
+</div>
+
+<div class="pad">
+  <div class="lbl">Discourse poll plugin markup with the class layer (lib/discourse-poll.css)</div>
+  <div style="max-width:560px; display:flex; flex-direction:column; gap:16px">
+    <div class="poll" data-poll-name="poll" data-poll-type="regular" data-poll-status="open">
+      <div class="poll-container">
+        <ul class="options">
+          <li><button type="button"><svg class="fa d-icon d-icon-far-circle svg-icon" aria-hidden="true"><use href="#far-circle"></use></svg><span class="option-text">Word cloud</span></button></li>
+          <li class="chosen"><button type="button"><svg class="fa d-icon d-icon-circle svg-icon" aria-hidden="true"><use href="#circle"></use></svg><span class="option-text">Spinner wheel</span></button></li>
+          <li><button type="button"><svg class="fa d-icon d-icon-far-circle svg-icon" aria-hidden="true"><use href="#far-circle"></use></svg><span class="option-text">Quiz</span></button></li>
+        </ul>
+      </div>
+      <div class="poll-info"><div class="poll-info_counts"><div class="poll-info_counts-count"><span class="info-number">36</span><span class="info-label">voters</span></div></div></div>
+      <div class="poll-buttons"><button class="btn btn-default toggle-results" type="button"><svg class="fa d-icon d-icon-chart-bar svg-icon" aria-hidden="true"><use href="#chart-bar"></use></svg><span class="d-button-label">Results</span></button></div>
+    </div>
+    <div class="poll" data-poll-name="poll" data-poll-type="regular" data-poll-status="closed">
+      <div class="poll-container">
+        <ul class="results">
+          <li><div class="option"><p><span class="percentage">29%</span><span class="option-text">Morning</span></p></div><div class="bar-back"><div class="bar" style="width:29%"></div></div></li>
+          <li class="chosen"><div class="option"><p><span class="percentage">50%</span><span class="option-text">Afternoon</span></p></div><div class="bar-back"><div class="bar" style="width:50%"></div></div></li>
+          <li><div class="option"><p><span class="percentage">21%</span><span class="option-text">Evening</span></p></div><div class="bar-back"><div class="bar" style="width:21%"></div></div></li>
+        </ul>
+      </div>
+      <div class="poll-info"><div class="poll-info_counts"><div class="poll-info_counts-count"><span class="info-number">28</span><span class="info-label">voters</span></div></div><ul class="poll-info_instructions"><li><svg class="fa d-icon d-icon-lock svg-icon" aria-hidden="true"><use href="#lock"></use></svg><span>Poll closed</span></li></ul></div>
+    </div>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element (../lib/aha-poll.js) and the class layer (../lib/discourse-poll.css),
+     so the preview can never drift from lib/. -->
+<link rel="stylesheet" href="../lib/discourse-poll.css">
+<script type="module">
+  import '../lib/icons.js';
+  import '../lib/aha-poll.js';
+  for (const poll of document.querySelectorAll('aha-poll.demo-vote')) {
+    poll.addEventListener('vote', (e) => {
+      const counts = { ...poll.counts };
+      for (const id of e.detail.values) counts[id] = (counts[id] || 0) + 1;
+      poll.counts = counts;
+      poll.setAttribute('voters', String(Number(poll.getAttribute('voters')) + 1));
+      poll.setAttribute('voted', '');
+    });
+  }
+</script>

@@ -1,0 +1,246 @@
+{
+  "name": "Poll",
+  "slug": "poll",
+  "environment": [
+    "product",
+    "web"
+  ],
+  "group": "Data entry",
+  "tier": "leaf-lit",
+  "badge": "shared web component + Discourse class layer",
+  "element": "aha-poll",
+  "summary": "A poll or vote block for a forum post or web page: radio or checkbox rows, a Vote button, results as progress bars with a percent and a vote count, a voter count line, a closed state and results shown after you vote. Ships as a web component and as a class layer (lib/discourse-poll.css) for the Discourse poll plugin's own markup.",
+  "highlights": [
+    "Single or multiple choice",
+    "Results bars with percent and count",
+    "Results after vote, and a closed state",
+    "Web component, or a Discourse class layer"
+  ],
+  "lead": "ONE custom element, <aha-poll>, built only from DS parts: options are <aha-radio> rows (selection-mode=\"single\") or <aha-checkbox> rows (\"multiple\"), the submit is a primary <aha-button>, each result is an <aha-progressbar> under its label with the percent (SemiBold) and the vote count (tertiary), and the voter count sits in one 14px tertiary line. `results` sets when people may see the results: always, on-vote (after they vote) or on-close. `status=\"closed\"` disables the rows, hides Vote and shows the results with a lock line. The element fires `vote` with the picked ids; the host saves it, then sets `voted`, `counts` and `voters`, and the bars animate in place. A host that renders its own poll (the Discourse poll plugin, which casts and loads votes itself) links lib/discourse-poll.css: the Discourse tab maps each plugin class to its DS value.",
+  "codeNote": "Same element, same shadow-DOM CSS, identical render. React and Vue pass attributes (JSON for options, counts and value) and listen for `vote`. The Discourse class layer is hand-mapped to the same values and a test compares it to the element.",
+  "tokensUsed": [
+    "font-product",
+    "border-default",
+    "border-strong",
+    "radius-default",
+    "radius-xs",
+    "radius-pill",
+    "bg-container",
+    "text-default",
+    "text-tertiary",
+    "text-disabled",
+    "icon-default",
+    "color-primary",
+    "gray-30",
+    "size-l",
+    "size-default",
+    "weight-semibold",
+    "weight-regular",
+    "line-height-body",
+    "space-4",
+    "space-8",
+    "space-12",
+    "space-16",
+    "motion-slow",
+    "ease-out"
+  ],
+  "spec": [
+    {
+      "label": "Block",
+      "value": "1px border-default #E3E3E3 · radius 8 · padding 16 · 16 between parts · bg-container"
+    },
+    {
+      "label": "Title",
+      "value": "optional · 16px / 1.5 · SemiBold 600 · text-default"
+    },
+    {
+      "label": "Options",
+      "value": "<aha-radio> (single) or <aha-checkbox> (multiple) rows · min 24px high · 12 apart · label 14/21"
+    },
+    {
+      "label": "Vote",
+      "value": "primary <aha-button> \"Vote\", disabled until an option is picked; hidden once results show"
+    },
+    {
+      "label": "Result row",
+      "value": "label left (SemiBold with a system-check named Your vote on your own pick) · percent SemiBold text-default and \"N votes\" text-tertiary right · <aha-progressbar> under it (8px track gray-30 #F1F1F1, fill color-primary #E70E68), 4 below the label"
+    },
+    {
+      "label": "Percent",
+      "value": "single choice: of all votes; multiple choice: of voters, so the bars can add up to more than 100%"
+    },
+    {
+      "label": "Info line",
+      "value": "14px / 1.5 · Regular · text-tertiary #616161 · \"N voters\" and the status"
+    },
+    {
+      "label": "Results after vote",
+      "value": "results=\"on-vote\": rows and \"Results show after you vote\" until `voted`, then the bars; tertiary \"Change vote\" goes back to the rows"
+    },
+    {
+      "label": "Closed",
+      "value": "status=\"closed\": results only, no buttons, system-lock + \"Poll closed\" in the info line"
+    }
+  ],
+  "props": [
+    {
+      "name": "poll-title",
+      "type": "string",
+      "default": "—",
+      "desc": "Optional question shown above the options; also the options group's accessible name"
+    },
+    {
+      "name": "options",
+      "type": "JSON [{id,label}]",
+      "default": "[]",
+      "desc": "The options in order. Labels are set as text, never parsed as HTML"
+    },
+    {
+      "name": "counts",
+      "type": "JSON {id:number}",
+      "default": "{}",
+      "desc": "Votes per option id"
+    },
+    {
+      "name": "voters",
+      "type": "number",
+      "default": "sum of counts",
+      "desc": "People who voted; the base for multiple-choice percentages"
+    },
+    {
+      "name": "value",
+      "type": "JSON id[] | id",
+      "default": "[]",
+      "desc": "Picked option ids (the reader's vote once `voted`)"
+    },
+    {
+      "name": "selection-mode",
+      "type": "\"single\" | \"multiple\"",
+      "default": "\"single\"",
+      "desc": "Radio rows or checkbox rows"
+    },
+    {
+      "name": "results",
+      "type": "\"always\" | \"on-vote\" | \"on-close\"",
+      "default": "\"always\"",
+      "desc": "When readers may see the results"
+    },
+    {
+      "name": "status",
+      "type": "\"open\" | \"closed\"",
+      "default": "\"open\"",
+      "desc": "closed: results only, controls disabled, lock line"
+    },
+    {
+      "name": "voted",
+      "type": "boolean",
+      "default": "false",
+      "desc": "The reader has voted: the results show, with their pick marked"
+    },
+    {
+      "name": "vote (event)",
+      "type": "CustomEvent<{values: string[]}>",
+      "default": "—",
+      "desc": "Fired by Vote with the picked ids; save it, then set voted, counts and voters"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Poll",
+        "when": "a vote inside a page or forum post, where people see the tally after voting"
+      },
+      {
+        "what": "Poll class layer (lib/discourse-poll.css)",
+        "when": "the Discourse poll plugin renders the poll and casts the votes"
+      },
+      {
+        "what": "Answer list",
+        "when": "an audience answering a question on a presented deck (the frosted deck surface)"
+      },
+      {
+        "what": "Radio / Checkbox",
+        "when": "a form choice that is not a vote and shows no tally"
+      }
+    ],
+    "note": "The element never saves a vote: listen for `vote`, store it, then set `voted`, `counts` and `voters`. Keep options in authored order; do not sort by votes. In Discourse use the class layer so the plugin keeps casting and loading votes.",
+    "dsv3": "EXTENSION — DS V3 has no poll block. Composed from <aha-radio>, <aha-checkbox>, <aha-button> and <aha-progressbar> on --aha-* tokens, with the List row spacing."
+  },
+  "surfaces": [
+    "dashboard",
+    "web"
+  ],
+  "reuse": {
+    "entry": "./aha-poll",
+    "registers": "aha-poll",
+    "exportsNamed": [
+      "AhaPoll",
+      "defineAhaPoll"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "poll.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form: a web component in an HTML file renders on open, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "poll.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "poll.vue.txt"
+    },
+    {
+      "key": "discourse",
+      "label": "Discourse theme",
+      "file": "poll.discourse.txt",
+      "note": "Class layer on the poll plugin's own markup: link lib/tokens.css and lib/discourse-poll.css."
+    }
+  ],
+  "preview": "poll.preview.html",
+  "selfCheck": [
+    {
+      "label": "rows are real <aha-radio> / <aha-checkbox>, submit a primary <aha-button>",
+      "verdict": "PASS"
+    },
+    {
+      "label": "results are <aha-progressbar> with percent (600) and count in text-tertiary",
+      "verdict": "PASS"
+    },
+    {
+      "label": "voter line 14px text-tertiary #616161",
+      "verdict": "PASS"
+    },
+    {
+      "label": "closed and results-after-vote states",
+      "verdict": "PASS"
+    },
+    {
+      "label": "bars update in place, so the fill animates",
+      "verdict": "PASS"
+    }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the rendered element (getComputedStyle via headless CDP). The probe is a voted poll, so the results, info line and border all render; the measure also proves real <aha-progressbar> elements are nested.",
+    "ready": "!!(document.querySelector('aha-poll[data-probe]') && document.querySelector('aha-poll[data-probe]').shadowRoot && document.querySelector('aha-poll[data-probe]').shadowRoot.querySelector('.result .pct'))",
+    "singleUI": true,
+    "measure": "(function(){var r=document.querySelector('aha-poll[data-probe]').shadowRoot;var p=getComputedStyle(r.querySelector('.poll'));var i=getComputedStyle(r.querySelector('.info'));var pc=getComputedStyle(r.querySelector('.pct'));var c=getComputedStyle(r.querySelector('.count'));var bar=r.querySelector('aha-progressbar');return{borderColor:p.borderTopColor,borderWidth:p.borderTopWidth,radius:p.borderTopLeftRadius,padding:p.paddingTop,infoColor:i.color,infoSize:i.fontSize,pctWeight:pc.fontWeight,countColor:c.color,reusesProgressbar:!!(bar&&bar.shadowRoot)};})()",
+    "expect": {
+      "borderColor": "rgb(227, 227, 227)",
+      "borderWidth": "1px",
+      "radius": "8px",
+      "padding": "16px",
+      "infoColor": "rgb(97, 97, 97)",
+      "infoSize": "14px",
+      "pctWeight": "600",
+      "countColor": "rgb(97, 97, 97)",
+      "reusesProgressbar": true
+    }
+  }
+}
