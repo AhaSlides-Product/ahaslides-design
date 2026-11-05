@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1034.0 — 2026-11-05
 ### Added
-- **`aha-tag` `href`, `target` and `rel`** (#NNN). A category tag that navigates is now one element: `<aha-tag href="/blog/category/polls">Polls</aha-tag>` renders a real `<a>` that is keyboard focusable, with a `:focus-visible` ring and a hover state on existing tag and link tokens. `target="_blank"` without a `rel` gets `noopener noreferrer`. `href` is ignored on a `checkable` or `closable` tag. Without `href` nothing changes. Revert: drop the three attributes.
+- **`aha-tag` `href`, `target` and `rel`** (#681). A category tag that navigates is now one element: `<aha-tag href="/blog/category/polls">Polls</aha-tag>` renders a real `<a>` that is keyboard focusable, with a `:focus-visible` ring and a hover state on existing tag and link tokens. `target="_blank"` without a `rel` gets `noopener noreferrer`. `href` is ignored on a `checkable` or `closable` tag. Without `href` nothing changes. Revert: drop the three attributes.
 
 ## 0.1033.0 — 2026-11-05
 ### Changed
