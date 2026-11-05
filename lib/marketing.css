@@ -330,6 +330,7 @@
 }
 .aha-article-header__categories{display:inline-flex;flex-wrap:wrap;gap:var(--aha-space-8)}
 .aha-article-header__byline{display:inline-flex;align-items:center;gap:var(--aha-space-8)}
+.aha-article-header__facts{display:inline-flex;align-items:center;gap:var(--aha-space-8)}
 .aha-article-header__author{color:var(--aha-text-default);font-weight:var(--aha-weight-semibold);text-decoration:none;border-radius:var(--aha-radius-xs);transition:color var(--aha-motion-fast) var(--aha-ease-out)}
 @media (hover:hover){
   .aha-article-header__author:hover{color:var(--aha-text-link-hover);text-decoration:underline}
@@ -453,6 +454,8 @@
 @container aha-article (max-width:479px){
   .aha-article__inner{--aha-web-gutter:var(--aha-space-16)}
   .aha-article-header__title{font-size:var(--aha-size-h3)}
+  .aha-article-header__facts{flex-basis:100%;justify-content:center}
+  .aha-article-header__sep{display:none}
   .aha-article-callout{padding:var(--aha-space-24) var(--aha-space-16)}
 }
 /* Comparison table (marketing/comparison.json) */
