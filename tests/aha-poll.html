@@ -1,0 +1,27 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../lib/tokens.css">
+<link rel="stylesheet" href="../lib/discourse-poll.css">
+<div style="width:480px">
+  <aha-poll id="single" results="on-vote"
+    options='[{"id":"a","label":"&lt;img src=x onerror=alert(1)&gt;"},{"id":"b","label":"Quiz"}]'
+    counts='{"a":1,"b":3}'></aha-poll>
+  <aha-poll id="multi" selection-mode="multiple" voted value='["a","b"]'
+    options='[{"id":"a","label":"Tips"},{"id":"b","label":"Templates"}]'
+    counts='{"a":3,"b":2}' voters="4"></aha-poll>
+  <div class="poll" id="discourse" data-poll-type="regular" data-poll-status="closed">
+    <div class="poll-container">
+      <ul class="results">
+        <li><div class="option"><p><span class="percentage">25%</span><span class="option-text">Tips</span></p></div><div class="bar-back"><div class="bar" style="width:25%"></div></div></li>
+      </ul>
+    </div>
+    <div class="poll-info"><div class="poll-info_counts"><div class="poll-info_counts-count"><span class="info-number">4</span><span class="info-label">voters</span></div></div></div>
+  </div>
+</div>
+<script type="module">
+  import '../lib/icons.js';
+  import '../lib/aha-poll.js';
+  await customElements.whenDefined('aha-poll');
+  await customElements.whenDefined('aha-progressbar');
+  window.pollFixtureReady = true;
+</script>
