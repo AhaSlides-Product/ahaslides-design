@@ -36,7 +36,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.1048.4 — 2026-11-05
 
 ### Fixed
-- **Paywall regression test no longer flakes on a busy machine.** The narrowed-viewport cases wait for the resize to land before measuring the popover. Test only, no component change (DESY-504, #000)
+- **Paywall regression test no longer flakes on a busy machine.** The narrowed-viewport cases wait for the resize to land before measuring the popover. Test only, no component change (DESY-504, #690)
 
 ## 0.1048.3 — 2026-11-05
 
