@@ -36,7 +36,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.1048.2 — 2026-11-05
 
 ### Fixed
-- **Navigation: the open Solutions panel is one column of sections again, 642px wide.** 0.1047.0 left a stray `nn` in front of the `.aha-header__panel--solutions` rule, so the selector matched nothing and the Use cases and Integrations sections sat side by side at their natural width (DESY-505, #PRNUM)
+- **Navigation: the open Solutions panel is one column of sections again, 642px wide.** 0.1047.0 left a stray `nn` in front of the `.aha-header__panel--solutions` rule, so the selector matched nothing and the Use cases and Integrations sections sat side by side at their natural width (DESY-505, #688)
 
 ## 0.1048.1 — 2026-11-05
 
