@@ -1,0 +1,199 @@
+/* Discourse composer → the DS Composer (<aha-composer>), for a Discourse theme that cannot replace core
+   markup. Load lib/tokens.css first, then this file; every value is the Composer contract's.
+   Scoped to #reply-control, whose id outranks Discourse's own class selectors, so no !important is needed. */
+
+#reply-control {
+  font-family: var(--aha-font-product, "Plus Jakarta Sans", sans-serif);
+  color: var(--aha-text-default, #1A1A1A);
+  background: var(--aha-bg-container, #FFFFFF);
+  border-top: 1px solid var(--aha-border-default, #E3E3E3);
+}
+#reply-control .reply-area {
+  gap: var(--aha-space-12, 12px);
+  padding: var(--aha-space-12, 12px) var(--aha-space-16, 16px);
+}
+
+/* Editor box: the Input and Textarea border, hover and focus ring */
+#reply-control .d-editor-container {
+  gap: var(--aha-space-12, 12px);
+}
+#reply-control .d-editor-textarea-wrapper {
+  background: var(--aha-bg-container, #FFFFFF);
+  border: 1px solid var(--aha-border-default, #E3E3E3);
+  border-radius: var(--aha-radius-default, 8px);
+  transition: border-color var(--aha-motion-mid, .2s) var(--aha-ease-in-out, ease-in-out),
+    box-shadow var(--aha-motion-mid, .2s) var(--aha-ease-in-out, ease-in-out);
+}
+#reply-control .d-editor-textarea-wrapper:hover {
+  border-color: var(--aha-border-hover, #E70E68);
+}
+#reply-control .d-editor-textarea-wrapper:focus-within,
+#reply-control .d-editor-textarea-wrapper.in-focus {
+  border-color: var(--aha-color-primary, #E70E68);
+  box-shadow: 0 0 0 2px var(--aha-focus-ring-soft, rgba(231, 14, 104, .3));
+  outline: 0;
+}
+
+/* Toolbar: the tertiary icon-only Button, size sm (28 × 28, radius 4, 16px glyph) */
+#reply-control .d-editor-button-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--aha-space-2, 2px);
+  padding: var(--aha-space-4, 4px) var(--aha-space-8, 8px);
+  background: transparent;
+  border-bottom: 1px solid var(--aha-border-secondary, #F1F1F1);
+}
+#reply-control .d-editor-button-bar .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--aha-radius-xs, 4px);
+  background: transparent;
+  color: var(--aha-text-default, #1A1A1A);
+  transition: background-color var(--aha-motion-mid, .2s) var(--aha-ease-in-out, ease-in-out),
+    color var(--aha-motion-mid, .2s) var(--aha-ease-in-out, ease-in-out);
+}
+#reply-control .d-editor-button-bar .btn .d-icon {
+  width: 16px;
+  height: 16px;
+  color: inherit;
+}
+#reply-control .d-editor-button-bar .btn:hover,
+#reply-control .d-editor-button-bar .btn:active,
+#reply-control .d-editor-button-bar .btn.active {
+  background: var(--aha-button-ghost-bg-hover, #E70E680D);
+  color: var(--aha-text-link-hover, #DB005B);
+}
+#reply-control .d-editor-button-bar .btn:focus-visible {
+  outline: 2px solid var(--aha-border-focus, #E70E68);
+  outline-offset: 2px;
+}
+#reply-control .d-editor-button-bar .d-editor-spacer {
+  width: 1px;
+  height: 16px;
+  margin: 0 var(--aha-space-4, 4px);
+  background: var(--aha-border-secondary, #F1F1F1);
+}
+
+/* Field: 14/21 ink, the editor box carries the border */
+#reply-control .d-editor-input {
+  padding: var(--aha-space-8, 8px) var(--aha-space-12, 12px);
+  border: 0;
+  background: transparent;
+  font-family: inherit;
+  font-size: var(--aha-size-default, 14px);
+  line-height: 21px;
+  color: var(--aha-text-default, #1A1A1A);
+  box-shadow: none;
+  outline: 0;
+}
+#reply-control .d-editor-input::placeholder {
+  color: var(--aha-text-placeholder, #616161);
+}
+
+/* Preview pane: post-body type, 16/24 Regular ink */
+#reply-control .d-editor-preview-wrapper {
+  border: 1px solid var(--aha-border-secondary, #F1F1F1);
+  border-radius: var(--aha-radius-default, 8px);
+  background: var(--aha-bg-container, #FFFFFF);
+}
+#reply-control .d-editor-preview {
+  padding: var(--aha-space-12, 12px) var(--aha-space-16, 16px);
+  font-family: inherit;
+  font-size: var(--aha-size-l, 16px);
+  line-height: var(--aha-line-height-body, 1.5);
+  font-weight: var(--aha-weight-regular, 400);
+  color: var(--aha-text-default, #1A1A1A);
+  overflow-wrap: anywhere;
+}
+
+/* Actions: Reply is the primary Button (lg 40, radius 8, 16px SemiBold), Cancel the tertiary one */
+#reply-control .save-or-cancel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--aha-space-8, 8px);
+}
+#reply-control .save-or-cancel :is(.btn-primary, .cancel) {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--aha-space-8, 8px);
+  height: 40px;
+  padding: 0 var(--aha-space-16, 16px);
+  border: 0;
+  border-radius: var(--aha-radius-default, 8px);
+  font-family: inherit;
+  font-size: var(--aha-size-l, 16px);
+  font-weight: var(--aha-weight-semibold, 600);
+  text-decoration: none;
+  transition: background-color var(--aha-motion-mid, .2s) var(--aha-ease-in-out, ease-in-out),
+    color var(--aha-motion-mid, .2s) var(--aha-ease-in-out, ease-in-out),
+    box-shadow var(--aha-motion-mid, .2s) var(--aha-ease-in-out, ease-in-out);
+}
+#reply-control .save-or-cancel .btn-primary {
+  background: var(--aha-button-primary-bg, #E70E68);
+  color: var(--aha-button-primary-text, #FFFFFF);
+  box-shadow: var(--aha-button-elevate-primary, 0 2px 0 0 rgba(0, 0, 0, .04));
+}
+#reply-control .save-or-cancel .btn-primary:hover {
+  background: var(--aha-button-primary-bg-hover, #DB005B);
+  box-shadow: var(--aha-button-elevate-primary-hover, 0 4px 12px rgba(231, 14, 104, .32));
+}
+#reply-control .save-or-cancel .btn-primary:active {
+  background: var(--aha-button-primary-bg-press, #DB005B);
+  box-shadow: var(--aha-button-elevate-primary, 0 2px 0 0 rgba(0, 0, 0, .04));
+}
+#reply-control .save-or-cancel .btn-primary:disabled {
+  background: var(--aha-button-disabled-bg, #E3E3E3);
+  color: var(--aha-button-disabled-text, #B5B5B5);
+  box-shadow: none;
+}
+#reply-control .save-or-cancel .cancel {
+  background: transparent;
+  color: var(--aha-text-default, #1A1A1A);
+}
+#reply-control .save-or-cancel .cancel:hover,
+#reply-control .save-or-cancel .cancel:active {
+  background: var(--aha-button-ghost-bg-hover, #E70E680D);
+  color: var(--aha-text-link-hover, #DB005B);
+}
+#reply-control .save-or-cancel :is(.btn-primary, .cancel):focus-visible {
+  outline: 2px solid var(--aha-button-focus-ring, #E70E68);
+  outline-offset: 2px;
+}
+
+/* Registry glyphs over Discourse's own icon sprite: the sprite stays, the DS glyph is painted as a mask
+   in the icon's ink. The url() is relative to this file, so it always loads the glyph of the same release.
+   An icon with no line here (the blockquote button) keeps its Discourse glyph until the registry has one. */
+#reply-control .d-icon:is(.d-icon-bold, .d-icon-italic, .d-icon-link, .d-icon-code, .d-icon-list-ul, .d-icon-list-ol, .d-icon-upload, .d-icon-far-image, .d-icon-far-face-smile, .d-icon-far-smile, .d-icon-strikethrough, .d-icon-gear, .d-icon-xmark, .d-icon-times) {
+  background: currentColor;
+  -webkit-mask: var(--aha-discourse-glyph) center / 100% 100% no-repeat;
+  mask: var(--aha-discourse-glyph) center / 100% 100% no-repeat;
+}
+#reply-control .d-icon:is(.d-icon-bold, .d-icon-italic, .d-icon-link, .d-icon-code, .d-icon-list-ul, .d-icon-list-ol, .d-icon-upload, .d-icon-far-image, .d-icon-far-face-smile, .d-icon-far-smile, .d-icon-strikethrough, .d-icon-gear, .d-icon-xmark, .d-icon-times) > use {
+  visibility: hidden;
+}
+#reply-control .d-icon-bold { --aha-discourse-glyph: url("../icons/svg/system/system-text-b.svg"); }
+#reply-control .d-icon-italic { --aha-discourse-glyph: url("../icons/svg/system/system-text-italic.svg"); }
+#reply-control .d-icon-link { --aha-discourse-glyph: url("../icons/svg/system/system-link.svg"); }
+#reply-control .d-icon-code { --aha-discourse-glyph: url("../icons/svg/system/system-code.svg"); }
+#reply-control .d-icon-list-ul { --aha-discourse-glyph: url("../icons/svg/system/system-list-bullet.svg"); }
+#reply-control .d-icon-list-ol { --aha-discourse-glyph: url("../icons/svg/system/system-list-numbers.svg"); }
+#reply-control .d-icon-upload { --aha-discourse-glyph: url("../icons/svg/system/system-upload-simple.svg"); }
+#reply-control .d-icon-far-image { --aha-discourse-glyph: url("../icons/svg/system/system-image-square.svg"); }
+#reply-control :is(.d-icon-far-face-smile, .d-icon-far-smile) { --aha-discourse-glyph: url("../icons/svg/system/system-smiley.svg"); }
+#reply-control .d-icon-strikethrough { --aha-discourse-glyph: url("../icons/svg/system/system-text-strikethrough.svg"); }
+#reply-control .d-icon-gear { --aha-discourse-glyph: url("../icons/svg/system/system-gear.svg"); }
+#reply-control :is(.d-icon-xmark, .d-icon-times) { --aha-discourse-glyph: url("../icons/svg/system/system-x.svg"); }
+
+@media (prefers-reduced-motion: reduce) {
+  #reply-control :is(.d-editor-textarea-wrapper, .d-editor-button-bar .btn, .save-or-cancel .btn-primary, .save-or-cancel .cancel) {
+    transition: none;
+  }
+}

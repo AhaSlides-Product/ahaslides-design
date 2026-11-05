@@ -1,6 +1,6 @@
 {
   "name": "@ahaslides-product/design",
-  "version": "0.1059.0",
+  "version": "0.1065.0",
   "description": "AhaSlides design system for agents — single source of truth (tokens + component contracts) → generated docs, llms.txt, design.md, and per-component agent feeds. Hybrid: shared web-component primitives + antd/ant-design-vue composites.",
   "type": "module",
   "publishConfig": {
@@ -123,6 +123,7 @@
     "./lib/aha-select.js",
     "./lib/aha-counted-input.js",
     "./lib/aha-counted-textarea.js",
+    "./lib/aha-composer.js",
     "./lib/aha-number-with-unit.js",
     "./lib/aha-card-select.js",
     "./lib/aha-mode-field.js",
@@ -293,6 +294,8 @@
     "./aha-select": "./lib/aha-select.js",
     "./aha-counted-input": "./lib/aha-counted-input.js",
     "./aha-counted-textarea": "./lib/aha-counted-textarea.js",
+    "./aha-composer": "./lib/aha-composer.js",
+    "./discourse-composer.css": "./lib/discourse-composer.css",
     "./aha-number-with-unit": "./lib/aha-number-with-unit.js",
     "./aha-card-select": "./lib/aha-card-select.js",
     "./aha-mode-field": "./lib/aha-mode-field.js",
