@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1024.0 — 2026-11-05
+### Added
+- Four layer-order icons for an Arrange or right-click menu, each with meaning words for `npm run icon-search layer order`: `system-bring-to-front` and `system-send-to-back` (one layer, the arrow leaves it upwards or downwards) and `system-bring-forward` and `system-send-backward` (the same with a second layer, for one step). `system-stack` stays the generic layers glyph, and `system-arrow-up` / `system-arrow-down` stay plain directions. The README and Icon contract name counts are now 402 (#NNN)
+
 ## 0.1022.2 — 2026-11-05
 
 ### Fixed
