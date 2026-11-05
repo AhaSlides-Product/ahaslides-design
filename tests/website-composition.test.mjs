@@ -383,10 +383,13 @@ test('W9: a framed photo only fades in, never scaled or moved, so no edge is cro
   for (const layout of features.layouts) {
     const framed = layout.html.includes('aha-features__frame');
     assert.equal(framed, layout.slug === 'icon-list-photo', layout.slug);
-    if (framed) assert.doesNotMatch(layout.html, /aha-features__photo--(fill|pink-frame)/);
+    if (framed) assert.doesNotMatch(layout.html, /aha-features__photo--pink-frame/);
   }
-  assert.equal(declarations(testimonialsCss, '.aha-testimonials__photo').height, '100%');
-  assert.equal(declarations(numbersCss, '.aha-numbers__image').height, '100%');
+  for (const [css, selector] of [[testimonialsCss, '.aha-testimonials__photo'], [numbersCss, '.aha-numbers__image']]) {
+    assert.equal(declarations(css, selector).width, '100%', selector);
+    assert.equal(declarations(css, selector).height, 'auto', selector);
+    assert.equal(declarations(css, selector.replace(/__(photo|image)$/, '__frame'))['aspect-ratio'], undefined, selector);
+  }
 });
 
 test('W9: the motion script imports as a no-op outside a browser and keeps the final number for screen readers and print', async () => {
