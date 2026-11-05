@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1054.0 — 2026-11-05
+
+### Added
+- Avatar: a Third-party initials rule. Any initials avatar on a host the DS does not own (a Discourse letter avatar) uses the Initials style already on the contract (bg-accent ground, ink #1A1A1A, SemiBold 600), never a hashed colour; no new value. A new Discourse theme tab carries an initializer that swaps each server-rendered letter-avatar `<img>` for `<aha-avatar name>` (#PR)
+
 ## 0.1051.1 — 2026-11-05
 
 ### Fixed
