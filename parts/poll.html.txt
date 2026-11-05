@@ -8,11 +8,14 @@
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-poll.js';  // registers <aha-poll>
 
   const poll = document.querySelector('#slide-poll');
+  let previousVote = [];
   poll.addEventListener('vote', (e) => {
     const counts = { ...poll.counts };
+    for (const id of previousVote) counts[id] = Math.max(0, (counts[id] || 0) - 1);
     for (const id of e.detail.values) counts[id] = (counts[id] || 0) + 1;
     poll.counts = counts;
-    poll.setAttribute('voters', String(Number(poll.getAttribute('voters')) + 1));
+    if (!poll.hasAttribute('voted')) poll.setAttribute('voters', String(Number(poll.getAttribute('voters')) + 1));
+    previousVote = [...e.detail.values];
     poll.setAttribute('voted', '');
   });
 </script>
