@@ -33,9 +33,17 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1045.0 — 2026-11-05
+## 0.1049.0 — 2026-11-05
 ### Added
 - Blog article website section family (`marketing/article.json`): post header, article body that styles plain CMS HTML (headings, lists, quote, figure, code, table, callout), the `aha-text-link` class with the Button text-link values, a table of contents that sticks on desktop and folds into a button on a phone, a share row with brand icons and Copy link, and the Article page layout that ties them together at a 720px measure (#684)
+
+## 0.1047.0 — 2026-11-05
+### Fixed
+- **Navigation: the open Products panel stays inside the viewport from 992px up.** At 992 to about 1105px the 988px panel lost up to 81px of content to the header's clip. On desktop it now narrows to the viewport width less a 32px gutter either side and shifts left only as far as needed, positioned from its Products item with CSS anchor positioning. From about 1105px the panel is where it was. Browsers without anchor positioning keep the previous placement (#685)
+
+## 0.1044.1 — 2026-11-05
+### Fixed
+- **`<aha-alert>` action wraps below the text in a narrow alert** (#680). The `slot="action"` button stays beside the text while the alert keeps at least 200 px of text beside it, and moves below the text (8 px under it, 6 px small) when it does not. It follows the alert's own width, not the viewport, so a 222 px card no longer squeezes the message to one word per line. Wide alerts look the same as before.
 
 ## 0.1044.0 — 2026-11-05
 ### Added
