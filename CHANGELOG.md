@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1029.0 — 2026-11-05
 ### Added
-- **`brand-tiktok` icon and the TikTok logo** (#NNN). `<aha-icon name="brand-tiktok">` joins the Brand family for social links (AhaSlides Community footer), with the logo in `logo/` (line, original colours and greyscale). WhatsApp needs no new icon: it stays `system-whatsapp-logo`, and the social-links lists in AGENTS.md and colour rule 2.6a now name `brand-tiktok`.
+- **`brand-tiktok` icon and the TikTok logo** (#676). `<aha-icon name="brand-tiktok">` joins the Brand family for social links (AhaSlides Community footer), with the logo in `logo/` (line, original colours and greyscale). WhatsApp needs no new icon: it stays `system-whatsapp-logo`, and the social-links lists in AGENTS.md and colour rule 2.6a now name `brand-tiktok`.
 
 ## 0.1028.0 — 2026-11-05
 ### Changed
