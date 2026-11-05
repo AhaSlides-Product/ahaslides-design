@@ -1,0 +1,27 @@
+import '@ahaslides-product/design/aha-topic-row';   // registers <aha-topic-row> (+ <aha-avatar>, <aha-tag>)
+
+// A plain custom element: every prop is an attribute, so no wrapper is needed. Boolean states
+// (read, pinned) are present or absent; React 19 passes `true` as an empty attribute, and
+// `undefined` leaves it off.
+function TopicRow({ topic }) {
+  return (
+    <aha-topic-row
+      topic-title={topic.title}
+      href={topic.url}
+      author={topic.author}
+      avatar-src={topic.avatarUrl}
+      category={topic.category}
+      category-href={topic.categoryUrl}
+      excerpt={topic.excerptText}
+      likes={topic.likes}
+      replies={topic.replies}
+      time={topic.ago}
+      datetime={topic.createdAt}
+      read={topic.read ? '' : undefined}
+      pinned={topic.pinned ? '' : undefined}
+    />
+  );
+}
+
+// usage
+<div>{topics.map((t) => <TopicRow key={t.id} topic={t} />)}</div>

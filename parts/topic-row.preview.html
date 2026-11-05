@@ -1,0 +1,49 @@
+<div class="pad">
+  <div class="lbl">Topic list (pinned, unread, read)</div>
+  <div style="max-width:720px; border-top:1px solid var(--aha-border-secondary)">
+    <aha-topic-row pinned topic-title="Welcome to the AhaSlides Community: start here" href="#welcome"
+      author="The AhaSlides Team" category="What's new" category-href="#whats-new"
+      excerpt="Say hello, ask a question, or share a deck you are proud of. Here is how the community works and where to find things."
+      likes="18" replies="42" time="3d" datetime="2026-11-02T09:00:00Z"></aha-topic-row>
+    <aha-topic-row data-probe topic-title="How do you keep a word cloud readable with 200 answers?" href="#word-cloud"
+      author="Ada Lovelace" category="Slide types" category-href="#slide-types"
+      excerpt="We run a weekly all-hands with about 200 people. The word cloud gets crowded fast. Do you limit answers per person, or filter words first? Here is what we tried so far, and what still goes wrong when the room is big."
+      likes="4" replies="12" time="2h" datetime="2026-11-05T09:00:00Z"></aha-topic-row>
+    <aha-topic-row read topic-title="Spinner wheel: can the winner be removed automatically?" href="#spinner"
+      author="Grace Hopper" category="Ask and share" category-href="#ask"
+      excerpt="After each spin I want the picked name gone from the wheel, without editing the slide."
+      likes="1" replies="0" time="Oct 28" datetime="2026-10-28T15:30:00Z"></aha-topic-row>
+  </div>
+</div>
+
+<div class="pad">
+  <div class="lbl">Host markup with the class layer (lib/topic-row.css on a table row, as a Discourse theme applies it)</div>
+  <table style="max-width:720px; width:100%; border-collapse:collapse; border-top:1px solid var(--aha-border-secondary)">
+    <tbody>
+      <tr class="aha-topic-row">
+        <td class="aha-topic-row__avatar"><aha-avatar name="Alan Turing" size="40" aria-hidden="true"></aha-avatar></td>
+        <td class="aha-topic-row__main">
+          <div class="aha-topic-row__head">
+            <a class="aha-topic-row__title" href="#host">Export a report as PDF with the speaker notes</a>
+            <aha-tag href="#ideas">Ideas</aha-tag>
+          </div>
+          <p class="aha-topic-row__excerpt">Our trainers want one PDF per session with the slides, the responses and their notes side by side.</p>
+          <div class="aha-topic-row__meta">
+            <span>Alan Turing</span>
+            <span class="aha-topic-row__stat"><aha-icon name="system-heart-straight" size="16" decorative></aha-icon>7<span class="aha-topic-row__sr"> likes</span></span>
+            <span class="aha-topic-row__stat"><aha-icon name="system-chat-circle" size="16" decorative></aha-icon>3<span class="aha-topic-row__sr"> replies</span></span>
+            <time datetime="2026-11-04T10:00:00Z">Yesterday</time>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Imports the REAL shipped element (../lib/aha-topic-row.js) and the generated class layer
+     (../lib/topic-row.css) — no inlined copy, so the preview can never drift from lib/. -->
+<link rel="stylesheet" href="../lib/topic-row.css">
+<script type="module">
+  import '../lib/icons.js';
+  import '../lib/aha-topic-row.js';
+</script>
