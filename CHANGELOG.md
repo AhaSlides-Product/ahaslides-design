@@ -33,6 +33,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1022.2 — 2026-11-05
+
+### Fixed
+
+- A failed load of a decorative chunk (the empty-state illustrations, icons, or a sibling component) no longer raises an unhandled promise rejection: the fire-and-forget `import()` in Empty, Data table, antd Empty, Close button row, Table expandable and Shortcut key now swallows the failure and the component renders without the decoration (#999).
+
 ## 0.1022.1 — 2026-11-05
 
 ### Changed
