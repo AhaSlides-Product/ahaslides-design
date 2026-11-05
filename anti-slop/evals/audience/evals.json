@@ -2103,6 +2103,184 @@
         "authored": "ahaslides-design",
         "why": "Team Retro DS audit D13 / D15 / D17: the DS now ships <aha-stepper>, <aha-autocomplete> and the sad / angry face glyphs"
       }
+    },
+    {
+      "id": 85,
+      "prompt": "Review this self-paced view. `manifest.json` has `setting.audienceQuizSelfPaced: true` and `self-paced-view.html` runs its own rules, timer and reveal. Option labels are 16px below 480px view width; from 480px they are `font-size: max(16px, min(4cqmin, 40px))` and the question is `max(16px, min(4.8cqmin, 48px))`. Is this correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "Mode C scope, DESY-513.",
+      "expected_output": "C5 and C19 PASS: mode C, phone values below 480px, scaled inside the caps above it. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C5 is marked PASS",
+        "C19 is marked PASS"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C5": "PASS",
+          "C19": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-513: a mode C self-paced view runs its own timer at full width, so C3, C5, C14 and C19 scope to it"
+      }
+    },
+    {
+      "id": 86,
+      "prompt": "Review this self-paced view. `manifest.json` has `setting.audienceQuizSelfPaced: true` and `self-paced-view.html` runs its own rules, timer and reveal. Option labels are `font-size: max(16px, min(6cqmin, 64px))` from 480px view width, so a 1920 x 1080 view shows them at 64px. Is this correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Mode C scope, DESY-513.",
+      "expected_output": "C5 FAILs: 64px is above the 40px cap for option labels. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C5 is marked FAIL"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C5": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-513: a mode C self-paced view runs its own timer at full width, so C3, C5, C14 and C19 scope to it"
+      }
+    },
+    {
+      "id": 87,
+      "prompt": "Review this self-paced view. `manifest.json` has `setting.audienceQuizSelfPaced: true` and `self-paced-view.html` runs its own rules, timer and reveal. Option labels are `font-size: 5.5vw`, so a 390px phone shows them at about 21px. Is this correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Mode C scope, DESY-513.",
+      "expected_output": "C19 FAILs: below 480px view width the label stays exactly 16px. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C19 is marked FAIL"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C19": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-513: a mode C self-paced view runs its own timer at full width, so C3, C5, C14 and C19 scope to it"
+      }
+    },
+    {
+      "id": 88,
+      "prompt": "Review this self-paced view. `manifest.json` has `setting.audienceQuizSelfPaced: false` and `self-paced-view.html` shows only the question body inside the host's 710px quiz layout. Option labels are `font-size: max(16px, min(4cqmin, 40px))`, so they reach 28px. Is this correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Mode C scope, DESY-513.",
+      "expected_output": "C19 FAILs: mode B keeps 16px, the scale is for mode C only. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C19 is marked FAIL"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C19": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-513: a mode C self-paced view runs its own timer at full width, so C3, C5, C14 and C19 scope to it"
+      }
+    },
+    {
+      "id": 89,
+      "prompt": "Review this self-paced view. `manifest.json` has `setting.audienceQuizSelfPaced: true` and `self-paced-view.js` persists the question's start and runs its own `<aha-countdown>`. When that timer ends with no answer it reveals the answer rows and shows one line, role=\"status\": \"Time's up! You'll get the next one.\" with 0 points. Is this correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "Mode C scope, DESY-513.",
+      "expected_output": "C14 PASSes: in mode C the host draws no Time's up, and the page draws one notice from its own timer. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C14 is marked PASS"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C14": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-513: a mode C self-paced view runs its own timer at full width, so C3, C5, C14 and C19 scope to it"
+      }
+    },
+    {
+      "id": 90,
+      "prompt": "Review this self-paced view. `manifest.json` has `setting.audienceQuizSelfPaced: false` and `self-paced-view.js` shows only the question body inside the host's quiz layout, with the host's timer. When `xprops.timeLimit` reaches 0 it prints its own \"Time's up\" line under the answers. Is this correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Mode C scope, DESY-513.",
+      "expected_output": "C14 FAILs: in mode B the host owns the expiry and announces it. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C14 is marked FAIL"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C14": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-513: a mode C self-paced view runs its own timer at full width, so C3, C5, C14 and C19 scope to it"
+      }
+    },
+    {
+      "id": 91,
+      "prompt": "Review this self-paced view. `manifest.json` has `setting.audienceQuizSelfPaced: true` and From 480px view width `self-paced-view.html` shows the question card above True and False tiles in two side-by-side columns that span the view. Below 480px the same parts stack in one column. There is no horizontal scroll at 320px and height is reported. Is this correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "Mode C scope, DESY-513.",
+      "expected_output": "C3 PASSes: mode C allows side-by-side tiles from 480px and stays one column on a phone. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C3 is marked PASS"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C3": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-513: a mode C self-paced view runs its own timer at full width, so C3, C5, C14 and C19 scope to it"
+      }
+    },
+    {
+      "id": 92,
+      "prompt": "Review this self-paced view. `manifest.json` has `setting.audienceQuizSelfPaced: true` and At every width `self-paced-view.html` is the phone stack in a centred 420px column, so a 1920 x 1080 view has 750px of empty space on each side. Is this correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Mode C scope, DESY-513.",
+      "expected_output": "C3 FAILs: from 960px wide a stretched phone column fails in mode C. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C3 is marked FAIL"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C3": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-513: a mode C self-paced view runs its own timer at full width, so C3, C5, C14 and C19 scope to it"
+      }
     }
   ]
 }

@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1071.0 — 2026-11-05
+### Changed
+- Audience judge C3, C5, C9, C13, C14, C19 and C28 now scope a mode C self-paced view (`setting.audienceQuizSelfPaced: true`). Below 480px wide the phone values hold; from 480px type may scale to set caps (question 48px, option labels 40px, scene titles 56px, body 32px, controls and metadata 20px), the layout may leave one column, and from 960px a stretched phone column fails. The page draws its own single Time's up notice and verdict, because the host draws neither there. `audience.*` and modes A and B do not change. Eight new audience eval cases. (#129)
+
 ## 0.1063.0 — 2026-11-05
 
 ### Added
