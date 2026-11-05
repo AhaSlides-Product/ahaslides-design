@@ -1,6 +1,6 @@
 <!-- Paste-and-run: save as .html and open in a browser. No build step.
      <aha-csat> is the SAME shared custom element React and Vue consume — here in its native
-     form. Its thumbs are the shared <aha-icon>, and a thumbs-down opens a feedback popover built
+     form. Its buttons are the DS icon button (<aha-button> tertiary, icon-only, sm) with the shared <aha-icon>, and a thumbs-down opens a feedback popover built
      from the shared <aha-popover> + <aha-counted-textarea> + <aha-button> — all loaded by the
      element itself. Theming comes only from the --aha-* tokens in tokens.css. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
@@ -21,6 +21,10 @@
 
 <!-- Opt-ins for more feedback: a like also opens the feedback popover, and a "received" line shows once rated. -->
 <aha-csat prompt="How did this import go?" source="docs_more_feedback" feedback-on="any" confirmation="Thanks, feedback received"></aha-csat>
+
+<!-- Already inside a popover or card: feedback-display="inline" opens the feedback field in flow under the buttons,
+     in the same card, instead of a second popover. -->
+<aha-csat prompt="How did this import go?" source="docs_inline" feedback-button layout="stacked" feedback-display="inline"></aha-csat>
 
 <!-- Opt-in feedback-hint shows a helper line under the feedback text box, beside the counter. -->
 <aha-csat prompt="How did this import go?" source="docs_hint" feedback-hint="What you write goes to the developer"></aha-csat>

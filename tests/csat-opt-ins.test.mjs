@@ -21,7 +21,7 @@ const scenarios = String.raw`(async () => {
   out.plainUpHasPopupAttr = root('plain').querySelector('.up').hasAttribute('aria-haspopup');
   out.plainConfirmEmpty = root('plain').querySelector('.confirm').textContent;
   out.plainConfirmHidden = getComputedStyle(root('plain').querySelector('.confirm')).display;
-  out.plainSelectedColour = getComputedStyle(root('plain').querySelector('.up')).color;
+  out.plainSelectedColour = getComputedStyle(root('plain').querySelector('.up').shadowRoot.querySelector('button')).color;
   root('plain').querySelector('.down').click(); await wait(400);
   out.plainDownOpens = pop('plain').open;
 
@@ -34,7 +34,7 @@ const scenarios = String.raw`(async () => {
   out.anyUpExpanded = anyRoot.querySelector('.up').getAttribute('aria-expanded');
   out.anyUpHaspopup = anyRoot.querySelector('.up').getAttribute('aria-haspopup');
   out.anyConfirm = anyRoot.querySelector('.confirm').textContent;
-  out.anySelectedColour = getComputedStyle(anyRoot.querySelector('.up')).color;
+  out.anySelectedColour = getComputedStyle(anyRoot.querySelector('.up').shadowRoot.querySelector('button')).color;
   anyRoot.querySelector('.fb-close').click(); await wait(400);
   out.anyClosedWithoutText = !pop('any').open;
   out.anyValueKept = any.getAttribute('value');
@@ -132,4 +132,70 @@ test('csat: the popover anchors to the whole thumbs group and tooltips yield whi
   assert.equal(r.hintShown, 'What you write goes to the developer');
   assert.equal(r.tooltipHiddenWhileOpen, 'hidden');
   assert.equal(r.closed, true);
+});
+
+const inlineScenarios = String.raw`(async () => {
+  const wait = (ms) => new Promise((done) => setTimeout(done, ms));
+  const host = document.getElementById('inline');
+  const root = host.shadowRoot;
+  const panel = root.querySelector('.fb-inline');
+  const down = root.querySelector('.down');
+  const feedbackButton = root.querySelector('.fb-open');
+  const events = [];
+  host.addEventListener('feedback', (e) => events.push([e.detail.rating, e.detail.feedback]));
+  const field = () => root.querySelector('.fb-text').shadowRoot.querySelector('.field');
+  const out = {
+    popoverDisplay: getComputedStyle(root.querySelector('aha-popover')).display,
+    closedHeight: panel.getBoundingClientRect().height,
+    closedInert: panel.inert,
+    downHaspopup: down.getAttribute('aria-haspopup'),
+    downPressedAtRest: down.shadowRoot.querySelector('button').getAttribute('aria-pressed'),
+    reducedMotionDuration: getComputedStyle(panel).transitionDuration,
+  };
+  down.click(); await wait(300);
+  const btns = root.querySelector('.btns').getBoundingClientRect();
+  const opened = panel.getBoundingClientRect();
+  out.open = { value: host.getAttribute('value'), role: panel.getAttribute('role'), label: panel.getAttribute('aria-label'),
+    expanded: down.getAttribute('aria-expanded'), innerExpanded: down.shadowRoot.querySelector('button').getAttribute('aria-expanded'),
+    pressed: down.shadowRoot.querySelector('button').getAttribute('aria-pressed'), popoverOpen: root.querySelector('aha-popover').open,
+    inert: panel.inert, belowButtons: opened.top >= btns.bottom - 1, insideHost: opened.right <= host.getBoundingClientRect().right + 1,
+    tall: opened.height > 60, textareaFocused: root.querySelector('.fb-text').shadowRoot.activeElement === field() };
+  field().dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, composed: true })); await wait(300);
+  out.escape = { collapsed: !host.hasAttribute('data-feedback-open') && panel.getBoundingClientRect().height === 0,
+    expanded: down.getAttribute('aria-expanded'), focusOnOpener: root.activeElement === down, value: host.getAttribute('value') };
+  feedbackButton.click(); await wait(300);
+  out.feedbackButton = { open: host.hasAttribute('data-feedback-open'), expanded: feedbackButton.getAttribute('aria-expanded'), downExpanded: down.getAttribute('aria-expanded') };
+  root.querySelector('.fb-close').click(); await wait(300);
+  out.closedByX = !host.hasAttribute('data-feedback-open');
+  down.click(); await wait(100);
+  down.click(); await wait(300);
+  root.querySelector('.fb-text').value = 'too slow';
+  root.querySelector('.fb-text').dispatchEvent(new Event('input'));
+  root.querySelector('.fb-submit').click(); await wait(300);
+  out.sent = { events, collapsed: !host.hasAttribute('data-feedback-open'), confirm: root.querySelector('.confirm').textContent };
+  root.querySelector('.up').click(); await wait(100);
+  root.querySelector('.down').click(); await wait(300);
+  out.reopensAfterRerate = host.hasAttribute('data-feedback-open');
+  host.removeAttribute('feedback-display'); await wait(100);
+  out.backToPopover = { collapsed: !host.hasAttribute('data-feedback-open'), haspopup: down.getAttribute('aria-haspopup'),
+    bodyInPopover: root.querySelector('.fb-body').parentNode === root.querySelector('aha-popover') };
+  return out;
+})()`;
+
+test('csat feedback-display="inline": the feedback body opens in flow, not in a second popover', { skip }, async () => {
+  const r = await evaluateInPage(fixture, inlineScenarios, { readyExpr: '!!window.csatFixtureReady', timeout: 60000 });
+  assert.equal(r.popoverDisplay, 'none');
+  assert.equal(r.closedHeight, 0);
+  assert.equal(r.closedInert, true);
+  assert.equal(r.downHaspopup, null);
+  assert.equal(r.downPressedAtRest, 'false');
+  assert.equal(r.reducedMotionDuration.split(',').every((d) => d.trim() === '0s'), true);
+  assert.deepEqual(r.open, { value: 'down', role: 'group', label: 'Tell us more', expanded: 'true', innerExpanded: 'true', pressed: 'true',
+    popoverOpen: false, inert: false, belowButtons: true, insideHost: true, tall: true, textareaFocused: true });
+  assert.deepEqual(r.escape, { collapsed: true, expanded: 'false', focusOnOpener: true, value: 'down' });
+  assert.deepEqual(r.feedbackButton, { open: true, expanded: 'true', downExpanded: 'false' });
+  assert.equal(r.closedByX, true);
+  assert.deepEqual(r.sent, { events: [['down', 'too slow']], collapsed: true, confirm: 'Thanks, feedback received' });
+  assert.equal(r.reopensAfterRerate, true);
+  assert.deepEqual(r.backToPopover, { collapsed: true, haspopup: 'dialog', bodyInPopover: true });
 });

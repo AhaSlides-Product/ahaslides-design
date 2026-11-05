@@ -33,6 +33,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1059.0 — 2026-11-05
+
+### Added
+- CSAT: opt-in `feedback-display="inline"` (default `popover`) opens the feedback field in flow under the buttons, in the same card, instead of a second popover, for a CSAT that already sits inside a popover. Same opening rules, once-per-rating rule, confirmation and `rate`/`feedback` events; the X, Send, or Escape with focus inside collapses it; the panel is a labelled group (no dialog role), the opener carries `aria-expanded` and `aria-controls`, and its height animates on the motion tokens (none under reduced motion) (#700)
+
+### Changed
+- CSAT: the Good, Not good and Feedback buttons are now the DS icon button, `<aha-button variant="tertiary" icon-only size="sm">` (28×28, 16px icons), with the chosen thumb in its `pressed` state; the bespoke button CSS is gone. At rest the icon is `text-default` #1A1A1A (was #4A4A4A) and on hover it turns #DB005B on the ghost fill, as every tertiary icon button does. `::part(button)` now names the `<aha-button>` host (#700)
+
 ## 0.1054.0 — 2026-11-05
 
 ### Added
