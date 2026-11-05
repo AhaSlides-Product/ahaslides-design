@@ -33,11 +33,20 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1038.0 — 2026-11-05
+## 0.1044.0 — 2026-11-05
 ### Added
 - **`brand-whatsapp` icon and the WhatsApp logo** (#682). `<aha-icon name="brand-whatsapp">` joins the Brand family (Phosphor whatsapp-logo, MIT), with the logo in `logo/` (line, original colours and greyscale). Colour rule 2.6a and AGENTS.md now name it for social links in place of `system-whatsapp-logo`, which stays in the registry. New colour-rules change v37.
 ### Fixed
 - **Footer social links use Brand icons, and the DMCA badge links to DMCA.com** (#682). WhatsApp, LinkedIn, YouTube, Facebook, Instagram and Reddit take `brand-*` icons (colour rule 2.6a) instead of `system-*-logo` and `slidetype-youtube`; email and Help Centre keep their system glyphs. The DMCA badge links to AhaSlides' DMCA.com protection status page instead of the G2 reviews page. `docs/landing-webflow-scan.md` items 38 and 40 updated. Supersedes the Footer part of #349.
+
+## 0.1040.0 — 2026-11-05
+
+### Fixed
+- Marketing Cards: a link inside a linked card other than the card link (an Article topic or author) now sits above the stretched link, so it is clickable and shows its own focus ring; the Article snippet's topic is a link (#678)
+
+## 0.1037.0 — 2026-11-05
+### Fixed
+- **Navigation: the closed Products panel no longer widens the page.** The 988px panel is hidden with `visibility` only, so it still took layout width and, from 992 to about 1100px, pushed the page past the viewport (`scrollWidth` 1073 at 1024). `.aha-header` now has `overflow-x:clip`, so the section clips its own panels and the host page needs no `overflow-x` stopgap. Open and close transitions are unchanged. The Products panel opened at 992 to 1073px is clipped at the viewport edge, as it was with the stopgap (#679)
 
 ## 0.1033.0 — 2026-11-05
 ### Changed

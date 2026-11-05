@@ -3,7 +3,7 @@
 /* Navigation (marketing/navigation.json) */
 .aha-header{
   container:aha-header / inline-size;
-  position:sticky;top:0;z-index:10;
+  position:sticky;top:0;z-index:10;overflow-x:clip;
   font-family:var(--aha-font-product);
   color:var(--aha-text-default);
   background:var(--aha-white);

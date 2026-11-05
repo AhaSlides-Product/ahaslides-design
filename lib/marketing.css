@@ -89,6 +89,8 @@
 .aha-marketing-card__link{color:inherit;text-decoration:none}
 .aha-marketing-card__link::after{content:"";position:absolute;inset:0}
 .aha-marketing-card__link:focus-visible{outline:none}
+.aha-marketing-card a:not(.aha-marketing-card__link){position:relative;z-index:1;color:inherit}
+.aha-marketing-card a:not(.aha-marketing-card__link):focus-visible{outline:var(--aha-space-2) solid var(--aha-focus);outline-offset:var(--aha-space-2);border-radius:var(--aha-radius-xs)}
 .aha-marketing-card:has(.aha-marketing-card__link:focus-visible){
   outline:var(--aha-space-2) solid var(--aha-focus);outline-offset:var(--aha-space-2);
 }
@@ -2004,7 +2006,7 @@ a.aha-footer__heading:hover{color:var(--aha-color-primary)}
 /* Navigation (marketing/navigation.json) */
 .aha-header{
   container:aha-header / inline-size;
-  position:sticky;top:0;z-index:10;
+  position:sticky;top:0;z-index:10;overflow-x:clip;
   font-family:var(--aha-font-product);
   color:var(--aha-text-default);
   background:var(--aha-white);
