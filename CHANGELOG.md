@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1048.4 — 2026-11-05
+
+### Fixed
+- **Paywall regression test no longer flakes on a busy machine.** The narrowed-viewport cases wait for the resize to land before measuring the popover. Test only, no component change (DESY-504, #000)
+
 ## 0.1048.3 — 2026-11-05
 
 ### Added
