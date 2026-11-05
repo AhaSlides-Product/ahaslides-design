@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1035.0 — 2026-11-05
+
+### Fixed
+- Marketing Cards: a link inside a linked card other than the card link (an Article topic or author) now sits above the stretched link, so it is clickable and shows its own focus ring; the Article snippet's topic is a link (#NNN)
+
 ## 0.1029.0 — 2026-11-05
 ### Added
 - **`brand-tiktok` icon and the TikTok logo** (#676). `<aha-icon name="brand-tiktok">` joins the Brand family for social links (AhaSlides Community footer), with the logo in `logo/` (line, original colours and greyscale). WhatsApp needs no new icon: it stays `system-whatsapp-logo`, and the social-links lists in AGENTS.md and colour rule 2.6a now name `brand-tiktok`.
