@@ -35,9 +35,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1038.0 — 2026-11-05
 ### Added
-- **`brand-whatsapp` icon and the WhatsApp logo** (#PR). `<aha-icon name="brand-whatsapp">` joins the Brand family (Phosphor whatsapp-logo, MIT), with the logo in `logo/` (line, original colours and greyscale). Colour rule 2.6a and AGENTS.md now name it for social links in place of `system-whatsapp-logo`, which stays in the registry. New colour-rules change v37.
+- **`brand-whatsapp` icon and the WhatsApp logo** (#682). `<aha-icon name="brand-whatsapp">` joins the Brand family (Phosphor whatsapp-logo, MIT), with the logo in `logo/` (line, original colours and greyscale). Colour rule 2.6a and AGENTS.md now name it for social links in place of `system-whatsapp-logo`, which stays in the registry. New colour-rules change v37.
 ### Fixed
-- **Footer social links use Brand icons, and the DMCA badge links to DMCA.com** (#PR). WhatsApp, LinkedIn, YouTube, Facebook, Instagram and Reddit take `brand-*` icons (colour rule 2.6a) instead of `system-*-logo` and `slidetype-youtube`; email and Help Centre keep their system glyphs. The DMCA badge links to AhaSlides' DMCA.com protection status page instead of the G2 reviews page. `docs/landing-webflow-scan.md` items 38 and 40 updated. Supersedes the Footer part of #349.
+- **Footer social links use Brand icons, and the DMCA badge links to DMCA.com** (#682). WhatsApp, LinkedIn, YouTube, Facebook, Instagram and Reddit take `brand-*` icons (colour rule 2.6a) instead of `system-*-logo` and `slidetype-youtube`; email and Help Centre keep their system glyphs. The DMCA badge links to AhaSlides' DMCA.com protection status page instead of the G2 reviews page. `docs/landing-webflow-scan.md` items 38 and 40 updated. Supersedes the Footer part of #349.
 
 ## 0.1033.0 — 2026-11-05
 ### Changed
