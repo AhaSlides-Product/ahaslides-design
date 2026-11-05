@@ -32,7 +32,7 @@
     { "name": "uploads", "type": "boolean", "default": "false", "desc": "Shows the image button, which fires `upload`; the host opens its file picker and writes the Markdown image into `value`" },
     { "name": "slot=\"preview\"", "type": "slot", "default": "—", "desc": "The host's rendered preview: sanitised HTML in a light-DOM child, refreshed on each `input`. Without it the pane shows the draft as plain text, never parsed as HTML" },
     { "name": "open (event)", "type": "CustomEvent", "default": "—", "desc": "Composed; the editor opened from the bar (a host can check sign-in here)" },
-    { "name": "input", "type": "CustomEvent<{value}>", "default": "—", "desc": "Composed, from the field on each change and each toolbar edit" },
+    { "name": "input", "type": "CustomEvent<{value}>", "default": "—", "desc": "Composed, one per edit: typing in the field or the collapsed bar, and each toolbar edit" },
     { "name": "submit", "type": "CustomEvent<{value}>", "default": "—", "desc": "Composed, cancelable; Reply or Mod+Enter with a non-blank draft. Unless prevented, the draft clears and the editor closes" },
     { "name": "cancel", "type": "CustomEvent<{value}>", "default": "—", "desc": "Composed, cancelable. Unless prevented, the editor closes, keeps the draft and focus returns to the bar" },
     { "name": "upload", "type": "CustomEvent", "default": "—", "desc": "Composed; the image button was pressed" }
