@@ -23,6 +23,8 @@ const scenarios = String.raw`(() => {
   out.likes = root.querySelector('[data-stat="likes"]').textContent.trim();
   out.titleWeight = getComputedStyle(root.querySelector('.aha-topic-row__title')).fontWeight;
   out.secondExcerptElements = root.querySelector('.aha-topic-row__excerpt').children.length;
+  host.removeAttribute('replies');
+  out.repliesHidden = root.querySelector('[data-stat="replies"]').hidden;
   return out;
 })()`;
 
@@ -34,4 +36,5 @@ test('aha-topic-row shows host excerpts as text and updates in place', { skip },
   assert.equal(r.sameRow, true);
   assert.equal(r.likes, '7 likes');
   assert.equal(r.titleWeight, '400');
+  assert.equal(r.repliesHidden, true);
 });
