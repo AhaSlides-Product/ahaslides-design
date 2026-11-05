@@ -33,9 +33,22 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1056.0 — 2026-11-05
+## 0.1069.0 — 2026-11-05
 ### Added
-- Colour rule 2.6b and exemption 9.6: third-party award badges (G2, Capterra and similar) sit only in an award row at one fixed height (80px, 64px on mobile), one treatment per row, full colour as published (recommended) or greyscale, with the colour criterion C7, the Footer rule and two eval cases updated to match (#696)
+- Colour rule 2.6b and exemption 9.6: third-party award badges (G2, Capterra and similar) sit only in an award row at one fixed height (80px, 64px on mobile), always in the issuer's full colour as published, with the colour criterion C7, the Footer rule and two eval cases updated to match (#696)
+
+## 0.1059.0 — 2026-11-05
+
+### Added
+- CSAT: opt-in `feedback-display="inline"` (default `popover`) opens the feedback field in flow under the buttons, in the same card, instead of a second popover, for a CSAT that already sits inside a popover. Same opening rules, once-per-rating rule, confirmation and `rate`/`feedback` events; the X, Send, or Escape with focus inside collapses it; the panel is a labelled group (no dialog role), the opener carries `aria-expanded` and `aria-controls`, and its height animates on the motion tokens (none under reduced motion) (#700)
+
+### Changed
+- CSAT: the Good, Not good and Feedback buttons are now the DS icon button, `<aha-button variant="tertiary" icon-only size="sm">` (28×28, 16px icons), with the chosen thumb in its `pressed` state; the bespoke button CSS is gone. At rest the icon is `text-default` #1A1A1A (was #4A4A4A) and on hover it turns #DB005B on the ghost fill, as every tertiary icon button does. `::part(button)` now names the `<aha-button>` host (#700)
+
+## 0.1054.0 — 2026-11-05
+
+### Added
+- Avatar: a Third-party initials rule. Any initials avatar on a host the DS does not own (a Discourse letter avatar) uses the Initials style already on the contract (bg-accent ground, ink #1A1A1A, SemiBold 600), never a hashed colour; no new value. A new Discourse theme tab carries an initializer that swaps each server-rendered letter-avatar `<img>` for `<aha-avatar name>` (#695)
 
 ## 0.1051.1 — 2026-11-05
 
