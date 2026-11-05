@@ -23,6 +23,7 @@
   "brand-model-context-protocol": ["model context protocol", "mcp", "brand", "logo", "ai", "connector"],
   "brand-paypal": ["paypal", "brand", "logo", "payment", "checkout", "billing"],
   "brand-pdf": ["pdf", "brand", "logo", "import pdf", "document", "adobe"],
+  "brand-tiktok": ["tiktok", "video", "social", "short video", "follow"],
   "brand-reddit": ["reddit", "brand", "logo", "social", "community", "follow us"],
   "brand-slack": ["slack", "brand", "logo", "chat", "workspace", "integration"],
   "brand-stripe": ["stripe", "brand", "logo", "payment", "checkout", "billing"],
