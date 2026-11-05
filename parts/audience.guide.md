@@ -106,7 +106,7 @@ This is `self-paced-view.*` on a slide type with `setting.audienceQuizSelfPaced:
 the page its full width and hides its own timer, so the page runs the rules, timer and reveal. Nothing
 here applies to `audience.*` or to modes A and B.
 
-- **Below 480px wide:** every phone rule holds exactly (one column, 16px body, fixed sizes).
+- **Below 480px wide:** every phone rule holds exactly (one column, 16px body, fixed sizes). The page paints its own question, so it is 22px at weight 600.
 - **From 480px wide:** type may scale with the view's smaller side, never below its phone value.
 
   | Text | Cap |

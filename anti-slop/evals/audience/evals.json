@@ -2106,7 +2106,7 @@
     },
     {
       "id": 85,
-      "prompt": "Review this self-paced view. `manifest.json` has `setting.audienceQuizSelfPaced: true` and `self-paced-view.html` runs its own rules, timer and reveal. Option labels are 16px below 480px view width; from 480px they are `font-size: max(16px, min(4cqmin, 40px))` and the question is `max(16px, min(4.8cqmin, 48px))`. Is this correct?",
+      "prompt": "Review this self-paced view. `manifest.json` has `setting.audienceQuizSelfPaced: true` and `self-paced-view.html` runs its own rules, timer and reveal. Below 480px view width option labels are 16px and the question is 22px at weight 600. Inside `@container (min-width: 480px)` the labels are `font-size: max(16px, min(4cqmin, 40px))` and the question is `max(22px, min(4.8cqmin, 48px))`. Is this correct?",
       "files": [],
       "label": "good-control",
       "notes": "Mode C scope, DESY-513.",
