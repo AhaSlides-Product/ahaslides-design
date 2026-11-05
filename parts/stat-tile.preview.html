@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="../lib/stat-strip.css">
 <div class="pad">
   <div class="lbl">A KPI row: rise, fall and no change; it wraps as the row narrows</div>
   <aha-grid min="160px" gap="middle">
@@ -40,6 +41,26 @@
     <aha-stat-tile label="Churn" value="0.297" previous="0.3" format="percent" caption="vs previous month"></aha-stat-tile>
     <aha-stat-tile label="Retention" value="0.51" previous="0.51" format="percent" caption="vs previous month"></aha-stat-tile>
   </aha-grid>
+</div>
+
+<div class="pad">
+  <div class="lbl">Stat strip: plain counts, at most 5 a row, wrapping as it narrows (lib/stat-strip.css)</div>
+  <div class="aha-stat-strip">
+    <aha-stat-tile label="Members" value="450"></aha-stat-tile>
+    <aha-stat-tile label="Admins" value="4"></aha-stat-tile>
+    <aha-stat-tile label="Moderators" value="2"></aha-stat-tile>
+    <aha-stat-tile label="Posts this month" value="1284"></aha-stat-tile>
+    <aha-stat-tile label="Topics this month" value="96"></aha-stat-tile>
+  </div>
+</div>
+<div class="pad">
+  <div class="lbl">Stat strip class layer on host markup (Discourse About page)</div>
+  <div class="about__stats">
+    <span class="about__stats-item members"><span class="d-icon d-icon-users"></span><span>450 Members</span></span>
+    <span class="about__stats-item admins"><span class="d-icon d-icon-shield-halved"></span><span>4 Admins</span></span>
+    <span class="about__stats-item moderators"><span class="d-icon d-icon-shield-halved"></span><span>2 Moderators</span></span>
+    <span class="about__stats-item site-creation-date"><span class="d-icon d-icon-calendar-days"></span><span>Created Mar 2021</span></span>
+  </div>
 </div>
 
 <!-- Imports the REAL shipped element (../lib/aha-stat-tile.js) — no inlined copy, so the preview can never drift from lib/. -->

@@ -1,0 +1,43 @@
+// Discourse theme, two parts. Never edit the live site from here: install it on a staging theme first.
+//
+// 1. Common > Head (head_tag): the DS tokens and the Search result class layer. The class layer styles
+//    Discourse's own full-page search markup; nothing in the templates changes.
+//      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+//      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/search-result.css">
+//
+//    Class mapping (each Discourse selector sits beside its DS class in lib/search-result.css):
+//      .fps-result                          → .aha-search-result          row, 16px padding, 1px divider
+//      .fps-result .fps-topic               → .aha-search-result__body
+//      .fps-result .search-link             → .aha-search-result__title   16/600 ink
+//      .search-highlight, .result-count .term → .aha-search-result__match Vivid Pink at 5%, ink
+//      .fps-result .search-category         → .aha-search-result__meta    14/400 tertiary
+//      .fps-result .blurb .date             → .aha-search-result__date
+//      .fps-result .blurb                   → .aha-search-result__blurb   14/400 secondary, 2 lines
+//      .semantic-search__searching .badge-notification.--has-results → the default black Badge count
+//    The category badge inside .search-category takes the DS category chip (lib/category-chip.css) once it ships.
+//
+// 2. javascripts/discourse/api-initializers/aha-search-blurb.js: the blurb is server text, so CSS cannot
+//    drop a pasted URL from it. This strips URLs with the same pattern as stripUrls() in aha-search-result.js.
+import { apiInitializer } from "discourse/lib/api";
+
+const URL_PATTERN = /\b(?:https?:\/\/|www\.)[^\s<>"']+/gi;
+
+function clean(blurb) {
+  if (blurb.dataset.ahaClean) return;
+  blurb.dataset.ahaClean = "1";
+  const walker = document.createTreeWalker(blurb, NodeFilter.SHOW_TEXT);
+  for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+    if (node.parentElement.closest(".date")) continue;
+    node.nodeValue = node.nodeValue.replace(URL_PATTERN, " ").replace(/\s{2,}/g, " ");
+  }
+}
+
+export default apiInitializer("1.0", () => {
+  const scan = (root) => root.querySelectorAll(".fps-result .blurb").forEach(clean);
+  scan(document);
+  new MutationObserver((records) => {
+    for (const record of records) {
+      for (const node of record.addedNodes) if (node.nodeType === 1) scan(node);
+    }
+  }).observe(document.body, { childList: true, subtree: true });
+});

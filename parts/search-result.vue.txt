@@ -1,0 +1,15 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-search-result';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<template>
+  <div role="list" aria-label="Search results">
+    <aha-search-result
+      v-for="r in results" :key="r.id" role="listitem"
+      :query="query" :result-title="r.title" :href="r.url"
+      :category="r.category" :category-href="r.categoryUrl"
+      :time="r.dateLabel" :datetime="r.date" :blurb="r.blurb"
+    />
+  </div>
+</template>
