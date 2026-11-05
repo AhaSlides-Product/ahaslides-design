@@ -1,0 +1,68 @@
+{
+  "name": "Achievement badge",
+  "slug": "achievement-badge",
+  "environment": ["product", "web"],
+  "group": "Data display",
+  "tier": "leaf-lit",
+  "badge": "shared web component + class layer",
+  "element": "aha-achievement-badge",
+  "summary": "One achievement badge a member earned or can earn, as a card: a 32px registry glyph in ink, the title with its tier as a label, a description and a granted meta row. Gold, silver and bronze are words, never hues. Ships as a web component and as a class layer (lib/achievement-badge.css) that also restyles Discourse's own badge markup.",
+  "highlights": ["Community and forum achievement badges", "32px ink glyph, title, tier label, description, granted meta", "Tiers by label, no gold, silver or bronze hue", "Web component, or a class layer for Discourse"],
+  "lead": "ONE custom element, <aha-achievement-badge>, plus the same CSS as a class layer. The card is a 1px --aha-border-default box, radius 12, padding 20, on --aha-bg-container. Inside: a 32px registry glyph in --aha-icon-strong ink, then the title (16/600 ink, a link when `href` is set) with the tier beside it as a neutral <aha-tag> (Gold, Silver or Bronze), the description (14/400 secondary, plain text) and a meta row in tertiary: \"Granted 3 Oct 2026\" and \"12 granted\". A tier never takes a hue: the colour rules give status and rank no colour, so the glyph stays ink at every tier and the label carries the tier. Two ways in: a page that builds its own badge list uses the element; Discourse links lib/achievement-badge.css, whose second half targets Discourse's own .badge-card, .badge-icon, .badge-type-*, .user-badge and .grant-count markup and paints registry glyphs over its Font Awesome sprite. The element and the file share one stylesheet (lib/achievement-badge-css.js), so they cannot drift. Not for third-party award art (a G2 or Capterra badge): that is the vendor's own art.",
+  "codeNote": "Same element, same shadow-DOM CSS, identical render. React and Vue pass attributes to the custom element. The class layer lib/achievement-badge.css is generated from the element's own stylesheet plus a Discourse mapping, so a Discourse theme and the element render the same card.",
+  "tokensUsed": ["font-product", "bg-container", "border-default", "radius-lg", "radius-xs", "radius-pill", "icon-strong", "text-default", "text-secondary", "text-tertiary", "gray-30", "border-focus", "size-l", "size-default", "weight-semibold", "weight-regular", "line-height-body", "space-4", "space-6", "space-8", "space-16", "space-20", "motion-fast", "ease-out"],
+  "spec": [
+    { "label": "Card", "value": "border 1px border-default #E3E3E3 · radius lg 12 · padding 20 · bg-container #FFFFFF · glyph and text 16px apart, aligned to the top" },
+    { "label": "Glyph", "value": "32px registry icon (default system-medal) in icon-strong #1A1A1A at every tier" },
+    { "label": "Title", "value": "16px / 1.5 · SemiBold 600 · text-default #1A1A1A · a link when href is set: underline on hover, 2px border-focus ring on keyboard focus" },
+    { "label": "Tier", "value": "`tier` gold | silver | bronze → a neutral <aha-tag> after the title reading Gold, Silver or Bronze (grey-30 #F1F1F1 fill, text-secondary #4A4A4A, 12 / 600). No gold, silver or bronze hue anywhere (colour rule C5)" },
+    { "label": "Description", "value": "14px / 1.5 · Regular 400 · text-secondary #4A4A4A · plain text · 4px under the title" },
+    { "label": "Meta", "value": "14px / 1.5 · text-tertiary #616161 · \"Granted <date>\" and \"<n> granted\" · 16px between items · 8px under the description" },
+    { "label": "Discourse", "value": "lib/achievement-badge.css maps .badge-card, .badge-contents, .badge-icon, .badge-type-gold / -silver / -bronze, .badge-info, .badge-summary, .grant-count and .user-badge to these values; Font Awesome badge glyphs are replaced by registry glyphs" },
+    { "label": "Unread marker", "value": "an unread or new marker beside a label is <aha-badge dot> (6px, icon-strong), never a Font Awesome circle; the Discourse tab paints the sidebar's .d-icon-circle as that dot" }
+  ],
+  "props": [
+    { "name": "badge-title", "type": "string", "default": "—", "desc": "The badge name, rendered as text in the title" },
+    { "name": "href", "type": "string", "default": "—", "desc": "Makes the title a link (the badge's page)" },
+    { "name": "icon", "type": "icon name", "default": "system-medal", "desc": "Registry glyph shown at 32px in ink" },
+    { "name": "tier", "type": "gold | silver | bronze", "default": "—", "desc": "Shows the tier as a neutral label after the title; any other value shows no label" },
+    { "name": "description", "type": "string", "default": "—", "desc": "What earns the badge. Plain text, set as text (never parsed as HTML)" },
+    { "name": "granted", "type": "string", "default": "—", "desc": "Display date the member was granted it, already formatted (\"3 Oct 2026\"); shows \"Granted <date>\" in the meta row" },
+    { "name": "datetime", "type": "string", "default": "—", "desc": "Machine-readable grant date for the <time> element (ISO 8601)" },
+    { "name": "grant-count", "type": "number", "default": "—", "desc": "How many members hold it; shows \"<n> granted\" in the meta row" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Achievement badge", "when": "a badge a member earned or can earn in a community or forum: a profile's badge section, a badges index, a badge's own page" },
+      { "what": "Achievement badge class layer (lib/achievement-badge.css)", "when": "the host renders its own badge markup (Discourse): load the file and its Discourse half restyles .badge-card and .user-badge" },
+      { "what": "Badge", "when": "a count, a dot, or a plan, session, New or Beta label. An unread marker beside a label is <aha-badge dot>" },
+      { "what": "Status badge", "when": "a state label (Published, Failed), not an achievement" },
+      { "what": "Third-party award art", "when": "a G2, Capterra or similar award badge is the vendor's own art, not an achievement badge: never rebuild it as this card" }
+    ],
+    "note": "Never colour a tier: gold, silver and bronze are words in the tier label, and the glyph stays ink. Pass the description as plain text. In Discourse, load the class layer rather than rendering the element, so Discourse's own badge links, favourites and grant pages keep working.",
+    "dsv3": "EXTENSION — DS V3 has no achievement badge. Built from the Card container (1px border-default, radius 12, padding 20) and the List meta conventions, with a 32px registry glyph, reusing <aha-icon> and a neutral <aha-tag> for the tier, all on --aha-* tokens."
+  },
+  "surfaces": ["dashboard", "web"],
+  "reuse": { "entry": "./aha-achievement-badge", "registers": "aha-achievement-badge", "exportsNamed": ["AhaAchievementBadge", "defineAhaAchievementBadge"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "achievement-badge.html.txt", "runnable": "paste-and-run", "note": "The native form: a web component in an HTML file renders on open, no build step." },
+    { "key": "react", "label": "React", "file": "achievement-badge.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "achievement-badge.vue.txt" },
+    { "key": "discourse", "label": "Discourse theme", "file": "achievement-badge.discourse.txt", "note": "Class layer on Discourse's own badge markup: link lib/achievement-badge.css. Also the sidebar unread marker as the DS Badge dot." }
+  ],
+  "preview": "achievement-badge.preview.html",
+  "selfCheck": [
+    { "label": "glyph 32px in icon-strong #1A1A1A at every tier; no gold, silver or bronze hue", "verdict": "PASS" },
+    { "label": "title 16px / SemiBold 600 / text-default #1A1A1A", "verdict": "PASS" },
+    { "label": "tier is a neutral <aha-tag> label (Gold, Silver, Bronze)", "verdict": "PASS" },
+    { "label": "description 14px / text-secondary #4A4A4A; meta in text-tertiary #616161", "verdict": "PASS" },
+    { "label": "card 1px border-default #E3E3E3, radius 12, padding 20; class layer generated from the same CSS", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the rendered element (getComputedStyle via headless CDP). The probe card carries every slot, so glyph, title, tier, description and meta all render; the measure also proves the tier is a real <aha-tag>.",
+    "ready": "!!(document.querySelector('aha-achievement-badge[data-probe]') && document.querySelector('aha-achievement-badge[data-probe]').shadowRoot && document.querySelector('aha-achievement-badge[data-probe]').shadowRoot.querySelector('.aha-achievement-badge__title'))",
+    "singleUI": true,
+    "measure": "(function(){var r=document.querySelector('aha-achievement-badge[data-probe]').shadowRoot;var card=getComputedStyle(r.querySelector('.aha-achievement-badge'));var ic=r.querySelector('.aha-achievement-badge__icon');var t=getComputedStyle(r.querySelector('.aha-achievement-badge__title'));var d=getComputedStyle(r.querySelector('.aha-achievement-badge__description'));var m=getComputedStyle(r.querySelector('.aha-achievement-badge__meta'));var tag=r.querySelector('aha-tag');return{iconColor:getComputedStyle(ic).color,iconWidth:Math.round(ic.getBoundingClientRect().width)+'px',titleColor:t.color,titleSize:t.fontSize,titleWeight:t.fontWeight,descColor:d.color,descSize:d.fontSize,metaColor:m.color,borderColor:card.borderTopColor,radius:card.borderTopLeftRadius,padTop:card.paddingTop,tierText:tag.textContent,tierIsTag:!!(tag&&tag.shadowRoot)};})()",
+    "expect": { "iconColor": "rgb(26, 26, 26)", "iconWidth": "32px", "titleColor": "rgb(26, 26, 26)", "titleSize": "16px", "titleWeight": "600", "descColor": "rgb(74, 74, 74)", "descSize": "14px", "metaColor": "rgb(97, 97, 97)", "borderColor": "rgb(227, 227, 227)", "radius": "12px", "padTop": "20px", "tierText": "Gold", "tierIsTag": true }
+  }
+}
