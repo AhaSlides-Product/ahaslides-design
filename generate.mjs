@@ -3620,7 +3620,7 @@ const expandMarketingAssets = (b) => {
   const resolve = (text) => typeof text === 'string' ? text.replaceAll('{{images}}', `${SITE}/marketing/${b.imagePath}`).replaceAll('{{logos}}', `${SITE}/logo`) : text;
   return { ...b, html: resolve(b.html), layouts: b.layouts?.map(layout => ({ ...layout, html: resolve(layout.html) })) };
 };
-const MARKETING_PAGE_FLOW = ['cards', 'join-bar', 'navigation', 'hero', 'logos', 'numbers', 'features', 'comparison', 'testimonials', 'pricing', 'faq', 'footer-banner', 'footer'];
+const MARKETING_PAGE_FLOW = ['cards', 'join-bar', 'navigation', 'hero', 'logos', 'numbers', 'features', 'comparison', 'testimonials', 'pricing', 'faq', 'article', 'footer-banner', 'footer'];
 const marketingOrderRank = (b) => { const i = MARKETING_PAGE_FLOW.indexOf(b.slug); return i < 0 ? MARKETING_PAGE_FLOW.length : i; };
 // Display order only: the generated stylesheets keep MARKETING's alphabetical order so the cascade is unchanged.
 const marketingByPageFlow = (items) => [...items].sort((a, b) => marketingOrderRank(a) - marketingOrderRank(b) || a.name.localeCompare(b.name));
