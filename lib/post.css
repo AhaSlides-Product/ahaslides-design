@@ -4,7 +4,7 @@
   padding:var(--aha-space-12,12px) 0; font-family:var(--aha-font-product,"Plus Jakarta Sans",sans-serif) }
 .aha-post__avatar{ flex:none; width:40px; line-height:0 }
 .aha-post__main{ flex:1 1 auto; min-width:0 }
-.aha-post__head{ display:flex; flex-wrap:wrap; align-items:center; gap:var(--aha-space-4,4px) var(--aha-space-8,8px); min-height:24px }
+.aha-post__head{ display:flex; flex-wrap:wrap; align-items:center; gap:var(--aha-space-4,4px) var(--aha-space-8,8px); min-height:24px; overflow-wrap:anywhere }
 .aha-post__name{ font-size:var(--aha-size-default,14px); line-height:var(--aha-line-height-body,1.5);
   font-weight:var(--aha-weight-semibold,600); color:var(--aha-text-default,#1A1A1A); text-decoration:none }
 a.aha-post__name:hover{ text-decoration:underline }

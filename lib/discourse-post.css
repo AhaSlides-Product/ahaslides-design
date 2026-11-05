@@ -6,7 +6,7 @@
 #main-outlet .topic-post .topic-avatar img.avatar{ width:40px; height:40px }
 #main-outlet .topic-post .topic-body{ padding-top:var(--aha-space-12,12px); padding-bottom:var(--aha-space-12,12px) }
 #main-outlet .topic-post .topic-meta-data{ align-items:center; gap:var(--aha-space-8,8px); min-height:24px }
-#main-outlet .topic-post .topic-meta-data .names{ display:flex; flex-wrap:wrap; align-items:center; gap:var(--aha-space-4,4px) var(--aha-space-8,8px) }
+#main-outlet .topic-post .topic-meta-data .names{ display:flex; flex-wrap:wrap; align-items:center; gap:var(--aha-space-4,4px) var(--aha-space-8,8px); min-width:0; overflow-wrap:anywhere }
 #main-outlet .topic-post .topic-meta-data .names :is(.first, .first a){ font-size:var(--aha-size-default,14px); line-height:var(--aha-line-height-body,1.5);
   font-weight:var(--aha-weight-semibold,600); color:var(--aha-text-default,#1A1A1A); text-decoration:none }
 #main-outlet .topic-post .topic-meta-data .names .first a:hover{ text-decoration:underline }
