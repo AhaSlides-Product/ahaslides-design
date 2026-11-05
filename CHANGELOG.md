@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1042.0 — 2026-11-05
+### Fixed
+- **Navigation: the open Products panel stays inside the viewport from 992px up.** At 992 to about 1105px the 988px panel lost up to 81px of content to the header's clip. On desktop it now narrows to the viewport width less a 32px gutter either side and shifts left only as far as needed, positioned from its Products item with CSS anchor positioning. From about 1105px the panel is where it was. Browsers without anchor positioning keep the previous placement (#PR)
+
 ## 0.1037.0 — 2026-11-05
 ### Fixed
 - **Navigation: the closed Products panel no longer widens the page.** The 988px panel is hidden with `visibility` only, so it still took layout width and, from 992 to about 1100px, pushed the page past the viewport (`scrollWidth` 1073 at 1024). `.aha-header` now has `overflow-x:clip`, so the section clips its own panels and the host page needs no `overflow-x` stopgap. Open and close transitions are unchanged. The Products panel opened at 992 to 1073px is clipped at the viewport edge, as it was with the stopgap (#679)
