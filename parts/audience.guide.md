@@ -100,6 +100,29 @@ Spacing follows a multiple-of-8 rhythm (8 / 16 / 24).
 pixel value, not by name: primary copy is `--aha-size-l` (16px), and a "text-sm 14px" note means
 `--aha-size-default`. Primary copy bound to `--aha-size-sm` is the classic miss (C19).
 
+## Mode C self-paced view — the wider rules
+
+This is `self-paced-view.*` on a slide type with `setting.audienceQuizSelfPaced: true`. The host gives
+the page its full width and hides its own timer, so the page runs the rules, timer and reveal. Nothing
+here applies to `audience.*` or to modes A and B.
+
+- **Below 480px wide:** every phone rule holds exactly (one column, 16px body, fixed sizes). The page paints its own question, so it is 22px at weight 600.
+- **From 480px wide:** type may scale with the view's smaller side, never below its phone value.
+
+  | Text | Cap |
+  | --- | --- |
+  | Question | 48px (`--aha-size-h1`) |
+  | Option labels, result stamps | 40px (`--aha-size-h2`) |
+  | Scene titles (rules, get ready) | 56px (`--aha-size-display2`) |
+  | Body lines, notices, messages | 32px (`--aha-size-h3`) |
+  | Control labels, metadata, captions | 20px (`--aha-size-xl`) |
+  | Countdown numeral | none, as long as it fits |
+
+- **Layout:** grids, rows and side rails are allowed from 480px. From 960px a stretched phone column
+  fails. Horizontal scroll and the height report rules hold at every width.
+- **Submit:** full width of its own region, not of the whole view.
+- **Time's up and verdict:** the page draws one of each, from its own timer. The host draws neither here.
+
 ## Transforms and bounded scrolling stay inside the reported box
 
 `onHeightChange` reports your **resting** layout box; the host paints nothing outside it.
