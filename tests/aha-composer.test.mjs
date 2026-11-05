@@ -16,8 +16,15 @@ const scenarios = String.raw`(async () => {
   out.barTag = bar.localName;
   bar.focus();
   await frame();
+  out.openAfterFocusAlone = host.open;
+  const inner = bar.shadowRoot.querySelector('input');
+  inner.value = 'h';
+  inner.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
+  await frame();
   const ta = root.querySelector('.field').shadowRoot.querySelector('textarea');
-  out.openAfterFocus = host.open;
+  out.openAfterTyping = host.open;
+  out.typedCarried = host.value;
+  out.barCleared = bar.value;
   out.focusInEditor = root.activeElement === root.querySelector('.field') && ta.matches(':focus');
 
   ta.value = 'hello world';
@@ -40,13 +47,18 @@ const scenarios = String.raw`(async () => {
   out.closedAfterSubmit = host.open;
   out.focusOnBarAfterClose = root.activeElement === bar;
   out.stillClosed = host.open;
+  bar.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, composed: true }));
+  out.openAfterEnter = host.open;
   return out;
 })()`;
 
-test('aha-composer opens from its input bar, formats the draft and submits it', { skip }, async () => {
+test('aha-composer opens from its input bar on typing or Enter but not on focus, formats the draft and submits it', { skip }, async () => {
   const r = await evaluateInPage(fixture, scenarios, { readyExpr: 'window.composerFixtureReady === true' });
   assert.equal(r.barTag, 'aha-input');
-  assert.equal(r.openAfterFocus, true);
+  assert.equal(r.openAfterFocusAlone, false);
+  assert.equal(r.openAfterTyping, true);
+  assert.equal(r.typedCarried, 'h');
+  assert.equal(r.barCleared, '');
   assert.equal(r.focusInEditor, true);
   assert.equal(r.bold, 'hello **world**');
   assert.equal(r.plainPreview, 'hello **world**');
@@ -56,4 +68,5 @@ test('aha-composer opens from its input bar, formats the draft and submits it', 
   assert.equal(r.closedAfterSubmit, false);
   assert.equal(r.focusOnBarAfterClose, true);
   assert.equal(r.stillClosed, false);
+  assert.equal(r.openAfterEnter, true);
 });

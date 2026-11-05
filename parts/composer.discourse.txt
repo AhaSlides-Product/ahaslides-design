@@ -16,7 +16,8 @@
 //      .save-or-cancel .btn-primary / .cancel → primary / tertiary Button lg: 40px, radius 8
 //    The blockquote button keeps its Discourse glyph until the registry has a quote glyph.
 // 2. The collapsed bar. A theme's own "Join the conversation" pill must be a real Input, never a div with
-//    role=button. Put an <aha-input> in its place; focusing it opens Discourse's composer on the topic.
+//    role=button. Put an <aha-input> in its place; a click, Enter or Space on it opens Discourse's composer on
+//    the topic. Focus alone does not, so a keyboard user tabbing past stays where they are.
 //    Signed out, show an <aha-button> "Log in to reply" instead, which opens the log-in modal.
 //    File: javascripts/discourse/api-initializers/aha-reply-bar.js
 import { apiInitializer } from "discourse/lib/api";
@@ -37,9 +38,12 @@ export default apiInitializer("1.0", (api) => {
     input.setAttribute("placeholder", "Join the conversation");
     input.setAttribute("aria-label", "Join the conversation");
     input.style.setProperty("--aha-field-width", "100%");
-    input.addEventListener("focusin", () => {
-      input.blur();
-      composer.open({ action: "reply", draftKey: topic.draft_key, draftSequence: topic.draft_sequence, topic });
+    const open = () => composer.open({ action: "reply", draftKey: topic.draft_key, draftSequence: topic.draft_sequence, topic });
+    input.addEventListener("click", open);
+    input.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      open();
     });
     return input;
   }
