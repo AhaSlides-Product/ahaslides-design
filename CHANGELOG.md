@@ -33,9 +33,23 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1043.0 — 2026-11-05
+## 0.1046.0 — 2026-11-05
 ### Added
 - **`aha-tag` `href`, `target` and `rel`** (#681). A category tag that navigates is now one element: `<aha-tag href="/blog/category/polls">Polls</aha-tag>` renders a real `<a>` that is keyboard focusable, with a `:focus-visible` ring and a hover state on existing tag and link tokens. `target="_blank"` without a `rel` gets `noopener noreferrer`. `href` is ignored on a `checkable` or `closable` tag. Without `href` nothing changes. Revert: drop the three attributes.
+
+## 0.1044.1 — 2026-11-05
+### Fixed
+- **`<aha-alert>` action wraps below the text in a narrow alert** (#680). The `slot="action"` button stays beside the text while the alert keeps at least 200 px of text beside it, and moves below the text (8 px under it, 6 px small) when it does not. It follows the alert's own width, not the viewport, so a 222 px card no longer squeezes the message to one word per line. Wide alerts look the same as before.
+
+## 0.1044.0 — 2026-11-05
+### Added
+- **`brand-whatsapp` icon and the WhatsApp logo** (#682). `<aha-icon name="brand-whatsapp">` joins the Brand family (Phosphor whatsapp-logo, MIT), with the logo in `logo/` (line, original colours and greyscale). Colour rule 2.6a and AGENTS.md now name it for social links in place of `system-whatsapp-logo`, which stays in the registry. New colour-rules change v37.
+### Fixed
+- **Footer social links use Brand icons, and the DMCA badge links to DMCA.com** (#682). WhatsApp, LinkedIn, YouTube, Facebook, Instagram and Reddit take `brand-*` icons (colour rule 2.6a) instead of `system-*-logo` and `slidetype-youtube`; email and Help Centre keep their system glyphs. The DMCA badge links to AhaSlides' DMCA.com protection status page instead of the G2 reviews page. `docs/landing-webflow-scan.md` items 38 and 40 updated. Supersedes the Footer part of #349.
+
+## 0.1041.0 — 2026-11-05
+### Added
+- **Voice rule 7.2: the opinion bank** (#683). Rule 7.2 points every external writer at the brand director's opinion bank from `voice-rules.md`, with the use rule: lead with the supporting opinion, at most one per piece, only when it fits, check the product before naming a feature, and the voice rules still win on wording.
 
 ## 0.1040.0 — 2026-11-05
 
