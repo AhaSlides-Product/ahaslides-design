@@ -1,0 +1,23 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../lib/tokens.css">
+<link rel="stylesheet" href="../lib/stat-strip.css">
+<style>.box{ width:1200px } .narrow{ width:492px }</style>
+<div class="box"><div id="wide" class="aha-stat-strip">
+  <aha-stat-tile label="Members" value="450"></aha-stat-tile><aha-stat-tile label="Admins" value="4"></aha-stat-tile>
+  <aha-stat-tile label="Moderators" value="2"></aha-stat-tile><aha-stat-tile label="Posts" value="1284"></aha-stat-tile>
+  <aha-stat-tile label="Topics" value="96"></aha-stat-tile><aha-stat-tile label="Likes" value="3100"></aha-stat-tile>
+</div></div>
+<div class="narrow"><div id="about" class="about__stats">
+  <span class="about__stats-item"><span class="d-icon d-icon-users"></span><span>450 Members</span></span>
+  <span class="about__stats-item"><span class="d-icon d-icon-shield-halved"></span><span>4 Admins</span></span>
+  <span class="about__stats-item"><span class="d-icon d-icon-shield-halved"></span><span>2 Moderators</span></span>
+  <span class="about__stats-item"><span class="d-icon d-icon-calendar-days"></span><span>Created Mar 2021</span></span>
+</div></div>
+<div class="narrow"><div class="aha-stat-strip">
+  <div id="host" class="aha-stat-strip__item"><span class="aha-stat-strip__label">Days visited</span><span class="aha-stat-strip__value">212</span></div>
+</div></div>
+<script type="module">
+  import '../lib/aha-stat-tile.js';
+  window.statStripFixtureReady = true;
+</script>

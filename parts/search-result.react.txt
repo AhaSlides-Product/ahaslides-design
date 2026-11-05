@@ -1,0 +1,31 @@
+import '@ahaslides-product/design/aha-search-result'; // registers <aha-search-result> (+ <aha-tag>)
+
+// The custom element renders its own shadow DOM; React just passes attributes.
+// The title and blurb are set as text, so a result from the API is never parsed as HTML.
+function SearchResults({ query, results }) {
+  return (
+    <div role="list" aria-label="Search results">
+      {results.map((r) => (
+        <aha-search-result
+          key={r.id}
+          role="listitem"
+          query={query}
+          result-title={r.title}
+          href={r.url}
+          category={r.category}
+          category-href={r.categoryUrl}
+          time={r.dateLabel}
+          datetime={r.date}
+          blurb={r.blurb}
+        />
+      ))}
+    </div>
+  );
+}
+
+// usage
+<SearchResults query="word cloud" results={[
+  { id: 1204, title: 'How to keep a word cloud readable with 200 answers', url: '/t/word-cloud-readable/1204',
+    category: 'Slide types', categoryUrl: '/c/slide-types', dateLabel: 'Aug 6', date: '2026-08-06',
+    blurb: 'Our word cloud gets crowded fast at all-hands. Is there a way to cap the answers?' },
+]} />
