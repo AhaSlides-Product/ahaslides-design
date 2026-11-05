@@ -1,0 +1,12 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../lib/tokens.css">
+<aha-tag id="plain">Plain</aha-tag>
+<aha-tag id="link" href="#polls">Polls</aha-tag>
+<aha-tag id="checkable" href="#x" checkable>Toggle</aha-tag>
+<script type="module">
+  import '../lib/icons.js';
+  import '../lib/aha-tag.js';
+  await customElements.whenDefined('aha-tag');
+  window.tagFixtureReady = true;
+</script>
