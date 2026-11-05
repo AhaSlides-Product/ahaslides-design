@@ -411,6 +411,11 @@
       {
        "id": "7.1",
        "text": "Use these three core opinions to take a side, make a stand and give people a reason to come with us. They are the foundation for what we have to say, and a springboard for more points of view, content ideas and hooks. Instead of simply telling people what AhaSlides does, they say something about the way people work, learn and engage, so people can agree, disagree or side with us."
+      },
+      {
+       "id": "7.2",
+       "text": "**Opinion bank.** The brand director's opinion bank takes these three core opinions into five topics: live experiences, eLearning, surveys, integrations, and reporting and analytics. It is at [https://docs.google.com/spreadsheets/d/1MNJ1IM-_oTKd_gCxrGG7H8ZxRwni3xNx81MzD-6VDVw/edit](https://docs.google.com/spreadsheets/d/1MNJ1IM-_oTKd_gCxrGG7H8ZxRwni3xNx81MzD-6VDVw/edit), one tab per topic. Use it as ammunition for social posts, blogs, community board replies and customer service replies, as and when it fits the brief, so AhaSlides shows up with a point of view. Never force one in. Lead with the supporting opinion, not the core opinion behind it. Use at most one opinion per piece, and none if none fits. Check the product can do it before you name a feature. These voice rules still win on wording: a few cells use words we avoid, such as \"seamless\", so reword them, never copy them.",
+       "origin": "Brand director decision, 5 November 2026, sharing the opinion bank (SOMW-175, BRGO-28)"
       }
      ]
     },
@@ -1332,6 +1337,11 @@
   }
  ],
  "changes": [
+  {
+   "version": "v6",
+   "date": "5 Nov",
+   "text": "New rule 7.2: the brand director's opinion bank, where it is and how to use it, so every external writer finds it from this file."
+  },
   {
    "version": "v5",
    "date": "5 Nov",

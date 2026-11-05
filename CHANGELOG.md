@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1041.0 — 2026-11-05
+### Added
+- **Voice rule 7.2: the opinion bank** (#683). Rule 7.2 points every external writer at the brand director's opinion bank from `voice-rules.md`, with the use rule: lead with the supporting opinion, at most one per piece, only when it fits, check the product before naming a feature, and the voice rules still win on wording.
+
 ## 0.1040.0 — 2026-11-05
 
 ### Fixed
