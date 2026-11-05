@@ -36,7 +36,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.1050.5 — 2026-11-05
 
 ### Fixed
-- **Site navbar no longer clips "Sign up" from 992px to 1099px.** In that band the bar gets 24px side padding, 8px link padding and 8px action gaps, so the Log in and Sign up buttons stay inside it; 1100px and wider is unchanged. The inline script now asks whether the hamburger toggle is displayed instead of comparing against a fixed 991px, so a host page that raises the breakpoint keeps click-to-open in the drawer. Copy: the Solutions menu and the Footer say "Microsoft Teams" instead of "MS Teams"; "Reports & analytics" and "Training & workshops" were already plural on master (DESY-505, #PRNUM)
+- **Site navbar no longer clips "Sign up" from 992px to 1099px.** In that band the bar gets 24px side padding, 8px link padding and 8px action gaps, so the Log in and Sign up buttons stay inside it; 1100px and wider is unchanged. The inline script now asks whether the hamburger toggle is displayed instead of comparing against a fixed 991px, so a host page that raises the breakpoint keeps click-to-open in the drawer. Copy: the Solutions menu and the Footer say "Microsoft Teams" instead of "MS Teams"; "Reports & analytics" and "Training & workshops" were already plural on master (DESY-505, #692)
 
 ## 0.1050.4 — 2026-11-05
 
