@@ -82,7 +82,7 @@
     }
   }
 }
-nn.aha-header__panel--solutions{flex-direction:column;width:642px}
+.aha-header__panel--solutions{flex-direction:column;width:642px}
 .aha-header__panel--resources{width:402px;inset-inline-start:calc(-1 * (var(--aha-space-96) + var(--aha-space-40)))}
 .aha-header__section{display:flex;flex-direction:column;flex:none;width:180px}
 .aha-header__section--slides{width:160px}
