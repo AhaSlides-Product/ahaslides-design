@@ -1,0 +1,49 @@
+<!-- Discourse theme: use the CLASS LAYER, not the element. Discourse keeps its own topic-list markup
+     (keyboard j/k/o, click tracking and unread state hang off tr.topic-list-item and a.raw-topic-link,
+     which a shadow root would hide), so the theme adds the aha-topic-row classes to that markup.
+
+     1. common/head_tag.html: link the tokens and the layer once, pinned to a release tag. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/topic-row.css">
+<script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/all.js"></script>
+
+<!-- 2. The theme's topic-list-item template: add the classes beside Discourse's own.
+
+     Discourse markup                         add class / element
+     tr.topic-list-item                       aha-topic-row
+     tr.topic-list-item.visited               aha-topic-row--read (title drops to Regular)
+     tr.topic-list-item.pinned                aha-topic-row--pinned, plus the pin icon below
+     td (avatar cell)                         aha-topic-row__avatar, holding <aha-avatar size="40">
+     td.main-link                             aha-topic-row__main
+     span.link-top-line                       aha-topic-row__head
+     a.title.raw-topic-link                   aha-topic-row__title (keep raw-topic-link)
+     .topic-statuses .pinned (thumbtack)      <aha-icon class="aha-topic-row__pin" …> inside the title link
+     a.badge-category__wrapper                <aha-tag href> for now (the category chip, G4, replaces it)
+     div.topic-excerpt                        aha-topic-row__excerpt (plain text, 2 lines)
+     likes / replies / activity              aha-topic-row__meta > aha-topic-row__stat (+ aha-topic-row__sr label)
+
+     Row markup, Glimmer (the values are the theme's own topic fields): -->
+<tr class="topic-list-item aha-topic-row {{if @topic.visited 'aha-topic-row--read'}} {{if @topic.pinned 'aha-topic-row--pinned'}}">
+  <td class="aha-topic-row__avatar">
+    <aha-avatar size="40" name={{@topic.creator.username}} src={{avatarUrl}} aria-hidden="true"></aha-avatar>
+  </td>
+  <td class="main-link topic-list-data aha-topic-row__main">
+    <span class="link-top-line aha-topic-row__head">
+      <a href={{@topic.lastUnreadUrl}} class="title raw-link raw-topic-link aha-topic-row__title" data-topic-id={{@topic.id}}>{{#if @topic.pinned}}<aha-icon class="aha-topic-row__pin" name="system-push-pin" size="16" label="Pinned"></aha-icon>{{/if}}{{@topic.title}}</a>
+      <aha-tag href={{@topic.category.url}}>{{@topic.category.name}}</aha-tag>
+    </span>
+    <p class="topic-excerpt aha-topic-row__excerpt">{{plainExcerpt}}</p>
+    <div class="aha-topic-row__meta">
+      <span>{{@topic.creator.name}}</span>
+      <span class="aha-topic-row__stat"><aha-icon name="system-heart-straight" size="16" decorative></aha-icon>{{@topic.like_count}}<span class="aha-topic-row__sr"> likes</span></span>
+      <span class="aha-topic-row__stat"><aha-icon name="system-chat-circle" size="16" decorative></aha-icon>{{@topic.replyCount}}<span class="aha-topic-row__sr"> replies</span></span>
+      <time datetime={{@topic.bumped_at}}>{{relativeAge}}</time>
+    </div>
+  </td>
+</tr>
+
+<!-- 3. Notes
+     - plainExcerpt: strip HTML and BBCode ([poll …]…[/poll]) in the theme before rendering; the row shows text only.
+     - Discourse's own .topic-list-item.highlighted fade is blue: set Discourse's --tertiary-very-low to
+       the value of --aha-bg-hover in the colour scheme so it matches the row hover.
+     - The table keeps border-collapse: collapse (Discourse's default), so the row divider draws. -->

@@ -1,0 +1,19 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-post';   // <aha-post> (+ <aha-avatar>, <aha-tag>, <aha-button>)
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// PostStream.vue
+<template>
+  <div>
+    <aha-post
+      v-for="p in posts" :key="p.id"
+      :author="p.name" :username="p.username" :role="p.role"
+      :avatar-src="p.avatarUrl" :author-href="p.profileUrl"
+      :time="p.ago" :datetime="p.createdAt" :href="p.url"
+      :likes="p.likes" :liked="p.liked ? '' : null"
+      @aha-post-action="(e) => onAction(p, e.detail.action)"
+    >
+      <div v-html="p.cookedHtml" /><!-- sanitised on the server -->
+    </aha-post>
+  </div>
+</template>
