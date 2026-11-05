@@ -36,7 +36,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.1050.1 — 2026-11-05
 
 ### Fixed
-- **Autoplay marketing videos follow Reduce Motion switched on or off while the page is open.** The preference was read once at start, so loops kept playing and later in-view entries could restart them. It is now re-checked on every observer entry and on the preference's change event: reduce pauses the videos and shows their controls, and turning it off resumes only those in view and restores their controls (DESY-508, #NNN)
+- **Autoplay marketing videos follow Reduce Motion switched on or off while the page is open.** The preference was read once at start, so loops kept playing and later in-view entries could restart them. It is now re-checked on every observer entry and on the preference's change event: reduce pauses the videos and shows their controls, and turning it off resumes only those in view and restores their controls (DESY-508, #691)
 
 ## 0.1048.3 — 2026-11-05
 
