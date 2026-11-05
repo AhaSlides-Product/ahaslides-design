@@ -1,0 +1,12 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../lib/tokens.css">
+<div id="wide" style="width:800px">
+  <aha-profile-header id="page" name="Ada" username="ada"
+    details='[{"label":"Invited by","value":"&lt;img src=x onerror=alert(1)&gt;","href":"/u/x"},{"label":"Trust level","value":"&lt;b&gt;Leader&lt;/b&gt;"}]'></aha-profile-header>
+</div>
+<script type="module">
+  import '../lib/aha-profile-header.js';
+  await customElements.whenDefined('aha-profile-header');
+  window.profileHeaderFixtureReady = true;
+</script>
