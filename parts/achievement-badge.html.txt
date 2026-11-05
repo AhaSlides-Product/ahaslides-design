@@ -1,0 +1,19 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-achievement-badge> is one achievement badge card, the SAME element React and Vue consume. It
+     reuses <aha-icon> and <aha-tag>. Theming comes only from the --aha-* tokens in tokens.css.
+     The tier (gold, silver, bronze) is a label: the glyph stays in ink at every tier. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-achievement-badge.js';  // registers <aha-achievement-badge>
+</script>
+
+<div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap:16px; max-width:960px">
+  <aha-achievement-badge icon="system-user" badge-title="Leader" href="/badges/4/leader" tier="gold"
+    description="Global edit, pin, close, archive, split and merge, more likes"
+    granted="3 Oct 2026" datetime="2026-10-03"></aha-achievement-badge>
+  <aha-achievement-badge icon="system-medal" badge-title="New user of the month" href="/badges/44/new-user-of-the-month" tier="bronze"
+    description="Outstanding contributions in their first month" grant-count="12"></aha-achievement-badge>
+  <aha-achievement-badge icon="system-heart-straight" badge-title="Welcome" href="/badges/5/welcome" tier="bronze"
+    description="Received a like" granted="28 Sep 2026" datetime="2026-09-28" grant-count="1204"></aha-achievement-badge>
+</div>

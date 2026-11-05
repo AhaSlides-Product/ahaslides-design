@@ -1,0 +1,19 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-poll';   // <aha-poll> (+ radio, checkbox, button, progressbar)
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// PollBlock.vue
+<template>
+  <aha-poll
+    :poll-title="poll.title"
+    :options="JSON.stringify(poll.options)"
+    :counts="JSON.stringify(poll.counts)"
+    :voters="poll.voters"
+    :value="JSON.stringify(poll.myVote ?? [])"
+    :selection-mode="poll.multiple ? 'multiple' : 'single'"
+    results="on-vote"
+    :status="poll.closed ? 'closed' : 'open'"
+    :voted="poll.myVote ? '' : null"
+    @vote="(e) => saveVote(e.detail.values)"
+  />
+</template>

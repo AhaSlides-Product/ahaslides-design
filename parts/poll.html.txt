@@ -1,0 +1,27 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-poll> is a poll or vote block, the SAME element React and Vue consume. It reuses
+     <aha-radio>, <aha-checkbox>, <aha-button> and <aha-progressbar>. The element never saves a vote:
+     listen for `vote`, store it, then set voted, counts and voters. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-poll.js';  // registers <aha-poll>
+
+  const poll = document.querySelector('#slide-poll');
+  let previousVote = [];
+  poll.addEventListener('vote', (e) => {
+    const counts = { ...poll.counts };
+    for (const id of previousVote) counts[id] = Math.max(0, (counts[id] || 0) - 1);
+    for (const id of e.detail.values) counts[id] = (counts[id] || 0) + 1;
+    poll.counts = counts;
+    if (!poll.hasAttribute('voted')) poll.setAttribute('voters', String(Number(poll.getAttribute('voters')) + 1));
+    previousVote = [...e.detail.values];
+    poll.setAttribute('voted', '');
+  });
+</script>
+
+<div style="max-width:560px">
+  <aha-poll id="slide-poll" poll-title="Which slide type do you use most?" results="on-vote"
+    options='[{"id":"wc","label":"Word cloud"},{"id":"spin","label":"Spinner wheel"},{"id":"quiz","label":"Quiz"}]'
+    counts='{"wc":12,"spin":5,"quiz":19}' voters="36"></aha-poll>
+</div>

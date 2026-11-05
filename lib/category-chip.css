@@ -1,0 +1,53 @@
+/* Category chip for host markup: the same values as <aha-tag color="category">, for a third-party host
+   (a Discourse theme) that renders its own category links and cannot render the element.
+   Own markup:  <a class="aha-category-chip" href="/c/games"><aha-icon class="aha-category-chip__icon" name="system-tag" size="12"></aha-icon><span class="aha-category-chip__label">Games</span></a>
+   md size:     add `aha-category-chip--md` and give the icon size="16".
+   Discourse:   load this file; the second selector in each rule maps its category badge
+                (a.badge-category__wrapper > span.badge-category > span.badge-category__name) to the md chip. */
+
+.aha-category-chip,
+.badge-category__wrapper {
+  box-sizing: border-box; display: inline-flex; align-items: center; gap: var(--aha-space-4, 4px);
+  max-width: 100%; height: 20px; padding: 0; margin: 0;
+  background: transparent; border: 1px solid transparent; border-radius: var(--aha-radius-xs, 4px);
+  font-family: var(--aha-font-product, "Plus Jakarta Sans", sans-serif); font-size: 12px; line-height: 18px; font-weight: 600;
+  color: var(--aha-text-secondary, #4A4A4A); text-decoration: none;
+  transition: color var(--aha-motion-mid, .2s) var(--aha-ease-in-out, cubic-bezier(0.645, 0.045, 0.355, 1));
+}
+.aha-category-chip--md,
+.badge-category__wrapper {
+  height: 24px; gap: var(--aha-space-6, 6px); font-size: 14px; line-height: 20px; font-weight: 400;
+}
+
+.badge-category__wrapper .badge-category {
+  display: inline-flex; align-items: center; gap: inherit; min-width: 0; max-width: 100%;
+  padding: 0; margin: 0; background: transparent; border: 0;
+  font: inherit; color: inherit;
+}
+/* Discourse draws the per-category colour square, Font Awesome glyph or emoji here; the DS chip is ink only.
+   [class] lifts these above Discourse's own .badge-category.--style-* rules whichever stylesheet loads last. */
+.badge-category__wrapper .badge-category[class]::before,
+.badge-category__wrapper .badge-category[class] .d-icon,
+.badge-category__wrapper .badge-category[class] .badge-category__icon,
+.badge-category__wrapper .badge-category[class] img.emoji { display: none; }
+
+.aha-category-chip__label,
+.badge-category__wrapper .badge-category .badge-category__name {
+  min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font: inherit; color: inherit;
+}
+/* Discourse sizes the name per context (topic list, title, search); pin it so every badge is the md chip. */
+.badge-category__wrapper .badge-category[class] .badge-category__name {
+  font-family: var(--aha-font-product, "Plus Jakarta Sans", sans-serif); font-size: 14px; line-height: 20px; font-weight: 400;
+}
+.aha-category-chip__icon { flex: none; color: var(--aha-icon-default, #4A4A4A); transition: inherit; }
+
+a.aha-category-chip:hover,
+a.aha-category-chip:hover .aha-category-chip__icon,
+a.badge-category__wrapper:hover { color: var(--aha-text-link-hover, #DB005B); }
+a.aha-category-chip:focus-visible,
+a.badge-category__wrapper:focus-visible { outline: 2px solid var(--aha-border-focus, #E70E68); outline-offset: 1px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .aha-category-chip, .aha-category-chip__icon, .badge-category__wrapper { transition: none; }
+}

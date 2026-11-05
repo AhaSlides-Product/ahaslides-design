@@ -1,0 +1,18 @@
+import { useEffect, useRef } from 'react';
+import '@ahaslides-product/design/aha-composer';   // registers <aha-composer>
+
+// React < 19 does not bind custom events, so listen on a ref. The element keeps its own draft;
+// `submit` and `cancel` are cancelable (preventDefault keeps the editor open).
+export function ReplyBox({ onReply, placeholder = 'Join the conversation' }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    const onSubmit = (e) => onReply(e.detail.value);
+    el.addEventListener('submit', onSubmit);
+    return () => el.removeEventListener('submit', onSubmit);
+  }, [onReply]);
+  return <aha-composer ref={ref} placeholder={placeholder} submit-label="Reply" preview="" />;
+}
+
+// usage
+<ReplyBox onReply={(markdown) => api.createPost(topicId, markdown)} />

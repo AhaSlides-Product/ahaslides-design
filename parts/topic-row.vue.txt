@@ -1,0 +1,19 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-topic-row';   // <aha-topic-row> (+ <aha-avatar>, <aha-tag>)
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// TopicList.vue
+<template>
+  <div>
+    <aha-topic-row
+      v-for="t in topics" :key="t.id"
+      :topic-title="t.title" :href="t.url"
+      :author="t.author" :avatar-src="t.avatarUrl"
+      :category="t.category" :category-href="t.categoryUrl"
+      :excerpt="t.excerptText"
+      :likes="t.likes" :replies="t.replies"
+      :time="t.ago" :datetime="t.createdAt"
+      :read="t.read ? '' : null" :pinned="t.pinned ? '' : null"
+    />
+  </div>
+</template>

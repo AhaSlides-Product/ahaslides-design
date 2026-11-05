@@ -1,0 +1,73 @@
+{
+  "name": "Topic row",
+  "slug": "topic-row",
+  "environment": ["product", "web"],
+  "group": "Data display",
+  "tier": "leaf-lit",
+  "badge": "shared web component + class layer",
+  "element": "aha-topic-row",
+  "summary": "One row of a forum or community topic list: avatar, title with its category tag, a two-line plain-text excerpt and a meta row of author, likes, replies and time. Ships as a web component and as a class layer (lib/topic-row.css) a host such as a Discourse theme applies to its own markup.",
+  "highlights": ["Forum topic list row", "Avatar, title, category tag, two-line excerpt, meta row", "Read, pinned and hover states", "Web component, or a class layer for Discourse"],
+  "lead": "ONE custom element, <aha-topic-row>, plus the same CSS as a class layer. The row is a 40px <aha-avatar>, then the title (a link, 16/600 ink) with the category <aha-tag> beside it, the excerpt (14/400 secondary, plain text, clamped to two lines) and a meta row in tertiary: author, likes, replies and time. 16px vertical padding and a 1px --aha-border-secondary divider; the last row drops it. States: unread is the rest look (title SemiBold), `read` drops the title to Regular, `pinned` puts a pin icon inside the title link, before its text, hover tints the row --aha-bg-hover. Two ways in: a page that builds its own list uses the element; a host that renders its own row markup (Discourse, whose keyboard navigation, click tracking and unread state hang off its own tr.topic-list-item and a.raw-topic-link) links lib/topic-row.css and adds the aha-topic-row classes to that markup. The Discourse tab maps each Discourse class to its DS class. The element and the file share one stylesheet (lib/topic-row-css.js), so they cannot drift. The category slot uses <aha-tag> until the category chip lands.",
+  "codeNote": "Same element, same shadow-DOM CSS, identical render. React and Vue pass attributes to the custom element. The class layer lib/topic-row.css is generated from the element's own stylesheet, so a Discourse theme and the element render the same row.",
+  "tokensUsed": ["font-product", "border-secondary", "bg-hover", "text-default", "text-secondary", "text-tertiary", "icon-default", "border-focus", "radius-xs", "size-l", "size-default", "weight-semibold", "weight-regular", "line-height-body", "space-4", "space-8", "space-12", "space-16", "motion-fast", "ease-out"],
+  "spec": [
+    { "label": "Row", "value": "avatar + main column · padding 16 top and bottom, 16 at each side · divider 1px border-secondary #F1F1F1, none on the last row" },
+    { "label": "Avatar", "value": "40px <aha-avatar>, 12px gap to the text, aligned to the top" },
+    { "label": "Title", "value": "16px / 1.5 · SemiBold 600 · text-default #1A1A1A · a link, underline on hover, 2px border-focus ring on keyboard focus" },
+    { "label": "Category", "value": "<aha-tag> after the title, links to the category (the category chip replaces it when it ships)" },
+    { "label": "Excerpt", "value": "14px / 1.5 · Regular 400 · text-secondary #4A4A4A · plain text, two lines then an ellipsis · 4px under the title" },
+    { "label": "Meta", "value": "14px / 1.5 · text-tertiary #616161 · author, likes (heart), replies (chat), time · 16px between items · 8px under the excerpt" },
+    { "label": "Read", "value": "`read` → title Regular 400, same ink" },
+    { "label": "Pinned", "value": "`pinned` → system-push-pin 16px in icon-default inside the title link before its text, named Pinned" },
+    { "label": "Hover", "value": "row background bg-hover #F7F7F7 on pointer devices, motion-fast ease-out" }
+  ],
+  "props": [
+    { "name": "topic-title", "type": "string", "default": "—", "desc": "The topic title, rendered as text in the title link" },
+    { "name": "href", "type": "string", "default": "—", "desc": "Where the title links (the topic, or its first unread post)" },
+    { "name": "author", "type": "string", "default": "—", "desc": "The topic starter's name: the first meta item and the avatar's initials" },
+    { "name": "avatar-src", "type": "string", "default": "—", "desc": "Avatar photo URL; initials of `author` when absent" },
+    { "name": "category", "type": "string", "default": "—", "desc": "Category name shown as a tag after the title; omit for no tag" },
+    { "name": "category-href", "type": "string", "default": "—", "desc": "Makes the category tag a link" },
+    { "name": "excerpt", "type": "string", "default": "—", "desc": "Plain text, set as text (never parsed as HTML), clamped to two lines. Strip HTML and BBCode such as [poll]…[/poll] before passing it" },
+    { "name": "likes", "type": "number", "default": "—", "desc": "Like count with a heart icon; omit to hide" },
+    { "name": "replies", "type": "number", "default": "—", "desc": "Reply count with a chat icon; omit to hide" },
+    { "name": "time", "type": "string", "default": "—", "desc": "Display time, already formatted (\"2h\", \"Oct 28\")" },
+    { "name": "datetime", "type": "string", "default": "—", "desc": "Machine-readable time for the <time> element (ISO 8601)" },
+    { "name": "read", "type": "boolean", "default": "false", "desc": "The reader has opened this topic: the title drops to Regular" },
+    { "name": "pinned", "type": "boolean", "default": "false", "desc": "Shows the pin icon inside the title link, before its text" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Topic row", "when": "a list of forum or community topics: latest, a category, search results that are topics" },
+      { "what": "Topic row class layer (lib/topic-row.css)", "when": "the host renders its own row markup and cannot swap it for an element (a Discourse theme)" },
+      { "what": "List", "when": "uniform rows of anything else (decks, participants) with a title and a short description" },
+      { "what": "Table", "when": "multi-column records to sort or compare" }
+    ],
+    "note": "Pass the excerpt as plain text: the row never renders markup, so BBCode left in it shows as raw text. Keep the title the only link besides the category tag; the row itself is not a link. In Discourse use the class layer on Discourse's own markup (see the Discourse tab) so keyboard navigation, click tracking and unread state keep working.",
+    "dsv3": "EXTENSION — DS V3 has no forum topic row. Built from the List row conventions (avatar, title and description meta, row dividers, hover bg-hover) at forum density: a 40px avatar, 16px title, a two-line excerpt and a meta row, all on --aha-* tokens, reusing <aha-avatar>, <aha-tag> and registry icons."
+  },
+  "surfaces": ["dashboard", "web"],
+  "reuse": { "entry": "./aha-topic-row", "registers": "aha-topic-row", "exportsNamed": ["AhaTopicRow", "defineAhaTopicRow"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "topic-row.html.txt", "runnable": "paste-and-run", "note": "The native form: a web component in an HTML file renders on open, no build step." },
+    { "key": "react", "label": "React", "file": "topic-row.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "topic-row.vue.txt" },
+    { "key": "discourse", "label": "Discourse theme", "file": "topic-row.discourse.txt", "note": "Class layer on Discourse's own topic-list markup: link lib/topic-row.css and add the aha-topic-row classes." }
+  ],
+  "preview": "topic-row.preview.html",
+  "selfCheck": [
+    { "label": "title 16px / SemiBold 600 / text-default #1A1A1A; read drops it to 400", "verdict": "PASS" },
+    { "label": "excerpt 14px / text-secondary #4A4A4A, plain text, two lines", "verdict": "PASS" },
+    { "label": "meta in text-tertiary #616161; likes, replies with registry icons", "verdict": "PASS" },
+    { "label": "16px vertical padding; 1px border-secondary #F1F1F1 divider", "verdict": "PASS" },
+    { "label": "reuses <aha-avatar> (40) and <aha-tag>; class layer generated from the same CSS", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the rendered element (getComputedStyle via headless CDP). The probe row carries every slot, so title, excerpt, meta, divider and padding all render; the measure also proves a real <aha-avatar> at 40px is nested.",
+    "ready": "!!(document.querySelector('aha-topic-row[data-probe]') && document.querySelector('aha-topic-row[data-probe]').shadowRoot && document.querySelector('aha-topic-row[data-probe]').shadowRoot.querySelector('.aha-topic-row__title'))",
+    "singleUI": true,
+    "measure": "(function(){var r=document.querySelector('aha-topic-row[data-probe]').shadowRoot;var row=getComputedStyle(r.querySelector('.aha-topic-row'));var main=getComputedStyle(r.querySelector('.aha-topic-row__main'));var t=getComputedStyle(r.querySelector('.aha-topic-row__title'));var e=getComputedStyle(r.querySelector('.aha-topic-row__excerpt'));var m=getComputedStyle(r.querySelector('.aha-topic-row__meta'));var av=r.querySelector('aha-avatar');return{titleColor:t.color,titleSize:t.fontSize,titleWeight:t.fontWeight,excerptColor:e.color,excerptSize:e.fontSize,metaColor:m.color,dividerColor:row.borderBottomColor,dividerWidth:row.borderBottomWidth,padTop:main.paddingTop,avatarWidth:Math.round(av.getBoundingClientRect().width)+'px',reusesAvatar:!!(av&&av.shadowRoot)};})()",
+    "expect": { "titleColor": "rgb(26, 26, 26)", "titleSize": "16px", "titleWeight": "600", "excerptColor": "rgb(74, 74, 74)", "excerptSize": "14px", "metaColor": "rgb(97, 97, 97)", "dividerColor": "rgb(241, 241, 241)", "dividerWidth": "1px", "padTop": "16px", "avatarWidth": "40px", "reusesAvatar": true }
+  }
+}
