@@ -312,10 +312,41 @@ test('W6: object-fit cover in page CSS or an inline style fails; contain does no
   assert.deepEqual(coverRulesOf('<style>.shot img{object-fit:cover}</style>', 'product'), []);
 });
 
+const letterboxRulesOf = (source) => rulesOf(source).filter((rule) => rule === 'img-letterbox');
+const marketingSection = (slug) => JSON.parse(readFileSync(new URL(`../marketing/${slug}.json`, import.meta.url), 'utf8'));
+const sectionCss = (section) => [section.baseCss, section.video?.css, ...(section.layouts ?? []).map((layout) => layout.css), ...(section.snippets ?? []).map((snippet) => snippet.css)].filter(Boolean).join('\n');
+
+test('W6: a photo contained in a fixed-ratio slot of another ratio is letterboxed and fails; one that fills its slot passes', () => {
+  const stale = fixture('fail-w6-letterboxed-photo');
+  assert.deepEqual(letterboxRulesOf(stale), ['img-letterbox']);
+  const current = stale.replace(/<style>\n\.aha-testimonials\{[\s\S]*?<\/style>/, `<style>${marketingSection('testimonials').baseCss}</style>`);
+  assert.notEqual(current, stale);
+  assert.deepEqual(letterboxRulesOf(current), []);
+  const photo = (width, height) => `<img src="a.webp" alt="Customer" width="${width}" height="${height}">`;
+  assert.deepEqual(letterboxRulesOf(`<div class="aha-features__photo aha-features__photo--4x3"><div class="aha-features__frame">${photo(1000, 1000)}</div></div>`), ['img-letterbox']);
+  assert.deepEqual(letterboxRulesOf(`<div class="aha-features__photo aha-features__photo--4x3">${photo(800, 600)}</div>`), []);
+  assert.deepEqual(letterboxRulesOf(`<div class="aha-features__photo aha-features__photo--fill">${photo(1000, 1000)}</div>`), []);
+  assert.deepEqual(letterboxRulesOf(`<div style="aspect-ratio:16 / 9">${photo(600, 800)}</div>`), ['img-letterbox']);
+  assert.deepEqual(letterboxRulesOf(`<div class="aha-features__photo aha-features__photo--4x3 aha-features__photo--pink-frame"><img class="aha-features__shot" src="a.webp" alt="Poll" width="600" height="800"></div>`), []);
+  assert.deepEqual(letterboxRulesOf(`<div class="aha-header-section-hero-slideshow__track"><div style="aspect-ratio:4 / 3">${photo(600, 800)}</div></div>`), []);
+});
+
+test('W6: the Testimonials split, Features photo and Numbers split image fill their slot with a photo of any ratio', () => {
+  const square = (html) => html.replace(/(<img\b[^>]*?)\swidth="\d+"\s+height="\d+"/g, '$1 width="900" height="900"');
+  for (const [slug, layout] of [['testimonials', 'simple-left-aligned'], ['features', 'icon-list-photo'], ['numbers', 'split-image']]) {
+    const section = marketingSection(slug);
+    const html = section.layouts.find((entry) => entry.slug === layout).html;
+    assert.match(html, /width="\d+"\s+height="\d+"/, layout);
+    assert.deepEqual(letterboxRulesOf(`<style>${sectionCss(section)}</style>${square(html)}`), [], layout);
+  }
+});
+
 test('W6: every DS Marketing section ships its pictures whole, with no object-fit cover', () => {
   for (const file of readdirSync(new URL('../marketing/', import.meta.url)).filter((name) => name.endsWith('.json'))) {
     const section = JSON.parse(readFileSync(new URL(`../marketing/${file}`, import.meta.url), 'utf8'));
     const css = [section.baseCss, section.video?.css, ...(section.layouts ?? []).map((layout) => layout.css), ...(section.snippets ?? []).map((snippet) => snippet.css)].filter(Boolean).join('\n');
     assert.deepEqual(coverRulesOf(`<style>${css}</style>`), [], file);
+    const markup = [...(section.layouts ?? []), ...(section.snippets ?? [])].map((entry) => entry.html).filter(Boolean).join('\n');
+    assert.deepEqual(letterboxRulesOf(`<style>${css}</style>${markup}`), [], file);
   }
 });

@@ -1076,6 +1076,36 @@
         "authored": "ahaslides-design",
         "why": "DS-authored with the website surface; no plugin judge dataset exists"
       }
+    },
+    {
+      "id": 35,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; the Testimonials CSS in the page's <style> block was exported from an earlier DS release.",
+      "files": [
+        {
+          "path": "fixtures/fail-w6-letterboxed-photo/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W6: a landscape photo contained in the Testimonials split's forced 3:4 slot, so grey bars show above and below it.",
+      "expected_output": "W6 FAILs: the Testimonials split photo is an 800x600 picture in a slot forced to 3:4 (aspect-ratio 3 / 4) with object-fit: contain, so the slot's grey background shows as bars above and below the photo instead of the photo filling the frame. The slot is not one whose pictures must line up (no slideshow, carousel, marquee or Gallery tab), so it must take the photo's own ratio (height auto, no forced aspect-ratio), as the current Testimonials CSS ships. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W6 is marked FAIL",
+        "Says the photo is letterboxed (grey bars or background around it) and the slot must take the photo's own ratio, without cropping it"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W6": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
     }
   ]
 }
