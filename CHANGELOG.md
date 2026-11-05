@@ -36,11 +36,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.1051.0 — 2026-11-05
 
 ### Added
-- `screen-lint --surface=website` reports `img-letterbox`: a picture whose `width` and `height` differ in ratio from the forced-ratio slot around it (a DS ratio class, page CSS or an inline `aspect-ratio`), so bars of the slot's background show around it. Slots whose pictures must line up (slideshow, carousel, case study track, marquee, Gallery and Features tabs) and screenshots in the Vivid Pink frame are exempt. New W6 eval case 35 and fixture `fail-w6-letterboxed-photo` (DESY-509, #PRNUM)
+- `screen-lint --surface=website` reports `img-letterbox`: a picture whose `width` and `height` differ in ratio from the forced-ratio slot around it (a DS ratio class, page CSS or an inline `aspect-ratio`), so bars of the slot's background show around it. Slots whose pictures must line up (slideshow, carousel, case study track, marquee, Gallery and Features tabs) and screenshots in the Vivid Pink frame are exempt. New W6 eval case 35 and fixture `fail-w6-letterboxed-photo` (DESY-509, #693)
 
 ### Changed
-- **A photo fills its slot, with no visible letterbox and no crop.** Website rule W6 and its anti-slop criterion (both copies) now fail a photo contained in a fixed-ratio slot of another ratio; a fixed ratio with `object-fit: contain` stays only for slots that must line up and for screenshots in the Vivid Pink frame (DESY-509, #PRNUM)
-- The Testimonials split portrait (Simple left aligned, `aha-testimonials__frame--square`) and the Numbers split image (`aha-numbers__frame`) take the photo's own ratio: no forced 3:4 or 4:3, height auto, no grey slot background. The Features photo (Icon list with photo) uses `aha-features__photo--fill`. A re-exported page shows its photo edge to edge instead of between grey bars (DESY-509, #PRNUM)
+- **A photo fills its slot, with no visible letterbox and no crop.** Website rule W6 and its anti-slop criterion (both copies) now fail a photo contained in a fixed-ratio slot of another ratio; a fixed ratio with `object-fit: contain` stays only for slots that must line up and for screenshots in the Vivid Pink frame (DESY-509, #693)
+- The Testimonials split portrait (Simple left aligned, `aha-testimonials__frame--square`) and the Numbers split image (`aha-numbers__frame`) take the photo's own ratio: no forced 3:4 or 4:3, height auto, no grey slot background. The Features photo (Icon list with photo) uses `aha-features__photo--fill`. A re-exported page shows its photo edge to edge instead of between grey bars (DESY-509, #693)
 - Revert: revert the PR; the three slot rules, the W6 text, the criterion, the lint rule and its tests, and eval 35 go back together
 
 ## 0.1050.5 — 2026-11-05
