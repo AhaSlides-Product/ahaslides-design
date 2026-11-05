@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1042.0 — 2026-11-05
+
+### Changed
+- **Default change: Paywall hides See all plans unless `show-plans` is set.** `<aha-paywall>` now shows only the Upgrade button by default; the new boolean `show-plans` adds the secondary See all plans button back, with `plans-label`, `plans-url` and the `paywall-plans` event working as before. Consumers that want See all plans must add `show-plans` after bumping to this version. A locked Dropdown row does not pass `show-plans`, so its popover is Upgrade alone (#NNN)
+
 ## 0.1040.0 — 2026-11-05
 
 ### Fixed

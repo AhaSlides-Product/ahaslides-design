@@ -204,9 +204,43 @@ const htmlScrollPage = `<!doctype html><html style="overflow-y:scroll"><body sty
 <div style="position:fixed;top:400px;left:100px;width:300px;height:200px"><aha-paywall id="fp" feature-label="Fixed" body="Sentence."><button>Gated</button></aha-paywall></div>
 <script type="module">import '${lib}'; window.ready = true;</script>`;
 
+test('See all plans is hidden by default and appears only with show-plans, toggled on the same node, leaving Upgrade alone at the row start', { skip }, async () => {
+  const file = join(mkdtempSync(join(tmpdir(), 'paywall-plans-')), 'page.html');
+  writeFileSync(file, `<!doctype html><body style="margin:0">
+<aha-paywall id="off" style="position:absolute;top:300px;left:100px" feature-label="Off" body="Sentence." open></aha-paywall>
+<aha-paywall id="on" show-plans plans-label="All tiers" style="position:absolute;top:300px;left:500px" feature-label="On" body="Sentence." open></aha-paywall>
+<script type="module">import '${lib}'; window.ready = true;</script>`);
+  const result = await evaluateInPage(pathToFileURL(file).href, `new Promise((resolve) => setTimeout(() => {
+    const state = (id) => {
+      const root = document.getElementById(id).shadowRoot;
+      const plans = root.querySelector('.plans'), upgrade = root.querySelector('.upgrade');
+      const row = root.querySelector('.actions').getBoundingClientRect();
+      return { node: plans, hidden: plans.getBoundingClientRect().width === 0, label: plans.textContent,
+        upgradeStart: Math.round(upgrade.getBoundingClientRect().left - row.left), upgradeLeft: upgrade.getBoundingClientRect().left,
+        plansLeft: plans.getBoundingClientRect().left };
+    };
+    const off = state('off'), on = state('on');
+    const offHost = document.getElementById('off');
+    offHost.setAttribute('show-plans', '');
+    const toggledOn = state('off');
+    offHost.removeAttribute('show-plans');
+    const toggledOff = state('off');
+    resolve({ off: { ...off, node: 0 }, on: { ...on, node: 0 }, sameNode: off.node === toggledOn.node && off.node === toggledOff.node,
+      toggledOn: { ...toggledOn, node: 0 }, toggledOffHidden: toggledOff.hidden });
+  }, 400))`, { readyExpr: '!!window.ready && !!customElements.get("aha-paywall")' });
+  assert.equal(result.off.hidden, true, 'no show-plans: See all plans takes no room');
+  assert.equal(result.off.upgradeStart, 0, 'Upgrade starts the row alone');
+  assert.equal(result.on.hidden, false);
+  assert.equal(result.on.label, 'All tiers');
+  assert.ok(result.on.plansLeft > result.on.upgradeLeft, 'See all plans sits beside Upgrade');
+  assert.equal(result.toggledOn.hidden, false, 'adding show-plans reveals it');
+  assert.equal(result.toggledOffHidden, true, 'removing show-plans hides it again');
+  assert.equal(result.sameNode, true, 'toggled in place, no shadow rebuild');
+});
+
 test('fitPaywall keeps the popover inside a 280px-tall iframe: beside the anchor with room, scrolling without it, and normal placement stays', async (t) => {
   if (skip) return t.skip(skip);
-  const frame = (top, left) => `<!doctype html><body style='margin:0'><aha-paywall id=p style='position:absolute;top:${top}px;left:${left}px' feature-label='Report' body='Unlock this report and every chart in it with a longer sentence.'></aha-paywall><script type=module>import {fitPaywall} from '${lib}'; window.fit = fitPaywall; window.ready = true<\/script>`;
+  const frame = (top, left) => `<!doctype html><body style='margin:0'><aha-paywall id=p show-plans style='position:absolute;top:${top}px;left:${left}px' feature-label='Report' body='Unlock this report and every chart in it with a longer sentence.'></aha-paywall><script type=module>import {fitPaywall} from '${lib}'; window.fit = fitPaywall; window.ready = true<\/script>`;
   const frames = [['side', 110, 300, 700], ['scroll', 130, 150, 320], ['normal', 20, 300, 700]];
   const file = join(mkdtempSync(join(tmpdir(), 'paywall-fit-')), 'page.html');
   writeFileSync(file, `<!doctype html><body style="margin:0">${frames.map(([id, top, left, width]) =>

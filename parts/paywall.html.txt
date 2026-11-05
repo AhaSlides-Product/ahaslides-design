@@ -5,7 +5,7 @@
 </script>
 
 <!-- Pro gate — the affordance is the anchor. The popover ships the crown mark, title, description,
-     the unlock line, and BOTH CTAs (Upgrade positive + See all plans) — all baked in. -->
+     the unlock line, and the Upgrade CTA — all baked in. See all plans is opt-in: add show-plans. -->
 <aha-paywall
   feature-key="streak_bonus"
   feature-label="Streak answer bonus point"
@@ -55,7 +55,7 @@
   document.getElementById('export-button').addEventListener('click', (event) => toggleLockedPaywall(crown, event));
 </script>
 
-<!-- Translated product → unlock-label ({plan} becomes the bold plan name) + plan-label + mark-label -->
+<!-- Translated product with the opt-in See all plans button → unlock-label ({plan} becomes the bold plan name) + plan-label + mark-label + show-plans + plans-label -->
 <aha-paywall
   feature-key="remove_branding"
   feature-label="Gỡ thương hiệu"
@@ -65,6 +65,7 @@
   plan-label="gói Pro"
   mark-label="Cần nâng cấp. Xem các gói"
   cta-label="Nâng cấp"
+  show-plans
   plans-label="Xem tất cả gói"></aha-paywall>
 
 <script>
@@ -72,6 +73,6 @@
   document.querySelectorAll('aha-paywall').forEach((el) => {
     el.addEventListener('paywall-shown', (e) => console.log('PAYWALL_SHOWN', e.detail));
     el.addEventListener('paywall-upgrade', (e) => console.log('PAYWALL_UPGRADE_CLICKED', e.detail));
-    el.addEventListener('paywall-plans', (e) => console.log('PAYWALL_PLANS_CLICKED', e.detail));  // See all plans
+    el.addEventListener('paywall-plans', (e) => console.log('PAYWALL_PLANS_CLICKED', e.detail));  // only with show-plans
   });
 </script>

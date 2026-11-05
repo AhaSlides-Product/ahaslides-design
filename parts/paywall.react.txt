@@ -3,7 +3,7 @@ import '@ahaslides-product/design/tokens.css';
 import { useRef, useEffect } from 'react';
 
 // Wrap the gated affordance; the element renders the compliant upsell (crown badge, one-sentence
-// body, unlock line, Upgrade and See all plans CTAs are baked in). analytics comes back as events.
+// body, unlock line and the Upgrade CTA are baked in; add show-plans for See all plans). analytics comes back as events.
 export function CustomUrlSetting() {
   const ref = useRef(null);
   const crown = useRef(null);
@@ -11,12 +11,12 @@ export function CustomUrlSetting() {
     const el = ref.current, track = (name) => (e) => window.analytics?.track(name, e.detail);
     el.addEventListener('paywall-shown', track('PAYWALL_SHOWN'));
     el.addEventListener('paywall-upgrade', track('PAYWALL_UPGRADE_CLICKED'));
-    el.addEventListener('paywall-plans', track('PAYWALL_PLANS_CLICKED'));   // See all plans
+    el.addEventListener('paywall-plans', track('PAYWALL_PLANS_CLICKED'));   // only with show-plans
   }, []);
   return (
     <>
       {/* Pro gate — the affordance is the anchor. Popover ships crown mark, title, description,
-          the unlock line, and BOTH CTAs (Upgrade positive + See all plans). */}
+          the unlock line, and the Upgrade CTA. */}
       <aha-paywall
         ref={ref}
         feature-key="streak_bonus"
@@ -35,6 +35,14 @@ export function CustomUrlSetting() {
         unlock-label="Mở khoá với {plan}."
         plan-label="gói Pro"
         mark-label="Cần nâng cấp. Xem các gói" />
+
+      {/* Opt-in See all plans button beside Upgrade → show-plans (plans-label and plans-url only apply with it) */}
+      <aha-paywall
+        feature-key="custom_theme"
+        feature-label="Custom theme"
+        body="Match every slide to your brand."
+        required-plan="pro"
+        show-plans />
 
       {/* Essential gate, no natural anchor → the crown badge is the anchor */}
       <aha-paywall

@@ -41,8 +41,8 @@ A paywall popover, top to bottom, is always:
    **feature label**. Never the generic Phosphor Crown — it lacks the circular background.
 2. **Body** — a one-sentence value prop, then the line **"Unlock with the _\<Plan\> plan_."**
    (plan name bold).
-3. **Footer** — two shared `<aha-button>` CTAs: **Upgrade** (positive) and **See all plans**
-   (secondary).
+3. **Footer** — the shared `<aha-button>` **Upgrade** CTA (positive), alone by default. **See all
+   plans** (secondary) is opt-in: set `show-plans` to add it beside Upgrade.
 
 No further buttons, no dismiss link, no multi-paragraph body inside the popover. *(`PAYWALL-02`, `PAYWALL-03`, `PAYWALL-04`)*
 
@@ -60,6 +60,8 @@ No further buttons, no dismiss link, no multi-paragraph body inside the popover.
 | `unlock-label` | Optional. The whole unlock line in the user's language; `{plan}` becomes the bold plan name. |
 | `plan-label` | Optional. The displayed plan name ("Pro plan" by default), for translation. |
 | `mark-label` | Optional. The accessible name of the crown upgrade mark ("Upgrade required. See plans" by default), for translation. Applies only when the mark is the anchor. |
+| `show-plans` | Optional boolean, off by default. Adds the secondary **See all plans** button beside Upgrade; without it the button is hidden and the footer is Upgrade alone. |
+| `plans-label` / `plans-url` | Optional. The See all plans label and destination; they apply only with `show-plans`. |
 | `trigger` | `'click'` (default) or `'hover'`. |
 | `onUpgrade` | Optional. Runs *instead of* opening the pricing page (e.g. an in-app upgrade modal). Analytics still fires first. |
 
@@ -84,6 +86,7 @@ The upsell funnel's denominator and conversion — never gate a feature without 
 - **`PAYWALL_SHOWN`** fires when the popover opens — props `{ feature: featureKey, plan: requiredPlan }`.
 - **`PAYWALL_UPGRADE_CLICKED`** fires when the CTA is clicked — same props — **before**
   navigation or `onUpgrade` runs.
+- **`paywall-plans`** fires when See all plans is clicked, only when `show-plans` is set — same props.
 
 *(`PAYWALL-06`)*
 
