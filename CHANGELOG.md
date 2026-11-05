@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1037.0 — 2026-11-05
 ### Fixed
-- **Navigation: the closed Products panel no longer widens the page.** The 988px panel is hidden with `visibility` only, so it still took layout width and, from 992 to about 1100px, pushed the page past the viewport (`scrollWidth` 1073 at 1024). `.aha-header` now has `overflow-x:clip`, so the section clips its own panels and the host page needs no `overflow-x` stopgap. Open and close transitions are unchanged. The Products panel opened at 992 to 1073px is clipped at the viewport edge, as it was with the stopgap (#PR)
+- **Navigation: the closed Products panel no longer widens the page.** The 988px panel is hidden with `visibility` only, so it still took layout width and, from 992 to about 1100px, pushed the page past the viewport (`scrollWidth` 1073 at 1024). `.aha-header` now has `overflow-x:clip`, so the section clips its own panels and the host page needs no `overflow-x` stopgap. Open and close transitions are unchanged. The Products panel opened at 992 to 1073px is clipped at the viewport edge, as it was with the stopgap (#679)
 
 ## 0.1033.0 — 2026-11-05
 ### Changed
