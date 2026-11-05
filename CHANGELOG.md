@@ -36,7 +36,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.1035.0 — 2026-11-05
 
 ### Fixed
-- Marketing Cards: a link inside a linked card other than the card link (an Article topic or author) now sits above the stretched link, so it is clickable and shows its own focus ring; the Article snippet's topic is a link (#NNN)
+- Marketing Cards: a link inside a linked card other than the card link (an Article topic or author) now sits above the stretched link, so it is clickable and shows its own focus ring; the Article snippet's topic is a link (#678)
 
 ## 0.1029.0 — 2026-11-05
 ### Added
