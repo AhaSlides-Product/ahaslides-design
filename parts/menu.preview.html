@@ -12,6 +12,27 @@
     ]'>
   </aha-menu>
 
+  <div class="lbl">Nav rail (forum sidebar, badge slot)</div>
+  <aha-menu mode="inline" nav-rail value="home"
+    items='[
+      {"type":"group","label":"Community","children":[
+        {"key":"home","label":"Home","icon":"system-house"},
+        {"key":"latest","label":"Latest topics","icon":"system-chats-circle","badge":"unread"}
+      ]},
+      {"type":"group","label":"Categories","children":[
+        {"key":"news","label":"What&#39;s new","icon":"system-megaphone"},
+        {"key":"events","label":"Events","icon":"system-calendar-dot"},
+        {"key":"tips","label":"Tips and tricks","icon":"system-lightbulb-filament"}
+      ]},
+      {"type":"group","label":"Learn","children":[
+        {"key":"kb","label":"Knowledge base","icon":"system-book"},
+        {"key":"academy","label":"Academy","icon":"system-graduation-cap","badge":"new"}
+      ]}
+    ]'>
+    <aha-badge slot="unread" count="3"></aha-badge>
+    <aha-badge slot="new" kind="new"></aha-badge>
+  </aha-menu>
+
   <div class="lbl">Menu features</div>
   <aha-menu data-probe value="polls"
     items='[
@@ -88,4 +109,5 @@
   import '../lib/icons.js';       // registers <aha-icon> so the leading/caret glyphs resolve from the DS library
   import '../lib/aha-menu.js';    // registers <aha-menu> — the shipped primitive, byte-identical to what consumers get
   import '../lib/aha-tag.js';
+  import '../lib/aha-badge.js';
 </script>

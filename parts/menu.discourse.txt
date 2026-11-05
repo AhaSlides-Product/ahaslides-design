@@ -1,0 +1,54 @@
+<!-- Discourse theme: the forum sidebar as the DS nav rail (<aha-menu mode="inline" nav-rail>).
+     Discourse core renders the sidebar rows, so a theme cannot swap in <aha-menu>. It loads a
+     stylesheet instead: discourse-sidebar.css restyles the core markup on the --aha-* tokens.
+     Put both links in the theme's Common > Head (head_tag.html), tokens first, pinned to one release. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/discourse-sidebar.css">
+
+<!-- What it maps (in #d-sidebar and the mobile hamburger panel):
+     .sidebar-section-header-text         → section header: sentence case, 14px SemiBold 600, text-tertiary
+     .sidebar-section-wrapper             → no rule between sections; the header's 16px top space separates them
+     .sidebar-section-link (a, button)    → row: 36px, radius 8, 14px Regular ink, bg-hover on hover
+     .sidebar-section-link.active         → selected row: bg-accent (Vivid Pink 5%), SemiBold ink
+     .sidebar-section-link-prefix         → 16px icon in the row ink (the category colour is overridden)
+     .sidebar-section-link-content-badge  → badge slot: the DS Badge count, black, 18px
+     .sidebar-section-link-suffix         → unread marker: the DS Badge dot, 6px ink
+     .d-icon-house, -book, -graduation-cap, -ellipsis-vertical, -angle-down, -comments, -calendar-days,
+     -star, -layer-group, -users, -bullhorn, -lightbulb, -circle-question, -circle-info
+                                          → the registry glyph of the same release, in place of the Discourse glyph
+
+     In the theme itself:
+     1. Drop the theme's own sidebar colour, font-size and uppercase overrides; the stylesheet owns them.
+     2. Give each category an icon (Admin > Categories > Style), not a colour square. The icon is drawn
+        in ink, so the category colour no longer shows in the sidebar.
+     3. Any other Discourse icon in the sidebar keeps its glyph until it is mapped. Map it with a rule
+        on the same selector, using the registry name from https://design.ahaslides.io/icons/index.html: -->
+<style>
+  #d-sidebar .d-icon-trophy {
+    --aha-discourse-glyph: url("https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/icons/svg/system/system-trophy.svg");
+    background: currentColor;
+    -webkit-mask: var(--aha-discourse-glyph) center / 100% 100% no-repeat;
+    mask: var(--aha-discourse-glyph) center / 100% 100% no-repeat;
+  }
+  #d-sidebar .d-icon-trophy > use { visibility: hidden; }
+</style>
+
+<!-- A page you build yourself (a theme component, a hub page) uses the element, not the stylesheet: -->
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-menu.js';
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-badge.js';
+</script>
+<aha-menu mode="inline" nav-rail value="home"
+  items='[
+    {"type":"group","label":"Community","children":[
+      {"key":"home","label":"Home","icon":"system-house"},
+      {"key":"latest","label":"Latest topics","icon":"system-chats-circle","badge":"unread"}
+    ]},
+    {"type":"group","label":"Learn","children":[
+      {"key":"kb","label":"Knowledge base","icon":"system-book"},
+      {"key":"academy","label":"Academy","icon":"system-graduation-cap"}
+    ]}
+  ]'>
+  <aha-badge slot="unread" count="3"></aha-badge>
+</aha-menu>

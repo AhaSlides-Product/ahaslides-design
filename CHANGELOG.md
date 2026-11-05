@@ -39,6 +39,24 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Tag: `color="category"` is the ink-only category chip for forum topics and articles: no fill, no border, no padding and no per-category colour square, an optional registry `icon`, sm by default (20px, 12/18 SemiBold, 12px icon) and `size="md"` (24px, 14/20 regular, 16px icon); with `href` its hover turns the label and icon `text-link-hover` #DB005B with no fill. Every existing colour and size renders unchanged (#699)
 - `lib/category-chip.css` (export `./category-chip.css`): the same chip for markup a host owns (`.aha-category-chip`, `--md`, `__icon`, `__label`), and the Discourse mapping: `a.badge-category__wrapper` becomes the md chip and its colour square, Font Awesome glyph and emoji are hidden. The Tag page says how a Discourse theme loads it (#699)
 
+## 0.1061.0 — 2026-11-05
+
+### Added
+- Menu: `nav-rail` attribute for the app-shell side nav (a forum or hub sidebar). It drops the frame and draws group titles as sentence-case section headers, 14px SemiBold 600, never uppercase; rows, icons, hover and the selected row stay the Menu's own (#697)
+- Menu: a leaf's `badge` names a light-DOM child (an `<aha-badge>` count, dot or New badge) drawn at the row's trailing edge (#697)
+- `discourse-sidebar.css`: restyles a Discourse forum's core sidebar (`#d-sidebar` and the mobile hamburger panel) to the nav rail on the `--aha-*` tokens, for a theme that cannot replace Discourse markup. Section headers, 36px rows, the selected tint, ink icons over the category colour, the count badge and unread dot, and registry glyphs in place of the common Discourse sidebar icons. The Menu page's Discourse theme tab maps each class (#697)
+
+## 0.1060.0 — 2026-11-05
+
+### Added
+- Topic row: `<aha-topic-row>`, one row of a forum or community topic list (40px avatar, title link with its category tag, a two-line plain-text excerpt, and a meta row of author, likes, replies and time), with `read` and `pinned` states and a hover tint. It reuses `<aha-avatar>` and `<aha-tag>` (#698)
+- `lib/topic-row.css`, the same row as a class layer for a host that renders its own markup; the Topic row page has a Discourse tab mapping each Discourse topic-list class to its DS class (#698)
+
+## 0.1059.1 — 2026-11-05
+
+### Fixed
+- CSAT docs preview: the inline-feedback example's wrapping popover now opens with `flip`, so it stays inside the viewport and the render-truth overlay check (OVERLAY-09) passes again on master. No component or API change. (#701)
+
 ## 0.1059.0 — 2026-11-05
 
 ### Added
