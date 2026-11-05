@@ -33,9 +33,20 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1075.0 — 2026-11-06
+## 0.1076.0 — 2026-11-06
 ### Fixed
 - Audience C5, C7 and C23 and canvas C7 and C12 no longer send a Developer Platform judge to `manifest.json`, which those pages do not have. They read the flag from `entry_setting` in the judge brief. (#710)
+
+## 0.1074.0 — 2026-11-05
+
+### Added
+- Achievement badge: `<aha-achievement-badge>`, one badge a community member earned or can earn, as a card: a 32px registry glyph in ink, the title with its tier (Gold, Silver, Bronze) as a neutral `<aha-tag>`, a plain-text description and a meta row ("Granted 3 Oct 2026", "12 granted"). A tier is a label, never a gold, silver or bronze hue (#706)
+- `lib/achievement-badge.css`, the same card as a class layer, whose Discourse half restyles Discourse's own `.badge-card`, `.badge-icon`, `.badge-type-*`, `.user-badge` and `.grant-count` markup and paints registry glyphs over its Font Awesome badge icons; the page's Discourse tab also paints the sidebar unread marker as the Badge dot (#706)
+
+### Changed
+- Badge: an unread or new marker beside a navigation label is `<aha-badge dot>` at the default status, never an icon-font circle (#706)
+
+## 0.1061.0 — 2026-11-05
 
 ## 0.1073.0 — 2026-11-05
 
