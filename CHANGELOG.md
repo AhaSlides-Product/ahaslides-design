@@ -33,10 +33,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1050.2 — 2026-11-05
+## 0.1050.4 — 2026-11-05
 
 ### Fixed
 - **Paywall regression test no longer flakes on a busy machine.** The narrowed-viewport cases wait for the resize to land before measuring the popover. Test only, no component change (DESY-504, #690)
+
+## 0.1050.3 — 2026-11-05
+
+### Fixed
+- **Navigation: the open Solutions panel is one column of sections again, 642px wide.** 0.1047.0 left a stray `nn` in front of the `.aha-header__panel--solutions` rule, so the selector matched nothing and the Use cases and Integrations sections sat side by side at their natural width (DESY-505, #688)
 
 ## 0.1050.1 — 2026-11-05
 
