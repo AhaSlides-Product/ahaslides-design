@@ -203,7 +203,7 @@ const { findings } = lintHtml(html, { surface: 'product' });   // or 'canvas' (a
 line (a rule id such as `raw-hex`, or its short group name such as `hex`). A bare `ds-lint-allow`
 suppresses nothing and is reported as a `ds-lint-allow-bare` warning.
 
-**Answer colours** — `answer-colour-text` (an `--aha-answer-*` token as a text colour, except in a True or False result stamp such as `tof-result-stamp`, rule 11.2) and `answer-colour-context` (one on an element or rule whose selector, attributes or style key name no answer, correct or wrong mark, result or True or False button such as `tof-true`) hard-fail, per colour rules 11.2 and 11.1. Opt-out group: `answer-colour`.
+**Answer colours** — `answer-colour-text` (an `--aha-answer-*` token as a text colour) and `answer-colour-context` (one on an element or rule whose selector, attributes or style key name no answer, correct or wrong mark or result) hard-fail, per colour rules 11.2 and 11.1. Opt-out group: `answer-colour`.
 
 **Slide surfaces** — `canvas` and `audience` also hard-fail a hand-made control: a raw `<button>` or
 `role="button"` (`raw-button`), `<aha-button size="xl">` (`button-size-xl`), height, padding,
