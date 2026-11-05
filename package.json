@@ -1,6 +1,6 @@
 {
   "name": "@ahaslides-product/design",
-  "version": "0.1062.0",
+  "version": "0.1063.0",
   "description": "AhaSlides design system for agents — single source of truth (tokens + component contracts) → generated docs, llms.txt, design.md, and per-component agent feeds. Hybrid: shared web-component primitives + antd/ant-design-vue composites.",
   "type": "module",
   "publishConfig": {
@@ -137,6 +137,7 @@
     "./lib/aha-illustration.js",
     "./lib/aha-user-info.js",
     "./lib/aha-topic-row.js",
+    "./lib/aha-post.js",
     "./lib/aha-screen-heading.js",
     "./lib/aha-field-error.js",
     "./lib/aha-live-region.js",
@@ -287,6 +288,9 @@
     "./aha-user-info": "./lib/aha-user-info.js",
     "./aha-topic-row": "./lib/aha-topic-row.js",
     "./topic-row.css": "./lib/topic-row.css",
+    "./aha-post": "./lib/aha-post.js",
+    "./post.css": "./lib/post.css",
+    "./discourse-post.css": "./lib/discourse-post.css",
     "./aha-screen-heading": "./lib/aha-screen-heading.js",
     "./aha-csat": "./lib/aha-csat.js",
     "./aha-settings-list": "./lib/aha-settings-list.js",

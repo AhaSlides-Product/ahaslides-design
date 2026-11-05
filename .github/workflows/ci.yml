@@ -35,8 +35,8 @@ jobs:
       # No dependencies — the pipeline is pure Node scripts + the repo's own sources.
       - name: Build (icon registry + lib entry points + dist)
         run: node build-icons.mjs && node generate.mjs
-      - name: Generated files are committed (npm run generate rewrites the plugin criteria copy and lib/topic-row.css)
-        run: git diff --exit-code -- agent/anti-slop/criteria.json lib/topic-row.css
+      - name: Generated files are committed (npm run generate rewrites the plugin criteria copy, lib/topic-row.css and the post class layers)
+        run: git diff --exit-code -- agent/anti-slop/criteria.json lib/topic-row.css lib/post.css lib/discourse-post.css
       - name: Component standards gate (reusable or it fails)
         run: node standards.mjs
         env:

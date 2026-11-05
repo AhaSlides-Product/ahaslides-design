@@ -1,0 +1,36 @@
+<!-- Discourse theme: link the Discourse stylesheet. It applies the Post card declarations to Discourse's
+     own post-stream markup, so no template override is needed and Discourse's own behaviour (like and
+     reply handlers, quote-on-select, the post menu, keyboard navigation) keeps working.
+
+     1. common/head_tag.html: link the tokens and the stylesheet once, pinned to a release tag. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/discourse-post.css">
+<script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/all.js"></script>
+
+<!-- 2. What the stylesheet maps (scoped to #main-outlet .topic-post, so it outranks Discourse's class rules)
+
+     Discourse markup                         Post card part
+     .topic-post                              post: 12px above and below (24px between posts), no divider
+     .topic-avatar img.avatar                 avatar, 40px (also sets --topic-avatar-width)
+     .topic-meta-data                         author row
+     .names .first / .first a                 name: 14px SemiBold 600, text-default (Discourse draws 700)
+     .names .second / .second a               username: 14px Regular 400, text-tertiary
+     .names .user-title                       role tag: 20px, grey fill, 12px SemiBold secondary
+     .post-date, a.post-date, .relative-date  time: 14px Regular, text-tertiary, end of the row
+     .cooked                                  body: 16px / 1.5 ink; p, a, code and img inside it
+     .cooked aside.quote, .cooked blockquote  quote block: 4px border-strong edge, bg-container-secondary
+     .cooked pre, .cooked pre code            code block: mono 14px, bg-container-secondary, radius 8
+     nav.post-controls .actions .btn          action: the <aha-button variant="text" size="sm"> look
+     .d-icon in those buttons                 16px, icon ink; --love is set to the icon ink, so the like
+                                              heart (core or discourse-reactions) is neutral at rest
+
+     3. A button the theme renders itself (its own post menu) is an <aha-button>, never a hand-built
+        button. The post's More button: -->
+<aha-button variant="text" size="sm" icon-only aria-label="More" aria-haspopup="menu">
+  <aha-icon name="system-dots-three" size="16" decorative></aha-icon>
+</aha-button>
+
+<!-- 4. Notes
+     - Discourse's like and reaction glyphs stay Discourse's own sprite (d-icon); the stylesheet only sets their
+       size and ink. A theme that wants the registry glyphs maps them with api.replaceIcon.
+     - A page the theme builds itself (not the topic stream) uses <aha-post> directly; see the HTML tab. -->
