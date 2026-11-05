@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1042.0 — 2026-11-05
 ### Fixed
-- **Navigation: the open Products panel stays inside the viewport from 992px up.** At 992 to about 1105px the 988px panel lost up to 81px of content to the header's clip. On desktop it now narrows to the viewport width less a 32px gutter either side and shifts left only as far as needed, positioned from its Products item with CSS anchor positioning. From about 1105px the panel is where it was. Browsers without anchor positioning keep the previous placement (#PR)
+- **Navigation: the open Products panel stays inside the viewport from 992px up.** At 992 to about 1105px the 988px panel lost up to 81px of content to the header's clip. On desktop it now narrows to the viewport width less a 32px gutter either side and shifts left only as far as needed, positioned from its Products item with CSS anchor positioning. From about 1105px the panel is where it was. Browsers without anchor positioning keep the previous placement (#685)
 
 ## 0.1037.0 — 2026-11-05
 ### Fixed
