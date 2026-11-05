@@ -42,6 +42,13 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Changed
 - Badge: an unread or new marker beside a navigation label is `<aha-badge dot>` at the default status, never an icon-font circle (#706)
 
+## 0.1061.0 — 2026-11-05
+
+### Added
+- Menu: `nav-rail` attribute for the app-shell side nav (a forum or hub sidebar). It drops the frame and draws group titles as sentence-case section headers, 14px SemiBold 600, never uppercase; rows, icons, hover and the selected row stay the Menu's own (#697)
+- Menu: a leaf's `badge` names a light-DOM child (an `<aha-badge>` count, dot or New badge) drawn at the row's trailing edge (#697)
+- `discourse-sidebar.css`: restyles a Discourse forum's core sidebar (`#d-sidebar` and the mobile hamburger panel) to the nav rail on the `--aha-*` tokens, for a theme that cannot replace Discourse markup. Section headers, 36px rows, the selected tint, ink icons over the category colour, the count badge and unread dot, and registry glyphs in place of the common Discourse sidebar icons. The Menu page's Discourse theme tab maps each class (#697)
+
 ## 0.1060.0 — 2026-11-05
 
 ### Added
