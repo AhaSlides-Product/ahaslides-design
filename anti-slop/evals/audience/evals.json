@@ -2106,7 +2106,7 @@
     },
     {
       "id": 85,
-      "prompt": "Review this self-paced view. `manifest.json` has `setting.audienceQuizSelfPaced: true` and `self-paced-view.html` runs its own rules, timer and reveal. Below 480px view width option labels are 16px and the question is 22px at weight 600. Inside `@container (min-width: 480px)` the labels are `font-size: max(16px, min(4cqmin, 40px))` and the question is `max(22px, min(4.8cqmin, 48px))`. Is this correct?",
+      "prompt": "Review this self-paced view. The judge brief has `entry_setting.audienceQuizSelfPaced: true` and `self-paced-view.html` runs its own rules, timer and reveal. Below 480px view width option labels are 16px and the question is 22px at weight 600. Inside `@container (min-width: 480px)` the labels are `font-size: max(16px, min(4cqmin, 40px))` and the question is `max(22px, min(4.8cqmin, 48px))`. Is this correct?",
       "files": [],
       "label": "good-control",
       "notes": "Mode C scope, DESY-513.",
@@ -2130,7 +2130,7 @@
     },
     {
       "id": 86,
-      "prompt": "Review this self-paced view. `manifest.json` has `setting.audienceQuizSelfPaced: true` and `self-paced-view.html` runs its own rules, timer and reveal. Option labels are `font-size: max(16px, min(6cqmin, 64px))` from 480px view width, so a 1920 x 1080 view shows them at 64px. Is this correct?",
+      "prompt": "Review this self-paced view. The judge brief has `entry_setting.audienceQuizSelfPaced: true` and `self-paced-view.html` runs its own rules, timer and reveal. Option labels are `font-size: max(16px, min(6cqmin, 64px))` from 480px view width, so a 1920 x 1080 view shows them at 64px. Is this correct?",
       "files": [],
       "label": "bad-example",
       "notes": "Mode C scope, DESY-513.",
@@ -2152,7 +2152,7 @@
     },
     {
       "id": 87,
-      "prompt": "Review this self-paced view. `manifest.json` has `setting.audienceQuizSelfPaced: true` and `self-paced-view.html` runs its own rules, timer and reveal. Option labels are `font-size: 5.5vw`, so a 390px phone shows them at about 21px. Is this correct?",
+      "prompt": "Review this self-paced view. The judge brief has `entry_setting.audienceQuizSelfPaced: true` and `self-paced-view.html` runs its own rules, timer and reveal. Option labels are `font-size: 5.5vw`, so a 390px phone shows them at about 21px. Is this correct?",
       "files": [],
       "label": "bad-example",
       "notes": "Mode C scope, DESY-513.",
@@ -2174,7 +2174,7 @@
     },
     {
       "id": 88,
-      "prompt": "Review this self-paced view. `manifest.json` has `setting.audienceQuizSelfPaced: false` and `self-paced-view.html` shows only the question body inside the host's 710px quiz layout. Option labels are `font-size: max(16px, min(4cqmin, 40px))`, so they reach 28px. Is this correct?",
+      "prompt": "Review this self-paced view. The judge brief has `entry_setting.audienceQuizSelfPaced: false` and `self-paced-view.html` shows only the question body inside the host's 710px quiz layout. Option labels are `font-size: max(16px, min(4cqmin, 40px))`, so they reach 28px. Is this correct?",
       "files": [],
       "label": "bad-example",
       "notes": "Mode C scope, DESY-513.",
@@ -2196,7 +2196,7 @@
     },
     {
       "id": 89,
-      "prompt": "Review this self-paced view. `manifest.json` has `setting.audienceQuizSelfPaced: true` and `self-paced-view.js` persists the question's start and runs its own `<aha-countdown>`. When that timer ends with no answer it reveals the answer rows and shows one line, role=\"status\": \"Time's up! You'll get the next one.\" with 0 points. Is this correct?",
+      "prompt": "Review this self-paced view. The judge brief has `entry_setting.audienceQuizSelfPaced: true` and `self-paced-view.js` persists the question's start and runs its own `<aha-countdown>`. When that timer ends with no answer it reveals the answer rows and shows one line, role=\"status\": \"Time's up! You'll get the next one.\" with 0 points. Is this correct?",
       "files": [],
       "label": "good-control",
       "notes": "Mode C scope, DESY-513.",
@@ -2218,7 +2218,7 @@
     },
     {
       "id": 90,
-      "prompt": "Review this self-paced view. `manifest.json` has `setting.audienceQuizSelfPaced: false` and `self-paced-view.js` shows only the question body inside the host's quiz layout, with the host's timer. When `xprops.timeLimit` reaches 0 it prints its own \"Time's up\" line under the answers. Is this correct?",
+      "prompt": "Review this self-paced view. The judge brief has `entry_setting.audienceQuizSelfPaced: false` and `self-paced-view.js` shows only the question body inside the host's quiz layout, with the host's timer. When `xprops.timeLimit` reaches 0 it prints its own \"Time's up\" line under the answers. Is this correct?",
       "files": [],
       "label": "bad-example",
       "notes": "Mode C scope, DESY-513.",
@@ -2240,7 +2240,7 @@
     },
     {
       "id": 91,
-      "prompt": "Review this self-paced view. `manifest.json` has `setting.audienceQuizSelfPaced: true` and From 480px view width `self-paced-view.html` shows the question card above True and False tiles in two side-by-side columns that span the view. Below 480px the same parts stack in one column. There is no horizontal scroll at 320px and height is reported. Is this correct?",
+      "prompt": "Review this self-paced view. The judge brief has `entry_setting.audienceQuizSelfPaced: true` and From 480px view width `self-paced-view.html` shows the question card above True and False tiles in two side-by-side columns that span the view. Below 480px the same parts stack in one column. There is no horizontal scroll at 320px and height is reported. Is this correct?",
       "files": [],
       "label": "good-control",
       "notes": "Mode C scope, DESY-513.",
@@ -2262,7 +2262,7 @@
     },
     {
       "id": 92,
-      "prompt": "Review this self-paced view. `manifest.json` has `setting.audienceQuizSelfPaced: true` and At every width `self-paced-view.html` is the phone stack in a centred 420px column, so a 1920 x 1080 view has 750px of empty space on each side. Is this correct?",
+      "prompt": "Review this self-paced view. The judge brief has `entry_setting.audienceQuizSelfPaced: true` and At every width `self-paced-view.html` is the phone stack in a centred 420px column, so a 1920 x 1080 view has 750px of empty space on each side. Is this correct?",
       "files": [],
       "label": "bad-example",
       "notes": "Mode C scope, DESY-513.",
