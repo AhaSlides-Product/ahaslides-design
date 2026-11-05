@@ -16,6 +16,7 @@ const quizzesOnly = ref(true);
   <aha-tag color="branding">New</aha-tag>
   <aha-tag href="/blog/category/polls">Polls</aha-tag>
   <aha-tag checkable size="large">Filter chip</aha-tag>
+  <aha-tag color="category" size="md" icon="system-tag" href="/c/tips">Tips and tricks</aha-tag>
   <aha-tag
     closable
     @close="keywords = keywords.filter(k => k !== 'Marketing')"
