@@ -38,6 +38,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - **Search result** (`<aha-search-result>`, `@ahaslides-product/design/aha-search-result`): one row of a search results list, the title with the searched words marked on Vivid Pink at 5% in ink, a category tag and date, and a two-line plain-text blurb with URLs stripped (`stripUrls()` is exported). Ships with the class layer `lib/search-result.css` (`@ahaslides-product/design/search-result.css`), which maps Discourse full-page search (`.fps-result`, `.search-highlight`, `.blurb`) onto the same rules and shows its result count as the default black Badge count, plus a Discourse theme tab (#702)
 - **Stat strip** (`lib/stat-strip.css`, `@ahaslides-product/design/stat-strip.css`): a row of up to 5 stat tiles that wraps as it narrows and never scrolls sideways, with classes for host markup. It maps the Discourse About page stats (`.about__stats`, registry glyphs) onto the plain stat tile and lets the older `.about-stats-table` scroll in its own box; the Stat tile page gains a Discourse theme tab (#702)
 
+## 0.1076.0 — 2026-11-06
+### Fixed
+- Audience C5, C7 and C23 and canvas C7 and C12 no longer send a Developer Platform judge to `manifest.json`, which those pages do not have. They read the flag from `entry_setting` in the judge brief. (#710)
+
 ## 0.1074.0 — 2026-11-05
 
 ### Added
