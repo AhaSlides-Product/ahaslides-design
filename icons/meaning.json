@@ -27,6 +27,7 @@
   "brand-reddit": ["reddit", "brand", "logo", "social", "community", "follow us"],
   "brand-slack": ["slack", "brand", "logo", "chat", "workspace", "integration"],
   "brand-stripe": ["stripe", "brand", "logo", "payment", "checkout", "billing"],
+  "brand-whatsapp": ["whatsapp", "brand", "logo", "social", "chat", "message", "contact us"],
   "brand-x": ["x", "twitter", "brand", "logo", "social", "follow us", "share"],
   "brand-youtube": ["youtube", "brand", "logo", "video", "social", "follow us"],
   "brand-zapier": ["zapier", "brand", "logo", "automation", "workflow", "integration"],

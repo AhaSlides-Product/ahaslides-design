@@ -603,6 +603,27 @@
       "lineFetched": "2026-11-05"
     },
     {
+      "id": "whatsapp",
+      "name": "WhatsApp",
+      "category": "Brands",
+      "file": "whatsapp.svg",
+      "originalFile": "original/whatsapp.svg",
+      "originalFetched": "2026-11-05",
+      "sourceUrl": "https://thesvg.org/icons/whatsapp/default.svg",
+      "sourcePage": "https://thesvg.org/icon/whatsapp",
+      "fetched": "2026-11-05",
+      "usedIn": "Footer marketing section, contact and social row",
+      "section": "Community and social",
+      "environment": [
+        "web"
+      ],
+      "line": "line/whatsapp.svg",
+      "lineSource": "Phosphor Icons regular (MIT): whatsapp-logo",
+      "lineSourceUrl": "https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/regular/whatsapp-logo.svg",
+      "lineSourcePage": "https://phosphoricons.com/?q=whatsapp-logo",
+      "lineFetched": "2026-11-05"
+    },
+    {
       "id": "medium",
       "name": "Medium",
       "category": "Brands",
