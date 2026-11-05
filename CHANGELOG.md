@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1025.1 — 2026-11-05
+### Changed
+- **Site navbar, "New slide types" link.** The Interactive slides column now ends with a "New slide types" entry after Ranking, matching the website header (aha-static-sites LAPA-286). It is a plain link with no hover preview. The navbar fixtures in the website anti-slop evals carry it too (#NNN).
+
 ## 0.1025.0 — 2026-11-05
 ### Changed
 - **Colour rule 11.2, True or False result stamp exception** (#672). The result stamp of a True or False question on the audience phone (the small tilted label on the card corner that names the correct side at result) writes its word in the answer colour: True in `--aha-answer-correct` (`#008A05`, 4.53 to 1 on white), False in `--aha-answer-wrong` (`#C7401E`, 5.02 to 1), on white only. Every other text stays the default ink. `screen-lint` accepts the answer token as a text colour only in a selector that names a True or False result stamp (`tof-result-stamp`, `true-false-result-stamp`); `result-stamp` alone, `tof-true` and `tofu-result-stamp` still hard-fail. Criteria colour C1 and C5, feedback C2 and audience C31, the deck-tokens Correct and wrong row, the answer token note, README and the aha-design skill say the same; three colour evals added.
