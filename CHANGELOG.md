@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1051.1 — 2026-11-05
+
+### Fixed
+- Dropdown: a `danger` row (Delete) hovers on the same light `bg-hover` #F7F7F7 surface as every other row, keeping `color-error` on its text and icon only; it no longer fills solid `button-danger-bg` #1A1A1A with white text, and its shortcut chip and description keep their rest colours (#694)
+
 ## 0.1051.0 — 2026-11-05
 
 ### Added
