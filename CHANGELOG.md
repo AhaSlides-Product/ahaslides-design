@@ -33,6 +33,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1031.0 — 2026-11-05
+### Added
+- **`brand-whatsapp` icon and the WhatsApp logo** (#PR). `<aha-icon name="brand-whatsapp">` joins the Brand family (Phosphor whatsapp-logo, MIT), with the logo in `logo/` (line, original colours and greyscale). Colour rule 2.6a and AGENTS.md now name it for social links in place of `system-whatsapp-logo`, which stays in the registry. New colour-rules change v37.
+### Fixed
+- **Footer social links use Brand icons, and the DMCA badge links to DMCA.com** (#PR). WhatsApp, LinkedIn, YouTube, Facebook, Instagram and Reddit take `brand-*` icons (colour rule 2.6a) instead of `system-*-logo` and `slidetype-youtube`; email and Help Centre keep their system glyphs. The DMCA badge links to AhaSlides' DMCA.com protection status page instead of the G2 reviews page. `docs/landing-webflow-scan.md` items 38 and 40 updated. Supersedes the Footer part of #349.
+
 ## 0.1029.0 — 2026-11-05
 ### Added
 - **`brand-tiktok` icon and the TikTok logo** (#676). `<aha-icon name="brand-tiktok">` joins the Brand family for social links (AhaSlides Community footer), with the logo in `logo/` (line, original colours and greyscale). WhatsApp needs no new icon: it stays `system-whatsapp-logo`, and the social-links lists in AGENTS.md and colour rule 2.6a now name `brand-tiktok`.
