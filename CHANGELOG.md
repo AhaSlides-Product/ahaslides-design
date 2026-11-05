@@ -36,7 +36,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.1059.1 — 2026-11-05
 
 ### Fixed
-- CSAT docs preview: the inline-feedback example's wrapping popover now opens with `flip`, so it stays inside the viewport and the render-truth overlay check (OVERLAY-09) passes again on master. No component or API change. (#PR)
+- CSAT docs preview: the inline-feedback example's wrapping popover now opens with `flip`, so it stays inside the viewport and the render-truth overlay check (OVERLAY-09) passes again on master. No component or API change. (#701)
 
 ## 0.1059.0 — 2026-11-05
 
