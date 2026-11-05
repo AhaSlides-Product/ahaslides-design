@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1040.0 — 2026-11-05
+
+### Fixed
+- Marketing Cards: a link inside a linked card other than the card link (an Article topic or author) now sits above the stretched link, so it is clickable and shows its own focus ring; the Article snippet's topic is a link (#678)
+
 ## 0.1037.0 — 2026-11-05
 ### Fixed
 - **Navigation: the closed Products panel no longer widens the page.** The 988px panel is hidden with `visibility` only, so it still took layout width and, from 992 to about 1100px, pushed the page past the viewport (`scrollWidth` 1073 at 1024). `.aha-header` now has `overflow-x:clip`, so the section clips its own panels and the host page needs no `overflow-x` stopgap. Open and close transitions are unchanged. The Products panel opened at 992 to 1073px is clipped at the viewport edge, as it was with the stopgap (#679)
