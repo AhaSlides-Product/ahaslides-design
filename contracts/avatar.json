@@ -15,6 +15,7 @@
     { "label": "Size", "value": "small 24 · default 40 · large 64 (named), or any numeric px via `size`" },
     { "label": "Shape", "value": "circle (pill radius) · square (radius 8)" },
     { "label": "Initials", "value": "bg-accent #E70E680D, text-default #1A1A1A, SemiBold 600; the type-scale step nearest 38% of the size, never below 12px (12 at 24, 16 at 40, 24 at 64)" },
+    { "label": "Third-party initials", "value": "any initials avatar on a host the DS does not own (a Discourse letter avatar, a CMS default) uses the Initials style above, never a hashed or per-user colour: bg-accent ground, #1A1A1A SemiBold 600, no new value. A server-rendered PNG cannot be recoloured with CSS, so the host swaps it for <aha-avatar name=…> (the Discourse tab). A photo stays a photo" },
     { "label": "Image", "value": "object-fit cover, clipped to shape; if it fails to load, the no-src content (icon, else initials of `name`) shows until `src` changes" },
     { "label": "Icon", "value": "<aha-icon> glyph by name, ~half the avatar diameter, currentColor" },
     { "label": "Color", "value": "ground tint from an --aha-* token via `color` (default brand tint)" },
@@ -41,10 +42,11 @@
     "whenToUse": [
       { "what": "Avatar", "when": "identifying a person or entity — a presenter, a participant, an author" },
       { "what": "Avatar group with `add`", "when": "a stack of collaborators people can add to from the same spot (invite, share): the + sits on the stack it grows" },
+      { "what": "Avatar replacing a third-party letter avatar", "when": "a host app (Discourse, a CMS) renders coloured-disc initials: swap each for <aha-avatar name>, so every initials avatar is the DS pale-pink ground with ink text" },
       { "what": "Icon", "when": "a generic symbol, not a specific identity" },
       { "what": "Tag", "when": "labelling with a category rather than an identity" }
     ],
-    "note": "Always provide `name` even when `src` is set — it becomes the alt text and the initials shown when the image fails to load, until `src` changes. Prefer initials or a photo over a generic icon for a real identity; reserve the icon mode for a placeholder/guest slot. In a group, keep sizes uniform and set `max` so the +N chip stays legible. Give the add button an `add-label` that says what it adds ('Invite people', not 'Add'): it has no visible text. Set `add-label` on every real use so it names the action (e.g. 'Invite people', 'Add co-host'); the default 'Add person' is only a fallback. One add button per group; use an <aha-button> when the action is not about the people in the stack. For a person's name on hover, set `tooltip` on each avatar rather than a native `title` or a wrapping <aha-tooltip>: a wrapped avatar is not a direct child, so the group loses it from the stack, the tint cycle and the +N count. Pair it with `overflow-tooltip` so the hidden people can be read too, and `add-tooltip` on an icon-only add button.",
+    "note": "Always provide `name` even when `src` is set — it becomes the alt text and the initials shown when the image fails to load, until `src` changes. Prefer initials or a photo over a generic icon for a real identity; reserve the icon mode for a placeholder/guest slot. In a group, keep sizes uniform and set `max` so the +N chip stays legible. Give the add button an `add-label` that says what it adds ('Invite people', not 'Add'): it has no visible text. Set `add-label` on every real use so it names the action (e.g. 'Invite people', 'Add co-host'); the default 'Add person' is only a fallback. One add button per group; use an <aha-button> when the action is not about the people in the stack. For a person's name on hover, set `tooltip` on each avatar rather than a native `title` or a wrapping <aha-tooltip>: a wrapped avatar is not a direct child, so the group loses it from the stack, the tint cycle and the +N count. Pair it with `overflow-tooltip` so the hidden people can be read too, and `add-tooltip` on an icon-only add button. Third-party initials avatars follow the same Initials style (never a hashed colour). Discourse cannot take a CSS-only fix, because its letter avatars are server-rendered PNGs: use the Discourse tab, a theme initializer that replaces each letter-avatar <img> with <aha-avatar name>, loaded from the pinned jsDelivr lib files. Photo avatars are left as they are. Not built: pointing Discourse's `external_system_avatars_url` at a DS-hosted letter-image set, which needs the DS to host per-letter assets.",
     "dsv3": "COVERED — enumerated from the DS V3 Avatar + Avatar-Group component sets (fileKey MwjvUjVI0HnfwD9EwPXRAy): 'supports images, Icons, or letters' → three content modes; circle/square shapes; small/default/large sizes; a colour ground; and a stacked group (pale pink then light greys, never solid pink) with a +N overflow. Initials/icon ground uses bg-accent (#E70E680D) with text-default (#1A1A1A) — pale pink with black text, since pink text fails contrast on the tint; `color` overrides the ground with any --aha-* token. Circle is the pill radius; square is the default 8 radius. Group children wear a 2px bg-container ring and overlap; the +N chip inherits the group size/shape. The add button takes the secondary Button's colours and focus ring, drawn round on the avatar grid so it sits flush in the stack (the Presenter top bar)."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
@@ -52,7 +54,8 @@
   "snippets": [
     { "key": "html", "label": "HTML", "file": "avatar.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
     { "key": "react", "label": "React", "file": "avatar.react.txt" },
-    { "key": "vue", "label": "Vue 3", "file": "avatar.vue.txt" }
+    { "key": "vue", "label": "Vue 3", "file": "avatar.vue.txt" },
+    { "key": "discourse", "label": "Discourse theme", "file": "avatar.discourse.txt" }
   ],
   "preview": "avatar.preview.html",
   "playground": {
