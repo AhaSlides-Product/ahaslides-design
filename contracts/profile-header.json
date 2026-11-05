@@ -1,0 +1,68 @@
+{
+  "name": "Profile header",
+  "slug": "profile-header",
+  "environment": ["product", "web"],
+  "group": "Data display",
+  "tier": "leaf-lit",
+  "badge": "shared web component + Discourse stylesheet",
+  "element": "aha-profile-header",
+  "summary": "The top of a person's profile page, or the same header as a user card: avatar, name, username, a short details list, Follow and Message buttons, a stats row and the profile tabs. Ships as a web component and as a stylesheet (lib/discourse-profile.css) that restyles Discourse's own profile and user card.",
+  "highlights": ["Profile page header or user card", "144px avatar (96 on narrow screens and in the card), name, username, details", "Slots for buttons, a stats row and tabs", "Web component, or a stylesheet for Discourse"],
+  "lead": "ONE custom element, <aha-profile-header>, in two variants. `page` (the default) is the head of a profile page: a 144px <aha-avatar>, the name at the h3 size (32px SemiBold 600, ink) with the username under it (16px Regular, text-secondary), and the actions beside them. When the header is narrower than 600px the avatar drops to 96px, the name to the h4 size (24px) and the actions to their own row. `card` is the user card a host pops over a name: a framed panel (bg-elevated, 1px border-default, radius 12, a soft shadow, 24px padding), a 96px avatar, the name at 24px and the actions on their own row. Under the names sits an optional details list (`details`, JSON of label and value pairs, 14px: the label in text-tertiary, the value in ink, both Regular; a value with `href` is a link). Three slots take other DS components as they are: `actions` (Follow and Message as <aha-button>), `stats` (a row of <aha-statistic>, or the stat strip) and `nav` (<aha-tabs type=\"line\">). Empty slots collapse. Names and stat figures are SemiBold 600, never Bold, and every label is sentence case. Discourse core renders its own profile, so a Discourse theme links lib/discourse-profile.css, which restyles that markup on the same values; the Discourse tab maps each class and lists the text overrides that make the labels sentence case.",
+  "codeNote": "Same element, same shadow-DOM CSS, identical render. React and Vue pass attributes and slotted children to the custom element. lib/discourse-profile.css carries the same values for Discourse's own markup.",
+  "tokensUsed": ["font-product", "text-default", "text-secondary", "text-tertiary", "text-link", "border-focus", "bg-elevated", "border-default", "ink-a10", "radius-lg", "radius-xs", "size-h3", "size-h4", "size-l", "size-default", "weight-semibold", "weight-regular", "line-height-heading", "line-height-body", "space-4", "space-8", "space-16", "space-24", "motion-fast", "ease-out"],
+  "spec": [
+    { "label": "Avatar", "value": "<aha-avatar> 144px on the page, 96px under 600px wide and in the card; photo, else initials" },
+    { "label": "Name", "value": "page 32px (size-h3) / 1.3 · card and narrow 24px (size-h4) · SemiBold 600 · text-default #1A1A1A · a heading, level 2 unless heading-level says otherwise" },
+    { "label": "Username", "value": "16px / 1.5 · Regular 400 · text-secondary #4A4A4A · 4px under the name" },
+    { "label": "Actions", "value": "slot `actions`: <aha-button> (Follow primary, Message secondary), 8px apart; beside the names on the page, on their own row in the card and under 600px" },
+    { "label": "Details", "value": "14px / 1.5 · label text-tertiary #616161, value text-default #1A1A1A, both Regular 400 · 4px between label and value, 24px between pairs · 16px under the names · sentence case labels" },
+    { "label": "Stats", "value": "slot `stats`: a row of <aha-statistic> or the stat strip, unchanged · 24px under the details (16px in the card) · figures SemiBold 600" },
+    { "label": "Tabs", "value": "slot `nav`: <aha-tabs type=\"line\"> · 24px under the stats" },
+    { "label": "Card", "value": "variant card: bg-elevated #FFFFFF, 1px border-default #E3E3E3, radius 12, shadow 0 4px 12px ink 10%, padding 24" }
+  ],
+  "props": [
+    { "name": "name", "type": "string", "default": "—", "desc": "The person's display name: the heading, and the avatar's initials and label" },
+    { "name": "username", "type": "string", "default": "—", "desc": "The handle shown under the name; omit to hide" },
+    { "name": "src", "type": "string", "default": "—", "desc": "Avatar photo URL; initials of `name` when absent" },
+    { "name": "variant", "type": "'page' | 'card'", "default": "page", "desc": "page: the profile page header (144px avatar, 32px name). card: the user card, a framed panel (96px avatar, 24px name, actions on their own row)" },
+    { "name": "heading-level", "type": "1–6", "default": "2", "desc": "The name's heading level (aria-level); the size stays the variant's" },
+    { "name": "details", "type": "JSON string", "default": "—", "desc": "A list of { label, value, href? } shown as a description list. Labels in sentence case. Every label and value is set as text, never parsed as HTML" },
+    { "name": "actions", "type": "slot", "default": "—", "desc": "Follow and Message as <aha-button slot=\"actions\">; collapses when empty" },
+    { "name": "stats", "type": "slot", "default": "—", "desc": "A row of <aha-statistic> or the stat strip; collapses when empty" },
+    { "name": "nav", "type": "slot", "default": "—", "desc": "The profile tabs, <aha-tabs slot=\"nav\" type=\"line\">; collapses when empty" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Profile header (page)", "when": "the top of a person's profile page in a community, a forum or an admin user view" },
+      { "what": "Profile header (card)", "when": "a user card that opens over a name or avatar" },
+      { "what": "lib/discourse-profile.css", "when": "a Discourse theme, where core renders the profile and the user card" },
+      { "what": "User info", "when": "a compact identity row (avatar beside a name and email) in a list or a byline" }
+    ],
+    "note": "Keep labels in sentence case (\"Last post\", \"Invited by\", \"Trust level\"); in Discourse they come from core strings, so override them in Admin > Customise > Text. One primary button per header (Follow); Message is secondary. Figures and names are SemiBold 600, never Bold.",
+    "dsv3": "EXTENSION — DS V3 has no profile header. Built from User info (avatar beside a name over a secondary line) at page scale, on --aha-* tokens, reusing <aha-avatar>, and taking <aha-button>, <aha-statistic> and <aha-tabs> in slots as they are."
+  },
+  "surfaces": ["dashboard", "web"],
+  "reuse": { "entry": "./aha-profile-header", "registers": "aha-profile-header", "exportsNamed": ["AhaProfileHeader", "defineAhaProfileHeader"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "profile-header.html.txt", "runnable": "paste-and-run", "note": "The native form: a web component in an HTML file renders on open, no build step." },
+    { "key": "react", "label": "React", "file": "profile-header.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "profile-header.vue.txt" },
+    { "key": "discourse", "label": "Discourse theme", "file": "profile-header.discourse.txt", "note": "Discourse core renders the profile and the user card: link lib/discourse-profile.css and override the title-case labels in Admin > Customise > Text." }
+  ],
+  "preview": "profile-header.preview.html",
+  "selfCheck": [
+    { "label": "name 32px / SemiBold 600 / text-default #1A1A1A; 24px in the card and under 600px", "verdict": "PASS" },
+    { "label": "username 16px / Regular 400 / text-secondary #4A4A4A", "verdict": "PASS" },
+    { "label": "avatar 144 on the page, 96 in the card and under 600px; reuses <aha-avatar>", "verdict": "PASS" },
+    { "label": "details 14px: label text-tertiary, value ink, both Regular; set as text", "verdict": "PASS" },
+    { "label": "actions, stats and nav are slotted DS components; empty slots collapse", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the rendered element (getComputedStyle via headless CDP). The probe is a page header wide enough for the 144px avatar, with details and a slotted button; the measure also proves a real <aha-avatar> is nested.",
+    "ready": "!!(document.querySelector('aha-profile-header[data-probe]') && document.querySelector('aha-profile-header[data-probe]').shadowRoot && document.querySelector('aha-profile-header[data-probe]').shadowRoot.querySelector('.detail'))",
+    "singleUI": true,
+    "measure": "(function(){var r=document.querySelector('aha-profile-header[data-probe]').shadowRoot;var n=getComputedStyle(r.querySelector('.name'));var u=getComputedStyle(r.querySelector('.username'));var dt=getComputedStyle(r.querySelector('.detail dt'));var dd=getComputedStyle(r.querySelector('.detail dd'));var av=r.querySelector('aha-avatar');return{nameColor:n.color,nameSize:n.fontSize,nameWeight:n.fontWeight,usernameColor:u.color,usernameSize:u.fontSize,usernameWeight:u.fontWeight,labelColor:dt.color,labelSize:dt.fontSize,valueColor:dd.color,valueWeight:dd.fontWeight,avatarWidth:Math.round(av.getBoundingClientRect().width)+'px',reusesAvatar:!!(av&&av.shadowRoot)};})()",
+    "expect": { "nameColor": "rgb(26, 26, 26)", "nameSize": "32px", "nameWeight": "600", "usernameColor": "rgb(74, 74, 74)", "usernameSize": "16px", "usernameWeight": "400", "labelColor": "rgb(97, 97, 97)", "labelSize": "14px", "valueColor": "rgb(26, 26, 26)", "valueWeight": "400", "avatarWidth": "144px", "reusesAvatar": true }
+  }
+}
