@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1068.0 — 2026-11-05
+## 0.1075.0 — 2026-11-05
 ### Added
 - **Search result** (`<aha-search-result>`, `@ahaslides-product/design/aha-search-result`): one row of a search results list, the title with the searched words marked on Vivid Pink at 5% in ink, a category tag and date, and a two-line plain-text blurb with URLs stripped (`stripUrls()` is exported). Ships with the class layer `lib/search-result.css` (`@ahaslides-product/design/search-result.css`), which maps Discourse full-page search (`.fps-result`, `.search-highlight`, `.blurb`) onto the same rules and shows its result count as the default black Badge count, plus a Discourse theme tab (#702)
 - **Stat strip** (`lib/stat-strip.css`, `@ahaslides-product/design/stat-strip.css`): a row of up to 5 stat tiles that wraps as it narrows and never scrolls sideways, with classes for host markup. It maps the Discourse About page stats (`.about__stats`, registry glyphs) onto the plain stat tile and lets the older `.about-stats-table` scroll in its own box; the Stat tile page gains a Discourse theme tab (#702)
