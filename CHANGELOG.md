@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1050.1 — 2026-11-05
+
+### Fixed
+- **Autoplay marketing videos follow Reduce Motion switched on or off while the page is open.** The preference was read once at start, so loops kept playing and later in-view entries could restart them. It is now re-checked on every observer entry and on the preference's change event: reduce pauses the videos and shows their controls, and turning it off resumes only those in view and restores their controls (DESY-508, #NNN)
+
 ## 0.1048.3 — 2026-11-05
 
 ### Added
