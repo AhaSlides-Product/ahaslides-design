@@ -7,7 +7,7 @@
     "slidetype",
     "system"
   ],
-  "count": 398,
+  "count": 402,
   "icons": {
     "brand-canva": {
       "family": "brand",
@@ -1506,6 +1506,38 @@
         "job",
         "career",
         "company"
+      ]
+    },
+    "system-bring-forward": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M5.5 6.023L1.5 8.3L8 12L14.5 8.3L10.5 6.023M1.5 10.8L8 14.5L14.5 10.8M8 8.3V1.5M5 4.5L8 1.5L11 4.5\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "bring forward",
+        "move forward",
+        "forward one layer",
+        "layer order",
+        "arrange",
+        "raise layer",
+        "z-order",
+        "one step up"
+      ]
+    },
+    "system-bring-to-front": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M5.5 8.523L1.5 10.8L8 14.5L14.5 10.8L10.5 8.523M8 10.8V1.5M5 4.5L8 1.5L11 4.5\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "bring to front",
+        "front",
+        "move to front",
+        "top layer",
+        "layer order",
+        "arrange",
+        "raise to top",
+        "z-order"
       ]
     },
     "system-bug": {
@@ -4592,6 +4624,38 @@
         "badge",
         "official",
         "trusted"
+      ]
+    },
+    "system-send-backward": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M5.5 9.977L1.5 7.7L8 4L14.5 7.7L10.5 9.977M1.5 5.2L8 1.5L14.5 5.2M8 7.7V14.5M5 11.5L8 14.5L11 11.5\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "send backward",
+        "move backward",
+        "back one layer",
+        "layer order",
+        "arrange",
+        "lower layer",
+        "z-order",
+        "one step down"
+      ]
+    },
+    "system-send-to-back": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M5.5 7.477L1.5 5.2L8 1.5L14.5 5.2L10.5 7.477M8 5.2V14.5M5 11.5L8 14.5L11 11.5\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "send to back",
+        "back",
+        "move to back",
+        "bottom layer",
+        "layer order",
+        "arrange",
+        "lower to bottom",
+        "z-order"
       ]
     },
     "system-shapes": {

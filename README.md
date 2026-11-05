@@ -57,7 +57,7 @@ npm i @ahaslides-product/design
 
 ```js
 import '@ahaslides-product/design/tokens.css';           // the --aha-* token layer — once, at the app root
-import '@ahaslides-product/design/icons';               // registers <aha-icon> (369 names, call by name)
+import '@ahaslides-product/design/icons';               // registers <aha-icon> (402 names, call by name)
 import { ICON_NAMES } from '@ahaslides-product/design/icons';   // discover valid names
 import '@ahaslides-product/design/aha-checkbox';         // registers <aha-checkbox> (zero-dep element)
 import { tableTheme } from '@ahaslides-product/design/table-theme';  // the shared Table theme
@@ -203,7 +203,7 @@ const { findings } = lintHtml(html, { surface: 'product' });   // or 'canvas' (a
 line (a rule id such as `raw-hex`, or its short group name such as `hex`). A bare `ds-lint-allow`
 suppresses nothing and is reported as a `ds-lint-allow-bare` warning.
 
-**Answer colours** — `answer-colour-text` (an `--aha-answer-*` token as a text colour) and `answer-colour-context` (one on an element or rule whose selector, attributes or style key name no answer, correct or wrong mark, result or True or False button such as `tof-true`) hard-fail, per colour rules 11.2 and 11.1. Opt-out group: `answer-colour`.
+**Answer colours** — `answer-colour-text` (an `--aha-answer-*` token as a text colour, except in a True or False result stamp such as `tof-result-stamp`, rule 11.2) and `answer-colour-context` (one on an element or rule whose selector, attributes or style key name no answer, correct or wrong mark, result or True or False button such as `tof-true`) hard-fail, per colour rules 11.2 and 11.1. Opt-out group: `answer-colour`.
 
 **Slide surfaces** — `canvas` and `audience` also hard-fail a hand-made control: a raw `<button>` or
 `role="button"` (`raw-button`), `<aha-button size="xl">` (`button-size-xl`), height, padding,
@@ -252,7 +252,7 @@ Full recipe in `CONTRIBUTING.md`. In short — the gate (`standards.mjs`) will n
 
 ## Status
 
-Proven end-to-end and QA-green: **Icon** (369 registry names: 364 glyph files from Figma DS V3, Phosphor Icons Regular (MIT, credited in `icons/svg/system/PHOSPHOR-CREDITS.md`) and the drawn reveal set, plus 5 back-compat aliases; call-by-name via
+Proven end-to-end and QA-green: **Icon** (402 registry names: 397 glyph files from Figma DS V3, Phosphor Icons Regular (MIT, credited in `icons/svg/system/PHOSPHOR-CREDITS.md`) and the drawn reveal set, plus 5 back-compat aliases; call-by-name via
 the shared registry + `<aha-icon>`), **Checkbox** (leaf, zero-dep element), and **Table** (composite,
 antd wrappers + shared theme) — render-verified (qa.mjs) and gated as reusable (standards.mjs — registers + importable).
 

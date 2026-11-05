@@ -3,7 +3,7 @@
  "id": "colour-rules",
  "title": "AhaSlides visual identity: colour rules",
  "lede": "These rules replace the colour section of the current brand guidelines. Everything not mentioned here (the font, spacing, components, icons) stays as it is in the design system. The three sources of truth are this page and the design system (visual rules), the brand voice rules (verbal rules) and the [brand guidelines v2.3 PDF](https://design.ahaslides.io/brand/ahaslides-brand-guidelines-v2.3.pdf), the designed reference book. Where they differ, the design system and the voice rules online win; report a clash in #brand-governance so the book gets fixed.",
- "updated": "2026-11-04",
+ "updated": "2026-11-05",
  "environment": ["product", "audience", "web", "video", "social-ads", "report-image"],
  "glance": [
   "Vivid Pink (`#E70E68`) is the one primary colour. Purple is the logo only, plus one small playful touch on white.",
@@ -285,7 +285,7 @@
     { "type": "panel", "id": "answer-rules", "title": "Rules", "blocks": [
     { "type": "rules", "rules": [
      { "id": "11.1", "origin": "Requested by Lan in SLPV-260 on 2026-11-04: the True or False exception", "text": "Green [[#008A05]] and red [[#C7401E]] mark correct and wrong answers, and nothing else: not status, alerts, success or error messages, a rise or a fall, buttons or decoration. The one exception is a True or False question: on the canvas and the audience phone its two answer buttons may be filled with the pair, True in the correct green and False in the wrong red, with a white label (`--aha-white`, 4.5 to 1 or more on both). On reveal the tick or cross disc still gives the verdict and the wrong answer's button dims, so a red False carrying the correct tick is right. No other button, answer option or question type is filled with the pair." },
-     { "id": "11.2", "text": "Text is never green or red; it stays the default ink, on a tint too." },
+     { "id": "11.2", "origin": "Requested by Lan in SLPV-263 on 2026-11-05: the True or False result stamp exception", "text": "Text is never green or red; it stays the default ink, on a tint too. The one exception is the result stamp of a True or False question on the audience phone, the small tilted label on the card corner that names the correct side at result: it writes its word in the answer colour, True in the correct green and False in the wrong red, only on white (`--aha-white`), where both clear 4.5 to 1 (4.53 and 5.02) on any deck. No other text, label, heading, message or stamp, and no other question type, is green or red." },
      { "id": "11.3", "text": "Solid colour is only for the tick or cross disc, an answer row's edge, the correct column of a result chart and the two True or False answer buttons (rule 11.1); other areas use the 5% or 30% tint." },
      { "id": "11.4", "text": "The pair is fixed: never replaced by deck colours, a theme or Vivid Pink." },
      { "id": "11.5", "text": "Right and wrong carry equal weight: the edge, the 5% tint and the mark. Only on answer reveal and review screens (the audience reveal, the Report participant drawer) may a wrong answer add a 2px ring in the wrong red outside its edge so it reads first. The answer key, the correct answer shown beside a response, stays plain: default border, no green edge. Text never changes weight by verdict." }
@@ -302,6 +302,7 @@
  ],
  "open": [],
  "changes": [
+  { "version": "v35", "date": "5 Nov", "text": "Rule 11.2: the result stamp of a True or False question on the audience phone (the small tilted label that names the correct side at result) writes its word in the answer colour, True in the correct green and False in the wrong red, on white only (4.53 and 5.02 to 1). Every other text stays the default ink. Requested in SLPV-263." },
   { "version": "v34", "date": "4 Nov", "text": "Rule 7.2: a status surface may also be the neutral grey `#F3F3F3` that the DS Alert, Info box and quiet Status badge ship with, the same on every status type and with no outline. The rule said only an outline or a black fill, which the Alert has never had; the grey is the shipped design and passes AA, including the Darker Pink link (4.55 to 1, rule 6.7). Nothing changes on screen." },
   { "version": "v33", "date": "4 Nov", "text": "Rule 8.1: the chart order is now Vivid Pink, Vivid Pink at 30%, dark grey #303030, light grey #A8A8A8, so a two-series chart stays in the pink family and the third series is softer than black. New rule 8.6: out-of-focus marks fade to 15% on hover or focus (token viz.mix.fade), because at 40% a faded Vivid Pink read as the 30% series; their text stays at 40%. Section 10: the chart greys are dark grey #303030 and one light grey. Decided by Dave Bui, DESY-485." },
   { "version": "v32", "date": "4 Nov", "text": "Rules 2.6 and 2.6a: a third-party brand logo in an interface, social links included, is its Brand icon (`<aha-icon name=\"brand-<id>\">`) and follows the icon rules; the original-colour files stay for Marketplace listing cards and Sign in buttons." },
