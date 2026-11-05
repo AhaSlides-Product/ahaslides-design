@@ -35,6 +35,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 
 
+## 0.1071.0 — 2026-11-05
+### Changed
+- Audience judge C3, C5, C9, C13, C14, C19 and C28 now scope a mode C self-paced view (`setting.audienceQuizSelfPaced: true`). Below 480px wide the phone values hold; from 480px type may scale to set caps (question 48px, option labels 40px, scene titles 56px, body 32px, controls and metadata 20px) (a self-painted question is 22px on a phone), the layout may leave one column, and from 960px a stretched phone column fails. The page draws its own single Time's up notice and verdict, because the host draws neither there. `audience.*` and modes A and B do not change. Eight new audience eval cases. (#709)
+
 ## 0.1064.0 — 2026-11-05
 ### Added
 - `<aha-poll>` (`@ahaslides-product/design/aha-poll`): a poll or vote block built from `<aha-radio>` or `<aha-checkbox>` rows, a primary `<aha-button>` Vote and `<aha-progressbar>` results with a percent and a vote count, a 14px tertiary voter line, `results="always|on-vote|on-close"` and a closed state. Fires `vote`; the host sets `voted`, `counts` and `voters` (#707)
