@@ -1,0 +1,17 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-composer> is the same custom element React and Vue use. Collapsed it is an <aha-input>;
+     a click, Enter, Space or typing opens the editor. The toolbar writes Markdown; render the preview yourself into a
+     slot="preview" child (sanitised HTML), or the pane shows the draft as plain text. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-composer.js';  // registers <aha-composer> (+ input, button, counted textarea, icons)
+</script>
+
+<aha-composer id="reply" placeholder="Join the conversation" submit-label="Reply" preview></aha-composer>
+
+<script type="module">
+  const reply = document.getElementById('reply');
+  reply.addEventListener('submit', (e) => {
+    console.log('post this reply', e.detail.value);   // call e.preventDefault() to keep the editor open, e.g. on a failed save
+  });
+</script>

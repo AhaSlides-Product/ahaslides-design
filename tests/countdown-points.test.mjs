@@ -47,11 +47,14 @@ test('variant="points" groups numbers by the closest lang and speaks the label-f
 });
 
 test('variant="points" without progress drains from max toward min off ends-at, and removing the variant restores the timer', { skip }, async () => {
-  const result = await run(`variant="points" min="500" max="1000" total-ms="10000" ends-at="${Date.now() + 2500}"`, `
-    const before = { value: el.value, text: el.getAttribute('aria-valuetext') };
+  const endsAt = Date.now() + 2500;
+  const result = await run(`variant="points" min="500" max="1000" total-ms="10000" ends-at="${endsAt}"`, `
+    const before = { value: el.value, text: el.getAttribute('aria-valuetext'), left: Math.max(0, ${endsAt} - Date.now()) };
     el.removeAttribute('variant');
     return { before, clock: shown('.clock'), ends: shown('.min') || shown('.max'), role: el.getAttribute('role'), now: el.getAttribute('aria-valuenow') };`);
-  assert.ok(result.before.value >= 600 && result.before.value <= 625, `value ${result.before.value}`);
+  // Chrome start-up on a loaded runner eats into ends-at, so the expectation tracks the time actually left.
+  const expected = 500 + 500 * result.before.left / 10000;
+  assert.ok(Math.abs(result.before.value - expected) <= 15, `value ${result.before.value}, expected about ${Math.round(expected)}`);
   assert.equal(result.before.text, String(result.before.value));
   assert.deepEqual({ clock: result.clock, ends: result.ends, role: result.role, now: result.now }, { clock: true, ends: false, role: 'timer', now: null });
 });
