@@ -37,6 +37,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - **`aha-tag` `href`, `target` and `rel`** (#NNN). A category tag that navigates is now one element: `<aha-tag href="/blog/category/polls">Polls</aha-tag>` renders a real `<a>` that is keyboard focusable, with a `:focus-visible` ring and a hover state on existing tag and link tokens. `target="_blank"` without a `rel` gets `noopener noreferrer`. `href` is ignored on a `checkable` or `closable` tag. Without `href` nothing changes. Revert: drop the three attributes.
 
+## 0.1033.0 — 2026-11-05
+### Changed
+- **`aha-input` is tagged for the `web` environment** (#677). Website pages (blog newsletter and search fields) now get `aha-input` from the web route in `llms.txt`; the contract keeps `product` and `audience`. No change to the element.
+
 ## 0.1029.0 — 2026-11-05
 ### Added
 - **`brand-tiktok` icon and the TikTok logo** (#676). `<aha-icon name="brand-tiktok">` joins the Brand family for social links (AhaSlides Community footer), with the logo in `logo/` (line, original colours and greyscale). WhatsApp needs no new icon: it stays `system-whatsapp-logo`, and the social-links lists in AGENTS.md and colour rule 2.6a now name `brand-tiktok`.
