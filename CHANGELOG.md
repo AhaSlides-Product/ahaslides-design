@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1060.0 — 2026-11-05
+## 0.1061.0 — 2026-11-05
 
 ### Added
 - Menu: `nav-rail` attribute for the app-shell side nav (a forum or hub sidebar). It drops the frame and draws group titles as sentence-case section headers, 14px SemiBold 600, never uppercase; rows, icons, hover and the selected row stay the Menu's own (#697)
