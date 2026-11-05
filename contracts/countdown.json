@@ -1,17 +1,18 @@
 {
-  "environment": ["audience"],
+  "environment": [
+    "audience"
+  ],
   "name": "Countdown",
   "slug": "countdown",
   "group": "Audience",
-  "environment": ["audience"],
   "tier": "leaf-lit",
   "badge": "shared web component",
   "element": "aha-countdown",
   "summary": "A draining bar with the m:ss clock beside it, synced to the host's absolute end time so every phone reaches zero together. For a full-canvas audience slide only.",
   "highlights": [
     "Draining bar plus m:ss clock",
-    "Synced to an absolute end instant",
-    "Freezes in place when the host stops it",
+    "Synced to an absolute end instant; freezes when stopped",
+    "Points variant: min and max at the ends, no clock",
     "Full-canvas slides only"
   ],
   "lead": "ONE custom element — <aha-countdown> — for the audience phone of a slide type (a cross-origin iframe on the Developer Platform). Framework-free, loaded by URL from the version-pinned CDN with tokens.css, so a build-less page imports it instead of copying CSS. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font.",
@@ -35,6 +36,10 @@
     {
       "label": "Clock",
       "value": "14px semibold tabular m:ss, ticks once a second from the wall clock"
+    },
+    {
+      "label": "Points variant",
+      "value": "variant=\"points\": no clock; min at the left end and max at the right in 14px semibold tabular deck ink, formatted by label-format (numbers grouped by language, 1,000), announced through spoken-format; the bar starts full (max) and drains left toward min off the same ends-at / total-ms sync, or sits at progress (0-100) and eases between values on the shared motion tokens"
     }
   ],
   "props": [
@@ -84,7 +89,43 @@
       "name": "label",
       "type": "string",
       "default": "Time remaining",
-      "desc": "The timer's accessible name (translated); read as \"label: m:ss\""
+      "desc": "The accessible name (translated); read as \"label: m:ss\". Points variant: default \"Points available\", read with the points left as the progress bar's value"
+    },
+    {
+      "name": "variant",
+      "type": "\"points\"",
+      "default": "—",
+      "desc": "\"points\" swaps the clock for min and max end labels: the score bar of a self-paced quiz (points still available for a fast answer). Absent = the timer, unchanged. clock-only and hide-clock do not apply"
+    },
+    {
+      "name": "min",
+      "type": "number",
+      "default": "0",
+      "desc": "Points variant: the value at an empty bar, printed at the left end"
+    },
+    {
+      "name": "max",
+      "type": "number",
+      "default": "100",
+      "desc": "Points variant: the value at a full bar, printed at the right end"
+    },
+    {
+      "name": "label-format",
+      "type": "string",
+      "default": "{n}",
+      "desc": "Points variant: how the visible min and max ends are written; {n} is the number, grouped by the element's language (\"{n} pts\" → \"500 pts\", \"1,000 pts\"). Take it from the i18n catalogue, never hard-coded English. Translator note: short for points, keep it to 3 or 4 characters"
+    },
+    {
+      "name": "spoken-format",
+      "type": "string",
+      "default": "the label-format value",
+      "desc": "Points variant: how the value is announced to screen readers (aria-valuetext); {n} grouped like label-format (\"{n} points\" → \"700 points\"). Take it from the i18n catalogue, never hard-coded English. Translator note: the full word for points, as it is read aloud"
+    },
+    {
+      "name": "progress",
+      "type": "0-100",
+      "default": "—",
+      "desc": "Points variant: pins the bar at this share of full instead of draining off ends-at / total-ms (the host drives it). Read the points left from the element's value property (an integer, min to max)"
     }
   ],
   "opinion": {
@@ -92,6 +133,10 @@
       {
         "what": "Countdown",
         "when": "a FULL-CANVAS audience slide that needs its own visible timer"
+      },
+      {
+        "what": "Countdown variant=\"points\"",
+        "when": "a self-paced quiz where a faster answer scores more: the bar shows the points still available, min to max, with no seconds count"
       },
       {
         "what": "Nothing",
@@ -143,5 +188,27 @@
       "clockInk": "rgb(26, 26, 26)",
       "clockWeight": "600"
     }
-  }
+  },
+  "selfCheck": [
+    {
+      "label": "track 8px pill · fill the deck accent · clock 14px semibold tabular",
+      "verdict": "PASS"
+    },
+    {
+      "label": "bar drains off the absolute ends-at; stopped freezes bar and clock",
+      "verdict": "PASS"
+    },
+    {
+      "label": "variant=\"points\": no clock, min left and max right through label-format (grouped, 1,000 pts), spoken value through spoken-format, tabular",
+      "verdict": "PASS"
+    },
+    {
+      "label": "variant=\"points\": full bar = max, drains toward min; progress pins it; role=progressbar with aria-valuenow = value",
+      "verdict": "PASS"
+    },
+    {
+      "label": "no variant = the timer, unchanged (no end labels, role=timer)",
+      "verdict": "PASS"
+    }
+  ]
 }

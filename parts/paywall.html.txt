@@ -1,11 +1,11 @@
 <!-- Paste into an .html file and open — no build step. Wrap a gated affordance; the upsell renders itself. -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ahaslides-product/design/lib/tokens.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
-  import 'https://cdn.jsdelivr.net/npm/@ahaslides-product/design/lib/aha-paywall.js';   // registers <aha-paywall>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-paywall.js';   // registers <aha-paywall>
 </script>
 
 <!-- Pro gate — the affordance is the anchor. The popover ships the crown mark, title, description,
-     the fixed unlock line, and BOTH CTAs (Upgrade positive + See all plans) — all baked in. -->
+     the unlock line, and BOTH CTAs (Upgrade positive + See all plans) — all baked in. -->
 <aha-paywall
   feature-key="streak_bonus"
   feature-label="Streak answer bonus point"
@@ -40,6 +40,32 @@
   <button>Survey link</button>
   <span slot="body">Share a memorable link instead of the generated code. </span><a slot="body" href="https://help.ahaslides.com">How it works</a>
 </aha-paywall>
+
+<!-- Crown beside its own button → the button keeps its place and look; its click opens the same popover -->
+<button id="export-button">Export</button>
+<aha-paywall
+  id="export-crown"
+  feature-key="export_pdf"
+  feature-label="Export to PDF"
+  body="Keep a copy of every slide to share after the session."
+  required-plan="pro"></aha-paywall>
+<script type="module">
+  import { toggleLockedPaywall } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-paywall.js';
+  const crown = document.getElementById('export-crown');
+  document.getElementById('export-button').addEventListener('click', (event) => toggleLockedPaywall(crown, event));
+</script>
+
+<!-- Translated product → unlock-label ({plan} becomes the bold plan name) + plan-label + mark-label -->
+<aha-paywall
+  feature-key="remove_branding"
+  feature-label="Gỡ thương hiệu"
+  body="Ẩn logo AhaSlides khỏi bài trình bày."
+  required-plan="pro"
+  unlock-label="Mở khoá với {plan}."
+  plan-label="gói Pro"
+  mark-label="Cần nâng cấp. Xem các gói"
+  cta-label="Nâng cấp"
+  plans-label="Xem tất cả gói"></aha-paywall>
 
 <script>
   // analytics contract — the app wires these to its tracker (fires for every paywall)

@@ -29,7 +29,7 @@ SEARCH_HINT = (
     "Search the DS icon library by meaning first: `node node_modules/@ahaslides-product/design/icon-search.mjs <words>` "
     "(in the design-system repo `npm run icon-search <words>`), https://design.ahaslides.io/icons/index.html?q=<words>, "
     "or the \"Find by meaning\" list in https://design.ahaslides.io/icons.llms.txt — e.g. \"help\" finds system-question, "
-    "\"delete\" finds system-trash. Then use it by name: <aha-icon name=\"...\" size=\"16\">. Logos come from the Logo library, "
+    "\"delete\" finds system-trash. Then use it by name: <aha-icon name=\"...\" size=\"16\">. The AhaSlides logo comes from the Logo library and third-party brand logos are Brand icons by name (<aha-icon name=\"brand-zoom\">), "
     "charts from <aha-chart>, spot art from <aha-illustration>. If nothing fits, add the glyph to the design system "
     "(ahaslides-design icons/svg, with meaning words and an Icon search: line in its pull request), never to this app. "
     "Genuine sub-glyph chrome (a spinner, a tick) is allowed on a line marked ds-lint-allow: svg (why)."

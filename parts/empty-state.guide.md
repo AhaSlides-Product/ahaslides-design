@@ -57,6 +57,8 @@ Import `@ahaslides-product/design/illustrations` to draw these names: `<aha-empt
 | `empty-feedback` | no feedback yet |
 | `empty-presentation-list` | no presentations |
 | `empty-templates` | no templates |
+| `empty-courses` | no courses |
+| `empty-automation` | no automation rules |
 | `empty-trash` | an empty trash |
 | `empty-table` | a table body with no rows, inside `<aha-empty>` at 64 px |
 | `empty-list` | the built-in art of `<aha-empty>` in a list, dropdown or widget (64 px, 48 px when `simple`) |

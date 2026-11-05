@@ -19,7 +19,7 @@
     { "label": "Info message", "value": "<aha-field-error tone=\"info\"> below the control, 4px gap · text only at --aha-size-sm 12/18 · --aha-text-secondary; border unchanged, no aria-invalid; replaced by the error message while status is error" },
     { "label": "Steppers", "value": "tertiary ▲/▼ (system-caret-up/down) revealed on hover/focus, 6px after the digits; keyboard ↑ ↓; toggle via controls. Import input-number.css" },
     { "label": "Unit / prefix", "value": "addonAfter is the muted inline unit (14/21, 0.2px, --aha-text-placeholder) 4px after the stepper, inside the field; addonBefore is the same muted text leading. Same as Number with unit" },
-    { "label": "Placeholder", "value": "#8A8A8A" }
+    { "label": "Placeholder", "value": "#616161" }
   ],
   "props": [
     { "name": "value", "type": "number", "default": "—", "desc": "Controlled numeric value" },
@@ -61,7 +61,7 @@
     { "label": "field 40 · radius 8 · #E3E3E3 border", "verdict": "PASS" },
     { "label": "hover border color-primary", "verdict": "PASS" },
     { "label": "focus border brand", "verdict": "PASS" },
-    { "label": "placeholder #8A8A8A", "verdict": "PASS" }
+    { "label": "placeholder #616161", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Composite shown as a CDN-React page mounted at #react-root; the measure reads the real antd v6 InputNumber bound to inputNumberTheme.",

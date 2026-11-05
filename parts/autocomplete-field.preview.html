@@ -20,6 +20,12 @@
     <aha-autocomplete status="warning" value="Ben Cole" options='["Anna Tran","Ben Cole"]'></aha-autocomplete>
     <aha-autocomplete disabled value="Anna Tran" options='["Anna Tran","Ben Cole"]'></aha-autocomplete>
   </div>
+
+  <div class="lbl">Opt-in: trailing text per option (suffix)</div>
+  <div class="row" style="align-items:center; gap:12px; flex-wrap:wrap">
+    <aha-autocomplete value="u1" aria-label="Owner"
+      options='[{"label":"Anna Tran","value":"u1","suffix":"12 presentations"},{"label":"Ben Cole","value":"u2","suffix":"3 presentations"},{"label":"Chi Nguyen","value":"u3","suffix":"8 presentations"}]'></aha-autocomplete>
+  </div>
 </div>
 
 <script type="module">

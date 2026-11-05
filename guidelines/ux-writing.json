@@ -63,7 +63,7 @@
     {
       "ref": "--aha-color-warning",
       "as": "token",
-      "use": "a transient retryable hiccup reads as warning/info tone, not a blaring error — the word severity matches a calmer token",
+      "use": "a retryable error takes the warning type, not error, so the word severity matches a calmer token",
       "status": "available"
     },
     {
@@ -146,7 +146,7 @@
     },
     {
       "id": "match-severity",
-      "rule": "Match wording severity to real impact. A transient, retryable hiccup is a calm info/warning with 'Try again', not a blaring red 'Error' — over-alarming trains users to ignore real errors. A destructive or data-loss outcome states the stakes plainly ('This permanently deletes 12 responses.') without crying wolf or burying the lede.",
+      "rule": "Match wording severity to real impact. A retryable error (the action failed, nothing was lost, trying again can work) is type=\"warning\" with a calm 'Try again', on every surface, overlays included, not a blaring red 'Error': over-alarming trains users to ignore real errors. type=\"error\" is for a failure trying again can't fix, or one that lost the user's work. A hiccup that needs nothing from the user is type=\"info\". A destructive or data-loss outcome states the stakes plainly ('This permanently deletes 12 responses.') without crying wolf or burying the lede.",
       "ref": [
         "UXW-5"
       ]

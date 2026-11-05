@@ -1,0 +1,211 @@
+{
+  "name": "Slider field",
+  "slug": "slider-field",
+  "group": "Data entry",
+  "environment": [
+    "product"
+  ],
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-slider",
+  "summary": "Drag or arrow-key one value across a known range (zoom, opacity, an overlay amount) in the antd Slider look, without antd.",
+  "highlights": [
+    "One thumb on the antd Slider look: brand track, gray-30 rail, 14px handle",
+    "input while dragging, change on release: antd onChange and onChangeComplete",
+    "A value label formatter that is also the spoken value"
+  ],
+  "lead": "ONE custom element, <aha-slider>, defined once and imported unchanged by React and Vue: the framework-free counterpart of a single-thumb antd Slider, so an app can drop antd for its sliders. It draws what the shared sliderTheme draws (4px gray-30 rail, brand track, 14px white handle with a 2px brand ring, gray-40 rail and darker track on hover). Drag the slider, or use the arrow keys, Page Up / Page Down, Home and End. The value is a number between min and max, snapped to step; `input` fires on every change while dragging and `change` once on release. `valueText` formats the value label above the handle and the handle's aria-valuetext (a zoom of 1.5 reads 150%); on a translated screen format it with Intl.NumberFormat(locale, { style: 'percent' }), not a hand-built \"%\" string. The handle is the role=\"slider\"; the element is form-associated and <aha-form-item> reads and resets it. When the exact number matters, pair it with an <aha-input-number> on the same value (a 1fr 88px grid). Range (two thumbs), marks and vertical stay on the antd Slider composite.",
+  "codeNote": "antd Slider → <aha-slider>: value / onChange → `value` (a number property; the attribute is its string) + the `input` event (fires on every value change while dragging and on each key press) · onChangeComplete → the `change` event (fires once on release, and on each key press) · e.detail.value is a number · min / max / step → the same attributes (default 0 / 100 / 1; a decimal step such as 0.01 snaps exactly) · disabled → disabled · tooltip={{ formatter }} → the `valueText` property, a function (value) => string, also used as aria-valuetext · tooltip={{ open: false }} → tooltip=\"false\" · ariaLabelledByForHandle → aria-labelledby (ids resolved to their text across the shadow root and re-read on focus) · ariaLabelForHandle → aria-label · keyboard ← → ↑ ↓, Home / End → the same keys; Page Up / Page Down step a tenth of the range · range, marks, dots, vertical, reverse, included=false: not supported, use the antd Slider composite. React 18: set `value` and `valueText` through a ref and listen with ref.current.addEventListener('input' | 'change', …), since React 18 does not wire CustomEvents; pass a boolean as present or absent ({...(disabled ? { disabled: '' } : {})}); disabled=\"false\" reads as off. React 19 can use the element directly. Vue binds it natively (:value.prop, :value-text.prop, @input, @change).",
+  "tokensUsed": [
+    "gray-30",
+    "gray-40",
+    "color-primary",
+    "color-primary-hover",
+    "color-primary-active",
+    "white",
+    "focus-ring-soft",
+    "icon-disabled",
+    "bg-dark",
+    "text-inverse",
+    "radius-sm",
+    "radius-pill",
+    "font-product",
+    "motion-fast"
+  ],
+  "spec": [
+    {
+      "label": "Rail",
+      "value": "4px · #F1F1F1 (gray-30), pill ends; #E3E3E3 (gray-40) on hover; the control is 24px tall (the touch target), full width, 7px inset each side for the handle"
+    },
+    {
+      "label": "Track",
+      "value": "brand #E70E68 from min to the value; #DB005B (color-primary-hover) on hover"
+    },
+    {
+      "label": "Handle",
+      "value": "14px white circle, 2px #E70E68 ring; hover and drag scale it to 16px with a #DB005B ring; keyboard focus adds a 4px #E70E68@30% ring (focus-ring-soft) outside it"
+    },
+    {
+      "label": "Value label",
+      "value": "the Tooltip bubble: #1A1A1A (bg-dark), white 12/18 text, radius 6, padding 6 10, arrow, 2px above the control and centred on the handle; shown while dragging, on mouse hover of the handle and on keyboard focus (never on a tap's leftover focus); tooltip=\"false\" hides it. It sits inside the element, so a parent with overflow hidden needs room above the slider"
+    },
+    {
+      "label": "Disabled",
+      "value": "#B5B5B5 (icon-disabled) track and handle ring, gray-30 rail, no hover, no label, not focusable, cursor not-allowed"
+    },
+    {
+      "label": "Right to left",
+      "value": "in a dir=\"rtl\" context the rail fills from the right and ArrowLeft / ArrowRight swap; ArrowUp / ArrowDown keep their meaning"
+    },
+    {
+      "label": "With InputNumber",
+      "value": "when the exact number matters: a grid of 1fr 88px, 8px gap, items centred: <aha-slider> then <aha-input-number style=\"width:100%\"> on the same min, max and value; each one's input event sets the other's value"
+    },
+    {
+      "label": "From antd",
+      "value": "a single-thumb antd Slider under sliderTheme renders the same rail, track and handle; tooltip.formatter becomes valueText, onChangeComplete becomes the change event, ariaLabelledByForHandle becomes aria-labelledby"
+    }
+  ],
+  "props": [
+    {
+      "name": "value",
+      "type": "number",
+      "default": "min",
+      "desc": "The value. The property reads a number, clamped to min / max and snapped to step; the attribute is its string. Set null or '' to go back to min"
+    },
+    {
+      "name": "min / max",
+      "type": "number",
+      "default": "0 / 100",
+      "desc": "The bounds; a max below min reads as min"
+    },
+    {
+      "name": "step",
+      "type": "number",
+      "default": "1",
+      "desc": "The step a drag snaps to and each arrow key moves; a decimal step (0.01) snaps exactly. Page Up / Page Down move a tenth of the range, rounded to the step"
+    },
+    {
+      "name": "valueText",
+      "type": "(value: number) => string",
+      "default": "—",
+      "desc": "Formats the value label and the handle's aria-valuetext (antd tooltip.formatter); a property, not an attribute. Without it, or when it returns an empty string, the label shows the number. On a translated screen format with Intl.NumberFormat(locale, { style: 'percent' })"
+    },
+    {
+      "name": "tooltip",
+      "type": "\"false\"",
+      "default": "shown",
+      "desc": "tooltip=\"false\" hides the value label (antd tooltip={{ open: false }}); a disabled slider never shows it"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Not interactive, grey track and handle, out of the tab order; disabled=\"false\" reads as off"
+    },
+    {
+      "name": "aria-label / aria-labelledby",
+      "type": "string / id list",
+      "default": "—",
+      "desc": "Name the handle (antd ariaLabelForHandle / ariaLabelledByForHandle); aria-labelledby ids are resolved to their text across the shadow root and re-read on focus. A <label for> on the host works too"
+    },
+    {
+      "name": "aria-describedby",
+      "type": "string (id list)",
+      "default": "—",
+      "desc": "Ids describing the slider, resolved on the handle"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "default": "—",
+      "desc": "Form field name: the element is form-associated, submits the value, resets to its first value and follows a disabled fieldset"
+    },
+    {
+      "name": "input",
+      "type": "CustomEvent<{value: number}>",
+      "default": "—",
+      "desc": "Composed; fires on every value change: each move while dragging and each key press (antd onChange)"
+    },
+    {
+      "name": "change",
+      "type": "CustomEvent<{value: number}>",
+      "default": "—",
+      "desc": "Composed; fires once when a drag that moved the value is released, and on each key press (antd onChangeComplete)"
+    }
+  ],
+  "a11y": {
+    "role": "the handle is role=\"slider\" with aria-valuemin, aria-valuemax, aria-valuenow and, with valueText, aria-valuetext; aria-disabled when disabled; aria-invalid follows status",
+    "keyboard": "ArrowRight / ArrowUp step up, ArrowLeft / ArrowDown step down (left and right swap right to left), Page Up / Page Down move a tenth of the range, Home / End go to min / max; the handle is the one tab stop",
+    "note": "Name it with a visible label (aria-labelledby) or aria-label; give a percent or unit readout through valueText so the spoken value matches the label."
+  },
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Slider field (this leaf)",
+        "when": "one approximate value across a known range where feel beats an exact number: zoom, opacity, an overlay amount"
+      },
+      {
+        "what": "Slider field + InputNumber field",
+        "when": "the same value where the exact number also matters: the slider beside an 88px number field"
+      },
+      {
+        "what": "Slider (antd composite)",
+        "when": "a range with two thumbs, marks or a vertical rail, or an antd screen not moving off antd yet"
+      },
+      {
+        "what": "Scale slider",
+        "when": "a rating on the audience phone, coloured by the deck"
+      }
+    ],
+    "note": "Label the slider with a noun phrase that names what the number changes (\"Overlay opacity\", not \"Overlay\"), and give it a readout (valueText or a paired number field) when the number means something.",
+    "dsv3": "COVERED — the DS V3 Slider single-thumb look as sliderTheme renders it on antd v6 (rail, track, handle, hover); the value label is the Tooltip bubble."
+  },
+  "surfaces": [
+    "editor",
+    "dashboard"
+  ],
+  "reuse": {
+    "entry": "./aha-slider",
+    "registers": "aha-slider",
+    "exportsNamed": [
+      "AhaSlider",
+      "defineAhaSlider"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "slider-field.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form: a version-pinned CDN import and plain HTML, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "slider-field.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "slider-field.vue.txt"
+    }
+  ],
+  "preview": "slider-field.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI on the [data-probe] slider: enabled, value 40 of 0 to 100.",
+    "ready": "!!(document.querySelector('aha-slider[data-probe]') && document.querySelector('aha-slider[data-probe]').shadowRoot && document.querySelector('aha-slider[data-probe]').shadowRoot.querySelector('.handle'))",
+    "singleUI": true,
+    "measure": "(function(){var r=document.querySelector('aha-slider[data-probe]').shadowRoot;var g=function(s){return getComputedStyle(r.querySelector(s));};var h=r.querySelector('.handle');return{railBg:g('.rail').backgroundColor,railH:g('.rail').height,trackBg:g('.track').backgroundColor,handleW:g('.handle').width,handleBg:g('.handle').backgroundColor,role:h.getAttribute('role'),now:h.getAttribute('aria-valuenow')};})()",
+    "expect": {
+      "railBg": "rgb(241, 241, 241)",
+      "railH": "4px",
+      "trackBg": "rgb(231, 14, 104)",
+      "handleW": "14px",
+      "handleBg": "rgb(255, 255, 255)",
+      "role": "slider",
+      "now": "40"
+    }
+  }
+}

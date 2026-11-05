@@ -38,7 +38,7 @@
     },
     {
       "surface": "A status message",
-      "useFor": "white, with an icon, clear wording and an outline or a black fill; never a red, yellow, green or blue tint. The correct and wrong answer tints (colour rules section 11) mark an answer only, never a status",
+      "useFor": "the neutral grey of the DS alert, white with an outline, or a black fill, always with an icon and clear wording; never a red, yellow, green or blue tint. The correct and wrong answer tints (colour rules section 11) mark an answer only, never a status",
       "example": "The DS alert for a failed import"
     },
     {
@@ -61,16 +61,17 @@
     { "ref": "--aha-bg-hover", "as": "token", "use": "the neutral hover fill DS components ship with", "status": "available" },
     { "ref": "--aha-bg-accent", "as": "token", "use": "Vivid Pink at 5%: hover and selected states, and the one highlighted panel per screen", "status": "available" },
     { "ref": "--aha-bg-dark", "as": "token", "use": "black, for full-screen presenting and a video or image viewer only", "status": "available" },
-    { "ref": "--aha-bg-positive", "as": "token", "use": "a status surface token; it resolves to white, as do -negative, -warning and -informative", "status": "available" }
+    { "ref": "--aha-bg-positive", "as": "token", "use": "a status surface token; it resolves to white, as do -negative, -warning and -informative", "status": "available" },
+    { "ref": "--aha-gray-25", "as": "token", "use": "the neutral grey of the DS Alert, Info box and quiet Status badge; those components set it, never a hand-built surface", "status": "available" }
   ],
   "componentBacklog": "No missing components. The DS has no AI-gradient token yet: the AI feature's border gradient is the one gradient allowed, but until a token lands it cannot be expressed token-only. Add it here before a consumer needs it.",
   "rules": [
     { "rule": "Keep the page, and every neutral container on it (card body, panel, modal and drawer body, table and list row, tab panel), white or unset (--aha-bg-container). Never paint one with a brand, pastel or other colour for emphasis.", "ref": ["C1"], "source": ["3.1"] },
-    { "rule": "Use light grey (--aha-bg-layout, --aha-bg-container-secondary) only for a surface that sits inside or beside the white page: a card, a sidebar, an input field, a table header, the editor workspace around the slide. Never make grey the background of a whole page, of the layout body behind the content, or of a full-width section.", "ref": ["C2"], "source": ["3.6"] },
+    { "rule": "Use light grey (--aha-bg-layout, --aha-bg-container-secondary) only for a surface that sits inside or beside the white page: a card, a sidebar, an input field, a table header, the editor workspace around the slide. Never make grey the background of a whole page, of the layout body behind the content, or of a full-width section. The fill a DS component ships with, such as the grey of an Alert, comes from its contract.", "ref": ["C2"], "source": ["3.6"] },
     { "rule": "Use Vivid Pink at 5% (--aha-bg-accent) for a hover or selected state, and for at most one highlighted panel per screen of the product app. A web page built from full-width sections (a help article, a sign-up or upgrade page) may use pale pink sections instead, under rules 3.2 to 3.5.", "ref": ["C3"], "source": ["3.2", "3.7"] },
     { "rule": "Use a black background (--aha-bg-dark) in two places only: full-screen presenting, and a video or image viewer.", "ref": ["C4"], "source": ["3.8"] },
     { "rule": "Build no dark mode: no theme switch, no dark theme class, no prefers-color-scheme: dark restyle. People who need a dark screen use their device or browser setting, and the screen must not break under it.", "ref": ["C4"], "source": ["3.9"] },
-    { "rule": "Never tint a surface red, yellow, green or blue to show danger, warning, success or information. A status surface stays white and carries its meaning with an icon, clear wording and an outline or a black fill. The correct and wrong answer tints are not status colours: they fill an answer row, a response box or a result banner or chip, and nothing else.", "ref": ["C5"], "source": ["7.1", "7.2", "11.3"] },
+    { "rule": "Never tint a surface red, yellow, green or blue to show danger, warning, success or information. A status surface is neutral and carries its meaning with an icon and clear wording: the neutral grey the DS Alert, Info box and quiet Status badge ship with, white with an outline, or a black fill. The correct and wrong answer tints are not status colours: they fill an answer row, a response box or a result banner or chip, and nothing else.", "ref": ["C5"], "source": ["7.1", "7.2", "11.3"] },
     { "rule": "Use no linear-, radial- or conic-gradient as a background or fill. The one exception is an AI feature: the gradient sits on the border (border-box) and the fill stays white (padding-box). The animated Skeleton shimmer between the neutral greys --aha-bg-hover, --aha-bg-container-secondary and --aha-split is not a gradient fill.", "ref": ["C6"], "source": ["3.10"] },
     { "rule": "Bind every non-white background to a DS token (--aha-bg-layout, --aha-bg-container-secondary, --aha-bg-hover, --aha-bg-accent, --aha-bg-dark), never a raw #hex, rgb() or hsl() literal, even when the literal is the right colour.", "ref": ["C7"], "source": [] },
     { "rule": "Use a Splash background only on an empty state or a hero area, never on a dense screen such as the editor. Take the file from the Background library, or build it for the exact frame with build-splash.mjs; never draw, place, stretch or recolour the hooks by hand.", "ref": ["C8"], "source": ["5.6", "5.9", "5.10", "5.11"] }

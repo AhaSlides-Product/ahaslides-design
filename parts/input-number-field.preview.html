@@ -1,0 +1,28 @@
+<div class="pad">
+  <div class="lbl">Sizes</div>
+  <div class="row">
+    <aha-input-number size="small" value="4" aria-label="Small"></aha-input-number>
+    <aha-input-number label="Minimum score" value="50" min="0" max="100" step="5"></aha-input-number>
+    <aha-input-number size="large" value="12.5" step="0.5" aria-label="Large"></aha-input-number>
+  </div>
+  <div class="lbl">States</div>
+  <div class="row">
+    <aha-input-number data-probe status="error" error-message="Enter a number from 1 to 10" value="12" min="1" max="10" aria-label="Rating"></aha-input-number>
+    <aha-input-number info-message="Up to 120" value="30" min="0" max="120" aria-label="Age"></aha-input-number>
+    <aha-input-number disabled value="3" aria-label="Seats"></aha-input-number>
+    <aha-input-number readonly value="-2.5" aria-label="Offset"></aha-input-number>
+  </div>
+  <div class="lbl">Decimals, string mode, affixes and no stepper</div>
+  <div class="row">
+    <aha-input-number string-mode precision="2" min="0" prefix="$" value="19.9" aria-label="Price"></aha-input-number>
+    <aha-input-number string-mode value="12345678901234567890" aria-label="Account ID"></aha-input-number>
+    <aha-input-number value="30" suffix="minutes" aria-label="Duration"></aha-input-number>
+    <aha-input-number controls="false" value="10" aria-label="Minimum"></aha-input-number>
+    <aha-input-number controls="false" value="250" aria-label="Maximum"></aha-input-number>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element (../lib/aha-input-number.js); no inlined copy, so the preview never drifts from lib/. -->
+<script type="module">
+  import '../lib/aha-input-number.js';   // registers <aha-input-number>
+</script>

@@ -6,7 +6,7 @@
     "$source": "Full color system, transcribed from the DS-EXPORT (palette.css + semantic.css), which is 'verbatim from the Figma DS V3 Variable collections'. Verified 2026-09-08. Two corrections applied per Brian: bgContainerDisabled gray-40→gray-30 (Figma bg-container-disabled); checkboxBorder off-palette #B4BCCF→gray-50 #D4D4D4.",
     "primary": "#E70E68", "primaryHover": "#DB005B", "primaryActive": "#DB005B",
     "success": "{color.textDefault}", "warning": "{color.textDefault}", "error": "{color.textDefault}", "info": "{color.textDefault}",
-    "textDefault": "#1A1A1A", "textSecondary": "#4A4A4A", "textTertiary": "#616161", "textPlaceholder": "#999999", "textDisabled": "#B5B5B5",
+    "textDefault": "#1A1A1A", "textSecondary": "#4A4A4A", "textTertiary": "#616161", "textPlaceholder": "#616161", "textDisabled": "#B5B5B5",
     "textInverse": "#FFFFFF", "textLink": "{color.primitives.vividPink.dark}", "textLinkHover": "{color.primaryHover}",
     "textPrimaryInk": "#4A4A4A", "textPositive": "{color.textDefault}", "textNegative": "{color.textDefault}", "textWarning": "{color.textDefault}",
     "borderDefault": "#E3E3E3", "borderInput": "#D4D4D4", "borderSecondary": "#F1F1F1", "borderStrong": "#D4D4D4", "borderDisabled": "#EBEBEB",
@@ -35,29 +35,29 @@
       "gray": { "0": "#FFFFFF", "10": "#FDFDFD", "15": "#FAFAFA", "20": "#F7F7F7", "25": "#F3F3F3", "30": "#F1F1F1", "35": "#EBEBEB", "40": "#E3E3E3", "50": "#D4D4D4", "55": "#CCCCCC", "60": "#B5B5B5", "65": "#A8A8A8", "70": "#8A8A8A", "80": "#616161", "90": "#4A4A4A", "95": "#303030", "100": "#1A1A1A" }
     },
     "viz": {
-      "$source": "Data-visualisation palette for <aha-chart>. Every value aliases ({color.…}) a colour token; generate.mjs emits var(--aha-…) in tokens.css and resolves hex in tokens.js. Brand charts use four colours in order (colour rules section 8): Vivid Pink for the main series, black for the second, Vivid Pink at 30%, then light grey #A8A8A8; series 5 and 6 repeat the first two, so a chart past four series also separates them with a dashed line or pattern and a written label. Vivid Pink at 30% and light grey are faint on white, so every mark carries its value as text and a tooltip. Tints sit behind ink text: Vivid Pink at 5% for the pink series, light grey for the black and grey series. Ink is textDefault, the inverse is textInverse, and neutral (Other, non-correct Pick Answer) is iconMuted. Secondary/tertiary text, axis, grid, track, hover and mark outlines use textSecondary, textTertiary, borderStrong, borderDefault, borderSecondary, bgHover and inkA10 inside the element. A deck-palette chart replaces the series with the deck's presentationColorPalette (customer content, exempt from the colour rules).",
+      "$source": "Data-visualisation palette for <aha-chart>. Every value aliases ({color.…}) a colour token; generate.mjs emits var(--aha-…) in tokens.css and resolves hex in tokens.js. Brand charts use four colours in order (colour rules section 8): Vivid Pink for the main series, Vivid Pink at 30% for the second, dark grey #303030 for the third, light grey #A8A8A8 for the fourth; series 5 and 6 repeat the first two, so a chart past four series also separates them with a dashed line or pattern and a written label. Vivid Pink at 30% and light grey are faint on white, so every mark carries its value as text and a tooltip. Tints sit behind ink text: Vivid Pink at 5% for the pink series, light grey for the two grey series. Ink is textDefault, the inverse is textInverse, and neutral (Other, non-correct Pick Answer) is iconMuted. Secondary/tertiary text, axis, grid, track, hover and mark outlines use textSecondary, textTertiary, borderStrong, borderDefault, borderSecondary, bgHover and inkA10 inside the element. A deck-palette chart replaces the series with the deck's presentationColorPalette (customer content, exempt from the colour rules).",
       "ink": "{color.textDefault}",
       "inkInverse": "{color.textInverse}",
       "neutral": "{color.iconMuted}",
       "series": {
         "1": "{color.primitives.vividPink.100}",
-        "2": "{color.primitives.black}",
-        "3": "{color.primitives.vividPink.30}",
+        "2": "{color.primitives.vividPink.30}",
+        "3": "{color.primitives.gray.95}",
         "4": "{color.primitives.gray.65}",
         "5": "{color.primitives.vividPink.100}",
-        "6": "{color.primitives.black}"
+        "6": "{color.primitives.vividPink.30}"
       },
       "tint": {
         "1": "{color.bgAccent}",
-        "2": "{color.primitives.gray.20}",
-        "3": "{color.bgAccent}",
+        "2": "{color.bgAccent}",
+        "3": "{color.primitives.gray.20}",
         "4": "{color.primitives.gray.20}",
         "5": "{color.bgAccent}",
-        "6": "{color.primitives.gray.20}"
+        "6": "{color.bgAccent}"
       }
     },
     "answer": {
-      "$source": "Colour rules section 11 (the requester's round 18 mockup): one green and one red that mark an answer correct or wrong after a quiz reveal, on the presenting screen, the audience phone and the report, and nothing else: never status, alerts, validation, a rise or a fall, a button or decoration; in a chart only the correct answer's column of a quiz result, never any other series or column. correct and wrong are the solid colours for the tick or cross disc, a row edge and the correct chart column; the Tint5 and Tint30 steps are each colour at 5% and 30% flattened on white, for areas. Labels stay the default ink or white on a tint, never green or red text. standards.mjs allows these values at these paths only.",
+      "$source": "Colour rules section 11 (the requester's round 18 mockup): one green and one red that mark an answer correct or wrong after a quiz reveal, on the presenting screen, the audience phone and the report, and nothing else: never status, alerts, validation, a rise or a fall, a button or decoration, except the two answer buttons of a True or False question (True correct, False wrong, white label; rule 11.1); in a chart only the correct answer's column of a quiz result, never any other series or column. correct and wrong are the solid colours for the tick or cross disc, a row edge, the correct chart column and the True or False answer button fill; the Tint5 and Tint30 steps are each colour at 5% and 30% flattened on white, for areas. Labels stay the default ink or white on a tint, never green or red text. standards.mjs allows these values at these paths only.",
       "correct": "#008A05", "wrong": "#C7401E",
       "correctTint5": "#F2F9F2", "correctTint30": "#B2DCB4",
       "wrongTint5": "#FCF5F4", "wrongTint30": "#EEC6BC"
@@ -66,12 +66,13 @@
     "$note": "Solid warm-gray text (export) chosen over the skill's black-alpha-of-indigo — alpha text is the dark-surface-invisible trap aha-design-antd itself warns about."
   },
   "font": {
-    "product": "\"Plus Jakarta Sans\", -apple-system, \"Segoe UI\", Roboto, sans-serif",
-    "display": "\"Plus Jakarta Sans\", -apple-system, \"Segoe UI\", Roboto, sans-serif",
-    "secondary": "\"Plus Jakarta Sans\", -apple-system, \"Segoe UI\", Roboto, sans-serif",
+    "product": "\"Plus Jakarta Sans\", \"Cairo\", -apple-system, \"Segoe UI\", Roboto, sans-serif",
+    "display": "\"Plus Jakarta Sans\", \"Cairo\", -apple-system, \"Segoe UI\", Roboto, sans-serif",
+    "secondary": "\"Plus Jakarta Sans\", \"Cairo\", -apple-system, \"Segoe UI\", Roboto, sans-serif",
     "mono": "Menlo, Monaco, monospace",
     "stylized": null,
     "$deprecated": "--aha-font-display and --aha-font-secondary are deprecated aliases of --aha-font-product: the font is Plus Jakarta Sans only (colour rule 2.4), and Nunito and Nunito Sans are no longer used. Use --aha-font-product.",
+    "$scriptFallback": "Cairo is a script fallback, not a second brand face: Plus Jakarta Sans has no Arabic glyphs, so Latin text never reaches Cairo while Plus Jakarta Sans loads, and only Arabic text does. The DS does not load Cairo; an app that serves Arabic self-hosts it with an Arabic unicode-range. Without it the browser skips the name and Arabic uses the system face, as before.",
     "$note": "NO Inter. The export (SoT) declares Inter a Figma-local system face, 'not a brand face, not loaded'. The skill's Inter label rule is from a different Figma frame and is overruled. Load product self-hosted (aha-design-antd)."
   },
   "weight": { "regular": 400, "semibold": 600, "$note": "400/600 ONLY (design-owner decision 2026-09-14: 700 dropped from the product type scale — Display uses 600, not Bold). Export's unused 500 also removed. The sole remaining literal font-weight:700 is the MEASURED aha-tabs primary-tab active label (lib/aha-tabs.js) — a component-standard exception pending re-measure, not part of the scale." },
@@ -102,10 +103,10 @@
     "blur": { "md": 20 }
   },
   "viz": {
-    "$source": "Chart geometry + deck ink mixes for <aha-chart>. Geometry aliases the spacing scale ({space.N}) where a step exists; barThickness 38 and plotHeight 260 have no step and stay literal. Type sizes come from the type scale (--aha-size-*), not viz tokens. mix.* apply only to deck-palette charts, where the greys must be derived from the deck's own text colour; brand charts use the semantic text/border/bg tokens.",
+    "$source": "Chart geometry + deck ink mixes for <aha-chart>. Geometry aliases the spacing scale ({space.N}) where a step exists; barThickness 38 and plotHeight 260 have no step and stay literal. Type sizes come from the type scale (--aha-size-*), not viz tokens. mix.* apply only to deck-palette charts, where the greys must be derived from the deck's own text colour; brand charts use the semantic text/border/bg tokens. The exceptions are mix.dim and mix.fade, which apply on both palettes: dim (40) is the rest state of marks outside highlight-top and the text of an out-of-focus series, fade (15) is the mark of an out-of-focus series while another is hovered or focused, lighter than the 30% series so it cannot be mistaken for it.",
     "barThickness": 38, "barGap": "{space.32}", "columnWidth": "{space.96}", "columnGap": "{space.28}", "plotHeight": 260,
     "stubLength": "{space.12}", "markMinLength": "{space.24}", "columnMinHeight": "{space.16}", "legendSwatch": "{space.14}",
-    "mix": { "secondary": 76, "tertiary": 54, "axis": 24, "grid": 12, "track": 8, "stroke": 12, "strokeChip": 20, "hover": 12, "active": 16, "dim": 40 }
+    "mix": { "secondary": 76, "tertiary": 54, "axis": 24, "grid": 12, "track": 8, "stroke": 12, "strokeChip": 20, "hover": 12, "active": 16, "dim": 40, "fade": 15 }
   },
   "openItems": [
     "radius-64: off the 4/6/8/12/16 scale; export README documents an 80px outlier, not 64 — confirm 80 or remove.",

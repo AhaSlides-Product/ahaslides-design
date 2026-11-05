@@ -33,12 +33,342 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1023.0 — 2026-11-05
+
+### Added
+- **Voice rules: never invent a fact (rule 13.26) and a new section 17 for one-to-one email sent in a named person's
+  name** (#627). Proposed from the Head of Growth's corrections to customer emails on 3 November; awaiting the brand
+  director's decision.
+
+## 0.1022.2 — 2026-11-05
+
+### Fixed
+
+- A failed load of a decorative chunk (the empty-state illustrations, icons, or a sibling component) no longer raises an unhandled promise rejection: the fire-and-forget `import()` in Empty, Data table, antd Empty, Close button row, Table expandable and Shortcut key now swallows the failure and the component renders without the decoration (#669).
+
+## 0.1022.1 — 2026-11-05
+
+### Changed
+
+- Colour rule 7.2 (v34), Background C2 and C5, Colour C5, the Background guideline and evals: a status surface is neutral, and the neutral grey `--aha-gray-25` that the DS Alert, Info box and quiet Status badge ship with is one of three allowed grounds, beside white with an outline and a black fill. Nothing changes on screen: the rule said status surfaces stay white, which never matched the shipped Alert. (#668)
+
+## 0.1022.0 — 2026-11-04
+### Added
+- Button: `size="inline"` for `variant="text-link"`, one approved form for a control inside a sentence. It has no padding, border or fill, takes the sentence's font and line height, and keeps the hover, press and keyboard focus treatment of text-link. At `sm` the same text-link added 8px each side and grew the line from 21px to 28px. With `href` it renders `<a href>` and navigates; without one it renders `<button>` and acts on the page, with `aria-expanded` or `pressed` for a toggle. The rule is in the Button contract. (#667)
+- Button: `size="inline"` is underlined at rest, its text is selectable, a wrapped button label aligns to the start, and it draws no icon, spinner or shortcut, so a line never grows. The new `inline-button` screen-lint rule hard-fails a fixed variant other than `text-link`, no variant, or `shortcut`; a variant bound at runtime is not flagged. (#667)
+
+### Changed
+- Background task: the `link` slot uses the approved form, `<aha-button variant="text-link" size="inline">`, in the contract and preview, replacing `<a href="#" role="button">`. (#667)
+
+## 0.1021.2 — 2026-11-04
+### Changed
+- **One answer for a retryable error, in every copy of the rule.** `overlays` C6 said `type="error"` and `ux-writing` C5 said a calm info or warning. A retryable error (the action failed, nothing was lost, trying again can work) is now `type="warning"` with a calm "Try again", on every surface, overlays included. `type="error"` is for a failure trying again can't fix, or one that lost the user's work. C6 still owns placement: inline, overlay open, no nested modal, no toast. The type now belongs to C5, and the `alert` contract note points at it. Criteria, guides, guidelines and evals changed together. (#666)
+- **`ux-writing` C7 carries its full rule again.** Seeding kept only the scope line, so the store, `anti-slop.md` and `anti-slop.agent.json` had no sub-tests. The two sub-tests, (a) Survives and (b) Shape, are restored word for word from the original judge, and the C5 sentence on destructive outcomes that seeding cut is back. `sync-skills.mjs` no longer drops a rule that follows a scope line or a fail-on-any lead-in. (#666)
+- **Every criterion that lost its rule at seeding carries it again.** Restored word for word from the source judges, rationale left out: `canvas` C9, `audience` C5 (touch targets, spacing, mobile readability), C9 (visual, interaction state, wiring and secondary action checks), C10, C14, C22, C24 (b), C25 (b, c), C28 (b) and C29 (b, c, d). The seeder now normalises whitespace before it spots a lead-in, stops at headings, quotes and rationale labels, and caps a multi-part rule at 5,000 characters on a paragraph boundary (#666)
+- **Examples follow the retryable rule.** The toast and notification snippets for a failure the user can retry now use `warning`, a self-retrying sync message is `info`, and the `aha-toast` contract and the `empty-state` guideline state the type. An upload over the size limit stays `error`, because trying again can't fix it (#666)
+
+## 0.1021.1 — 2026-11-04
+### Fixed
+- Paywall: the popover is 300px wide outside, padding included, as the contract says (it rendered 332px). `width` now means the outer width, padding included, so a consumer passing `width` gets a popover 32px narrower than before. To keep today's size, add 32: aha-survey's `width={216}` (`BrandThemeCard.tsx:121`, `SurveyCustomisePanel.tsx:298`) renders 248 today and should become `width={248}` on its next bump. Content narrows from 300 to 268px; Upgrade and See all plans still sit on one row, and the row wraps when translated labels do not fit. (#665)
+- Paywall: the title line height is 1.5 on the type scale (it was 1.4). (#665)
+- Paywall: the See all plans border is `--aha-gray-70` #8A8A8A, as the contract says (it resolved #616161), 3.82:1 on the dark surface where it was 2.14:1. (#665)
+- Paywall: `fitPaywall` no longer clips in a viewport too short for above or below, such as a 280px-tall report iframe: it sits beside the anchor, and with no room there it scrolls inside, keeping See all plans reachable by Tab. Normal placement is unchanged. (#665)
+
+### Docs
+- Paywall: the guide, the contract and judge criteria C1 and C7 cover a crown beside its own button, with examples in every flavour; criterion C7 says the mark is a real button with an accessible name, not `role="img"`; `toggleLockedPaywall` is documented for any control and `togglePopover({ source })` beside it. (#665)
+
+## 0.1021.0 — 2026-11-04
+### Added
+- `<aha-timepicker>` (`@ahaslides-product/design/aha-timepicker`): a framework-free 24-hour time field with hour and minute columns, the sibling of `<aha-datepicker>`, so an app can drop antd TimePicker. The value is an `HH:mm` string, or null when empty, and seconds in a value are dropped; a pick commits at once; a typed time that is not real goes back to the last value. Sizes, error status, disabled, label, error and info messages, translated `hour-label`, `minute-label` and `clear-label`, form-associated, one tab stop, full keyboard path. 12-hour clock, seconds, ranges, minute steps and disabled times stay on the antd composite (#664)
+### Changed
+- `<aha-form-item>` reads, validates and resets `<aha-timepicker>`; a time that is not real reads as empty, so `required` fires (#664)
+
+## 0.1020.3 — 2026-11-04
+### Fixed
+- Alert: small text is 12px, on the type scale, as the guideline already said (it was 13px, which no step of the scale allows); the small close button's line height follows at 18px. The contract matches, and the feedback guideline now states the shipped padding and radius (regular 10/14, small 6/10, both 8px radius). (#659)
+
+## 0.1020.2 — 2026-11-04
+
+### Fixed
+- Answer option: the person icon beside a `count-mode="people"` count is 12px, one step down from 16px, with the paired 1px stroke. Every row in people mode changes, inside `<aha-answer-list>` too. (#663)
+
+## 0.1020.0 — 2026-11-04
+
+### Added
+- **`<aha-carousel>`, the Carousel as a framework-free element (#662).** An app can now drop antd and slick for its carousels. It draws what `carouselTheme` draws, with arrows as `<aha-button>`, and moves by swipe, arrows, dots and keys, right to left included. Each child is one slide and nothing is cloned. The element owns the position: `index` moves as a move starts, together with the dots, `aria-current` and a polite live region ("Item 2 of 5"). `change` fires once on the element as a move starts, without bubbling, and `after-change` once at rest. `adaptive-height`, `loop` and overridable labels (`prev-label`, `next-label`, `dotLabel`, `positionText`) cover the rest. One slide shows no controls; no slides renders nothing. Autoplay, fade and side dots stay on the antd Carousel, unchanged apart from a pointer to this element.
+
+## 0.1019.0 — 2026-11-04
+### Added
+- Paywall: `mark-label` attribute, the accessible name of the crown upgrade mark, so a translated product can pass its own. It applies only when the mark is the anchor and a later change applies in place. (#658)
+- Paywall: `togglePopover({ source })` names the element that opened the popover, so `close()` and Escape return focus to it. Dropdown locked rows pass their row. (#658)
+- Paywall: public `close()` method, for a host closing the popover from code. It returns focus to the element that opened it, and leaves focus alone when no opener was recorded and focus is not inside the popover. Click-away and the two buttons still close without moving focus. (#658)
+
+### Changed
+- Paywall: the mark's default accessible name is "Upgrade required. See plans" (no dash, ux-writing C8). (#658)
+- Paywall: Escape closes an open popover first, before any host handler (Ant Drawer, aha-drawer, aha-modal never see that key press), so a popover can no longer be left floating after its host closes. The listener is taken on window in the capture phase. (#658)
+- Paywall: Escape and `close()` return focus to the element that opened the popover (a locked-row button through `toggleLockedPaywall` included), falling back to the anchor when it is gone or refuses focus, instead of always landing on the mark. (#658)
+
+### Fixed
+- Paywall: an open popover no longer closes itself inside a drawer. The visibility check counted the body as a clip box, and a drawer's scroll lock sets body overflow on a body as tall as the page behind it; the visibility check now walks the flat tree (slotted content in an `aha-drawer` included), applies each ancestor's clip and stops at a fixed-position ancestor, and the body clips only when its overflow does not propagate to the viewport. Real scroll containers still clip. (#658)
+- Paywall: `toggleLockedPaywall` records the opener only from the path up to the row's own handler, so a focusable ancestor (`main tabindex=-1`, a drawer body) is never the opener; focus restore works on a `delegatesFocus` host such as `aha-button` and does not scroll; an element connected already open records its opener; an empty `mark-label` keeps the default name. (#658)
+- Paywall: the focus fallback no longer matches the aria-hidden mark in the popover header, so a slotted anchor gets focus back. (#658)
+
+## 0.1018.0 — 2026-11-04
+### Added
+- `aha-card-select` takes `min-tile-width`: it keeps `columns` while a tile can stay that wide, then wraps to fewer, reading the element's own width, so `columns="3" min-tile-width="110"` drops to 2 across inside a narrow modal (#656)
+- `empty-courses` and `empty-automation` join the `empty-*` illustrations (#656)
+- `--aha-font-product` adds Cairo after Plus Jakarta Sans as an Arabic script fallback. Latin text is unchanged; an app that serves Arabic self-hosts Cairo, and without it the browser skips the name (#656)
+### Fixed
+- DataTable filter panels and the Edit columns panel stay inside the viewport from 320px with no page overflow. antd's corner placements only flip, so a panel too wide for either side of a mid-table trigger stayed off-screen and `placement` looked ignored; they now shift along the edge (#656)
+- `screen-lint` `multi-primary` no longer counts primary buttons in opposite arms of a ternary as two loud actions; only the louder arm counts (#656)
+
+## 0.1016.0 — 2026-11-04
+### Added
+- Slider field: `<aha-slider>`, a framework-free single-thumb slider in the antd Slider look (4px gray-30 rail, brand track, 14px handle). Drag or use the arrow keys, Page Up / Page Down, Home and End; `input` fires while dragging and `change` on release (antd onChange and onChangeComplete), `e.detail.value` is a number snapped exactly to `step` (0.01 included). `valueText` formats the value label above the handle and its aria-valuetext (an empty string shows the number), `tooltip="false"` hides the label and a disabled slider shows none, right to left fills from the right, and the handle is the role="slider" named by `aria-label` or `aria-labelledby`. Form-associated, and `<aha-form-item>` reads it as a number. The contract shows it beside an `<aha-input-number>` in a 1fr 88px grid; range, marks and vertical stay on the antd Slider composite, which is unchanged (#650)
+
+## 0.1015.0 — 2026-11-04
+### Added
+- `<aha-flex scroll>`: a chip or toggle row stays on one line and scrolls sideways inside its own box, fading the start or end edge only while there is more to see that way (the fade grows with the distance left, so it is none at an edge already reached and needs no motion). No scrollbar; Tab scrolls a clipped item clear of the fade; RTL and `direction="row-reverse"` fade the right-hand start edge. The responsive rule in `AGENTS.md` and the `overflow-x-scroll` lint hint name it as the one-line row exception (#654)
+
+## 0.1011.1 — 2026-11-04
+### Fixed
+- The v2.3 brand guidelines PDF carries the chart order of rule 8.1 on pages 58, 59, 65 and 78, with rules 8.2 and 8.6 on page 65; title, version line and file name are unchanged (#661)
+
+## 0.1011.0 — 2026-11-04
+### Added
+- Token `--aha-viz-mix-fade` (15%): the opacity of a chart mark out of focus on hover or keyboard focus (#652)
+
+### Changed
+- **The `aha-chart` brand series order is now Vivid Pink, Vivid Pink at 30%, dark grey `#303030`, light grey `#A8A8A8`** (#652). `--aha-viz-series-2` and `-6` are Vivid Pink at 30%, `--aha-viz-series-3` is dark grey, and tint 3 and 4 are `gray-20`. A host that reads `--aha-viz-series-2` or `-3` directly for a dark mark gets a different colour: pick the series by colour. Colour rule 8.1, section 10 and v33, decided by Dave Bui
+- **Marks out of focus on hover or keyboard focus fade to 15%, their text stays at 40%** (#652), so a faded Vivid Pink cannot pass for the 30% series. New colour rule 8.6. `highlight-top` at rest stays at `--aha-viz-mix-dim`
+- With no host palette, a word cloud sets the words in the pale series in secondary ink, because Vivid Pink at 30% and light grey miss 3 to 1 on white (#652)
+- The NPS detractor default is the second series, so it is now pale pink; it draws as a solid colour over the bracket track when the host sets no `colors` (#652)
+
+## 0.1010.0 — 2026-11-04
+### Added
+- Answer option: `no-control` attribute hides the radio or checkbox control for rows that are already big filled buttons, such as True or False. The control stays in the DOM, visually hidden, so focus, role and keyboard behaviour are unchanged on plain, `other` and empty `expandable` rows; tones, stroke, dimming, the verdict mark and the bold label are untouched, and a row without the attribute renders exactly as before. With `letter` the chip goes too. (#660)
+
+## 0.1005.1 — 2026-11-04
+### Fixed
+- The 0.998.1 entry links its PR (#651); 0.998.1 was not published, and its answer-option fix first shipped in 0.998.2 (#653)
+
+## 0.1005.0 — 2026-11-04
+### Added
+- Paywall: `unlock-label` and `plan-label` attributes so a translated product can pass its own unlock line. `unlock-label` is the whole line and its `{plan}` token becomes the bold plan name (`unlock-label="Mở khoá với gói {plan}."`); `plan-label` renames the plan ("Pro plan" / "Essential plan"). Both render as text, never HTML. With neither set the English line is unchanged. (#657)
+
+### Changed
+- Paywall judge criterion C2 and the paywall guide now describe the shipped two-button popover (Upgrade positive + See all plans secondary, both `<aha-button>`) instead of a single Upgrade CTA; the settings criterion, the paywall evals and the flavour snippets match. The agent copy of the criteria is regenerated. (#657)
+
+## 0.1000.0 — 2026-11-04
+### Changed
+- **Brand logos are now the Brand icon family in the Icon library** (#647). A fourth chip, Brand, sits after System in the Icon library; its 29 icons are ordinary icon cards in the same grid, search and totals, and are used by name, `<aha-icon name="brand-zoom">`, so they follow the icon rules (sizes, stroke by size, `--aha-icon-default` ink). The glyphs live in `icons/svg/brand/` with meaning words; sources and the stand-in list are in `icons/svg/brand/BRAND-CREDITS.md`.
+- Colour rules 2.6 and 2.6a, criterion C7, `llms.txt`, `icons.llms.txt`, `icons.agent.json`, `AGENTS.md`, `PRINCIPLES.md`, the aha-design skill, the icon guard hook and the `brand-logo-colour` lint message point at Brand icons instead of `logo/line/` files. Social links use `brand-youtube`, `brand-instagram`, `brand-linkedin`, `brand-facebook`, `brand-reddit`, `brand-x`, and `system-whatsapp-logo`.
+- `logo/line/`, `logo/original/` and `logo/manifest.json` stay at the same paths, unchanged. The original-colour files are only for a Marketplace listing and the Sign in with Google, Microsoft or Apple buttons; the Icon library's brand note lists their URLs.
+### Removed
+- The Icon library's Brands tab, its Line / One colour / Original switch and the per-version rule table. Old links (`?tab=brands`, `?mode=`, the Logo page's brand anchors) open the Icon library filtered to Brand.
+
+## 0.998.2 — 2026-11-04
+### Fixed
+- DataTable: an empty table no longer overflows its container by 2px (permanent right-edge scroll shadow, empty state centred 1px off at every width). The 1px table border no longer narrows the scroll container; populated tables, sticky headers, scroll y and radius clipping are unchanged. (#644)
+
+## 0.998.1 — 2026-11-04
+### Fixed
+- `aha-answer-option` with `count-mode="off"` removes the count slot (`display:none`) instead of hiding it, so a short label such as "False" no longer truncates on a narrow phone (#651)
+
+## 0.996.1 — 2026-11-04
+### Fixed
+- Colour rule 11.1, True or False exception: on reveal the wrong answer's button dims (it read "the other button"), as the requester confirmed; the 0.990.0 entry links its PR (#646)
+
+## 0.996.0 — 2026-11-04
+### Changed
+- **The `aha-countdown` points bar reads "500 pts" and "1,000 pts", and speaks "700 points"** (#649). `p` read as pence or pixels, so the sample format is now `label-format="{n} pts"`, and `{n}` is grouped with `Intl.NumberFormat` in the element's language (closest `lang`, else the document's, else English). A new `spoken-format` attribute (default: the `label-format` value) feeds `aria-valuetext`, so a screen reader says "700 points" rather than "seven hundred p". Both formats come from the consumer's i18n catalogue, never hard-coded English; translator note for `label-format`: short for points, keep it to 3 or 4 characters. The default timer render is unchanged. Contract props, snippets, preview and the Audience Library describe it.
+
+## 0.994.0 — 2026-11-04
+
+### Changed
+- **Input and Input number small is 32px** (#640). `<aha-input size="small">` and `<aha-input-number size="small">`
+  (and `sm`) are 32px tall, was 24px: the same small as `<aha-select>` and `<aha-counted-input>`, and the height of
+  antd's default field, so an app leaving antd (Manage, MAAP-179) keeps its compact rows. Padding is unchanged (0 8 on
+  Input, 0 4 0 8 on Input number); the small clear button is 24px (was 20px) and the ▲/▼ stepper keeps its 18×14
+  buttons in every size (was 11px tall in small). Default 40px and large 48px are unchanged. A screen that used small
+  for a 24px row grows 8px. Both contracts carry a From antd row: antd default 32 and antd small 24 map to
+  `size="small"`, antd large 40 maps to the default.
+
+## 0.993.0 — 2026-11-04
+### Added
+- **`<aha-countdown variant="points">`, the points bar of a self-paced quiz** (#648). No seconds count: `min` sits at the left end and `max` at the right, each written through `label-format` (`"{n}p"` gives `500p` and `1000p`), in the deck ink with tabular numerals. The bar starts full (max points) and drains toward `min` off the same `ends-at` / `total-ms` sync, or sits at `progress` (0 to 100) when the host drives it; `stopped` freezes it. The element's `value` property reads the points still available, and it announces as a progress bar (`aria-valuenow`, `aria-valuetext` in the label format, named "Points available" by default). Without `variant` the countdown renders exactly as before. Contract props, spec, self-check, snippets, preview, the Audience Library and the audience guideline describe it.
+
+## 0.990.0 — 2026-11-04
+### Changed
+- **Colour rule 11.1, True or False exception** (#645). The two answer buttons of a True or False question may be filled with the answer pair, True in `--aha-answer-correct` and False in `--aha-answer-wrong`, with a white label (4.5 to 1 or more on both), on the canvas and the audience phone. On reveal the tick or cross disc still gives the verdict and the wrong answer's button dims, so a red False carrying the correct tick is right. Every other button, answer option, status and question type still fails. Rule 11.3, the colour criteria C1 and C5, canvas C2 and C19, audience C31 and the answer token note say the same; `screen-lint` accepts a True or False button selector (`tof-true`, `true-false-button`) as an answer context. New colour eval cases 17 to 19: True or False buttons pass, the pair on Pick Answer options or a sent status fails.
+
+## 0.989.0 — 2026-11-04
+### Changed
+- **Brand logos move into the Icon library** (#642). The third-party brand logos, with their Line / One colour / Original switch, the when-to-use rule per version, Stand-in tags, None cells, SVG links, the Line logos and Brand logo colour (rule 2.6) sections and the three copy-paste patterns, are now the Brands tab of the Icon library (`icons/index.html?tab=brands`, `?mode=` kept). The Logo library keeps the AhaSlides logo, The Splash, the favicon set and the lockup rules, and links to the new tab. Old Logo library links (`?tab=brands`, `?mode=`, `#brands`, `#line`, `#third-party-marks`, `#brand-logo-*`) forward to the Brands tab. Rule 2.6 and 2.6a, the C7 criterion, `llms.txt`, `icons.llms.txt`, `icons.agent.json` (`brandLogos`), the environment routes, the aha-design skill and the icon guard hook point at the new home. Logo files, their paths and `logo/manifest.json` are unchanged.
+
+## 0.988.0 — 2026-11-04
+### Changed
+- Anti-slop app-shell criterion C6 d: a presenter control-bar key now passes only when the cheatsheet (K) shows it on a panel next to its control, joined by the same line and dot as the Back to Editor, QR code and Confetti panels, and still joined after the bar changes. The judge checks the connector, that its dot sits on the control's on-screen position, and that no panels overlap, from two whole-screen cheatsheet screenshots (at rest and after a bar change). A floating or corner-pinned panel fails even when the key and name match. New eval case 11 covers the floating Annotate panel (#643)
+
+## 0.985.0 — 2026-11-04
+### Added
+- Logo library, Brands tab: a Line / One colour / Original switch (`aha-segmented`, default Line, kept in `?mode=`) shows one larger version per card, with a one-line rule per version on when to use it, linked to colour rule 2.6 (#639)
+
+## 0.984.1 — 2026-11-04
+
+### Changed
+- **Site navbar copy** (#641). The Features entry reads "Reports & analytics" and the Use cases entry reads "Training & workshops", in the Navigation docs preview and the anti-slop website fixtures that copy the navbar.
+
+## 0.984.0 — 2026-11-04
+
+### Added
+- **Card select preview tiles** (#633). `<aha-card-select tile="preview">`: an option with `slot: '<name>'` shows the
+  app's own light-DOM child (`slot="<name>"`) as the card's preview, in a frame sized by
+  `--aha-card-select-preview-ratio` (default 4 / 3). The element keeps the roving radiogroup, keyboard, checked state,
+  focus ring and `change`. The selected preview tile is a white gap and a 2px brand ring, with no fill over the preview. `hide-labels`
+  keeps each label as the aria-label only. The host is now the radiogroup, so its `aria-label` names the group once. A
+  disabled preview takes no pointer events and greys its ring; forced colours draw the selected ring as an outline. An options
+  array equal to the last one no longer rebuilds the cards. Manage's certificate design
+  picker (MAAP-179) can drop its raw radio inputs. Icon and icon-only layouts render as before.
+
+## 0.983.1 — 2026-11-04
+
+### Fixed
+- **Placeholder text reads at 6.2:1 on white** (#637). `--aha-text-placeholder` is now `#616161` (gray-80, the
+  same value as `--aha-text-tertiary`) instead of `#999999` (2.85:1), and every antd composite theme
+  (`antd-base-theme`, select, autocomplete, datepicker, time-picker, input-number, form, textarea) sets
+  `colorTextPlaceholder` to the same `#616161` instead of `#8A8A8A` (3.45:1). This moves the placeholder in
+  `aha-select`, `aha-autocomplete`, `aha-select-tags`, `aha-counted-input`, `aha-counted-textarea`, the input-number
+  CSS and every antd input, select and picker. Course theming derives its placeholder from this token, so a themed
+  course placeholder darkens too. A disabled `aha-select`, `aha-autocomplete`, `aha-select-tags`, `aha-counted-input` or
+  `aha-counted-textarea` keeps its placeholder at `--aha-text-disabled`, so it still reads as disabled. The eight
+  `aha-select` placeholder contrast entries leave the state-check baseline.
+- **Answer row radio and checkbox outlines hold 3:1** (#637). The unchecked control in `aha-answer-option` (and so
+  `aha-answer-list`) takes `--aha-deck-stroke-hover`, the deck ink at 60% (4.5:1 on a white row), instead of
+  `--aha-deck-stroke-chip`, the ink at 20% (1.5:1); hover moves it to `--aha-deck-ink-secondary`, the ink at 76%.
+  The letter chip keeps its 20% outline, since the letter carries the meaning. The audience guide, deck ladder notes
+  and both contracts say so.
+
+## 0.983.0 — 2026-11-04
+
+### Added
+- Avatar `tooltip`: the shared Tooltip on an avatar, on mouse hover and keyboard focus (never a tap), with the avatar focusable; a bare `tooltip` shows its `name`. Works inside `aha-avatar-group` with the same stack, overlap, tint cycle and +N count. Absent, nothing changes (#638)
+- Avatar group `overflow-tooltip`: the shared Tooltip on the +N chip, listing the hidden names (or your own text), and the chip becomes focusable (#638)
+- Avatar group `add-tooltip`: the shared Tooltip on the round + button, with your text or its `add-label` (#638)
+- Dropdown per-row `selected` (true or false) on a leaf: the current choice inside that one list, such as a Visibility submenu. Its rows are `menuitemradio` with `aria-checked` and the selected look; other rows stay `menuitem`; the mark moves only when you re-set `items`. `value` is unchanged (#638)
+
+## 0.981.0 — 2026-11-04
+
+### Added
+- **Data table checklist filter can be single-choice** (#636). `filter: { type: 'checklist', options, multiple: false }`
+  shows DS radios in the same panel, so picking an option replaces the last, and sets antd `filterMultiple: false`
+  on the column. Without `multiple` the filter is multi-select exactly as before. A column that uses it needs
+  `Radio` in the antd members passed to `createDataTable`. For a server that takes one value, `onChange` receives
+  a one-item array: read `filters.status?.[0]`.
+
+## 0.980.1 — 2026-11-04
+### Fixed
+- Logo library, Brands tab: each brand card puts the name on top and its versions in one row of three equal cells, in the order Line, One colour, Original. Each cell holds its preview tile, its label and its own SVG download link (the full path is in the link's tooltip and accessible name), so no file name is cut off. Every line cell is labelled Line; a drawn stand-in carries a Stand-in tag instead of a different label. A missing version shows an empty cell, cards in a row are the same height, and the white Claude mark sits on a Vivid Pink tile. (#635)
+
+## 0.979.1 — 2026-11-04
+
+### Fixed
+- **The Site navbar preview shows its open menu** (#634). The preview frame was sized to the closed navbar, so the
+  Products, Solutions and Resources panels were clipped and looked blank. A layout can now set `previewMinHeight`;
+  the Site navbar reserves 560 px so the open panel fits.
+
+## 0.979.0 — 2026-11-04
+### Changed
+- Colour rule 2.6: a third-party logo in any interface (website header, pricing row, presenter app) is its line mark from `logo/line/` in `--aha-icon-default`, 24px, with no tile or border; a row after a label sits 12px after it and 8px apart. Only a listing page (Marketplace) shows the colour image, greyscale at rest and in colour on card hover and keyboard focus, with no fade under reduced motion. Anti-slop C7, the colour evals, the skill, AGENTS.md and PRINCIPLES.md follow. (#557)
+- Navigation: the Products menu app entries show the line logos straight on the menu, without the white square tile. (#557)
+- Integration card: the logo is the colour file with the `brand-logo-listing` class, greyscale until the card is hovered or focused. The `brand-logo-colour` lint accepts that class. (#557)
+- Colour rule 2.6 finalised: provider sign-in buttons (Google, Microsoft, Apple) keep the provider's full-colour mark; a navigation-menu logo stays in its ink on hover; a line logo as a tab or menu icon takes the item's text colour (pink when active); a Coming soon card hovers like a live one; a decorative logo row next to named cards may omit the names. Rule 2.6a: social links use line logos. (#557)
+### Added
+- Logo library: line marks for 29 brands under `logo/line/`, a G2 logo (original, greyscale and line), and copy-paste patterns for a line logo, a logo row after a label and a listing card. Redrawn Canva, Zapier and Claude line stand-ins. (#557)
+
+## 0.977.1 — 2026-11-04
+
+### Fixed
+- **Avatar group never shows a solid pink avatar** (#632). The default tint cycle was Vivid Pink 5%, 30%, then solid
+  Vivid Pink 100 with white initials, so a third child (or one left alone among hidden siblings) competed with a
+  primary button. It is now a four-step cycle of Vivid Pink 5%, grey 40, grey 25 and grey 50 with ink #1A1A1A
+  (11.7:1 or better); the +N chip moves to grey 60 so it stays distinct. The `color` attribute still overrides.
+
+## 0.977.0 — 2026-11-04
+
+### Added
+- **Google Sheets in the Logo library** (#631). `logo/google-sheets.svg` (greyscale, colour rule 2.6) and
+  `logo/original/google-sheets.svg` (brand colours, for hover and listing pages), beside Microsoft Excel. Survey's
+  Connect results modal can drop its inline brand SVGs.
+
+## 0.976.0 — 2026-11-04
+
+### Changed
+- **Textarea and Counted textarea contracts point to the plain multi-line answer** (#630). An app that is not on antd uses
+  `<aha-counted-textarea maxlength="none">` for plain multi-line text: no cap, no counter, `minrows` / `maxrows` for the
+  height and `--aha-field-width:100%` for full width. No new element and no API change.
+
+## 0.975.0 — 2026-11-04
+
+### Added
+- **`<aha-datepicker>`: a single-date field that replaces antd `DatePicker` for one date** (#629). It looks like
+  `aha-input` (40px, `size="small"` 24px, `size="large"` 48px, radius 8) with a calendar glyph that turns into a clear
+  button on hover and focus once a date is set (`allow-clear="false"` hides it). A click or ArrowDown opens a month
+  calendar in the top layer: arrows move a day or a week, Home / End the week, PageUp / PageDown a month (Shift for a
+  year), Enter picks, Escape closes. The value is an ISO `YYYY-MM-DD` string or `null`, with no Day.js; it can be typed,
+  and text that is not a real date inside `min` / `max` goes back to the last value. `input` and `change` carry
+  `e.detail.value`. Month and weekday names follow `locale`, the first column follows `week-start` or the locale. It has
+  `role="combobox"` over a `role="grid"` calendar, passes `aria-label` and `aria-labelledby` through, supports
+  `disabled`, `status`, `label` and the field messages, and joins forms. The antd `datepicker-theme` composite stays
+  for ranges, times and the week, month and year pickers.
+- **`aha-form-item` reads `aha-datepicker`** (#629): the value is the ISO date, `''` when empty, and the field fills the
+  item's width.
+
+## 0.974.0 — 2026-11-04
+
+### Added
+- **`<aha-input-number>`: a numeric field that replaces antd `InputNumber`** (#628). It looks like `aha-input` (40px,
+  `size="small"` 24px, `size="large"` 48px, radius 8) with the ▲/▼ stepper revealed on hover and focus;
+  `controls="false"` hides it. It takes decimals and negatives, `min`, `max`, `step` and `precision`, clamps and rounds
+  when the field is left or Enter is pressed, and steps with ArrowUp / ArrowDown (Shift for ten). `string-mode` keeps
+  the value an exact decimal string with no float rounding; `valueAsNumber` reads it as a number, and an empty field is
+  `null`. A pasted number keeps its exponent (`1e5` is 100000), pasted text with no number in it is refused, and IME
+  input (full-width digits too) is read when composition ends. `input` and `change` carry `e.detail.value`. It has `role="spinbutton"` with `aria-valuenow/min/max`, passes
+  `aria-label` and `aria-labelledby` through, supports `disabled`, `readonly`, `status`, `prefix`, `suffix`, `label`
+  and the field messages, and joins forms. `increase-label` / `decrease-label` rename the stepper buttons
+  (default "Increase" / "Decrease"). The `input-number` antd theme and `aha-number-with-unit` are unchanged.
+- **`aha-form-item` reads `aha-input-number`** (#628): the value is a number (its string under `string-mode`) or `null`,
+  and the field fills the item's width.
+
 ## 0.973.0 — 2026-11-04
 
 ### Added
-- **Voice rules: never invent a fact (rule 13.26) and a new section 17 for personal email sent in a named person's
-  name** (#627). Proposed from the Head of Growth's corrections to customer emails on 3 November; awaiting the brand
-  director's decision.
+- **`aha-select` `mode="multiple"`: pick several options as closable `aha-tag` chips** (#626). The list stays open after a
+  pick, with checked rows (`aria-multiselectable`, `aria-selected`). It reads `values` and emits `change` with
+  `{values}`, like tags mode. With `show-search` the inline field filters the rows. Also new: `max-count` (antd
+  `maxCount`), which disables the rows not yet picked once the limit is reached, and `filter-prop` (antd
+  `optionFilterProp`), which picks the option field the filter matches. `allow-clear` empties every value and Backspace
+  removes the last chip. An option `suffix` (a trailing count) shows in the rows.
+- **`aha-select` `mode="tags"` with `options` shows them as suggestions**, as antd tags mode does (#626). Typing filters
+  them, Arrow keys and Enter pick one, and typed text is still added as a free-entry tag. Without options, tags mode is
+  unchanged.
+- **`aha-select` option groups** (#626): an options entry `{ label, options: [...] }` renders a header row over its
+  options (`role="group"`) in single, multiple and tags modes. The keyboard skips headers, and filtering hides a group
+  with no match.
+- **`aha-autocomplete` option `suffix`** (#626): trailing text in tertiary ink at the end of a row, the same look as
+  `aha-select`. Typing matches it as well as the label.
+- **Spoken names for rows and chips** (#626). An option `ariaLabel` (in `aha-select` and `aha-autocomplete`) names a row
+  for screen readers when its visible text is only a label and a count, such as "Design, 6 members". Rows without it are
+  unchanged. A chip's close button is now named "Remove {label}" (for example "Remove Design"); `remove-label` on
+  `aha-select` changes the wording, and a standalone `aha-tag` takes `close-label` (default "Remove").
+
+### Fixed
+- **`aha-form-item` treats an `aha-select mode="multiple"` as a list** (#626), as it does tags mode, so `required` fails
+  on an empty list and passes once a value is picked.
+- **`aha-select` multiple and tags-with-options keyboard and pointer fixes** (#626). Home and End move to the first or
+  last enabled row, the active row survives an options update while open, clicking a chip's close button or the clear
+  button keeps the list open with focus in the field, an IME word filters the list when composition ends, and text that
+  `max-count` refuses stays in the field instead of being lost.
 
 ## 0.972.1 — 2026-11-04
 
@@ -159,7 +489,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.964.1 — 2026-11-03
 ### Fixed
-- CHANGELOG: the 0.964.0 entry links its real PR number instead of the `(#PR)` placeholder that auto-merge shipped, which turned the standards gate red on master and held back the 0.964.0 publish; this release ships the Dropdown switch row and badge (#618)
+- CHANGELOG: the 0.964.0 entry links its real PR number instead of the `(#630)` placeholder that auto-merge shipped, which turned the standards gate red on master and held back the 0.964.0 publish; this release ships the Dropdown switch row and badge (#618)
 - Revert: revert the PR; changelog text only
 
 ## 0.964.0 — 2026-11-03
@@ -226,7 +556,6 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ### Changed
 - W6 (website imagery) names the screenshot outline as an exception to the light grey frame ban, beside the Hero split Rise exception (both now worded "Named exception, <name>:"), in every copy (`guidelines/website.json`, `anti-slop/criteria.json`, `agent/anti-slop/criteria.json`); a light grey fill or rail still fails (#599)
-
 
 ## 0.953.0 — 2026-11-03
 ### Changed
@@ -635,7 +964,6 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `<aha-menu>` disabled rows now carry `aria-disabled="true"` beside the native `disabled`; the render is unchanged. (#526)
 - Revert: revert the PR; the new item fields are opt-in
 
-
 ## 0.702.0 — 2026-11-02
 ### Added
 - Chart: `colors` now applies with either palette. On the default `palette="brand"` it replaces the `--aha-viz-series-*` series (and their tints) with the host's own colours, in series order, and keeps the brand ink, so an app screen can pass its own palette (a survey's answer colours, Yes / No). The host picks the hues; a chart without `colors` renders exactly as before, and `palette="deck"` is unchanged (#532)
@@ -661,12 +989,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `aha-counted-input` takes `type="email"`, `"url"` and `"password"` (masked), and passes `inputmode` and `dir` to its inner field: `inputmode="decimal"` gives a number keypad on a text field and keeps partial input such as `1e`, and `dir="auto"` reads a right-to-left answer right to left. `aha-audience-field` documents the new field options. Fields without the new values render unchanged (#539)
 - Revert: revert the PR; nothing else depends on the new values
 
-
 ## 0.670.0 — 2026-11-02
 ### Added
 - `aha-input` passes `inputmode` and `dir` to its inner field, so `inputmode="decimal"` gives a number keypad on a text field and `dir="auto"` reads a right-to-left entry right to left, and gains a `select()` method that selects the field's text. Fields without the new attributes render unchanged (#520)
 - Revert: revert the PR; nothing else depends on the new attributes
-
 
 ## 0.660.0 — 2026-11-02
 ### Added
@@ -686,7 +1012,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.621.1 — 2026-11-02
 ### Fixed
-- CHANGELOG: the 0.609.0 entry links its real PR number instead of the `(#PR)` placeholder that auto-merge shipped, which turned the standards gate red on master (#533)
+- CHANGELOG: the 0.609.0 entry links its real PR number instead of the `(#630)` placeholder that auto-merge shipped, which turned the standards gate red on master (#533)
 - Revert: revert the PR; changelog text only
 
 ## 0.621.0 — 2026-11-02
@@ -750,12 +1076,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Fixed
 - Security: text from attributes and JSON no longer renders as HTML in five elements. `aha-card` `card-title`, `aha-rate` `icon`, `aha-card-select` option `icon`, `aha-descriptions` `items` label and value, and `aha-tabs` panel `id` (in `aria-controls`) are now escaped, so a survey question title like `<img src=x onerror=…>` shows as literal text and creates no element. Light-DOM content of `aha-descriptions` keeps its markup. No visual change (#513)
 
-
 ## 0.601.0 — 2026-11-02
 ### Added
 - Chart: `<aha-chart type="pie">`, a solid pie with no centre hole. It is the donut renderer with the same slices, palette, labels, legend, tooltip, empty state and screen-reader summary (named "Pie chart"). `type="donut"` with `options.variant: "pie"` keeps working. Contract, all flavour files, docs and a Pie default snippet updated together.
 - Revert: revert the PR; `pie` is one new value in the chart type list that reuses the donut renderer, so existing donut and `variant: "pie"` markup is untouched (#508)
-
 
 ## 0.600.0 — 2026-11-02
 ### Added
@@ -766,11 +1090,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - The interactive-state colour-list check also waives a subtree that carries a course theme (`--aha-color-primary` set inline); contrast and focus are still measured, and the checkbox tick now carries its colour as `color` so the probe reads it
 - Revert: revert the PR; additive module and docs page, the loader change is one background value
 
-
 ## 0.599.0 — 2026-11-02
 ### Added
 - Icons for course and rich-text UI, 22 one-colour glyphs from Phosphor Icons Regular (MIT) on the DS 16px grid with the 1.5 stroke: the rich-text toolbar set `system-text-b`, `system-text-italic`, `system-text-underline`, `system-text-strikethrough`, `system-text-h-one`, `system-text-h-two`, `system-text-h-three`; device preview `system-monitor` and `system-device-tablet` (beside `system-device-mobile`); and `system-arrow-line-down`, `system-caret-circle-down`, `system-certificate`, `system-crop`, `system-flow-arrow`, `system-gauge`, `system-image-broken`, `system-map-pin`, `system-minus-circle`, `system-puzzle-piece`, `system-ruler`, `system-scroll`, `system-target`. Each has meaning words for `npm run icon-search`; the registry now holds 353 names (#509)
-
 
 ## 0.597.0 — 2026-11-02
 ### Added
@@ -779,12 +1101,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Shared components rule `text-and-colour` and its judge criterion name `<aha-text>` for visible text in place of AntD Typography (#507)
 - Revert: revert the PR; the element is a new file and nothing else imports it (#507)
 
-
 ## 0.596.2 — 2026-11-02
 ### Fixed
-- CHANGELOG: the 0.595.1 entry links its real PR number instead of the `(#PR)` placeholder that auto-merge shipped, which turned the standards gate red on master (#506)
+- CHANGELOG: the 0.595.1 entry links its real PR number instead of the `(#630)` placeholder that auto-merge shipped, which turned the standards gate red on master (#506)
 - Revert: revert the PR; changelog text only
-
 
 ## 0.596.1 — 2026-11-02
 ### Fixed
@@ -795,7 +1115,6 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Features Marketing page: the Accent code pane of the Alternating screenshots layout wrote `aha-features--alternating-screenshots--accent`, which no CSS defines, so a pasted snippet rendered white. It now writes `aha-features--accent`; the state class of every Marketing section now comes from the section, then the layout (#504)
 - Revert: revert the PR; only the generated Accent code pane of one layout changes, no CSS or markup
 
-
 ## 0.595.0 — 2026-11-02
 ### Added
 - `lib/marketing.css`: every website Marketing section's CSS in one generated stylesheet (`@ahaslides-product/design/marketing.css`), and `lib/marketing/<slug>.css` for one section. A no-build website page now links `tokens.css`, `marketing.css`, `all.js` and `marketing-motion.js` from a pinned tag and pastes only each section's HTML; it renders pixel-identical to the paste-and-run snippet at 1440, 768 and 375 px. Paste-and-run stays the Webflow route (#503)
@@ -804,7 +1123,6 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - The Websites pages, `marketing.llms.txt`, `marketing.agent.json` (`consume.noBuild`), `llms.txt`, the README and website rule W1 document the linked-stylesheet recipe first, paste-and-run second (#503)
 - Docs: the leaf components are described as standard, dependency-free web components (Custom Elements + shadow DOM), usable in plain HTML, React, Vue or any framework, not as Lit components: the README, the site header label (now `HTML · React · Vue`), the agent feed overview, the Components page and 58 contract badges. No `lib/aha-*.js` file has ever imported Lit; the internal tier id `leaf-lit` is unchanged. The 16 of those contracts that had no `environment` now declare one and leave the environments baseline (#503)
 - Revert: revert the PR; the stylesheets are new generated files and the docs return to paste-and-run only, no section CSS or markup changes (#503)
-
 
 ## 0.593.0 — 2026-11-02
 ### Added
@@ -1057,7 +1375,6 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - A node test fails when a marketing blockquote reset leaves the border, when a section title rule has no `display`, or when the Step number rule leaves the Cards base CSS.
 - Supersedes the earlier 0.497.1 attempt. Revert: revert the PR; the sections go back to relying on the host CSS (#438)
-
 
 ## 0.551.0 — 2026-10-29
 ### Added
@@ -1381,7 +1698,6 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `generate.mjs`: an optional `options` list on a marketing layout (each choice either adds a `--<value>` modifier or keeps the elements marked `data-choice="<value>"`), rendered as switches beside the surface switch, with one code tab per choice and the choices in the `.md` and `.agent.json` feeds; and an optional page-level `previewFit`. Pages without them render byte-identically.
 - Revert: revert the PR; `marketing/header.json`, the `options` and `previewFit` branches in `generate.mjs` and two source lines in `guidelines/website.json`, the eval fixture heroes and `fixtures/sections.css` (#399)
 
-
 ## 0.472.0 — 2026-10-27
 ### Changed
 - Website > Marketing > Features: the Compact tabs layout puts the Create your quiz free button in the text column of each panel, under Learn more and left aligned, instead of centred under the whole section. Uses the `aha-features__column` and `aha-features__cta--start` classes. (#406)
@@ -1437,7 +1753,6 @@ Revert: restore `lib/marketing-motion.js`, `marketing/testimonials.json` and `ma
 - Audience and canvas kits, Marketing sections (Cards, FAQ, Header badges, Pricing slider) and the docs search chips follow the same rule; the Foundations Radius page, `design.md` and the canvas / audience / settings / feedback / report-image guidelines say there is no pill shape (#337).
 - `standards.mjs` fails a 999px radius and any `--aha-radius-pill` reference in component source (#337).
 - `screen-lint` fails a 999px or 9999px `border-radius` as `radius-off-scale` (#337).
-
 
 ## 0.437.0 — 2026-10-26
 ### Added
@@ -1744,7 +2059,6 @@ Revert: restore `brand/colour-rules.json`, `marketing/header.json`, `marketing/f
 ## 0.319.0 — 2026-10-21
 ### Added
 - Question list: a body slot `body-<id>` puts interactive light-DOM content (a SettingRow with a time input and stepper, say) inside the open body of question `<id>`, above the "Question" row. Children stay focusable; clicks, keys and edits in the slot never toggle the collapse; a closed question hides it; it follows its question by id across reorder, add and delete. Native `input` / `change` events from slotted children now reach the list's host (the list's own `change` still carries `detail.questions`). Revert: remove the `.body-slot` holder, its CSS and the `slotted('body-slot', …)` call in `lib/aha-question-list.js`, and restore the `stopPropagation` guard to unconditional. (#335)
-
 
 ## 0.315.0 — 2026-10-21
 ### Removed

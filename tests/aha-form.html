@@ -18,11 +18,15 @@
   <aha-button id="send" type="submit" variant="primary">Send invite</aha-button>
   <aha-button id="clear" type="reset" variant="secondary">Clear</aha-button>
 </aha-form>
+<aha-form-item id="courses-item" label="Courses" name="courses" required>
+  <aha-select mode="multiple" options='[{"label":"Algebra","value":"c1"},{"label":"Biology","value":"c2"}]'></aha-select>
+</aha-form-item>
 <script type="module">
   import '../lib/aha-form.js';
   import '../lib/aha-input.js';
   import '../lib/aha-checkbox.js';
   import '../lib/aha-button.js';
+  import '../lib/aha-select.js';
   window.formEvents = [];
   const form = document.getElementById('invite');
   for (const type of ['submit', 'invalid', 'reset']) form.addEventListener(type, (event) => window.formEvents.push([type, event.detail]));

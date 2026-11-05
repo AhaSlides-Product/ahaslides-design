@@ -1,0 +1,22 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../lib/tokens.css">
+<style>body{ margin:40px; width:416px }</style>
+<span id="zoom-label">Zoom</span>
+<aha-slider id="zoom" min="1" max="3" step="0.01" value="1" aria-labelledby="zoom-label"></aha-slider>
+<aha-slider id="plain" value="40" aria-label="Volume"></aha-slider>
+<div dir="rtl"><aha-slider id="rtl" value="50" aria-label="Volume"></aha-slider></div>
+<aha-slider id="off" disabled value="60" aria-label="Locked"></aha-slider>
+<form id="form">
+  <aha-form-item id="overlay-item" label="Overlay" name="overlay">
+    <aha-slider name="overlay" value="30"></aha-slider>
+  </aha-form-item>
+</form>
+<script type="module">
+  import '../lib/aha-slider.js';
+  import '../lib/aha-form.js';
+  window.log = [];
+  for (const el of document.querySelectorAll('aha-slider')) for (const type of ['input', 'change']) el.addEventListener(type, (e) => window.log.push([el.id || 'overlay', type, e.detail.value]));
+  await customElements.whenDefined('aha-slider');
+  window.fixtureReady = true;
+</script>

@@ -217,7 +217,7 @@
    "kind": "Feedback",
    "what": "A countdown: a bar that drains as the time runs out, with the m:ss clock beside it. One CSS animation off an absolute `ends-at`, never a per-frame loop.",
    "useWhen": "A FULL-CANVAS audience slide whose question is time-limited and needs its own timer. Pass the host's absolute end instant, not a duration.",
-   "notFor": "A framed slide: the host already paints the countdown above the iframe. Use `clock-only` for a bare m:ss in a tight header. Not a progress bar for anything that is not time.",
+   "notFor": "A framed slide: the host already paints the countdown above the iframe. Use `clock-only` for a bare m:ss in a tight header, and `variant=\"points\"` (with `min`, `max`, `label-format`, `spoken-format`) for the points still available in a self-paced quiz, with no clock. Not a progress bar for anything that is not time or a time-driven score.",
    "replaces": "Replaces a hand-built countdown: a per-tick counter drifts on a backgrounded tab and runs the compositor for the whole question.",
    "note": null,
    "demoLight": "<aha-countdown class=\"demo-countdown\" total-ms=\"60000\" urgent-below-ms=\"5000\"></aha-countdown>",

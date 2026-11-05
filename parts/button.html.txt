@@ -62,3 +62,7 @@
 <!-- Low-emphasis label buttons: text / text-link are borderless; text-link has no underline at rest and is underlined on hover, press and keyboard focus (set --aha-text-link-decoration: underline where a screen swaps the link to the default ink). primary-alt is a second primary slot. -->
 <aha-button variant="text">Skip</aha-button>
 <aha-button variant="text-link">Learn more</aha-button>
+
+<!-- A control inside a sentence: text-link with size="inline". href = it navigates, renders <a>. No href = it acts on the page, renders <button>. -->
+<p>Your plan renews soon. <aha-button variant="text-link" size="inline" href="/plans">See plans</aha-button></p>
+<p>Two responses are hidden. <aha-button variant="text-link" size="inline" aria-expanded="false" aria-controls="hidden-responses">Show them</aha-button></p>

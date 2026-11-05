@@ -866,6 +866,22 @@ const repoChecks = [];
   rchk('every original-colour logo sits beside its one-colour file and is declared in logo/manifest.json', originalsUnpaired.length === 0,
     `logo/original/<file> holds the brand's own colours for rule 2.6 and shares the one-colour file's name: ${originalsUnpaired.join(', ')}`);
 
+  const lineDir = join(root, 'logo', 'line');
+  const lineFiles = existsSync(lineDir) ? readdirSync(lineDir).filter(f => f.endsWith('.svg')).map(f => `line/${f}`) : [];
+  const declaredLines = logoEntries.filter(entry => entry.line).map(entry => entry.line);
+  const paintsOtherThanCurrentColor = svg => [...svg.matchAll(/\b(?:fill|stroke)="([^"]*)"/g)].map(match => match[1]).filter(paint => paint !== 'currentColor' && paint !== 'none');
+  const lineProblems = [
+    ...declaredLines.filter(file => !lineFiles.includes(file)).map(file => `${file} is declared but missing`),
+    ...lineFiles.filter(file => !declaredLines.includes(file)).map(file => `${file} has no manifest entry`),
+    ...logoEntries.filter(entry => entry.line && !(entry.lineSourceUrl && entry.lineFetched)).map(entry => `${entry.id}: line needs lineSourceUrl and lineFetched`),
+    ...lineFiles.filter(file => {
+      const svg = read(join(root, 'logo', file));
+      return coloursInSvg(svg).length > 0 || paintsOtherThanCurrentColor(svg).length > 0 || !svg.includes('currentColor') || !svg.includes('viewBox="0 0 256 256"');
+    }).map(file => `${file} must be drawn on the 256 grid in currentColor only`),
+  ];
+  rchk('every line logo is declared in logo/manifest.json with its source and is drawn in currentColor only', lineProblems.length === 0,
+    `logo/line/<id>.svg is the Phosphor-style outline mark: ${lineProblems.join(', ')}`);
+
   const PHOTO_SOURCES = ['drive', 'customer-love'];
   const imagesDir = join(root, 'marketing', 'images');
   const photosWithoutSource = existsSync(imagesDir)
@@ -903,7 +919,7 @@ const repoChecks = [];
     `black is the default ink: bind --aha-black, --aha-bg-dark or --aha-text-default (fallback #1A1A1A); keep rgba(0,0,0,a) for a shadow or scrim: ${pureBlackSources.join(', ')}`);
 
   /* A service or file mark reaches a component as <img src=".../logo/<file>">, which no colour scan of the
-     markup can see into, so the reference itself is held to the Logo library and its recoloured files. */
+     markup can see into, so the reference itself is held to the files in logo/ and their recoloured copies. */
   const markSources = [...sourceFiles, 'audience/library.json'];
   const foreignMarks = markSources.flatMap(f => {
     const text = read(join(root, f));
@@ -911,7 +927,7 @@ const repoChecks = [];
     const embedded = /data:image\/(?:png|jpe?g|webp|gif)|data:image\/svg\+xml;base64/i.test(text) ? ['an embedded image the colour scan cannot read'] : [];
     return [...new Set([...outsideLibrary, ...embedded])].map(what => `${f} (${what})`);
   });
-  rchk('every service and file mark in a demo comes from the Logo library', foreignMarks.length === 0,
+  rchk('every service and file mark in a demo comes from logo/ (the Logo library or the Brand icons)', foreignMarks.length === 0,
     `reference a file in logo/ (recoloured by recolour-art.mjs) or an <aha-icon>; never a raster or base64 mark: ${foreignMarks.slice(0, 8).join(', ')}${foreignMarks.length > 8 ? ` (+${foreignMarks.length - 8} more)` : ''}`);
 
   /* antd derives hover, press, focus and status shades from its seed colours; only the shared base pins them. */

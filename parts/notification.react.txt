@@ -24,7 +24,7 @@ function Notifications() {
     <ConfigProvider theme={notificationTheme}>
       {contextHolder}
       <Button type="primary" onClick={() => notify('success', 'topRight')}>Publish</Button>
-      <Button danger onClick={() => notify('error', 'bottomLeft')}>Retry sync</Button>
+      <Button danger onClick={() => notify('warning', 'bottomLeft')}>Retry sync</Button>
     </ConfigProvider>
   );
 }

@@ -14,7 +14,7 @@
       "prompt": "Review this pro-gated affordance in the editor. Instead of the shared component, the custom survey URL feature is gated with a hand-rolled modal: `<Modal title=\"Upgrade to Pro\"><p>This is a Pro feature. Upgrade to unlock it.</p><Button onClick={goPricing}>See plans</Button></Modal>`.",
       "files": [],
       "label": "bad-example",
-      "notes": "C1 — gated affordance must use the shared Paywall component (or PaywallCrownBadge), not a bespoke modal/tooltip/popover",
+      "notes": "C1 — gated affordance must use the shared Paywall component (or PaywallCrownBadge, or the crown beside its own button), not a bespoke modal/tooltip/popover",
       "expected_output": "C1 FAILs. The upgrade prompt is a bespoke <Modal> with a \"See plans\" button rather than the shared <Paywall> component, so it drifts from the presenter app's UpgradePopover and breaks the single-source-of-truth contract (PAYWALL-01). Fix: wrap the gated field in <Paywall featureKey=\"custom_survey_url\" featureLabel=\"Custom survey URL\" body=\"Give your survey a branded, memorable link.\" requiredPlan=\"pro\"> and delete the bespoke modal. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
@@ -36,16 +36,16 @@
     },
     {
       "id": 2,
-      "prompt": "Review this paywall popover markup: `<Popover><Crown /><h4>Custom survey URL is a premium feature and gives you a branded link plus more control…</h4><Button block type=\"primary\">Upgrade</Button><Button block>View all plans</Button></Popover>`. It uses the Phosphor Crown glyph, a multi-line body, and a secondary 'View all plans' button.",
+      "prompt": "Review this paywall popover markup: `<Popover><Crown /><h4>Custom survey URL is a premium feature and gives you a branded link plus more control…</h4><Button block type=\"primary\">Upgrade</Button><Button block>View all plans</Button><a>Maybe later</a></Popover>`. It uses the Phosphor Crown glyph, a multi-line body, hand-rolled antd buttons instead of the shared <aha-button>, and an extra 'Maybe later' dismiss link.",
       "files": [],
       "label": "bad-example",
-      "notes": "C2 — popover anatomy: crown badge (custom SVG not Phosphor) + label + one-sentence body + fixed unlock line + single block Upgrade CTA",
-      "expected_output": "C2 FAILs. The popover anatomy is wrong: it uses the generic Phosphor <Crown /> instead of the custom purple-circle CrownBadge (16×16 SVG), the body runs longer than one sentence, the fixed \"Unlock with the <Plan> plan.\" line is missing, and it adds a banned secondary \"View all plans\" button. Fix: use the CrownBadge + short feature label, a one-sentence value prop, the verbatim \"Unlock with the <Plan> plan.\" line (plan name bold), and a single full-width block primary Upgrade CTA — remove the secondary button (PAYWALL-02/-03/-04). Overall: NEEDS FIX.",
+      "notes": "C2 — popover anatomy: crown mark (custom, not Phosphor) + label + one-sentence body + unlock line + exactly the two shared CTAs (Upgrade positive, See all plans secondary), nothing more",
+      "expected_output": "C2 FAILs. The popover anatomy is wrong: it uses the generic Phosphor <Crown /> instead of the custom Vivid Pink CrownBadge, the body runs longer than one sentence, the unlock line is missing, the two CTAs are hand-rolled antd <Button>s rather than the shared <aha-button> (Upgrade positive + See all plans secondary), and it adds a banned 'Maybe later' dismiss link. Fix: use the shared <aha-paywall> popover — crown mark + short feature label, a one-sentence value prop, the unlock line, then exactly the two shared CTAs, with no dismiss link (PAYWALL-02/-03/-04). Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C2 is marked FAIL",
         "Cites Phosphor Crown instead of the custom CrownBadge",
-        "Cites the banned secondary CTA and/or multi-sentence body / missing unlock line"
+        "Cites the extra dismiss link, hand-rolled buttons and/or multi-sentence body / missing unlock line"
       ],
       "expected": {
         "overall": "NEEDS_FIX",
@@ -164,13 +164,13 @@
       "prompt": "Review this plan-gated bare field label that has no natural clickable anchor: `<label>Theme colour <LockIcon onClick={showUpsell} /></label>`. It uses a bespoke lock icon as the anchor with no role or aria-label.",
       "files": [],
       "label": "bad-example",
-      "notes": "C7 — feature with no natural anchor must use PaywallCrownBadge (role=img + aria-label), not a bespoke glyph",
-      "expected_output": "C7 FAILs. A feature with no natural anchor uses a bespoke, unlabelled LockIcon instead of the crown-badge-only anchor. Fix: use <label>Theme colour <PaywallCrownBadge featureKey=\"custom_theme\" /></label> — the shared PaywallCrownBadge carries role=\"img\" and an aria-label (default \"Upgrade required\"); do not invent an ad-hoc lock/crown glyph. Overall: NEEDS FIX.",
+      "notes": "C7 — feature with no natural anchor must use PaywallCrownBadge (a real button with an accessible name), not a bespoke glyph",
+      "expected_output": "C7 FAILs. A feature with no natural anchor uses a bespoke, unlabelled LockIcon instead of the crown-badge-only anchor. Fix: use <label>Theme colour <PaywallCrownBadge featureKey=\"custom_theme\" /></label> — the shared PaywallCrownBadge is a real button with an accessible name (default \"Upgrade required. See plans\"); do not invent an ad-hoc lock/crown glyph. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C7 is marked FAIL",
         "Cites a bespoke lock/crown glyph instead of PaywallCrownBadge",
-        "Cites missing role=img / aria-label"
+        "Cites the missing button role / accessible name"
       ],
       "expected": {
         "overall": "NEEDS_FIX",
@@ -186,11 +186,11 @@
     },
     {
       "id": 8,
-      "prompt": "Review this pro-gated custom survey URL field. `<Paywall featureKey=\"custom_survey_url\" featureLabel=\"Custom survey URL\" body=\"Give your survey a branded, memorable link.\" requiredPlan=\"pro\"><UrlField disabled /></Paywall>`. The popover renders the purple-circle CrownBadge + \"Custom survey URL\", the one-sentence body, the line \"Unlock with the pro plan.\" (plan bold), and a single block primary \"Upgrade\" CTA. On open it fires track('PAYWALL_SHOWN', { feature: 'custom_survey_url', plan: 'pro' }); the CTA handler is `const onCta = () => { track('PAYWALL_UPGRADE_CLICKED', { feature: 'custom_survey_url', plan: 'pro' }); onUpgrade ? onUpgrade() : window.open(UPGRADE_URL, '_blank', 'noopener,noreferrer'); close(); };`. The field has a natural anchor so no crown-badge-only anchor is needed.",
+      "prompt": "Review this pro-gated custom survey URL field. `<Paywall featureKey=\"custom_survey_url\" featureLabel=\"Custom survey URL\" body=\"Give your survey a branded, memorable link.\" requiredPlan=\"pro\"><UrlField disabled /></Paywall>`. The popover renders the purple-circle CrownBadge + \"Custom survey URL\", the one-sentence body, the line \"Unlock with the pro plan.\" (plan bold), and the two shared <aha-button> CTAs, a positive \"Upgrade\" and a secondary \"See all plans\". On open it fires track('PAYWALL_SHOWN', { feature: 'custom_survey_url', plan: 'pro' }); the CTA handler is `const onCta = () => { track('PAYWALL_UPGRADE_CLICKED', { feature: 'custom_survey_url', plan: 'pro' }); onUpgrade ? onUpgrade() : window.open(UPGRADE_URL, '_blank', 'noopener,noreferrer'); close(); };`. The field has a natural anchor so no crown-badge-only anchor is needed.",
       "files": [],
       "label": "good-control",
       "notes": "Good control — a correct Paywall; every applicable criterion passes, C7 N/A (feature has a natural anchor)",
-      "expected_output": "All applicable criteria PASS. C1: routes through the shared <Paywall> component. C2: correct anatomy — custom CrownBadge + short label, one-sentence body, verbatim \"Unlock with the <Plan> plan.\" line, single block primary Upgrade CTA. C3: featureKey is snake_case and requiredPlan is a real tier (pro). C4: noun-phrase label, one benefit-sentence body, verb CTA \"Upgrade\". C5: PAYWALL_SHOWN on open and PAYWALL_UPGRADE_CLICKED before navigation, each with { feature, plan }. C6: default CTA opens UPGRADE_URL in a new tab with noopener,noreferrer, honours onUpgrade, and closes the popover. C7 is N/A — the field has its own natural anchor. Overall: OK TO SHIP.",
+      "expected_output": "All applicable criteria PASS. C1: routes through the shared <Paywall> component. C2: correct anatomy — custom CrownBadge + short label, one-sentence body, \"Unlock with the <Plan> plan.\" line, and exactly the two shared CTAs, Upgrade (positive) and See all plans (secondary). C3: featureKey is snake_case and requiredPlan is a real tier (pro). C4: noun-phrase label, one benefit-sentence body, verb CTA \"Upgrade\". C5: PAYWALL_SHOWN on open and PAYWALL_UPGRADE_CLICKED before navigation, each with { feature, plan }. C6: default CTA opens UPGRADE_URL in a new tab with noopener,noreferrer, honours onUpgrade, and closes the popover. C7 is N/A — the field has its own natural anchor. Overall: OK TO SHIP.",
       "assertions": [
         "Overall verdict is OK TO SHIP",
         "C7 is marked N/A",
@@ -205,6 +205,29 @@
         "judge": "aha-design-paywall-judge",
         "id": 8,
         "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 9,
+      "prompt": "Review this plan-gated export button that keeps its own place in a card's footer. `<button id=\"export\">Export</button> <aha-paywall feature-key=\"export_pdf\" feature-label=\"Export to PDF\" body=\"Keep a copy of every slide to share after the session.\" required-plan=\"pro\"></aha-paywall>` with `button.addEventListener('click', (event) => toggleLockedPaywall(crown, event))`. The crown sits beside the button and both open the same shared popover, with the one-sentence body, the unlock line and the two shared <aha-button> CTAs. It fires PAYWALL_SHOWN on open and PAYWALL_UPGRADE_CLICKED before navigation.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Good control — a crown beside its own button routes through the shared Paywall; C1 passes, C7 N/A (the feature has a natural anchor)",
+      "expected_output": "All applicable criteria PASS. C1: the button keeps its own place and the crown sits beside it, with the click routed to the same popover through toggleLockedPaywall, so there is no bespoke upsell. C7 is N/A: the feature has a natural anchor. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C1 is marked PASS",
+        "C7 is marked N/A",
+        "No criterion is marked FAIL"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {}
+      },
+      "source": {
+        "judge": "ds-worker",
+        "id": 9,
+        "remap": "identity"
       }
     }
   ]

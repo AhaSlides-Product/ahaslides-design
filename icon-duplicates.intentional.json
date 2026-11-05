@@ -90,6 +90,41 @@
    "first": "system-check-circle-filled",
    "second": "system-smiley-filled",
    "reason": "Same solid disc by design, as their outline twins share one circle; the knocked-out mark carries the meaning (a tick is success or a submitted form, a face is a selected smiley rating), so the two are never used for the same thing."
+  },
+  {
+   "first": "brand-youtube",
+   "second": "slidetype-youtube",
+   "reason": "The YouTube slide type draws the YouTube mark itself. The slide-type icon names a slide; brand-youtube names the service (a social link, an import source), so both stay."
+  },
+  {
+   "first": "brand-facebook",
+   "second": "system-facebook-logo",
+   "reason": "The Brand family (DESY-445) holds every third-party logo the presenter app shows, drawn as strokes in Phosphor's Regular line style so it follows stroke by size; system-facebook-logo is the older filled glyph that consumers already reference. New interface work uses brand-facebook."
+  },
+  {
+   "first": "brand-youtube",
+   "second": "system-youtube-logo",
+   "reason": "The Brand family (DESY-445) holds every third-party logo the presenter app shows, drawn as strokes in Phosphor's Regular line style so it follows stroke by size; system-youtube-logo is the older filled glyph that consumers already reference. New interface work uses brand-youtube."
+  },
+  {
+   "first": "brand-reddit",
+   "second": "system-reddit-logo",
+   "reason": "The Brand family (DESY-445) holds every third-party logo the presenter app shows, drawn as strokes in Phosphor's Regular line style so it follows stroke by size; system-reddit-logo is the older filled glyph that consumers already reference. New interface work uses brand-reddit."
+  },
+  {
+   "first": "brand-linkedin",
+   "second": "system-linkedin-logo",
+   "reason": "The Brand family (DESY-445) holds every third-party logo the presenter app shows, drawn as strokes in Phosphor's Regular line style so it follows stroke by size; system-linkedin-logo is the older filled glyph that consumers already reference. New interface work uses brand-linkedin."
+  },
+  {
+   "first": "brand-google",
+   "second": "slidetype-google-slides",
+   "reason": "The Google Slides slide type is drawn as the Google G. The slide-type icon names a slide; brand-google names the Google account or service (sign-in rows, integrations)."
+  },
+  {
+   "first": "brand-microsoft-excel",
+   "second": "brand-microsoft-word",
+   "reason": "Phosphor draws the two Office logos on one frame; the X and the W inside are what tell Excel from Word, and each names a different product."
   }
  ]
 }

@@ -1,4 +1,4 @@
-// main.ts — register the element + mark aha-* as custom elements
+// main.ts: register the element + mark aha-* as custom elements
 import '@ahaslides-product/design/aha-card-select';   // registers <aha-card-select>
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
@@ -6,6 +6,11 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 <script setup>
 import { ref } from 'vue';
 const chartType = ref('bar');
+const lookId = ref('');   // '' = no card checked (a custom theme)
+const looks = [
+  { id: 'classic',  name: 'Classic',  style: { background: 'var(--aha-bg-layout)' } },
+  { id: 'midnight', name: 'Midnight', style: { background: 'var(--aha-bg-dark)' } },
+];
 const options = [
   { value: 'bar',  label: 'Bar',  icon: 'system-chart-bar' },
   { value: 'line', label: 'Line', icon: 'system-chart-line-up' },
@@ -15,6 +20,7 @@ const options = [
 
 <template>
   <!-- options + value are bound as PROPERTIES (.prop); the grid is one roving radiogroup -->
+  <!-- add min-tile-width="110" to drop columns when the element gets narrow -->
   <!-- add icon-only for compact 44px squares (label kept as aria-label and shown as a tooltip on hover and keyboard focus) -->
   <aha-card-select
     columns="3"
@@ -22,4 +28,18 @@ const options = [
     :value.prop="chartType"
     @change="chartType = $event.detail.value"
   />
+
+  <!-- tile="preview": each option names a slot; the app draws the preview in a light-DOM child with that slot -->
+  <aha-card-select
+    tile="preview"
+    hide-labels
+    columns="3"
+    aria-label="Certificate design"
+    style="--aha-card-select-preview-ratio: 297 / 210"
+    :options.prop="looks.map((l) => ({ value: l.id, label: l.name, slot: l.id }))"
+    :value.prop="lookId ?? ''"
+    @change="lookId = $event.detail.value"
+  >
+    <span v-for="l in looks" :key="l.id" :slot="l.id" class="certificate-look-page" :style="l.style"></span>
+  </aha-card-select>
 </template>

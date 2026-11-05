@@ -8,7 +8,7 @@ export function SaveButton({ onSave }) {
       await onSave();
       saving.update({ type: 'success', content: 'Changes saved', duration: 3 });
     } catch {
-      saving.update({ type: 'error', content: 'Changes not saved. Try again.', duration: 0 });   // sticky: carries the ✕
+      saving.update({ type: 'warning', content: 'Changes not saved. Try again.', duration: 0 });   // sticky: carries the ✕
     }
   };
   return <aha-button variant="primary" onClick={save}>Save</aha-button>;

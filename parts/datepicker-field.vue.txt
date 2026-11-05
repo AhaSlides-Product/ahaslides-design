@@ -1,0 +1,20 @@
+// main.ts: register the element and mark aha-* as custom elements
+import '@ahaslides-product/design/aha-datepicker';   // registers <aha-datepicker>
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<script setup>
+import { ref } from 'vue';
+const due = ref(null);   // the ISO date 'YYYY-MM-DD', or null when empty
+</script>
+
+<template>
+  <!-- min / max limit the calendar · locale and week-start set the names and first column -->
+  <aha-datepicker
+    aria-label="Due date"
+    min="2026-01-01"
+    max="2026-12-31"
+    :value.prop="due"
+    @change="due = $event.detail.value"
+  />
+</template>

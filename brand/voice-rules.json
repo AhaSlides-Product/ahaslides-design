@@ -3,7 +3,7 @@
  "id": "voice-rules",
  "title": "AhaSlides brand voice rules",
  "lede": "The single source for how AhaSlides talks: what we believe, who we serve, what we say and how we write. It follows [brand guidelines v2.3](https://design.ahaslides.io/brand/ahaslides-brand-guidelines-v2.3.pdf) (29 October 2026, final) and the decisions made since. Visual rules are not here: the design system holds them.",
- "updated": "2026-11-04",
+ "updated": "2026-11-05",
  "environment": [
   "product",
   "audience",
@@ -1293,7 +1293,7 @@
    "blocks": [
     {
      "type": "paragraph",
-     "text": "For a one-to-one email sent in a named person's name, from the Head of Growth or another member of staff: a win-back, a thank-you, a reply to feedback. Every other rule in this file still applies; these add what a personal email needs."
+     "text": "For a one-to-one email sent in a named person's name, from the Head of Growth or another member of staff: a win-back, a thank-you, a reply to feedback. It does not cover marketing email, newsletters or campaigns; those follow the rest of this file. Every other rule in this file still applies; these add what a personal email needs."
     },
     {
      "type": "rules",
@@ -1334,8 +1334,8 @@
  "changes": [
   {
    "version": "v5",
-   "date": "4 Nov",
-   "text": "Proposal from the Head of Growth's corrections to fleet-written customer emails on 3 November (CHRE-1), for the brand director's decision. New rule 13.26: never invent a fact; with no source, ask. New section 17: personal email in a named person's name (who you are and why, only what the sender did, no filler, compensation as a gift, calm wording and a full-draft check for sensitive topics)."
+   "date": "5 Nov",
+   "text": "Proposal from the Head of Growth's corrections to fleet-written customer emails on 3 November (CHRE-1), for the brand director's decision. New rule 13.26: never invent a fact; with no source, ask. New section 17: one-to-one email in a named person's name, not marketing email, newsletters or campaigns (who you are and why, only what the sender did, no filler, compensation as a gift, calm wording and a full-draft check for sensitive topics)."
   },
   {
    "version": "v4",

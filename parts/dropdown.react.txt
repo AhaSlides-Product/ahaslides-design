@@ -69,6 +69,21 @@ function AhaDropdown({ label, value, items, placement, trigger, open, onSelect, 
   onSelect={setRole}
 />
 
+// one list as a choice: `selected` marks the Visibility row (menuitemradio); Copy link stays a plain action.
+// The mark never moves by itself: set the new visibility and the items re-render.
+<AhaDropdown
+  label="Share"
+  items={[
+    { key: 'copy', label: 'Copy link', icon: 'system-link' },
+    { key: 'visibility', label: 'Visibility', children: [
+      { key: 'private', label: 'Only me', selected: visibility === 'private' },
+      { key: 'workspace', label: 'Workspace', selected: visibility === 'workspace' },
+      { key: 'public', label: 'Anyone with the link', selected: visibility === 'public' },
+    ] },
+  ]}
+  onSelect={(key) => (key === 'copy' ? copyLink() : setVisibility(key))}
+/>
+
 // a Present menu: a Beta badge after the label and a Full screen switch row; flipping it keeps the menu open
 <AhaDropdown
   label="Present"

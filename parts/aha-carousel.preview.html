@@ -1,0 +1,45 @@
+<div class="pad">
+  <div class="lbl">Arrows and dots, on the second slide</div>
+  <div style="max-width:480px">
+    <aha-carousel data-probe arrows index="1" aria-label="Course photos">
+      <div class="aha-slide" style="height:200px">First slide</div>
+      <div class="aha-slide" style="height:200px">Second slide</div>
+      <div class="aha-slide" style="height:200px">Third slide</div>
+    </aha-carousel>
+  </div>
+  <div class="lbl">Adaptive height, labelled for images, wrapping at the ends</div>
+  <div style="max-width:480px">
+    <aha-carousel id="gallery" arrows loop adaptive-height prev-label="Previous image" next-label="Next image" aria-label="Workshop photos">
+      <div class="aha-slide" style="height:140px">A short slide</div>
+      <div class="aha-slide" style="height:260px">A tall slide</div>
+      <div class="aha-slide" style="height:200px">A medium slide</div>
+    </aha-carousel>
+  </div>
+  <div class="lbl">One slide: no arrows or dots</div>
+  <div style="max-width:480px">
+    <aha-carousel arrows aria-label="One photo">
+      <div class="aha-slide" style="height:120px">The only slide</div>
+    </aha-carousel>
+  </div>
+  <div class="lbl">Right to left</div>
+  <div dir="rtl" style="max-width:480px">
+    <aha-carousel arrows aria-label="Course photos">
+      <div class="aha-slide" style="height:160px">First slide</div>
+      <div class="aha-slide" style="height:160px">Second slide</div>
+      <div class="aha-slide" style="height:160px">Third slide</div>
+    </aha-carousel>
+  </div>
+</div>
+
+<style>
+  .aha-slide{ display:flex; align-items:center; justify-content:center; box-sizing:border-box; padding:var(--aha-space-24,24px);
+    border-radius:var(--aha-radius-default,8px); background:var(--aha-bg-accent,#E70E680D); color:var(--aha-text-default,#1A1A1A); font-size:14px }
+</style>
+
+<!-- Imports the REAL shipped element (../lib/*.js); no inlined copy, so the preview never drifts from lib/. -->
+<script type="module">
+  import '../lib/aha-carousel.js';   // registers <aha-carousel>
+  const gallery = document.getElementById('gallery');
+  gallery.dotLabel = (position, total) => `Go to image ${position} of ${total}`;
+  gallery.positionText = (position, total) => `Image ${position} of ${total}`;
+</script>

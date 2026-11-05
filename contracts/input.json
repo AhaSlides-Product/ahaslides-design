@@ -13,7 +13,7 @@
   "tokensUsed": ["border", "border-hover", "color-primary", "bg-container", "bg-container-secondary", "bg-container-disabled", "bg-hover", "text-default", "text-tertiary", "text-disabled", "radius-default", "radius-sm", "focus-ring-soft", "border-error", "color-error", "border-warning", "color-warning", "border-disabled"],
   "spec": [
     { "label": "Box", "value": "height 40 (default) · radius 8 · padding 0 12 · 240 wide, full width in a stacked setting row" },
-    { "label": "Sizes", "value": "small 24 · default 40 · large 48 — all radius 8; a settings panel uses default only: small and large are for other product surfaces (large also the audience field), and screen-lint --surface=settings rejects both" },
+    { "label": "Sizes", "value": "small 32 · default 40 · large 48 — all radius 8, the same small as Select; a settings panel uses default only: small and large are for other product surfaces (large also the audience field), and screen-lint --surface=settings rejects both" },
     { "label": "Label", "value": "optional `label` above the field, 4px gap · 14/21 regular 400 (16/24 in the large size) · --aha-text-default (#1A1A1A), the same as the Form label; disabled uses --aha-text-disabled" },
     { "label": "Rest border", "value": "1px #E3E3E3" },
     { "label": "Hover border", "value": "#E70E68 (color-primary)" },
@@ -26,7 +26,8 @@
     { "label": "Readonly", "value": "#F7F7F7 fill, still selectable" },
     { "label": "Affixes", "value": "prefix/suffix icon (by name) or text; clearable circled ✕ (a tertiary icon-only <aha-button>: 16px system-x-circle, 28px target — 20px in the small input); password reveal (eye)" },
     { "label": "Prefix shrink", "value": "opt-in `prefix-shrink`: a text prefix that does not fit truncates with an ellipsis at its end (`start`: at its start, so the end of a URL stays beside the field) and the field keeps at least 96px; a prefix that fits renders as before, and the full text is the prefix's title" },
-    { "label": "Text", "value": "Plus Jakarta 14/21; placeholder #8A8A8A" }
+    { "label": "Text", "value": "Plus Jakarta 14/21; placeholder #616161" },
+    { "label": "From antd", "value": "antd sizes by height: on stock antd heights (controlHeight 32 · SM 24 · LG 40, as the Manage app sets them) antd default (middle) 32 → size=\"small\" 32 · antd size=\"small\" 24 → size=\"small\" 32 (the DS has no 24px field; the row grows 8px) · antd size=\"large\" 40 → default 40; on the DS antd theme (default 40, large 48) small / middle / large map to small / default / large" }
   ],
   "props": [
     { "name": "value", "type": "string", "default": "\"\"", "desc": "Controlled text value" },
@@ -36,7 +37,7 @@
     { "name": "inputmode", "type": "none | text | decimal | numeric | tel | search | email | url", "default": "—", "desc": "Passed to the inner field: picks the phone keyboard without changing the type, so inputmode=\"decimal\" on a text field gives a number keypad and keeps partial input such as 1e or -" },
     { "name": "dir", "type": "auto | ltr | rtl", "default": "—", "desc": "Passed to the inner field. Set dir=\"auto\" on any field for text people type, so an Arabic or Hebrew entry reads right to left while the field keeps its layout" },
     { "name": "select()", "type": "method", "default": "—", "desc": "Selects all the text in the field, as a native input's select() does (e.g. a link or slug field that selects its text on focus for copying)" },
-    { "name": "size", "type": "small | default | large", "default": "default", "desc": "Control height — small 24 · default 40 · large 48 with 16px text on a 24px line (DS V3 field scale); radius stays 8 (sm/md/lg accepted as aliases). Never small or large in a settings panel (default only)" },
+    { "name": "size", "type": "small | default | large", "default": "default", "desc": "Control height — small 32 (padding 0 8, 24px clear button) · default 40 · large 48 with 16px text on a 24px line; radius stays 8 (sm/md/lg accepted as aliases). Never small or large in a settings panel (default only)" },
     { "name": "status", "type": "default | error | warning", "default": "default", "desc": "Border + ring recolour; error also sets aria-invalid (legacy `invalid` boolean = status error). `warning` is a deprecated alias that renders and behaves as error" },
     { "name": "borderless", "type": "boolean", "default": "false", "desc": "No border or fill at rest or on hover, so the value reads as inline text (an inline-edited title or cell); keyboard focus draws the same DS border and 2px focus ring as the bordered field, and an error status keeps its border. Keep the 40px height, or pair with size small, so the row does not jump on focus" },
     { "name": "monospace", "type": "boolean", "default": "false", "desc": "Sets the field text in --aha-font-mono (ids, codes, URLs, keys); size, line height and colours are unchanged" },
@@ -63,7 +64,7 @@
       { "what": "Select", "when": "one value from a known set — don't make the user type it" }
     ],
     "note": "Label the field with a noun phrase; use placeholder for an example, never as the label. Show the error status only after the user leaves the field, and pair it with a message that says how to fix it. Reach for a prefix icon to hint the field's job (a magnifier for search, an envelope for email), a suffix for a fixed unit or domain, clearable for search/filter fields, and password reveal for credentials.",
-    "dsv3": "COVERED — enumerated from the DS V3 Input component-set taxonomy: Input (Size · Status), Components/Input-Affix (prefix/suffix), Input-Addon/Label + Input-Addon/Icon (addons), Password (reveal toggle). Sizes match the measured DS V3 input cells (small/default/large = 24/32/40, radius 8, default 32 = controlHeight root). Error border is the measured error stroke bound to `border-error` (#1A1A1A token; the measured cell reads #1A1A1A, reconciled to the DS error token). Rest border is bound to the `border` token (#E3E3E3): the measured cell reads #D4D4D4, but the reconciled token layer resolves the field border to the export brand gray #E3E3E3 (precedence EXPORT for brand colour), kept consistent across the whole field family (input/select/form/datepicker). Warning status + affixes/clear/reveal follow the same token layer; motion + focus ring on a persistent node."
+    "dsv3": "COVERED — enumerated from the DS V3 Input component-set taxonomy: Input (Size · Status), Components/Input-Affix (prefix/suffix), Input-Addon/Label + Input-Addon/Icon (addons), Password (reveal toggle). The DS V3 input cells measure 24/32/40 (radius 8); the shipped scale is small 32 (the Select small, --aha-control-height-root) · default 40 · large 48. Error border is the measured error stroke bound to `border-error` (#1A1A1A token; the measured cell reads #1A1A1A, reconciled to the DS error token). Rest border is bound to the `border` token (#E3E3E3): the measured cell reads #D4D4D4, but the reconciled token layer resolves the field border to the export brand gray #E3E3E3 (precedence EXPORT for brand colour), kept consistent across the whole field family (input/select/form/datepicker). Warning status + affixes/clear/reveal follow the same token layer; motion + focus ring on a persistent node."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "reuse": { "entry": "./aha-input", "registers": "aha-input", "exportsNamed": ["AhaInput", "defineAhaInput"] },
@@ -93,12 +94,12 @@
     ]
   },
   "selfCheck": [
-    { "label": "height 40 (default) · small 24 · large 48 · radius 8", "verdict": "PASS" },
+    { "label": "height 40 (default) · small 32 · large 48 · radius 8", "verdict": "PASS" },
     { "label": "rest border #E3E3E3", "verdict": "PASS" },
     { "label": "focus #E70E68 border + ring (persistent wrapper)", "verdict": "PASS" },
     { "label": "error #1A1A1A border + aria-invalid; warning renders as error", "verdict": "PASS" },
     { "label": "prefix/suffix affix, clearable ✕, password reveal render", "verdict": "PASS" },
-    { "label": "placeholder #8A8A8A 14/21", "verdict": "PASS" }
+    { "label": "placeholder #616161 14/21", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",

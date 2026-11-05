@@ -30,4 +30,17 @@ const options = [
     :values.prop="recipients"
     @change="recipients = $event.detail.values"
   ></aha-select>
+
+  <!-- Pick several: mode="multiple"; max-count and filter-prop map antd maxCount and optionFilterProp -->
+  <aha-select
+    mode="multiple"
+    show-search
+    allow-clear
+    filter-prop="title"
+    max-count="5"
+    aria-label="Courses"
+    :options.prop="courses"
+    :values.prop="courseIds"
+    @change="courseIds = $event.detail.values"
+  ></aha-select>
 </template>

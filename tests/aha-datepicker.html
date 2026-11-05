@@ -1,0 +1,24 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../lib/tokens.css">
+<aha-datepicker id="plain" value="2026-11-04" min="2026-10-01" max="2026-12-15" locale="en-GB" week-start="1"></aha-datepicker>
+<span id="ext-name">Joined on</span>
+<aha-datepicker id="named" aria-labelledby="ext-name" disabled="false" locale="en-US" week-start="0"></aha-datepicker>
+<form id="form">
+  <aha-form-item id="date-item" label="Joined on" name="joined" required>
+    <aha-datepicker name="joined" value="2026-01-31"></aha-datepicker>
+  </aha-form-item>
+</form>
+<aha-form-item id="bad-item" label="Renewal" name="renewal" required>
+  <aha-datepicker name="renewal" value="2026-02-30"></aha-datepicker>
+</aha-form-item>
+<aha-datepicker id="early" value="0099-11-04" locale="en-GB"></aha-datepicker>
+<script>document.getElementById('early').open = true;</script>
+<script type="module">
+  import '../lib/aha-datepicker.js';
+  import '../lib/aha-form.js';
+  window.log = [];
+  for (const el of document.querySelectorAll('aha-datepicker')) for (const type of ['input', 'change']) el.addEventListener(type, (e) => window.log.push([el.id || 'joined', type, e.detail && e.detail.value]));
+  await customElements.whenDefined('aha-datepicker');
+  window.fixtureReady = true;
+</script>

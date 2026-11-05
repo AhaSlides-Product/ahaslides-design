@@ -24,8 +24,9 @@ function fakeReact() {
   };
 }
 
-const antdNames = ['ConfigProvider', 'Table', 'Button', 'Input', 'InputNumber', 'Checkbox', 'Dropdown', 'Popover', 'Tooltip'];
+const antdNames = ['Radio', 'ConfigProvider', 'Table', 'Button', 'Input', 'InputNumber', 'Checkbox', 'Dropdown', 'Popover', 'Tooltip'];
 const antd = Object.fromEntries(antdNames.map((name) => [name, Object.assign(() => null, { displayName: name })]));
+antd.Radio.Group = Object.assign(() => null, { displayName: 'Radio.Group' });
 
 function find(node, match) {
   if (!node || typeof node !== 'object') return null;
@@ -222,4 +223,52 @@ test('the Edit columns search says when nothing matches and clears when the popo
   popover = renderEditor();
   assert.equal(byTestId(popover.props.content, 'aha-data-table-columns-empty'), null);
   assert.equal(byTestId(popover.props.content, 'aha-data-table-columns-search').props.value, '');
+});
+
+test('a checklist filter with multiple:false sets antd filterMultiple:false and a selection replaces the last', () => {
+  const grid = mount({
+    columns: [
+      { key: 'status', title: 'Status', dataIndex: 'status', filter: { type: 'checklist', options: ['Draft', 'Live'], multiple: false } },
+      { key: 'team', title: 'Team', dataIndex: 'team', filter: { type: 'checklist', options: ['A', 'B'] } },
+    ],
+  });
+  const [status, team] = grid.table().columns;
+  assert.equal(status.filterMultiple, false);
+  assert.equal('filterMultiple' in team, false, 'the default mode leaves the column untouched');
+
+  let selected = ['Draft'];
+  const element = status.filterDropdown({ selectedKeys: selected, setSelectedKeys: (keys) => { selected = keys; }, confirm() {}, clearFilters() {} });
+  const panel = element.type(element.props);
+  const group = find(panel, (node) => node.type === antd.Radio.Group);
+  assert.ok(group, 'single mode renders a radio group');
+  assert.equal(find(panel, (node) => node.type === antd.Checkbox), null);
+  group.props.onChange({ target: { value: 'Live' } });
+  assert.deepEqual(selected, ['Live']);
+});
+
+test('the default checklist still renders checkboxes that accumulate', () => {
+  const grid = mount({ columns: [{ key: 'team', title: 'Team', dataIndex: 'team', filter: { type: 'checklist', options: ['A', 'B'] } }] });
+  let selected = ['A'];
+  const element = grid.table().columns[0].filterDropdown({ selectedKeys: selected, setSelectedKeys: (keys) => { selected = keys; }, confirm() {}, clearFilters() {} });
+  const panel = element.type(element.props);
+  assert.equal(find(panel, (node) => node.type === antd.Radio.Group), null);
+  find(panel, (node) => node.type === antd.Checkbox && node.props.children[0] === 'B').props.onChange({ target: { checked: true } });
+  assert.deepEqual(selected, ['A', 'B']);
+});
+
+test('filter and column panels shift to stay on screen; a column can still override it', () => {
+  const grid = mount({
+    columnsEditable: true,
+    columns: [
+      { key: 'status', title: 'Status', dataIndex: 'status', filter: { type: 'checklist', options: ['A'], multiple: false } },
+      { key: 'team', title: 'Team', dataIndex: 'team', filter: { type: 'checklist', options: ['A'] } },
+      { key: 'age', title: 'Age', dataIndex: 'age', filter: { type: 'range' }, filterDropdownProps: { autoAdjustOverflow: false } },
+    ],
+  });
+  const [status, team, age] = grid.table().columns;
+  assert.deepEqual(status.filterDropdownProps.autoAdjustOverflow, { shiftX: true });
+  assert.deepEqual(team.filterDropdownProps.autoAdjustOverflow, { shiftX: true });
+  assert.equal(age.filterDropdownProps.autoAdjustOverflow, false);
+  const editor = grid.editorElement().type(grid.editor());
+  assert.deepEqual(find(editor, (node) => node.type === antd.Popover).props.autoAdjustOverflow, { shiftX: true });
 });

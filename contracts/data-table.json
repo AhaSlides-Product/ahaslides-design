@@ -30,7 +30,7 @@
   "spec": [
     {
       "label": "Container",
-      "value": "white surface, 1px #E3E3E3 border, radius 8 — wraps the grid"
+      "value": "white surface, 1px #E3E3E3 border, radius 8 — wraps the grid; the border is absorbed by the scroll container (−1px margin), so an empty table never overflows"
     },
     {
       "label": "Header",
@@ -54,7 +54,15 @@
     },
     {
       "label": "Filter",
-      "value": "funnel trigger: a real <button> in the header, reached with Tab, named \"Filter: <column>\" (labels.filterColumn), opens on Enter / Space a role=\"dialog\" panel with the same name, and Escape closes it and returns focus to the trigger; grey → pale pink hover → pale pink open → filled brand when applied; checklist (search + list), min/max range, or one typed value (text, number or date field under the column label; Enter applies; a date field has a Clear button that empties it and puts focus back in the field), Reset + Apply footer"
+      "value": "funnel trigger: a real <button> in the header, reached with Tab, named \"Filter: <column>\" (labels.filterColumn), opens on Enter / Space a role=\"dialog\" panel with the same name, and Escape closes it and returns focus to the trigger; grey → pale pink hover → pale pink open → filled brand when applied; checklist (search + list; multi-select checkboxes, or single-choice DS radios with filter.multiple:false), min/max range, or one typed value (text, number or date field under the column label; Enter applies; a date field has a Clear button that empties it and puts focus back in the field), Reset + Apply footer"
+    },
+    {
+      "label": "Panel placement",
+      "value": "filter panels and the Edit columns panel open at the trigger's bottom-right corner and shift along the viewport edge when they do not fit, so they stay on screen with no page overflow from a 320px viewport up (antd's corner placements only flip). A column can replace this through filterDropdownProps.autoAdjustOverflow"
+    },
+    {
+      "label": "Single-choice filter",
+      "value": "filter: { type: 'checklist', options, multiple: false } — DS radios in the same search + list + Reset / Apply panel: picking an option replaces the last, Reset clears it, the column gets antd filterMultiple:false; multiple defaults to true (checkboxes, unchanged). Needs antd.Radio in createDataTable's antd (only for a column that sets it). Server-side: drive filteredValue + onChange(pagination, filters); filters[key] is a one-item array (['live']) or null, so read filters.status?.[0]"
     },
     {
       "label": "Value filter",
@@ -138,7 +146,7 @@
       "name": "columns",
       "type": "DataTableColumn[]",
       "default": "[]",
-      "desc": "antd columns + key (required for reorder/freeze), help (header (?) tooltip), filter { type:'checklist', options } | { type:'range' } | { type:'value', inputType:'text'|'number'|'date', label? }, hideable:false (locks it in Edit columns and keeps it shown)"
+      "desc": "antd columns + key (required for reorder/freeze), help (header (?) tooltip), filter { type:'checklist', options, multiple? } | { type:'range' } | { type:'value', inputType:'text'|'number'|'date', label? }, hideable:false (locks it in Edit columns and keeps it shown)"
     },
     {
       "name": "dataSource",
@@ -376,7 +384,7 @@
   "conformance": {
     "$about": "Measured by qa.mjs against the doc page's rendered UI (getComputedStyle via headless CDP): the preview mounts the SHIPPED lib/aha-data-table.js, so this measures the real component. The first table is the basic grid; the sorted header/cell come from the Sorting case (Score sorted descending by default).",
     "ready": "!!(document.querySelector('#react-root .ant-table-thead th') && document.querySelector('#react-root th.ant-table-column-sort') && document.querySelector('#react-root .aha-data-table__sort aha-icon'))",
-    "measure": "(function(){var q=function(sel){return document.querySelector('#react-root '+sel);};var g=function(sel,p){var el=q(sel);return el?getComputedStyle(el)[p]:null;};var td='.ant-table-tbody .ant-table-cell';var arrow=q('.aha-data-table__sort aha-icon');return{headerBg:g('.ant-table-thead th','backgroundColor'),headerColor:g('.ant-table-thead th','color'),tdPadTop:g(td,'paddingTop'),tdPadLeft:g(td,'paddingLeft'),tdBorder:g(td,'borderBottomColor'),tdBorderW:g(td,'borderBottomWidth'),containerBorderW:g('.ant-table','borderTopWidth'),containerBorder:g('.ant-table','borderTopColor'),containerRadius:g('.ant-table','borderTopLeftRadius'),sortedHeaderBg:g('th.ant-table-column-sort','backgroundColor'),sortedCellBg:g('td.ant-table-column-sort','backgroundColor'),sortArrow:arrow?arrow.getAttribute('name'):null,dualCaret:String(document.querySelectorAll('#react-root .ant-table-column-sorter-up').length)};})()",
+    "measure": "(function(){var q=function(sel){return document.querySelector('#react-root '+sel);};var g=function(sel,p){var el=q(sel);return el?getComputedStyle(el)[p]:null;};var td='.ant-table-tbody .ant-table-cell';var arrow=q('.aha-data-table__sort aha-icon');return{headerBg:g('.ant-table-thead th','backgroundColor'),headerColor:g('.ant-table-thead th','color'),tdPadTop:g(td,'paddingTop'),tdPadLeft:g(td,'paddingLeft'),tdBorder:g(td,'borderBottomColor'),tdBorderW:g(td,'borderBottomWidth'),containerBorderW:g('.ant-table','borderTopWidth'),containerBorder:g('.ant-table','borderTopColor'),containerRadius:g('.ant-table','borderTopLeftRadius'),sortedHeaderBg:g('th.ant-table-column-sort','backgroundColor'),sortedCellBg:g('td.ant-table-column-sort','backgroundColor'),sortArrow:arrow?arrow.getAttribute('name'):null,dualCaret:String(document.querySelectorAll('#react-root .ant-table-column-sorter-up').length),emptyOverflow:(function(){var s=q('.ant-table-empty .ant-table-content');return s?String(s.scrollWidth-s.clientWidth):null;})()};})()",
     "expect": {
       "headerBg": "rgb(255, 255, 255)",
       "headerColor": "rgb(97, 97, 97)",
@@ -390,7 +398,8 @@
       "sortedHeaderBg": "rgb(255, 255, 255)",
       "sortedCellBg": "rgb(255, 255, 255)",
       "sortArrow": "system-arrow-up",
-      "dualCaret": "0"
+      "dualCaret": "0",
+      "emptyOverflow": "0"
     }
   }
 }

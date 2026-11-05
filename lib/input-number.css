@@ -59,7 +59,7 @@
 :root:root .ant-input-number-group-wrapper .ant-input-number-wrapper > .ant-input-number { border: 0; border-radius: 0; }
 :root:root .ant-input-number-addon, :root:root .ant-input-number-group-addon {
   flex: 0 0 auto; width: auto; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none;
-  font-size: 14px; line-height: 21px; letter-spacing: var(--aha-letter-spacing-paragraph, 0.2px); color: var(--aha-text-placeholder, #999999);
+  font-size: 14px; line-height: 21px; letter-spacing: var(--aha-letter-spacing-paragraph, 0.2px); color: var(--aha-text-placeholder, #616161);
   white-space: nowrap; user-select: none;
 }
 :root:root .ant-input-number-addon:last-child, :root:root .ant-input-number-group-addon:last-child { margin-left: 4px; }

@@ -9,11 +9,11 @@
   "tier": "leaf-lit",
   "badge": "shared web component",
   "element": "aha-select",
-  "summary": "Pick one value from a short, known set (or type free-entry tags) — a lightweight themed combobox field that embeds anywhere.",
+  "summary": "Pick one value, or several as chips, from a known set (or type free-entry tags) — a lightweight themed combobox field that embeds anywhere.",
   "highlights": [
-    "Pick one value from a short, known set",
+    "Pick one value, or several as chips, from a known set",
     "Lightweight themed combobox, embeds anywhere",
-    "Opt-in search, server loading and free-entry tags"
+    "Opt-in search, option groups, server loading and free-entry tags"
   ],
   "lead": "ONE custom element — <aha-select> — defined once, imported unchanged by React and Vue. It is the LEAF counterpart to the composite Select: instead of a virtualised list, it is a styled combobox trigger over a themed listbox with the full keyboard contract built in. CSS lives in the shadow DOM, so both frameworks render byte-identical pixels; theming comes only from --aha-* tokens. Use it to pick one value from a short set and — crucially — to embed a select in a shadow-DOM row (aha-settings-list's control.type \"select\"), where the composite can't reach. The open dropdown is a fully THEMED role=\"listbox\" popup (DS surface, radius 8, elevation shadow, 40px option rows with Select's #F7F7F7 hover row and brand-tint selected row) — not the browser's native <select> list; it's an accessible combobox (Arrow/Home/End, typeahead, Enter/Escape, outside-click). The open list sits in the browser top layer (Popover API, popover=\"manual\"), placed with position:fixed from the control, so an overflow:hidden card, a transform or a z-index ancestor never clips or covers it; it opens above when there is more room there, stays 8px inside the viewport and follows scroll and resize. Without the Popover API it falls back to the same fixed placement.",
   "tokensUsed": [
@@ -47,7 +47,7 @@
     },
     {
       "label": "Placeholder",
-      "value": "#999999 (text-placeholder)"
+      "value": "#616161 (text-placeholder)"
     },
     {
       "label": "Caret",
@@ -69,9 +69,9 @@
   "props": [
     {
       "name": "options",
-      "type": "{ label, value, disabled?, description?, title?, prefix?, suffix?, selectedLabel? }[]",
+      "type": "{ label, value, disabled?, description?, title?, prefix?, suffix?, selectedLabel?, ariaLabel? }[] | { label, options: [...] }[]",
       "default": "[]",
-      "desc": "The selectable set — a JSON `options` attribute or an `.options` property. Optional per option: `disabled`, `description` (a second, smaller line under the label, 12/18 text-secondary), `title` (the row's native tooltip), `prefix` (leading text in the row, such as a flag emoji; hidden from assistive tech), `suffix` (trailing text in tertiary ink, such as a dial code; type-to-filter matches it too) and `selectedLabel` (what the closed trigger shows for this option instead of `label`, like antd optionLabelProp: \"🇬🇧 +44\" for a row reading \"🇬🇧 United Kingdom +44\")"
+      "desc": "The selectable set — a JSON `options` attribute or an `.options` property. Optional per option: `disabled`, `description` (a second, smaller line under the label, 12/18 text-secondary), `title` (the row's native tooltip), `prefix` (leading text in the row, such as a flag emoji; hidden from assistive tech), `suffix` (trailing text in tertiary ink, such as a dial code; type-to-filter matches it too) and `selectedLabel` (what the closed trigger shows for this option instead of `label`, like antd optionLabelProp: \"🇬🇧 +44\" for a row reading \"🇬🇧 United Kingdom +44\"). An entry `{ label, options: [...] }` is an option group: a non-selectable header row (12/18 semibold, text-tertiary) over its options, in every mode; the keyboard skips headers and a filter hides a group with no match (antd options with `options`). Optional `ariaLabel`: the row's accessible name, for a short visible text whose count needs a unit spoken (\"Design, 6 members\" for a row reading \"Design 6\"); without it the row is named by its text"
     },
     {
       "name": "value",
@@ -119,7 +119,7 @@
       "name": "allow-clear",
       "type": "boolean",
       "default": "false",
-      "desc": "Opt-in. Shows a system-x-circle clear button beside the caret while a value is set; a click, or Delete / Backspace on the closed trigger, empties the value and emits `change` and `clear` with {value:''}"
+      "desc": "Opt-in. Shows a system-x-circle clear button beside the caret while a value is set; a click, or Delete / Backspace on the closed trigger, empties the value and emits `change` and `clear` with {value:''}. In mode=\"multiple\" (or tags with options) the × shows while any value is picked, and a click empties `values`"
     },
     {
       "name": "clear-label",
@@ -128,10 +128,16 @@
       "desc": "Accessible name of the allow-clear button"
     },
     {
+      "name": "remove-label",
+      "type": "string",
+      "default": "Remove {label}",
+      "desc": "mode=\"multiple\" or \"tags\": accessible name of each chip's × button. `{label}` is replaced by the chip text; without it the chip text follows the string (\"Xoá\" names the button \"Xoá Design\")"
+    },
+    {
       "name": "show-search",
       "type": "boolean",
       "default": "false",
-      "desc": "Opt-in. Type to filter: opening the popup (or typing on the closed trigger) turns the value area into a text field, an ARIA 1.2 combobox with aria-autocomplete=\"list\". Options are filtered by label (case-insensitive contains); Arrow Up/Down move, Enter picks, Escape and Tab close. Emits `search` with {query}"
+      "desc": "Opt-in. Type to filter: opening the popup (or typing on the closed trigger) turns the value area into a text field, an ARIA 1.2 combobox with aria-autocomplete=\"list\". Options are filtered by label (case-insensitive contains); Arrow Up/Down move, Enter picks, Escape and Tab close. Emits `search` with {query}. In mode=\"multiple\" the inline field becomes the search text"
     },
     {
       "name": "empty-text",
@@ -171,15 +177,15 @@
     },
     {
       "name": "mode",
-      "type": "tags",
+      "type": "tags | multiple",
       "default": "—",
-      "desc": "Opt-in. `tags` turns the field into free-entry values: each value is a closable aha-tag chip before an inline text field, in the same field chrome (size, status, error-message, disabled, placeholder and aria-label apply). Typing a separator, Enter, a paste or leaving the field adds the text (trimmed; an exact duplicate is skipped); Backspace in an empty field removes the last tag; a chip's × removes it. There is no popup and `options` / `value` are not used"
+      "desc": "Opt-in. `multiple` picks several options: each pick is a closable aha-tag chip before an inline field, in the same field chrome, and the list stays open after a pick with checked rows (aria-multiselectable, aria-selected, a system-check glyph). The field is read-only unless `show-search` is set, then typing filters the rows and a pick clears the query. Backspace in an empty field removes the last chip; a chip's × removes it. `tags` turns the field into free-entry values: typing a separator, Enter, a paste or leaving the field adds the text (trimmed; an exact duplicate is skipped). Without `options` there is no popup. With `options` (antd tags mode) the rows are suggestions: typing filters them, Arrow keys move to a row and Enter picks it, and Enter with no row picked adds the typed text. Both modes read `values`, not `value`, and emit `change` with {values}"
     },
     {
       "name": "values",
       "type": "string[]",
       "default": "[]",
-      "desc": "mode=\"tags\" only: the tags, as a `.values` array property or a JSON `values` attribute (controlled; setting it emits no event)"
+      "desc": "mode=\"multiple\" or \"tags\": the picked values, as a `.values` array property or a JSON `values` attribute (controlled; setting it emits no event). A chip shows the matching option's selectedLabel or label, else the value"
     },
     {
       "name": "separators",
@@ -188,22 +194,34 @@
       "desc": "mode=\"tags\" only: the characters that split typed or pasted text into tags; include a space to split on spaces. A pasted list also splits on new lines and tabs"
     },
     {
+      "name": "max-count",
+      "type": "number",
+      "default": "—",
+      "desc": "Opt-in, mode=\"multiple\" or \"tags\" (antd maxCount): once that many values are picked, the rows not yet picked are disabled and new free-entry tags are not added; unpicking one enables them again"
+    },
+    {
+      "name": "filter-prop",
+      "type": "string",
+      "default": "—",
+      "desc": "Opt-in (antd optionFilterProp): the option field that type-to-filter matches, such as \"title\" or \"label\". Unset, the filter matches the label and the suffix. Works with show-search in single and multiple mode, and with tags suggestions"
+    },
+    {
       "name": "change",
       "type": "CustomEvent<{value}> | CustomEvent<{values}>",
       "default": "—",
-      "desc": "Composed event; read e.detail.value. In mode=\"tags\" it fires after every add or remove with e.detail.values (the whole list)"
+      "desc": "Composed event; read e.detail.value. In mode=\"multiple\" or \"tags\" it fires after every add or remove with e.detail.values (the whole list)"
     },
     {
       "name": "clear",
-      "type": "CustomEvent<{value}>",
+      "type": "CustomEvent<{value}> | CustomEvent<{values}>",
       "default": "—",
-      "desc": "Composed event after allow-clear empties the value (value is '')"
+      "desc": "Composed event after allow-clear empties the value (value is ''); in mode=\"multiple\" or \"tags\" with options, detail is {values: []}"
     },
     {
       "name": "search",
       "type": "CustomEvent<{query}>",
       "default": "—",
-      "desc": "Composed event on every keystroke in show-search mode; read e.detail.query. With filter=\"off\" the list is not filtered, so this is how the host loads options from a server"
+      "desc": "Composed event on every keystroke in show-search mode; read e.detail.query. With filter=\"off\" the list is not filtered, so this is how the host loads options from a server. In mode=\"multiple\" with show-search, and in tags mode with options, it also fires as the typed text changes"
     },
     {
       "name": "open",
@@ -234,12 +252,12 @@
       }
     ],
     "note": "Pre-select the recommended default rather than leaving it empty. Keep option labels short and sentence case; keep product nouns — Q&A, Word cloud. This is the leaf half of the hybrid — reach for the composite Select the moment you need several values picked from a list, option groups or a virtualised list; type-to-filter is the opt-in show-search here, server search adds filter=\"off\" and loading, and free-entry tags are mode=\"tags\".",
-    "dsv3": "COVERED — the DS V3 select chrome measured against the Select component set on fileKey MwjvUjVI0HnfwD9EwPXRAy: control 40 · radius 8 · 1px border #E3E3E3 (border-default), size axis small 32 / default 40 / large 48, brand #E70E68 focus border + soft 2px ring (focus-ring-soft, 30% #E70E68), #999999 placeholder, status error #1A1A1A / warning #1A1A1A. This is the LEAF form of that chrome (the composite Select carries the virtualised list and option groups). Token layer: white surface, rest border border-default #E3E3E3, hover border color-primary #E70E68, disabled bg-container-disabled #F1F1F1 / border-disabled #EBEBEB. a11y: a button role=combobox over a role=listbox with Arrow/Home/End, typeahead, Enter and Escape; the border/focus transition lives on the PERSISTENT trigger and the open fade on the persistent listbox, which repopulates in place. The trailing caret is summoned by name via <aha-icon name=\"system-caret-down\">, never an inline glyph."
+    "dsv3": "COVERED — the DS V3 select chrome measured against the Select component set on fileKey MwjvUjVI0HnfwD9EwPXRAy: control 40 · radius 8 · 1px border #E3E3E3 (border-default), size axis small 32 / default 40 / large 48, brand #E70E68 focus border + soft 2px ring (focus-ring-soft, 30% #E70E68), #616161 placeholder, status error #1A1A1A / warning #1A1A1A. This is the LEAF form of that chrome (the composite Select carries the virtualised list and option groups). Token layer: white surface, rest border border-default #E3E3E3, hover border color-primary #E70E68, disabled bg-container-disabled #F1F1F1 / border-disabled #EBEBEB. a11y: a button role=combobox over a role=listbox with Arrow/Home/End, typeahead, Enter and Escape; the border/focus transition lives on the PERSISTENT trigger and the open fade on the persistent listbox, which repopulates in place. The trailing caret is summoned by name via <aha-icon name=\"system-caret-down\">, never an inline glyph."
   },
   "a11y": {
-    "role": "the trigger is a <button role=\"combobox\" aria-haspopup=\"listbox\" aria-expanded> controlling a themed role=\"listbox\"; with show-search the open popup is driven from an <input role=\"combobox\" aria-autocomplete=\"list\"> carrying aria-activedescendant",
-    "keyboard": "Space / Enter / Arrow keys open; Arrow / Home / End move and typeahead jumps in the list; Enter picks; Escape closes without closing a surrounding drawer or modal; Tab closes. show-search: typing filters, Arrow Up/Down move, Enter picks. allow-clear: Delete / Backspace on the closed trigger clears. mode=\"tags\": the text field is the tab stop, Enter or a separator adds a tag, Backspace in an empty field removes the last, each chip's × is a button",
-    "note": "The clear button is tabindex=-1 so the field stays one tab stop; Delete / Backspace is its keyboard path, and it carries an aria-label (clear-label). While loading, the listbox is aria-busy. An option prefix is aria-hidden, so a flag emoji is not read before the country name. In mode=\"tags\" the chips sit in a role=\"list\"."
+    "role": "the trigger is a <button role=\"combobox\" aria-haspopup=\"listbox\" aria-expanded> controlling a themed role=\"listbox\"; with show-search the open popup is driven from an <input role=\"combobox\" aria-autocomplete=\"list\"> carrying aria-activedescendant; in mode=\"multiple\" (and tags with options) the inline <input role=\"combobox\" aria-haspopup=\"listbox\"> controls a role=\"listbox\" with aria-multiselectable=\"true\", each row carrying aria-selected; an option group is a role=\"group\" labelled by its header row",
+    "keyboard": "Space / Enter / Arrow keys open; Arrow / Home / End move and typeahead jumps in the list; Enter picks; Escape closes without closing a surrounding drawer or modal; Tab closes. show-search: typing filters, Arrow Up/Down move, Enter picks. allow-clear: Delete / Backspace on the closed trigger clears. mode=\"tags\": the text field is the tab stop, Enter or a separator adds a tag, Backspace in an empty field removes the last, each chip's × is a button. mode=\"multiple\": Arrow Down / Up open and move, Enter (or Space while not searching) toggles the active row and keeps the list open, Escape and Tab close, Backspace in an empty field removes the last chip. Option groups: Arrow keys move only between options, never onto a header",
+    "note": "The clear button is tabindex=-1 so the field stays one tab stop; Delete / Backspace is its keyboard path, and it carries an aria-label (clear-label). While loading, the listbox is aria-busy. An option prefix is aria-hidden, so a flag emoji is not read before the country name. In mode=\"tags\" the chips sit in a role=\"list\". In mode=\"multiple\" a row disabled by max-count is aria-disabled and skipped by the keyboard."
   },
   "surfaces": [
     "editor",
@@ -274,7 +292,7 @@
       "file": "select-field.vue.txt"
     }
   ],
-  "codeNote": "Same element, same shadow-DOM CSS → identical render. The only per-framework code is binding glue (React < 19 needs the ref wrapper to set `options` as a property; Vue binds `:options.prop` natively). The primitive is defined once in @ahaslides-product/design.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. The only per-framework code is binding glue (React < 19 needs the ref wrapper to set `options` and `values` as properties and to listen for `change`; Vue binds `:options.prop` and `:values.prop` natively). The primitive is defined once in @ahaslides-product/design. antd Select prop map: mode=\"multiple\" → mode=\"multiple\"; mode=\"tags\" → mode=\"tags\" (pass the same options for suggestions; Manage's mode={allowNew ? 'tags' : 'multiple'} maps one to one); value / onChange(values) → .values + change e.detail.values; allowClear → allow-clear; showSearch → show-search; optionFilterProp=\"title\" or \"label\" → filter-prop; maxCount → max-count; options with `options` (OptGroup) → the same group entries; an optionRender trailing count → the option `suffix`; filterOption={false} + onSearch → filter=\"off\" + search; notFoundContent → empty-text; optionLabelProp → option selectedLabel; tokenSeparators → separators. React 18: set `options` and `values` in an effect through a ref (arrays cannot be string attributes), read e.detail.values from a native addEventListener('change') (React 18's onChange does not see a custom event), and pass booleans as present or absent attributes (allow-clear={flag ? '' : undefined}): the element checks only whether the attribute is there, so allow-clear=\"false\" still turns it on.",
   "preview": "select-field.preview.html",
   "playground": {
     "controls": [
@@ -324,7 +342,7 @@
       "verdict": "PASS"
     },
     {
-      "label": "placeholder #999999 when empty",
+      "label": "placeholder #616161 when empty",
       "verdict": "PASS"
     },
     {
@@ -350,7 +368,7 @@
       "border": "rgb(227, 227, 227)",
       "borderWidth": "1px",
       "height": "40px",
-      "placeholder": "rgb(153, 153, 153)",
+      "placeholder": "rgb(97, 97, 97)",
       "listboxRadius": "8px"
     }
   }

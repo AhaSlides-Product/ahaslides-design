@@ -104,6 +104,11 @@ const scenarios = String.raw`(async () => {
   out.horizontal = [name.getAttribute('_layout'), getComputedStyle(name.shadowRoot.querySelector('.item')).display,
     !name.shadowRoot.querySelector('.mark').hidden, key.shadowRoot.querySelector('.optional').hidden, key.shadowRoot.querySelector('.optional').textContent];
 
+  const courses = $('courses-item');
+  const emptyList = await courses.validate();
+  courses.control.values = ['c2'];
+  out.multipleRequired = [emptyList, await courses.validate()];
+
   return out;
 })()`;
 
@@ -130,5 +135,6 @@ test('aha-form validates, wires and submits its items', { skip }, async () => {
   assert.deepEqual(result.editWhileValidating, ['invalid']);
   assert.equal(result.enterWhileLoading, 0);
   assert.deepEqual(result.resetDuringSubmit, ['reset']);
+  assert.deepEqual(result.multipleRequired, ['We need this one.', '']);
   assert.deepEqual(result.horizontal, ['horizontal', 'flex', false, false, '(optional)']);
 });

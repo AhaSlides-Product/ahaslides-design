@@ -94,7 +94,7 @@
       "files": [],
       "label": "bad-example",
       "notes": "Targets C5: a tinted status surface.",
-      "expected_output": "C5 FAILs: status surfaces are tinted red and green. Fix: keep both banners white (the DS alert) and carry the meaning with the icon, the wording and an outline. Overall: NEEDS FIX.",
+      "expected_output": "C5 FAILs: status surfaces are tinted red and green. Fix: use the DS alert, the same neutral grey on every type, and carry the meaning with the icon and the wording. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX"
       ],
@@ -175,11 +175,11 @@
     },
     {
       "id": 9,
-      "prompt": "Review a dashboard. The page and its cards are white (unset). The sidebar is `var(--aha-bg-layout)` and table headers are `var(--aha-bg-container-secondary)`. A selected row is `var(--aha-bg-accent)`, and one 'What is new' panel on the screen is also `var(--aha-bg-accent)`. A failed-import message is the DS alert on white, with an icon and a sentence. There are no gradients, no dark surfaces and no raw colour values.",
+      "prompt": "Review a dashboard. The page and its cards are white (unset). The sidebar is `var(--aha-bg-layout)` and table headers are `var(--aha-bg-container-secondary)`. A selected row is `var(--aha-bg-accent)`, and one 'What is new' panel on the screen is also `var(--aha-bg-accent)`. A failed-import message is the DS alert on its neutral grey fill, with an icon and a sentence. There are no gradients, no dark surfaces and no raw colour values.",
       "files": [],
       "label": "good-control",
       "notes": "Control: every allowed non-white surface, used correctly.",
-      "expected_output": "Every criterion PASSes: white page and cards, grey only beside or inside the page, pale pink for a selected state and one highlighted panel, an untinted status message, no gradients, tokens throughout. Overall: OK TO SHIP.",
+      "expected_output": "Every criterion PASSes: white page and cards, grey only beside or inside the page, pale pink for a selected state and one highlighted panel, a neutral status message, no gradients, tokens throughout. Overall: OK TO SHIP.",
       "assertions": [
         "Overall verdict is OK TO SHIP"
       ],

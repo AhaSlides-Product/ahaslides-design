@@ -1,6 +1,6 @@
 # Keyboard run: presenting view, PR sandbox, Chrome, no mouse after load
 
-Cheatsheet opened with `?`. Rows listed: Next slide (→), Previous slide (←), Timer (T), Hotkeys (?), Exit presenting (Esc).
+Cheatsheet opened with `K`. Rows listed: Next slide (→), Previous slide (←), Timer (T), Hotkeys (K), Exit presenting (Esc).
 
 | Control | State | Key pressed | What happened |
 |---|---|---|---|

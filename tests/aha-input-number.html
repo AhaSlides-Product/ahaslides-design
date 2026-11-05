@@ -1,0 +1,21 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../lib/tokens.css">
+<aha-input-number id="plain" min="-5" max="10" step="0.1"></aha-input-number>
+<aha-input-number id="money" string-mode precision="2" min="0" max="1.005"></aha-input-number>
+<aha-input-number id="big" string-mode value="12345678901234567890.1"></aha-input-number>
+<span id="ext-name">Minimum score</span>
+<aha-input-number id="named" aria-labelledby="ext-name" controls="false" disabled="false" readonly="false" value="3"></aha-input-number>
+<form id="form">
+  <aha-form-item id="age-item" label="Age" name="age" required>
+    <aha-input-number name="age" min="0" max="120" value="30"></aha-input-number>
+  </aha-form-item>
+</form>
+<script type="module">
+  import '../lib/aha-input-number.js';
+  import '../lib/aha-form.js';
+  window.log = [];
+  for (const el of document.querySelectorAll('aha-input-number')) for (const type of ['input', 'change']) el.addEventListener(type, (e) => window.log.push([el.id || 'age', type, e.detail && e.detail.value]));
+  await customElements.whenDefined('aha-input-number');
+  window.fixtureReady = true;
+</script>

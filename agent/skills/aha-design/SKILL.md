@@ -98,7 +98,8 @@ Read the list from the DS each time — surfaces get added.
   pickers and menus its buttons open; anything drawn over a live slide, such as ink annotation) is
   always judged on `canvas` plus `app-shell` C6, plus the product-app baseline and every surface it
   touches, whoever builds it. Canvas C10 covers controls a slide renders itself; every control the
-  host paints there is app-shell C6, proved by a recorded keyboard run.
+  host paints there is app-shell C6, proved by a recorded keyboard run and screenshots of the
+  open cheatsheet (each shortcut panel joined to its control).
 
 ## 3. Build
 
@@ -111,16 +112,19 @@ Read the list from the DS each time — surfaces get added.
    `<aha-field-error>` or `<aha-alert type="error">`, never a `text-red-*` or other status-hue
    utility class (the `status-hue-class` lint, colour rules 7.1 and 7.2).
 4. Every logo (the AhaSlides logo / The Splash, or a third-party brand such as Google, Zoom or
-   Microsoft) comes from the Logo library: `https://design.ahaslides.io/foundations/logo.html`, files at
+   Microsoft) comes from the DS: the AhaSlides logo from the Logo library
+   (`https://design.ahaslides.io/foundations/logo.html`), a third-party brand from the Brand icons in
+   the Icon library (`https://design.ahaslides.io/icons/index.html?family=brand`), files at
    `https://design.ahaslides.io/logo/<file>`. Never redraw one, inline a
    hand-made SVG, recolour it, or substitute an icon or letter tile.
-   A third-party logo in any UI, website headers included, is the greyscale file at rest and its
-   original-colour file (`logo/original/<file>`) on hover and keyboard focus, with the tool's name
-   beside it (the Logo library has the copy-paste pattern); only a page listing other products
-   (Marketplace) shows brand colours at rest. A Log in with Google / Microsoft button shows the
-   brand's glyph from the icon library (`<aha-icon name="system-google-logo">`, `system-microsoft-logo`,
-   default ink) at rest, never the greyscale logo, and the original colour logo (`logo/original/`) on
-   hover and keyboard focus. Colour rule 2.6 has the detail; the `brand-logo-colour` lint fails a
+   A third-party logo in any UI, website headers and page rows included, is its Brand icon
+   (`<aha-icon name="brand-<id>">`, following the icon rules) with no tile or border around it and the
+   tool's name beside it; only a page listing other
+   products (Marketplace) shows the colour logo image, greyscale at rest and in colour on hover and
+   keyboard focus of its card. A provider sign-in button (Sign in with
+   Google / Microsoft / Apple) keeps the provider's full-colour mark (`logo/original/`) at rest and on
+   hover. A Brand icon used as a tab or menu icon takes the item's text colour (pink when active); a
+   navigation-menu logo stays in its ink on hover; social links use Brand icons. Colour rule 2.6 has the detail; the `brand-logo-colour` lint fails a
    brand-colour file or `icon-maintain-color` at rest.
    The top-left brand of any site, microsite, docs site, careers, landing or pricing page, internal
    tool or app header is `<aha-product-lockup product="<name>">` (no `product` when no name is
@@ -178,7 +182,7 @@ Read the list from the DS each time — surfaces get added.
 
 1. **Mechanical gate first** (when the package is installed):
    `node node_modules/@ahaslides-product/design/screen-lint.mjs --surface=<product|canvas|audience|settings|website> <files>`
-   — fix every HARD finding before judging. An `--aha-answer-*` token as a text colour, or on anything that is not an answer, a correct or wrong mark or a result, is HARD (`answer-colour-text`, `answer-colour-context`; colour rules 11.1 and 11.2). A slide type's `presenter.*` is `canvas`, its
+   — fix every HARD finding before judging. An `--aha-answer-*` token as a text colour, or on anything that is not an answer, a correct or wrong mark, a result or one of the two True or False answer buttons (rule 11.1), is HARD (`answer-colour-text`, `answer-colour-context`; colour rules 11.1 and 11.2). A slide type's `presenter.*` is `canvas`, its
    `audience.*` is `audience` and its `settings.*` is `settings` (the `settings-design` skill runs
    that gate). On both slide surfaces a raw
    `<button>` or `role="button"`, `<aha-button size="xl">`, sizing through `::part(button)` or an
