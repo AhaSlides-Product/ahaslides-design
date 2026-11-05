@@ -37,6 +37,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Fixed
 - **Navigation: the open Products panel stays inside the viewport from 992px up.** At 992 to about 1105px the 988px panel lost up to 81px of content to the header's clip. On desktop it now narrows to the viewport width less a 32px gutter either side and shifts left only as far as needed, positioned from its Products item with CSS anchor positioning. From about 1105px the panel is where it was. Browsers without anchor positioning keep the previous placement (#685)
 
+## 0.1044.1 — 2026-11-05
+### Fixed
+- **`<aha-alert>` action wraps below the text in a narrow alert** (#680). The `slot="action"` button stays beside the text while the alert keeps at least 200 px of text beside it, and moves below the text (8 px under it, 6 px small) when it does not. It follows the alert's own width, not the viewport, so a 222 px card no longer squeezes the message to one word per line. Wide alerts look the same as before.
+
 ## 0.1044.0 — 2026-11-05
 ### Added
 - **`brand-whatsapp` icon and the WhatsApp logo** (#682). `<aha-icon name="brand-whatsapp">` joins the Brand family (Phosphor whatsapp-logo, MIT), with the logo in `logo/` (line, original colours and greyscale). Colour rule 2.6a and AGENTS.md now name it for social links in place of `system-whatsapp-logo`, which stays in the registry. New colour-rules change v37.
