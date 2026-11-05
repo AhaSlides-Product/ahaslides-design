@@ -39,6 +39,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Tag: `color="category"` is the ink-only category chip for forum topics and articles: no fill, no border, no padding and no per-category colour square, an optional registry `icon`, sm by default (20px, 12/18 SemiBold, 12px icon) and `size="md"` (24px, 14/20 regular, 16px icon); with `href` its hover turns the label and icon `text-link-hover` #DB005B with no fill. Every existing colour and size renders unchanged (#699)
 - `lib/category-chip.css` (export `./category-chip.css`): the same chip for markup a host owns (`.aha-category-chip`, `--md`, `__icon`, `__label`), and the Discourse mapping: `a.badge-category__wrapper` becomes the md chip and its colour square, Font Awesome glyph and emoji are hidden. The Tag page says how a Discourse theme loads it (#699)
 
+## 0.1054.0 — 2026-11-05
+
+### Added
+- Avatar: a Third-party initials rule. Any initials avatar on a host the DS does not own (a Discourse letter avatar) uses the Initials style already on the contract (bg-accent ground, ink #1A1A1A, SemiBold 600), never a hashed colour; no new value. A new Discourse theme tab carries an initializer that swaps each server-rendered letter-avatar `<img>` for `<aha-avatar name>` (#695)
+
 ## 0.1051.1 — 2026-11-05
 
 ### Fixed
