@@ -165,7 +165,7 @@
       "files": [],
       "label": "bad-example",
       "notes": "C7 — feature with no natural anchor must use PaywallCrownBadge (a real button with an accessible name), not a bespoke glyph",
-      "expected_output": "C7 FAILs. A feature with no natural anchor uses a bespoke, unlabelled LockIcon instead of the crown-badge-only anchor. Fix: use <label>Theme colour <PaywallCrownBadge featureKey=\"custom_theme\" /></label> — the shared PaywallCrownBadge is a real button with an accessible name (default \"Upgrade required. See plans\"); do not invent an ad-hoc lock/crown glyph. Overall: NEEDS FIX.",
+      "expected_output": "C7 FAILs. A feature with no natural anchor uses a bespoke, unlabelled LockIcon instead of the crown-badge-only anchor. Fix: use <label>Theme colour <PaywallCrownBadge featureKey=\"custom_theme\" /></label> — the shared PaywallCrownBadge is a real button with an accessible name (default \"Upgrade required. See details\"); do not invent an ad-hoc lock/crown glyph. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C7 is marked FAIL",

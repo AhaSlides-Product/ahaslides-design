@@ -685,7 +685,7 @@
         {
           "id": "C7",
           "title": "Crown-badge-only anchor used where the feature has no anchor",
-          "test": "**Rule.** When a feature has no natural clickable anchor (e.g. a bare field label), the visible anchor is `<PaywallCrownBadge>` (`<aha-paywall>` with no slotted child), a real focusable `<button>` with an accessible name (default \"Upgrade required. See plans\", `mark-label` to translate). Don't invent a bespoke lock icon or an unlabelled glyph for this job. A control that keeps its own button with the crown beside it has an anchor, its click routed through `toggleLockedPaywall` (C1), so C7 is N/A there; that crown is the same real button with the same accessible name."
+          "test": "**Rule.** When a feature has no natural clickable anchor (e.g. a bare field label), the visible anchor is `<PaywallCrownBadge>` (`<aha-paywall>` with no slotted child), a real focusable `<button>` with an accessible name (default \"Upgrade required. See details\", `mark-label` to translate). Don't invent a bespoke lock icon or an unlabelled glyph for this job. A control that keeps its own button with the crown beside it has an anchor, its click routed through `toggleLockedPaywall` (C1), so C7 is N/A there; that crown is the same real button with the same accessible name."
         }
       ]
     },

@@ -59,7 +59,7 @@ No further buttons, no dismiss link, no multi-paragraph body inside the popover.
 | `slot="body"` | Optional rich body: the same one sentence when it needs a link or emphasis. Replaces `body`; the unlock line and CTAs stay fixed. Slot a link directly (`<a slot="body">`) so it reads white on the dark surface. |
 | `unlock-label` | Optional. The whole unlock line in the user's language; `{plan}` becomes the bold plan name. |
 | `plan-label` | Optional. The displayed plan name ("Pro plan" by default), for translation. |
-| `mark-label` | Optional. The accessible name of the crown upgrade mark ("Upgrade required. See plans" by default), for translation. Applies only when the mark is the anchor. |
+| `mark-label` | Optional. The accessible name of the crown upgrade mark ("Upgrade required. See details" by default), for translation. Applies only when the mark is the anchor. |
 | `show-plans` | Optional boolean, off by default. Adds the secondary **See all plans** button beside Upgrade; without it the button is hidden and the footer is Upgrade alone. |
 | `plans-label` / `plans-url` | Optional. The See all plans label and destination; they apply only with `show-plans`. |
 | `trigger` | `'click'` (default) or `'hover'`. |
@@ -108,7 +108,7 @@ The upsell funnel's denominator and conversion — never gate a feature without 
 
 When a feature has no natural clickable anchor (e.g. a field label), use
 `<PaywallCrownBadge>` as the visible anchor (`<aha-paywall>` with no slotted child). The mark is a
-real focusable `<button>` with an accessible name (default "Upgrade required. See plans";
+real focusable `<button>` with an accessible name (default "Upgrade required. See details";
 `mark-label` translates it). *(`PAYWALL-02`, `PAYWALL-08`)*
 
 ## Crown beside its own button

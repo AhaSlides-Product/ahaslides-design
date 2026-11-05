@@ -9,7 +9,7 @@
 <aha-paywall
   feature-key="streak_bonus"
   feature-label="Streak answer bonus point"
-  body="Let the participants play quiz and be ranked as teams instead of being ranked individually."
+  body="Give bonus points to participants who answer correctly several times in a row."
   required-plan="pro">
   <button>Streak bonus</button>   <!-- the gated affordance (omit for a crown upgrade-mark anchor) -->
 </aha-paywall>

@@ -193,7 +193,7 @@ test('close() and Escape return focus to the element that opened the popover, fa
   assert.equal(result.connectedOpen, 'late', 'an element connected already open records its opener');
   assert.equal(result.hoverOpened, true);
   assert.equal(result.hoverFocus, 'body', 'close() on a hover-opened popover leaves focus alone');
-  assert.equal(result.emptyLabel, 'Upgrade required. See plans', 'an empty mark-label keeps the default name');
+  assert.equal(result.emptyLabel, 'Upgrade required. See details', 'an empty mark-label keeps the default name');
 });
 
 const drawerPage = `<!doctype html><body style="margin:0;height:100px;overflow:hidden">
