@@ -582,6 +582,27 @@
       "lineFetched": "2026-11-02"
     },
     {
+      "id": "tiktok",
+      "name": "TikTok",
+      "category": "Brands",
+      "file": "tiktok.svg",
+      "originalFile": "original/tiktok.svg",
+      "originalFetched": "2026-11-05",
+      "sourceUrl": "https://thesvg.org/icons/tiktok/default.svg",
+      "sourcePage": "https://thesvg.org/icon/tiktok",
+      "fetched": "2026-11-05",
+      "usedIn": "AhaSlides Community footer (Discourse theme)",
+      "section": "Community and social",
+      "environment": [
+        "product"
+      ],
+      "line": "line/tiktok.svg",
+      "lineSource": "Phosphor Icons regular (MIT): tiktok-logo",
+      "lineSourceUrl": "https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/regular/tiktok-logo.svg",
+      "lineSourcePage": "https://phosphoricons.com/?q=tiktok-logo",
+      "lineFetched": "2026-11-05"
+    },
+    {
       "id": "medium",
       "name": "Medium",
       "category": "Brands",

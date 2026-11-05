@@ -33,9 +33,17 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1030.0 — 2026-11-05
+## 0.1037.0 — 2026-11-05
 ### Fixed
 - **Navigation: the closed Products panel no longer widens the page.** The 988px panel is hidden with `visibility` only, so it still took layout width and, from 992 to about 1100px, pushed the page past the viewport (`scrollWidth` 1073 at 1024). `.aha-header` now has `overflow-x:clip`, so the section clips its own panels and the host page needs no `overflow-x` stopgap. Open and close transitions are unchanged. The Products panel opened at 992 to 1073px is clipped at the viewport edge, as it was with the stopgap (#PR)
+
+## 0.1033.0 — 2026-11-05
+### Changed
+- **`aha-input` is tagged for the `web` environment** (#677). Website pages (blog newsletter and search fields) now get `aha-input` from the web route in `llms.txt`; the contract keeps `product` and `audience`. No change to the element.
+
+## 0.1029.0 — 2026-11-05
+### Added
+- **`brand-tiktok` icon and the TikTok logo** (#676). `<aha-icon name="brand-tiktok">` joins the Brand family for social links (AhaSlides Community footer), with the logo in `logo/` (line, original colours and greyscale). WhatsApp needs no new icon: it stays `system-whatsapp-logo`, and the social-links lists in AGENTS.md and colour rule 2.6a now name `brand-tiktok`.
 
 ## 0.1028.0 — 2026-11-05
 ### Changed
