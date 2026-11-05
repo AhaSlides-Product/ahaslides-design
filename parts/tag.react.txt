@@ -31,4 +31,5 @@ function AhaTag({ color, size, bordered, icon, href, target, rel, closable, chec
 <AhaTag color="branding">New</AhaTag>
 <AhaTag href="/blog/category/polls">Polls</AhaTag>
 <AhaTag checkable size="large" onChange={(on) => setFilter(on)}>Filter chip</AhaTag>
+<AhaTag color="category" size="md" icon="system-tag" href="/c/tips">Tips and tricks</AhaTag>
 <AhaTag checkable controlled checked={filter} onChange={(on) => setFilter(on)}>Quizzes only</AhaTag>

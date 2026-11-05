@@ -7,7 +7,7 @@
   "badge": "shared web component",
   "element": "aha-tag",
   "summary": "A small label chip for a category, keyword, or state — filled or bordered, with an icon, a dismiss ×, or a checkable toggle.",
-  "highlights": ["Small label chip for a category, keyword or state", "Filled or bordered", "Icon, dismiss button or checkable toggle"],
+  "highlights": ["Small label chip for a category, keyword or state", "Filled, bordered or the ink-only category chip", "Icon, dismiss button or checkable toggle"],
   "lead": "ONE custom element — <aha-tag> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens. The DS V3 Tag is a family: a semantic `color` preset (neutral · primary · solid · branding · success · processing · warning · error), a filled (default) or `bordered` outlined shape, a `size=\"large\"` (36px) for filter chips, an optional leading `icon` (by name from the DS icon library), a `closable` × that animates out then removes + emits a composed `close`, and an opt-in `href` (with `target` / `rel`) that renders a real focusable link for a category tag that navigates, a `checkable` toggle flavour carrying a selected state (aria-pressed) that emits `change` (it flips its own `checked` on click; add `controlled` when the host owns `checked`). Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper for the `close`/`change` events; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["gray-15", "border-input", "radius-default", "gray-30", "text-secondary", "bg-container", "border", "bg-accent", "color-primary", "text-default", "text-inverse", "bg-positive", "text-positive", "border-success", "bg-informative", "text-link", "text-link-hover", "color-primary-hover", "border-info", "bg-warning", "text-warning", "border-warning", "bg-negative", "text-negative", "border-error", "border-focus", "radius-xs"],
@@ -23,11 +23,14 @@
     { "label": "Bordered", "value": "white surface + a coloured 1px hairline (the outlined DS V3 flavour)" },
     { "label": "Closable", "value": "12px system-x ✕ in #8A8A8A, #1A1A1A on bg-hover over 100ms (the shared ✕ colours at chip size); animates out (scale + fade, motion-mid) then removes + emits close" },
     { "label": "Link", "value": "`href` renders the chip as an <a>; focus-visible ring 2px border-focus; hover border Vivid Pink #E70E68, and for neutral, primary and branding the bg-accent fill with a text-link-hover #DB005B label (4.65:1, as the checkable hover); solid darkens to color-primary-hover. Same box and type as the plain tag" },
+    { "label": "Category", "value": "color=\"category\": ink only, no fill, no border, no padding and no per-category colour square. sm (default): height 20, SemiBold 600 12/18, 4px gap to a 12px icon. size=\"md\": height 24, regular 400 14/20, 6px gap to a 16px icon. Label text-secondary #4A4A4A (8.9:1 on white); icon optional, registry only, icon-default #4A4A4A. With href: hover turns label and icon text-link-hover #DB005B (4.65:1) with no fill; focus-visible ring 2px border-focus" },
+    { "label": "Category on host markup", "value": "lib/category-chip.css (export ./category-chip.css) draws the same chip on markup the host owns: .aha-category-chip (+ .aha-category-chip--md) on the link, .aha-category-chip__icon on an <aha-icon>, .aha-category-chip__label on the name. Use the element wherever the host can render it, the CSS layer only where the host renders its own links" },
+    { "label": "Discourse", "value": "Use the CSS layer: add lib/category-chip.css from jsDelivr (gh/ahaslides-product/ahaslides-design@v<version>/lib/category-chip.css, pinned) to the theme's head. It maps a.badge-category__wrapper to the md chip, span.badge-category to its inner row and span.badge-category__name to the label, and hides everything that is not ink: the --style-square and --has-parent colour squares (::before), the --style-icon Font Awesome glyph (.d-icon) and the --style-emoji image. Set each category's badge style to square in Discourse admin. A category that needs an icon renders <aha-tag color=\"category\" size=\"md\" icon=\"…\" href=\"…\"> from a plugin outlet, never a Font Awesome icon" },
     { "label": "Checkable", "value": "outlined toggle; checked → brand fill #E70E68 / white label; aria-pressed synced. size=\"large\" filter chip: rest gray-15 #FAFAFA fill, border-input #D4D4D4 border, text-default label; checked Vivid Pink at 5% #E70E680D fill with a Vivid Pink #E70E68 border and a text-link-hover #DB005B label (4.65:1; Vivid Pink #E70E68 is 4.16:1 on that fill), as the secondary button hover. Flips its own checked on click unless `controlled`" }
   ],
   "props": [
-    { "name": "color", "type": "neutral | primary | solid | branding | success | processing | warning | error", "default": "neutral", "desc": "Semantic tone preset (alias: `variant`); solid is a Vivid Pink fill with a white label; branding is the pink \"New\" label" },
-    { "name": "size", "type": "default | large", "default": "default", "desc": "large = 36px filter chip (14px regular text, 12px padding, 8px radius); default = the 20px label" },
+    { "name": "color", "type": "neutral | primary | solid | branding | success | processing | warning | error | category", "default": "neutral", "desc": "Semantic tone preset (alias: `variant`); solid is a Vivid Pink fill with a white label; branding is the pink \"New\" label; category is the ink-only category chip (no fill, no border, no per-category colour)" },
+    { "name": "size", "type": "default | large | md", "default": "default", "desc": "large = 36px filter chip (14px regular text, 12px padding, 8px radius); default = the 20px label; md = the 24px category chip (color=\"category\" only: 14/20 regular, 16px icon), whose default is the 20px sm" },
     { "name": "bordered", "type": "boolean", "default": "false", "desc": "Outlined shape — white surface + a coloured 1px hairline instead of the filled tint" },
     { "name": "icon", "type": "string", "default": "—", "desc": "Leading DS icon name, e.g. system-tag (resolved via <aha-icon>)" },
     { "name": "closable", "type": "boolean", "default": "false", "desc": "Shows a dismiss × that animates out, removes the tag, and emits close" },
@@ -45,9 +48,10 @@
     "whenToUse": [
       { "what": "Tag", "when": "labelling content with a category/keyword, or showing a non-urgent state inline" },
       { "what": "Badge", "when": "a count or a status dot attached to another element" },
-      { "what": "Button", "when": "the chip should trigger an action — a Tag is a label, not a control" }
+      { "what": "Button", "when": "the chip should trigger an action — a Tag is a label, not a control" },
+      { "what": "Tag color=\"category\"", "when": "naming the category a forum topic, post or article sits in, beside its title or in a list row; with href it links to that category" }
     ],
-    "note": "Keep tag text to one or two words, sentence case. Colour carries meaning — reserve success/processing/warning/error for real states, not decoration. Use `href` when the tag navigates (a blog category): a link, not a button. Use `closable` for user-removable keywords; use `checkable` for an inline filter toggle. For the state of a domain object, or read-only information beside it (a counter, a slide type), use Status badge (`<aha-status-badge>`), not a Tag.",
+    "note": "Keep tag text to one or two words, sentence case. Colour carries meaning — reserve success/processing/warning/error for real states, not decoration. Use `href` when the tag navigates (a blog category): a link, not a button. Use `closable` for user-removable keywords; use `checkable` for an inline filter toggle. For the state of a domain object, or read-only information beside it (a counter, a slide type), use Status badge (`<aha-status-badge>`), not a Tag. A forum category is `color=\"category\"`: ink only, the name tells categories apart, never a per-category colour square (sm in dense meta rows, md beside a title or in a list row).",
     "dsv3": "COVERED — enumerated from the DS V3 Tag component sets (`Tag` + `Tag/Outlined`, fileKey MwjvUjVI0HnfwD9EwPXRAy) and the measured `tag|*` / `tagz|*` reference cells. The measured `tag` cell is an OUTLINED chip (radius 4, 1px border #D4D4D4, rest→hover→active tinting toward color-primary) — captured here as the `bordered` shape. The filled tint flavour (neutral/primary/success/processing/warning/error) is the DS label-chip form derived from the bg/text positive·informative·warning·negative token families. `icon` (leading system glyph), `closable` (system-x ✕ with animate-out + composed close), and `checkable` (the selectable toggle with a brand-fill checked state + aria-pressed + composed change) complete the matrix. Radius from the 4/6/8/12/16 scale (radius-xs). Motion bound to the shared motion tokens on persistent nodes — the checked flip and the close collapse both animate; the checked toggle syncs on the persistent chip (no subtree rebuild). Not-yet-modelled: the five discrete tagz sizes (xs/sm/md/lg/xl) — this element ships the h24 label size plus `size=\"large\"` (h36, the filter chip); the intermediate tagz sizes remain unmodelled."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
@@ -68,11 +72,13 @@
         { "label": "Success", "value": "success" },
         { "label": "Processing", "value": "processing" },
         { "label": "Warning", "value": "warning" },
-        { "label": "Error", "value": "error" }
+        { "label": "Error", "value": "error" },
+        { "label": "Category", "value": "category" }
       ] },
       { "prop": "size", "label": "Size", "options": [
         { "label": "Default", "value": null },
-        { "label": "Large", "value": "large" }
+        { "label": "Large", "value": "large" },
+        { "label": "Md (category)", "value": "md" }
       ] },
       { "prop": "bordered", "label": "Shape", "options": [
         { "label": "Filled", "value": null },
@@ -96,7 +102,8 @@
     { "label": "bordered shape = white surface + coloured 1px hairline", "verdict": "PASS" },
     { "label": "closable × (system-x) animates out then removes + emits close", "verdict": "PASS" },
     { "label": "`href` renders a real <a> (focusable, :focus-visible ring, hover state); without href the chip is the same span as before", "verdict": "PASS" },
-    { "label": "checkable toggle: brand-fill checked, aria-pressed synced on persistent node, emits change; `controlled` leaves checked to the host", "verdict": "PASS" }
+    { "label": "checkable toggle: brand-fill checked, aria-pressed synced on persistent node, emits change; `controlled` leaves checked to the host", "verdict": "PASS" },
+    { "label": "category: no fill, no border, no padding, text-secondary label; md 24px 14/20 with a 16px icon; category-chip.css draws the same box on host markup", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. Probe = a primary filled tag with a leading icon + a closable sibling.",

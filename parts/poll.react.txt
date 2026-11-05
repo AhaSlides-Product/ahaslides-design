@@ -1,0 +1,27 @@
+import { useEffect, useRef } from 'react';
+import '@ahaslides-product/design/aha-poll';   // registers <aha-poll> (+ radio, checkbox, button, progressbar)
+
+// A plain custom element: options, counts and value are JSON attributes; `vote` is a DOM event.
+function Poll({ poll, onVote }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    const handler = (e) => onVote(e.detail.values);
+    el.addEventListener('vote', handler);
+    return () => el.removeEventListener('vote', handler);
+  }, [onVote]);
+  return (
+    <aha-poll
+      ref={ref}
+      poll-title={poll.title}
+      options={JSON.stringify(poll.options)}
+      counts={JSON.stringify(poll.counts)}
+      voters={poll.voters}
+      value={JSON.stringify(poll.myVote ?? [])}
+      selection-mode={poll.multiple ? 'multiple' : 'single'}
+      results="on-vote"
+      status={poll.closed ? 'closed' : 'open'}
+      voted={poll.myVote ? '' : undefined}
+    />
+  );
+}

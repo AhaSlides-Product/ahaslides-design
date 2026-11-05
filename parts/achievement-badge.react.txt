@@ -1,0 +1,20 @@
+import '@ahaslides-product/design/aha-achievement-badge';   // registers <aha-achievement-badge> (+ <aha-icon>, <aha-tag>)
+
+// A plain custom element: every prop is an attribute, so no wrapper is needed.
+function AchievementBadge({ badge }) {
+  return (
+    <aha-achievement-badge
+      icon={badge.icon}
+      badge-title={badge.name}
+      href={badge.url}
+      tier={badge.tier}
+      description={badge.description}
+      granted={badge.grantedLabel}
+      datetime={badge.grantedAt}
+      grant-count={badge.grantCount}
+    />
+  );
+}
+
+// usage
+<div className="badge-grid">{badges.map((b) => <AchievementBadge key={b.id} badge={b} />)}</div>

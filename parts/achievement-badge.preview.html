@@ -1,0 +1,61 @@
+<div class="pad">
+  <div class="lbl">Achievement badges (gold, silver, bronze: the tier is the label, every glyph is ink)</div>
+  <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap:16px; max-width:960px">
+    <aha-achievement-badge data-probe icon="system-user" badge-title="Leader" href="#leader" tier="gold"
+      description="Global edit, pin, close, archive, split and merge, more likes"
+      granted="3 Oct 2026" datetime="2026-10-03" grant-count="4"></aha-achievement-badge>
+    <aha-achievement-badge icon="system-certificate" badge-title="Regular" href="#regular" tier="silver"
+      description="Recategorise, rename, followed links, wiki, more likes" grant-count="86"></aha-achievement-badge>
+    <aha-achievement-badge icon="system-medal" badge-title="New user of the month" href="#nuotm" tier="bronze"
+      description="Outstanding contributions in their first month" granted="1 Nov 2026" datetime="2026-11-01"></aha-achievement-badge>
+    <aha-achievement-badge icon="system-heart-straight" badge-title="Welcome" href="#welcome"
+      description="Received a like"></aha-achievement-badge>
+  </div>
+</div>
+
+<div class="pad">
+  <div class="lbl">Discourse markup with the class layer (lib/achievement-badge.css, as a Discourse theme loads it)</div>
+  <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap:16px; max-width:960px">
+    <div class="badge-card --badge-medium">
+      <div class="badge-contents">
+        <span class="badge-icon badge-type-gold"><aha-icon name="system-user" size="32" decorative></aha-icon></span>
+        <div class="badge-info">
+          <div class="badge-info-item">
+            <h3><a class="badge-link" href="#leader-host">Leader</a></h3>
+            <div class="badge-summary">Global edit, pin, close, archive, split and merge, more likes <a href="#granted">Granted</a></div>
+          </div>
+        </div>
+      </div>
+      <div class="grant-count">4 granted</div>
+    </div>
+    <div class="badge-card --badge-medium">
+      <div class="badge-contents">
+        <span class="badge-icon badge-type-bronze"><aha-icon name="system-medal" size="32" decorative></aha-icon></span>
+        <div class="badge-info">
+          <div class="badge-info-item">
+            <h3><a class="badge-link" href="#nuotm-host">New user of the month</a></h3>
+            <div class="badge-summary">Outstanding contributions in their first month</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="pad">
+  <div class="lbl">Inline badge pills (.user-badge) and the unread marker: an &lt;aha-badge dot&gt;, not a Font Awesome circle</div>
+  <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center">
+    <a class="user-badge badge-type-gold" href="#leader"><aha-icon name="system-user" size="12" decorative></aha-icon><span class="badge-display-name">Leader</span></a>
+    <a class="user-badge badge-type-bronze" href="#welcome"><aha-icon name="system-heart-straight" size="12" decorative></aha-icon><span class="badge-display-name">Welcome</span></a>
+    <span style="display:inline-flex; align-items:center; gap:8px">Latest <aha-badge dot></aha-badge></span>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element (../lib/aha-achievement-badge.js) and the generated class layer
+     (../lib/achievement-badge.css) — no inlined copy, so the preview can never drift from lib/. -->
+<link rel="stylesheet" href="../lib/achievement-badge.css">
+<script type="module">
+  import '../lib/icons.js';
+  import '../lib/aha-badge.js';
+  import '../lib/aha-achievement-badge.js';
+</script>
