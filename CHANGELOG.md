@@ -36,8 +36,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.1066.0 — 2026-11-05
 
 ### Added
-- Profile header: `<aha-profile-header>`, the top of a person's profile page (144px avatar, 96px under 600px wide; the name at the h3 size, SemiBold 600; the username in text-secondary; a sentence-case details list) with `actions`, `stats` and `nav` slots for `<aha-button>`, a row of `<aha-statistic>` and `<aha-tabs>`. `variant="card"` is the same header as a user card. It reuses `<aha-avatar>` (#PR)
-- `lib/discourse-profile.css` restyles Discourse's own profile page and user card on the same values (names and stat figures SemiBold, never Bold; section titles without uppercase); the Profile header page has a Discourse tab with the class map and the Admin text overrides that make the profile labels sentence case (#PR)
+- Profile header: `<aha-profile-header>`, the top of a person's profile page (144px avatar, 96px under 600px wide; the name at the h3 size, SemiBold 600; the username in text-secondary; a sentence-case details list) with `actions`, `stats` and `nav` slots for `<aha-button>`, a row of `<aha-statistic>` and `<aha-tabs>`. `variant="card"` is the same header as a user card. It reuses `<aha-avatar>` (#703)
+- `lib/discourse-profile.css` restyles Discourse's own profile page and user card on the same values (names and stat figures SemiBold, never Bold; section titles without uppercase); the Profile header page has a Discourse tab with the class map and the Admin text overrides that make the profile labels sentence case (#703)
 
 ## 0.1059.0 — 2026-11-05
 
