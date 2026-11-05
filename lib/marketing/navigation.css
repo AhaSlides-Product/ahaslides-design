@@ -146,6 +146,11 @@
 }
 .aha-header__language-entry:hover{background:var(--aha-bg-accent)}
 @keyframes aha-header-drop{from{opacity:0;transform:translateY(calc(-1 * var(--aha-space-32)))}to{opacity:1;transform:none}}
+@container aha-header (min-width:992px) and (max-width:1099px){
+  .aha-header__nav{padding-inline:var(--aha-space-24)}
+  .aha-header__actions,.aha-header__buttons{gap:var(--aha-space-8)}
+  .aha-header__link{padding-inline:var(--aha-space-8)}
+}
 @container aha-header (max-width:991px){
   .aha-header__toggle{display:inline-flex}
   .aha-header__drawer{

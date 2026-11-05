@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1050.5 — 2026-11-05
+
+### Fixed
+- **Site navbar no longer clips "Sign up" from 992px to 1099px.** In that band the bar gets 24px side padding, 8px link padding and 8px action gaps, so the Log in and Sign up buttons stay inside it; 1100px and wider is unchanged. The inline script now asks whether the hamburger toggle is displayed instead of comparing against a fixed 991px, so a host page that raises the breakpoint keeps click-to-open in the drawer. Copy: the Solutions menu and the Footer say "Microsoft Teams" instead of "MS Teams"; "Reports & analytics" and "Training & workshops" were already plural on master (DESY-505, #PRNUM)
+
 ## 0.1050.4 — 2026-11-05
 
 ### Fixed
