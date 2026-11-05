@@ -14,6 +14,8 @@
   <aha-tag bordered color="processing">Scheduled</aha-tag>
   <aha-tag closable id="kw">Marketing</aha-tag>
   <aha-tag color="branding">New</aha-tag>
+  <aha-tag href="/blog/category/polls">Polls (link)</aha-tag>
+  <aha-tag color="primary" href="https://example.com/quizzes" target="_blank">Quizzes (new tab)</aha-tag>
   <aha-tag checkable checked id="filter">Quizzes only</aha-tag>
   <aha-tag checkable size="large">Filter chip (36px)</aha-tag>
 </div>
