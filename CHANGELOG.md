@@ -39,6 +39,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Fixed
 - **Footer social links use Brand icons, and the DMCA badge links to DMCA.com** (#682). WhatsApp, LinkedIn, YouTube, Facebook, Instagram and Reddit take `brand-*` icons (colour rule 2.6a) instead of `system-*-logo` and `slidetype-youtube`; email and Help Centre keep their system glyphs. The DMCA badge links to AhaSlides' DMCA.com protection status page instead of the G2 reviews page. `docs/landing-webflow-scan.md` items 38 and 40 updated. Supersedes the Footer part of #349.
 
+## 0.1041.0 — 2026-11-05
+### Added
+- **Voice rule 7.2: the opinion bank** (#683). Rule 7.2 points every external writer at the brand director's opinion bank from `voice-rules.md`, with the use rule: lead with the supporting opinion, at most one per piece, only when it fits, check the product before naming a feature, and the voice rules still win on wording.
+
 ## 0.1040.0 — 2026-11-05
 
 ### Fixed
