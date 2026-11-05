@@ -16,10 +16,13 @@ const scenarios = String.raw`(() => {
   out.markupNodes = q('.aha-achievement-badge__title').children.length + q('.aha-achievement-badge__description').children.length;
   out.tier = q('aha-tag').textContent;
   out.iconColor = getComputedStyle(q('.aha-achievement-badge__icon')).color;
+  out.iconWidth = Math.round(q('.aha-achievement-badge__icon').getBoundingClientRect().width);
 
   const card = q('.aha-achievement-badge');
   host.setAttribute('tier', 'platinum');
   out.unknownTierHidden = q('aha-tag').hidden;
+  host.setAttribute('tier', 'constructor');
+  out.inheritedTierHidden = q('aha-tag').hidden && q('aha-tag').textContent === '';
   host.setAttribute('tier', 'Bronze');
   out.bronze = q('aha-tag').textContent;
   host.setAttribute('grant-count', '1204');
@@ -37,7 +40,9 @@ test('aha-achievement-badge renders host text as text, tiers as labels, and upda
   assert.equal(r.markupNodes, 0);
   assert.equal(r.tier, 'Gold');
   assert.equal(r.iconColor, 'rgb(26, 26, 26)');
+  assert.equal(r.iconWidth, 32);
   assert.equal(r.unknownTierHidden, true);
+  assert.equal(r.inheritedTierHidden, true);
   assert.equal(r.bronze, 'Bronze');
   assert.equal(r.count, '1,204 granted');
   assert.equal(r.metaHidden, true);

@@ -1,4 +1,4 @@
-import '@ahaslides-product/design/aha-achievement-badge';   // registers <aha-achievement-badge> (+ <aha-tag>; <aha-icon> comes from icons.js)
+import '@ahaslides-product/design/aha-achievement-badge';   // registers <aha-achievement-badge> (+ <aha-icon>, <aha-tag>)
 
 // A plain custom element: every prop is an attribute, so no wrapper is needed.
 function AchievementBadge({ badge }) {
