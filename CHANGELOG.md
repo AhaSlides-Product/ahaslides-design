@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1029.0 — 2026-11-05
+### Added
+- **`brand-tiktok` icon and the TikTok logo** (#NNN). `<aha-icon name="brand-tiktok">` joins the Brand family for social links (AhaSlides Community footer), with the logo in `logo/` (line, original colours and greyscale). WhatsApp needs no new icon: it stays `system-whatsapp-logo`, and the social-links lists in AGENTS.md and colour rule 2.6a now name `brand-tiktok`.
+
 ## 0.1028.0 — 2026-11-05
 ### Changed
 - **Colour rules 11.1, 11.2 and 11.3: the True or False exceptions are withdrawn** (#675). Green and red mark correct and wrong answers only. The two True or False answer buttons are no longer filled with the answer pair, the result stamp word is default ink again, and rule 11.3 lists the tick or cross disc, an answer row's edge and the correct column of a result chart. Withdrawn on 5 Nov at Lan's request in SLPV-260, undoing v31 (0.990.0, 0.996.1) and v35 (0.1025.0); those change-log entries stay. `screen-lint` no longer accepts a True or False button selector or a result stamp as an answer context, so those fail `answer-colour-context` and `answer-colour-text` again. Colour criteria C1 and C5, canvas C2 and C19, audience C31, feedback C2, the answer token note, the README and the aha-design skill say the same; colour eval cases 17 to 22 now expect NEEDS FIX for green or red True or False buttons and stamp words. New colour-rules change v36.

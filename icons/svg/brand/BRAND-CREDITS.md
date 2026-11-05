@@ -2,7 +2,7 @@
 
 Third-party brand logos as icons: `<aha-icon name="brand-<id>">`, one per entry in `logo/manifest.json` that has a line logo. They follow the icon rules (stroke by size, `currentColor` ink, sizes 12, 16, 24 and 32).
 
-From Phosphor Icons Regular (MIT), the stroke source `raw/regular/<name>.svg` at https://github.com/phosphor-icons/core/tree/2b75f3ad12b420c9504ef05df8d2564a28f8500e/raw/regular, fetched 2026-11-04, with Phosphor's 256 bounding box dropped, dots filled, transforms baked into the path and the ink set to #4A4A4A (19):
+From Phosphor Icons Regular (MIT), the stroke source `raw/regular/<name>.svg` at https://github.com/phosphor-icons/core/tree/2b75f3ad12b420c9504ef05df8d2564a28f8500e/raw/regular, fetched 2026-11-04, with Phosphor's 256 bounding box dropped, dots filled, transforms baked into the path and the ink set to #4A4A4A (20):
 - brand-google: google-logo
 - brand-microsoft-powerpoint: microsoft-powerpoint-logo
 - brand-microsoft-teams: microsoft-teams-logo
@@ -22,6 +22,7 @@ From Phosphor Icons Regular (MIT), the stroke source `raw/regular/<name>.svg` at
 - brand-x: x-logo
 - brand-reddit: reddit-logo
 - brand-medium: medium-logo
+- brand-tiktok: tiktok-logo
 
 Stand-ins drawn in the same line style (256 grid, 16-unit stroke, round caps and joins) because Phosphor has no logo for the brand; the same shapes as `logo/line/<id>.svg` (10):
 - brand-microsoft
