@@ -33,11 +33,19 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1055.0 — 2026-11-05
+## 0.1061.0 — 2026-11-05
 
 ### Added
 - Tag: `color="category"` is the ink-only category chip for forum topics and articles: no fill, no border, no padding and no per-category colour square, an optional registry `icon`, sm by default (20px, 12/18 SemiBold, 12px icon) and `size="md"` (24px, 14/20 regular, 16px icon); with `href` its hover turns the label and icon `text-link-hover` #DB005B with no fill. Every existing colour and size renders unchanged (#699)
 - `lib/category-chip.css` (export `./category-chip.css`): the same chip for markup a host owns (`.aha-category-chip`, `--md`, `__icon`, `__label`), and the Discourse mapping: `a.badge-category__wrapper` becomes the md chip and its colour square, Font Awesome glyph and emoji are hidden. The Tag page says how a Discourse theme loads it (#699)
+
+## 0.1059.0 — 2026-11-05
+
+### Added
+- CSAT: opt-in `feedback-display="inline"` (default `popover`) opens the feedback field in flow under the buttons, in the same card, instead of a second popover, for a CSAT that already sits inside a popover. Same opening rules, once-per-rating rule, confirmation and `rate`/`feedback` events; the X, Send, or Escape with focus inside collapses it; the panel is a labelled group (no dialog role), the opener carries `aria-expanded` and `aria-controls`, and its height animates on the motion tokens (none under reduced motion) (#700)
+
+### Changed
+- CSAT: the Good, Not good and Feedback buttons are now the DS icon button, `<aha-button variant="tertiary" icon-only size="sm">` (28×28, 16px icons), with the chosen thumb in its `pressed` state; the bespoke button CSS is gone. At rest the icon is `text-default` #1A1A1A (was #4A4A4A) and on hover it turns #DB005B on the ghost fill, as every tertiary icon button does. `::part(button)` now names the `<aha-button>` host (#700)
 
 ## 0.1054.0 — 2026-11-05
 

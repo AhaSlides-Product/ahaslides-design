@@ -23,6 +23,9 @@ function onFeedback(e) {
   <!-- feedback-on="any" also opens the popover after a thumbs-up (default: thumbs-down only); confirmation="..." shows
        that text beside the thumbs once rated and again after Send (under them with layout="stacked"). -->
   <aha-csat prompt="How did this import go?" source="more_feedback" feedback-on="any" confirmation="Thanks, feedback received" @rate="onRate" @feedback="onFeedback" />
+  <!-- feedback-display="inline" opens the feedback field in flow under the buttons (inside a popover or card,
+       so there is one card, never a second popover). -->
+  <aha-csat prompt="How did this import go?" source="header_popover" feedback-button layout="stacked" feedback-display="inline" @rate="onRate" @feedback="onFeedback" />
   <!-- feedback-hint="..." shows a helper line under the feedback text box, beside the counter. -->
   <aha-csat prompt="How did this import go?" source="hint" feedback-hint="What you write goes to the developer" @rate="onRate" @feedback="onFeedback" />
 </template>
