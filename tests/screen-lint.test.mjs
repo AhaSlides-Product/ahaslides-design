@@ -286,6 +286,13 @@ test('the two True or False answer buttons may take the answer fill', () => {
   assert.deepEqual(answerRulesOf('.tof-true { color: var(--aha-answer-correct); }'), ['answer-colour-text']);
 });
 
+test('only the True or False result stamp may write its word in the answer colour', () => {
+  for (const name of ['tof-result-stamp', 'true-false-result-stamp', 'trueOrFalseResultStamp'])
+    assert.deepEqual(answerRulesOf(`.${name} { color: var(--aha-answer-wrong); }`), [], name);
+  for (const name of ['result-stamp', 'tof-true', 'tofu-result-stamp', 'tof-result-banner'])
+    assert.ok(answerRulesOf(`.${name} { color: var(--aha-answer-correct); }`).includes('answer-colour-text'), name);
+});
+
 test('"across", "ticket", "crossword" and "tofu" are not answer markers', () => {
   for (const name of ['across-panel', 'ticket', 'crossword', 'tofu-card', 'option-true'])
     assert.deepEqual(answerRulesOf(`.${name} { background: var(--aha-answer-correct); }`), ['answer-colour-context'], name);
