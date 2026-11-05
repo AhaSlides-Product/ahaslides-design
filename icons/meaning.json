@@ -386,6 +386,7 @@
   "system-upload-simple": ["upload", "import", "send", "add file", "share"],
   "system-user-circle": ["account", "profile", "user", "avatar", "me", "person"],
   "system-user-plus": ["add user", "invite", "add member", "new user", "add person"],
+  "system-user-headset": ["support", "customer support", "human support", "agent", "help desk", "headset", "headphones", "call centre", "live chat", "talk to a person"],
   "system-user": ["user", "person", "profile", "account", "member", "participant"],
   "system-users-three": ["team", "group", "audience", "participants", "people", "community"],
   "system-users": ["users", "people", "members", "team", "participants", "group"],
