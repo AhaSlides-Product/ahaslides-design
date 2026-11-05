@@ -352,23 +352,23 @@
       "id": 17,
       "prompt": "Review a True or False question on the presenter canvas and the audience phone. The two answer buttons are filled with the fixed answer tokens: True with `var(--aha-answer-correct)` and False with `var(--aha-answer-wrong)`, each label white (`--aha-white`) at regular weight, the same on every deck theme. On reveal, where False is the correct answer, the red False button carries the white tick on its green correct disc (`<aha-answer-mark result=\"correct\">`) and the True button dims; the participant who picked True sees the cross disc on True. Everything else on the screen is the deck palette and DS components.",
       "files": [],
-      "label": "good-control",
-      "notes": "Targets C1 and C5 (rule 11.1, True or False exception). Pairs with cases 18 and 19.",
-      "expected_output": "C1 PASSES: the answer pair fills the two True or False answer buttons, the one named exception in rule 11.1, with fixed tokens, never the deck palette. C5 PASSES: the colours mark the answers, not a status; the tick or cross disc gives the verdict, so a red False carrying the correct tick is right. Labels are white, not green or red text. Overall: OK TO SHIP.",
+      "label": "bad-example",
+      "notes": "Targets C1 and C5 (rule 11.1): the True or False exception is withdrawn, so green and red buttons fail. Pairs with cases 18 and 19.",
+      "expected_output": "C1 FAILs: the answer pair fills the True and False answer buttons; green and red mark correct and wrong answers only (rule 11.1), and a button is not an answer mark. C5 FAILs: a coloured button reads as a status or decoration. Fix: both buttons use the deck surface or the DS button, and the tick or cross disc gives the verdict on reveal. Overall: NEEDS FIX.",
       "assertions": [
-        "Overall verdict is OK TO SHIP",
-        "Does not flag the correct tick on the red False button"
+        "Overall verdict is NEEDS FIX",
+        "Flags the green True and red False button fills"
       ],
       "expected": {
-        "overall": "OK_TO_SHIP",
+        "overall": "NEEDS_FIX",
         "criteria": {
-          "C1": "PASS",
-          "C5": "PASS"
+          "C1": "FAIL",
+          "C5": "FAIL"
         }
       },
       "source": {
         "authored": "ahaslides-design",
-        "why": "written with the criteria from brand/colour-rules.json; SLPV-260 True or False exception to rule 11.1"
+        "why": "written with the criteria from brand/colour-rules.json; DESY-498 withdrew the True or False exceptions (SLPV-260, 5 Nov)"
       }
     },
     {
@@ -376,8 +376,8 @@
       "prompt": "Review a Pick Answer question on the audience phone with four answer options. To make it feel like True or False, the first option is filled with `var(--aha-answer-correct)` and the second with `var(--aha-answer-wrong)`, white labels, before anyone answers; the other two options are the deck surface. On reveal the correct option shows the tick disc. Everything else is DS components.",
       "files": [],
       "label": "bad-example",
-      "notes": "Targets C1 (rule 11.1): the True or False exception does not reach other question types or answer options. Pairs with case 17.",
-      "expected_output": "C1 FAILs: green and red fill two answer options of a Pick Answer question; only the two answer buttons of a True or False question may be filled with the pair. Fix: the options use the deck surface, and the tick or cross disc marks the verdict on reveal. Overall: NEEDS FIX.",
+      "notes": "Targets C1 (rule 11.1): the pair on Pick Answer options fails, as it did before and after the withdrawn True or False exception. Pairs with case 17.",
+      "expected_output": "C1 FAILs: green and red fill two answer options of a Pick Answer question. Fix: the options use the deck surface, and the tick or cross disc marks the verdict on reveal. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX"
       ],
@@ -389,7 +389,7 @@
       },
       "source": {
         "authored": "ahaslides-design",
-        "why": "written with the criteria from brand/colour-rules.json; SLPV-260 True or False exception to rule 11.1"
+        "why": "written with the criteria from brand/colour-rules.json; DESY-498 withdrew the True or False exceptions (SLPV-260, 5 Nov)"
       }
     },
     {
@@ -397,11 +397,11 @@
       "prompt": "Review a True or False question on the audience phone. The True and False answer buttons are filled with `var(--aha-answer-correct)` and `var(--aha-answer-wrong)` with white labels. After the participant taps one, a banner under the buttons reads \"Answer sent\" on a `var(--aha-answer-correct-tint-5)` fill with a green check icon, and the Submit button turns `var(--aha-answer-correct)` while it sends.",
       "files": [],
       "label": "bad-example",
-      "notes": "Targets C1 and C5 (rules 11.1, 7.1): the answer buttons follow the True or False exception, but the sent banner and the Submit button use the pair for status. Pairs with case 17.",
-      "expected_output": "C1 FAILs: the green fill of the Submit button and the green sent banner are not the two True or False answer buttons. C5 FAILs: \"Answer sent\" is a status shown in green. The True and False answer button fills themselves are allowed by rule 11.1. Fix: the Submit button stays the deck primary, and the sent state uses the DS submitted card in the default ink. Overall: NEEDS FIX.",
+      "notes": "Targets C1 and C5 (rules 11.1, 7.1): the True and False fills, the sent banner and the Submit button all fail. Pairs with case 17.",
+      "expected_output": "C1 FAILs: the green and red True and False button fills, the green Submit button and the green sent banner are not answer marks. C5 FAILs: \"Answer sent\" is a status shown in green. Fix: the buttons and Submit stay the deck primary or surface, and the sent state uses the DS submitted card in the default ink. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
-        "Does not flag the green True and red False answer button fills"
+        "Flags the True and False button fills as well as the Submit button and banner"
       ],
       "expected": {
         "overall": "NEEDS_FIX",
@@ -412,30 +412,30 @@
       },
       "source": {
         "authored": "ahaslides-design",
-        "why": "written with the criteria from brand/colour-rules.json; SLPV-260 True or False exception to rule 11.1"
+        "why": "written with the criteria from brand/colour-rules.json; DESY-498 withdrew the True or False exceptions (SLPV-260, 5 Nov)"
       }
     },
     {
       "id": 20,
       "prompt": "Review the result screen of a True or False question on the audience phone, any deck theme. The True and False answer buttons are filled with the answer pair with white labels. At result a small tilted stamp on the corner of the card, on a white (`--aha-white`) fill, names the correct side: its word \"False\" is written in `var(--aha-answer-wrong)`, or \"True\" in `var(--aha-answer-correct)`. The question text, the rest of the card and every other label are the default ink; the verdict disc carries the tick.",
       "files": [],
-      "label": "good-control",
-      "notes": "Targets C1 and C5 (rule 11.2, True or False result stamp exception). Pairs with cases 21 and 22.",
-      "expected_output": "C1 PASSES: the stamp word in the answer colour is the one named exception in rule 11.2, on white, where green is 4.53 to 1 and red 5.02 to 1. C5 PASSES: it marks the correct side, not a status. Overall: OK TO SHIP.",
+      "label": "bad-example",
+      "notes": "Targets C1 and C5 (rule 11.2): the stamp word exception is withdrawn, so green or red stamp text fails. Pairs with cases 21 and 22.",
+      "expected_output": "C1 FAILs: the stamp word is written in the answer colour; text is never green or red (rule 11.2), even on white. C5 FAILs: coloured text reads as status. Fix: the word stays the default ink and the verdict disc carries the tick. Overall: NEEDS FIX.",
       "assertions": [
-        "Overall verdict is OK TO SHIP",
-        "Does not flag the green or red word of the result stamp"
+        "Overall verdict is NEEDS FIX",
+        "Flags the green or red word of the result stamp"
       ],
       "expected": {
-        "overall": "OK_TO_SHIP",
+        "overall": "NEEDS_FIX",
         "criteria": {
-          "C1": "PASS",
-          "C5": "PASS"
+          "C1": "FAIL",
+          "C5": "FAIL"
         }
       },
       "source": {
         "authored": "ahaslides-design",
-        "why": "written with the criteria from brand/colour-rules.json; SLPV-263 True or False result stamp exception to rule 11.2"
+        "why": "written with the criteria from brand/colour-rules.json; DESY-498 withdrew the True or False exceptions (SLPV-260, 5 Nov)"
       }
     },
     {
@@ -443,8 +443,8 @@
       "prompt": "Review the result screen of a Pick Answer question on the audience phone. A small tilted stamp on the corner of the winning option reads \"Correct\" in `var(--aha-answer-correct)` on white, and under the options a heading \"Correct!\" is also written in `var(--aha-answer-correct)`. Everything else is the default ink and DS components.",
       "files": [],
       "label": "bad-example",
-      "notes": "Targets C1 and C5 (rule 11.2): the text exception is only the True or False result stamp. Pairs with case 20.",
-      "expected_output": "C1 FAILs: green text on a Pick Answer stamp and in the heading; only the True or False result stamp word may be green or red. C5 FAILs: the heading is a success message in green. Fix: both stay the default ink and the tick disc marks the verdict. Overall: NEEDS FIX.",
+      "notes": "Targets C1 and C5 (rule 11.2): green text on a Pick Answer stamp and heading fails. Pairs with case 20.",
+      "expected_output": "C1 FAILs: green text on the stamp and in the heading. C5 FAILs: the heading is a success message in green. Fix: both stay the default ink and the tick disc marks the verdict. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX"
       ],
@@ -457,7 +457,7 @@
       },
       "source": {
         "authored": "ahaslides-design",
-        "why": "written with the criteria from brand/colour-rules.json; SLPV-263 True or False result stamp exception to rule 11.2"
+        "why": "written with the criteria from brand/colour-rules.json; DESY-498 withdrew the True or False exceptions (SLPV-260, 5 Nov)"
       }
     },
     {
@@ -465,8 +465,8 @@
       "prompt": "Review the result screen of a True or False question on the audience phone, on a deck whose phone background is Vivid Pink at 30%. The result stamp on the card corner has no white fill: its word \"True\" is written in `var(--aha-answer-correct)` straight on the tinted deck background.",
       "files": [],
       "label": "bad-example",
-      "notes": "Targets C1 (rule 11.2): the stamp word is green or red only on white. Pairs with case 20.",
-      "expected_output": "C1 FAILs: the stamp word in the answer colour sits on a deck tint, not on white, so the 4.5 to 1 reading is not guaranteed on any deck. Fix: the stamp keeps a white fill. Overall: NEEDS FIX.",
+      "notes": "Targets C1 (rule 11.2): the stamp word in the answer colour fails on a deck tint as well as on white. Pairs with case 20.",
+      "expected_output": "C1 FAILs: the stamp word is green on a deck tint; text is never green or red. Fix: the word stays the default ink. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX"
       ],
@@ -478,7 +478,7 @@
       },
       "source": {
         "authored": "ahaslides-design",
-        "why": "written with the criteria from brand/colour-rules.json; SLPV-263 True or False result stamp exception to rule 11.2"
+        "why": "written with the criteria from brand/colour-rules.json; DESY-498 withdrew the True or False exceptions (SLPV-260, 5 Nov)"
       }
     }
   ]

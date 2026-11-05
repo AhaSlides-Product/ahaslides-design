@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1028.0 — 2026-11-05
+### Changed
+- **Colour rules 11.1, 11.2 and 11.3: the True or False exceptions are withdrawn** (#675). Green and red mark correct and wrong answers only. The two True or False answer buttons are no longer filled with the answer pair, the result stamp word is default ink again, and rule 11.3 lists the tick or cross disc, an answer row's edge and the correct column of a result chart. Withdrawn on 5 Nov at Lan's request in SLPV-260, undoing v31 (0.990.0, 0.996.1) and v35 (0.1025.0); those change-log entries stay. `screen-lint` no longer accepts a True or False button selector or a result stamp as an answer context, so those fail `answer-colour-context` and `answer-colour-text` again. Colour criteria C1 and C5, canvas C2 and C19, audience C31, feedback C2, the answer token note, the README and the aha-design skill say the same; colour eval cases 17 to 22 now expect NEEDS FIX for green or red True or False buttons and stamp words. New colour-rules change v36.
+
 ## 0.1027.0 — 2026-11-05
 ### Added
 - `system-user-headset`, a person wearing a headset, for a "talk to a person" or human support entry point, with meaning words for `npm run icon-search headset support agent`. Same 16px grid, 1.5 stroke and round caps as `system-user`, with the ear cups as small solid shapes. `system-question` and `system-question-bubble` stay "help or FAQ", and `system-user` stays a plain person. The README and Icon contract name counts are now 403 (#674)

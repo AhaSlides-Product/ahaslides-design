@@ -280,21 +280,15 @@ test('the answer marker is found in a selector list and in an open tag spread ov
   assert.deepEqual(answerRulesOf('<div class="save"\n  :style="{ background: \'var(--aha-answer-correct)\' }">'), ['answer-colour-context']);
 });
 
-test('the two True or False answer buttons may take the answer fill', () => {
+test('True or False buttons and result stamps get no answer-colour allowance', () => {
   for (const name of ['tof-true', 'tof-false', 'true-false-button', 'trueOrFalseOption'])
-    assert.deepEqual(answerRulesOf(`.${name} { background: var(--aha-answer-correct); }`), [], name);
-  assert.deepEqual(answerRulesOf('.tof-true { color: var(--aha-answer-correct); }'), ['answer-colour-text']);
-});
-
-test('only the True or False result stamp may write its word in the answer colour', () => {
+    assert.deepEqual(answerRulesOf(`.${name} { background: var(--aha-answer-correct); }`), ['answer-colour-context'], name);
   for (const name of ['tof-result-stamp', 'true-false-result-stamp', 'trueOrFalseResultStamp'])
-    assert.deepEqual(answerRulesOf(`.${name} { color: var(--aha-answer-wrong); }`), [], name);
-  for (const name of ['result-stamp', 'tof-true', 'tofu-result-stamp', 'tof-result-banner'])
-    assert.ok(answerRulesOf(`.${name} { color: var(--aha-answer-correct); }`).includes('answer-colour-text'), name);
+    assert.ok(answerRulesOf(`.${name} { color: var(--aha-answer-wrong); }`).includes('answer-colour-text'), name);
 });
 
-test('"across", "ticket", "crossword" and "tofu" are not answer markers', () => {
-  for (const name of ['across-panel', 'ticket', 'crossword', 'tofu-card', 'option-true'])
+test('"across", "ticket" and "crossword" are not answer markers', () => {
+  for (const name of ['across-panel', 'ticket', 'crossword'])
     assert.deepEqual(answerRulesOf(`.${name} { background: var(--aha-answer-correct); }`), ['answer-colour-context'], name);
 });
 
