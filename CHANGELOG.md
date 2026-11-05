@@ -33,6 +33,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1048.3 — 2026-11-05
+
+### Added
+- `fitPaywallFromAnchor` is a new named export of the paywall (DESY-504, #NNN)
+
+### Fixed
+- **A stale open paywall refits when keyboard focus reaches it, and clicking its text keeps it open.** Tabbing from a locked radio to Upgrade after the viewport narrowed left the popover off-screen; clicking popover text in a locked row closed it (DESY-504, #NNN)
+
 ## 0.1048.1 — 2026-11-05
 
 ### Fixed
