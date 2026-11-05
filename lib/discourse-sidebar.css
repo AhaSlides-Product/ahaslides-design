@@ -1,0 +1,191 @@
+/* Discourse sidebar → the DS nav rail (<aha-menu nav-rail>), for a Discourse theme that cannot replace
+   core markup. Load lib/tokens.css first, then this file; every value is the Menu contract's.
+   Scoped to the docked sidebar (#d-sidebar) and the mobile hamburger panel, which renders the same rows.
+   The id in the scope outranks Discourse's own class selectors, so no !important is needed except where
+   Discourse writes an inline style (the category icon colour). */
+
+:is(#d-sidebar, .sidebar-hamburger-dropdown) {
+  font-family: var(--aha-font-product, "Plus Jakarta Sans", sans-serif);
+  font-size: var(--aha-size-default, 14px);
+  color: var(--aha-text-default, #1A1A1A);
+  border-color: var(--aha-border-default, #E3E3E3);
+}
+
+/* Sections: the title and its top spacing separate them, so no rule between groups */
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .sidebar-section-wrapper {
+  border: 0;
+  padding-bottom: 0;
+}
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .sidebar-section-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aha-space-2, 2px);
+}
+
+/* Section header: sentence case, 14px SemiBold 600, text-tertiary */
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .sidebar-section-header-wrapper {
+  height: auto;
+  min-height: 0;
+  padding: var(--aha-space-16, 16px) 0 var(--aha-space-4, 4px);
+  background: transparent;
+}
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .sidebar-section-wrapper:first-child .sidebar-section-header-wrapper {
+  padding-top: var(--aha-space-4, 4px);
+}
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .sidebar-section-header {
+  display: flex;
+  align-items: center;
+  gap: var(--aha-space-6, 6px);
+  height: auto;
+  padding: 0 var(--aha-space-12, 12px);
+  border: 0;
+  background: transparent;
+  color: var(--aha-text-tertiary, #616161);
+}
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .sidebar-section-header-text {
+  font-size: var(--aha-size-default, 14px);
+  line-height: 20px;
+  font-weight: var(--aha-weight-semibold, 600);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--aha-text-tertiary, #616161);
+}
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .sidebar-section-header-caret {
+  display: inline-flex;
+  color: inherit;
+}
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .sidebar-section-header-caret .d-icon {
+  width: 12px;
+  height: 12px;
+  color: inherit;
+}
+
+/* Row: 36 high, radius 8, 14px Regular 400 ink, 10px gap to a 16px icon */
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .sidebar-section-link {
+  display: flex;
+  align-items: center;
+  gap: var(--aha-space-10, 10px);
+  box-sizing: border-box;
+  width: 100%;
+  height: 36px;
+  padding: 0 var(--aha-space-12, 12px);
+  border: 0;
+  border-radius: var(--aha-radius-default, 8px);
+  background: transparent;
+  color: var(--aha-text-default, #1A1A1A);
+  font: inherit;
+  font-weight: var(--aha-weight-regular, 400);
+  line-height: 20px;
+  text-decoration: none;
+  transition: background var(--aha-motion-fast, .1s) var(--aha-ease-out, cubic-bezier(0.215, 0.61, 0.355, 1)),
+    color var(--aha-motion-fast, .1s) var(--aha-ease-out, cubic-bezier(0.215, 0.61, 0.355, 1));
+}
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .sidebar-section-link:hover {
+  background: var(--aha-bg-hover, #F7F7F7);
+  color: var(--aha-text-default, #1A1A1A);
+}
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .sidebar-section-link:focus-visible {
+  outline: 2px solid var(--aha-border-focus, #E70E68);
+  outline-offset: -2px;
+  background: transparent;
+}
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .sidebar-section-link.active,
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .sidebar-section-link.active:hover {
+  background: var(--aha-bg-accent, #E70E680D);
+  color: var(--aha-text-default, #1A1A1A);
+  font-weight: var(--aha-weight-semibold, 600);
+}
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .sidebar-section-link-content-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font: inherit;
+  color: inherit;
+}
+
+/* Leading icon: 16px in the row's ink. Discourse paints the category colour inline, so override it */
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .sidebar-section-link-prefix {
+  flex: 0 0 16px;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .sidebar-section-link-prefix.icon,
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .sidebar-section-link-prefix.icon .d-icon {
+  color: currentColor !important;
+}
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .sidebar-section-link-prefix .d-icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* Badge slot: a count is the DS Badge count bubble, black with a white number */
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .sidebar-section-link-content-badge {
+  flex: 0 0 auto;
+  margin-inline-start: auto;
+  box-sizing: border-box;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 var(--aha-space-6, 6px);
+  border-radius: var(--aha-radius-pill, 999px);
+  background: var(--aha-gray-100, #1A1A1A);
+  color: var(--aha-text-inverse, #FFFFFF);
+  font-size: 11px;
+  line-height: 18px;
+  font-weight: var(--aha-weight-semibold, 600);
+  text-align: center;
+}
+/* An unread or new marker is the DS Badge dot, 6px in ink */
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .sidebar-section-link-suffix {
+  flex: 0 0 auto;
+  margin-inline-start: auto;
+  display: inline-flex;
+  color: var(--aha-text-default, #1A1A1A);
+}
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .sidebar-section-link-content-badge + .sidebar-section-link-suffix {
+  margin-inline-start: 0;
+}
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .sidebar-section-link-suffix .d-icon {
+  width: 6px;
+  height: 6px;
+  color: inherit;
+}
+
+/* Registry glyphs over Discourse's own icon sprite: the sprite stays, the DS glyph is painted as a mask
+   in the icon's ink. The url() is relative to this file, so it always loads the glyph of the same release.
+   An icon with no line here keeps its Discourse glyph; add a line for any other icon the theme uses. */
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .d-icon:is(.d-icon-house, .d-icon-layer-group, .d-icon-book, .d-icon-graduation-cap, .d-icon-ellipsis-vertical, .d-icon-angle-down, .d-icon-chevron-down, .d-icon-angle-right, .d-icon-chevron-right, .d-icon-comments, .d-icon-calendar-days, .d-icon-star, .d-icon-users, .d-icon-user-group, .d-icon-bullhorn, .d-icon-lightbulb, .d-icon-circle-question, .d-icon-circle-info) {
+  background: currentColor;
+  -webkit-mask: var(--aha-discourse-glyph) center / 100% 100% no-repeat;
+  mask: var(--aha-discourse-glyph) center / 100% 100% no-repeat;
+}
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .d-icon:is(.d-icon-house, .d-icon-layer-group, .d-icon-book, .d-icon-graduation-cap, .d-icon-ellipsis-vertical, .d-icon-angle-down, .d-icon-chevron-down, .d-icon-angle-right, .d-icon-chevron-right, .d-icon-comments, .d-icon-calendar-days, .d-icon-star, .d-icon-users, .d-icon-user-group, .d-icon-bullhorn, .d-icon-lightbulb, .d-icon-circle-question, .d-icon-circle-info) > use {
+  visibility: hidden;
+}
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .d-icon-house { --aha-discourse-glyph: url("../icons/svg/system/system-house.svg"); }
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .d-icon-layer-group { --aha-discourse-glyph: url("../icons/svg/system/system-stack.svg"); }
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .d-icon-book { --aha-discourse-glyph: url("../icons/svg/system/system-book.svg"); }
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .d-icon-graduation-cap { --aha-discourse-glyph: url("../icons/svg/system/system-graduation-cap.svg"); }
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .d-icon-ellipsis-vertical { --aha-discourse-glyph: url("../icons/svg/system/system-dots-three-vertical.svg"); }
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .d-icon-angle-down { --aha-discourse-glyph: url("../icons/svg/system/system-caret-down.svg"); }
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .d-icon-chevron-down { --aha-discourse-glyph: url("../icons/svg/system/system-caret-down.svg"); }
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .d-icon-angle-right { --aha-discourse-glyph: url("../icons/svg/system/system-caret-right.svg"); }
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .d-icon-chevron-right { --aha-discourse-glyph: url("../icons/svg/system/system-caret-right.svg"); }
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .d-icon-comments { --aha-discourse-glyph: url("../icons/svg/system/system-chats-circle.svg"); }
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .d-icon-calendar-days { --aha-discourse-glyph: url("../icons/svg/system/system-calendar-dot.svg"); }
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .d-icon-star { --aha-discourse-glyph: url("../icons/svg/system/system-star.svg"); }
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .d-icon-users { --aha-discourse-glyph: url("../icons/svg/system/system-users.svg"); }
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .d-icon-user-group { --aha-discourse-glyph: url("../icons/svg/system/system-users.svg"); }
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .d-icon-bullhorn { --aha-discourse-glyph: url("../icons/svg/system/system-megaphone.svg"); }
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .d-icon-lightbulb { --aha-discourse-glyph: url("../icons/svg/system/system-lightbulb-filament.svg"); }
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .d-icon-circle-question { --aha-discourse-glyph: url("../icons/svg/system/system-question.svg"); }
+:is(#d-sidebar, .sidebar-hamburger-dropdown) .d-icon-circle-info { --aha-discourse-glyph: url("../icons/svg/system/system-info.svg"); }
+
+@media (prefers-reduced-motion: reduce) {
+  :is(#d-sidebar, .sidebar-hamburger-dropdown) .sidebar-section-link { transition: none; }
+}
