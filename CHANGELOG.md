@@ -33,6 +33,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1063.0 — 2026-11-05
+
+### Added
+- Post card: `<aha-post>`, one post in a forum or community post stream: an author row (40px avatar, name 14/600, username, role tag, time at the end), the body as its children (16/1.5 ink with DS quote and code blocks) and an action bar of text buttons (like with its count, reply, share, more). The like heart stays in the icon ink at rest. It reuses `<aha-avatar>`, `<aha-tag>` and `<aha-button variant="text">` (#PR)
+- `lib/post.css`, the same post as a class layer for a host's own markup, and `lib/discourse-post.css`, the same declarations on Discourse's post-stream classes (`.topic-post`, `.names`, `.post-date`, `.cooked`, `nav.post-controls`); the Post card page has a Discourse tab mapping each class (#PR)
+
 ## 0.1059.0 — 2026-11-05
 
 ### Added

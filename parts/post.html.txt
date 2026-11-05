@@ -1,0 +1,28 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-post> is one post of a forum post stream, the SAME element React and Vue consume. It reuses
+     <aha-avatar>, <aha-tag> and <aha-button>. Theming comes only from the --aha-* tokens in tokens.css.
+     The body is the element's children: pass sanitised HTML, never user input as raw markup. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-post.js';  // registers <aha-post>
+  document.addEventListener('aha-post-action', (e) => {
+    const post = e.target;
+    if (e.detail.action !== 'like') return;
+    const liked = !post.hasAttribute('liked');
+    post.toggleAttribute('liked', liked);
+    post.setAttribute('likes', String(Number(post.getAttribute('likes') || 0) + (liked ? 1 : -1)));
+  });
+</script>
+
+<div style="max-width:720px">
+  <aha-post author="The AhaSlides Team" username="ahaslides" role="Staff" time="3d"
+    datetime="2026-11-02T09:00:00Z" likes="18">
+    <p>Welcome! Say hello, ask a question, or share a deck you are proud of.</p>
+  </aha-post>
+  <aha-post author="Ada Lovelace" username="ada" time="2h" datetime="2026-11-05T09:00:00Z" likes="4" liked>
+    <blockquote><p>The word cloud gets crowded fast with 200 people.</p></blockquote>
+    <p>Limit each person to one answer, then turn on the profanity filter:</p>
+    <pre><code>Settings → Answers per person → 1</code></pre>
+  </aha-post>
+</div>

@@ -1,0 +1,75 @@
+{
+  "name": "Post card",
+  "slug": "post",
+  "environment": ["product", "web"],
+  "group": "Data display",
+  "tier": "leaf-lit",
+  "badge": "shared web component + class layers",
+  "element": "aha-post",
+  "summary": "One post in a forum or community post stream: an author row (avatar, name, role tag, time), the post body with DS quote and code blocks, and an action bar of text buttons (like, reply, share, more). Ships as a web component, as a class layer (lib/post.css) for a host's own markup, and as a Discourse stylesheet (lib/discourse-post.css) on Discourse's own post classes.",
+  "highlights": ["Forum post stream card", "Author row, body, action bar", "Quote and code block styles", "Web component, class layer, or a Discourse stylesheet"],
+  "lead": "ONE custom element, <aha-post>, plus the same declarations as two stylesheets. The author row is a 40px <aha-avatar>, the name (14/600 ink, a link when author-href is set), the username (14/400 tertiary, only when it differs from the name), a role <aha-tag> (Staff, Moderator) and the time at the end of the row (14/400 tertiary, a link to the post when href is set). The body is 16/1.5 ink, 8px under the author row: the element's own children, slotted, so a host passes its already-sanitised HTML (Discourse's cooked post) and nothing is parsed from an attribute. In the body, paragraphs are 16px apart, links are text-link pink with an underline, a quote block (blockquote, or Discourse's aside.quote with its title) has a 4px border-strong edge on bg-container-secondary in secondary ink, inline code is mono 14px on a grey chip, and a code block is mono 14/1.5 on bg-container-secondary with a 1px border-secondary edge and an 8px radius, scrolling inside its own box. The action bar is <aha-button variant=\"text\" size=\"sm\">: like (a heart with its count), Reply, and icon-only Share and More. The heart is the icon ink at rest and when liked; liked swaps to the filled heart and sets aria-pressed. Each button fires aha-post-action with detail.action; the host owns the like state. Each post has 12px above and below, so two posts sit 24px apart. Three ways in: a page that builds its own stream uses the element; a host that renders its own markup links lib/post.css and adds the aha-post classes; a Discourse theme links lib/discourse-post.css, which applies the same declarations to .topic-post, .topic-meta-data, .names, .post-date, .cooked and nav.post-controls with no template change (the Discourse tab maps each class).",
+  "codeNote": "Same element, same shadow-DOM CSS, identical render. React and Vue pass attributes to the custom element and put the body in as children. lib/post.css and lib/discourse-post.css are generated from the element's own declarations (lib/post-css.js), so the three cannot drift.",
+  "tokensUsed": ["font-product", "font-mono", "text-default", "text-secondary", "text-tertiary", "text-link", "text-link-hover", "icon-default", "border-strong", "border-secondary", "border-focus", "bg-container-secondary", "gray-30", "gray-40", "gray-50", "radius-xs", "radius-default", "radius-pill", "size-sm", "size-default", "size-l", "weight-semibold", "weight-regular", "line-height-body", "space-2", "space-4", "space-6", "space-8", "space-12", "space-16", "motion-mid", "ease-in-out"],
+  "spec": [
+    { "label": "Post", "value": "avatar + main column, 12px gap · 12px above and below, so 24px between posts · no divider" },
+    { "label": "Avatar", "value": "40px <aha-avatar>, aligned to the top" },
+    { "label": "Name", "value": "14px / 1.5 · SemiBold 600 · text-default #1A1A1A · a link when author-href is set (underline on hover)" },
+    { "label": "Username", "value": "14px / 1.5 · Regular 400 · text-tertiary #616161 · shown only when it differs from the name" },
+    { "label": "Role", "value": "<aha-tag> (20px, grey fill, 12px SemiBold secondary) after the name" },
+    { "label": "Time", "value": "14px / 1.5 · Regular 400 · text-tertiary #616161 · at the end of the author row · a link to the post when href is set" },
+    { "label": "Body", "value": "16px / 1.5 · Regular 400 · text-default #1A1A1A · 8px under the author row · paragraphs 16px apart · links text-link #DB005B, underlined" },
+    { "label": "Quote block", "value": "padding 12 16 · 4px border-strong #D4D4D4 start edge · bg-container-secondary #F7F7F7 · text-secondary #4A4A4A · radius 4 · a quote title is 14px SemiBold with a 20px avatar" },
+    { "label": "Code", "value": "inline: mono 14px on gray-30 #F1F1F1, padding 2 4, radius 4 · block: mono 14px / 1.5, padding 16, bg-container-secondary #F7F7F7, 1px border-secondary #F1F1F1, radius 8, scrolls inside its box" },
+    { "label": "Action bar", "value": "<aha-button variant=\"text\" size=\"sm\"> (28px, text-secondary #4A4A4A, gray-40 hover) · 4px apart · 8px under the body · like (heart + count), Reply, icon-only Share and More" },
+    { "label": "Like", "value": "system-heart-straight in the icon ink at rest; liked → system-heart-straight-filled, same ink, aria-pressed=\"true\" · never pink at rest" }
+  ],
+  "props": [
+    { "name": "author", "type": "string", "default": "—", "desc": "The poster's display name: the name in the author row and the avatar's initials" },
+    { "name": "username", "type": "string", "default": "—", "desc": "The poster's handle, shown after the name in tertiary when it differs from it; used as the name when author is absent" },
+    { "name": "role", "type": "string", "default": "—", "desc": "A role tag after the name (Staff, Moderator, Admin); omit for none" },
+    { "name": "avatar-src", "type": "string", "default": "—", "desc": "Avatar photo URL; initials of `author` when absent" },
+    { "name": "author-href", "type": "string", "default": "—", "desc": "Makes the name a link (the poster's profile)" },
+    { "name": "time", "type": "string", "default": "—", "desc": "Display time, already formatted (\"2h\", \"Oct 28\")" },
+    { "name": "datetime", "type": "string", "default": "—", "desc": "Machine-readable time for the <time> element (ISO 8601)" },
+    { "name": "href", "type": "string", "default": "—", "desc": "The post's own URL: makes the time a link to it" },
+    { "name": "likes", "type": "number", "default": "—", "desc": "Like count beside the heart; 0 or absent shows the heart alone" },
+    { "name": "liked", "type": "boolean", "default": "false", "desc": "The reader has liked the post: the filled heart, aria-pressed=\"true\". Same ink as at rest" },
+    { "name": "actions", "type": "string", "default": "like reply share more", "desc": "Space-separated list of the action buttons to show, in the fixed order like, reply, share, more" },
+    { "name": "(default slot)", "type": "HTML", "default": "—", "desc": "The post body. Pass sanitised HTML (a cooked post) as children; quote, code and image rules apply to it" },
+    { "name": "aha-post-action", "type": "event", "default": "—", "desc": "Bubbling, composed CustomEvent on a button click; detail.action is like, reply, share or more. The element changes no state itself" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Post card", "when": "a stream of posts or replies in a forum, community or discussion thread" },
+      { "what": "Post class layer (lib/post.css)", "when": "the host renders its own post markup and cannot swap it for an element" },
+      { "what": "Discourse stylesheet (lib/discourse-post.css)", "when": "a Discourse theme: it styles core post-stream markup with no template change" },
+      { "what": "Topic row", "when": "one line per topic in a list of topics, not the posts inside one" }
+    ],
+    "note": "Keep the like heart in the icon ink at rest (colour rule 6.9); liked is shown by the filled glyph. The More button is an icon-only <aha-button> with aria-haspopup=\"menu\": open the host's own menu from aha-post-action, never a theme-built dots button. Names are 600 and usernames 400, never Bold 700.",
+    "dsv3": "EXTENSION — DS V3 has no forum post card. Built from the List and Topic row conventions (40px avatar, name and meta, tertiary time) at reading density, reusing <aha-avatar>, <aha-tag>, <aha-button variant=\"text\"> and registry icons, all on --aha-* tokens."
+  },
+  "surfaces": ["dashboard", "web"],
+  "reuse": { "entry": "./aha-post", "registers": "aha-post", "exportsNamed": ["AhaPost", "defineAhaPost"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "post.html.txt", "runnable": "paste-and-run", "note": "The native form: a web component in an HTML file renders on open, no build step." },
+    { "key": "react", "label": "React", "file": "post.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "post.vue.txt" },
+    { "key": "discourse", "label": "Discourse theme", "file": "post.discourse.txt", "note": "Link lib/discourse-post.css: it styles Discourse's own post-stream classes, no template change." }
+  ],
+  "preview": "post.preview.html",
+  "selfCheck": [
+    { "label": "name 14px / SemiBold 600 ink; username 400 tertiary; time 14px tertiary at the end of the row", "verdict": "PASS" },
+    { "label": "body 16px / 1.5 ink; quote block and code block on DS tokens", "verdict": "PASS" },
+    { "label": "action bar of <aha-button variant=\"text\" size=\"sm\">, registry icons, More is icon-only", "verdict": "PASS" },
+    { "label": "like heart in the icon ink at rest", "verdict": "PASS" },
+    { "label": "24px between posts; reuses <aha-avatar> (40) and <aha-tag>", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the rendered element (getComputedStyle via headless CDP). The probe post carries every slot, a quote block and a code block, so name, time, body, quote, code and the action bar all render; the measure also proves a real 40px <aha-avatar> and real <aha-button>s are nested.",
+    "ready": "!!(document.querySelector('aha-post[data-probe]') && document.querySelector('aha-post[data-probe]').shadowRoot && document.querySelector('aha-post[data-probe]').shadowRoot.querySelector('.aha-post__name'))",
+    "singleUI": true,
+    "measure": "(function(){var h=document.querySelector('aha-post[data-probe]');var r=h.shadowRoot;var n=getComputedStyle(r.querySelector('.aha-post__name'));var t=getComputedStyle(r.querySelector('.aha-post__time'));var b=getComputedStyle(r.querySelector('.aha-post__body'));var q=getComputedStyle(h.querySelector('blockquote'));var c=getComputedStyle(h.querySelector('pre'));var row=getComputedStyle(r.querySelector('.aha-post'));var av=r.querySelector('aha-avatar');var btns=r.querySelectorAll('.aha-post__actions aha-button[variant=text]');var heart=getComputedStyle(r.querySelector('[data-action=like] aha-icon'));return{nameSize:n.fontSize,nameWeight:n.fontWeight,nameColor:n.color,timeColor:t.color,bodySize:b.fontSize,bodyColor:b.color,quoteEdge:q.borderInlineStartWidth,quoteBg:q.backgroundColor,codeFont:c.fontFamily.indexOf('Menlo')>-1,codeBg:c.backgroundColor,padTop:row.paddingTop,avatarWidth:Math.round(av.getBoundingClientRect().width)+'px',textButtons:btns.length,heartColor:heart.color};})()",
+    "expect": { "nameSize": "14px", "nameWeight": "600", "nameColor": "rgb(26, 26, 26)", "timeColor": "rgb(97, 97, 97)", "bodySize": "16px", "bodyColor": "rgb(26, 26, 26)", "quoteEdge": "4px", "quoteBg": "rgb(247, 247, 247)", "codeFont": true, "codeBg": "rgb(247, 247, 247)", "padTop": "12px", "avatarWidth": "40px", "textButtons": 4, "heartColor": "rgb(74, 74, 74)" }
+  }
+}

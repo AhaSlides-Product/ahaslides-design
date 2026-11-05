@@ -1,0 +1,37 @@
+<div class="pad">
+  <div class="lbl">Post stream (staff post, a liked reply with a quote and code, a plain reply)</div>
+  <div style="max-width:720px">
+    <aha-post author="The AhaSlides Team" username="ahaslides" role="Staff" author-href="#team" time="3d"
+      datetime="2026-11-02T09:00:00Z" href="#post-1" likes="18">
+      <p>Welcome to the AhaSlides Community. Say hello, ask a question, or share a deck you are proud of.</p>
+      <p>Read the <a href="#guidelines">community guidelines</a> before your first post.</p>
+    </aha-post>
+    <aha-post data-probe author="Ada Lovelace" username="ada" author-href="#ada" time="2h"
+      datetime="2026-11-05T09:00:00Z" href="#post-2" likes="4" liked>
+      <aside class="quote">
+        <div class="title">Grace Hopper:</div>
+        <blockquote><p>The word cloud gets crowded fast with 200 people. Do you limit answers?</p></blockquote>
+      </aside>
+      <p>Limit each person to one answer, then filter. Set <code>answers per person</code> to 1:</p>
+      <pre><code>Settings → Answers per person → 1
+Settings → Filter profanity → On</code></pre>
+      <blockquote><p>A plain blockquote looks the same as a quoted post.</p></blockquote>
+    </aha-post>
+    <aha-post author="Grace Hopper" username="grace" time="1h" datetime="2026-11-05T10:00:00Z" href="#post-3">
+      <p>That worked, thank you. The cloud stays readable now.</p>
+    </aha-post>
+  </div>
+</div>
+
+<div class="pad">
+  <div class="lbl">Fewer actions (actions="like reply")</div>
+  <div style="max-width:720px">
+    <aha-post author="Alan Turing" time="Oct 28" actions="like reply"><p>Read-only replies can drop Share and More.</p></aha-post>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element (../lib/aha-post.js), no inlined copy, so the preview can never drift from lib/. -->
+<script type="module">
+  import '../lib/icons.js';
+  import '../lib/aha-post.js';
+</script>
