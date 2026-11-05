@@ -1,0 +1,24 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-topic-row> is one row of a forum topic list, the SAME element React and Vue consume. It
+     reuses <aha-avatar> and <aha-tag>. Theming comes only from the --aha-* tokens in tokens.css.
+     The excerpt is plain text: strip HTML and BBCode ([poll]…[/poll]) before passing it in. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-topic-row.js';  // registers <aha-topic-row>
+</script>
+
+<div style="max-width:720px">
+  <aha-topic-row pinned topic-title="Welcome to the AhaSlides Community: start here" href="/t/welcome/1"
+    author="The AhaSlides Team" category="What's new" category-href="/c/whats-new"
+    excerpt="Say hello, ask a question, or share a deck you are proud of."
+    likes="18" replies="42" time="3d" datetime="2026-11-02T09:00:00Z"></aha-topic-row>
+  <aha-topic-row topic-title="How do you keep a word cloud readable with 200 answers?" href="/t/word-cloud/12"
+    author="Ada Lovelace" category="Slide types" category-href="/c/slide-types"
+    excerpt="We run a weekly all-hands with about 200 people. The word cloud gets crowded fast."
+    likes="4" replies="12" time="2h" datetime="2026-11-05T09:00:00Z"></aha-topic-row>
+  <aha-topic-row read topic-title="Spinner wheel: can the winner be removed automatically?" href="/t/spinner/9"
+    author="Grace Hopper" category="Ask and share" category-href="/c/ask"
+    excerpt="After each spin I want the picked name gone from the wheel."
+    likes="1" replies="0" time="Oct 28"></aha-topic-row>
+</div>

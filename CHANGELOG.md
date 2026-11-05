@@ -39,6 +39,12 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Post card: `<aha-post>`, one post in a forum or community post stream: an author row (40px avatar, name 14/600, username, role tag, time at the end), the body as its children (16/1.5 ink with DS quote and code blocks) and an action bar of text buttons (like with its count, reply, share, more). The like heart stays in the icon ink at rest. It reuses `<aha-avatar>`, `<aha-tag>` and `<aha-button variant="text">` (#704)
 - `lib/post.css`, the same post as a class layer for a host's own markup, and `lib/discourse-post.css`, the same declarations on Discourse's post-stream classes (`.topic-post`, `.names`, `.post-date`, `.cooked`, `nav.post-controls`); the Post card page has a Discourse tab mapping each class (#704)
 
+## 0.1060.0 — 2026-11-05
+
+### Added
+- Topic row: `<aha-topic-row>`, one row of a forum or community topic list (40px avatar, title link with its category tag, a two-line plain-text excerpt, and a meta row of author, likes, replies and time), with `read` and `pinned` states and a hover tint. It reuses `<aha-avatar>` and `<aha-tag>` (#698)
+- `lib/topic-row.css`, the same row as a class layer for a host that renders its own markup; the Topic row page has a Discourse tab mapping each Discourse topic-list class to its DS class (#698)
+
 ## 0.1059.1 — 2026-11-05
 
 ### Fixed
