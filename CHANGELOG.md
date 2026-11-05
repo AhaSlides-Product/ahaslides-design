@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1029.1 — 2026-11-05
+### Fixed
+- **`<aha-alert>` action wraps below the text in a narrow alert** (#000). The `slot="action"` button stays beside the text while the alert keeps at least 200 px of text beside it, and moves below the text (8 px under it, 6 px small) when it does not. It follows the alert's own width, not the viewport, so a 222 px card no longer squeezes the message to one word per line. Wide alerts look the same as before.
+
 ## 0.1029.0 — 2026-11-05
 ### Added
 - **`brand-tiktok` icon and the TikTok logo** (#676). `<aha-icon name="brand-tiktok">` joins the Brand family for social links (AhaSlides Community footer), with the logo in `logo/` (line, original colours and greyscale). WhatsApp needs no new icon: it stays `system-whatsapp-logo`, and the social-links lists in AGENTS.md and colour rule 2.6a now name `brand-tiktok`.

@@ -22,6 +22,16 @@
     <aha-alert type="error" heading="Upload failed" closable>The file is over 20&nbsp;MB. Compress the images in it, or split the deck into two files, and try again.</aha-alert>
     <aha-alert type="success" size="small" closable>Saved. Everyone on this workspace now sees the new template in their library.</aha-alert>
   </div>
+  <div class="lbl">Action in a narrow container (wraps below the text)</div>
+  <div style="display:flex; flex-wrap:wrap; gap:16px; align-items:flex-start">
+    <div style="width:222px; display:flex; flex-direction:column; gap:12px">
+      <aha-alert type="error" heading="Answers not saved">Check your connection.<aha-button slot="action" variant="secondary" size="sm">Try again</aha-button></aha-alert>
+      <aha-alert type="error" size="small">Answers not saved.<aha-button slot="action" variant="secondary" size="sm">Try again</aha-button></aha-alert>
+    </div>
+    <div style="width:420px">
+      <aha-alert type="error" heading="Answers not saved">Check your connection.<aha-button slot="action" variant="secondary" size="sm">Try again</aha-button></aha-alert>
+    </div>
+  </div>
 </div>
 
 <!-- Imports the REAL shipped element (../lib/aha-alert.js) + the icon library — no inlined copy, so
