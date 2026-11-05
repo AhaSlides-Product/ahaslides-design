@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1027.0 — 2026-11-05
+### Added
+- `system-user-headset`, a person wearing a headset, for a "talk to a person" or human support entry point, with meaning words for `npm run icon-search headset support agent`. Same 16px grid, 1.5 stroke and round caps as `system-user`, with the ear cups as small solid shapes. `system-question` and `system-question-bubble` stay "help or FAQ", and `system-user` stays a plain person. The README and Icon contract name counts are now 403 (#NNN)
+
 ## 0.1026.0 — 2026-11-05
 
 ### Added
