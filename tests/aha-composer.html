@@ -1,0 +1,9 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../lib/tokens.css">
+<aha-composer id="c" preview></aha-composer>
+<script type="module">
+  import '../lib/aha-composer.js';
+  await customElements.whenDefined('aha-composer');
+  window.composerFixtureReady = true;
+</script>
