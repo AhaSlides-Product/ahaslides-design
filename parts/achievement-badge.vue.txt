@@ -1,0 +1,15 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-achievement-badge';   // <aha-achievement-badge> (+ <aha-tag>; <aha-icon> comes from icons.js)
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// BadgeGrid.vue
+<template>
+  <div class="badge-grid">
+    <aha-achievement-badge
+      v-for="b in badges" :key="b.id"
+      :icon="b.icon" :badge-title="b.name" :href="b.url" :tier="b.tier"
+      :description="b.description"
+      :granted="b.grantedLabel" :datetime="b.grantedAt" :grant-count="b.grantCount"
+    />
+  </div>
+</template>

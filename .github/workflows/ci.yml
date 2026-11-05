@@ -57,6 +57,8 @@ jobs:
         env:
           CHROME_BIN: ${{ steps.setup-chrome.outputs.chrome-path }}
         run: node --test tests/*.test.mjs
+      - name: Achievement badge class layer is committed (npm run generate rewrites lib/achievement-badge.css)
+        run: git diff --exit-code -- lib/achievement-badge.css
       - name: Render truth (real UI matches each contract)
         env:
           CHROME_BIN: ${{ steps.setup-chrome.outputs.chrome-path }}
