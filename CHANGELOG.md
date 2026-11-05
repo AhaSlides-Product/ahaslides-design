@@ -36,7 +36,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.1048.1 — 2026-11-05
 
 ### Fixed
-- **Upgrade and See all plans work in a locked row, settings-list item, radio and checkbox.** Pressing a button inside the open paywall re-fitted it and rewrote the button text, so the browser dropped the click. The paywall now writes text only when it changed, and the locked-row listeners skip events from inside the popover (DESY-504, #PRNUM)
+- **Upgrade and See all plans work in a locked row, settings-list item, radio and checkbox.** Pressing a button inside the open paywall re-fitted it and rewrote the button text, so the browser dropped the click. The paywall now writes text only when it changed, and the locked-row listeners skip events from inside the popover (DESY-504, #687)
 
 ## 0.1048.0 — 2026-11-05
 ### Added
