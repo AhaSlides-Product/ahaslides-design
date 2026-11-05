@@ -1,0 +1,32 @@
+<link rel="stylesheet" href="../lib/search-result.css">
+<div class="pad">
+  <div class="lbl">Results for "word cloud": the searched words marked in the title and the blurb; URLs dropped from the blurb</div>
+  <div role="list" aria-label="Search results">
+    <aha-search-result data-probe role="listitem" query="word cloud" result-title="How to keep a word cloud readable with 200 answers"
+      href="#" category="Slide types" category-href="#" time="Aug 6" datetime="2026-08-06"
+      blurb="Our word cloud gets crowded fast at all-hands. Is there a way to cap the answers or merge similar words? Screenshot here https://example.com/shot.png and the deck at www.example.com/deck"></aha-search-result>
+    <aha-search-result role="listitem" query="word cloud" result-title="Profanity filter for open-ended and word cloud slides"
+      href="#" category="Feature requests" category-href="#" time="Jul 21" datetime="2026-07-21"
+      blurb="Turning on the filter hides the words for the audience, but the presenter still sees them for a moment before the cloud updates. Has anyone else seen this on a long session with many answers coming in at once?"></aha-search-result>
+    <aha-search-result role="listitem" query="word cloud" result-title="Exporting results to a spreadsheet"
+      href="#" time="Jun 2" datetime="2026-06-02"
+      blurb="No category on this one. The export includes every word cloud answer in its own column."></aha-search-result>
+  </div>
+</div>
+<div class="pad">
+  <div class="lbl">Class layer on host markup (Discourse full-page search, styled by lib/search-result.css)</div>
+  <div class="fps-result">
+    <div class="fps-topic">
+      <div class="topic">
+        <a class="search-link" href="#"><span class="topic-title">Tips for a <span class="search-highlight">word</span> <span class="search-highlight">cloud</span> icebreaker</span></a>
+      </div>
+      <div class="search-category">Slide types</div>
+      <div class="blurb container"><span class="date">Aug 2</span>We run a <span class="search-highlight">word</span> <span class="search-highlight">cloud</span> at the start of every training to warm the room up.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element (../lib/aha-search-result.js) — no inlined copy, so the preview can never drift from lib/. -->
+<script type="module">
+  import '../lib/aha-search-result.js';
+</script>

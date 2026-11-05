@@ -9,7 +9,8 @@
   "highlights": [
     "Large semibold value, change as absolute and percent",
     "Rise in black with an up arrow, fall in a black pill with a down arrow",
-    "1 to 6 tiles per row, wrapping on narrow screens"
+    "1 to 6 tiles per row, wrapping on narrow screens",
+    "Stat strip: up to 5 tiles a row, also as a class layer (lib/stat-strip.css) for Discourse"
   ],
   "lead": "ONE custom element — <aha-stat-tile> — defined once, imported unchanged by React and Vue. Give it `value` and `previous` and it works out the change: the absolute difference and a whole percent of the previous value (<1% for a tiny change, never a misleading 0%) (whole percentage points for `format=\"percent\"`: 3 pts, 1 pt, <1 pt for a non-zero change under one point), followed by the `caption` that names the comparison. A rise is plain black with an up arrow; a fall is white on a black pill with a down arrow (colour rule 7.3), so direction never depends on a status hue. The card is flat with a 4px Vivid Pink top bar and black text: white with a border by default (`look=\"plain\"`), or Vivid Pink at 5% (`look=\"accent\"`). On an app screen the accent look is only for the one highlighted panel colour rule 3.7 allows; in a report (a static report image, or a read-only report page a report routine publishes) it is the number plate colour rule 3.11 gives, on every tile. Lay 1 to 6 tiles in a row with <aha-grid min=\"160px\" gap=\"middle\">, which wraps them to fewer columns as the row narrows. See the Report images guideline for the static form.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render across frameworks. The change is computed in the element, so every consumer rounds and words it the same way.",
@@ -64,6 +65,18 @@
     {
       "label": "Row",
       "value": "1 to 6 tiles in <aha-grid min=\"160px\" gap=\"middle\">, 16px gap; tracks are at least 160px, so the row wraps to fewer columns as the container narrows"
+    },
+    {
+      "label": "Stat strip",
+      "value": "a summary row of plain counts (450 members, 4 admins, 2 moderators): <div class=\"aha-stat-strip\"> from lib/stat-strip.css around up to 5 <aha-stat-tile>, 16px gap; at most 5 a row, each track at least 160px, so it wraps to fewer columns and never scrolls sideways"
+    },
+    {
+      "label": "Stat strip on host markup",
+      "value": ".aha-stat-strip__item, __label, __icon and __value draw the plain tile (white, 1px #E3E3E3 border, Vivid Pink top bar, radius 8; label 14/1.5 Regular; value 32/1.2 SemiBold 600, tabular figures) on markup that cannot use the element"
+    },
+    {
+      "label": "Discourse",
+      "value": "lib/stat-strip.css maps the About page stats (.about__stats, .about__stats-item, icons swapped for the registry glyphs) and the profile summary stats (.stats-section.top-section, .user-stat: label above a SemiBold 600 value, never 700) onto the strip"
     }
   ],
   "props": [
@@ -129,6 +142,10 @@
         "when": "a KPI with a comparison against the previous period, on a dashboard, a report screen, a report page or a report image"
       },
       {
+        "what": "Stat strip (lib/stat-strip.css)",
+        "when": "a row of up to 5 plain counts with no comparison, such as a community's members, admins and moderators or a profile's days visited and posts read; on host markup (Discourse) use its classes"
+      },
+      {
         "what": "Statistic",
         "when": "a bare headline number with no previous period to compare against, inline in a panel"
       },
@@ -173,6 +190,12 @@
       "key": "vue",
       "label": "Vue 3",
       "file": "stat-tile.vue.txt"
+    },
+    {
+      "key": "discourse",
+      "label": "Discourse theme",
+      "file": "stat-tile.discourse.txt",
+      "note": "Class layer on Discourse's About page and profile summary stats: link lib/stat-strip.css; the About strip can render <aha-stat-tile> elements from a plugin outlet."
     }
   ],
   "preview": "stat-tile.preview.html",
