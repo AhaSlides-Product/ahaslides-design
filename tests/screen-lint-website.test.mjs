@@ -327,6 +327,7 @@ test('W6: a photo contained in a fixed-ratio slot of another ratio is letterboxe
   assert.deepEqual(letterboxRulesOf(`<div class="aha-features__photo aha-features__photo--4x3">${photo(800, 600)}</div>`), []);
   assert.deepEqual(letterboxRulesOf(`<div class="aha-features__photo aha-features__photo--fill">${photo(1000, 1000)}</div>`), []);
   assert.deepEqual(letterboxRulesOf(`<div style="aspect-ratio:16 / 9">${photo(600, 800)}</div>`), ['img-letterbox']);
+  assert.deepEqual(letterboxRulesOf(`<div class="aha-features__photo aha-features__photo--4x3" style=""><img style="" src="a.webp" alt="A room" width="1000" height="1000"></div>`), ['img-letterbox']);
   assert.deepEqual(letterboxRulesOf(`<div class="aha-features__photo aha-features__photo--4x3 aha-features__photo--pink-frame"><img class="aha-features__shot" src="a.webp" alt="Poll" width="600" height="800"></div>`), []);
   assert.deepEqual(letterboxRulesOf(`<div class="aha-header-section-hero-slideshow__track"><div style="aspect-ratio:4 / 3">${photo(600, 800)}</div></div>`), []);
 });
