@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1041.0 — 2026-11-05
 ### Added
-- Blog article website section family (`marketing/article.json`): post header, article body that styles plain CMS HTML (headings, lists, quote, figure, code, table, callout), the `aha-text-link` class with the Button text-link values, a table of contents that sticks on desktop and folds into a button on a phone, a share row with brand icons and Copy link, and the Article page layout that ties them together at a 720px measure (#PRNUM)
+- Blog article website section family (`marketing/article.json`): post header, article body that styles plain CMS HTML (headings, lists, quote, figure, code, table, callout), the `aha-text-link` class with the Button text-link values, a table of contents that sticks on desktop and folds into a button on a phone, a share row with brand icons and Copy link, and the Article page layout that ties them together at a 720px measure (#684)
 
 ## 0.1037.0 — 2026-11-05
 ### Fixed
