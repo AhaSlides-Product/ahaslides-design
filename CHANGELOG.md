@@ -36,8 +36,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.1053.0 — 2026-11-05
 
 ### Added
-- Topic row: `<aha-topic-row>`, one row of a forum or community topic list (40px avatar, title link with its category tag, a two-line plain-text excerpt, and a meta row of author, likes, replies and time), with `read` and `pinned` states and a hover tint. It reuses `<aha-avatar>` and `<aha-tag>` (#PR)
-- `lib/topic-row.css`, the same row as a class layer for a host that renders its own markup; the Topic row page has a Discourse tab mapping each Discourse topic-list class to its DS class (#PR)
+- Topic row: `<aha-topic-row>`, one row of a forum or community topic list (40px avatar, title link with its category tag, a two-line plain-text excerpt, and a meta row of author, likes, replies and time), with `read` and `pinned` states and a hover tint. It reuses `<aha-avatar>` and `<aha-tag>` (#698)
+- `lib/topic-row.css`, the same row as a class layer for a host that renders its own markup; the Topic row page has a Discourse tab mapping each Discourse topic-list class to its DS class (#698)
 
 ## 0.1051.1 — 2026-11-05
 
