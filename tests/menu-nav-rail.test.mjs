@@ -56,7 +56,7 @@ test('nav-rail draws sentence-case 14px SemiBold section headers with no frame, 
 test('discourse-sidebar.css gives Discourse core sidebar markup the nav rail values over its inline category colour', { skip }, async () => {
   const url = pageFile(`<!doctype html><head>
 <link rel="stylesheet" href="${libUrl('tokens.css')}"><link rel="stylesheet" href="${libUrl('discourse-sidebar.css')}">
-<style>.sidebar-section-header-text{text-transform:uppercase;font-size:12px} .sidebar-section-link{height:30px;color:#646464}</style>
+<style>body{font-family:serif} .sidebar-section-header-text{text-transform:uppercase;font-size:12px} .sidebar-section-link{height:30px;color:#646464}</style>
 </head><body><nav id="d-sidebar" class="sidebar-container"><div class="sidebar-sections">
 <div class="sidebar-section sidebar-section-wrapper"><div class="sidebar-section-header-wrapper sidebar-row">
 <button class="btn no-text sidebar-section-header"><span class="sidebar-section-header-text">Categories</span></button></div>
@@ -68,7 +68,10 @@ test('discourse-sidebar.css gives Discourse core sidebar markup the nav rail val
     const row = getComputedStyle(document.getElementById('row'));
     const glyph = getComputedStyle(document.getElementById('glyph'));
     const count = getComputedStyle(document.getElementById('count'));
+    const list = getComputedStyle(document.querySelector('.sidebar-section-content'));
     return {
+      headerFont: header.fontFamily,
+      list: [list.listStyleType, list.paddingLeft, list.marginTop],
       header: [header.fontSize, header.fontWeight, header.textTransform, header.color],
       row: [row.height, row.borderTopLeftRadius, row.backgroundColor, row.color],
       glyph: [glyph.width, glyph.color, glyph.backgroundColor],
@@ -77,6 +80,8 @@ test('discourse-sidebar.css gives Discourse core sidebar markup the nav rail val
     };
   })()`, { readyExpr: 'document.readyState === "complete"' });
   assert.deepEqual(result.header, ['14px', '600', 'none', 'rgb(97, 97, 97)']);
+  assert.match(result.headerFont, /Plus Jakarta Sans/);
+  assert.deepEqual(result.list, ['none', '0px', '0px']);
   assert.deepEqual(result.row, ['36px', '8px', 'rgba(231, 14, 104, 0.05)', 'rgb(26, 26, 26)']);
   assert.deepEqual(result.glyph, ['16px', 'rgb(26, 26, 26)', 'rgb(26, 26, 26)']);
   assert.equal(result.mask, `url("${new URL('../icons/svg/system/system-house.svg', libUrl('discourse-sidebar.css')).href}")`);
