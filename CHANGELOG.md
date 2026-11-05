@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1033.0 — 2026-11-05
 ### Changed
-- **`aha-input` is tagged for the `web` environment** (#NNN). Website pages (blog newsletter and search fields) now get `aha-input` from the web route in `llms.txt`; the contract keeps `product` and `audience`. No change to the element.
+- **`aha-input` is tagged for the `web` environment** (#677). Website pages (blog newsletter and search fields) now get `aha-input` from the web route in `llms.txt`; the contract keeps `product` and `audience`. No change to the element.
 
 ## 0.1029.0 — 2026-11-05
 ### Added
