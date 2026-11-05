@@ -38,6 +38,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Changed
 - **Default change: Paywall hides See all plans unless `show-plans` is set.** `<aha-paywall>` now shows only the Upgrade button by default; the new boolean `show-plans` adds the secondary See all plans button back, with `plans-label`, `plans-url` and the `paywall-plans` event working as before. Consumers that want See all plans must add `show-plans` after bumping to this version. A locked Dropdown row does not pass `show-plans`, so its popover is Upgrade alone. The crown mark's default accessible name is now "Upgrade required. See details", since See all plans is no longer there by default (#686)
 
+## 0.1048.1 — 2026-11-05
+
+### Fixed
+- **Upgrade and See all plans work in a locked row, settings-list item, radio and checkbox.** Pressing a button inside the open paywall re-fitted it and rewrote the button text, so the browser dropped the click. The paywall now writes text only when it changed, and the locked-row listeners skip events from inside the popover (DESY-504, #687)
+
 ## 0.1048.0 — 2026-11-05
 ### Added
 - **`aha-tag` `href`, `target` and `rel`** (#681). A category tag that navigates is now one element: `<aha-tag href="/blog/category/polls">Polls</aha-tag>` renders a real `<a>` that is keyboard focusable, with a `:focus-visible` ring and a hover state on existing tag and link tokens. `target="_blank"` without a `rel` gets `noopener noreferrer`. `href` is ignored on a `checkable` or `closable` tag. Without `href` nothing changes. Revert: drop the three attributes.
