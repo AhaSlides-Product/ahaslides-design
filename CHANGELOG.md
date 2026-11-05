@@ -37,7 +37,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ### Fixed
 
-- A failed load of a decorative chunk (the empty-state illustrations, icons, or a sibling component) no longer raises an unhandled promise rejection: the fire-and-forget `import()` in Empty, Data table, antd Empty, Close button row, Table expandable and Shortcut key now swallows the failure and the component renders without the decoration (#999).
+- A failed load of a decorative chunk (the empty-state illustrations, icons, or a sibling component) no longer raises an unhandled promise rejection: the fire-and-forget `import()` in Empty, Data table, antd Empty, Close button row, Table expandable and Shortcut key now swallows the failure and the component renders without the decoration (#669).
 
 ## 0.1022.1 — 2026-11-05
 
