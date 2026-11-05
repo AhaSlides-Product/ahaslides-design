@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1070.0 — 2026-11-05
+
+### Fixed
+- Footer: the eight contact and social icons now share one ink, `--aha-icon-default` (#4A4A4A), instead of the muted grey, and the six social links draw the `logo/line` marks (WhatsApp, LinkedIn, YouTube, Facebook, Instagram, Reddit) at 24px next to the envelope and people glyphs, so they look uniform. Order, links and labels are unchanged; no hover recolour (#NNN)
+
 ## 0.1063.0 — 2026-11-05
 
 ### Added
