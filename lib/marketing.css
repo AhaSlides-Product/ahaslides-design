@@ -337,8 +337,6 @@
 }
 .aha-article-header__author:focus-visible{outline:var(--aha-space-2) solid var(--aha-focus);outline-offset:var(--aha-space-2)}
 .aha-article-header__image{display:block;width:100%;height:auto;border-radius:var(--aha-radius-marketing)}
-.aha-article-tag{display:inline-flex;border-radius:var(--aha-radius-xs);text-decoration:none}
-.aha-article-tag:focus-visible{outline:var(--aha-space-2) solid var(--aha-focus);outline-offset:var(--aha-space-2)}
 .aha-text-link,.aha-article-prose a{
   color:var(--aha-text-link);
   font-weight:var(--aha-weight-regular);
