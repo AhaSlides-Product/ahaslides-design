@@ -41,6 +41,12 @@ const realClick = async (command, expression) => {
   await evaluate(command, `await new Promise((r) => setTimeout(r, 120));`);
 };
 
+// The resize lands on a later frame; a press measured before it can miss a popover the resize then moves.
+const narrowViewport = async (command) => {
+  await command('Emulation.setDeviceMetricsOverride', { width: 420, height: 800, deviceScaleFactor: 1, mobile: false });
+  await evaluate(command, `while (document.documentElement.clientWidth !== 420) await new Promise(requestAnimationFrame); await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));`);
+};
+
 const file = join(mkdtempSync(join(tmpdir(), 'paywall-pointer-')), 'page.html');
 writeFileSync(file, page);
 const url = pathToFileURL(file).href;
@@ -90,7 +96,7 @@ test('a row attribute re-written with the same value on pointerdown over Upgrade
 test('a stale open popover in a narrowed viewport still fires paywall-upgrade on a real press', { skip }, async () => {
   const fired = await withPage(url, async (command) => {
     await realClick(command, lockIn.row);
-    await command('Emulation.setDeviceMetricsOverride', { width: 420, height: 800, deviceScaleFactor: 1, mobile: false });
+    await narrowViewport(command);
     await evaluate(command, `${listenUpgrade('row')}`);
     await realClick(command, upgradeIn('row'));
     return evaluate(command, `return window.__fired;`);
@@ -101,7 +107,7 @@ test('a stale open popover in a narrowed viewport still fires paywall-upgrade on
 test('Tab from a locked radio to Upgrade after the viewport narrowed brings the popover back inside it', { skip }, async () => {
   const box = await withPage(url, async (command) => {
     await realClick(command, lockIn.radio);
-    await command('Emulation.setDeviceMetricsOverride', { width: 420, height: 800, deviceScaleFactor: 1, mobile: false });
+    await narrowViewport(command);
     await evaluate(command, `document.getElementById('radio').focus();`);
     for (let i = 0; i < 6; i++) {
       await command('Input.dispatchKeyEvent', { type: 'rawKeyDown', key: 'Tab', code: 'Tab', windowsVirtualKeyCode: 9 });
