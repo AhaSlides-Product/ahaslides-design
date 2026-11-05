@@ -1,0 +1,307 @@
+/* Discourse poll plugin → the DS Poll (<aha-poll>), for a Discourse theme that cannot replace the
+   plugin's markup (its Glimmer components cast and load the votes). Load lib/tokens.css first, then
+   this file; every value is the Poll contract's. Scoped to .poll, the plugin's own wrapper.
+   Options draw the <aha-radio> ring or the <aha-checkbox> box over the plugin's Font Awesome glyph,
+   results draw the <aha-progressbar> track and fill, and .poll-info becomes the 14px tertiary line. */
+
+.poll {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--aha-space-16, 16px);
+  padding: var(--aha-space-16, 16px);
+  border: 1px solid var(--aha-border-default, #E3E3E3);
+  border-radius: var(--aha-radius-default, 8px);
+  background: var(--aha-bg-container, #FFFFFF);
+  color: var(--aha-text-default, #1A1A1A);
+  font-family: var(--aha-font-product, "Plus Jakarta Sans", sans-serif);
+}
+.poll .poll-container {
+  order: 1;
+  padding: 0;
+  border: 0;
+}
+.poll .poll-title {
+  margin: 0 0 var(--aha-space-16, 16px);
+  padding: 0;
+  border: 0;
+  font-size: var(--aha-size-l, 16px);
+  line-height: var(--aha-line-height-body, 1.5);
+  font-weight: var(--aha-weight-semibold, 600);
+  color: var(--aha-text-default, #1A1A1A);
+}
+
+/* Vote rows: one 24px-high row per option, 12px apart, label 14/21 */
+.poll ul:is(.options, .results) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aha-space-12, 12px);
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.poll ul.options > li {
+  display: flex;
+  min-height: 24px;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  font-size: var(--aha-size-default, 14px);
+  line-height: 21px;
+}
+.poll ul.options > li > button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--aha-space-8, 8px);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: var(--aha-size-default, 14px);
+  line-height: 21px;
+  font-weight: var(--aha-weight-regular, 400);
+  color: var(--aha-text-default, #1A1A1A);
+  text-align: start;
+  cursor: pointer;
+  border-radius: var(--aha-radius-xs, 4px);
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  transition: outline-color var(--aha-motion-mid, .2s) var(--aha-ease-in-out, ease-in-out);
+}
+.poll ul.options > li > button > .d-icon {
+  display: none;
+}
+.poll ul.options > li > button::before {
+  content: "";
+  flex: none;
+  box-sizing: border-box;
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--aha-border-strong, #D4D4D4);
+  border-radius: 50%;
+  background: var(--aha-bg-container, #FFFFFF);
+  box-shadow: inset 0 0 0 8px var(--aha-bg-container, #FFFFFF);
+  transition: border-color var(--aha-motion-mid, .2s) var(--aha-ease-in-out, ease-in-out),
+    box-shadow var(--aha-motion-mid, .2s) var(--aha-ease-in-out, ease-in-out),
+    background-color var(--aha-motion-mid, .2s) var(--aha-ease-in-out, ease-in-out);
+}
+.poll ul.options > li > button:hover::before {
+  border-color: var(--aha-border-hover, #E70E68);
+}
+.poll ul.options > li > button:focus-visible {
+  outline-color: var(--aha-border-focus, #E70E68);
+}
+.poll ul.options > li:is(.chosen, :has(.d-icon-circle, .d-icon-far-dot-circle, .d-icon-far-square-check, .d-icon-far-check-square, .d-icon-square-check, .d-icon-check-square)) > button::before {
+  border-color: var(--aha-color-primary, #E70E68);
+  background: var(--aha-color-primary, #E70E68);
+  box-shadow: inset 0 0 0 3px var(--aha-bg-container, #FFFFFF);
+}
+
+/* Multiple choice: the checkbox box, radius 4, filled pink with the registry tick when chosen */
+.poll[data-poll-type="multiple"] ul.options > li > button::before {
+  border-color: var(--aha-border-default, #E3E3E3);
+  border-radius: var(--aha-radius-xs, 4px);
+  box-shadow: none;
+}
+.poll[data-poll-type="multiple"] ul.options > li:is(.chosen, :has(.d-icon-far-square-check, .d-icon-far-check-square, .d-icon-square-check, .d-icon-check-square)) > button::before {
+  border-color: var(--aha-color-primary, #E70E68);
+  background: var(--aha-color-primary, #E70E68);
+  box-shadow: none;
+}
+.poll[data-poll-type="multiple"] ul.options > li:is(.chosen, :has(.d-icon-far-square-check, .d-icon-far-check-square, .d-icon-square-check, .d-icon-check-square)) > button::after {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  margin-top: -6px;
+  background: var(--aha-text-inverse, #FFFFFF);
+  -webkit-mask: url("../icons/svg/system/system-check.svg") center / 100% 100% no-repeat;
+  mask: url("../icons/svg/system/system-check.svg") center / 100% 100% no-repeat;
+}
+.poll[data-poll-status="closed"] ul.options > li > button {
+  cursor: not-allowed;
+  color: var(--aha-text-disabled, #B5B5B5);
+}
+
+/* Results: label left, percent (SemiBold) and count (tertiary) right, the progressbar track under it */
+.poll ul.results > li {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aha-space-4, 4px);
+  margin: 0;
+  padding: 0;
+}
+.poll ul.results .option {
+  margin: 0;
+}
+.poll ul.results .option p {
+  display: flex;
+  align-items: baseline;
+  gap: var(--aha-space-8, 8px);
+  margin: 0;
+  font-size: var(--aha-size-default, 14px);
+  line-height: var(--aha-line-height-body, 1.5);
+  font-weight: var(--aha-weight-regular, 400);
+  color: var(--aha-text-default, #1A1A1A);
+}
+.poll ul.results .option .option-text {
+  order: 1;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.poll ul.results li.chosen .option .option-text {
+  font-weight: var(--aha-weight-semibold, 600);
+}
+.poll ul.results .option .percentage {
+  order: 2;
+  flex: none;
+  width: auto;
+  font-size: inherit;
+  font-weight: var(--aha-weight-semibold, 600);
+  color: var(--aha-text-default, #1A1A1A);
+}
+.poll ul.results .option .absolute {
+  order: 3;
+  flex: none;
+  font-size: inherit;
+  font-weight: var(--aha-weight-regular, 400);
+  color: var(--aha-text-tertiary, #616161);
+}
+.poll ul.results .bar-back {
+  height: 8px;
+  margin: 0;
+  border-radius: var(--aha-radius-pill, 999px);
+  background: var(--aha-gray-30, #F1F1F1);
+  overflow: hidden;
+}
+.poll ul.results .bar,
+.poll ul.results li.chosen .bar {
+  height: 100%;
+  border-radius: var(--aha-radius-pill, 999px);
+  background: var(--aha-color-primary, #E70E68);
+  transition: width var(--aha-motion-slow, .3s) var(--aha-ease-out, ease-out);
+}
+
+/* Voter count and instructions: one 14px tertiary line under the options, no side column */
+.poll .poll-info {
+  order: 2;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--aha-space-4, 4px) var(--aha-space-16, 16px);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  text-align: start;
+  font-size: var(--aha-size-default, 14px);
+  line-height: var(--aha-line-height-body, 1.5);
+  font-weight: var(--aha-weight-regular, 400);
+  color: var(--aha-text-tertiary, #616161);
+}
+.poll .poll-info :is(.poll-info_counts, .poll-info_counts-count, .poll-info_instructions, .poll-info_instructions li) {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--aha-space-4, 4px);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  list-style: none;
+}
+.poll .poll-info :is(.info-number, .info-label, .info-text) {
+  margin: 0;
+  font-size: var(--aha-size-default, 14px);
+  line-height: var(--aha-line-height-body, 1.5);
+  font-weight: var(--aha-weight-regular, 400);
+  color: var(--aha-text-tertiary, #616161);
+}
+.poll .poll-info .d-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--aha-icon-default, #4A4A4A);
+}
+.poll :is(.poll-info, .poll-buttons) .d-icon:is(.d-icon-lock, .d-icon-chart-bar, .d-icon-far-chart-bar) {
+  background: currentColor;
+  -webkit-mask: var(--aha-discourse-glyph) center / 100% 100% no-repeat;
+  mask: var(--aha-discourse-glyph) center / 100% 100% no-repeat;
+}
+.poll :is(.poll-info, .poll-buttons) .d-icon:is(.d-icon-lock, .d-icon-chart-bar, .d-icon-far-chart-bar) > use {
+  visibility: hidden;
+}
+.poll .d-icon-lock { --aha-discourse-glyph: url("../icons/svg/system/system-lock.svg"); }
+.poll :is(.d-icon-chart-bar, .d-icon-far-chart-bar) { --aha-discourse-glyph: url("../icons/svg/system/system-chart-bar.svg"); }
+
+/* Buttons: the plugin renders its own DButtons, so the layer gives them <aha-button>'s values,
+   read from the Button tokens: Vote now is primary lg, every other poll button tertiary lg. */
+.poll .poll-buttons {
+  order: 3;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--aha-space-8, 8px);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.poll .poll-buttons .btn { /* ds-lint-allow: hand-rolled-button (the Discourse poll plugin renders these DButtons; a theme cannot swap them for aha-button, so they take its lg values) */
+  display: inline-flex;
+  align-items: center;
+  gap: var(--aha-space-8, 8px);
+  box-sizing: border-box;
+  height: 40px;
+  padding: 0 var(--aha-space-16, 16px);
+  border: 1px solid transparent;
+  border-radius: var(--aha-radius-default, 8px);
+  background: transparent;
+  box-shadow: none;
+  font-family: inherit;
+  font-size: var(--aha-size-l, 16px);
+  font-weight: var(--aha-weight-semibold, 600);
+  color: var(--aha-text-default, #1A1A1A);
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  transition: background-color var(--aha-motion-mid, .2s) var(--aha-ease-in-out, ease-in-out),
+    color var(--aha-motion-mid, .2s) var(--aha-ease-in-out, ease-in-out),
+    outline-color var(--aha-motion-mid, .2s) var(--aha-ease-in-out, ease-in-out);
+}
+.poll .poll-buttons .btn .d-icon {
+  width: 16px;
+  height: 16px;
+  color: inherit;
+}
+.poll .poll-buttons .btn:hover, /* ds-lint-allow: hand-rolled-button (tertiary hover of the plugin's DButton) */
+.poll .poll-buttons .btn:active {
+  background: var(--aha-button-ghost-bg-hover, #E70E680D);
+  color: var(--aha-text-link-hover, #DB005B);
+}
+.poll .poll-buttons .btn:focus-visible { /* ds-lint-allow: hand-rolled-button (the aha-button focus ring on the plugin's DButton) */
+  outline-color: var(--aha-border-focus, #E70E68);
+}
+.poll .poll-buttons .btn.cast-votes { /* ds-lint-allow: hand-rolled-button (Vote now takes the aha-button primary values) */
+  background: var(--aha-button-primary-bg, #E70E68);
+  color: var(--aha-button-primary-text, #FFFFFF);
+}
+.poll .poll-buttons .btn.cast-votes:hover { /* ds-lint-allow: hand-rolled-button (aha-button primary hover) */
+  background: var(--aha-button-primary-bg-hover, #DB005B);
+  color: var(--aha-button-primary-text, #FFFFFF);
+}
+.poll .poll-buttons .btn.cast-votes:active { /* ds-lint-allow: hand-rolled-button (aha-button primary press) */
+  background: var(--aha-button-primary-bg-press, #DB005B);
+  color: var(--aha-button-primary-text, #FFFFFF);
+}
+.poll .poll-buttons .btn:is(:disabled, .disabled), /* ds-lint-allow: hand-rolled-button (aha-button disabled values) */
+.poll .poll-buttons .btn.cast-votes:is(:disabled, .disabled) {
+  background: var(--aha-button-disabled-bg, #E3E3E3);
+  color: var(--aha-button-disabled-text, #B5B5B5);
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .poll *, .poll *::before, .poll *::after { transition: none !important; }
+}

@@ -1,0 +1,57 @@
+// Discourse theme: two pieces.
+// 1. The composer itself. Discourse renders its own composer (#reply-control), so a theme cannot swap in
+//    <aha-composer>. Add the DS stylesheet to the theme's <head> section; it restyles the core markup on the
+//    Composer contract's values:
+//   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+//   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/discourse-composer.css">
+//   <script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-input.js"></script>
+//   <script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-button.js"></script>
+//    Class map (Discourse → DS):
+//      #reply-control, .reply-area           → the Composer panel: white, border-default top, 12 16 padding
+//      .d-editor-container                   → editor + preview, 12px apart
+//      .d-editor-textarea-wrapper            → the editor box: border #E3E3E3, radius 8, Input hover and focus ring
+//      .d-editor-button-bar button           → tertiary icon-only Button sm: 28 × 28, radius 4, registry glyphs
+//      .d-editor-input                       → the field: 14/21 ink, placeholder #616161
+//      .d-editor-preview                     → the preview pane: post-body type 16/24 Regular ink
+//      .save-or-cancel .btn-primary / .cancel → primary / tertiary Button lg: 40px, radius 8
+//    The blockquote button keeps its Discourse glyph until the registry has a quote glyph.
+// 2. The collapsed bar. A theme's own "Join the conversation" pill must be a real Input, never a div with
+//    role=button. Put an <aha-input> in its place; a click, Enter or Space on it opens Discourse's composer on
+//    the topic. Focus alone does not, so a keyboard user tabbing past stays where they are.
+//    Signed out, show an <aha-button> "Log in to reply" instead, which opens the log-in modal.
+//    File: javascripts/discourse/api-initializers/aha-reply-bar.js
+import { apiInitializer } from "discourse/lib/api";
+
+export default apiInitializer("1.0", (api) => {
+  const composer = api.container.lookup("service:composer");
+  const currentUser = api.getCurrentUser();
+
+  function bar(topic) {
+    if (!currentUser) {
+      const login = document.createElement("aha-button");
+      login.setAttribute("variant", "secondary");
+      login.textContent = "Log in to reply";
+      login.addEventListener("click", () => api.container.lookup("route:application").send("showLogin"));
+      return login;
+    }
+    const input = document.createElement("aha-input");
+    input.setAttribute("placeholder", "Join the conversation");
+    input.setAttribute("aria-label", "Join the conversation");
+    input.style.setProperty("--aha-field-width", "100%");
+    const open = () => composer.open({ action: "reply", draftKey: topic.draft_key, draftSequence: topic.draft_sequence, topic });
+    input.addEventListener("click", open);
+    input.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      open();
+    });
+    return input;
+  }
+
+  api.onPageChange(() => {
+    const topic = api.container.lookup("controller:topic")?.model;
+    document.querySelectorAll(".as-comment-pill").forEach((pill) => {
+      if (topic) pill.replaceWith(bar(topic));
+    });
+  });
+});

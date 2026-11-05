@@ -1,0 +1,232 @@
+/* Discourse user profile and user card → the DS Profile header (<aha-profile-header>), for a Discourse
+   theme that cannot replace core markup. Load lib/tokens.css first, then this file; every value is the
+   Profile header contract's. Scoped to the profile page (.user-main) and the user card (#user-card).
+   The profile labels ("Last Post", "Invited By", "Trust Level") are title case in Discourse's own
+   strings, not in CSS: override them in Admin > Customise > Text (the Discourse tab lists the keys). */
+
+/* Header: avatar, then the name and username */
+.user-main .about .details {
+  font-family: var(--aha-font-product, "Plus Jakarta Sans", sans-serif);
+  color: var(--aha-text-default, #1A1A1A);
+  background: transparent;
+}
+.user-main .about .details .primary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--aha-space-16, 16px) var(--aha-space-24, 24px);
+}
+.user-main .user-profile-avatar img.avatar,
+.user-main .user-profile-avatar .avatar {
+  width: 144px;
+  height: 144px;
+  border-radius: var(--aha-radius-pill, 999px);
+  object-fit: cover;
+}
+.user-main .primary .full-name,
+.user-main .primary .user-profile-names__primary {
+  margin: 0;
+  font-size: var(--aha-size-h3, 32px);
+  line-height: var(--aha-line-height-heading, 1.3);
+  font-weight: var(--aha-weight-semibold, 600);
+  color: var(--aha-text-default, #1A1A1A);
+  overflow-wrap: anywhere;
+}
+.user-main .primary .username,
+.user-main .primary .user-profile-names__secondary {
+  margin: 0;
+  font-size: var(--aha-size-l, 16px);
+  line-height: var(--aha-line-height-body, 1.5);
+  font-weight: var(--aha-weight-regular, 400);
+  color: var(--aha-text-secondary, #4A4A4A);
+}
+.user-main .primary .user-profile-names__primary.username {
+  font-size: var(--aha-size-h3, 32px);
+  line-height: var(--aha-line-height-heading, 1.3);
+  font-weight: var(--aha-weight-semibold, 600);
+  color: var(--aha-text-default, #1A1A1A);
+}
+
+/* Details: label in tertiary, value in ink, both Regular 14px */
+.user-main .secondary dl {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--aha-space-4, 4px) var(--aha-space-24, 24px);
+  margin: var(--aha-space-16, 16px) 0 0;
+  padding: 0;
+  font-size: var(--aha-size-default, 14px);
+  line-height: var(--aha-line-height-body, 1.5);
+}
+.user-main .secondary dl > div {
+  display: flex;
+  gap: var(--aha-space-4, 4px);
+  margin: 0;
+}
+.user-main .secondary dt {
+  margin: 0;
+  font-size: inherit;
+  font-weight: var(--aha-weight-regular, 400);
+  text-transform: none;
+  color: var(--aha-text-tertiary, #616161);
+}
+.user-main .secondary dd {
+  margin: 0;
+  font-size: inherit;
+  font-weight: var(--aha-weight-regular, 400);
+  color: var(--aha-text-default, #1A1A1A);
+}
+.user-main .secondary dd a {
+  color: var(--aha-text-link, #DB005B);
+}
+
+/* Tabs (.user-nav): the Tabs line look, labels only */
+.user-main .user-navigation .horizontal-overflow-nav,
+.user-main .user-nav {
+  border-bottom: 1px solid var(--aha-border-default, #E3E3E3);
+}
+.user-main .user-nav {
+  display: flex;
+  gap: var(--aha-space-24, 24px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.user-main .user-nav > li {
+  flex: none;
+  margin: 0;
+}
+.user-main .user-nav > li > a {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--aha-space-8, 8px) 0;
+  font-family: var(--aha-font-product, "Plus Jakarta Sans", sans-serif);
+  font-size: var(--aha-size-default, 14px);
+  line-height: 21px;
+  font-weight: var(--aha-weight-semibold, 600);
+  color: var(--aha-text-secondary, #4A4A4A);
+  text-decoration: none;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  transition: color var(--aha-motion-mid, .2s) var(--aha-ease-in-out, ease-in-out),
+    border-color var(--aha-motion-mid, .2s) var(--aha-ease-in-out, ease-in-out);
+}
+.user-main .user-nav > li > a:hover {
+  color: var(--aha-text-default, #1A1A1A);
+  background: transparent;
+}
+.user-main .user-nav > li > a.active {
+  color: var(--aha-color-primary, #E70E68);
+  border-bottom-color: var(--aha-color-primary, #E70E68);
+}
+.user-main .user-nav > li > a:focus-visible {
+  outline: 2px solid var(--aha-border-focus, #E70E68);
+  outline-offset: 2px;
+}
+.user-main .user-nav .d-icon {
+  display: none;
+}
+
+/* Summary section titles (h3.stats-title): sentence case, 16px SemiBold, ink */
+.user-main h3.stats-title {
+  margin: 0 0 var(--aha-space-12, 12px);
+  font-family: var(--aha-font-product, "Plus Jakarta Sans", sans-serif);
+  font-size: var(--aha-size-l, 16px);
+  line-height: var(--aha-line-height-heading, 1.3);
+  font-weight: var(--aha-weight-semibold, 600);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--aha-text-default, #1A1A1A);
+}
+
+/* Stats: the Statistic values, the figure SemiBold 600, never Bold */
+.user-main .stats-section .user-stat .value,
+.user-main .stats-section .user-stat .value .number {
+  font-size: var(--aha-size-xl, 20px);
+  line-height: var(--aha-line-height-tight, 1.2);
+  font-weight: var(--aha-weight-semibold, 600);
+  color: var(--aha-text-default, #1A1A1A);
+}
+.user-main .stats-section .user-stat .label {
+  font-size: var(--aha-size-default, 14px);
+  line-height: var(--aha-line-height-body, 1.5);
+  font-weight: var(--aha-weight-regular, 400);
+  text-transform: none;
+  color: var(--aha-text-secondary, #4A4A4A);
+}
+
+/* Usernames in user lists (Most liked by, About page members): SemiBold 600, never Bold */
+:is(.user-main, .about-page) .user-info .username,
+:is(.user-main, .about-page) .user-info .username a {
+  font-weight: var(--aha-weight-semibold, 600);
+}
+
+/* User card (#user-card): the card variant, a framed panel with a 96px avatar */
+#user-card .card-content {
+  padding: var(--aha-space-24, 24px);
+  font-family: var(--aha-font-product, "Plus Jakarta Sans", sans-serif);
+  color: var(--aha-text-default, #1A1A1A);
+  background: var(--aha-bg-elevated, #FFFFFF);
+  border: 1px solid var(--aha-border-default, #E3E3E3);
+  border-radius: var(--aha-radius-lg, 12px);
+  box-shadow: 0 4px 12px var(--aha-ink-a10, rgba(0, 0, 0, .1));
+}
+#user-card .user-card-avatar img.avatar,
+#user-card .user-card-avatar .avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: var(--aha-radius-pill, 999px);
+  object-fit: cover;
+}
+#user-card .names__primary,
+#user-card .names .full-name,
+#user-card .names .first-row-name {
+  font-size: var(--aha-size-h4, 24px);
+  line-height: var(--aha-line-height-heading, 1.3);
+  font-weight: var(--aha-weight-semibold, 600);
+  color: var(--aha-text-default, #1A1A1A);
+}
+#user-card .names__primary a {
+  color: inherit;
+  text-decoration: none;
+}
+#user-card .names__secondary,
+#user-card .names .username {
+  font-size: var(--aha-size-l, 16px);
+  line-height: var(--aha-line-height-body, 1.5);
+  font-weight: var(--aha-weight-regular, 400);
+  color: var(--aha-text-secondary, #4A4A4A);
+}
+#user-card .metadata,
+#user-card .metadata h3 {
+  font-size: var(--aha-size-default, 14px);
+  line-height: var(--aha-line-height-body, 1.5);
+  font-weight: var(--aha-weight-regular, 400);
+  text-transform: none;
+  color: var(--aha-text-default, #1A1A1A);
+}
+#user-card .metadata .desc {
+  color: var(--aha-text-tertiary, #616161);
+}
+#user-card .usercard-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--aha-space-8, 8px);
+}
+
+@media (max-width: 599px) {
+  .user-main .user-profile-avatar img.avatar,
+  .user-main .user-profile-avatar .avatar {
+    width: 96px;
+    height: 96px;
+  }
+  .user-main .primary .full-name,
+  .user-main .primary .user-profile-names__primary,
+  .user-main .primary .user-profile-names__primary.username {
+    font-size: var(--aha-size-h4, 24px);
+  }
+  .user-main .user-nav {
+    overflow-x: auto;
+  }
+}
