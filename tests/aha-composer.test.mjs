@@ -27,8 +27,11 @@ const scenarios = String.raw`(async () => {
   out.barCleared = bar.value;
   out.focusInEditor = root.activeElement === root.querySelector('.field') && ta.matches(':focus');
 
+  const inputs = [];
+  host.addEventListener('input', (e) => inputs.push(e.detail && e.detail.value));
   ta.value = 'hello world';
-  ta.dispatchEvent(new Event('input', { bubbles: true }));
+  ta.dispatchEvent(new InputEvent('input', { bubbles: true, composed: true }));
+  out.inputEvents = inputs;
   ta.setSelectionRange(6, 11);
   root.querySelector('[data-tool="bold"]').click();
   out.bold = host.value;
@@ -60,6 +63,7 @@ test('aha-composer opens from its input bar on typing or Enter but not on focus,
   assert.equal(r.typedCarried, 'h');
   assert.equal(r.barCleared, '');
   assert.equal(r.focusInEditor, true);
+  assert.deepEqual(r.inputEvents, ['hello world', 'hello **world**']);
   assert.equal(r.bold, 'hello **world**');
   assert.equal(r.plainPreview, 'hello **world**');
   assert.equal(r.previewElements, 0);
