@@ -33,6 +33,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1026.0 — 2026-11-05
+
+### Added
+- **Voice rules: never invent a fact (rule 13.26) and a new section 17 for one-to-one email sent in a named person's
+  name** (#627). From the Head of Growth's corrections to customer emails on 3 November; adopted by the brand
+  director on 5 November.
+
 ## 0.1025.0 — 2026-11-05
 ### Changed
 - **Colour rule 11.2, True or False result stamp exception** (#672). The result stamp of a True or False question on the audience phone (the small tilted label on the card corner that names the correct side at result) writes its word in the answer colour: True in `--aha-answer-correct` (`#008A05`, 4.53 to 1 on white), False in `--aha-answer-wrong` (`#C7401E`, 5.02 to 1), on white only. Every other text stays the default ink. `screen-lint` accepts the answer token as a text colour only in a selector that names a True or False result stamp (`tof-result-stamp`, `true-false-result-stamp`); `result-stamp` alone, `tof-true` and `tofu-result-stamp` still hard-fail. Criteria colour C1 and C5, feedback C2 and audience C31, the deck-tokens Correct and wrong row, the answer token note, README and the aha-design skill say the same; three colour evals added.
