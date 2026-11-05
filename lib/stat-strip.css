@@ -2,16 +2,15 @@
    columns as it narrows, never past its container. Load lib/tokens.css first.
    Children are <aha-stat-tile> elements, or host markup with the .aha-stat-strip__* classes, which
    draw the plain stat tile (label, then a SemiBold figure). The Discourse block maps the About page
-   stats and the profile summary stats onto the same strip.
+   stats onto the same strip; Discourse profile stats are styled by lib/discourse-profile.css.
    Classes and the Discourse mapping: https://design.ahaslides.io/stat-tile/index.html */
-.aha-stat-strip, .about__stats, .stats-section.top-section {
+.aha-stat-strip, .about__stats {
   box-sizing: border-box; display: grid; gap: var(--aha-space-16, 16px); min-width: 0; max-width: 100%;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, max(160px, (100% - 4 * var(--aha-space-16, 16px)) / 5)), 1fr));
   margin: 0; padding: 0; border: 0; list-style: none;
 }
-.stats-section.top-section > li { min-width: 0; margin: 0; padding: 0; list-style: none; }
 
-.aha-stat-strip__item, .about__stats-item, .stats-section .user-stat {
+.aha-stat-strip__item, .about__stats-item {
   box-sizing: border-box; height: 100%; min-width: 0; display: flex; flex-direction: column; gap: var(--aha-space-8, 8px);
   padding: var(--aha-space-20, 20px) var(--aha-space-20, 20px) var(--aha-space-16, 16px);
   border-radius: var(--aha-radius-default, 8px); background: var(--aha-bg-container, #FFFFFF);
@@ -19,21 +18,19 @@
   color: var(--aha-text-default, #1A1A1A); font-family: var(--aha-font-product, "Plus Jakarta Sans", sans-serif);
 }
 
-.aha-stat-strip__label, .about__stats-item, .stats-section .user-stat .label {
+.aha-stat-strip__label, .about__stats-item {
   font-size: var(--aha-size-default, 14px); line-height: var(--aha-line-height-body, 1.5);
   font-weight: var(--aha-weight-regular, 400); color: var(--aha-text-default, #1A1A1A); overflow-wrap: anywhere;
 }
 .aha-stat-strip__label { display: flex; align-items: center; gap: var(--aha-space-8, 8px); }
-.stats-section .user-stat .label { order: -1; }
 
 .aha-stat-strip__icon, .about__stats-item .d-icon { flex: none; color: var(--aha-icon-muted, #8A8A8A); }
 
-.aha-stat-strip__value, .stats-section .user-stat .value {
+.aha-stat-strip__value {
   font-size: var(--aha-size-h3, 32px); line-height: var(--aha-line-height-tight, 1.2);
   font-weight: var(--aha-weight-semibold, 600); font-variant-numeric: tabular-nums;
   color: var(--aha-text-default, #1A1A1A); overflow-wrap: anywhere;
 }
-.stats-section .user-stat .value .number { font: inherit; color: inherit; }
 
 /* Discourse renders each About stat as one string ("450 Members"), so the item keeps the label look with
    its icon beside it; the Discourse tab shows the <aha-stat-tile> strip for a SemiBold figure. */
@@ -51,3 +48,7 @@
 .about__stats-item .d-icon-users { --aha-discourse-glyph: url("../icons/svg/system/system-users.svg"); }
 .about__stats-item .d-icon-shield-halved { --aha-discourse-glyph: url("../icons/svg/system/system-shield-check.svg"); }
 .about__stats-item .d-icon-calendar-days { --aha-discourse-glyph: url("../icons/svg/system/system-calendar-dots.svg"); }
+
+/* The older About page draws its counts as a table, wider than a phone; it scrolls inside its own box. */
+.about-stats-table { display: block; max-width: 100%; overflow-x: auto; }
+.about-stats-table td { font-variant-numeric: tabular-nums; }

@@ -8,10 +8,8 @@
 //      .about__stats                      → .aha-stat-strip         up to 5 a row, wraps, never scrolls sideways
 //      .about__stats-item                 → .aha-stat-strip__item   plain tile; the figure and its word stay one string
 //      .about__stats-item .d-icon-users, -shield-halved, -calendar-days → system-users, system-shield-check, system-calendar-dots
-//      .stats-section.top-section         → .aha-stat-strip
-//      .stats-section .user-stat          → .aha-stat-strip__item
-//      .user-stat .label                  → .aha-stat-strip__label  shown above the value
-//      .user-stat .value                  → .aha-stat-strip__value  32/1.2 SemiBold 600, tabular figures
+//      .about-stats-table                 → scrolls inside its own box on a narrow screen
+//    Profile summary stats (.user-stat) are styled by lib/discourse-profile.css, not this file.
 //
 // 2. Optional, for a SemiBold figure on the About page: Discourse renders each About stat as one string
 //    ("450 Members"), so CSS cannot set the figure apart. This initializer rebuilds the strip as

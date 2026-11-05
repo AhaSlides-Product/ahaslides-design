@@ -76,7 +76,7 @@
     },
     {
       "label": "Discourse",
-      "value": "lib/stat-strip.css maps the About page stats (.about__stats, .about__stats-item, icons swapped for the registry glyphs) and the profile summary stats (.stats-section.top-section, .user-stat: label above a SemiBold 600 value, never 700) onto the strip"
+      "value": "lib/stat-strip.css maps the About page stats (.about__stats, .about__stats-item, icons swapped for the registry glyphs) onto the strip, and lets the older .about-stats-table scroll inside its own box; Discourse profile stats are styled by lib/discourse-profile.css"
     }
   ],
   "props": [
@@ -143,7 +143,7 @@
       },
       {
         "what": "Stat strip (lib/stat-strip.css)",
-        "when": "a row of up to 5 plain counts with no comparison, such as a community's members, admins and moderators or a profile's days visited and posts read; on host markup (Discourse) use its classes"
+        "when": "a row of up to 5 plain counts with no comparison, such as a community's members, admins and moderators; on host markup (Discourse) use its classes"
       },
       {
         "what": "Statistic",
@@ -195,7 +195,7 @@
       "key": "discourse",
       "label": "Discourse theme",
       "file": "stat-tile.discourse.txt",
-      "note": "Class layer on Discourse's About page and profile summary stats: link lib/stat-strip.css; the About strip can render <aha-stat-tile> elements from a plugin outlet."
+      "note": "Class layer on Discourse's About page stats: link lib/stat-strip.css; the About strip can render <aha-stat-tile> elements from an initializer."
     }
   ],
   "preview": "stat-tile.preview.html",
