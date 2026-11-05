@@ -38,6 +38,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `<aha-poll>` (`@ahaslides-product/design/aha-poll`): a poll or vote block built from `<aha-radio>` or `<aha-checkbox>` rows, a primary `<aha-button>` Vote and `<aha-progressbar>` results with a percent and a vote count, a 14px tertiary voter line, `results="always|on-vote|on-close"` and a closed state. Fires `vote`; the host sets `voted`, `counts` and `voters` (#PR)
 - `lib/discourse-poll.css` (`@ahaslides-product/design/discourse-poll.css`): a class layer that restyles the Discourse poll plugin's own markup to the Poll values, with a Discourse theme tab mapping each plugin class (#PR)
 
+## 0.1059.1 — 2026-11-05
+
+### Fixed
+- CSAT docs preview: the inline-feedback example's wrapping popover now opens with `flip`, so it stays inside the viewport and the render-truth overlay check (OVERLAY-09) passes again on master. No component or API change. (#701)
+
 ## 0.1059.0 — 2026-11-05
 
 ### Added
