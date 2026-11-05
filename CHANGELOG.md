@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1065.0 — 2026-11-05
+## 0.1072.0 — 2026-11-05
 
 ### Added
 - Composer: new `<aha-composer>`, the reply box of a forum or comment thread. Collapsed it is a real 40px `<aha-input>` (radius 8), never a div painted as a field; a click, Enter, Space or typing (not focus alone) opens an editor box (Input border, hover and focus ring) with a toolbar of tertiary icon-only `<aha-button>`s on registry glyphs, an uncapped `<aha-counted-textarea>`, an optional preview pane in post-body type (16/24 Regular ink, the host renders the Markdown) and primary Reply / tertiary Cancel. Composed, cancelable `submit` and `cancel` events, plus `open`, `input` and `upload`; Mod+B, Mod+I and Mod+Enter (#705)
