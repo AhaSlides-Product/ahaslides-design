@@ -199,3 +199,46 @@ test('csat feedback-display="inline": the feedback body opens in flow, not in a 
   assert.equal(r.reopensAfterRerate, true);
   assert.deepEqual(r.backToPopover, { collapsed: true, haspopup: 'dialog', bodyInPopover: true });
 });
+
+const ratedScenarios = String.raw`(async () => {
+  const wait = (ms) => new Promise((done) => setTimeout(done, ms));
+  const box = document.getElementById('narrow');
+  const host = document.getElementById('rated');
+  const root = host.shadowRoot;
+  const text = () => root.querySelector('.confirm-text').textContent;
+  const inBox = (el) => el.getBoundingClientRect().right <= box.getBoundingClientRect().right - 8 + 0.5;
+  const out = {};
+  root.querySelector('.down').click(); await wait(300);
+  out.fits = { scroll: box.scrollWidth <= box.clientWidth, field: inBox(root.querySelector('.fb-text')), close: inBox(root.querySelector('.fb-close')), send: inBox(root.querySelector('.fb-submit')) };
+  out.dislike = text();
+  const confirm = getComputedStyle(root.querySelector('.confirm'));
+  out.style = { size: confirm.fontSize, weight: confirm.fontWeight, colour: confirm.color, icon: root.querySelector('.confirm aha-icon').getAttribute('name') };
+  root.querySelector('.fb-close').click(); await wait(300);
+  root.querySelector('.up').click(); await wait(300);
+  out.like = text();
+  root.querySelector('.up').click(); await wait(300);
+  out.unratedHidden = root.querySelector('.confirm').hidden;
+  root.querySelector('.fb-open').click(); await wait(300);
+  root.querySelector('.fb-text').value = 'idea';
+  root.querySelector('.fb-text').dispatchEvent(new Event('input'));
+  root.querySelector('.fb-submit').click(); await wait(300);
+  out.fallbackAfterButtonSend = text();
+  const only = document.getElementById('likeonly').shadowRoot;
+  only.querySelector('.down').click(); await wait(300);
+  out.likeOnlyDown = only.querySelector('.confirm').hidden;
+  only.querySelector('.up').click(); await wait(300);
+  out.likeOnlyUp = only.querySelector('.confirm-text').textContent;
+  return out;
+})()`;
+
+test('csat confirmation-like / -dislike name the rating, and the inline field fits a narrow container', { skip }, async () => {
+  const r = await evaluateInPage(fixture, ratedScenarios, { readyExpr: '!!window.csatFixtureReady', timeout: 60000 });
+  assert.deepEqual(r.fits, { scroll: true, field: true, close: true, send: true });
+  assert.equal(r.dislike, "You didn't like this. Thanks for being honest.");
+  assert.deepEqual(r.style, { size: '14px', weight: '600', colour: 'rgb(26, 26, 26)', icon: 'system-check' });
+  assert.equal(r.like, 'You liked this. Thanks for letting us know!');
+  assert.equal(r.unratedHidden, true);
+  assert.equal(r.fallbackAfterButtonSend, 'Thanks, feedback received');
+  assert.equal(r.likeOnlyDown, true);
+  assert.equal(r.likeOnlyUp, 'You liked this');
+});

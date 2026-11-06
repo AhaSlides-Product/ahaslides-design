@@ -33,6 +33,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1088.0 — 2026-11-07
+### Added
+- CSAT `confirmation-like` and `confirmation-dislike` say which rating was given (for example "You liked this. Thanks for letting us know!"); `confirmation` stays the fallback and the only text after a Feedback-button Send with no rating, so existing consumers read the same (#714)
+### Changed
+- CSAT confirmation line is now 14px semibold in the default text colour, led by a 16px check icon, instead of the 12px muted caption (#714)
+### Fixed
+- CSAT `feedback-display="inline"` fits its container: the panel, field and Send take the CSAT's width (no 220px minimum) and the close X sits inside the edge, so nothing spills out of a narrow popover or card (#714)
+
 ## 0.1085.0 — 2026-11-06
 ### Added
 - `aha-dropdown` rows take `attrs`: `data-*` (not `data-key`) and `aria-label` reach the row, the same rule as `aha-menu`, so each item can carry its own `data-tracking-name` (#712)
