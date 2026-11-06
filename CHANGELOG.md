@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1083.1 — 2026-11-06
+### Fixed
+- Landing Webflow scan records why the Webflow secondary buttons drifted from the DS and the full measured delta (label, border, weight, shadow, hover, press, focus, XL size, Vivid Pink sections), and marks the purple-era secondary-button items superseded (#715)
+
 ## 0.1083.0 — 2026-11-06
 ### Added
 - Twelve slide-type icons for AhaSlides Games formats that had none: `slidetype-annotate`, `slidetype-escape-room`, `slidetype-halloween-race`, `slidetype-duck-race`, `slidetype-photo-share`, `slidetype-interactive-image`, `slidetype-true-or-false`, `slidetype-2x2-matrix`, `slidetype-missing-letters`, `slidetype-pin-on-image-quiz`, `slidetype-pumpkin-head-swap` and `slidetype-team-retro`, each with search words in `icons/meaning.json` (#716)
