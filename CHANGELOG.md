@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1080.0 — 2026-11-06
 ### Added
-- `aha-dropdown` rows take `attrs`: `data-*` (not `data-key`) and `aria-label` reach the row, the same rule as `aha-menu`, so each item can carry its own `data-tracking-name` (#PR)
+- `aha-dropdown` rows take `attrs`: `data-*` (not `data-key`) and `aria-label` reach the row, the same rule as `aha-menu`, so each item can carry its own `data-tracking-name` (#712)
 
 ## 0.1078.1 — 2026-11-06
 ### Fixed
