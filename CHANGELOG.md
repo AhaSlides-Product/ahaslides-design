@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1083.0 — 2026-11-06
 ### Added
-- Twelve slide-type icons for AhaSlides Games formats that had none: `slidetype-annotate`, `slidetype-escape-room`, `slidetype-halloween-race`, `slidetype-duck-race`, `slidetype-photo-share`, `slidetype-interactive-image`, `slidetype-true-or-false`, `slidetype-2x2-matrix`, `slidetype-missing-letters`, `slidetype-pin-on-image-quiz`, `slidetype-pumpkin-head-swap` and `slidetype-team-retro`, each with search words in `icons/meaning.json` (#NNN)
+- Twelve slide-type icons for AhaSlides Games formats that had none: `slidetype-annotate`, `slidetype-escape-room`, `slidetype-halloween-race`, `slidetype-duck-race`, `slidetype-photo-share`, `slidetype-interactive-image`, `slidetype-true-or-false`, `slidetype-2x2-matrix`, `slidetype-missing-letters`, `slidetype-pin-on-image-quiz`, `slidetype-pumpkin-head-swap` and `slidetype-team-retro`, each with search words in `icons/meaning.json` (#716)
 
 ## 0.1078.1 — 2026-11-06
 ### Fixed
