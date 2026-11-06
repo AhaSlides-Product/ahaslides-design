@@ -48,6 +48,7 @@
   "opinion": {
     "whenToUse": [
       { "what": "Badge count/dot", "when": "a count or presence marker attached to another element (a bell, a tab, an avatar). A dot on a notification icon is always the active (pink) dot; default and disabled dots are for neutral marks next to text" },
+      { "what": "Unread or new marker", "when": "an unread or new marker beside a navigation label, such as a forum sidebar's new-topics marker: <aha-badge dot> at the default status, never an icon-font circle. A host that renders its own marker (Discourse) paints that element as this dot: the Achievement badge page, Discourse tab, has the CSS" },
       { "what": "Badge count colour", "when": "black (the default) for every count (tabs, filters, inbox, totals); Vivid Pink (status=\"primary\") only for a new count that needs attention now, such as unread notifications on the bell or new responses since you last looked; at most one Vivid Pink count per screen" },
       { "what": "Paid feature marker", "when": "a feature or card that needs a paid plan: place <aha-paywall> with no slot (the crown mark) in the corner of the card or before the tooltip title; the paywall popover carries the upsell" },
       { "what": "New badge", "when": "something new to try: a slide type, a feature, a menu item. At most one New per area, and remove it once the thing is no longer new" },

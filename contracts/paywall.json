@@ -58,7 +58,7 @@
     "note": "Feature label is a short noun phrase; body is exactly one sentence about the benefit (not \"This is a Pro feature\"); the unlock line keeps its English format; a translated product passes `unlock-label` with `{plan}` instead of rewording it in place, and `mark-label` for the crown mark's accessible name. Popover/placement mechanics defer to aha-design-overlays; a single plan-gated setting row lives in the Settings surface."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
-  "reuse": { "entry": "./aha-paywall", "registers": "aha-paywall", "exportsNamed": ["AhaPaywall", "defineAhaPaywall", "fitPaywall", "toggleLockedPaywall"] },
+  "reuse": { "entry": "./aha-paywall", "registers": "aha-paywall", "exportsNamed": ["AhaPaywall", "defineAhaPaywall", "fitPaywall", "fitPaywallFromAnchor", "toggleLockedPaywall"] },
   "snippets": [
     { "key": "html", "label": "HTML", "file": "paywall.html.txt" },
     { "key": "react", "label": "React", "file": "paywall.react.txt" },

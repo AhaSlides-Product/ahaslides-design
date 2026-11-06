@@ -1,0 +1,66 @@
+{
+  "name": "Search result",
+  "slug": "search-result",
+  "environment": ["product", "web"],
+  "group": "Data display",
+  "tier": "leaf-lit",
+  "badge": "shared web component + class layer",
+  "element": "aha-search-result",
+  "summary": "One row of a search results list: the title with the searched words marked, the category tag and date, and a two-line plain-text blurb with URLs stripped. Ships as a web component and as a class layer (lib/search-result.css) a host such as a Discourse theme applies to its own markup.",
+  "highlights": ["Search results row", "Searched words marked on Vivid Pink at 5% in ink", "Category tag, date, two-line blurb with URLs stripped", "Web component, or a class layer for Discourse"],
+  "lead": "ONE custom element, <aha-search-result>, plus the same CSS as a class layer. The row is the title (a link, 16/600 ink), a meta row with the category <aha-tag> and the date (14/400 tertiary), then the blurb (14/400 secondary, plain text, clamped to two lines). Every word of `query` is marked in the title and the blurb: a Vivid Pink at 5% fill (--aha-bg-accent) with ink text, the weight of the text around it. The blurb drops URLs (http, https and www links) before it renders, so a pasted link never eats the two lines. 16px vertical padding and a 1px --aha-border-secondary divider; the last row drops it. Two ways in: a page that builds its own results list uses the element; a host that renders its own result markup (Discourse full-page search, .fps-result) links lib/search-result.css, which carries the same rules with each Discourse class listed beside its DS class. The element and the file share one stylesheet (lib/search-result-css.js), so they cannot drift. The category slot uses <aha-tag> until the category chip lands.",
+  "codeNote": "Same element, same shadow-DOM CSS, identical render. React and Vue pass attributes to the custom element. The class layer lib/search-result.css is generated from the element's own stylesheet, so a Discourse theme and the element render the same row. stripUrls() is exported for hosts that clean a blurb themselves.",
+  "tokensUsed": ["font-product", "border-secondary", "bg-accent", "text-default", "text-secondary", "text-tertiary", "text-inverse", "color-error", "border-focus", "radius-xs", "radius-pill", "size-l", "size-default", "weight-semibold", "weight-regular", "line-height-body", "space-4", "space-6", "space-8", "space-12", "space-16", "motion-fast", "ease-out"],
+  "spec": [
+    { "label": "Row", "value": "title, meta row, blurb in a column with 4px gaps · padding 16 top and bottom · divider 1px border-secondary #F1F1F1, none on the last row" },
+    { "label": "Title", "value": "16px / 1.5 · SemiBold 600 · text-default #1A1A1A · a link, underline on hover, 2px border-focus ring on keyboard focus" },
+    { "label": "Match", "value": "each word of `query`, in the title and the blurb · bg-accent (Vivid Pink at 5%, #E70E680D) fill, text-default #1A1A1A ink, the surrounding weight, radius 4 · a <mark> element" },
+    { "label": "Category", "value": "<aha-tag> first in the meta row, links to the category (the category chip replaces it when it ships)" },
+    { "label": "Date", "value": "14px / 1.5 · Regular 400 · text-tertiary #616161 · a <time> element, 8px after the category" },
+    { "label": "Blurb", "value": "14px / 1.5 · Regular 400 · text-secondary #4A4A4A · plain text, URLs stripped, two lines then an ellipsis" },
+    { "label": "Result count", "value": "the count beside a search field is a total: the default Badge count, white on black #1A1A1A, 11/18 SemiBold, 18px pill, never a Vivid Pink fill (Badge, Count colour)" }
+  ],
+  "props": [
+    { "name": "result-title", "type": "string", "default": "—", "desc": "The result's title, rendered as text in the title link with the query words marked" },
+    { "name": "href", "type": "string", "default": "—", "desc": "Where the title links (the topic or post)" },
+    { "name": "query", "type": "string", "default": "—", "desc": "The search terms. Each word is marked, case-insensitive, in the title and the blurb; omit to mark nothing" },
+    { "name": "category", "type": "string", "default": "—", "desc": "Category name shown as a tag in the meta row; omit for no tag" },
+    { "name": "category-href", "type": "string", "default": "—", "desc": "Makes the category tag a link" },
+    { "name": "time", "type": "string", "default": "—", "desc": "Display date, already formatted (\"Aug 6\", \"2h\")" },
+    { "name": "datetime", "type": "string", "default": "—", "desc": "Machine-readable date for the <time> element (ISO 8601)" },
+    { "name": "blurb", "type": "string", "default": "—", "desc": "Plain text, set as text (never parsed as HTML). URLs are stripped and the rest is clamped to two lines" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Search result", "when": "a list of results for a typed search: forum search, help-centre search, a template search page" },
+      { "what": "Search result class layer (lib/search-result.css)", "when": "the host renders its own result markup and cannot swap it for an element (Discourse full-page search)" },
+      { "what": "Topic row", "when": "a topic list with no search term: latest, a category, with avatar, likes and replies" },
+      { "what": "List", "when": "uniform rows of anything else with a title and a short description" }
+    ],
+    "note": "Mark only the searched words, never a whole phrase or the row. The mark is a fill, not a weight or a colour change, so a match reads the same in a SemiBold title and a Regular blurb. Pass the blurb as plain text. A result count beside the search field is the default black Badge count. In Discourse use the class layer on Discourse's own markup (see the Discourse tab).",
+    "dsv3": "EXTENSION — DS V3 has no search results row. Built from the Topic row and List conventions (title link, tertiary meta, secondary two-line text, row dividers) with the selected-state fill, Vivid Pink at 5% (--aha-bg-accent, colour rule 3.7), as the match mark; reuses <aha-tag>."
+  },
+  "surfaces": ["dashboard", "web"],
+  "reuse": { "entry": "./aha-search-result", "registers": "aha-search-result", "exportsNamed": ["AhaSearchResult", "defineAhaSearchResult", "stripUrls"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "search-result.html.txt", "runnable": "paste-and-run", "note": "The native form: a web component in an HTML file renders on open, no build step." },
+    { "key": "react", "label": "React", "file": "search-result.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "search-result.vue.txt" },
+    { "key": "discourse", "label": "Discourse theme", "file": "search-result.discourse.txt", "note": "Class layer on Discourse's own full-page search markup: link lib/search-result.css; a small initializer strips URLs from the blurbs." }
+  ],
+  "preview": "search-result.preview.html",
+  "selfCheck": [
+    { "label": "title 16px / SemiBold 600 / text-default #1A1A1A", "verdict": "PASS" },
+    { "label": "match: bg-accent Vivid Pink at 5% fill, ink text, surrounding weight", "verdict": "PASS" },
+    { "label": "date 14px text-tertiary #616161; blurb 14px text-secondary #4A4A4A, two lines, URLs stripped", "verdict": "PASS" },
+    { "label": "16px vertical padding; 1px border-secondary #F1F1F1 divider", "verdict": "PASS" },
+    { "label": "reuses <aha-tag>; class layer generated from the same CSS", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the rendered element (getComputedStyle via headless CDP). The probe row has a query that matches the title and the blurb, a category, a date and a blurb with a URL, so every slot renders and the URL strip is proven.",
+    "ready": "!!(document.querySelector('aha-search-result[data-probe]') && document.querySelector('aha-search-result[data-probe]').shadowRoot && document.querySelector('aha-search-result[data-probe]').shadowRoot.querySelector('.aha-search-result__title mark'))",
+    "singleUI": true,
+    "measure": "(function(){var r=document.querySelector('aha-search-result[data-probe]').shadowRoot;var row=getComputedStyle(r.querySelector('.aha-search-result'));var t=getComputedStyle(r.querySelector('.aha-search-result__title'));var m=getComputedStyle(r.querySelector('.aha-search-result__title mark'));var d=getComputedStyle(r.querySelector('.aha-search-result__date'));var b=r.querySelector('.aha-search-result__blurb');var bs=getComputedStyle(b);return{titleColor:t.color,titleSize:t.fontSize,titleWeight:t.fontWeight,matchBg:m.backgroundColor,matchColor:m.color,matchWeight:m.fontWeight,dateColor:d.color,dateSize:d.fontSize,blurbColor:bs.color,blurbSize:bs.fontSize,blurbHasUrl:/https?:|www\\./.test(b.textContent),dividerColor:row.borderBottomColor,padTop:row.paddingTop,reusesTag:!!r.querySelector('aha-tag').shadowRoot};})()",
+    "expect": { "titleColor": "rgb(26, 26, 26)", "titleSize": "16px", "titleWeight": "600", "matchBg": "rgba(231, 14, 104, 0.05)", "matchColor": "rgb(26, 26, 26)", "matchWeight": "600", "dateColor": "rgb(97, 97, 97)", "dateSize": "14px", "blurbColor": "rgb(74, 74, 74)", "blurbSize": "14px", "blurbHasUrl": false, "dividerColor": "rgb(241, 241, 241)", "padTop": "16px", "reusesTag": true }
+  }
+}

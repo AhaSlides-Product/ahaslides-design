@@ -1,0 +1,30 @@
+<!-- Discourse theme: use the CLASS LAYER, not the element. The poll plugin renders its own markup and
+     casts and loads the votes itself, so the theme restyles that markup to the Poll values.
+
+     1. common/head_tag.html: link the tokens and the layer once, pinned to a release tag. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/discourse-poll.css">
+
+<!-- 2. No template change: the layer is scoped to the plugin's own .poll wrapper.
+
+     Discourse markup                                   Poll (DS) value
+     div.poll                                           the block: 1px border-default, radius 8, padding 16
+     div.poll[data-poll-type="multiple"]                checkbox rows instead of radio rows
+     div.poll[data-poll-status="closed"]                closed: rows disabled, lock line
+     .poll-container                                    no padding of its own (the block pads)
+     ul.options li > button (svg.d-icon + .option-text) <aha-radio> / <aha-checkbox> row, 14/21; the
+                                                        Font Awesome circle is hidden and the DS ring or box drawn
+     li.chosen, or a filled .d-icon-circle / square-check  checked ring or box
+     ul.results li .option p .percentage                percent, SemiBold, right of the label
+     ul.results li .option p .absolute                  vote count, text-tertiary
+     ul.results li.chosen                               your vote: label SemiBold
+     .bar-back > .bar                                   <aha-progressbar>: 8px gray-30 track, color-primary fill
+     .poll-info (.info-number, .info-label)             one 14px text-tertiary line under the options, no side column
+     .poll-info_instructions .d-icon-lock               registry system-lock (masked over the FA glyph)
+     .poll-buttons .cast-votes                          <aha-button variant="primary"> values
+     .poll-buttons .toggle-results and the rest         <aha-button variant="tertiary"> values; chart icon is system-chart-bar
+
+  3. Notes
+     - A regular (single choice) Discourse poll votes on click, with no Vote button; multiple choice shows Vote.
+     - Glyphs load from the same release as the CSS (../icons/svg/system/…), so keep both links on one tag.
+     - The plugin's pie chart view (chartType=pie) is not mapped; use bar charts. -->

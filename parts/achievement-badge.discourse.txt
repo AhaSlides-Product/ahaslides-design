@@ -1,0 +1,42 @@
+<!-- Discourse theme: load the CLASS LAYER. Its second half targets Discourse's own badge markup
+     directly, so the theme needs no template override: the badge pages, the profile's badge
+     section and the badge pills restyle as soon as the file loads.
+
+     1. common/head_tag.html: link the tokens and the layer once, pinned to a release tag. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/achievement-badge.css">
+
+<!-- 2. What the layer maps.
+
+     Discourse markup                              DS value
+     div.badge-card (any --badge-* size)           the card: 1px border-default, radius 12, padding 20, white
+     div.badge-contents                            icon + text row, 16px gap
+     span.badge-icon                               32px glyph in icon-strong ink at every tier
+     .badge-type-gold / -silver / -bronze          no hue (colour rule C5): the tier becomes a neutral label,
+                                                   "Gold", "Silver" or "Bronze", after the title
+     div.badge-info h3 > a.badge-link              title 16 / SemiBold 600 / text-default, underline on hover
+     div.badge-summary                             description 14 / text-secondary
+     div.badge-summary a ("Granted")               meta 14 / text-tertiary, on its own line
+     div.grant-count                               meta 14 / text-tertiary, aligned under the text
+     a.user-badge (pills on posts and user cards)  neutral tag: grey-30 fill, 12 / 600, 12px ink glyph
+     .user-badge .count, .grant-count              text-tertiary
+
+     Glyphs: Discourse draws badge icons from its Font Awesome sprite. The layer hides the sprite and
+     paints a registry glyph in its place: user to system-user, medal to system-medal, heart to
+     system-heart-straight, certificate to system-certificate, trophy to system-trophy, star to
+     system-star. Any other badge icon shows system-medal; the title and tier still name the badge.
+     An image badge (custom upload) keeps its image at 32px.
+
+     3. The unread or new marker in the sidebar (.sidebar-section-link-suffix .d-icon-circle) is the DS
+     Badge dot: <aha-badge dot>, 6px, default status (icon-strong ink, as it sits beside text; only a dot
+     on a notification icon is the pink active dot). No registry glyph is a dot, and a Font Awesome circle
+     fails the icon rules, so paint the dot rather than recolour the glyph. In the theme's common.scss: -->
+<style>
+  .sidebar-section-link-suffix .d-icon-circle {
+    width: 6px;
+    height: 6px;
+    border-radius: var(--aha-radius-pill, 999px);
+    background-color: var(--aha-icon-strong, #1A1A1A);
+  }
+  .sidebar-section-link-suffix .d-icon-circle > use { visibility: hidden; }
+</style>

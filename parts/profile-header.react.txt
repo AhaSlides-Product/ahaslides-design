@@ -1,0 +1,30 @@
+import '@ahaslides-product/design/aha-profile-header';   // registers <aha-profile-header> (+ <aha-avatar>)
+import '@ahaslides-product/design/aha-button';
+import '@ahaslides-product/design/aha-statistic';
+import '@ahaslides-product/design/aha-tabs';
+
+// A plain custom element: props are attributes, `details` is a JSON string, and the buttons,
+// stats and tabs are slotted children.
+function ProfileHeader({ user, onFollow, onMessage }) {
+  const details = JSON.stringify([
+    { label: 'Joined', value: user.joined },
+    { label: 'Last post', value: user.lastPost },
+    { label: 'Invited by', value: user.invitedBy.name, href: user.invitedBy.url },
+  ]);
+  return (
+    <aha-profile-header name={user.name} username={user.username} src={user.avatarUrl} details={details}>
+      <aha-button slot="actions" variant="primary" onClick={onFollow}>Follow</aha-button>
+      <aha-button slot="actions" variant="secondary" onClick={onMessage}>Message</aha-button>
+      <div slot="stats" style={{ display: 'flex', flexWrap: 'wrap', gap: 40 }}>
+        <aha-statistic label="Days visited" value={user.daysVisited} />
+        <aha-statistic label="Posts read" value={user.postsRead} />
+      </div>
+      <aha-tabs slot="nav" type="line" value="0">
+        <section data-tab="Summary" />
+        <section data-tab="Activity" />
+      </aha-tabs>
+    </aha-profile-header>
+  );
+}
+
+// The user card: <aha-profile-header variant="card" … /> inside the popover that opens over a name.

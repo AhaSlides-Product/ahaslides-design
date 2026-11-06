@@ -1,0 +1,16 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../lib/tokens.css">
+<link rel="stylesheet" href="../lib/category-chip.css">
+<aha-tag id="el-sm" color="category" icon="system-tag" href="#games">Games</aha-tag>
+<aha-tag id="el-md" color="category" size="md" icon="system-tag" href="#games">Games</aha-tag>
+<a id="css-sm" class="aha-category-chip" href="#games"><aha-icon class="aha-category-chip__icon" name="system-tag" size="12"></aha-icon><span class="aha-category-chip__label">Games</span></a>
+<a id="css-md" class="aha-category-chip aha-category-chip--md" href="#games"><aha-icon class="aha-category-chip__icon" name="system-tag" size="16"></aha-icon><span class="aha-category-chip__label">Games</span></a>
+<a id="discourse" class="badge-category__wrapper" href="/c/games/19"><span class="badge-category --style-square" style="--category-badge-color:#F7941D"><span class="badge-category__name">Games</span></span></a>
+<style>.badge-category.--style-square::before{ content:""; display:inline-block; width:10px; height:10px; background:var(--category-badge-color) }</style>
+<script type="module">
+  import '../lib/icons.js';
+  import '../lib/aha-tag.js';
+  await customElements.whenDefined('aha-tag');
+  window.tagFixtureReady = true;
+</script>

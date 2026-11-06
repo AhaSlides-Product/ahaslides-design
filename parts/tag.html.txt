@@ -18,6 +18,8 @@
   <aha-tag color="primary" href="https://example.com/quizzes" target="_blank">Quizzes (new tab)</aha-tag>
   <aha-tag checkable checked id="filter">Quizzes only</aha-tag>
   <aha-tag checkable size="large">Filter chip (36px)</aha-tag>
+  <aha-tag color="category" href="/c/games">Games (category)</aha-tag>
+  <aha-tag color="category" size="md" icon="system-tag" href="/c/tips">Tips and tricks (category, md)</aha-tag>
 </div>
 
 <script>

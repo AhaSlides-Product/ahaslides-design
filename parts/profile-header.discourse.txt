@@ -1,0 +1,48 @@
+<!-- Discourse theme: the user profile and the user card as the DS Profile header.
+     Discourse core renders both, so a theme cannot swap in <aha-profile-header>. It loads a
+     stylesheet instead: discourse-profile.css restyles the core markup on the --aha-* tokens.
+     Put both links in the theme's Common > Head (head_tag.html), tokens first, pinned to one release. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/discourse-profile.css">
+
+<!-- What it maps (profile page .user-main, user card #user-card):
+     .user-main .about .details                → the header: avatar, then the names, 16/24px gaps
+     .user-profile-avatar img.avatar           → avatar 144px (96px under 600px)
+     .primary .full-name, .user-profile-names__primary
+                                               → name 32px SemiBold 600, ink (24px under 600px)
+     .primary .username, .user-profile-names__secondary
+                                               → username 16px Regular, text-secondary
+     .secondary dl > dt / dd                   → details 14px: label text-tertiary, value ink, both Regular
+     .user-nav (Summary, Activity, Badges)     → Tabs line look: 14px SemiBold text-secondary, active
+                                                 Vivid Pink with a 2px underline; labels only, the
+                                                 Discourse glyphs are hidden
+     h3.stats-title                            → section title 16px SemiBold, ink, no uppercase
+     .stats-section .user-stat .value / .label → Statistic values: figure 20px SemiBold 600, label 14px
+                                                 Regular text-secondary
+     .user-info .username (lists, About page)  → SemiBold 600, never Bold
+     #user-card .card-content                  → the card variant: white, 1px border, radius 12, 24px padding
+     #user-card .user-card-avatar img.avatar   → avatar 96px
+     #user-card .names__primary / __secondary  → name 24px SemiBold, username 16px text-secondary
+     #user-card .usercard-controls             → buttons 8px apart
+
+     In the theme itself:
+     1. Drop the theme's own profile font-size, weight and uppercase overrides; the stylesheet owns them.
+     2. Make the labels sentence case. They are Discourse strings, not CSS, so override each one in
+        Admin > Customise > Text (search the key, set the value):
+          js.user.last_posted                    Last Post        → Last post
+          js.user.invited_by                     Invited By       → Invited by
+          js.user.trust_level                    Trust Level      → Trust level
+          js.user.summary.stats                  Stats            → Stats
+          js.user.summary.top_replies            Top Replies      → Top replies
+          js.user.summary.top_topics             Top Topics       → Top topics
+          js.user.summary.top_links              Top Links        → Top links
+          js.user.summary.most_replied_to_users  Most Replied To  → Most replied to
+          js.user.summary.most_liked_by          Most Liked By    → Most liked by
+          js.user.summary.most_liked_users       Most Liked       → Most liked
+          js.user.summary.top_categories         Top Categories   → Top categories
+          js.user.summary.top_badges             Top Badges       → Top badges
+        If a key has moved in your Discourse version, search the English text instead.
+        Badge names ("New User of the Month") are edited in Admin > Badges.
+     3. Follow and Message in the user card are Discourse buttons that core wires up; this stylesheet
+        only spaces them. Their fill comes from the theme's colour scheme (primary = Vivid Pink #E70E68,
+        secondary = white with a #E3E3E3 edge), the <aha-button> primary and secondary looks. -->

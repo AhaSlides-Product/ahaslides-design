@@ -1,0 +1,52 @@
+<div class="pad">
+  <div class="lbl">Profile page header (page variant, 144px avatar)</div>
+  <div style="max-width:960px">
+    <aha-profile-header data-probe name="Ada Lovelace" username="ada"
+      details='[{"label":"Joined","value":"Jul 30"},{"label":"Last post","value":"55 mins"},{"label":"Seen","value":"33 mins"},{"label":"Views","value":"121"},{"label":"Invited by","value":"grace","href":"#grace"},{"label":"Trust level","value":"Leader"}]'>
+      <aha-button slot="actions" variant="primary"><span slot="icon"><aha-icon name="system-user-plus" size="16" decorative></aha-icon></span>Follow</aha-button>
+      <aha-button slot="actions" variant="secondary"><span slot="icon"><aha-icon name="system-chat-circle" size="16" decorative></aha-icon></span>Message</aha-button>
+      <div slot="stats" style="display:flex; flex-wrap:wrap; gap:40px">
+        <aha-statistic label="Days visited" value="21"></aha-statistic>
+        <aha-statistic label="Topics viewed" value="15"></aha-statistic>
+        <aha-statistic label="Posts read" value="51"></aha-statistic>
+        <aha-statistic label="Likes received" value="7"></aha-statistic>
+      </div>
+      <aha-tabs slot="nav" type="line" value="0">
+        <section data-tab="Summary"></section>
+        <section data-tab="Activity"></section>
+        <section data-tab="Badges"></section>
+      </aha-tabs>
+    </aha-profile-header>
+  </div>
+</div>
+
+<div class="pad">
+  <div class="lbl">Narrow header (under 600px: 96px avatar, 24px name, actions on their own row)</div>
+  <div style="max-width:360px">
+    <aha-profile-header name="Ada Lovelace" username="ada"
+      details='[{"label":"Joined","value":"Jul 30"},{"label":"Trust level","value":"Leader"}]'>
+      <aha-button slot="actions" variant="primary">Follow</aha-button>
+      <aha-button slot="actions" variant="secondary">Message</aha-button>
+    </aha-profile-header>
+  </div>
+</div>
+
+<div class="pad">
+  <div class="lbl">User card (card variant, initials avatar)</div>
+  <div style="max-width:400px">
+    <aha-profile-header variant="card" name="Grace Hopper" username="grace"
+      details='[{"label":"Last post","value":"2h"},{"label":"Joined","value":"Mar 2"}]'>
+      <aha-button slot="actions" variant="primary">Follow</aha-button>
+      <aha-button slot="actions" variant="secondary">Message</aha-button>
+    </aha-profile-header>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped elements from ../lib/, no inlined copy, so the preview cannot drift. -->
+<script type="module">
+  import '../lib/icons.js';
+  import '../lib/aha-button.js';
+  import '../lib/aha-statistic.js';
+  import '../lib/aha-tabs.js';
+  import '../lib/aha-profile-header.js';
+</script>

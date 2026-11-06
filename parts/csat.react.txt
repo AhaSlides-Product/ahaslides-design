@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import '@ahaslides-product/design/aha-csat';   // registers <aha-csat> (+ <aha-icon>, <aha-popover>, <aha-counted-textarea>, <aha-button>)
 
 // The element emits composed `rate` and `feedback` events — attach ref listeners (React <19 pattern).
-function AhaCsat({ prompt, source, tooltipPlacement, layout, feedbackPlacement, feedbackOn, confirmation, feedbackHint, onRate, onFeedback }) {
+function AhaCsat({ prompt, source, tooltipPlacement, layout, feedbackPlacement, feedbackOn, confirmation, feedbackHint, feedbackDisplay, onRate, onFeedback }) {
   const ref = useRef(null);
   useEffect(() => {
     const el = ref.current;
@@ -14,8 +14,9 @@ function AhaCsat({ prompt, source, tooltipPlacement, layout, feedbackPlacement, 
   }, [onRate, onFeedback]);
   // tooltipPlacement: 'top' (default) | 'bottom' — open the tooltips below inside a titled card
   // layout: 'row' (default) | 'stacked' — prompt above the buttons; feedbackPlacement: 'end' (default) | 'start' — open the popover start-aligned
+  // feedbackDisplay: 'popover' (default) | 'inline' — open the feedback field in flow under the buttons, for a CSAT already inside a popover or card
   // feedbackOn: 'down' (default) | 'any' — 'any' also opens the popover after a thumbs-up; confirmation: text shown beside the thumbs once rated and after Send; feedbackHint: helper line under the feedback text box
-  return <aha-csat ref={ref} prompt={prompt} source={source} feedback-button tooltip-placement={tooltipPlacement} layout={layout} feedback-placement={feedbackPlacement} feedback-on={feedbackOn} confirmation={confirmation} feedback-hint={feedbackHint} />;
+  return <aha-csat ref={ref} prompt={prompt} source={source} feedback-button tooltip-placement={tooltipPlacement} layout={layout} feedback-placement={feedbackPlacement} feedback-on={feedbackOn} confirmation={confirmation} feedback-hint={feedbackHint} feedback-display={feedbackDisplay} />;
 }
 
 // usage — thumbs-up rates instantly; thumbs-down opens the free-text feedback popover (feedbackOn="any" opens it after a thumbs-up too)
@@ -28,6 +29,7 @@ function AhaCsat({ prompt, source, tooltipPlacement, layout, feedbackPlacement, 
   feedbackOn="any"
   confirmation="Thanks, feedback received"
   feedbackHint="What you write goes to the developer"
+  feedbackDisplay="inline"
   onRate={(d) => track('CSAT_RATED', d)}
   onFeedback={(d) => track('CSAT_FEEDBACK_SUBMITTED', d)}
 />

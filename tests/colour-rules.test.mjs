@@ -279,7 +279,7 @@ test('the page, the feed and the markdown all carry every rule', () => {
     assert.ok(rules.environment.every(name => feed.rulesByEnvironment[name].includes(id)), `splash rule ${id} applies to every environment`);
   }
   assert.ok(feed.rulesByEnvironment.web.includes('6.9') && !feed.rulesByEnvironment.product.includes('6.9'));
-  assert.equal(rules.changes[0].version, 'v37');
+  assert.equal(rules.changes[0].version, 'v38');
   const reportRule = rules.sections.flatMap(section => section.blocks || []).flatMap(block => block.rules || []).find(rule => rule.id === '3.11').text;
   assert.match(reportRule, /read-only report page/);
   assert.match(reportRule, /table rows alternate white and light grey/);

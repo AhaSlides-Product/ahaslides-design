@@ -1,0 +1,16 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-search-result> is the SAME shared custom element React and Vue consume. Theming comes only
+     from the --aha-* tokens in tokens.css. Stack the rows in a list; the last row drops its divider. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-search-result.js'; // registers <aha-search-result> (+ <aha-tag>)
+</script>
+
+<div role="list" aria-label="Search results">
+  <aha-search-result role="listitem" query="word cloud" result-title="How to keep a word cloud readable with 200 answers"
+    href="/t/word-cloud-readable/1204" category="Slide types" category-href="/c/slide-types" time="Aug 6" datetime="2026-08-06"
+    blurb="Our word cloud gets crowded fast at all-hands. Is there a way to cap the answers or merge similar words? Screenshot: https://example.com/shot.png"></aha-search-result>
+  <aha-search-result role="listitem" query="word cloud" result-title="Profanity filter for open-ended and word cloud slides"
+    href="/t/profanity-filter/988" category="Feature requests" category-href="/c/feature-requests" time="Jul 21" datetime="2026-07-21"
+    blurb="Turning on the filter hides the words for the audience, but the presenter still sees them before the cloud updates."></aha-search-result>
+</div>
