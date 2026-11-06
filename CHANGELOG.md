@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1081.0 — 2026-11-06
+### Added
+- `aha-select` takes `max-tag-count="responsive"` with `mode="multiple"`: chips that do not fit collapse into a "+N" tag and the control stays one row; `more-label` names the tag (#PR)
+
 ## 0.1078.1 — 2026-11-06
 ### Fixed
 - Footer award badges are sized by height, 80px (64px at 767px and below), width auto, so the G2 and Training Magazine Network row follows colour rule 2.6b at every width (#711)
