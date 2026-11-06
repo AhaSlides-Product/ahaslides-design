@@ -14,6 +14,10 @@
   <aha-csat id="hint" prompt="How did this go?" source="hint" feedback-on="any" feedback-button feedback-hint="What you write goes to the developer"></aha-csat>
   <aha-csat id="stacked" prompt="How did this go?" source="stacked" layout="stacked" confirmation="Thanks, feedback received"></aha-csat>
   <aha-csat id="inline" prompt="How did this go?" source="inline" layout="stacked" feedback-display="inline" feedback-button feedback-prompt="Tell us more" confirmation="Thanks, feedback received"></aha-csat>
+  <div id="narrow" style="width:200px;padding:8px;border:1px solid #ccc;overflow:auto;margin-bottom:200px">
+    <aha-csat id="rated" prompt="How did this go?" source="rated" layout="stacked" feedback-display="inline" feedback-on="any" feedback-button feedback-prompt="Tell us more" confirmation="Thanks, feedback received" confirmation-like="You liked this. Thanks for letting us know!" confirmation-dislike="You didn't like this. Thanks for being honest."></aha-csat>
+  </div>
+  <aha-csat id="likeonly" prompt="How did this go?" source="likeonly" feedback-button confirmation-like="You liked this"></aha-csat>
   <script type="module">
     await import('../lib/aha-csat.js');
     window.csatFixtureReady = true;
