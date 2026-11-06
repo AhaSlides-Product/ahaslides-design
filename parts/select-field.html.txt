@@ -26,6 +26,11 @@
 <!-- Free-entry tags: comma, semicolon or space adds a tag; change carries e.detail.values. -->
 <aha-select id="recipients" mode="tags" separators=", ;" placeholder="name@example.com" aria-label="Recipients" style="--aha-field-width:100%"></aha-select>
 
+<!-- One row however many are picked: chips that do not fit collapse into a "+N" tag. -->
+<aha-select mode="multiple" allow-clear max-tag-count="responsive" aria-label="Departments" style="--aha-field-width:240px"
+  values='["sales","ops","design"]'
+  options='[{"label":"Sales","value":"sales"},{"label":"Operations","value":"ops"},{"label":"Design","value":"design"}]'></aha-select>
+
 <!-- Pick several from the list: chips, a list that stays open, max-count caps the picks. -->
 <aha-select id="courses" mode="multiple" show-search allow-clear max-count="2" aria-label="Courses" style="--aha-field-width:100%"
   values='["c1"]'

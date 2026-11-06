@@ -48,6 +48,7 @@ function AhaTagsSelect({ values, placeholder, onChange }) {
 // <aha-select show-search filter="off" loading={busy ? '' : undefined} ...> and listen for 'search' (e.detail.query).
 
 // Pick several (antd mode="multiple"): the same wrapper shape, reading e.detail.values.
+// One row (antd maxTagCount="responsive"): <aha-select mode="multiple" max-tag-count="responsive" ...>; chips that do not fit collapse into a +N tag.
 // antd → aha: allowClear → allow-clear, showSearch → show-search, optionFilterProp="title" → filter-prop="title",
 // maxCount → max-count, mode={allowNew ? 'tags' : 'multiple'} → mode={allowNew ? 'tags' : 'multiple'} with the same options.
 function AhaMultiSelect({ values, options, mode = 'multiple', allowClear, showSearch, filterProp, maxCount, ariaLabel, onChange }) {

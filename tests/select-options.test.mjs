@@ -284,3 +284,72 @@ test('mode="multiple", tags suggestions, option groups and autocomplete trailing
   assert.deepEqual(result.groupPicked, { value: 'carrot', shown: 'Carrot', groupsShown: true });
   assert.deepEqual(result.autocomplete, [{ label: 'Asia', suffix: 'APAC', name: 'Asia, Asia-Pacific' }]);
 });
+
+test('max-tag-count="responsive" keeps one row behind a +N tag, refits on width and picks, and a select without it builds nothing', { skip }, async () => {
+  const result = await withPage(fixture, async (command) => {
+    const evaluate = async (expression) => (await command('Runtime.evaluate', { expression, returnByValue: true, awaitPromise: true })).result.value;
+    await evaluate(`(() => {
+      const el = document.getElementById('collapse');
+      window.frames2 = () => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+      window.shot = () => {
+        const r = el.shadowRoot; const box = r.querySelector('.tags'); const rest = r.querySelector('.rest');
+        const chips = [...r.querySelectorAll('.chips aha-tag')].filter((c) => getComputedStyle(c).display !== 'none');
+        const right = box.getBoundingClientRect().right - parseFloat(getComputedStyle(box).paddingRight);
+        return { height: box.getBoundingClientRect().height, shown: chips.length, rest: rest && getComputedStyle(rest).display !== 'none' ? rest.textContent : null,
+          label: rest?.getAttribute('aria-label'), inside: chips.concat(rest ?? []).every((c) => c.getBoundingClientRect().right <= right + 0.5) };
+      };
+    })()`);
+    const shotAt = (width) => evaluate(`(async () => {
+      document.getElementById('collapse').style.setProperty('--aha-field-width', '${width}px');
+      await frames2(); return shot();
+    })()`);
+    const out = {};
+    out.narrow = await evaluate(`(async () => { await document.fonts.ready; await frames2(); return shot(); })()`);
+    out.wide = await shotAt(900);
+    out.tiny = await shotAt(120);
+    out.tinyChip = await evaluate(`(() => { const r = document.getElementById('collapse').shadowRoot; const chip = r.querySelector('.chips aha-tag');
+      return { squeezed: chip.hasAttribute('data-squeeze'), within: chip.getBoundingClientRect().width < 120 }; })()`);
+    await shotAt(300);
+    out.removed = await evaluate(`(async () => {
+      const el = document.getElementById('collapse'); const before = shot().rest;
+      el.values = ['e', 'f']; await frames2();
+      return { before, after: shot() };
+    })()`);
+    out.closed = await evaluate(`(async () => {
+      const el = document.getElementById('collapse'); el.values = ['e', 'f', 'b', 'c', 'd', 'a']; await frames2();
+      const before = shot().shown;
+      el.shadowRoot.querySelector('.chips aha-tag').shadowRoot.querySelector('button').click();
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      return { before, after: shot(), values: el.values.length };
+    })()`);
+    out.opens = await evaluate(`(async () => {
+      const el = document.getElementById('collapse'); el.values = ['a', 'b', 'c', 'd', 'e', 'f']; await frames2();
+      el.shadowRoot.querySelector('.rest').click();
+      const open = el.hasAttribute('open'); el.open = false; return open;
+    })()`);
+    out.off = await evaluate(`(async () => {
+      const el = document.getElementById('collapse'); el.removeAttribute('max-tag-count'); await frames2();
+      return shot();
+    })()`);
+    out.plain = await evaluate(`document.getElementById('multi').shadowRoot.querySelector('.rest') === null`);
+    return out;
+  }, { readyExpr: '!!window.selectOptionsFixtureReady' });
+  assert.equal(result.narrow.height, 40);
+  assert.equal(result.narrow.inside, true);
+  assert.ok(result.narrow.shown >= 1 && result.narrow.shown < 6);
+  assert.equal(result.narrow.rest, `+${6 - result.narrow.shown}`);
+  assert.equal(result.narrow.label, `${6 - result.narrow.shown} others`);
+  assert.deepEqual({ shown: result.wide.shown, rest: result.wide.rest, height: result.wide.height }, { shown: 6, rest: null, height: 40 });
+  assert.deepEqual({ shown: result.tiny.shown, rest: result.tiny.rest, height: result.tiny.height }, { shown: 1, rest: '+5', height: 40 });
+  assert.deepEqual(result.tinyChip, { squeezed: true, within: true });
+  assert.equal(result.removed.after.shown, 2);
+  assert.equal(result.removed.after.rest, null);
+  assert.equal(result.closed.values, 5);
+  assert.equal(result.closed.after.rest, `+${5 - result.closed.after.shown}`);
+  assert.ok(result.closed.after.shown >= result.closed.before - 1);
+  assert.equal(result.opens, true);
+  assert.equal(result.off.shown, 6);
+  assert.equal(result.off.rest, null);
+  assert.ok(result.off.height > 40);
+  assert.equal(result.plain, true);
+});
