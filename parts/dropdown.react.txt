@@ -46,6 +46,16 @@ function AhaDropdown({ label, value, items, placement, trigger, open, onSelect, 
   onSelect={(key) => runAction(key)}
 />
 
+// per-row extras: testid → data-testid; attrs passes data-* (not data-key) and aria-label, so each row can carry its own analytics name
+<AhaDropdown
+  label="Export"
+  items={[
+    { key: 'pdf', label: 'Export PDF', testid: 'export-pdf', attrs: { 'data-tracking-name': 'report_export_pdf' } },
+    { key: 'csv', label: 'Export CSV', testid: 'export-csv', attrs: { 'data-tracking-name': 'report_export_csv' } },
+  ]}
+  onSelect={runExport}
+/>
+
 // a context menu with shortcuts: the key draws as the DS chip at the row's trailing edge (⌘D on a Mac, Ctrl D elsewhere)
 <AhaDropdown
   label="Slide"
