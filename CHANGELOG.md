@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1081.0 — 2026-11-06
 ### Added
-- `aha-select` takes `max-tag-count="responsive"` with `mode="multiple"`: chips that do not fit collapse into a "+N" tag and the control stays one row; `more-label` names the tag (#PR)
+- `aha-select` takes `max-tag-count="responsive"` with `mode="multiple"`: chips that do not fit collapse into a "+N" tag and the control stays one row; `more-label` names the tag (#713)
 
 ## 0.1078.1 — 2026-11-06
 ### Fixed
