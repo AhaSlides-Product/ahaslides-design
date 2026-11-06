@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1078.1 — 2026-11-06
 ### Fixed
-- Footer award badges are sized by height, 80px (64px at 767px and below), width auto, so the G2 and Training Magazine Network row follows colour rule 2.6b at every width (#PRNUM)
+- Footer award badges are sized by height, 80px (64px at 767px and below), width auto, so the G2 and Training Magazine Network row follows colour rule 2.6b at every width (#711)
 
 ## 0.1078.0 — 2026-11-05
 ### Added
