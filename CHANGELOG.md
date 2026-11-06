@@ -35,11 +35,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1082.0 — 2026-11-06
 ### Added
-- CSAT `confirmation-like` and `confirmation-dislike` say which rating was given (for example "You liked this. Thanks for letting us know!"); `confirmation` stays the fallback and the only text after a Feedback-button Send with no rating, so existing consumers read the same (#000)
+- CSAT `confirmation-like` and `confirmation-dislike` say which rating was given (for example "You liked this. Thanks for letting us know!"); `confirmation` stays the fallback and the only text after a Feedback-button Send with no rating, so existing consumers read the same (#714)
 ### Changed
-- CSAT confirmation line is now 14px semibold in the default text colour, led by a 16px check icon, instead of the 12px muted caption (#000)
+- CSAT confirmation line is now 14px semibold in the default text colour, led by a 16px check icon, instead of the 12px muted caption (#714)
 ### Fixed
-- CSAT `feedback-display="inline"` fits its container: the panel, field and Send take the CSAT's width (no 220px minimum) and the close X sits inside the edge, so nothing spills out of a narrow popover or card (#000)
+- CSAT `feedback-display="inline"` fits its container: the panel, field and Send take the CSAT's width (no 220px minimum) and the close X sits inside the edge, so nothing spills out of a narrow popover or card (#714)
 
 ## 0.1078.1 — 2026-11-06
 ### Fixed
