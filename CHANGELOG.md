@@ -33,10 +33,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1079.0 — 2026-11-06
+## 0.1084.0 — 2026-11-06
 
 ### Changed
 - **Default change: Paywall hides See all plans unless `show-plans` is set.** `<aha-paywall>` now shows only the Upgrade button by default; the new boolean `show-plans` adds the secondary See all plans button back, with `plans-label`, `plans-url` and the `paywall-plans` event working as before. Consumers that want See all plans must add `show-plans` after bumping to this version. A locked Dropdown row does not pass `show-plans`, so its popover is Upgrade alone. The crown mark's default accessible name is now "Upgrade required. See details", since See all plans is no longer there by default (#686)
+
+## 0.1083.0 — 2026-11-06
+### Added
+- Twelve slide-type icons for AhaSlides Games formats that had none: `slidetype-annotate`, `slidetype-escape-room`, `slidetype-halloween-race`, `slidetype-duck-race`, `slidetype-photo-share`, `slidetype-interactive-image`, `slidetype-true-or-false`, `slidetype-2x2-matrix`, `slidetype-missing-letters`, `slidetype-pin-on-image-quiz`, `slidetype-pumpkin-head-swap` and `slidetype-team-retro`, each with search words in `icons/meaning.json` (#716)
 
 ## 0.1078.1 — 2026-11-06
 ### Fixed
