@@ -41,6 +41,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Fixed
 - CSAT `feedback-display="inline"` fits its container: the panel, field and Send take the CSAT's width (no 220px minimum) and the close X sits inside the edge, so nothing spills out of a narrow popover or card (#714)
 
+## 0.1083.1 — 2026-11-06
+### Fixed
+- Landing Webflow scan records why the Webflow secondary buttons drifted from the DS and the full measured delta (label, border, weight, shadow, hover, press, focus, XL size, Vivid Pink sections), and marks the purple-era secondary-button items superseded (#715)
+
 ## 0.1083.0 — 2026-11-06
 ### Added
 - Twelve slide-type icons for AhaSlides Games formats that had none: `slidetype-annotate`, `slidetype-escape-room`, `slidetype-halloween-race`, `slidetype-duck-race`, `slidetype-photo-share`, `slidetype-interactive-image`, `slidetype-true-or-false`, `slidetype-2x2-matrix`, `slidetype-missing-letters`, `slidetype-pin-on-image-quiz`, `slidetype-pumpkin-head-swap` and `slidetype-team-retro`, each with search words in `icons/meaning.json` (#716)
