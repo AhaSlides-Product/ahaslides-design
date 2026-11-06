@@ -64,7 +64,13 @@ test('a locked row opens its paywall instead of selecting; keyboard reaches the 
     lock.shadowRoot.querySelector('.upgrade').click();
     const afterUpgrade = { paywall: lock.open, menu: menuOpen() };
 
-    return { clicked, firstEscape, tabbedInto, escapeInside, secondEscape, afterUpgrade, upgrades, selected,
+    trigger.click();
+    key(row, 'Enter');
+    key(row, 'Tab');
+    key(lock.shadowRoot.querySelector('.upgrade'), 'Tab');
+    const tabPastUpgrade = { paywall: lock.open, menu: menuOpen(), focus: focusedKey() };
+
+    return { clicked, firstEscape, tabbedInto, escapeInside, secondEscape, afterUpgrade, tabPastUpgrade, upgrades, selected,
       role: row.getAttribute('role'), plan: lock.getAttribute('required-plan'), feature: lock.getAttribute('feature-key'),
       title: lock.getAttribute('feature-label'), body: lock.getAttribute('body'),
       description: root.getElementById(row.getAttribute('aria-describedby')).textContent };
@@ -76,6 +82,7 @@ test('a locked row opens its paywall instead of selecting; keyboard reaches the 
   assert.deepEqual(result.escapeInside, { paywall: false, menu: true, focus: 'pdf' });
   assert.deepEqual(result.secondEscape, { menu: false, focusOnTrigger: true });
   assert.deepEqual(result.afterUpgrade, { paywall: false, menu: false });
+  assert.deepEqual(result.tabPastUpgrade, { paywall: false, menu: true, focus: 'xlsx' }, 'with See all plans hidden, Tab from Upgrade leaves the paywall for the next row');
   assert.deepEqual(result.upgrades, [{ feature: 'export_pdf', plan: 'essential' }]);
   assert.deepEqual(result.selected, []);
   assert.equal(result.role, 'menuitem');

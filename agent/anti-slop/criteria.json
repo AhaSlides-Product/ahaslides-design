@@ -661,7 +661,7 @@
         {
           "id": "C2",
           "title": "Popover anatomy is exactly correct",
-          "test": "**Rule.** The popover is the shared `<aha-paywall>` popover (Figma Popover 3881:9078), top to bottom: **crown mark** (the Vivid Pink circle custom `CrownBadge`, 16×16 — *not* the generic Phosphor Crown) + **feature label**; then a **one-sentence value prop**; then the **unlock line** — the English \"Unlock with the _\\<Plan\\> plan_.\" (plan name bold) or, in a translated product, the consumer's translated `unlock-label` with `{plan}`; then **two shared `<aha-button>` CTAs**: **Upgrade** (positive) and **See all plans** (secondary). No extra buttons, no dismiss link, no multi-paragraph body (PAYWALL-02, -03, -04)."
+          "test": "**Rule.** The popover is the shared `<aha-paywall>` popover (Figma Popover 3881:9078), top to bottom: **crown mark** (the Vivid Pink circle custom `CrownBadge`, 16×16 — *not* the generic Phosphor Crown) + **feature label**; then a **one-sentence value prop**; then the **unlock line** — the English \"Unlock with the _\\<Plan\\> plan_.\" (plan name bold) or, in a translated product, the consumer's translated `unlock-label` with `{plan}`; then the shared `<aha-button>` **Upgrade** CTA (positive). **See all plans** (secondary) is optional and opt-in via `show-plans`; by default the footer is Upgrade alone. No extra buttons, no dismiss link, no multi-paragraph body (PAYWALL-02, -03, -04)."
         },
         {
           "id": "C3",
@@ -676,7 +676,7 @@
         {
           "id": "C5",
           "title": "The analytics contract is wired",
-          "test": "**Rule.** `PAYWALL_SHOWN` fires when the popover opens and `PAYWALL_UPGRADE_CLICKED` fires when Upgrade is clicked (and `paywall-plans` when See all plans is clicked) — each with props `{ feature: featureKey, plan: requiredPlan }`, and the click event fires **before** navigation or `onUpgrade` runs. Never gate a feature without both events; they are the funnel's denominator and conversion (PAYWALL-06)."
+          "test": "**Rule.** `PAYWALL_SHOWN` fires when the popover opens and `PAYWALL_UPGRADE_CLICKED` fires when Upgrade is clicked (and `paywall-plans` when See all plans is clicked, only with `show-plans`) — each with props `{ feature: featureKey, plan: requiredPlan }`, and the click event fires **before** navigation or `onUpgrade` runs. Never gate a feature without both events; they are the funnel's denominator and conversion (PAYWALL-06)."
         },
         {
           "id": "C6",
@@ -686,7 +686,7 @@
         {
           "id": "C7",
           "title": "Crown-badge-only anchor used where the feature has no anchor",
-          "test": "**Rule.** When a feature has no natural clickable anchor (e.g. a bare field label), the visible anchor is `<PaywallCrownBadge>` (`<aha-paywall>` with no slotted child), a real focusable `<button>` with an accessible name (default \"Upgrade required. See plans\", `mark-label` to translate). Don't invent a bespoke lock icon or an unlabelled glyph for this job. A control that keeps its own button with the crown beside it has an anchor, its click routed through `toggleLockedPaywall` (C1), so C7 is N/A there; that crown is the same real button with the same accessible name."
+          "test": "**Rule.** When a feature has no natural clickable anchor (e.g. a bare field label), the visible anchor is `<PaywallCrownBadge>` (`<aha-paywall>` with no slotted child), a real focusable `<button>` with an accessible name (default \"Upgrade required. See details\", `mark-label` to translate). Don't invent a bespoke lock icon or an unlabelled glyph for this job. A control that keeps its own button with the crown beside it has an anchor, its click routed through `toggleLockedPaywall` (C1), so C7 is N/A there; that crown is the same real button with the same accessible name."
         }
       ]
     },
@@ -801,7 +801,7 @@
         {
           "id": "C6",
           "title": "Plan-gated settings are visible but locked",
-          "test": "A setting requiring a plan the user isn't on stays **visible** (not hidden), shown locked: the label, then a crown badge in the place of its normal \"?\" tooltip (no \"?\" while locked), and the real control rendered disabled. The badge opens the shared Paywall popover (owned by `aha-design-paywall` — the popover brings its own two CTAs, Upgrade and See all plans; a bespoke popover or extra buttons fail). **FAIL** if a gated setting is hidden, the crown replaces the control, the control stays enabled, the \"?\" shows beside the crown, or the badge opens a custom popover."
+          "test": "A setting requiring a plan the user isn't on stays **visible** (not hidden), shown locked: the label, then a crown badge in the place of its normal \"?\" tooltip (no \"?\" while locked), and the real control rendered disabled. The badge opens the shared Paywall popover (owned by `aha-design-paywall` — the popover brings its own CTAs, Upgrade and, opt-in via `show-plans`, See all plans; a bespoke popover or extra buttons fail). **FAIL** if a gated setting is hidden, the crown replaces the control, the control stays enabled, the \"?\" shows beside the crown, or the badge opens a custom popover."
         },
         {
           "id": "C7",
