@@ -38,6 +38,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Changed
 - **Default change: Paywall hides See all plans unless `show-plans` is set.** `<aha-paywall>` now shows only the Upgrade button by default; the new boolean `show-plans` adds the secondary See all plans button back, with `plans-label`, `plans-url` and the `paywall-plans` event working as before. Consumers that want See all plans must add `show-plans` after bumping to this version. A locked Dropdown row does not pass `show-plans`, so its popover is Upgrade alone. The crown mark's default accessible name is now "Upgrade required. See details", since See all plans is no longer there by default (#686)
 
+## 0.1078.1 — 2026-11-06
+### Fixed
+- Footer award badges are sized by height, 80px (64px at 767px and below), width auto, so the G2 and Training Magazine Network row follows colour rule 2.6b at every width (#711)
+
 ## 0.1078.0 — 2026-11-05
 ### Added
 - Colour rule 2.6b and exemption 9.6: third-party award badges (G2, Capterra and similar) sit only in an award row at one fixed height (80px, 64px on mobile), always in the issuer's full colour as published, with the colour criterion C7, the Footer rule and two eval cases updated to match (#696)
