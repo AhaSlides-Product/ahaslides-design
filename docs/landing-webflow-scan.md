@@ -155,6 +155,59 @@ DS wins on every delta row above (the "Webflow-to-update" list below is the fix-
 Two DS-side gaps closed this round (secondary hover text-colour + press border, and the box-shadow
 focus ring) — both taken verbatim from `lib/aha-button.js`, the canonical product Button.
 
+### Secondary button — re-scanned 2026-11-06 (DESY-516)
+The 2026-09-15 Buttons table above is purple-era: its secondary rows (hover border purple-40
+`#A96FF0`, purple label) no longer match the DS. This section supersedes them. Measured on
+https://ahaslides.com/features/online-quiz-creator/ and the homepage at 1440px; DS =
+`<aha-button variant="secondary">` (`lib/aha-button.js`, `lib/tokens.css` at 0.1078.1).
+
+**Why it drifted.** The Webflow buttons are hand-built Webflow classes and variables, not the DS
+component. DS releases never reach Webflow, the 2026-09-15 fix list was never applied there, and
+the purple-to-pink rebrand re-pointed the old "purple" variables instead of rebuilding the button,
+so the values are a mix of old and new.
+
+**Webflow Secondary button component** (`.btn.is-secondary`, 94 instances; variants Size XL base,
+Size L, Size 2XL):
+
+| Property | Live Webflow | DS | Verdict |
+|---|---|---|---|
+| Label | `#000` (variable `fg/on-secondary-button`; pink sections re-point it to `#E70E68`) | `--aha-text-default` `#1A1A1A` | **Webflow-to-update** |
+| Border | `#D4D4D4` (variable `fg/border`) | `--aha-gray-40` `#E3E3E3` | **Webflow-to-update** |
+| Label weight | `500` (inherited from the site `a` rule; off the DS 400/600 scale) | `600` | **Webflow-to-update** |
+| Shadow | `0 2px 0 rgba(0,0,0,.04)` | `--aha-btn-elevate-secondary` `0 2px 0 0 rgba(0,0,0,.016)` | **Webflow-to-update** |
+| Hover border | `#DB005B` | `#E70E68` (`--aha-color-primary`) | **Webflow-to-update** |
+| Hover label and fill | `#DB005B`, `#FEF3F7` | same | match |
+| Press border and label | `#E70E68` | `#DB005B` (`--aha-border-active` / `--aha-text-link-hover`), plus the 5% pink fill | **Webflow-to-update** |
+| Focus | `:focus` pink border and 4px lavender ring `#D3B4FF4D` (also fires on mouse click) | `:focus-visible` only, 2px `#E70E68` outline, offset 2px, over a 2px white gap | **Webflow-to-update** |
+| Size XL | padding 12/20, radius 8, label 18px | `xl` 52px, padding `0 28px`, radius 12px (`--aha-radius-lg`), label 16px | **Webflow-to-update** |
+| Size L | 40px, radius 8, padding 20, 16px | `lg` 40px, same | match |
+| Size 2XL | 64px | no DS size | retire, use XL |
+
+Section CTAs use Size L (40px) while website rule W (calls to action keep the `xl` height) wants
+52px: the consumer updates the sections to XL.
+
+**Hero and other Vivid Pink sections.** The button is the Primary component (`.btn.is-pink`,
+variant XL) repainted white with a Vivid Pink label by section-scoped variable overrides
+(`--_color---bg--purple-bold:#fff`, `--_color---fg--inverse-base:#e70e68`,
+`--_color---bg--purple-bold-hover:#fef3f7` on, for example,
+`.x-section.x-regular-padding.first-section.decorative-pink-bg`). Colour rule 6.2 says that on
+Vivid Pink the button is the standard secondary Button (white fill, `#E3E3E3` border, `#1A1A1A`
+label, 600) with `surface=brand` focus (white 2px ring over a Vivid Pink gap).
+
+| Property | Live Webflow | DS | Verdict |
+|---|---|---|---|
+| Border | none | 1px `#E3E3E3` | **Webflow-to-update** |
+| Label size | 18px | 16px | **Webflow-to-update** |
+| Hover | adds a pink glow `0 4px 12px #E70E6852` | no glow: border `#E70E68`, label `#DB005B`, 5% pink fill | **Webflow-to-update** |
+| Keyboard focus | fills the button `#5715A0` (old purple) | white ring over a Vivid Pink gap | **Webflow-to-update** |
+| Size | renders 40px / radius 8 / padding 20 although the XL variant says 52 / 12 / 28 | `xl` 52px / 12 / `0 28px` | **Webflow-to-update** |
+
+The size mismatch has a cause: a second `.btn.is-pink` rule later in the published CSS (height 40,
+padding `0 20px`) beats the variant's `:where()` rule, which has zero specificity, so every XL
+Primary renders at L size.
+
+Consumer to update: Growth / Webflow editor (the fleet's Webflow login has no style-edit role).
+
 ### Text link (tertiary) — scanned 2026-09-15 (round 4), reconciled round 5: the requester named
 this Webflow's "tertiary" — the third button-family CTA style, `.text-link-wrapper` (+
 `.text-link-label-child` / `.text-link-icon-child`, 5 live instances on the scanned page). This is
@@ -215,10 +268,14 @@ continuing its numbering.
 9. Primary button label weight `400` → DS `--aha-weight-semibold` (600).
 10. Secondary button default border `#d4d4d4` → DS default border `#E3E3E3` (gray-40); reserve
     `#D4D4D4` for the pressed state only.
+    Superseded by Secondary button, re-scanned 2026-11-06 (DESY-516).
 11. Secondary button hover border `#8644d4` → DS hover border `#A96FF0` (purple-40, one shade lighter).
+    Superseded by Secondary button, re-scanned 2026-11-06 (DESY-516).
 12. Secondary button active border `#6a1ebb` (purple) → DS press border `#D4D4D4` (neutral grey,
     not brand purple).
+    Superseded by Secondary button, re-scanned 2026-11-06 (DESY-516).
 13. Secondary button font-size `18px` → DS `16px` (`--aha-size-l`, the lg/xl button-label size).
+    Superseded by Secondary button, re-scanned 2026-11-06 (DESY-516).
 14. Primary button focus ring colour `#6a1ebb33` (purple @ 20%) → DS `--aha-button-focus-ring`
     (`rgba(211,180,255,.3)`), the one ring colour every button variant uses.
 15. Headings (h1–h6) render in the body face (`Plus Jakarta Sans`) everywhere → DS reserves
