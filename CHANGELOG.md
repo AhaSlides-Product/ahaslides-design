@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1082.1 — 2026-11-06
 ### Fixed
-- Landing Webflow scan records why the Webflow secondary buttons drifted from the DS and the full measured delta (label, border, weight, shadow, hover, press, focus, XL size, Vivid Pink sections), and marks the purple-era secondary-button items superseded (#NNN)
+- Landing Webflow scan records why the Webflow secondary buttons drifted from the DS and the full measured delta (label, border, weight, shadow, hover, press, focus, XL size, Vivid Pink sections), and marks the purple-era secondary-button items superseded (#715)
 
 ## 0.1078.1 — 2026-11-06
 ### Fixed
