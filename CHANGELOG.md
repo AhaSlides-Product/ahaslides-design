@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1082.1 — 2026-11-06
+### Fixed
+- Landing Webflow scan records why the Webflow secondary buttons drifted from the DS and the full measured delta (label, border, weight, shadow, hover, press, focus, XL size, Vivid Pink sections), and marks the purple-era secondary-button items superseded (#NNN)
+
 ## 0.1078.1 — 2026-11-06
 ### Fixed
 - Footer award badges are sized by height, 80px (64px at 767px and below), width auto, so the G2 and Training Magazine Network row follows colour rule 2.6b at every width (#711)
