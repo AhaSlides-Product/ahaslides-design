@@ -126,7 +126,7 @@ export function recolourSvg(svg, map) {
     .replace(HEX, (colour) => map(colour));
 }
 
-const NOT_FLAT = /<(linearGradient|radialGradient|filter|mask|pattern)\b|\b(opacity)\b/gi;
+const NOT_FLAT = /<(linearGradient|radialGradient|filter|mask|pattern)\b|\b(opacity|stroke-dasharray)\b/gi;
 
 /** What keeps an `empty-*` drawing out of the flat family: painting machinery, and any colour but the tints and white. */
 export function notFlatIn(svg) {

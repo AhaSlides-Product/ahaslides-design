@@ -850,7 +850,7 @@ const repoChecks = [];
   const emptyArt = readdirSync(emptyArtDir).filter(file => file.endsWith('.svg')).map(file => [file.replace(/\.svg$/, ''), notFlatIn(read(join(emptyArtDir, file)))]);
   const notFlat = emptyArt.filter(([, found]) => found.length).map(([name, found]) => `${name} (${found.join(', ')})`);
   rchk('every empty-* illustration is flat, in the illustration tints and white', notFlat.length === 0,
-    `redraw flat, no gradient, filter, mask, pattern or opacity: ${notFlat.join('; ')}`);
+    `redraw flat, solid lines, no dashed stroke, gradient, filter, mask, pattern or opacity: ${notFlat.join('; ')}`);
 
   /* The AhaSlides logo is drawn in the logo purple, Vivid Pink and its wordmark ink; a mono variant is one neutral. */
   const OWN_LOGO_COLOURS = [LOGO_PURPLE, VIVID_PINK, '#1A1A2E'];

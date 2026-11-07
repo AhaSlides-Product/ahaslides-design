@@ -61,6 +61,8 @@ test('notFlatIn passes a flat drawing and names each thing that breaks the flat 
     ['<g opacity="0.5"/>', 'opacity'],
     ['<path fill-opacity="0.5"/>', 'opacity'],
     ['<path style="opacity:.5"/>', 'opacity'],
+    ['<path stroke="white" stroke-dasharray="5 6"/>', 'stroke-dasharray'],
+    ['<path style="stroke-dasharray:4"/>', 'stroke-dasharray'],
     ['<path fill="#1A1A1A"/>', '#1A1A1A'],
     ['<path fill="#E1E1E1"/>', '#E1E1E1'],
     ['<path stroke="#00F"/>', '#0000FF'],

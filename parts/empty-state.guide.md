@@ -41,8 +41,8 @@ One centred column, in this order, and nothing else (EMPTY-02):
 ## The illustration
 
 Call an `empty-*` name from the registry; the art is pink, in the fixed Illustration tints,
-and names what is missing. Every drawing is flat: no gradient, filter, mask, opacity,
-texture, ground shadow or face. Never inline SVG, never a PNG, never recoloured. (EMPTY-03)
+and names what is missing. Every drawing is flat, with solid lines: no dashed stroke, gradient, filter, mask,
+opacity, texture, ground shadow or face. Never inline SVG, never a PNG, never recoloured. (EMPTY-03)
 Import `@ahaslides-product/design/illustrations` to draw these names: `<aha-empty>` loads only
 `empty-list` and `empty-table`, and any other name stays blank until the full set loads.
 
