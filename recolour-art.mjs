@@ -126,6 +126,17 @@ export function recolourSvg(svg, map) {
     .replace(HEX, (colour) => map(colour));
 }
 
+/* The mask and blur came with its Figma export. Take a name off this list when its drawing goes flat. */
+export const NOT_YET_FLAT = ['empty-feedback'];
+const NOT_FLAT = /<(linearGradient|radialGradient|filter|mask|pattern)\b|\b(opacity)\b/gi;
+
+/** What keeps an `empty-*` drawing out of the flat family: painting machinery, and any colour but the tints and white. */
+export function notFlatIn(svg) {
+  const machinery = [...svg.matchAll(NOT_FLAT)].map(m => m[1] || m[2]);
+  const offRamp = coloursInSvg(svg).map(hex => `#${expand(hex)}`).filter(hex => !ILLUSTRATION_TINTS.includes(hex) && hex !== '#FFFFFF');
+  return [...new Set([...machinery, ...offRamp])];
+}
+
 const svgFiles = (dir) => readdirSync(dir).flatMap((name) => {
   const path = join(dir, name);
   return statSync(path).isDirectory() ? svgFiles(path) : name.endsWith('.svg') ? [path] : [];
