@@ -33,6 +33,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1089.1 — 2026-11-07
+### Fixed
+- `empty-presentation-list`, `empty-templates`, `empty-trash` and `empty-feedback` are redrawn flat, in the same family as the other `empty-*` art, so each shows what is missing: a row of presentation cards, a gallery of slide layouts, a plain bin and a speech bubble of five unrated stars. The names are unchanged, so every call site picks up the new drawings (#718)
+### Changed
+- `standards.mjs` fails an `empty-*` drawing with a gradient, filter, mask, pattern, opacity or any colour but the Illustration tints and white; the Empty state guideline and the Illustration contract say the same. (#718)
+
 ## 0.1089.0 — 2026-11-07
 ### Added
 - 23 empty-state illustrations, so each state's art names what is missing: `empty-files`, `empty-folder`, `empty-search`, `empty-shared`, `empty-notifications`, `empty-document`, `empty-surveys`, `empty-lessons`, `empty-knowledge-base`, `empty-learners`, `empty-groups`, `empty-team`, `empty-certificates`, `empty-activity`, `empty-fields`, `empty-domains`, `empty-sign-in`, and for the brand kit `empty-logos`, `empty-colours`, `empty-fonts`, `empty-images`, `empty-themes`, `empty-voice` (#717)
