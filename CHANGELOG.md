@@ -35,9 +35,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1089.2 — 2026-11-08
 ### Fixed
-- 20 `empty-*` illustrations drop their dashed lines, so each drawing is simpler: copy lines are solid rounded bars, and a line, ring or wave that only added detail is gone (`empty-groups` loses its dashed ring, `empty-voice` its outer wave, `empty-fields` its placeholder line). `empty-presentation-list` is redrawn as a deck of three 16:9 slides with the title slide in front. Names, canvases and colours are unchanged (#123)
+- 20 `empty-*` illustrations drop their dashed lines, so each drawing is simpler: copy lines are solid rounded bars, and a line, ring or wave that only added detail is gone (`empty-groups` loses its dashed ring, `empty-voice` its outer wave, `empty-fields` its placeholder line). `empty-presentation-list` is redrawn as a deck of three 16:9 slides with the title slide in front. Names, canvases and colours are unchanged (#719)
 ### Changed
-- `standards.mjs` fails an `empty-*` drawing with a dashed stroke (`stroke-dasharray`); the Empty state guideline and the Illustration contract say each drawing uses solid lines (#123)
+- `standards.mjs` fails an `empty-*` drawing with a dashed stroke (`stroke-dasharray`); the Empty state guideline and the Illustration contract say each drawing uses solid lines (#719)
 
 ## 0.1089.1 — 2026-11-07
 ### Fixed
