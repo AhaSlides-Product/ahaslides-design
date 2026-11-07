@@ -35,9 +35,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1089.0 — 2026-11-07
 ### Added
-- 23 empty-state illustrations, so each state's art names what is missing: `empty-files`, `empty-folder`, `empty-search`, `empty-shared`, `empty-notifications`, `empty-document`, `empty-surveys`, `empty-lessons`, `empty-knowledge-base`, `empty-learners`, `empty-groups`, `empty-team`, `empty-certificates`, `empty-activity`, `empty-fields`, `empty-domains`, `empty-sign-in`, and for the brand kit `empty-logos`, `empty-colours`, `empty-fonts`, `empty-images`, `empty-themes`, `empty-voice` (#PR)
+- 23 empty-state illustrations, so each state's art names what is missing: `empty-files`, `empty-folder`, `empty-search`, `empty-shared`, `empty-notifications`, `empty-document`, `empty-surveys`, `empty-lessons`, `empty-knowledge-base`, `empty-learners`, `empty-groups`, `empty-team`, `empty-certificates`, `empty-activity`, `empty-fields`, `empty-domains`, `empty-sign-in`, and for the brand kit `empty-logos`, `empty-colours`, `empty-fonts`, `empty-images`, `empty-themes`, `empty-voice` (#717)
 ### Changed
-- EMPTY-03 lists the new names, says `empty-search` covers a no-match on any list, and says only `empty-table` and `empty-list` repeat by design (#PR)
+- EMPTY-03 lists the new names, says `empty-search` covers a no-match on any list, and says only `empty-table` and `empty-list` repeat by design (#717)
 
 ## 0.1088.0 — 2026-11-07
 ### Added
