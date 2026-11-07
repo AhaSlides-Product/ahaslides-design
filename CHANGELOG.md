@@ -33,6 +33,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1089.0 — 2026-11-07
+### Added
+- 23 empty-state illustrations, so each state's art names what is missing: `empty-files`, `empty-folder`, `empty-search`, `empty-shared`, `empty-notifications`, `empty-document`, `empty-surveys`, `empty-lessons`, `empty-knowledge-base`, `empty-learners`, `empty-groups`, `empty-team`, `empty-certificates`, `empty-activity`, `empty-fields`, `empty-domains`, `empty-sign-in`, and for the brand kit `empty-logos`, `empty-colours`, `empty-fonts`, `empty-images`, `empty-themes`, `empty-voice` (#717)
+### Changed
+- EMPTY-03 lists the new names, says `empty-search` covers a no-match on any list, and says only `empty-table` and `empty-list` repeat by design (#717)
+
 ## 0.1088.0 — 2026-11-07
 ### Added
 - CSAT `confirmation-like` and `confirmation-dislike` say which rating was given (for example "You liked this. Thanks for letting us know!"); `confirmation` stays the fallback and the only text after a Feedback-button Send with no rating, so existing consumers read the same (#714)
