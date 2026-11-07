@@ -35,9 +35,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1089.1 — 2026-11-07
 ### Fixed
-- `empty-presentation-list`, `empty-templates` and `empty-trash` are redrawn flat, in the same family as the other `empty-*` art, so each shows what is missing: a row of presentation cards, a gallery of slide layouts and a plain bin. The names are unchanged, so every call site picks up the new drawings (#718)
+- `empty-presentation-list`, `empty-templates`, `empty-trash` and `empty-feedback` are redrawn flat, in the same family as the other `empty-*` art, so each shows what is missing: a row of presentation cards, a gallery of slide layouts, a plain bin and a speech bubble of five unrated stars. The names are unchanged, so every call site picks up the new drawings (#718)
 ### Changed
-- `standards.mjs` fails an `empty-*` drawing with a gradient, filter, mask, pattern, opacity or any colour but the Illustration tints and white; the Empty state guideline and the Illustration contract say the same. `empty-feedback` is the one listed exception until it is redrawn (#718)
+- `standards.mjs` fails an `empty-*` drawing with a gradient, filter, mask, pattern, opacity or any colour but the Illustration tints and white; the Empty state guideline and the Illustration contract say the same. (#718)
 
 ## 0.1089.0 — 2026-11-07
 ### Added

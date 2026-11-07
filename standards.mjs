@@ -27,7 +27,7 @@ import { readdirSync, readFileSync, existsSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
-import { ART_SOURCES, ILLUSTRATION_TINTS, NOT_YET_FLAT, coloursInSvg, notFlatIn, recolourSvg } from './recolour-art.mjs';
+import { ART_SOURCES, ILLUSTRATION_TINTS, coloursInSvg, notFlatIn, recolourSvg } from './recolour-art.mjs';
 import { FROZEN_SNAPSHOT, validateEvalSets, selfTest as evalHarnessSelfTest } from './anti-slop/evals-harness.mjs';
 import { DUPLICATE_BASELINE_FILE, DUPLICATE_BASELINE_ABOUT, DUPLICATE_THRESHOLD, readGlyphSources, rasteriseAll, nearDuplicatePairs, readDuplicateBaseline, readIntentionalPairs, evaluateDuplicateGate } from './icon-similarity.mjs';
 import { unreleasedGate } from './auto-version.mjs';
@@ -848,10 +848,9 @@ const repoChecks = [];
 
   const emptyArtDir = join(root, 'illustrations', 'svg', 'empty');
   const emptyArt = readdirSync(emptyArtDir).filter(file => file.endsWith('.svg')).map(file => [file.replace(/\.svg$/, ''), notFlatIn(read(join(emptyArtDir, file)))]);
-  const notFlat = emptyArt.filter(([name, found]) => found.length && !NOT_YET_FLAT.includes(name)).map(([name, found]) => `${name} (${found.join(', ')})`);
-  const nowFlat = NOT_YET_FLAT.filter(name => !emptyArt.some(([artName, found]) => artName === name && found.length));
-  rchk('every empty-* illustration is flat, in the illustration tints and white', notFlat.length === 0 && nowFlat.length === 0,
-    `${notFlat.length ? `redraw flat, no gradient, filter, mask, pattern or opacity: ${notFlat.join('; ')}` : ''} ${nowFlat.length ? `take off NOT_YET_FLAT in recolour-art.mjs: ${nowFlat.join(', ')}` : ''}`.trim());
+  const notFlat = emptyArt.filter(([, found]) => found.length).map(([name, found]) => `${name} (${found.join(', ')})`);
+  rchk('every empty-* illustration is flat, in the illustration tints and white', notFlat.length === 0,
+    `redraw flat, no gradient, filter, mask, pattern or opacity: ${notFlat.join('; ')}`);
 
   /* The AhaSlides logo is drawn in the logo purple, Vivid Pink and its wordmark ink; a mono variant is one neutral. */
   const OWN_LOGO_COLOURS = [LOGO_PURPLE, VIVID_PINK, '#1A1A2E'];
