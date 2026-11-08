@@ -5,8 +5,8 @@
 <path d="M23 30.5H33" stroke="white" stroke-width="3" stroke-linecap="round"/>
 <path d="M43 30.5H53" stroke="white" stroke-width="3" stroke-linecap="round"/>
 <path d="M63 30.5H71" stroke="white" stroke-width="3" stroke-linecap="round"/>
-<path d="M23 48H73" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="5 6"/>
-<path d="M23 58.5H73" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="5 6"/>
-<path d="M23 69H51" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="5 6"/>
+<path d="M23 48H73" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
+<path d="M23 58.5H73" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
+<path d="M23 69H51" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
 <circle cx="92" cy="12" r="4" fill="#F493BB"/>
 </svg>

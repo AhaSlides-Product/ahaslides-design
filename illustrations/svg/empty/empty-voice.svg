@@ -5,5 +5,4 @@
 <path d="M40 35L58 26" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
 <rect x="68" y="9" width="8" height="64" rx="4" fill="#E70E68"/>
 <path d="M84 30Q88 41 84 52" stroke="#F493BB" stroke-width="3.5" stroke-linecap="round"/>
-<path d="M92 22Q98 41 92 60" stroke="#F493BB" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="5 6"/>
 </svg>

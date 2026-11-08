@@ -3,8 +3,7 @@
 <path d="M34 12H61L76 27V74Q76 80 70 80H34Q28 80 28 74V18Q28 12 34 12Z" fill="#F8B7D2"/>
 <path d="M61 12V24Q61 27 64 27H76L61 12Z" fill="#E70E68"/>
 <path d="M37 36H58" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
-<path d="M37 48H67" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="5 6"/>
-<path d="M37 59H67" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="5 6"/>
-<path d="M37 70H54" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="5 6"/>
+<path d="M37 48H67" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
+<path d="M37 59H54" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
 <circle cx="90" cy="14" r="4" fill="#F493BB"/>
 </svg>

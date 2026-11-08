@@ -4,7 +4,7 @@
 <path d="M35 18H58L71 31V72Q71 78 65 78H35Q29 78 29 72V24Q29 18 35 18Z" fill="#F8B7D2"/>
 <path d="M58 18V28Q58 31 61 31H71L58 18Z" fill="#E70E68"/>
 <path d="M38 42H62" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
-<path d="M38 53H62" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="5 6"/>
-<path d="M38 64H54" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="5 6"/>
+<path d="M38 53H62" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
+<path d="M38 64H54" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
 <circle cx="90" cy="14" r="4" fill="#F493BB"/>
 </svg>

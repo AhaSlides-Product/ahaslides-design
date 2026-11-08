@@ -3,10 +3,8 @@
 <path d="M50 24C58 16 74 14 88 17Q92 18 92 22V68Q92 72 88 71C74 68 58 70 50 77Z" fill="#FACFE1"/>
 <path d="M50 24V77" stroke="#E70E68" stroke-width="3.5" stroke-linecap="round"/>
 <path d="M18 34C26 33 34 34 41 38" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
-<path d="M18 46C26 45 34 46 41 50" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="5 6"/>
-<path d="M18 58C26 57 34 58 41 62" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="5 6"/>
-<path d="M59 50C66 46 74 45 82 46" stroke="#F493BB" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="5 6"/>
-<path d="M59 62C66 58 74 57 82 58" stroke="#F493BB" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="5 6"/>
+<path d="M18 46C26 45 34 46 41 50" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
+<path d="M59 50C66 46 74 45 82 46" stroke="#F493BB" stroke-width="3.5" stroke-linecap="round"/>
 <circle cx="79" cy="20" r="15" fill="#E70E68"/>
 <circle cx="79" cy="17" r="6.5" fill="white"/>
 <path d="M76 27H82" stroke="white" stroke-width="3" stroke-linecap="round"/>

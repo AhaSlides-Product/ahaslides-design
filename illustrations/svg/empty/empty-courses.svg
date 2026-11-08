@@ -4,8 +4,7 @@
 <path d="M25 13V79" stroke="#F493BB" stroke-width="3.5"/>
 <path d="M57 13H69V38L63 32.5L57 38V13Z" fill="#E70E68"/>
 <path d="M34 28H47" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
-<path d="M34 49H71" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="5 6"/>
-<path d="M34 59H71" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="5 6"/>
-<path d="M34 69H56" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="5 6"/>
+<path d="M34 49H71" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
+<path d="M34 59H56" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
 <circle cx="90" cy="14" r="4" fill="#F493BB"/>
 </svg>
