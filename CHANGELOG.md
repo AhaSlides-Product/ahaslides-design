@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## Unreleased
+### Fixed
+- `AGENTS.md` says how to tell whether `AUTO_VERSION` is on: master's log shows a `chore(release): X.Y.Z` commit after each merge (#PR)
+
 ## 0.1092.0 — 2026-11-09
 ### Added
 - `aha-select` takes `max-tag-count="responsive"` with `mode="multiple"`: chips that do not fit collapse into a "+N" tag and the control stays one row; `more-label` names the tag (#713)
