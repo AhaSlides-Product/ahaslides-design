@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## Unreleased
+### Fixed
+- `AGENTS.md` says how to tell whether `AUTO_VERSION` is on: master's log shows a `chore(release): X.Y.Z` commit after each merge (#725)
+
 ## 0.1092.5 — 2026-11-09
 ### Fixed
 - The AUTO_VERSION switch reads as on for `on` in any case, with spaces or quotes around it, or the literal `AUTO_VERSION=on`; `publish.yml` gates on that one reading, and CI and publish print the raw variable for diagnosis (#726)
