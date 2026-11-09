@@ -49,6 +49,7 @@
 .aha-testimonials__track{
   display:flex;gap:var(--aha-section-space-item);
   overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none; /* ds-lint-allow: overflow-x-scroll (swipeable carousel track, scrolled by the arrow buttons and arrow keys) */
+  padding:var(--aha-space-16) 0 var(--aha-space-32);margin:calc(-1 * var(--aha-space-16)) 0 calc(-1 * var(--aha-space-32)); /* overflow-x clips overflow-y too: room for the linked card's hover lift and shadow */
 }
 .aha-testimonials__track::-webkit-scrollbar{display:none}
 .aha-testimonials__track:focus-visible{outline:var(--aha-space-2) solid var(--aha-focus);outline-offset:var(--aha-space-2)}
