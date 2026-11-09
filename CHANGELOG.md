@@ -38,8 +38,15 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - `<aha-canvas-count size="sm">`: one smaller step (32px tall, 16px verdict discs, 14px count, 12px person glyph) sanctioned for the audience phone and the self-paced phone. Omitting `size` keeps the 40px default unchanged; presenter canvases keep the default. (#727)
 
+### Changed
+- The Hero G2 reviews row drops the G2 logo and its white tile: five stars, then "4.8 on G2 from 1,000+ reviews" in the default ink, on every hero and gallery layout that carries the row (#724)
+
+### Removed
+- `marketing/images/reviews/g2-logo.png` and the unused `__reviews-logo` CSS (#724)
+
 ### Fixed
 - `AGENTS.md` says how to tell whether `AUTO_VERSION` is on: master's log shows a `chore(release): X.Y.Z` commit after each merge (#725)
+- Marketing Testimonials (case study cards) and Features (compact scrollers): a linked card's hover lift and shadow are no longer cropped by the sideways card scroller; the scroller keeps room above and below it (#723)
 
 ## 0.1092.5 — 2026-11-09
 ### Fixed
