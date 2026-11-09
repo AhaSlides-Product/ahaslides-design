@@ -53,7 +53,7 @@
       "kind": "In-canvas",
       "what": "The answer count many slide types show: a green check disc, the count and a person glyph, a divider, then a red cross disc, the count and a person glyph. Without `correct` / `wrong` it shows only how many answered, with no verdict mark.",
       "useWhen": "a quiz-style result on the presenter canvas (`correct` and `wrong`), or any slide that shows how many answered next to its result (`answered`)",
-      "notFor": "the waiting state before a result (use the status line below) and the audience phone.",
+      "notFor": "the waiting state before a result (use the status line below). On the audience phone and the self-paced phone use `size=\"sm\"` (32px).",
       "rules": [
         {
           "label": "Container",

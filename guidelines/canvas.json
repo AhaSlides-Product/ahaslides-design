@@ -68,7 +68,7 @@
     {
       "ref": "canvas-count",
       "as": "component",
-      "use": "the correct / incorrect count (✓ 12 · ✗ 3), or how many answered with no verdict — <aha-canvas-count correct wrong> / <aha-canvas-count answered>, a 40px container in the deck container set, never a hand-rolled pill",
+      "use": "the correct / incorrect count (✓ 12 · ✗ 3), or how many answered with no verdict — <aha-canvas-count correct wrong> / <aha-canvas-count answered>, a 40px container in the deck container set, never a hand-rolled pill; on the audience phone and the self-paced phone use size=\"sm\" (32px), the only sanctioned smaller step, never a hand-sized count",
       "status": "available"
     },
     {
