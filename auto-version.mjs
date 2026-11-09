@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Auto-versioning on merge, active only while the repo variable AUTO_VERSION is "on".
+// Auto-versioning on merge, active only while the repo variable AUTO_VERSION is on (any case, spaces and quotes ignored; "AUTO_VERSION=on" also counts).
 // A pull request writes its CHANGELOG entry under "## Unreleased" and leaves every version file
 // alone; on merge to master, publish.yml runs `node auto-version.mjs`, which picks the number,
 // turns "## Unreleased" into "## X.Y.Z — YYYY-MM-DD" with the real PR numbers, sets package.json
@@ -20,7 +20,10 @@ const ANY_ENTRY_HEADING = /^##\s/;
 const TRAILING_REF = /\(#([^)\n]*)\)\s*$/;
 const BUMP_RANK = { none: 0, patch: 1, minor: 2, major: 3 };
 
-export const isAutoVersionOn = (env = process.env) => (env.AUTO_VERSION || '').trim().toLowerCase() === 'on';
+export const isAutoVersionOn = (env = process.env) => {
+  const value = (env.AUTO_VERSION || '').trim().replace(/^(["'])(.*)\1$/, '$2').trim().toLowerCase();
+  return value === 'on' || value === 'auto_version=on';
+};
 
 /** The pending entry when CHANGELOG.md's first "## " heading outside a code fence is "## Unreleased",
  *  else null. Several Unreleased headings in a row (two merges released together) read as one entry. */

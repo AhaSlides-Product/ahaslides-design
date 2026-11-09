@@ -38,6 +38,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - `<aha-canvas-count size="sm">`: one smaller step (32px tall, 16px verdict discs, 14px count, 12px person glyph) sanctioned for the audience phone and the self-paced phone. Omitting `size` keeps the 40px default unchanged; presenter canvases keep the default. (#727)
 
+## 0.1092.5 — 2026-11-09
+### Fixed
+- The AUTO_VERSION switch reads as on for `on` in any case, with spaces or quotes around it, or the literal `AUTO_VERSION=on`; `publish.yml` gates on that one reading, and CI and publish print the raw variable for diagnosis (#726)
+
 ## 0.1092.1 — 2026-11-09
 ### Fixed
 - `<aha-countdown variant="points">` keeps its fill in the deck accent all the way down to `min`: `urgent-below-ms` no longer turns the points bar to the error colour near the end, which on a dark deck made it a near-black fill that almost disappeared. The timer (no variant) is unchanged (#721)
