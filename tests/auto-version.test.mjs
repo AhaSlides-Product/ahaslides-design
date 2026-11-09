@@ -5,7 +5,7 @@ import { chmodSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync 
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { inferBump, parseBumpLine, pickBump, rewriteChangelog, unreleasedGate, readUnreleased } from '../auto-version.mjs';
+import { inferBump, isAutoVersionOn, parseBumpLine, pickBump, rewriteChangelog, unreleasedGate, readUnreleased } from '../auto-version.mjs';
 
 const SCRIPT = join(dirname(fileURLToPath(import.meta.url)), '..', 'auto-version.mjs');
 const HEADER = '# Changelog\n\nNewest first. Format:\n\n```\n## X.Y.Z — YYYY-MM-DD\n## Unreleased\n### Fixed\n- a bullet (#PR)\n```\n';
@@ -181,4 +181,12 @@ test('release: a placeholder no merged pull request added stops the release befo
   assert.equal(result.code, 2, result.out);
   assert.match(result.out, /could not tell which pull request added: - second \(#PR\)/);
   assert.equal(versionOn(box, 'package.json'), '0.4.2');
+});
+
+test('isAutoVersionOn accepts on in any case, padded or quoted, and the literal AUTO_VERSION=on', () => {
+  for (const value of ['on', 'ON', ' On ', '"on"', "'On'", ' " on " ', 'AUTO_VERSION=on', 'auto_version=ON'])
+    assert.equal(isAutoVersionOn({ AUTO_VERSION: value }), true, JSON.stringify(value));
+  for (const value of ['off', '', ' ', 'true', '"', 'AUTO_VERSION=off', 'onn'])
+    assert.equal(isAutoVersionOn({ AUTO_VERSION: value }), false, JSON.stringify(value));
+  assert.equal(isAutoVersionOn({}), false);
 });
