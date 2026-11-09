@@ -10,7 +10,7 @@ const tab = ref(0);
 </script>
 
 <template>
-  <!-- type = line | primary | card, size = default | small, tab-position = top | left -->
+  <!-- type = line | primary | card, size = default | small | large, tab-position = top | left -->
   <aha-tabs :value.prop="tab" type="line" @change="tab = $event.detail.value">
     <section data-tab="Overview" data-icon="system-info">Overview panel content.</section>
     <section data-tab="Activity" data-icon="system-chart-bar">Activity panel content.</section>
