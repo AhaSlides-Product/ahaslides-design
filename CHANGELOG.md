@@ -38,6 +38,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - `<aha-canvas-count size="sm">`: one smaller step (32px tall, 16px verdict discs, 14px count, 12px person glyph) sanctioned for the audience phone and the self-paced phone. Omitting `size` keeps the 40px default unchanged; presenter canvases keep the default. (#727)
 
+### Fixed
+- `AGENTS.md` says how to tell whether `AUTO_VERSION` is on: master's log shows a `chore(release): X.Y.Z` commit after each merge (#725)
+
 ## 0.1092.5 — 2026-11-09
 ### Fixed
 - The AUTO_VERSION switch reads as on for `on` in any case, with spaces or quotes around it, or the literal `AUTO_VERSION=on`; `publish.yml` gates on that one reading, and CI and publish print the raw variable for diagnosis (#726)
