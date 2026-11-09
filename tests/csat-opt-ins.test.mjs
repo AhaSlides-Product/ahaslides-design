@@ -66,6 +66,7 @@ const scenarios = String.raw`(async () => {
   const btns = stacked.querySelector('.btns').getBoundingClientRect();
   out.stackedUnderThumbs = confirm.top >= btns.bottom - 1;
   out.stackedGap = getComputedStyle(stacked.querySelector('.confirm')).marginTop;
+  out.stackedDistance = Math.round(confirm.top - btns.bottom);
   out.stackedStaysInside = confirm.right <= rating.right + 1;
   document.getElementById('stacked').removeAttribute('layout'); await wait(100);
   const rowConfirm = stacked.querySelector('.confirm').getBoundingClientRect();
@@ -103,6 +104,7 @@ test('csat opt-ins: default unchanged, feedback-on="any" opens after a like, con
   assert.equal(r.stackedUnderThumbs, true);
   assert.equal(r.stackedStaysInside, true);
   assert.equal(r.stackedGap, '8px');
+  assert.equal(r.stackedDistance, 10);
   assert.equal(r.rowBesideThumbs, true);
 });
 

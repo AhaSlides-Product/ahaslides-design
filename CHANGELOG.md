@@ -38,7 +38,12 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `aha-csat` `confirmation-sent`: text shown after a feedback Send instead of `confirmation-like` / `confirmation-dislike` / `confirmation`; unset, those show as before (#720)
 ### Changed
 - `aha-csat` with `feedback-display="inline"` has no feedback close button: Send or Escape closes it; the default popover keeps its X (#720)
-- `aha-csat` confirmation (`confirmation`, `confirmation-like`, `confirmation-dislike`) is text only: the 16px `system-check` icon in front of it is gone, and the text is regular weight (400, was semibold) at 14px; with `layout="stacked"` it sits 8px below the buttons (#720)
+- `aha-csat` confirmation (`confirmation`, `confirmation-like`, `confirmation-dislike`) is text only: the 16px `system-check` icon in front of it is gone, and the text is regular weight (400, was semibold) at 14px; with `layout="stacked"` it gets an 8px top margin, 10px below the buttons with the 2px row gap (#720)
+
+## 0.1090.0 — 2026-11-09
+
+### Changed
+- **Default change: Paywall hides See all plans unless `show-plans` is set.** `<aha-paywall>` now shows only the Upgrade button by default; the new boolean `show-plans` adds the secondary See all plans button back, with `plans-label`, `plans-url` and the `paywall-plans` event working as before. Consumers that want See all plans must add `show-plans` after bumping to this version. A locked Dropdown row does not pass `show-plans`, so its popover is Upgrade alone. The crown mark's default accessible name is now "Upgrade required. See details", since See all plans is no longer there by default (#686)
 
 ## 0.1089.2 — 2026-11-08
 ### Fixed

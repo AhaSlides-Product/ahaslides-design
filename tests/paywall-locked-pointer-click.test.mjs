@@ -57,7 +57,7 @@ for (const where of Object.keys(lockIn)) {
       const result = await withPage(url, async (command) => {
         if (where === 'dropdown') await realClick(command, `document.getElementById('dd').shadowRoot.querySelector('.trigger')`);
         await realClick(command, lockIn[where]);
-        const opened = await evaluate(command, `const lock = ${lockIn[where]}; const cta = lock.shadowRoot.querySelector('${selector}'); window.__node = cta.firstChild; window.__fired = []; lock.addEventListener('${event}', (e) => { e.preventDefault(); window.__fired.push(e.type); }); return lock.open;`);
+        const opened = await evaluate(command, `const lock = ${lockIn[where]}; if ('${selector}' === '.plans') lock.setAttribute('show-plans', ''); const cta = lock.shadowRoot.querySelector('${selector}'); window.__node = cta.firstChild; window.__fired = []; lock.addEventListener('${event}', (e) => { e.preventDefault(); window.__fired.push(e.type); }); return lock.open;`);
         await realClick(command, `${lockIn[where]}.shadowRoot.querySelector('${selector}')`);
         const after = await evaluate(command, `const cta = ${lockIn[where]}.shadowRoot.querySelector('${selector}'); return { fired: window.__fired, sameNode: cta.firstChild === window.__node && window.__node.isConnected };`);
         return { opened, ...after };
