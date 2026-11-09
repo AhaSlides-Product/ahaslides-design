@@ -36,8 +36,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## Unreleased
 ### Added
 - `<aha-button wrap>`: opt-in boolean attribute for a long or translated label. It wraps onto two or more lines and the button grows from the size's own height; a one-line label renders exactly as without it. Ignored by `icon-only` and `size=inline`; the hand-rolled-button lint message now points to it instead of `::part(button)` height and white-space overrides (#730)
-- `aha-tabs` gets `size="large"` (16px SemiBold label, 24px line height, roomier padding and gap) for line, primary and card types in both tab positions; default and small are unchanged. Contract, docs and the Vue / React wrappers updated. (#PR)
-
+- `aha-tabs` gets `size="large"` (16px SemiBold label, 24px line height, roomier padding and gap) for line, primary and card types in both tab positions; default and small are unchanged. Contract, docs and the Vue example updated (#731)
 
 ## 0.1094.0 — 2026-11-09
 ### Added
