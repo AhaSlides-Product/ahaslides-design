@@ -33,9 +33,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1092.3 — 2026-11-09
+## 0.1092.6 — 2026-11-09
 ### Fixed
 - Marketing Testimonials (case study cards) and Features (compact scrollers): a linked card's hover lift and shadow are no longer cropped by the sideways card scroller; the scroller keeps room above and below it (#723)
+
+## 0.1092.5 — 2026-11-09
+### Fixed
+- The AUTO_VERSION switch reads as on for `on` in any case, with spaces or quotes around it, or the literal `AUTO_VERSION=on`; `publish.yml` gates on that one reading, and CI and publish print the raw variable for diagnosis (#726)
 
 ## 0.1092.1 — 2026-11-09
 ### Fixed
