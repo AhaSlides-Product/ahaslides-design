@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1090.1 — 2026-11-09
 ### Changed
-- `aha-csat` confirmation (`confirmation`, `confirmation-like`, `confirmation-dislike`) is text only: the 16px `system-check` icon in front of it is gone, the 14px semibold text stays (#NNN)
+- `aha-csat` confirmation (`confirmation`, `confirmation-like`, `confirmation-dislike`) is text only: the 16px `system-check` icon in front of it is gone, the 14px semibold text stays (#720)
 
 ## 0.1089.2 — 2026-11-08
 ### Fixed
