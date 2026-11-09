@@ -1,10 +1,10 @@
 <div class="pad" style="display:flex; justify-content:center; align-items:flex-start; padding:16px 24px 300px">
   <!-- ONE [data-probe] paywall, shown OPEN so the popover anatomy (upgrade-mark crown · title ·
-       description · unlock line · Upgrade + See all plans buttons) is visible and measurable. The
+       description · unlock line · Upgrade + show-plans' See all plans buttons) is visible and measurable. The
        Plan playground drives required-plan on THIS element live. Wraps a gated affordance as its anchor. -->
-  <aha-paywall data-probe open placement="bottom" feature-key="streak_bonus"
+  <aha-paywall data-probe open show-plans placement="bottom" feature-key="streak_bonus"
     feature-label="Streak answer bonus point"
-    body="Let the participants play quiz and be ranked as teams instead of being ranked individually."
+    body="Give bonus points to participants who answer correctly several times in a row."
     required-plan="pro">
     <span class="lbl" style="margin:0">Streak bonus</span>
   </aha-paywall>
@@ -12,12 +12,12 @@
 
 <!-- Imports the REAL shipped element (../lib/aha-paywall.js) + the icon library + the shared Button —
      no inlined copy, so the preview can never drift from lib/. aha-paywall.js itself imports the icon
-     registry AND aha-button, but we import them here too so the crown glyph + the two CTAs resolve
+     registry AND aha-button, but we import them here too so the crown glyph + the CTAs resolve
      eagerly. The Plan control bar is generated from contracts/paywall.json → playground and drives
      required-plan on the [data-probe] element live. -->
 <script type="module">
   import '../lib/icons.js';        // registers <aha-icon> + the registry (the crown badge comes from it)
-  import '../lib/aha-button.js';   // registers <aha-button> — the two popover CTAs reuse the shared primitive
+  import '../lib/aha-button.js';   // registers <aha-button> — the popover CTAs reuse the shared primitive
   import '../lib/aha-paywall.js';  // registers <aha-paywall> — the shipped primitive, byte-identical to consumers'
 
   // demo only: don't navigate away from the docs when a CTA is clicked

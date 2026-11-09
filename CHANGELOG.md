@@ -33,6 +33,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1090.0 — 2026-11-09
+
+### Changed
+- **Default change: Paywall hides See all plans unless `show-plans` is set.** `<aha-paywall>` now shows only the Upgrade button by default; the new boolean `show-plans` adds the secondary See all plans button back, with `plans-label`, `plans-url` and the `paywall-plans` event working as before. Consumers that want See all plans must add `show-plans` after bumping to this version. A locked Dropdown row does not pass `show-plans`, so its popover is Upgrade alone. The crown mark's default accessible name is now "Upgrade required. See details", since See all plans is no longer there by default (#686)
+
 ## 0.1089.2 — 2026-11-08
 ### Fixed
 - 20 `empty-*` illustrations drop their dashed lines, so each drawing is simpler: copy lines are solid rounded bars, and a line, ring or wave that only added detail is gone (`empty-groups` loses its dashed ring, `empty-voice` its outer wave, `empty-fields` its placeholder line). `empty-presentation-list` is redrawn as a deck of three 16:9 slides with the title slide in front. Names, canvases and colours are unchanged (#719)
