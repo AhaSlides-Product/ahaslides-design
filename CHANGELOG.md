@@ -34,6 +34,13 @@ an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix w
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
 ## Unreleased
+### Changed
+- The Hero G2 reviews row drops the G2 logo and its white tile: five stars, then "4.8 on G2 from 1,000+ reviews" in the default ink, on every hero and gallery layout that carries the row (#724)
+
+### Removed
+- `marketing/images/reviews/g2-logo.png` and the unused `__reviews-logo` CSS (#724)
+
+## Unreleased
 ### Fixed
 - `AGENTS.md` says how to tell whether `AUTO_VERSION` is on: master's log shows a `chore(release): X.Y.Z` commit after each merge (#725)
 - Marketing Testimonials (case study cards) and Features (compact scrollers): a linked card's hover lift and shadow are no longer cropped by the sideways card scroller; the scroller keeps room above and below it (#723)
