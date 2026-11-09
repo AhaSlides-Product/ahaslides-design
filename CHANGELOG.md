@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1090.1 — 2026-11-09
+### Changed
+- `aha-csat` confirmation (`confirmation`, `confirmation-like`, `confirmation-dislike`) is text only: the 16px `system-check` icon in front of it is gone, the 14px semibold text stays (#NNN)
+
 ## 0.1089.2 — 2026-11-08
 ### Fixed
 - 20 `empty-*` illustrations drop their dashed lines, so each drawing is simpler: copy lines are solid rounded bars, and a line, ring or wave that only added detail is gone (`empty-groups` loses its dashed ring, `empty-voice` its outer wave, `empty-fields` its placeholder line). `empty-presentation-list` is redrawn as a deck of three 16:9 slides with the title slide in front. Names, canvases and colours are unchanged (#719)

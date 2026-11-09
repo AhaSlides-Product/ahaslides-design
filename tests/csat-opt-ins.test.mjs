@@ -212,7 +212,7 @@ const ratedScenarios = String.raw`(async () => {
   out.fits = { scroll: box.scrollWidth <= box.clientWidth, field: inBox(root.querySelector('.fb-text')), close: inBox(root.querySelector('.fb-close')), send: inBox(root.querySelector('.fb-submit')) };
   out.dislike = text();
   const confirm = getComputedStyle(root.querySelector('.confirm'));
-  out.style = { size: confirm.fontSize, weight: confirm.fontWeight, colour: confirm.color, icon: root.querySelector('.confirm aha-icon').getAttribute('name') };
+  out.style = { size: confirm.fontSize, weight: confirm.fontWeight, colour: confirm.color, icon: root.querySelector('.confirm aha-icon') };
   root.querySelector('.fb-close').click(); await wait(300);
   root.querySelector('.up').click(); await wait(300);
   out.like = text();
@@ -235,7 +235,7 @@ test('csat confirmation-like / -dislike name the rating, and the inline field fi
   const r = await evaluateInPage(fixture, ratedScenarios, { readyExpr: '!!window.csatFixtureReady', timeout: 60000 });
   assert.deepEqual(r.fits, { scroll: true, field: true, close: true, send: true });
   assert.equal(r.dislike, "You didn't like this. Thanks for being honest.");
-  assert.deepEqual(r.style, { size: '14px', weight: '600', colour: 'rgb(26, 26, 26)', icon: 'system-check' });
+  assert.deepEqual(r.style, { size: '14px', weight: '600', colour: 'rgb(26, 26, 26)', icon: null });
   assert.equal(r.like, 'You liked this. Thanks for letting us know!');
   assert.equal(r.unratedHidden, true);
   assert.equal(r.fallbackAfterButtonSend, 'Thanks, feedback received');
