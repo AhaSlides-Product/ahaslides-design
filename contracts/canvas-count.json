@@ -137,7 +137,8 @@
     "audience"
   ],
   "environment": [
-    "product"
+    "product",
+    "audience"
   ],
   "snippets": [
     {
