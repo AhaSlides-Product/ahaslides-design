@@ -174,6 +174,8 @@ const inlineScenarios = String.raw`(async () => {
   out.closedByEscape = !host.hasAttribute('data-feedback-open');
   down.click(); await wait(100);
   down.click(); await wait(300);
+  feedbackButton.click(); await wait(300);
+  out.feedbackButtonWhileOpen = { open: host.hasAttribute('data-feedback-open'), textareaFocused: root.querySelector('.fb-text').shadowRoot.activeElement === field() };
   root.querySelector('.fb-text').value = 'too slow';
   root.querySelector('.fb-text').dispatchEvent(new Event('input'));
   root.querySelector('.fb-submit').click(); await wait(300);
@@ -201,6 +203,7 @@ test('csat feedback-display="inline": the feedback body opens in flow, not in a 
   assert.deepEqual(r.feedbackButton, { open: true, expanded: 'true', downExpanded: 'false' });
   assert.equal(r.inlineCloseHidden, 'none');
   assert.equal(r.closedByEscape, true);
+  assert.deepEqual(r.feedbackButtonWhileOpen, { open: true, textareaFocused: true });
   assert.deepEqual(r.sent, { events: [['down', 'too slow']], collapsed: true, confirm: 'Thanks, feedback received' });
   assert.equal(r.reopensAfterRerate, true);
   assert.deepEqual(r.backToPopover, { collapsed: true, haspopup: 'dialog', bodyInPopover: true });
