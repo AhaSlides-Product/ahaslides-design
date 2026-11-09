@@ -12,12 +12,13 @@ name: publish
 #
 # Manual re-publish / backfill: run this workflow via workflow_dispatch (Actions tab) on master.
 #
-# Auto-versioning (only while the repo variable AUTO_VERSION is "on"): a PR writes its CHANGELOG
+# Auto-versioning (only while the repo variable AUTO_VERSION reads as on: "on" in any case, with
+# spaces or quotes around it, or "AUTO_VERSION=on"; the autover step normalises it via auto-version.mjs): a PR writes its CHANGELOG
 # entry under "## Unreleased" and bumps nothing. The "Release" step below (auto-version.mjs) picks
 # the number, rewrites the entry, sets package.json + agent/.claude-plugin/plugin.json, and pushes
 # "chore(release): X.Y.Z" to master; every later step then runs on that commit unchanged. A push
 # made with GITHUB_TOKEN starts no workflow, so this run dispatches pages.yml and publish-cdn.yml
-# itself after publishing. With AUTO_VERSION unset or not "on", the Release step is skipped.
+# itself after publishing. With AUTO_VERSION unset or not on, the Release step is skipped.
 #
 # Publishing needs no extra secret: GitHub Packages publish uses the built-in GITHUB_TOKEN
 # (`packages: write`). `contents: write` is needed to push the version tag. The consumer bump
@@ -61,9 +62,18 @@ jobs:
 
       - run: npm install --no-audit --no-fund
 
+      - name: Read the AUTO_VERSION switch (normalised)
+        id: autover
+        run: |
+          echo "AUTO_VERSION raw: [${AUTO_VERSION}] (length ${#AUTO_VERSION})"
+          ON=$(node --input-type=module -e "import { isAutoVersionOn } from './auto-version.mjs'; console.log(isAutoVersionOn() ? 'true' : 'false')")
+          echo "on=$ON" >> "$GITHUB_OUTPUT"
+        env:
+          AUTO_VERSION: ${{ vars.AUTO_VERSION }}
+
       - name: Release the "## Unreleased" CHANGELOG entry (AUTO_VERSION=on)
         id: release
-        if: vars.AUTO_VERSION == 'on' && github.ref == 'refs/heads/master' && !startsWith(github.event.head_commit.message || '', 'chore(release):')
+        if: steps.autover.outputs.on == 'true' && github.ref == 'refs/heads/master' && !startsWith(github.event.head_commit.message || '', 'chore(release):')
         run: node auto-version.mjs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -133,7 +143,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy the docs and CDN for the auto-version release
-        if: vars.AUTO_VERSION == 'on' && github.ref == 'refs/heads/master' && steps.release.outputs.pushed_with != 'push-token' && !startsWith(github.event.head_commit.message || '', 'chore(release):')
+        if: steps.autover.outputs.on == 'true' && github.ref == 'refs/heads/master' && steps.release.outputs.pushed_with != 'push-token' && !startsWith(github.event.head_commit.message || '', 'chore(release):')
         run: |
           gh workflow run pages.yml --ref master --repo "$GITHUB_REPOSITORY"
           gh workflow run publish-cdn.yml --ref master --repo "$GITHUB_REPOSITORY"
