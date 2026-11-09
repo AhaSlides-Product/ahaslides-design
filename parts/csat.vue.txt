@@ -24,6 +24,8 @@ function onFeedback(e) {
        that text beside the thumbs once rated and again after Send (under them with layout="stacked"). -->
   <aha-csat prompt="How did this import go?" source="more_feedback" feedback-on="any" confirmation="Thanks, feedback received" @rate="onRate" @feedback="onFeedback" />
   <!-- confirmation-like / confirmation-dislike say which rating was given; confirmation stays the fallback. -->
+  <!-- confirmation-sent replaces that text after a feedback Send. -->
+  <aha-csat prompt="How did this import go?" source="sent_confirmation" feedback-on="any" confirmation-like="You liked this. Thanks for letting us know!" confirmation-sent="Thanks! Our developers have received your feedback." @rate="onRate" @feedback="onFeedback" />
   <aha-csat prompt="How did this import go?" source="rating_confirmation" confirmation="Thanks, feedback received" confirmation-like="You liked this. Thanks for letting us know!" confirmation-dislike="You didn't like this. Thanks for being honest." @rate="onRate" @feedback="onFeedback" />
   <!-- feedback-display="inline" opens the feedback field in flow under the buttons (inside a popover or card,
        so there is one card, never a second popover). -->
