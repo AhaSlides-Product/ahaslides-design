@@ -22,6 +22,9 @@
 <!-- Opt-ins for more feedback: a like also opens the feedback popover, and a "received" line shows once rated. -->
 <aha-csat prompt="How did this import go?" source="docs_more_feedback" feedback-on="any" confirmation="Thanks, feedback received"></aha-csat>
 
+<!-- confirmation-like and confirmation-dislike say which rating was given; confirmation stays the fallback. -->
+<aha-csat prompt="How did this import go?" source="docs_rating_confirmation" confirmation="Thanks, feedback received" confirmation-like="You liked this. Thanks for letting us know!" confirmation-dislike="You didn't like this. Thanks for being honest."></aha-csat>
+
 <!-- Already inside a popover or card: feedback-display="inline" opens the feedback field in flow under the buttons,
      in the same card, instead of a second popover. -->
 <aha-csat prompt="How did this import go?" source="docs_inline" feedback-button layout="stacked" feedback-display="inline"></aha-csat>

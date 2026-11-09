@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { ART_SOURCES, ILLUSTRATION_TINTS, coloursInSvg, recolourSvg, toGreyscale, toIllustrationColour } from '../recolour-art.mjs';
+import { ART_SOURCES, ILLUSTRATION_TINTS, coloursInSvg, notFlatIn, recolourSvg, toGreyscale, toIllustrationColour } from '../recolour-art.mjs';
 
 const isGrey = (hex) => hex.slice(1, 3) === hex.slice(3, 5) && hex.slice(3, 5) === hex.slice(5, 7);
 const tintIndex = (hex) => ILLUSTRATION_TINTS.indexOf(toIllustrationColour(hex));
@@ -48,4 +48,24 @@ test('recolourSvg reaches named colours, rgb(), filter tints, and leaves url(#id
   assert.ok(out.includes(shadow));
   assert.doesNotMatch(out, /fill="red"|fill="black"|rgb\(/);
   for (const colour of coloursInSvg(out)) assert.ok(isGrey(colour.toUpperCase()) || ILLUSTRATION_TINTS.includes(colour.toUpperCase()), colour);
+});
+
+test('notFlatIn passes a flat drawing and names each thing that breaks the flat family', () => {
+  assert.deepEqual(notFlatIn('<svg fill="none"><rect fill="#F8B7D2"/><path stroke="white"/><circle fill="#ffffff"/><path fill="#E70E68"/></svg>'), []);
+  for (const [svg, found] of [
+    ['<linearGradient id="a"/>', 'linearGradient'],
+    ['<radialGradient id="a"/>', 'radialGradient'],
+    ['<filter id="a"/>', 'filter'],
+    ['<mask id="a"/>', 'mask'],
+    ['<pattern id="a"/>', 'pattern'],
+    ['<g opacity="0.5"/>', 'opacity'],
+    ['<path fill-opacity="0.5"/>', 'opacity'],
+    ['<path style="opacity:.5"/>', 'opacity'],
+    ['<path stroke="white" stroke-dasharray="5 6"/>', 'stroke-dasharray'],
+    ['<path style="stroke-dasharray:4"/>', 'stroke-dasharray'],
+    ['<path fill="#1A1A1A"/>', '#1A1A1A'],
+    ['<path fill="#E1E1E1"/>', '#E1E1E1'],
+    ['<path stroke="#00F"/>', '#0000FF'],
+    ['<path fill="red"/>', '#FF0000'],
+  ]) assert.deepEqual(notFlatIn(svg), [found], svg);
 });

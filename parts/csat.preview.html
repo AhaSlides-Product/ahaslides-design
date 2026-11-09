@@ -15,7 +15,7 @@
   <div style="display:flex; gap:32px; align-items:flex-start; flex-wrap:wrap; padding:8px 0 260px">
     <aha-popover open flip placement="bottom-start" trigger="click" aria-label="Rate this slide type">
       <aha-button slot="trigger" variant="tertiary" icon-only size="sm" aria-label="Rate this slide type"><aha-icon name="system-thumbs-up" size="16" decorative></aha-icon></aha-button>
-      <aha-csat prompt="How is this slide type?" feedback-button layout="stacked" feedback-display="inline" feedback-prompt="Tell us more" source="preview_inline"></aha-csat>
+      <aha-csat prompt="How is this slide type?" feedback-button layout="stacked" feedback-display="inline" feedback-prompt="Tell us more" feedback-on="any" confirmation="Thanks, feedback received" confirmation-like="You liked this. Thanks for letting us know!" confirmation-dislike="You didn't like this. Thanks for being honest." source="preview_inline"></aha-csat>
     </aha-popover>
   </div>
   <div class="lbl">Feedback after a like and a confirmation line — feedback-on="any" confirmation="Thanks, feedback received" (click Good)</div>

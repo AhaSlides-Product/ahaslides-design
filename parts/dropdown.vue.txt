@@ -23,6 +23,12 @@ function onSelect(e) { runAction(e.detail.key); }
 // a locked row opens the Paywall instead of selecting; preventDefault() runs your own upgrade flow
 function onUpgrade(e) { e.preventDefault(); openUpgradeModal(e.detail.feature); }
 
+// per-row extras: testid → data-testid; attrs passes data-* (not data-key) and aria-label, so each row can carry its own analytics name
+const exportItems = JSON.stringify([
+  { key: 'pdf', label: 'Export PDF', testid: 'export-pdf', attrs: { 'data-tracking-name': 'report_export_pdf' } },
+  { key: 'csv', label: 'Export CSV', testid: 'export-csv', attrs: { 'data-tracking-name': 'report_export_csv' } },
+]);
+
 // a context menu with shortcuts: the key draws as the DS chip at the row's trailing edge (⌘D on a Mac, Ctrl D elsewhere)
 const slideItems = JSON.stringify([
   { key: 'new', label: 'New slide', icon: 'system-plus' },
