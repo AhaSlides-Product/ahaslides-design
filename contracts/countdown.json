@@ -39,7 +39,7 @@
     },
     {
       "label": "Points variant",
-      "value": "variant=\"points\": no clock; min at the left end and max at the right in 14px semibold tabular deck ink, formatted by label-format (numbers grouped by language, 1,000), announced through spoken-format; the bar starts full (max) and drains left toward min off the same ends-at / total-ms sync, or sits at progress (0-100) and eases between values on the shared motion tokens"
+      "value": "variant=\"points\": no clock; min at the left end and max at the right in 14px semibold tabular deck ink, formatted by label-format (numbers grouped by language, 1,000), announced through spoken-format; the bar starts full (max) and drains left toward min off the same ends-at / total-ms sync, or sits at progress (0-100) and eases between values on the shared motion tokens; the fill stays the deck accent all the way down to min (no low-time colour)"
     }
   ],
   "props": [
@@ -83,7 +83,7 @@
       "name": "urgent-below-ms",
       "type": "ms",
       "default": "—",
-      "desc": "Below this, bar and digits take the DS error colour"
+      "desc": "Below this, bar and digits take the DS error colour. Ignored by the points variant, whose fill keeps the deck accent down to min"
     },
     {
       "name": "label",
@@ -95,7 +95,7 @@
       "name": "variant",
       "type": "\"points\"",
       "default": "—",
-      "desc": "\"points\" swaps the clock for min and max end labels: the score bar of a self-paced quiz (points still available for a fast answer). Absent = the timer, unchanged. clock-only and hide-clock do not apply"
+      "desc": "\"points\" swaps the clock for min and max end labels: the score bar of a self-paced quiz (points still available for a fast answer). Absent = the timer, unchanged. clock-only, hide-clock and urgent-below-ms do not apply"
     },
     {
       "name": "min",
@@ -204,6 +204,10 @@
     },
     {
       "label": "variant=\"points\": full bar = max, drains toward min; progress pins it; role=progressbar with aria-valuenow = value",
+      "verdict": "PASS"
+    },
+    {
+      "label": "variant=\"points\": the fill stays the deck accent down to min; urgent-below-ms is ignored",
       "verdict": "PASS"
     },
     {
