@@ -21,11 +21,6 @@ The gate rejects an unfilled `(#129)` placeholder in every released entry: link 
 **Format** — one entry per version:
 
 ```
-## Unreleased
-
-### Added
-- `<aha-canvas-count size="sm">`: one smaller step (32px tall, 16px verdict discs, 14px count, 12px person glyph) sanctioned for the audience phone and the self-paced phone. Omitting `size` keeps the 40px default unchanged; presenter canvases keep the default. (#727)
-
 ## X.Y.Z — YYYY-MM-DD   ← "## Unreleased" instead while AUTO_VERSION is on
 ### Added        ← new component / prop / token / export
 ### Changed      ← behaviour or API change to something that already shipped
@@ -37,6 +32,11 @@ The gate rejects an unfilled `(#129)` placeholder in every released entry: link 
 Include only the sections you touched. **Versioning is [SemVer](https://semver.org)** — pre-1.0:
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
+
+## 0.1094.0 — 2026-11-09
+
+### Added
+- `<aha-canvas-count size="sm">`: one smaller step (32px tall, 16px verdict discs, 14px count, 12px person glyph) sanctioned for the audience phone and the self-paced phone. Omitting `size` keeps the 40px default unchanged; presenter canvases keep the default. (#727)
 
 ## 0.1092.1 — 2026-11-09
 ### Fixed
