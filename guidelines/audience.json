@@ -224,7 +224,7 @@
     {
       "ref": "countdown",
       "as": "component",
-      "use": "a full-canvas slide's own timer — <aha-countdown> off the host's absolute end instant (variant=\"points\" for the points still available in a self-paced quiz, min and max at the ends, no clock); a framed slide uses the host's timer instead",
+      "use": "a full-canvas slide's own timer — <aha-countdown> off the host's absolute end instant (variant=\"points\" for the points still available in a self-paced quiz, min and max at the ends, no clock, the fill keeps the deck accent to min); a framed slide uses the host's timer instead",
       "status": "available"
     },
     {
