@@ -29,6 +29,8 @@
 
 <!-- touch (48px, 8px corners) is the audience phone's one primary action; the audience page wraps it as <aha-audience-submit>. -->
 <aha-button variant="primary" size="touch" block>Submit</aha-button>
+<!-- wrap: a label you cannot keep short (a translated action on a phone) goes onto two or more lines and the button grows from the size's own height; keep labels short first. A one-line label is the same height as without it. -->
+<aha-button variant="primary" size="touch" block wrap>Zertifikat herunterladen und mit Ihrem Team teilen</aha-button>
 
 <!-- secondary-deck: the audience phone's secondary action. White fill; 10% dark-ink edge and a solid dark-ink label on every deck, light or dark (the deck accent and deck ink are not used: the ink turns white on a dark deck). -->
 <aha-button variant="secondary-deck" size="touch" block>Upload</aha-button>

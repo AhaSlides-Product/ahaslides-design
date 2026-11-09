@@ -33,7 +33,9 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1094.1 — 2026-11-09
+## Unreleased
+### Added
+- `<aha-button wrap>`: opt-in boolean attribute for a long or translated label. It wraps onto two or more lines and the button grows from the size's own height; a one-line label renders exactly as without it. Ignored by `icon-only` and `size=inline`; the hand-rolled-button lint message now points to it instead of `::part(button)` height and white-space overrides (#730)
 ### Fixed
 - The Hero G2 reviews row shows AhaSlides' real G2 figures: 4.7 stars and "on G2 from 380+ reviews", not 4.8 and 1,000+ (#729)
 
