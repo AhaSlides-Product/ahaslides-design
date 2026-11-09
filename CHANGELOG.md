@@ -33,12 +33,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1092.4 — 2026-11-09
+## 0.1092.7 — 2026-11-09
 ### Changed
 - The Hero G2 reviews row drops the G2 logo and its white tile: five stars, then "4.8 on G2 from 1,000+ reviews" in the default ink, on every hero and gallery layout that carries the row (#724)
 
 ### Removed
 - `marketing/images/reviews/g2-logo.png` and the unused `__reviews-logo` CSS (#724)
+
+## 0.1092.5 — 2026-11-09
+### Fixed
+- The AUTO_VERSION switch reads as on for `on` in any case, with spaces or quotes around it, or the literal `AUTO_VERSION=on`; `publish.yml` gates on that one reading, and CI and publish print the raw variable for diagnosis (#726)
 
 ## 0.1092.1 — 2026-11-09
 ### Fixed
