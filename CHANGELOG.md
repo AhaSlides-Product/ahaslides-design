@@ -38,7 +38,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `aha-csat` `confirmation-sent`: text shown after a feedback Send instead of `confirmation-like` / `confirmation-dislike` / `confirmation`; unset, those show as before (#720)
 ### Changed
 - `aha-csat` with `feedback-display="inline"` has no feedback close button: Send or Escape closes it; the default popover keeps its X (#720)
-- `aha-csat` confirmation (`confirmation`, `confirmation-like`, `confirmation-dislike`) is text only: the 16px `system-check` icon in front of it is gone, the 14px semibold text stays (#720)
+- `aha-csat` confirmation (`confirmation`, `confirmation-like`, `confirmation-dislike`) is text only: the 16px `system-check` icon in front of it is gone, and the text is regular weight (400, was semibold) at 14px; with `layout="stacked"` it sits 8px below the buttons (#720)
 
 ## 0.1089.2 — 2026-11-08
 ### Fixed

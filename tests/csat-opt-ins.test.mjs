@@ -65,6 +65,7 @@ const scenarios = String.raw`(async () => {
   const confirm = stacked.querySelector('.confirm').getBoundingClientRect();
   const btns = stacked.querySelector('.btns').getBoundingClientRect();
   out.stackedUnderThumbs = confirm.top >= btns.bottom - 1;
+  out.stackedGap = getComputedStyle(stacked.querySelector('.confirm')).marginTop;
   out.stackedStaysInside = confirm.right <= rating.right + 1;
   document.getElementById('stacked').removeAttribute('layout'); await wait(100);
   const rowConfirm = stacked.querySelector('.confirm').getBoundingClientRect();
@@ -101,6 +102,7 @@ test('csat opt-ins: default unchanged, feedback-on="any" opens after a like, con
   assert.equal(r.mixedUpOpens, true);
   assert.equal(r.stackedUnderThumbs, true);
   assert.equal(r.stackedStaysInside, true);
+  assert.equal(r.stackedGap, '8px');
   assert.equal(r.rowBesideThumbs, true);
 });
 
@@ -251,7 +253,7 @@ test('csat confirmation-like / -dislike name the rating, and the inline field fi
   assert.equal(r.closeDisplay, 'none');
   assert.equal(r.closedByEscape, true);
   assert.equal(r.dislike, "You didn't like this. Thanks for being honest.");
-  assert.deepEqual(r.style, { size: '14px', weight: '600', colour: 'rgb(26, 26, 26)', icon: null });
+  assert.deepEqual(r.style, { size: '14px', weight: '400', colour: 'rgb(26, 26, 26)', icon: null });
   assert.equal(r.like, 'You liked this. Thanks for letting us know!');
   assert.equal(r.unratedHidden, true);
   assert.equal(r.fallbackAfterButtonSend, 'Thanks, feedback received');
