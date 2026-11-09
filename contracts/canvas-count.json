@@ -29,7 +29,6 @@
     "white",
     "radius-default",
     "blur-md",
-    "space-4",
     "space-6",
     "space-8",
     "space-12",
@@ -52,7 +51,7 @@
     },
     {
       "label": "Size sm",
-      "value": "size=\"sm\": 32px tall, padding 4 / 12 / 4 / 4 (--aha-space-4 / --aha-space-12; 12 both sides when answered only), <aha-answer-mark size=\"16\"> discs, count 14px / 600, system-user 12, 4px inside a part, 6px between parts, 12px \"of 30\"; radius, fill and blur unchanged"
+      "value": "size=\"sm\": 32px tall, padding 6 / 12 / 6 / 6 (--aha-space-6 / --aha-space-12; 12 both sides when answered only), <aha-answer-mark size=\"16\"> discs, count 14px / 600, system-user 12, 6px inside a part, 8px between parts, 12px \"of 30\"; radius, fill and blur unchanged"
     },
     {
       "label": "Type",
