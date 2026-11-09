@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1092.5 — 2026-11-09
 ### Fixed
-- The AUTO_VERSION switch reads as on for `on` in any case, with spaces or quotes around it, or the literal `AUTO_VERSION=on`; `publish.yml` gates on that one reading, and CI and publish print the raw variable for diagnosis (#PRNUM)
+- The AUTO_VERSION switch reads as on for `on` in any case, with spaces or quotes around it, or the literal `AUTO_VERSION=on`; `publish.yml` gates on that one reading, and CI and publish print the raw variable for diagnosis (#726)
 
 ## 0.1092.0 — 2026-11-09
 ### Added
