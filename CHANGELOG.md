@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1092.8 — 2026-11-09
+### Changed
+- A plan badge with `cycle` follows the plan name: "Pro Yearly" and "Essential Monthly", with no separator between the plan and the cycle (#722)
+
 ## Unreleased
 ### Changed
 - The Hero G2 reviews row drops the G2 logo and its white tile: five stars, then "4.8 on G2 from 1,000+ reviews" in the default ink, on every hero and gallery layout that carries the row (#724)
