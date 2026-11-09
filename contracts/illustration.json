@@ -6,14 +6,14 @@
   "tier": "leaf-lit",
   "badge": "shared element + registry",
   "element": "aha-illustration",
-  "summary": "One spot-art set, called by name — 37 illustrations, 28 imported from Figma and 9 empty-* drawn to match, all in pink tints, rendered by the shared <aha-illustration>, never inline SVG.",
-  "highlights": ["One spot-art set, called by name", "37 illustrations, drawn in pink tints", "Rendered by <aha-illustration>, never inline SVG"],
-  "lead": "ONE shared element — <aha-illustration name=\"empty-team\"> — renders every spot illustration from a single registry built from Figma (empty states, onboarding, plan tiers, mascots, offers). Agents call a name; they never hand-author or paste an <svg>. Unlike <aha-icon> (one-colour, currentColor), an illustration has fixed colours: one Vivid Pink ramp from pale to full, with white and the default ink; a single size edge scales it, preserving aspect ratio via the viewBox. Browse every name in the Illustration library.",
+  "summary": "One spot-art set, called by name — 60 illustrations, 24 imported from Figma and 36 empty-* drawn to match, all in pink tints, rendered by the shared <aha-illustration>, never inline SVG.",
+  "highlights": ["One spot-art set, called by name", "60 illustrations, drawn in pink tints", "Rendered by <aha-illustration>, never inline SVG"],
+  "lead": "ONE shared element — <aha-illustration name=\"empty-team\"> — renders every spot illustration from a single registry of Figma exports and drawings made to match them (empty states, onboarding, plan tiers, mascots, offers). Agents call a name; they never hand-author or paste an <svg>. Unlike <aha-icon> (one-colour, currentColor), an illustration has fixed colours: one Vivid Pink ramp from pale to full, with white and the default ink; a single size edge scales it, preserving aspect ratio via the viewBox. Browse every name in the Illustration library.",
   "tokensUsed": ["color-error"],
   "spec": [
-    { "label": "Set", "value": "37 illustrations · empty · onboarding · plan · offer · state · team · misc" },
-    { "label": "Source", "value": "Figma · Oldies library · file P764iQ6y4ZwW7W3f7FLZyW" },
-    { "label": "Colour", "value": "one hue, the illustration tints: Vivid Pink at 5, 10, 20, 30, 45, 60, 80 and 100% on white (#FEF3F7, #FDE7F0, #FACFE1, #F8B7D2, #F493BB, #F16EA4, #EC3E86, #E70E68 and Darker Pink #DB005B), with white, the default ink #1A1A1A for outlines and faces, and a neutral grey where the source was grey. Fixed colours (NOT currentColor). The 10, 20, 45, 60 and 80% tints are for illustrations only, never a token or a UI colour; the 5% and 30% tints and Darker Pink keep their interface roles" },
+    { "label": "Set", "value": "60 illustrations · empty · onboarding · plan · offer · state · team · misc" },
+    { "label": "Source", "value": "Figma · Oldies library · file P764iQ6y4ZwW7W3f7FLZyW, plus the 36 empty-* drawn in this repo" },
+    { "label": "Colour", "value": "one hue, the illustration tints: Vivid Pink at 5, 10, 20, 30, 45, 60, 80 and 100% on white (#FEF3F7, #FDE7F0, #FACFE1, #F8B7D2, #F493BB, #F16EA4, #EC3E86, #E70E68 and Darker Pink #DB005B), with white, the default ink #1A1A1A for outlines and faces, and a neutral grey where the source was grey. An empty-* drawing is flat: tints and white only, solid lines (no dashed stroke), no gradient, filter, mask, opacity, texture, ground shadow or face. Fixed colours (NOT currentColor). The 10, 20, 45, 60 and 80% tints are for illustrations only, never a token or a UI colour; the 5% and 30% tints and Darker Pink keep their interface roles" },
     { "label": "Size", "value": "one edge in px; the other follows the art's aspect ratio" },
     { "label": "Fallback", "value": "unknown name → a dashed error box (var(--aha-color-error))" }
   ],
@@ -25,11 +25,11 @@
   ],
   "opinion": {
     "whenToUse": [
-      { "what": "empty-* illustration", "when": "an empty state — no report data, no participants, no feedback, no presentations, empty trash, no templates, no courses, no automation rules; empty-table inside <aha-empty> at 64 px for a table body with no rows; the layout is the Empty state guideline" },
+      { "what": "empty-* illustration", "when": "an empty state — no report data, no participants, no feedback, no presentations, empty trash, no templates, no courses, no automation rules, no files, an empty folder, no search match, nothing shared, no notifications, no surveys, no lessons, no brand assets and the rest of the list in the Empty state guideline; empty-table inside <aha-empty> at 64 px for a table body with no rows; the layout is the Empty state guideline" },
       { "what": "onboarding-* / plan-* illustration", "when": "onboarding choice cards and plan-tier cards (edu / essential / pro / enterprise)" },
       { "what": "error-* / not-found illustration", "when": "a full-surface error or 404 state, paired with a recovery action" }
     ],
-    "note": "Call by name from the registry — never inline an <svg>, never paste a raster PNG. An illustration is drawn in the illustration tints (a Vivid Pink ramp), which are fixed: it does NOT follow currentColor (that is <aha-icon>). Size it by a single edge; the aspect ratio is fixed by the source. If an illustration is genuinely missing, add the original SVG export under illustrations/svg, run recolour-art.mjs to map it onto the tints, and re-run build-illustrations.mjs. Raster-backed art (embedded bitmaps) is intentionally excluded — the library stays pure-SVG."
+    "note": "Call by name from the registry — never inline an <svg>, never paste a raster PNG. An illustration is drawn in the illustration tints (a Vivid Pink ramp), which are fixed: it does NOT follow currentColor (that is <aha-icon>). Size it by a single edge; the aspect ratio is fixed by the source. If an illustration is genuinely missing, add the original SVG export under illustrations/svg, run recolour-art.mjs to map it onto the tints, and re-run build-illustrations.mjs. A new empty-* is drawn flat like its siblings, never imported: standards.mjs fails one with a dashed stroke, a gradient, filter, mask, opacity or a colour off the tints. Raster-backed art (embedded bitmaps) is intentionally excluded — the library stays pure-SVG."
   },
   "surfaces": ["dashboard", "editor", "settings", "audience"],
   "reuse": { "entry": "./illustrations", "registers": "aha-illustration", "exportsNamed": ["illustrations", "ILLUSTRATION_NAMES", "defineAhaIllustration", "AhaIllustration"] },
@@ -38,7 +38,7 @@
     { "key": "react", "label": "React", "file": "illustration.react.txt" },
     { "key": "vue", "label": "Vue 3", "file": "illustration.vue.txt" }
   ],
-  "codeNote": "Same element + same registry → identical render in React and Vue. The geometry is imported from Figma and normalised (page-frame chrome stripped, clip-paths dropped, gradients kept, colours untouched) at build time by build-illustrations.mjs; the call site only names an illustration and a size. Importing @ahaslides-product/design/illustrations loads every illustration (about 190 KB gzipped); <aha-empty>, DataTable and createRenderEmpty load only empty-list and empty-table, generated from the same registry. Either can load first, and an element already on the page redraws when its art arrives. While only that small set is loaded, a name outside it stays a blank box of its size, because the full set may still be coming; the dashed error box appears only once the full set has loaded and the name is still unknown.",
+  "codeNote": "Same element + same registry → identical render in React and Vue. Figma art is normalised (page-frame chrome stripped, clip-paths dropped, gradients kept, colours untouched) at build time by build-illustrations.mjs; the call site only names an illustration and a size. Importing @ahaslides-product/design/illustrations loads every illustration (about 170 KB gzipped); <aha-empty>, DataTable and createRenderEmpty load only empty-list and empty-table, generated from the same registry. Either can load first, and an element already on the page redraws when its art arrives. While only that small set is loaded, a name outside it stays a blank box of its size, because the full set may still be coming; the dashed error box appears only once the full set has loaded and the name is still unknown.",
   "preview": "illustration.preview.html",
   "playground": {
     "controls": [
@@ -50,7 +50,7 @@
       { "prop": "name", "label": "Illustration", "default": "empty-trash", "options": [
         { "label": "Empty trash", "value": "empty-trash" },
         { "label": "Empty courses", "value": "empty-courses" },
-        { "label": "Empty automation", "value": "empty-automation" },
+        { "label": "Empty automation", "value": "empty-automation" }, { "label": "Empty search", "value": "empty-search" }, { "label": "Empty surveys", "value": "empty-surveys" },
         { "label": "Onboarding business", "value": "onboarding-business" },
         { "label": "Plan pro", "value": "plan-pro" },
         { "label": "Referral", "value": "referral" }
@@ -59,7 +59,7 @@
   },
   "selfCheck": [
     { "label": "called by name from the registry (no inline svg)", "verdict": "PASS" },
-    { "label": "37 pure-SVG illustrations (28 from Figma, 9 empty-* drawn to match)", "verdict": "PASS" },
+    { "label": "60 pure-SVG illustrations (24 from Figma, 36 empty-* drawn to match)", "verdict": "PASS" },
     { "label": "art is drawn in the illustration tints, fixed colours (not currentColor)", "verdict": "PASS" },
     { "label": "single size edge scales, aspect ratio preserved via viewBox", "verdict": "PASS" },
     { "label": "unknown name → visible dashed error box (color-error token)", "verdict": "PASS" },

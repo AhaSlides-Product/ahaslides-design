@@ -33,9 +33,35 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1087.0 — 2026-11-06
+## 0.1091.0 — 2026-11-09
 ### Added
 - `aha-select` takes `max-tag-count="responsive"` with `mode="multiple"`: chips that do not fit collapse into a "+N" tag and the control stays one row; `more-label` names the tag (#713)
+
+## 0.1089.2 — 2026-11-08
+### Fixed
+- 20 `empty-*` illustrations drop their dashed lines, so each drawing is simpler: copy lines are solid rounded bars, and a line, ring or wave that only added detail is gone (`empty-groups` loses its dashed ring, `empty-voice` its outer wave, `empty-fields` its placeholder line). `empty-presentation-list` is redrawn as a deck of three 16:9 slides with the title slide in front. Names, canvases and colours are unchanged (#719)
+### Changed
+- `standards.mjs` fails an `empty-*` drawing with a dashed stroke (`stroke-dasharray`); the Empty state guideline and the Illustration contract say each drawing uses solid lines (#719)
+
+## 0.1089.1 — 2026-11-07
+### Fixed
+- `empty-presentation-list`, `empty-templates`, `empty-trash` and `empty-feedback` are redrawn flat, in the same family as the other `empty-*` art, so each shows what is missing: a row of presentation cards, a gallery of slide layouts, a plain bin and a speech bubble of five unrated stars. The names are unchanged, so every call site picks up the new drawings (#718)
+### Changed
+- `standards.mjs` fails an `empty-*` drawing with a gradient, filter, mask, pattern, opacity or any colour but the Illustration tints and white; the Empty state guideline and the Illustration contract say the same. (#718)
+
+## 0.1089.0 — 2026-11-07
+### Added
+- 23 empty-state illustrations, so each state's art names what is missing: `empty-files`, `empty-folder`, `empty-search`, `empty-shared`, `empty-notifications`, `empty-document`, `empty-surveys`, `empty-lessons`, `empty-knowledge-base`, `empty-learners`, `empty-groups`, `empty-team`, `empty-certificates`, `empty-activity`, `empty-fields`, `empty-domains`, `empty-sign-in`, and for the brand kit `empty-logos`, `empty-colours`, `empty-fonts`, `empty-images`, `empty-themes`, `empty-voice` (#717)
+### Changed
+- EMPTY-03 lists the new names, says `empty-search` covers a no-match on any list, and says only `empty-table` and `empty-list` repeat by design (#717)
+
+## 0.1088.0 — 2026-11-07
+### Added
+- CSAT `confirmation-like` and `confirmation-dislike` say which rating was given (for example "You liked this. Thanks for letting us know!"); `confirmation` stays the fallback and the only text after a Feedback-button Send with no rating, so existing consumers read the same (#714)
+### Changed
+- CSAT confirmation line is now 14px semibold in the default text colour, led by a 16px check icon, instead of the 12px muted caption (#714)
+### Fixed
+- CSAT `feedback-display="inline"` fits its container: the panel, field and Send take the CSAT's width (no 220px minimum) and the close X sits inside the edge, so nothing spills out of a narrow popover or card (#714)
 
 ## 0.1085.0 — 2026-11-06
 ### Added

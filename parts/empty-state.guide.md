@@ -41,7 +41,8 @@ One centred column, in this order, and nothing else (EMPTY-02):
 ## The illustration
 
 Call an `empty-*` name from the registry; the art is pink, in the fixed Illustration tints,
-and names what is missing. Never inline SVG, never a PNG, never recoloured. (EMPTY-03)
+and names what is missing. Every drawing is flat, with solid lines: no dashed stroke, gradient, filter, mask,
+opacity, texture, ground shadow or face. Never inline SVG, never a PNG, never recoloured. (EMPTY-03)
 Import `@ahaslides-product/design/illustrations` to draw these names: `<aha-empty>` loads only
 `empty-list` and `empty-table`, and any other name stays blank until the full set loads.
 
@@ -55,17 +56,43 @@ Import `@ahaslides-product/design/illustrations` to draw these names: `<aha-empt
 | `empty-responses` | no responses or answers from a participant |
 | `empty-participants` | no participants yet |
 | `empty-feedback` | no feedback yet |
-| `empty-presentation-list` | no presentations |
-| `empty-templates` | no templates |
+| `empty-presentation-list` | no presentations the person made: recent works, My files, their published templates |
+| `empty-templates` | no templates in a gallery or category |
 | `empty-courses` | no courses |
 | `empty-automation` | no automation rules |
 | `empty-trash` | an empty trash |
+| `empty-files` | no files in a mixed list (My files) |
+| `empty-folder` | an empty folder, or no folders to choose |
+| `empty-search` | a search or filter with no match, on any list |
+| `empty-shared` | nothing shared with this person |
+| `empty-notifications` | no notifications |
+| `empty-document` | no document open or chosen |
+| `empty-surveys` | no surveys |
+| `empty-lessons` | no lessons |
+| `empty-knowledge-base` | no knowledge bases |
+| `empty-learners` | no learners on a course or in a group |
+| `empty-groups` | no learner groups |
+| `empty-team` | no teammates, editors or presenters |
+| `empty-certificates` | no certificates |
+| `empty-activity` | no activity for a person |
+| `empty-fields` | no custom or audience info fields |
+| `empty-domains` | no domains, outside a table |
+| `empty-sign-in` | content that needs a sign-in |
+| `empty-logos` | no brand logos |
+| `empty-colours` | no brand colours |
+| `empty-fonts` | no brand fonts |
+| `empty-images` | no brand images |
+| `empty-themes` | no brand themes |
+| `empty-voice` | no brand voice |
 | `empty-table` | a table body with no rows, inside `<aha-empty>` at 64 px |
 | `empty-list` | the built-in art of `<aha-empty>` in a list, dropdown or widget (64 px, 48 px when `simple`) |
 
 Search the registry first. When no `empty-*` fits, add the missing one under
 `illustrations/svg/empty/` as the Illustration contract describes. Never borrow art that
-shows a different thing.
+shows a different thing. Two states may repeat art on purpose: every table body shows
+`empty-table` and every list, dropdown or widget shows `empty-list`, because there the art
+marks the slot, not the subject. Teammates, participants and learners are different people,
+so `empty-team`, `empty-participants` and `empty-learners` never stand in for each other.
 
 ## Three scales
 
