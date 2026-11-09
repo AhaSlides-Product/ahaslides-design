@@ -33,12 +33,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1091.0 — 2026-11-09
+## 0.1093.0 — 2026-11-09
 ### Added
 - `aha-csat` `confirmation-sent`: text shown after a feedback Send instead of `confirmation-like` / `confirmation-dislike` / `confirmation`; unset, those show as before (#720)
 ### Changed
 - `aha-csat` with `feedback-display="inline"` has no feedback close button: Send or Escape closes it; the default popover keeps its X (#720)
 - `aha-csat` confirmation (`confirmation`, `confirmation-like`, `confirmation-dislike`) is text only: the 16px `system-check` icon in front of it is gone, and the text is regular weight (400, was semibold) at 14px; with `layout="stacked"` it gets an 8px top margin, 10px below the buttons with the 2px row gap (#720)
+
+## 0.1092.0 — 2026-11-09
+### Added
+- `aha-select` takes `max-tag-count="responsive"` with `mode="multiple"`: chips that do not fit collapse into a "+N" tag and the control stays one row; `more-label` names the tag (#713)
 
 ## 0.1090.0 — 2026-11-09
 

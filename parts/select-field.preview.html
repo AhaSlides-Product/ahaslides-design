@@ -48,8 +48,10 @@
     <aha-select mode="tags" placeholder="Add a keyword" aria-label="Keywords" style="--aha-field-width:min(100%, 380px)"></aha-select>
   </div>
 
-  <div class="lbl">Opt-in: mode="multiple" (pick several), max-count, filter-prop, suggestions in tags mode</div>
+  <div class="lbl">Opt-in: mode="multiple" (pick several), max-count, max-tag-count, filter-prop, suggestions in tags mode</div>
   <div class="row" style="align-items:flex-start; gap:12px; flex-wrap:wrap">
+    <aha-select mode="multiple" allow-clear max-tag-count="responsive" aria-label="Departments" values='["sales","ops","design","support","finance"]' style="--aha-field-width:min(100%, 240px)"
+      options='[{"label":"Sales","value":"sales"},{"label":"Operations","value":"ops"},{"label":"Design","value":"design"},{"label":"Support","value":"support"},{"label":"Finance","value":"finance"}]'></aha-select>
     <aha-select mode="multiple" allow-clear aria-label="Country" values='["vn","sg"]' style="--aha-field-width:min(100%, 380px)"
       options='[{"label":"Viet Nam","value":"vn"},{"label":"Singapore","value":"sg"},{"label":"Thailand","value":"th"},{"label":"Japan","value":"jp"}]'></aha-select>
     <aha-select mode="multiple" show-search filter-prop="title" max-count="2" aria-label="Courses" values='["c1"]' style="--aha-field-width:min(100%, 380px)"
