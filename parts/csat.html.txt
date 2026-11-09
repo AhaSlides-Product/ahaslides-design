@@ -25,6 +25,9 @@
 <!-- confirmation-like and confirmation-dislike say which rating was given; confirmation stays the fallback. -->
 <aha-csat prompt="How did this import go?" source="docs_rating_confirmation" confirmation="Thanks, feedback received" confirmation-like="You liked this. Thanks for letting us know!" confirmation-dislike="You didn't like this. Thanks for being honest."></aha-csat>
 
+<!-- confirmation-sent replaces that text after a feedback Send. -->
+<aha-csat prompt="How did this import go?" source="docs_sent" feedback-on="any" confirmation-like="You liked this. Thanks for letting us know!" confirmation-sent="Thanks! Our developers have received your feedback."></aha-csat>
+
 <!-- Already inside a popover or card: feedback-display="inline" opens the feedback field in flow under the buttons,
      in the same card, instead of a second popover. -->
 <aha-csat prompt="How did this import go?" source="docs_inline" feedback-button layout="stacked" feedback-display="inline"></aha-csat>
