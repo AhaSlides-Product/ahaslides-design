@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tooltip shortcut size</title>
+<link rel="stylesheet" href="../lib/tokens.css">
+</head>
+<body>
+  <aha-tooltip id="plain" open text="Share"><button>Share</button></aha-tooltip>
+  <aha-tooltip id="single" open text="Present now" shortcut="P"><button>Present</button></aha-tooltip>
+  <aha-tooltip id="redo" open text="Redo" shortcut="Mod+Shift+Z"><button>Redo</button></aha-tooltip>
+  <aha-tooltip id="enter" open text="Send" shortcut="Enter"><button>Send</button></aha-tooltip>
+  <aha-tooltip id="lg" open size="lg" text="Mute music" shortcut="M"><button>Mute</button></aha-tooltip>
+  <script type="module">
+    await import('../lib/aha-tooltip.js');
+    await import('../lib/icons.js');
+    window.tooltipFixtureReady = true;
+  </script>
+</body>
+</html>

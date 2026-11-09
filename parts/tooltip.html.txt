@@ -12,6 +12,11 @@
     <button style="font-family:'Plus Jakarta Sans',sans-serif">Share</button>
   </aha-tooltip>
 
+  <!-- default size + shortcut: the editor header's Undo. Mod = ⌘ on a Mac, Ctrl elsewhere; the bubble stays 30px tall -->
+  <aha-tooltip text="Undo" shortcut="Mod+Z">
+    <button aria-label="Undo (Mod+Z)" style="font-family:'Plus Jakarta Sans',sans-serif">Undo</button>
+  </aha-tooltip>
+
   <!-- placement + a brand fill + no arrow + click to toggle. placement is a preference: near a panel or
        screen edge the bubble moves to the side with room and slides inside, so it is never cut off -->
   <aha-tooltip text="Opens below on click" placement="bottom" color="brand" arrow="false" trigger="click">
