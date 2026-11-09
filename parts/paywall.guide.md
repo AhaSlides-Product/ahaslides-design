@@ -41,8 +41,8 @@ A paywall popover, top to bottom, is always:
    **feature label**. Never the generic Phosphor Crown — it lacks the circular background.
 2. **Body** — a one-sentence value prop, then the line **"Unlock with the _\<Plan\> plan_."**
    (plan name bold).
-3. **Footer** — two shared `<aha-button>` CTAs: **Upgrade** (positive) and **See all plans**
-   (secondary).
+3. **Footer** — the shared `<aha-button>` **Upgrade** CTA (positive), alone by default. **See all
+   plans** (secondary) is opt-in: set `show-plans` to add it beside Upgrade.
 
 No further buttons, no dismiss link, no multi-paragraph body inside the popover. *(`PAYWALL-02`, `PAYWALL-03`, `PAYWALL-04`)*
 
@@ -59,7 +59,9 @@ No further buttons, no dismiss link, no multi-paragraph body inside the popover.
 | `slot="body"` | Optional rich body: the same one sentence when it needs a link or emphasis. Replaces `body`; the unlock line and CTAs stay fixed. Slot a link directly (`<a slot="body">`) so it reads white on the dark surface. |
 | `unlock-label` | Optional. The whole unlock line in the user's language; `{plan}` becomes the bold plan name. |
 | `plan-label` | Optional. The displayed plan name ("Pro plan" by default), for translation. |
-| `mark-label` | Optional. The accessible name of the crown upgrade mark ("Upgrade required. See plans" by default), for translation. Applies only when the mark is the anchor. |
+| `mark-label` | Optional. The accessible name of the crown upgrade mark ("Upgrade required. See details" by default), for translation. Applies only when the mark is the anchor. |
+| `show-plans` | Optional boolean, off by default. Adds the secondary **See all plans** button beside Upgrade; without it the button is hidden and the footer is Upgrade alone. |
+| `plans-label` / `plans-url` | Optional. The See all plans label and destination; they apply only with `show-plans`. |
 | `trigger` | `'click'` (default) or `'hover'`. |
 | `onUpgrade` | Optional. Runs *instead of* opening the pricing page (e.g. an in-app upgrade modal). Analytics still fires first. |
 
@@ -84,6 +86,7 @@ The upsell funnel's denominator and conversion — never gate a feature without 
 - **`PAYWALL_SHOWN`** fires when the popover opens — props `{ feature: featureKey, plan: requiredPlan }`.
 - **`PAYWALL_UPGRADE_CLICKED`** fires when the CTA is clicked — same props — **before**
   navigation or `onUpgrade` runs.
+- **`paywall-plans`** fires when See all plans is clicked, only when `show-plans` is set — same props.
 
 *(`PAYWALL-06`)*
 
@@ -105,7 +108,7 @@ The upsell funnel's denominator and conversion — never gate a feature without 
 
 When a feature has no natural clickable anchor (e.g. a field label), use
 `<PaywallCrownBadge>` as the visible anchor (`<aha-paywall>` with no slotted child). The mark is a
-real focusable `<button>` with an accessible name (default "Upgrade required. See plans";
+real focusable `<button>` with an accessible name (default "Upgrade required. See details";
 `mark-label` translates it). *(`PAYWALL-02`, `PAYWALL-08`)*
 
 ## Crown beside its own button

@@ -7,16 +7,16 @@ import '@ahaslides-product/design/tokens.css';
 const crown = ref(null);
 const onShown = (e) => window.analytics?.track('PAYWALL_SHOWN', e.detail);
 const onUpgrade = (e) => window.analytics?.track('PAYWALL_UPGRADE_CLICKED', e.detail);
-const onPlans = (e) => window.analytics?.track('PAYWALL_PLANS_CLICKED', e.detail);   // See all plans
+const onPlans = (e) => window.analytics?.track('PAYWALL_PLANS_CLICKED', e.detail);   // only with show-plans
 </script>
 
 <template>
   <!-- Pro gate — the affordance is the anchor. Popover ships crown mark, title, description,
-       the unlock line, and BOTH CTAs (Upgrade positive + See all plans). -->
+       the unlock line, and the Upgrade CTA. -->
   <aha-paywall
     feature-key="streak_bonus"
     feature-label="Streak answer bonus point"
-    body="Let the participants play quiz and be ranked as teams instead of being ranked individually."
+    body="Give bonus points to participants who answer correctly several times in a row."
     required-plan="pro"
     @paywall-shown="onShown"
     @paywall-upgrade="onUpgrade"
@@ -33,6 +33,15 @@ const onPlans = (e) => window.analytics?.track('PAYWALL_PLANS_CLICKED', e.detail
     unlock-label="Mở khoá với {plan}."
     plan-label="gói Pro"
     mark-label="Cần nâng cấp. Xem các gói" />
+
+  <!-- Opt-in See all plans button beside Upgrade → show-plans (plans-label and plans-url only apply with it) -->
+  <aha-paywall
+    feature-key="custom_theme"
+    feature-label="Custom theme"
+    body="Match every slide to your brand."
+    required-plan="pro"
+    show-plans
+    @paywall-plans="onPlans" />
 
   <!-- No natural anchor → the crown upgrade mark is the anchor (a focusable control) -->
   <aha-paywall
