@@ -20,3 +20,8 @@ test('wrap leaves the non-wrap size rules untouched', () => {
   assert.match(rule(':host([size=lg]) button{'), /^:host\(\[size=lg\]\) button\{ height:40px; padding:0 20px;/);
   assert.match(rule(':host([size=touch]) button{'), /height:48px/);
 });
+
+test('wrap pulls the shortcut chip into the block padding so a one-line label keeps the size height', () => {
+  assert.match(rule(':host([wrap]:not([icon-only]):not([size=inline])) .shortcut{ margin-block'), /margin-block:calc\(-1 \* var\(--aha-space-8,8px\)\)/);
+  assert.match(rule(':host([wrap][size=sm]:not([icon-only])) .shortcut{'), /margin-block:calc\(-1 \* var\(--aha-space-4,4px\)\)/);
+});
