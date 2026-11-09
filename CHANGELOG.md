@@ -24,7 +24,7 @@ The gate rejects an unfilled `(#129)` placeholder in every released entry: link 
 ## Unreleased
 
 ### Added
-- `<aha-canvas-count size="sm">`: one smaller step (32px tall, 16px verdict discs, 14px count, 12px person glyph) sanctioned for the audience phone and the self-paced phone. Omitting `size` keeps the 40px default unchanged; presenter canvases keep the default. (#PR)
+- `<aha-canvas-count size="sm">`: one smaller step (32px tall, 16px verdict discs, 14px count, 12px person glyph) sanctioned for the audience phone and the self-paced phone. Omitting `size` keeps the 40px default unchanged; presenter canvases keep the default. (#727)
 
 ## X.Y.Z — YYYY-MM-DD   ← "## Unreleased" instead while AUTO_VERSION is on
 ### Added        ← new component / prop / token / export
