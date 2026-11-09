@@ -58,3 +58,11 @@ test('variant="points" without progress drains from max toward min off ends-at, 
   assert.equal(result.before.text, String(result.before.value));
   assert.deepEqual({ clock: result.clock, ends: result.ends, role: result.role, now: result.now }, { clock: true, ends: false, role: 'timer', now: null });
 });
+
+test('variant="points" keeps the accent fill below urgent-below-ms, while the timer still turns urgent', { skip }, async () => {
+  const attrs = `accent="#E70E68" min="500" max="1000" total-ms="30000" ends-at="${Date.now() + 3000}" urgent-below-ms="5000"`;
+  const read = `return { urgent: el.hasAttribute('data-urgent'), fill: getComputedStyle(r.querySelector('.fill')).backgroundColor };`;
+  const points = await run(`variant="points" ${attrs}`, read);
+  const timer = await run(attrs, read);
+  assert.deepEqual({ points, timerUrgent: timer.urgent }, { points: { urgent: false, fill: 'rgb(231, 14, 104)' }, timerUrgent: true });
+});
