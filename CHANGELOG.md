@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1092.3 — 2026-11-09
+### Fixed
+- Marketing Testimonials (case study cards) and Features (compact scrollers): a linked card's hover lift and shadow are no longer cropped by the sideways card scroller; the scroller keeps room above and below it (#PR)
+
 ## 0.1092.0 — 2026-11-09
 ### Added
 - `aha-select` takes `max-tag-count="responsive"` with `mode="multiple"`: chips that do not fit collapse into a "+N" tag and the control stays one row; `more-label` names the tag (#713)

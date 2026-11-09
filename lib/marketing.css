@@ -652,7 +652,7 @@
 }
 .aha-features__htab:first-child{margin-left:auto}
 .aha-features__htab:last-child{margin-right:auto}
-.aha-features__viewport{/* ds-lint-allow: overflow-x-scroll (the card scroller is the layout) */overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:var(--aha-space-12) 0;margin:calc(-1 * var(--aha-space-12)) 0;border-radius:var(--aha-radius-lg)}
+.aha-features__viewport{/* ds-lint-allow: overflow-x-scroll (the card scroller is the layout) */overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:var(--aha-space-16) 0 var(--aha-space-32);margin:calc(-1 * var(--aha-space-16)) 0 calc(-1 * var(--aha-space-32));border-radius:var(--aha-radius-lg)}
 .aha-features__viewport:focus-visible{outline:var(--aha-space-2) solid var(--aha-focus);outline-offset:var(--aha-space-2)}
 .aha-features__track{display:flex;gap:var(--aha-section-space-item)}
 .aha-features__track>li{flex:0 0 calc((100% - 3 * var(--aha-section-space-item)) / 3.3);scroll-snap-align:start;scroll-margin-inline:0;min-width:0}
@@ -2509,6 +2509,7 @@ a.aha-footer__heading:hover{color:var(--aha-color-primary)}
 .aha-testimonials__track{
   display:flex;gap:var(--aha-section-space-item);
   overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none; /* ds-lint-allow: overflow-x-scroll (swipeable carousel track, scrolled by the arrow buttons and arrow keys) */
+  padding:var(--aha-space-16) 0 var(--aha-space-32);margin:calc(-1 * var(--aha-space-16)) 0 calc(-1 * var(--aha-space-32)); /* overflow-x clips overflow-y too: room for the linked card's hover lift and shadow */
 }
 .aha-testimonials__track::-webkit-scrollbar{display:none}
 .aha-testimonials__track:focus-visible{outline:var(--aha-space-2) solid var(--aha-focus);outline-offset:var(--aha-space-2)}
