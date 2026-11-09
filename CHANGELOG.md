@@ -35,10 +35,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1092.4 — 2026-11-09
 ### Changed
-- The Hero G2 reviews row drops the G2 logo and its white tile: five stars, then "4.8 on G2, based on 1000 reviews" in the default ink, on every hero and gallery layout that carries the row (#NNN)
+- The Hero G2 reviews row drops the G2 logo and its white tile: five stars, then "4.8 on G2, based on 1000 reviews" in the default ink, on every hero and gallery layout that carries the row (#724)
 
 ### Removed
-- `marketing/images/reviews/g2-logo.png` and the unused `__reviews-logo` CSS (#NNN)
+- `marketing/images/reviews/g2-logo.png` and the unused `__reviews-logo` CSS (#724)
 
 ## 0.1092.0 — 2026-11-09
 ### Added
