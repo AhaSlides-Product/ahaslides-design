@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1094.1 — 2026-11-09
 ### Fixed
-- The Hero G2 reviews row shows AhaSlides' real G2 figures: 4.7 stars and "on G2 from 380+ reviews", not 4.8 and 1,000+ (#PR)
+- The Hero G2 reviews row shows AhaSlides' real G2 figures: 4.7 stars and "on G2 from 380+ reviews", not 4.8 and 1,000+ (#729)
 
 ## 0.1094.0 — 2026-11-09
 ### Added
