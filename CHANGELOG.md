@@ -33,6 +33,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1093.0 — 2026-11-09
+### Added
+- `<aha-canvas-count size="sm">`: a compact 32px step (16px discs, 14px count, 12px person glyph) for a tally beside answer tiles or a result row, so a page never hand-sizes it. No `size` keeps the 40px default (#000)
+
 ## 0.1092.0 — 2026-11-09
 ### Added
 - `aha-select` takes `max-tag-count="responsive"` with `mode="multiple"`: chips that do not fit collapse into a "+N" tag and the control stays one row; `more-label` names the tag (#713)

@@ -17,7 +17,8 @@
   "highlights": [
     "Correct / incorrect count, or answered only",
     "40px deck container: fill, no stroke, radius 8, frosted on photo decks",
-    "Inked by applyCanvasDeck, so it reads on white and black ink"
+    "Inked by applyCanvasDeck, so it reads on white and black ink",
+    "Compact size=\"sm\" step, 32px tall"
   ],
   "lead": "ONE custom element — <aha-canvas-count> — for the count many slide types show on the presenter canvas. Set `correct` and `wrong` for the verdict form (a correct <aha-answer-mark>, the count and a person glyph, a divider, an incorrect <aha-answer-mark>, the count and a person glyph), or `answered` alone for the answered-only form (the count and a person glyph). Its container is the deck container set applyCanvasDeck writes (--aha-deck-container-fill / -radius-sm / -padding-*), so the same element reads on a light deck, a dark deck and a photo deck with no props.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render across frameworks. Attributes only, no events.",
@@ -54,6 +55,10 @@
     {
       "label": "Deck",
       "value": "solid deck: the ink at 8% fill, no stroke; photo deck (applyCanvasDeck image: true): the opposite of the ink at 80% (white under black ink, near-black under white ink)"
+    },
+    {
+      "label": "Small (size=\"sm\")",
+      "value": "32px tall, padding 6 / 12 / 6 / 6 (12 both sides when answered only), <aha-answer-mark size=\"16\"> discs, count 14px / 600, \"of 30\" 12px, system-user 12; same fill, radius, gaps and divider. For a count beside answer tiles or a result row; size it with the attribute, never page CSS"
     }
   ],
   "props": [
@@ -86,6 +91,12 @@
       "type": "object | JSON attribute",
       "default": "English",
       "desc": "Translated copy: ofTotal (\"of {total}\", the visible text), answeredOfTotal (\"{answered} of {total} answered\"), answered (\"{answered} answered\"), correctWrong (\"{correct} correct, {wrong} incorrect\"). A missing key keeps English; `label` still overrides the accessible name"
+    },
+    {
+      "name": "size",
+      "type": "\"sm\"",
+      "default": "—",
+      "desc": "\"sm\" = the compact 32px step (16px discs, 14px count). Absent = the 40px default"
     },
     {
       "name": "label",
@@ -174,6 +185,10 @@
     },
     {
       "label": "one accessible name for the whole count, observed",
+      "verdict": "PASS"
+    },
+    {
+      "label": "size=\"sm\": 32px tall, 16px discs, 14px count; absent = 40px, unchanged",
       "verdict": "PASS"
     }
   ],
