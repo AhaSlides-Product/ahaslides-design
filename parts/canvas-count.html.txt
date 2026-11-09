@@ -9,4 +9,5 @@
 <div class="stage" style="display:flex; gap:24px; padding:40px; background:#1A1A1A">
   <aha-canvas-count correct="12" wrong="3"></aha-canvas-count>
   <aha-canvas-count answered="24"></aha-canvas-count>
+  <aha-canvas-count size="sm" correct="12" wrong="3"></aha-canvas-count>
 </div>

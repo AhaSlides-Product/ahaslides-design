@@ -16,6 +16,7 @@
   "summary": "The answer count on a slide canvas: how many answered correctly and incorrectly (✓ 12 · ✗ 3), or how many answered with no verdict, in one small deck container.",
   "highlights": [
     "Correct / incorrect count, or answered only",
+    "size=\"sm\": 32px step for the audience and self-paced phone",
     "40px deck container: fill, no stroke, radius 8, frosted on photo decks",
     "Inked by applyCanvasDeck, so it reads on white and black ink"
   ],
@@ -30,6 +31,7 @@
     "blur-md",
     "space-6",
     "space-8",
+    "space-12",
     "space-16",
     "font-product",
     "weight-semibold"
@@ -46,6 +48,10 @@
     {
       "label": "Answered only",
       "value": "count · system-user 16, no disc and no divider; with `total`, a 14px \"of 30\" in --aha-deck-ink-secondary sits between the count and the glyph"
+    },
+    {
+      "label": "Size sm",
+      "value": "size=\"sm\": 32px tall, padding 6 / 12 / 6 / 6 (--aha-space-6 / --aha-space-12; 12 both sides when answered only), <aha-answer-mark size=\"16\"> discs, count 14px / 600, system-user 12, 6px inside a part, 8px between parts, 12px \"of 30\"; radius, fill and blur unchanged"
     },
     {
       "label": "Type",
@@ -82,6 +88,12 @@
       "desc": "The known total, answered-only form: shows \"of 30\" after the count and names the group \"12 of 30 answered\". Ignored in the verdict form; without it the count renders as before"
     },
     {
+      "name": "size",
+      "type": "\"default\" | \"sm\"",
+      "default": "default",
+      "desc": "`sm` is the smaller step for the audience phone and the self-paced phone: 32px tall, 16px verdict discs, 14px count, 12px person glyph. Omit it for the 40px default; presenter canvases never use `sm`"
+    },
+    {
       "name": "strings",
       "type": "object | JSON attribute",
       "default": "English",
@@ -105,6 +117,10 @@
         "when": "a slide with no right answer (poll, rating, word cloud) that still shows how many answered next to the result"
       },
       {
+        "what": "Canvas count, size sm",
+        "when": "When to use sm: the audience phone and the self-paced phone, where the count sits beside answer tiles, a points chip and a message and the 40px default reads too heavy. Never on the presenter canvas"
+      },
+      {
         "what": "Canvas status",
         "when": "while answers are still coming in: the status line as free-floating text"
       }
@@ -117,10 +133,12 @@
     "note": "`label` re-syncs on every change (observed attribute)."
   },
   "surfaces": [
-    "presenter"
+    "presenter",
+    "audience"
   ],
   "environment": [
-    "product"
+    "product",
+    "audience"
   ],
   "snippets": [
     {
