@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1092.2 — 2026-11-09
 ### Changed
-- A plan badge with `cycle` follows the plan name: "Pro Yearly" and "Essential Monthly", with no separator between the plan and the cycle (#999)
+- A plan badge with `cycle` follows the plan name: "Pro Yearly" and "Essential Monthly", with no separator between the plan and the cycle (#722)
 
 ## 0.1092.0 — 2026-11-09
 ### Added
