@@ -65,6 +65,8 @@ const scenarios = String.raw`(async () => {
   const confirm = stacked.querySelector('.confirm').getBoundingClientRect();
   const btns = stacked.querySelector('.btns').getBoundingClientRect();
   out.stackedUnderThumbs = confirm.top >= btns.bottom - 1;
+  out.stackedGap = getComputedStyle(stacked.querySelector('.confirm')).marginTop;
+  out.stackedDistance = Math.round(confirm.top - btns.bottom);
   out.stackedStaysInside = confirm.right <= rating.right + 1;
   document.getElementById('stacked').removeAttribute('layout'); await wait(100);
   const rowConfirm = stacked.querySelector('.confirm').getBoundingClientRect();
@@ -101,6 +103,8 @@ test('csat opt-ins: default unchanged, feedback-on="any" opens after a like, con
   assert.equal(r.mixedUpOpens, true);
   assert.equal(r.stackedUnderThumbs, true);
   assert.equal(r.stackedStaysInside, true);
+  assert.equal(r.stackedGap, '8px');
+  assert.equal(r.stackedDistance, 10);
   assert.equal(r.rowBesideThumbs, true);
 });
 
@@ -165,10 +169,13 @@ const inlineScenarios = String.raw`(async () => {
     expanded: down.getAttribute('aria-expanded'), focusOnOpener: root.activeElement === down, value: host.getAttribute('value') };
   feedbackButton.click(); await wait(300);
   out.feedbackButton = { open: host.hasAttribute('data-feedback-open'), expanded: feedbackButton.getAttribute('aria-expanded'), downExpanded: down.getAttribute('aria-expanded') };
-  root.querySelector('.fb-close').click(); await wait(300);
-  out.closedByX = !host.hasAttribute('data-feedback-open');
+  out.inlineCloseHidden = getComputedStyle(root.querySelector('.fb-close')).display;
+  field().dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, composed: true })); await wait(300);
+  out.closedByEscape = !host.hasAttribute('data-feedback-open');
   down.click(); await wait(100);
   down.click(); await wait(300);
+  feedbackButton.click(); await wait(300);
+  out.feedbackButtonWhileOpen = { open: host.hasAttribute('data-feedback-open'), textareaFocused: root.querySelector('.fb-text').shadowRoot.activeElement === field() };
   root.querySelector('.fb-text').value = 'too slow';
   root.querySelector('.fb-text').dispatchEvent(new Event('input'));
   root.querySelector('.fb-submit').click(); await wait(300);
@@ -194,7 +201,9 @@ test('csat feedback-display="inline": the feedback body opens in flow, not in a 
     popoverOpen: false, inert: false, belowButtons: true, insideHost: true, tall: true, textareaFocused: true });
   assert.deepEqual(r.escape, { collapsed: true, expanded: 'false', focusOnOpener: true, value: 'down' });
   assert.deepEqual(r.feedbackButton, { open: true, expanded: 'true', downExpanded: 'false' });
-  assert.equal(r.closedByX, true);
+  assert.equal(r.inlineCloseHidden, 'none');
+  assert.equal(r.closedByEscape, true);
+  assert.deepEqual(r.feedbackButtonWhileOpen, { open: true, textareaFocused: true });
   assert.deepEqual(r.sent, { events: [['down', 'too slow']], collapsed: true, confirm: 'Thanks, feedback received' });
   assert.equal(r.reopensAfterRerate, true);
   assert.deepEqual(r.backToPopover, { collapsed: true, haspopup: 'dialog', bodyInPopover: true });
@@ -209,11 +218,13 @@ const ratedScenarios = String.raw`(async () => {
   const inBox = (el) => el.getBoundingClientRect().right <= box.getBoundingClientRect().right - 8 + 0.5;
   const out = {};
   root.querySelector('.down').click(); await wait(300);
-  out.fits = { scroll: box.scrollWidth <= box.clientWidth, field: inBox(root.querySelector('.fb-text')), close: inBox(root.querySelector('.fb-close')), send: inBox(root.querySelector('.fb-submit')) };
+  out.fits = { scroll: box.scrollWidth <= box.clientWidth, field: inBox(root.querySelector('.fb-text')), send: inBox(root.querySelector('.fb-submit')) };
   out.dislike = text();
   const confirm = getComputedStyle(root.querySelector('.confirm'));
-  out.style = { size: confirm.fontSize, weight: confirm.fontWeight, colour: confirm.color, icon: root.querySelector('.confirm aha-icon').getAttribute('name') };
-  root.querySelector('.fb-close').click(); await wait(300);
+  out.style = { size: confirm.fontSize, weight: confirm.fontWeight, colour: confirm.color, icon: root.querySelector('.confirm aha-icon') };
+  out.closeDisplay = getComputedStyle(root.querySelector('.fb-close')).display;
+  root.querySelector('.fb-text').dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, composed: true })); await wait(300);
+  out.closedByEscape = !root.host.hasAttribute('data-feedback-open');
   root.querySelector('.up').click(); await wait(300);
   out.like = text();
   root.querySelector('.up').click(); await wait(300);
@@ -223,6 +234,16 @@ const ratedScenarios = String.raw`(async () => {
   root.querySelector('.fb-text').dispatchEvent(new Event('input'));
   root.querySelector('.fb-submit').click(); await wait(300);
   out.fallbackAfterButtonSend = text();
+  out.sentBefore = text();
+  root.host.setAttribute('confirmation-sent', 'Thanks! Our developers have received your feedback.');
+  root.querySelector('.down').click(); await wait(300);
+  out.beforeSend = text();
+  root.querySelector('.fb-text').value = 'more';
+  root.querySelector('.fb-text').dispatchEvent(new Event('input'));
+  root.querySelector('.fb-submit').click(); await wait(300);
+  out.afterSend = text();
+  root.querySelector('.up').click(); await wait(300);
+  out.afterRerate = text();
   const only = document.getElementById('likeonly').shadowRoot;
   only.querySelector('.down').click(); await wait(300);
   out.likeOnlyDown = only.querySelector('.confirm').hidden;
@@ -233,12 +254,17 @@ const ratedScenarios = String.raw`(async () => {
 
 test('csat confirmation-like / -dislike name the rating, and the inline field fits a narrow container', { skip }, async () => {
   const r = await evaluateInPage(fixture, ratedScenarios, { readyExpr: '!!window.csatFixtureReady', timeout: 60000 });
-  assert.deepEqual(r.fits, { scroll: true, field: true, close: true, send: true });
+  assert.deepEqual(r.fits, { scroll: true, field: true, send: true });
+  assert.equal(r.closeDisplay, 'none');
+  assert.equal(r.closedByEscape, true);
   assert.equal(r.dislike, "You didn't like this. Thanks for being honest.");
-  assert.deepEqual(r.style, { size: '14px', weight: '600', colour: 'rgb(26, 26, 26)', icon: 'system-check' });
+  assert.deepEqual(r.style, { size: '14px', weight: '400', colour: 'rgb(26, 26, 26)', icon: null });
   assert.equal(r.like, 'You liked this. Thanks for letting us know!');
   assert.equal(r.unratedHidden, true);
   assert.equal(r.fallbackAfterButtonSend, 'Thanks, feedback received');
+  assert.equal(r.beforeSend, "You didn't like this. Thanks for being honest.");
+  assert.equal(r.afterSend, 'Thanks! Our developers have received your feedback.');
+  assert.equal(r.afterRerate, 'You liked this. Thanks for letting us know!');
   assert.equal(r.likeOnlyDown, true);
   assert.equal(r.likeOnlyUp, 'You liked this');
 });
