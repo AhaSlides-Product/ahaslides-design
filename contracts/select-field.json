@@ -63,7 +63,7 @@
     },
     {
       "label": "Opt-in extras",
-      "value": "allow-clear: 16px system-x-circle, text-tertiary #616161, hover text-default; show-search: the text field sits over the value at the trigger's own font size, no-match row 14/22 text-tertiary; option description 12/18 text-secondary #4A4A4A under the label; popup-width match | content | length; loading: a small aha-spin replaces the caret and a 40px loading row (14/22 text-tertiary) stands in for the no-match row; option prefix (leading text such as a flag) and suffix (trailing 14/22 text-tertiary, such as a dial code); width=\"content\": as wide as the longest option label; mode=\"tags\": closable aha-tag chips (20px) and an inline field in the same 40 / 32 / 48 / 56 chrome, wrapping onto new rows"
+      "value": "allow-clear: 16px system-x-circle, text-tertiary #616161, hover text-default; show-search: the text field sits over the value at the trigger's own font size, no-match row 14/22 text-tertiary; option description 12/18 text-secondary #4A4A4A under the label; popup-width match | content | length; loading: a small aha-spin replaces the caret and a 40px loading row (14/22 text-tertiary) stands in for the no-match row; option prefix (leading text such as a flag) and suffix (trailing 14/22 text-tertiary, such as a dial code); width=\"content\": as wide as the longest option label; mode=\"tags\": closable aha-tag chips (20px) and an inline field in the same 40 / 32 / 48 / 56 chrome, wrapping onto new rows; max-tag-count=responsive: one row, flex-wrap off, overflow chips behind a neutral aha-tag reading +N, same 4px gap as the chips"
     }
   ],
   "props": [
@@ -198,6 +198,18 @@
       "type": "number",
       "default": "—",
       "desc": "Opt-in, mode=\"multiple\" or \"tags\" (antd maxCount): once that many values are picked, the rows not yet picked are disabled and new free-entry tags are not added; unpicking one enables them again"
+    },
+    {
+      "name": "max-tag-count",
+      "type": "responsive",
+      "default": "—",
+      "desc": "Opt-in, mode=\"multiple\", or mode=\"tags\" with options (antd maxTagCount=\"responsive\"): the control stays one row. Chips that do not fit are hidden behind a \"+N\" aha-tag, refitted on every width change and pick; at least one chip stays, shrinking to an ellipsis. Clicking the +N tag opens the list. Option-less tags ignore it"
+    },
+    {
+      "name": "more-label",
+      "type": "string",
+      "default": "{count} more selected",
+      "desc": "With max-tag-count: accessible name of the +N tag. `{count}` is replaced by the number hidden"
     },
     {
       "name": "filter-prop",
@@ -355,6 +367,10 @@
     },
     {
       "label": "combobox trigger + themed listbox with the full keyboard contract",
+      "verdict": "PASS"
+    },
+    {
+      "label": "max-tag-count=responsive holds one row at every width: +N tag, at least one chip, refits on resize and picks",
       "verdict": "PASS"
     }
   ],
