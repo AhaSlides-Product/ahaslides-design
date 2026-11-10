@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## Unreleased
+## 0.1095.0 — 2026-11-10
 ### Added
 - `<aha-button wrap>`: opt-in boolean attribute for a long or translated label. It wraps onto two or more lines and the button grows from the size's own height; a one-line label renders exactly as without it. Ignored by `icon-only` and `size=inline`; the hand-rolled-button lint message now points to it instead of `::part(button)` height and white-space overrides (#730)
 - `<aha-tooltip shortcut="…">` now works on the default (foundation) size, no `size="lg"` needed: the bubble keeps its 12px type and 30px height and the chip scales to 18 × 18 (12px key, 12px return icon). `size="lg"` is unchanged. For the editor header: Undo `Mod+Z`, Redo `Mod+Shift+Z`, Present `Shift+P`. (#732)
