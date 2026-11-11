@@ -72,6 +72,10 @@ test('the loop starts on connect and is cancelled on disconnect', () => {
   el.connectedCallback();
   assert.equal(frames.size, 1);
   el.disconnectedCallback();
+  el.isConnected = false;
+  el.setAttribute('variant', 'splash');
+  el.attributeChangedCallback('variant');
+  assert.equal(frames.size, 0);
   mount({ variant: 'tiles' });
   assert.equal(frames.size, 0);
 });
