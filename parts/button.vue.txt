@@ -42,6 +42,12 @@ const open = ref(false);
     </aha-button>
   </p>
 
+  <!-- Many links in one region (a link list, a footer, a long article), or a link on grey: tone="ink". -->
+  <p>
+    Read the <aha-button variant="text-link" tone="ink" size="inline" href="/guide">getting started guide</aha-button> or ask in
+    the <aha-button variant="text-link" tone="ink" size="inline" href="/community">community forum</aha-button>.
+  </p>
+
   <!-- Audience close (✕): tertiary-deck icon-only md, 36 x 36 drawn with a 44 x 44 hit area; `sheet` on a white modal. -->
   <aha-button variant="tertiary-deck" size="md" icon-only sheet aria-label="Close" @click="emit('close')">
     <aha-icon name="system-x" :size="16" decorative />
