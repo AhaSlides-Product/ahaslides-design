@@ -916,7 +916,9 @@ const repoChecks = [];
   /* The illustration tints are named where the illustration is documented, and nowhere else. */
   const NAMES_ILLUSTRATION_TINTS = new Set(['contracts/illustration.json', 'parts/illustration.preview.html']);
   const sourceText = (f) => read(join(root, f)).replace(/%23(?=[0-9a-fA-F]{6}\b)/g, '#');
-  const offListSources = sourceFiles.flatMap(f => offList(sourceText(f), false, NAMES_ILLUSTRATION_TINTS.has(f) ? ILLUSTRATION_TINTS : []).map(hex => `${f} ${hex}`));
+  /* The loader draws the AhaSlides splash itself, so it keeps the logo purple beside Vivid Pink, and nothing else off the list. */
+  const DRAWS_THE_LOGO = new Set(['lib/aha-loader.js', 'contracts/aha-loader.json']);
+  const offListSources = sourceFiles.flatMap(f => offList(sourceText(f), DRAWS_THE_LOGO.has(f), NAMES_ILLUSTRATION_TINTS.has(f) ? ILLUSTRATION_TINTS : []).map(hex => `${f} ${hex}`));
   rchk('demos, contracts, guidelines and element sources use only allowed colours', offListSources.length === 0,
     `use Vivid Pink, its tints, black, white or a grey (a demo placeholder too) — off the list: ${offListSources.slice(0, 10).join(', ')}${offListSources.length > 10 ? ` (+${offListSources.length - 10} more)` : ''}`);
 

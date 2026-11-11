@@ -1,19 +1,24 @@
-// main.ts — register the element + its reused spot art, and mark aha-* as custom elements
-import '@ahaslides-product/design/aha-loader';   // registers <aha-loader> (+ the reused <aha-illustration>)
+// main.ts — register the element and mark aha-* as custom elements
+import '@ahaslides-product/design/aha-loader';   // registers <aha-loader> (+ the reused <aha-illustration> for the tiles variant)
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
+// Flagged rollout: switch every loader back to the previous five-tile look at one entry point,
+// before the loaders mount. A variant="tiles" attribute on one loader does the same for that one.
+if (!flags.newLoader) document.documentElement.dataset.ahaLoader = 'tiles';
+
 // Component.vue — the full-surface branded loading SCREEN for an environment transition
-// (workspace → editor, editor → presenting). It fills its container, so make that container
-// full-screen for a real transition. Decorative brand motion, not a progress bar: pass a `label`,
-// never a percentage. For an inline indeterminate wait, reach for <aha-spin> instead.
+// (workspace → editor, editor → presenting): the animated AhaSlides splash, centred on white.
+// It fills its container, so make that container full-screen for a real transition. Decorative
+// brand motion, not a progress bar: pass a `label`, never a percentage. For an inline
+// indeterminate wait, reach for <aha-spin> instead.
 <template>
   <!-- Full-screen while the next environment boots -->
   <div v-if="loading" style="position:fixed; inset:0">
     <aha-loader label="Opening the editor…" />
   </div>
 
-  <!-- Or inside any sized box (it fills its container, min-height 240px) -->
-  <div style="width:100%; height:360px">
-    <aha-loader label="Starting the presentation…" />
+  <!-- Or inside any sized box: the logo stays --aha-loader-size wide (default 112px); min-height 240px -->
+  <div style="width:100%; height:240px">
+    <aha-loader label="Loading the settings…" style="--aha-loader-size:96px" />
   </div>
 </template>
