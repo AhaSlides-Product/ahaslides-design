@@ -1,66 +1,206 @@
 {
   "name": "Loader",
   "slug": "aha-loader",
-  "environment": ["product"],
+  "environment": [
+    "product"
+  ],
   "group": "AhaSlides surfaces",
   "tier": "leaf-lit",
   "badge": "shared web component",
   "element": "aha-loader",
-  "summary": "The full-surface branded loading screen shown while a new environment boots — workspace → editor, or editor → presenting.",
-  "highlights": ["Full-surface branded loading screen", "Shown while a new environment boots", "Covers workspace to editor and editor to presenting"],
-  "lead": "ONE custom element — <aha-loader> — the branded loading SCREEN for an environment transition (landing in the editor, opening the presenting view). It fills its container on a white ground and cycles five branded illustration tiles with a staggered soft-flow: each tile fades + slides + unblurs in, holds, then fades out, so exactly one is prominent at a time. REUSE, not rewrite — the five graphics are the shared <aha-illustration> spot art (loader-award / loader-wand / loader-plane / loader-ballot / loader-chart), called BY NAME, never an inline <svg>. Shadow-DOM CSS themed only by --aha-* tokens → byte-identical in React and Vue; the loop is a decorative keyframe whose easing binds to the --aha-ease-* motion tokens and stills under prefers-reduced-motion. This is the full-screen SCREEN — for an inline indeterminate spinner reach for <aha-spin>.",
-  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) and Vue both render <aha-loader> directly via attributes. Defined once in @ahaslides-product/design; the five tiles are the DS's own <aha-illustration> spot art (registry family `loader`), never redrawn here. Make the host's container full-screen for a real environment transition.",
-  "tokensUsed": ["white", "bg-container", "radius-xl", "ease-in-out"],
+  "summary": "The full-surface branded loading screen shown while a new environment boots — the animated AhaSlides splash, centred on white.",
+  "highlights": [
+    "Animated AhaSlides splash logo, centred at a fixed size",
+    "Shown while a new environment boots",
+    "variant=\"tiles\" keeps the previous five-tile look for a flagged rollout"
+  ],
+  "lead": "ONE custom element — <aha-loader> — the branded loading SCREEN for an environment transition (landing in the editor, opening the presenting view). It fills its container on a white ground and centres the animated AhaSlides splash at a fixed size: a ring of eight brand dots gathers into the centre, the four logo petals bloom out of it with a quarter-turn, hold, then close one by one and throw the dots back out (a 3.65s loop that opens on the finished logo). The petals are the DS splash logo (logo/thesplash.svg) verbatim, filled from the --aha-vivid-pink-100 and --aha-logo-purple tokens; the logo is --aha-loader-size wide (default 112px) whatever the container, so it fits a small inline box as well as a full screen. One requestAnimationFrame loop per element, started on connect and cancelled on disconnect; under prefers-reduced-motion it shows the finished logo, still. variant=\"tiles\" keeps the previous look (five <aha-illustration> loader-* tiles cycling with a staggered soft-flow); with no attribute, <html data-aha-loader=\"tiles\"> picks the tiles for every loader on the page, so an app can switch all of them at one entry point behind a flag (the attribute wins). This is the full-screen SCREEN — for an inline indeterminate spinner reach for <aha-spin>.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) and Vue both render <aha-loader> directly via attributes. Defined once in @ahaslides-product/design; the splash petals are the DS logo's own paths and the tiles variant reuses the DS's <aha-illustration> spot art (registry family `loader`), never redrawn here. To switch every loader in an app back to the tiles at one entry point, set document.documentElement.dataset.ahaLoader = 'tiles' before the loaders connect.",
+  "tokensUsed": [
+    "white",
+    "bg-container",
+    "vivid-pink-100",
+    "logo-purple",
+    "radius-xl",
+    "ease-in-out"
+  ],
   "spec": [
-    { "label": "Ground", "value": "white full-surface (--aha-white); fills its container, min-height 240px" },
-    { "label": "Tiles", "value": "five 120×120 rounded tiles (radius-xl 16), each centred, one prominent at a time" },
-    { "label": "Art", "value": "reused <aha-illustration> spot art at 96px — loader-award · loader-wand · loader-plane · loader-ballot · loader-chart" },
-    { "label": "Motion", "value": "soft-flow keyframe · 7.5s loop · 1.5s stagger across the five · easing --aha-ease-in-out" },
-    { "label": "Reduced motion", "value": "prefers-reduced-motion stills the loop and holds one branded tile" },
-    { "label": "Duration", "value": "override the loop length via the CSS custom property --aha-loader-duration (default 7.5s)" }
+    {
+      "label": "Ground",
+      "value": "white full-surface (--aha-white); fills its container, min-height 240px"
+    },
+    {
+      "label": "Logo",
+      "value": "the DS splash (logo/thesplash.svg paths), --aha-loader-size wide (default 112px), centred; the drawing box is 1.5 × that size so the dot ring and bloom fit"
+    },
+    {
+      "label": "Colour",
+      "value": "petals and dots in --aha-vivid-pink-100 and --aha-logo-purple only"
+    },
+    {
+      "label": "Motion",
+      "value": "8 dots gather (0.43s) → petals bloom with a -70° to 0° turn → hold → petals close one by one, each sweeping 35° → dots fly back out and turn once; 3.65s loop, opens on the finished logo"
+    },
+    {
+      "label": "Loop lifecycle",
+      "value": "one requestAnimationFrame loop per element, started in connectedCallback, cancelled in disconnectedCallback; browsers suspend it in a hidden tab"
+    },
+    {
+      "label": "Reduced motion",
+      "value": "prefers-reduced-motion renders the finished logo once, no loop"
+    },
+    {
+      "label": "Tiles variant",
+      "value": "variant=\"tiles\" (or <html data-aha-loader=\"tiles\">, read on connect): five 120×120 radius-xl tiles of reused <aha-illustration> loader-* art, soft-flow keyframe, 7.5s loop (--aha-loader-duration), easing --aha-ease-in-out"
+    }
   ],
   "props": [
-    { "name": "label", "type": "string", "default": "Loading", "desc": "Accessible name announced by the role=status live region (e.g. \"Opening the editor…\")" }
+    {
+      "name": "label",
+      "type": "string",
+      "default": "Loading",
+      "desc": "Accessible name announced by the role=status live region (e.g. \"Opening the editor…\")"
+    },
+    {
+      "name": "variant",
+      "type": "'splash' | 'tiles'",
+      "default": "splash",
+      "desc": "splash = the animated AhaSlides logo; tiles = the previous five-tile look. Unset, it follows <html data-aha-loader> (\"tiles\" or unset), read when the loader connects"
+    }
   ],
   "opinion": {
     "whenToUse": [
-      { "what": "Loader", "when": "a full-screen environment transition — the user lands in a new surface (workspace → editor, editor → presenting) and waits for it to boot" },
-      { "what": "Spin", "when": "an inline, indeterminate wait inside an existing surface — a button, a panel, a section loading in place" },
-      { "what": "Skeleton", "when": "the layout of the content being loaded is known — show its shape rather than a spinner" }
+      {
+        "what": "Loader",
+        "when": "a full-screen environment transition — the user lands in a new surface (workspace → editor, editor → presenting) and waits for it to boot"
+      },
+      {
+        "what": "Spin",
+        "when": "an inline, indeterminate wait inside an existing surface — a button, a panel, a section loading in place"
+      },
+      {
+        "what": "Skeleton",
+        "when": "the layout of the content being loaded is known — show its shape rather than a spinner"
+      }
     ],
-    "note": "One Loader per transition, filling the whole surface. It is decorative brand motion, not a progress bar — don't pair it with a percentage. Keep the `label` a short present-tense phrase naming the destination (\"Opening the editor…\").",
-    "dsv3": "COVERED — ported from the product Loader (stpancras-storybook UI/AhaLoader): a white full-screen screen cycling five branded icon-cards with a staggered soft-flow (7.5s loop, 1.5s stagger). Bindings: tile 120×120 radius-xl 16 (snapped onto the DS scale from the source 14), art the reused <aha-illustration> loader-* family at 96, easing --aha-ease-in-out. a11y: host role=status + aria-live=polite + aria-label from `label`; the loop stills under prefers-reduced-motion, holding one tile."
+    "note": "One Loader per transition, filling the whole surface. It is decorative brand motion, not a progress bar — don't pair it with a percentage. Keep the `label` a short present-tense phrase naming the destination (\"Opening the editor…\"). Size it with --aha-loader-size, never by scaling the element.",
+    "dsv3": "COVERED — the default look is the animated AhaSlides splash (design: Trang, logo animation option 1 v5, final pick: bloom, flower close, gathering ring of 8 dots, no circle). The previous look, ported from the product Loader (stpancras-storybook UI/AhaLoader: five icon-cards, 7.5s soft-flow, 1.5s stagger), stays as variant=\"tiles\". a11y: host role=status + aria-live=polite + aria-label from `label`; reduced motion shows the still logo."
   },
-  "surfaces": ["editor", "dashboard", "audience", "settings"],
-  "reuse": { "entry": "./aha-loader", "registers": "aha-loader", "exportsNamed": ["AhaLoader", "defineAhaLoader"] },
+  "surfaces": [
+    "editor",
+    "dashboard",
+    "audience",
+    "settings"
+  ],
+  "reuse": {
+    "entry": "./aha-loader",
+    "registers": "aha-loader",
+    "exportsNamed": [
+      "AhaLoader",
+      "defineAhaLoader"
+    ]
+  },
   "snippets": [
-    { "key": "html", "label": "HTML", "file": "aha-loader.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
-    { "key": "react", "label": "React", "file": "aha-loader.react.txt" },
-    { "key": "vue", "label": "Vue 3", "file": "aha-loader.vue.txt" }
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "aha-loader.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "aha-loader.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "aha-loader.vue.txt"
+    }
   ],
   "preview": "aha-loader.preview.html",
   "playground": {
     "controls": [
-      { "prop": "label", "label": "Label", "default": "Opening the editor…", "options": [
-        { "label": "Opening the editor…", "value": "Opening the editor…" },
-        { "label": "Starting the presentation…", "value": "Starting the presentation…" },
-        { "label": "Loading", "value": "Loading" }
-      ] }
+      {
+        "prop": "label",
+        "label": "Label",
+        "default": "Opening the editor…",
+        "options": [
+          {
+            "label": "Opening the editor…",
+            "value": "Opening the editor…"
+          },
+          {
+            "label": "Starting the presentation…",
+            "value": "Starting the presentation…"
+          },
+          {
+            "label": "Loading",
+            "value": "Loading"
+          }
+        ]
+      },
+      {
+        "prop": "variant",
+        "label": "Variant",
+        "default": "splash",
+        "options": [
+          {
+            "label": "Splash",
+            "value": "splash"
+          },
+          {
+            "label": "Tiles",
+            "value": "tiles"
+          }
+        ]
+      }
     ]
   },
   "selfCheck": [
-    { "label": "white full-surface ground, fills its container", "verdict": "PASS" },
-    { "label": "five 120×120 tiles, radius-xl 16 (on the DS scale)", "verdict": "PASS" },
-    { "label": "art is the reused <aha-illustration> loader-* family (no inline svg)", "verdict": "PASS" },
-    { "label": "soft-flow loop, 1.5s stagger, easing bound to --aha-ease-in-out", "verdict": "PASS" },
-    { "label": "host role=status + aria-live, aria-label from label", "verdict": "PASS" },
-    { "label": "prefers-reduced-motion stills the loop and holds one tile", "verdict": "PASS" }
+    {
+      "label": "white full-surface ground, fills its container",
+      "verdict": "PASS"
+    },
+    {
+      "label": "logo is the DS splash paths, filled from brand tokens (no raw hex)",
+      "verdict": "PASS"
+    },
+    {
+      "label": "fixed logo size via --aha-loader-size, centred; fits a 240px-high box",
+      "verdict": "PASS"
+    },
+    {
+      "label": "rAF loop starts on connect, cancelled on disconnect",
+      "verdict": "PASS"
+    },
+    {
+      "label": "host role=status + aria-live, aria-label from label",
+      "verdict": "PASS"
+    },
+    {
+      "label": "prefers-reduced-motion shows the finished logo, no loop",
+      "verdict": "PASS"
+    },
+    {
+      "label": "variant=\"tiles\" and <html data-aha-loader=\"tiles\"> keep the previous look; the attribute wins",
+      "verdict": "PASS"
+    }
   ],
   "conformance": {
-    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. Probes the white ground, the five 120×120 radius-xl tiles, and that all five tiles mount (reused <aha-illustration> spot art). Animated properties (opacity/transform/filter) are NOT measured — geometry, colour and radius are stable across the loop.",
-    "ready": "!!(document.querySelector('aha-loader[data-probe]') && document.querySelector('aha-loader[data-probe]').shadowRoot && document.querySelector('aha-loader[data-probe]').shadowRoot.querySelector('.icon-card'))",
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. Probes the default splash: white ground, the drawing box at 1.5 × the default 112px logo size, four petals and eight dots, and the two petal fills resolving to the brand tokens. Per-frame transforms are NOT measured — size, colour and counts are stable across the loop.",
+    "ready": "!!(document.querySelector('aha-loader[data-probe]') && document.querySelector('aha-loader[data-probe]').shadowRoot && document.querySelector('aha-loader[data-probe]').shadowRoot.querySelector('.splash'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-loader[data-probe]');var host=el?getComputedStyle(el):null;var r=el&&el.shadowRoot;var card=r&&r.querySelector('.icon-card');var cs=card?getComputedStyle(card):null;return{hostBg:host?host.backgroundColor:null,cardW:cs?cs.width:null,cardH:cs?cs.height:null,cardRadius:cs?cs.borderTopLeftRadius:null,cardBg:cs?cs.backgroundColor:null,tiles:r?r.querySelectorAll('.icon-card').length:0};})()",
-    "expect": { "hostBg": "rgb(255, 255, 255)", "cardW": "120px", "cardH": "120px", "cardRadius": "16px", "cardBg": "rgb(255, 255, 255)", "tiles": 5 }
+    "measure": "(function(){var el=document.querySelector('aha-loader[data-probe]');var host=el?getComputedStyle(el):null;var r=el&&el.shadowRoot;var svg=r&&r.querySelector('.splash');var cs=svg?getComputedStyle(svg):null;var p=r?r.querySelectorAll('.petal'):[];return{hostBg:host?host.backgroundColor:null,splashW:cs?cs.width:null,splashH:cs?cs.height:null,petals:p.length,dots:r?r.querySelectorAll('.dot').length:0,pinkFill:p[0]?getComputedStyle(p[0]).fill:null,purpleFill:p[1]?getComputedStyle(p[1]).fill:null};})()",
+    "expect": {
+      "hostBg": "rgb(255, 255, 255)",
+      "splashW": "168px",
+      "splashH": "168px",
+      "petals": 4,
+      "dots": 8,
+      "pinkFill": "rgb(231, 14, 104)",
+      "purpleFill": "rgb(106, 30, 187)"
+    }
   }
 }
