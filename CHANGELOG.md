@@ -40,6 +40,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Changed
 - Audience typography (criterion C5, rules `native-type-scale` and `primary-copy-16px`): a section title or result headline the slide paints itself ("Voting results", a rank, "Correct!") may now use 20px (`--aha-size-xl`) at weight 600 or 700, as the native audience app does. 16px stays the minimum for text a participant must read; option labels and body copy never go to 20px, and any other size (18px included) still fails. C10c and `weight-400-600` allow weight 700 for that tier only. Three new audience evals cover the tier (#736)
 
+### Removed
+- Audience criterion C5 no longer judges touch targets (~44-48px height, 8px between tappables): its title is now "WCAG AA contrast + mobile readability", and the clause is gone from the criteria store, the agent copy, `guidelines/audience.json` (the `touch-targets` rule), the audience guide and the C5 eval, since slides use the DS components. The `touch` variants of `aha-rank-list`, `aha-button` and the slider field stay available (#738)
+
 ### Fixed
 - A closed `aha-tooltip` bubble (and so the `?` hint of `aha-setting-row`) no longer adds to its panel's scrollable overflow: it is taken out of layout once its fade-out ends, so a one-row panel measures its real 56px, not 80px at rest and 99px after a hover. (#735)
 

@@ -654,13 +654,6 @@
       ]
     },
     {
-      "id": "touch-targets",
-      "rule": "Touch targets are roughly finger-sized (~44–48px, iOS 44pt / Android 48dp) as a recommended range; leave ≥8px between tappables to avoid mis-taps.",
-      "ref": [
-        "§8"
-      ]
-    },
-    {
       "id": "wcag-aa",
       "rule": "Meet WCAG AA against your CHOSEN background — 4.5:1 text, 3:1 large text and meaningful shapes — verified on both light and dark decks (since baseColour isn't forwarded, you make and defend the background choice).",
       "ref": [
