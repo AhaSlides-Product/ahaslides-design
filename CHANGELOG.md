@@ -33,12 +33,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1099.1 — 2026-11-11
+### Fixed
+- `<aha-loader>` splash no longer throws on connect in jsdom-based app test suites (Vitest, Jest): the blur filter is found by class, not by its camelCase SVG tag name. (#744)
+
 ## 0.1099.0 — 2026-11-11
 ### Added
 - Button `tone="ink"` for `variant="text-link"`, at every size including `inline`: the link in the default ink `#1A1A1A`, underlined at rest, Darker Pink `#DB005B` on hover and press. Use it where a page or region has many links (link lists, footers, long articles) and for links on grey or Vivid Pink at 5%; one or two links on white stay pink. Colour rules 6.5, 6.6, 6.8 and 6.9 name it. The pink default is unchanged (#743)
-
-### Fixed
-- `<aha-loader>` splash no longer throws on connect in jsdom-based app test suites (Vitest, Jest): the blur filter is found by class, not by its camelCase SVG tag name. (#744)
 
 ## 0.1098.0 — 2026-11-11
 ### Changed
