@@ -64,6 +64,16 @@ export function ResponsesNote({ open, onToggle }) {
   );
 }
 
+// Many links in one region (a link list, a footer, a long article), or a link on grey: tone="ink".
+export function HelpLinks() {
+  return (
+    <p>
+      Read the <AhaButton variant="text-link" tone="ink" size="inline" href="/guide">getting started guide</AhaButton> or ask in
+      the <AhaButton variant="text-link" tone="ink" size="inline" href="/community">community forum</AhaButton>.
+    </p>
+  );
+}
+
 export function SaveBar({ onSave, saving }) {
   return (
     <div style={{ display: 'flex', gap: 8 }}>

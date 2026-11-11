@@ -41,7 +41,7 @@
       { "what": "Text level", "when": "a heading inside a page: a section, card, panel or empty-state title" },
       { "what": "Breadcrumb (page-title)", "when": "the page's own title: never <aha-text level=\"1\">" },
       { "what": "Section header", "when": "a section heading with its description and actions in one row" },
-      { "what": "Button text-link", "when": "a link in or beside text (antd Typography.Link): <aha-button variant=\"text-link\" href>" }
+      { "what": "Button text-link", "when": "a link in or beside text (antd Typography.Link): <aha-button variant=\"text-link\" href>; add tone=\"ink\" where a region has many links or sits on grey" }
     ],
     "note": "Never set font-size, font-weight or colour on text by hand: pick size, weight and tone. Status is never a colour: a failed or warning line is default ink with a status icon or words. Typography.Link is a link, so it is a Button (text-link) with href, not text.",
     "dsv3": "COVERED — the DS type scale as one element: Plus Jakarta Sans, sizes 12-32 from the size tokens, weights 400/600, the text greys and the letter-spacing ratios (headings 0, body 0.2, subtext 0.3). Built to replace antd Typography in React apps (Title level → level, Text type → tone, strong → weight, Paragraph → as=p, ellipsis → ellipsis / lines). antd's copyable, editable, code, mark, italic, underline and delete have no DS role and are not offered."

@@ -108,3 +108,34 @@ test('size inline keeps the keyboard focus ring and the underline in both forms'
     assert.equal(rings[id].decoration, 'underline', `${id} underline on focus`);
   }
 });
+
+test('tone ink draws the link in the default ink, underlined at rest, with no fill, and turns Darker Pink on hover and press', { skip }, async () => {
+  const byId = await withPage(fixture, async (command) => {
+    await command('DOM.enable'); await command('CSS.enable');
+    await command('DOM.getDocument', { depth: -1, pierce: true });
+    const states = {};
+    for (const id of ['ink', 'ink-inline', 'link']) {
+      const inner = await command('Runtime.evaluate', { expression: `document.getElementById('${id}').shadowRoot.querySelector('[part=button]')` });
+      const { nodeId } = await command('DOM.requestNode', { objectId: inner.result.objectId });
+      const read = async (forcedPseudoClasses) => {
+        await command('CSS.forcePseudoState', { nodeId, forcedPseudoClasses });
+        const style = await command('Runtime.evaluate', { expression: `(() => { const s = getComputedStyle(document.getElementById('${id}').shadowRoot.querySelector('[part=button]')); return { colour: s.color, decoration: s.textDecorationLine, background: s.backgroundColor }; })()`, returnByValue: true });
+        return style.result.value;
+      };
+      states[id] = { rest: await read([]), hover: await read(['hover']), active: await read(['active']) };
+      await command('CSS.forcePseudoState', { nodeId, forcedPseudoClasses: [] });
+    }
+    const disabled = await command('Runtime.evaluate', { expression: `getComputedStyle(document.getElementById('ink-disabled').shadowRoot.querySelector('button')).color`, returnByValue: true });
+    states.disabled = disabled.result.value;
+    return states;
+  }, { readyExpr: '!!window.textLinkFixtureReady' });
+  for (const id of ['ink', 'ink-inline']) {
+    assert.deepEqual(byId[id].rest, { colour: 'rgb(26, 26, 26)', decoration: 'underline', background: 'rgba(0, 0, 0, 0)' }, `${id} at rest`);
+    assert.equal(byId[id].hover.colour, 'rgb(219, 0, 91)', `${id} hover`);
+    assert.equal(byId[id].hover.decoration, 'underline', `${id} hover`);
+    assert.equal(byId[id].active.colour, 'rgb(219, 0, 91)', `${id} press`);
+    assert.equal(byId[id].active.decoration, 'underline', `${id} press`);
+  }
+  assert.deepEqual(byId.link.rest, { colour: 'rgb(219, 0, 91)', decoration: 'none', background: 'rgb(255, 255, 255)' }, 'the default tone is unchanged');
+  assert.equal(byId.disabled, 'rgb(181, 181, 181)');
+});
