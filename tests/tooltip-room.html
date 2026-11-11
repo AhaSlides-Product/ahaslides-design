@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tooltip room</title>
+<style>body{margin:0} #app{padding:8px 16px;width:383px;box-sizing:border-box}</style>
+</head>
+<body>
+  <div id="app">
+    <aha-setting-group>
+      <aha-setting-row label="Entries per participant" help="How many words each participant can submit before the slide stops taking entries.">
+        <aha-number-with-unit slot="control" value="3" unit="entries"></aha-number-with-unit>
+      </aha-setting-row>
+    </aha-setting-group>
+  </div>
+  <script type="module">
+    await import('../lib/aha-setting-group.js');
+    await import('../lib/aha-setting-row.js');
+    await import('../lib/aha-number-with-unit.js');
+    window.tooltipRoomFixtureReady = true;
+  </script>
+</body>
+</html>
