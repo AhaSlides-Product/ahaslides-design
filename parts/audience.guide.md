@@ -295,7 +295,7 @@ it rebuilds the same spec:
 **Visual spec**
 
 - **Full-width** block, fills the answer area.
-- **Height** ~44–48px (the touch-target range).
+- **Height** ~44–48px.
 - **Soft rounded corners** 8px (`--aha-radius-default`) — no sharp 0px, no pill unless that's the deck style.
 - **Background** = the deck's first palette colour `xprops.presentationColorPalette[0]` (or a
   `presentationLighterColorPalette` shade). **Never hard-code a brand colour, never leave a bare
@@ -372,10 +372,8 @@ Owned by the host; don't render them and don't assume they're broken if you can'
   it yourself (`dir="rtl"` on the root, logical CSS).
 - **Background** — `baseColour` and `backgroundImage` don't reach the iframe.
 
-## Touch targets + accessibility
+## Accessibility
 
-- **Touch targets** roughly finger-sized (~44–48px, iOS 44pt / Android 48dp) — a recommended
-  range. **≥8px between tappables** to avoid mis-taps.
 - **WCAG AA** against your chosen background — 4.5:1 text, 3:1 large text and meaningful shapes —
   verified on **both** light and dark decks.
 - **Focus visible** — keyboard users on tablets / laptops still join; don't remove the ring
