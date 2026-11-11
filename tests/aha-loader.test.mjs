@@ -16,7 +16,7 @@ globalThis.HTMLElement = class {
       get firstChild() { return html ? {} : null; },
       get innerHTML() { return html; },
       set innerHTML(v) { html = v; },
-      querySelector: s => (s === 'feGaussianBlur' ? nodes.blur : nodes.liquid),
+      querySelector: s => ({ '.goo-blur': nodes.blur, '.liquid': nodes.liquid })[s] ?? null,
       querySelectorAll: s => (s === '.petal' ? nodes.petals : nodes.dots),
     };
     return this.shadowRoot;
