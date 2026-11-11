@@ -2281,6 +2281,79 @@
         "authored": "ahaslides-design",
         "why": "DESY-513: a mode C self-paced view runs its own timer at full width, so C3, C5, C14 and C19 scope to it"
       }
+    },
+    {
+      "id": 93,
+      "prompt": "Review this audience results view in framed mode. After voting closes it paints its own `<h2>` \"Voting results\" at `font-size: var(--aha-size-xl)` (20px), `font-weight: 700`, and each row's rank number (\"1st\", \"2nd\") at 20px, weight 700. Option labels are 16px (`--aha-size-l`) at weight 400, the vote-count chip beside each is 14px (`--aha-size-default`), the help line is 12px and the host paints the question. Are the text sizes right?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C5 20px bold tier good control, DESY-537.",
+      "expected_output": "C5 and C19 PASS. A section title and a rank the slide paints itself may use 20px (--aha-size-xl) at weight 600 or 700, as the native Idea Board rank and Pick Answer result do. Option labels stay at 16px, metadata at 14px and help text at 12px. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C5 is marked PASS",
+        "C19 is marked PASS",
+        "Accepts the 20px bold section title and rank"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C5": "PASS",
+          "C19": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-537: the native audience app paints the Idea Board rank and the Pick Answer result at 20px bold, so C5 allows a 20px tier at weight 600 or 700 for self-painted section titles and results; 16px stays the minimum for text a participant must read"
+      }
+    },
+    {
+      "id": 94,
+      "prompt": "Review this audience poll. Answer-option labels are `font-size: var(--aha-size-xl)` (20px) at weight 600, and the intro line above them (\"Pick the one you use most\") is 20px at weight 400. The developer says the DS now allows 20px on the audience phone. Are the text sizes right?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C5 20px bold tier misuse, DESY-537.",
+      "expected_output": "C5 and C19 FAIL. The 20px tier is only for a section title or result headline the slide paints itself, at weight 600 or 700. Option labels stay at 16px (--aha-size-l) whatever their weight, and body copy at regular weight is 16px, never 20px. Fix: option labels and the intro line to 16px. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C5 is marked FAIL",
+        "C19 is marked FAIL",
+        "Says the 20px tier is not for option labels or regular-weight body copy"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C5": "FAIL",
+          "C19": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-537: the native audience app paints the Idea Board rank and the Pick Answer result at 20px bold, so C5 allows a 20px tier at weight 600 or 700 for self-painted section titles and results; 16px stays the minimum for text a participant must read"
+      }
+    },
+    {
+      "id": 95,
+      "prompt": "Review this audience results view in framed mode. It paints its own \"Voting results\" heading at `font-size: 18px` (`--aha-size-h6`), weight 700. Option labels are 16px and the vote-count chip 14px. Are the text sizes right?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C5 off-scale 18px, DESY-537.",
+      "expected_output": "C5 FAILs. 18px is not on the audience scale: a self-painted section title is 20px (--aha-size-xl) at weight 600 or 700, and no other size is allowed. Fix: the heading to 20px at weight 700. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C5 is marked FAIL",
+        "Names 20px at weight 600 or 700 as the section title size"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C5": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-537: the native audience app paints the Idea Board rank and the Pick Answer result at 20px bold, so C5 allows a 20px tier at weight 600 or 700 for self-painted section titles and results; 16px stays the minimum for text a participant must read"
+      }
     }
   ]
 }
