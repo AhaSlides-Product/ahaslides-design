@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## Unreleased
 ### Fixed
-- `<aha-loader>` splash no longer throws on connect in jsdom-based app test suites (Vitest, Jest): the blur filter is found by class, not by its camelCase SVG tag name. (#PR)
+- `<aha-loader>` splash no longer throws on connect in jsdom-based app test suites (Vitest, Jest): the blur filter is found by class, not by its camelCase SVG tag name. (#744)
 
 ## 0.1098.0 — 2026-11-11
 ### Changed
