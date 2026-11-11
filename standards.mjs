@@ -724,7 +724,9 @@ const repoChecks = [];
   const changelog = read(join(root, 'CHANGELOG.md'));
   rchk('CHANGELOG.md exists', !!changelog, 'add a CHANGELOG.md at the repo root (newest entry on top)');
   if (changelog) {
-    const m = changelog.match(/^##\s+(\d+\.\d+\.\d+)\s+[—-]\s+(\d{4}-\d{2}-\d{2})\s*$/m);
+    // Fenced blocks are stripped so the header's format example is not taken for the newest entry.
+    const firstHeading = changelog.replace(/```[\s\S]*?```/g, '').match(/^##[ \t]+[^\r\n]*/m)?.[0] ?? '';
+    const m = firstHeading.match(/^##\s+(\d+\.\d+\.\d+)\s+[—-]\s+(\d{4}-\d{2}-\d{2})\s*$/);
     rchk('top entry heads the file as "## X.Y.Z — YYYY-MM-DD"', !!m,
       'head the newest entry "## X.Y.Z — YYYY-MM-DD" and bump package.json and agent/.claude-plugin/plugin.json to X.Y.Z');
     if (m) {
