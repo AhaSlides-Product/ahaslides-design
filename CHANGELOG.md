@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## Unreleased
+## 0.1099.1 — 2026-11-11
 ### Fixed
 - `<aha-loader>` splash no longer throws on connect in jsdom-based app test suites (Vitest, Jest): the blur filter is found by class, not by its camelCase SVG tag name. (#744)
 
