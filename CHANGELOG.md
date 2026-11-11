@@ -37,6 +37,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - Button `tone="ink"` for `variant="text-link"`, at every size including `inline`: the link in the default ink `#1A1A1A`, underlined at rest, Darker Pink `#DB005B` on hover and press. Use it where a page or region has many links (link lists, footers, long articles) and for links on grey or Vivid Pink at 5%; one or two links on white stay pink. Colour rules 6.5, 6.6, 6.8 and 6.9 name it. The pink default is unchanged (#743)
 
+### Fixed
+- `<aha-loader>` splash no longer throws on connect in jsdom-based app test suites (Vitest, Jest): the blur filter is found by class, not by its camelCase SVG tag name. (#744)
+
 ## 0.1098.0 — 2026-11-11
 ### Changed
 - `<aha-loader>` now shows the animated AhaSlides splash by default: a ring of eight brand dots gathers, the four logo petals bloom with a quarter-turn, hold, then close one by one (3.65s loop). The logo is `--aha-loader-size` wide (default 112px), centred on the same white ground, so it also fits small inline boxes (min-height 240px stays); under `prefers-reduced-motion` it shows the finished logo, still (#741)
