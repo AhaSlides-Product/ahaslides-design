@@ -2,26 +2,18 @@
 
 All notable changes to `@ahaslides-product/design`, **newest first**.
 
-**The rule:** every merge adds one entry here. Who sets the version depends on the repo variable
-`AUTO_VERSION`:
+**The rule:** every merge adds one entry here, and you bump the version by hand. The entry heads as
+`## X.Y.Z — YYYY-MM-DD` and the PR sets `version` in `package.json` and `agent/.claude-plugin/plugin.json`
+to the same `X.Y.Z`. The top entry's version MUST equal `package.json` → `version` — `standards.mjs`
+enforces it, so a PR that forgets either goes red. The `v<version>` release tag (what `npm publish`
+ships) matches too. An undated or unnumbered heading fails the gate.
 
-- **Off (the default): you bump it.** The entry heads as `## X.Y.Z — YYYY-MM-DD` and the PR sets
-  `version` in `package.json` and `agent/.claude-plugin/plugin.json` to the same `X.Y.Z`. The top
-  entry's version MUST equal `package.json` → `version` — `standards.mjs` enforces it, so a PR that
-  forgets either goes red. The `v<version>` release tag (what `npm publish` ships) matches too.
-- **On: the merge bumps it.** The entry heads as `## Unreleased` and the PR never touches a version
-  file. On merge, `publish.yml` (`auto-version.mjs`) picks the number (an entry with only `### Fixed`
-  is a patch, anything else a minor; a `Version-bump: patch|minor|major|none` line in the PR body
-  overrides it), turns the heading into `## X.Y.Z — YYYY-MM-DD`, fills each `(#504)` with the real
-  number and commits `chore(release): X.Y.Z` to master. Run the gate locally as `AUTO_VERSION=on npm run check`.
-
-The gate rejects an unfilled `(#129)` placeholder in every released entry: link the **real** PR number
-(under `## Unreleased`, `(#518)` is fine; the release fills it in).
+The gate rejects an unfilled `(#129)` placeholder in every released entry: link the **real** PR number.
 
 **Format** — one entry per version:
 
 ```
-## X.Y.Z — YYYY-MM-DD   ← "## Unreleased" instead while AUTO_VERSION is on
+## X.Y.Z — YYYY-MM-DD
 ### Added        ← new component / prop / token / export
 ### Changed      ← behaviour or API change to something that already shipped
 ### Fixed        ← bug / gate / doc fix, no API change
@@ -32,6 +24,10 @@ The gate rejects an unfilled `(#129)` placeholder in every released entry: link 
 Include only the sections you touched. **Versioning is [SemVer](https://semver.org)** — pre-1.0:
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
+
+## 0.1100.0 — 2026-11-11
+### Removed
+- Auto-versioning: `auto-version.mjs`, its tests, the `AUTO_VERSION` switch and the `AUTO_VERSION_PUSH_TOKEN` release step are gone from `publish.yml`, `ci.yml` and `standards.mjs`. Every PR bumps the version by hand: head the entry `## X.Y.Z — YYYY-MM-DD` and set `package.json` and `agent/.claude-plugin/plugin.json` to the same version. A PR whose entry is headed with an undated placeholder now fails the gate. Revert the PR to bring the code back (still gated by the `AUTO_VERSION` variable) (#734)
 
 ## 0.1099.1 — 2026-11-11
 ### Fixed
