@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## Unreleased
+## 0.1098.0 — 2026-11-11
 ### Changed
 - `<aha-loader>` now shows the animated AhaSlides splash by default: a ring of eight brand dots gathers, the four logo petals bloom with a quarter-turn, hold, then close one by one (3.65s loop). The logo is `--aha-loader-size` wide (default 112px), centred on the same white ground, so it also fits small inline boxes (min-height 240px stays); under `prefers-reduced-motion` it shows the finished logo, still (#741)
 ### Added
