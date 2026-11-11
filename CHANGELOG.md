@@ -35,9 +35,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## Unreleased
 ### Changed
-- `<aha-loader>` now shows the animated AhaSlides splash by default: a ring of eight brand dots gathers, the four logo petals bloom with a quarter-turn, hold, then close one by one (3.65s loop). The logo is `--aha-loader-size` wide (default 112px), centred on the same white ground, so it also fits small inline boxes (min-height 240px stays); under `prefers-reduced-motion` it shows the finished logo, still (#541)
+- `<aha-loader>` now shows the animated AhaSlides splash by default: a ring of eight brand dots gathers, the four logo petals bloom with a quarter-turn, hold, then close one by one (3.65s loop). The logo is `--aha-loader-size` wide (default 112px), centred on the same white ground, so it also fits small inline boxes (min-height 240px stays); under `prefers-reduced-motion` it shows the finished logo, still (#741)
 ### Added
-- `<aha-loader variant="tiles">` keeps the previous five-tile look, and `<html data-aha-loader="tiles">` (read when each loader connects) switches every loader on the page to it at one entry point, for a flagged rollout; the attribute wins (#541)
+- `<aha-loader variant="tiles">` keeps the previous five-tile look, and `<html data-aha-loader="tiles">` (read when each loader connects) switches every loader on the page to it at one entry point, for a flagged rollout; the attribute wins (#741)
 
 ## 0.1097.0 — 2026-11-11
 ### Removed
