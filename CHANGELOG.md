@@ -26,15 +26,17 @@ an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix w
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
 ## 0.1096.0 — 2026-11-11
-
-### Removed
-- Auto-versioning: `auto-version.mjs`, its tests, the `AUTO_VERSION` switch and the `AUTO_VERSION_PUSH_TOKEN` release step are gone from `publish.yml`, `ci.yml` and `standards.mjs`. Every PR bumps the version by hand: head the entry `## X.Y.Z — YYYY-MM-DD` and set `package.json` and `agent/.claude-plugin/plugin.json` to the same version. A PR whose entry is headed with an undated placeholder now fails the gate. Revert the PR to bring the code back (still gated by the `AUTO_VERSION` variable) (#734)
-
 ### Added
 - `aha-tooltip` fires `aha-tooltip-room` (bubbles, composed) with detail `{ open, bottom, top }`: the y of the bubble's bottom edge placed below the trigger and of its top edge placed above. An auto-height embed (an iframe sized to its content, such as a slide-type settings panel) grows to at least `bottom` while `open` is true, so a `?` hint is no longer cut off in a one-row panel. The tooltip re-places itself on window resize. (#735)
 
+### Changed
+- Audience typography (criterion C5, rules `native-type-scale` and `primary-copy-16px`): a section title or result headline the slide paints itself ("Voting results", a rank, "Correct!") may now use 20px (`--aha-size-xl`) at weight 600 or 700, as the native audience app does. 16px stays the minimum for text a participant must read; option labels and body copy never go to 20px, and any other size (18px included) still fails. C10c and `weight-400-600` allow weight 700 for that tier only. Three new audience evals cover the tier (#736)
+
 ### Fixed
 - A closed `aha-tooltip` bubble (and so the `?` hint of `aha-setting-row`) no longer adds to its panel's scrollable overflow: it is taken out of layout once its fade-out ends, so a one-row panel measures its real 56px, not 80px at rest and 99px after a hover. (#735)
+
+### Removed
+- Auto-versioning: `auto-version.mjs`, its tests, the `AUTO_VERSION` switch and the `AUTO_VERSION_PUSH_TOKEN` release step are gone from `publish.yml`, `ci.yml` and `standards.mjs`. Every PR bumps the version by hand: head the entry `## X.Y.Z — YYYY-MM-DD` and set `package.json` and `agent/.claude-plugin/plugin.json` to the same version. A PR whose entry is headed with an undated placeholder now fails the gate. Revert the PR to bring the code back (still gated by the `AUTO_VERSION` variable) (#734)
 
 ## 0.1095.0 — 2026-11-10
 ### Added
