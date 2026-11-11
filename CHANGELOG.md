@@ -25,10 +25,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1098.0 — 2026-11-11
+### Removed
+- Auto-versioning: `auto-version.mjs`, its tests, the `AUTO_VERSION` switch and the `AUTO_VERSION_PUSH_TOKEN` release step are gone from `publish.yml`, `ci.yml` and `standards.mjs`. Every PR bumps the version by hand: head the entry `## X.Y.Z — YYYY-MM-DD` and set `package.json` and `agent/.claude-plugin/plugin.json` to the same version. A PR whose entry is headed with an undated placeholder now fails the gate. Revert the PR to bring the code back (still gated by the `AUTO_VERSION` variable) (#734)
+
 ## 0.1097.0 — 2026-11-11
 ### Removed
 - Audience criterion C5 no longer judges touch targets (~44-48px height, 8px between tappables): its title is now "WCAG AA contrast + mobile readability", and the clause is gone from the criteria store, the agent copy, `guidelines/audience.json` (the `touch-targets` rule), the audience guide and the C5 eval, since slides use the DS components. The `touch` variants of `aha-rank-list`, `aha-button` and the slider field stay available (#738)
-- Auto-versioning: `auto-version.mjs`, its tests, the `AUTO_VERSION` switch and the `AUTO_VERSION_PUSH_TOKEN` release step are gone from `publish.yml`, `ci.yml` and `standards.mjs`. Every PR bumps the version by hand: head the entry `## X.Y.Z — YYYY-MM-DD` and set `package.json` and `agent/.claude-plugin/plugin.json` to the same version. A PR whose entry is headed with an undated placeholder now fails the gate. Revert the PR to bring the code back (still gated by the `AUTO_VERSION` variable) (#734)
 
 ## 0.1096.0 — 2026-11-11
 ### Added
