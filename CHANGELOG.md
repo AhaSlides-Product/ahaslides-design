@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## Unreleased
+## 0.1097.0 — 2026-11-11
 ### Removed
 - Audience criterion C5 no longer judges touch targets (~44-48px height, 8px between tappables): its title is now "WCAG AA contrast + mobile readability", and the clause is gone from the criteria store, the agent copy, `guidelines/audience.json` (the `touch-targets` rule), the audience guide and the C5 eval, since slides use the DS components. The `touch` variants of `aha-rank-list`, `aha-button` and the slider field stay available (#738)
 
