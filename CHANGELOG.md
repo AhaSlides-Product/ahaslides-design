@@ -25,13 +25,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1098.0 — 2026-11-11
-### Added
-- `<aha-loader variant="tiles">` keeps the previous five-tile look, and `<html data-aha-loader="tiles">` (read when each loader connects) switches every loader on the page to it at one entry point, for a flagged rollout; the attribute wins (#741)
-### Changed
-- `<aha-loader>` now shows the animated AhaSlides splash by default: a ring of eight brand dots gathers, the four logo petals bloom with a quarter-turn, hold, then close one by one (3.65s loop). The logo is `--aha-loader-size` wide (default 112px), centred on the same white ground, so it also fits small inline boxes (min-height 240px stays); under `prefers-reduced-motion` it shows the finished logo, still (#741)
+## 0.1099.0 — 2026-11-11
 ### Removed
 - Auto-versioning: `auto-version.mjs`, its tests, the `AUTO_VERSION` switch and the `AUTO_VERSION_PUSH_TOKEN` release step are gone from `publish.yml`, `ci.yml` and `standards.mjs`. Every PR bumps the version by hand: head the entry `## X.Y.Z — YYYY-MM-DD` and set `package.json` and `agent/.claude-plugin/plugin.json` to the same version. A PR whose entry is headed with an undated placeholder now fails the gate. Revert the PR to bring the code back (still gated by the `AUTO_VERSION` variable) (#734)
+
+## 0.1098.0 — 2026-11-11
+### Changed
+- `<aha-loader>` now shows the animated AhaSlides splash by default: a ring of eight brand dots gathers, the four logo petals bloom with a quarter-turn, hold, then close one by one (3.65s loop). The logo is `--aha-loader-size` wide (default 112px), centred on the same white ground, so it also fits small inline boxes (min-height 240px stays); under `prefers-reduced-motion` it shows the finished logo, still (#741)
+### Added
+- `<aha-loader variant="tiles">` keeps the previous five-tile look, and `<html data-aha-loader="tiles">` (read when each loader connects) switches every loader on the page to it at one entry point, for a flagged rollout; the attribute wins (#741)
 
 ## 0.1097.0 — 2026-11-11
 ### Removed
