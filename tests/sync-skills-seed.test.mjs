@@ -89,7 +89,8 @@ test('every restored multi-part criterion in the store carries its sub-rules', (
   const text = (surface, id) => store[surface].criteria.find(c => c.id === id).test;
   assert.match(text('canvas', 'C9'), /\*\*e\. Meaningful visual polish clipped by the iframe edge\.\*\*/);
   assert.match(text('audience', 'C10'), /\*\*c\. Extra-bold weight\.\*\*/);
-  assert.match(text('audience', 'C5'), /\*\*Touch targets\*\*/);
+  assert.match(text('audience', 'C5'), /\*\*Mobile readability/);
+  assert.doesNotMatch(text('audience', 'C5'), /touch target/i);
   assert.match(text('audience', 'C14'), /\*\*b\. The overall reveal VERDICT\.\*\*/);
   assert.match(text('audience', 'C22'), /\*\*c\. No FIXED void\.\*\*/);
   assert.match(text('audience', 'C25'), /\*\*c\. Renders within the reported iframe box/);

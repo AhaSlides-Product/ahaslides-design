@@ -114,12 +114,11 @@
       "prompt": "Review this audience vote slide for accessibility. Vote buttons are styled `.tiny-vote { height: 24px; padding: 2px 8px; }` with `margin-top: 2px` between them, option label text is set to 13px, and the plugin background is left transparent (never explicitly chosen). Does this pass WCAG AA and mobile readability?",
       "files": [],
       "label": "bad-example",
-      "notes": "C5 — undersized tap targets, cramped spacing, wrong body size, unchosen background",
-      "expected_output": "C5 (WCAG AA + touch targets ~44-48px) FAILs. Tap targets are 24px tall (well under the ~44-48px range), spacing between tappables is only 2px (needs at least 8px), option/body text is 13px instead of the mandated exactly 14px, and the plugin background is transparent rather than explicitly chosen, making contrast unpredictable on light and dark decks. Fix: raise vote buttons to ~44-48px min-height, put at least 8px (12px shown in the good example) between them, set body/option/button label text to exactly 14px, and pick an explicit background then verify the 4.5:1 text / 3:1 shape floors against it on both light and dark deck themes. Overall: NEEDS FIX",
+      "notes": "C5 — wrong body size, unchosen background",
+      "expected_output": "C5 (WCAG AA + mobile readability) FAILs. Option/body text is 13px instead of the mandated exactly 14px, and the plugin background is transparent rather than explicitly chosen, making contrast unpredictable on light and dark decks. Fix: set body/option/button label text to exactly 14px, and pick an explicit background then verify the 4.5:1 text / 3:1 shape floors against it on both light and dark deck themes. Overall: NEEDS FIX",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C5 is marked FAIL",
-        "Flags the 24px tap targets and <8px spacing",
         "Flags body text not being exactly 14px and the transparent/unchosen background"
       ],
       "expected": {
@@ -240,7 +239,7 @@
       "files": [],
       "label": "good-control",
       "notes": "Good control — passes every criterion, guards against a judge that only ever fails",
-      "expected_output": "All ten criteria PASS. C1: all colour/font from xprops, no hard-coded values. C2: bundled semantic function tokens applied to the indicator only (not a lookalike accent), bars use the palette. C3: single-column layout with onHeightChange, no horizontal scroll at 320px. C4: self-renders submitted/waiting via ✓ state and uses showToastSuccess for feedback. C5: 48px tap targets, 12px spacing, body exactly 14px / line-height 1.5, inputs 16px, contrast on chosen background. C6: colour paired with ✓/✗ and trophy icons, leader cue in a fixed-width slot so chart geometry stays honest, subtle color-mix borders. C7: setting.enableFullScreen: false declared and no duplicate title. C8: locale initialised from xprops and Intl.NumberFormat used. C9: submit button matches the standard spec (palette background, t label, disabled/locked states, inline spinner, height wiring, data-testid). C10: ≤8px corners, weight 400/600, no pastel-monotone surface. Overall: OK TO SHIP",
+      "expected_output": "All ten criteria PASS. C1: all colour/font from xprops, no hard-coded values. C2: bundled semantic function tokens applied to the indicator only (not a lookalike accent), bars use the palette. C3: single-column layout with onHeightChange, no horizontal scroll at 320px. C4: self-renders submitted/waiting via ✓ state and uses showToastSuccess for feedback. C5: body exactly 14px / line-height 1.5, inputs 16px, contrast on chosen background. C6: colour paired with ✓/✗ and trophy icons, leader cue in a fixed-width slot so chart geometry stays honest, subtle color-mix borders. C7: setting.enableFullScreen: false declared and no duplicate title. C8: locale initialised from xprops and Intl.NumberFormat used. C9: submit button matches the standard spec (palette background, t label, disabled/locked states, inline spinner, height wiring, data-testid). C10: ≤8px corners, weight 400/600, no pastel-monotone surface. Overall: OK TO SHIP",
       "assertions": [
         "Overall verdict is OK TO SHIP",
         "All criteria C1 through C10 are marked PASS",
