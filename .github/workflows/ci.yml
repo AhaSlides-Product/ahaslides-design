@@ -38,11 +38,7 @@ jobs:
       - name: Generated files are committed (npm run generate rewrites the plugin criteria copy, lib/topic-row.css, the post class layers and lib/search-result.css)
         run: git diff --exit-code -- agent/anti-slop/criteria.json lib/topic-row.css lib/post.css lib/discourse-post.css lib/search-result.css
       - name: Component standards gate (reusable or it fails)
-        run: |
-          echo "AUTO_VERSION raw: [${AUTO_VERSION}] (length ${#AUTO_VERSION})"
-          node standards.mjs
-        env:
-          AUTO_VERSION: ${{ vars.AUTO_VERSION }}
+        run: node standards.mjs
       - name: 'Environment declared in the PR body (its Environment: line matches the changed items)'
         if: github.event_name == 'pull_request'
         env:
