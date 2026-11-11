@@ -61,10 +61,15 @@
   </aha-button>
 </div>
 
-<!-- Low-emphasis label buttons: text / text-link are borderless; text-link has no underline at rest and is underlined on hover, press and keyboard focus (set --aha-text-link-decoration: underline where a screen swaps the link to the default ink). primary-alt is a second primary slot. -->
+<!-- Low-emphasis label buttons: text / text-link are borderless; text-link has no underline at rest and is underlined on hover, press and keyboard focus (for a default-ink link use tone="ink", below). primary-alt is a second primary slot. -->
 <aha-button variant="text">Skip</aha-button>
 <aha-button variant="text-link">Learn more</aha-button>
 
 <!-- A control inside a sentence: text-link with size="inline". href = it navigates, renders <a>. No href = it acts on the page, renders <button>. -->
 <p>Your plan renews soon. <aha-button variant="text-link" size="inline" href="/plans">See plans</aha-button></p>
 <p>Two responses are hidden. <aha-button variant="text-link" size="inline" aria-expanded="false" aria-controls="hidden-responses">Show them</aha-button></p>
+
+<!-- Many links in one region (a link list, a footer, a long article), or a link on grey or Vivid Pink at 5%: tone="ink".
+     Default ink, underlined at rest, Darker Pink on hover and press. One or two links on white stay pink. -->
+<p>Read the <aha-button variant="text-link" tone="ink" size="inline" href="/guide">getting started guide</aha-button> or ask in the <aha-button variant="text-link" tone="ink" size="inline" href="/community">community forum</aha-button>.</p>
+<aha-button variant="text-link" tone="ink" href="/help">Help centre</aha-button>
