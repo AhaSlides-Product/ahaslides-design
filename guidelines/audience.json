@@ -471,7 +471,7 @@
     },
     {
       "id": "weight-400-600",
-      "rule": "Text weight is 400 or 600 only (the standard submit button is 600). No 700/800/900 (font-bold/extrabold/black) — heavy weight reads 'AI'.",
+      "rule": "Text weight is 400 or 600 only (the standard submit button is 600), except a self-painted 20px section title or result headline, which may be 700 (see native-type-scale). No 700 anywhere else and no 800/900 (font-extrabold/black) — heavy weight reads 'AI'.",
       "ref": [
         "C6",
         "§2a"

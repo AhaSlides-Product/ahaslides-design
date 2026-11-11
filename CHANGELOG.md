@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## Unreleased
 ### Changed
-- Audience typography (criterion C5, rules `native-type-scale` and `primary-copy-16px`): a section title or result headline the slide paints itself ("Voting results", a rank, "Correct!") may now use 20px (`--aha-size-xl`) at weight 600 or 700, as the native audience app does. 16px stays the minimum for text a participant must read; option labels and body copy never go to 20px, and any other size (18px included) still fails. Three new audience evals cover the tier (#PR)
+- Audience typography (criterion C5, rules `native-type-scale` and `primary-copy-16px`): a section title or result headline the slide paints itself ("Voting results", a rank, "Correct!") may now use 20px (`--aha-size-xl`) at weight 600 or 700, as the native audience app does. 16px stays the minimum for text a participant must read; option labels and body copy never go to 20px, and any other size (18px included) still fails. C10c and `weight-400-600` allow weight 700 for that tier only. Three new audience evals cover the tier (#736)
 
 ## 0.1095.0 — 2026-11-10
 ### Added

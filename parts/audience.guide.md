@@ -90,6 +90,7 @@ hands you** so they look native to AhaSlides.
 | Body / option / chip / button label | `16px` — `--aha-size-l` |
 | Secondary metadata (vote count, percentage, counter) | `14px` — `--aha-size-default` |
 | Help text / captions | `12px` — `--aha-size-sm` |
+| Section title / result headline the slide paints itself ("Voting results", a rank, "Correct!") | `20px` — `--aha-size-xl`, weight 600 or 700; never an option label or body copy |
 | Question / header | `22px` bold (host-painted in framed mode) |
 | Form input (`<input>` / `<textarea>`) | `16px` — the one exception, dodges iOS auto-zoom-on-focus |
 | Body line-height | `1.5` |
@@ -233,7 +234,8 @@ outer column with `gap-6`. The 8px gap is for rows INSIDE one group; don't stand
   the OUTER wrapper, not just the tiles inside. 16 / 24px read toy-like. Intentionally circular elements (pills, chips, badges, avatars, dots,
   progress tracks) stay fully rounded.
 - **No extra-bold weight.** Text uses weight **400 or 600 only** (the standard submit button is
-  600). No 700 / 800 / 900.
+  600). The one exception: a 20px section title or result headline the slide paints itself may be 700.
+  No 700 anywhere else, and no 800 / 900.
 
 **Borders are hairlines** (C32): a bounded white card **1px `--aha-border-default`** (#E3E3E3); a deck-owned
 surface (field, track, panel) a **1px** `--aha-deck-stroke` (the ink at 12%) on every deck, light or dark. The 20% controls: a tappable chip, the dashed image drop area and an answer row's letter chip take `--aha-deck-stroke-chip` (the ink at 20%); an answer row's radio / checkbox control takes `--aha-deck-stroke-hover` (the ink at 60%), so its outline holds 3:1 (the dashed image drop area is the one 2px edge, dashed).
