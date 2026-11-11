@@ -45,6 +45,11 @@
   </label>
 </div>
 <script>
+  // an auto-height embed (an iframe sized to its content): grow while a bubble is open so it is not cut off
+  document.addEventListener('aha-tooltip-room', (event) => {
+    const { open, bottom } = event.detail;
+    document.body.style.minHeight = open ? Math.ceil(bottom) + 8 + 'px' : '';
+  });
   document.getElementById('url-help').addEventListener('open-change', (event) => {
     if (event.detail.open) console.log('tooltip revealed');
   });

@@ -33,6 +33,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## Unreleased
+
+### Added
+- `aha-tooltip` fires `aha-tooltip-room` (bubbles, composed) with detail `{ open, bottom, top }`: the y of the bubble's bottom edge placed below the trigger and of its top edge placed above. An auto-height embed (an iframe sized to its content, such as a slide-type settings panel) grows to at least `bottom` while `open` is true, so a `?` hint is no longer cut off in a one-row panel. The tooltip re-places itself on window resize. (#734)
+
+### Fixed
+- A closed `aha-tooltip` bubble (and so the `?` hint of `aha-setting-row`) no longer adds to its panel's scrollable overflow: it is taken out of layout once its fade-out ends, so a one-row panel measures its real 56px, not 80px at rest and 99px after a hover. (#734)
+
 ## 0.1095.0 — 2026-11-10
 ### Added
 - `<aha-button wrap>`: opt-in boolean attribute for a long or translated label. It wraps onto two or more lines and the button grows from the size's own height; a one-line label renders exactly as without it. Ignored by `icon-only` and `size=inline`; the hand-rolled-button lint message now points to it instead of `::part(button)` height and white-space overrides (#730)
