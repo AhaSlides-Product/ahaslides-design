@@ -33,7 +33,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## Unreleased
+## 0.1096.0 — 2026-11-11
 ### Added
 - `aha-tooltip` fires `aha-tooltip-room` (bubbles, composed) with detail `{ open, bottom, top }`: the y of the bubble's bottom edge placed below the trigger and of its top edge placed above. An auto-height embed (an iframe sized to its content, such as a slide-type settings panel) grows to at least `bottom` while `open` is true, so a `?` hint is no longer cut off in a one-row panel. The tooltip re-places itself on window resize. (#735)
 
