@@ -96,6 +96,12 @@
       "status": "available"
     },
     {
+      "ref": "--aha-size-xl",
+      "as": "token",
+      "use": "20px at weight 600 or 700 — only a section title or result headline the slide paints itself (\"Voting results\", a rank, \"Correct!\"); never an option label or body copy",
+      "status": "available"
+    },
+    {
       "ref": "--aha-colorSuccess",
       "as": "token",
       "use": "the correct / submitted / success function colour — bundled into the plugin build, never derived from the deck palette or a lookalike accent",
@@ -320,7 +326,7 @@
     },
     {
       "id": "native-type-scale",
-      "rule": "Match the built-in type scale exactly: primary body copy, option labels and the submit-button label 16px (--aha-size-l); secondary metadata (vote-count chip, percentage, counter) 14px (--aha-size-default); help/caption 12px (--aha-size-sm — the token named 'sm' is 12px, not the 14px 'text-sm', so never use it for copy a participant must read); question/header 22px (host-painted in framed mode); form input 16px (dodges iOS auto-zoom); body line-height 1.5. Spacing on a multiple-of-8 rhythm (8/16/24). A mode C self-paced view follows self-paced-mode-c from 480px wide.",
+      "rule": "Match the built-in type scale exactly: primary body copy, option labels and the submit-button label 16px (--aha-size-l); secondary metadata (vote-count chip, percentage, counter) 14px (--aha-size-default); help/caption 12px (--aha-size-sm — the token named 'sm' is 12px, not the 14px 'text-sm', so never use it for copy a participant must read); section titles and result headlines/stamps the slide paints itself (\"Voting results\", a rank, \"Correct!\") 20px (--aha-size-xl) at weight 600 or 700, never on an option label or body copy and never at regular weight; question/header 22px (host-painted in framed mode); form input 16px (dodges iOS auto-zoom); body line-height 1.5. Any other size fails. Spacing on a multiple-of-8 rhythm (8/16/24). A mode C self-paced view follows self-paced-mode-c from 480px wide.",
       "ref": [
         "C19",
         "§1"
@@ -465,7 +471,7 @@
     },
     {
       "id": "weight-400-600",
-      "rule": "Text weight is 400 or 600 only (the standard submit button is 600). No 700/800/900 (font-bold/extrabold/black) — heavy weight reads 'AI'.",
+      "rule": "Text weight is 400 or 600 only (the standard submit button is 600), except a self-painted 20px section title or result headline, which may be 700 (see native-type-scale). No 700 anywhere else and no 800/900 (font-extrabold/black) — heavy weight reads 'AI'.",
       "ref": [
         "C6",
         "§2a"
@@ -487,7 +493,7 @@
     },
     {
       "id": "primary-copy-16px",
-      "rule": "Primary body copy and option labels stay at the audience default 16px (--aha-size-l), never text-sm. 14px (--aha-size-default) is legitimate ONLY on secondary metadata beside a label (vote-count chip, percentage, character counter) — never on the option label, a chip label, a tag or the question restatement. The token --aha-size-sm is 12px, so a builder who maps 'text-sm' to --aha-size-sm lands two pixels smaller still: map by pixel value, not by name. A mode C self-paced view follows self-paced-mode-c from 480px wide.",
+      "rule": "Primary body copy and option labels stay at the audience default 16px (--aha-size-l), never text-sm. 14px (--aha-size-default) is legitimate ONLY on secondary metadata beside a label (vote-count chip, percentage, character counter) — never on the option label, a chip label, a tag or the question restatement. Only a section title or result headline the slide paints itself goes above 16px: 20px (--aha-size-xl) at weight 600 or 700. The token --aha-size-sm is 12px, so a builder who maps 'text-sm' to --aha-size-sm lands two pixels smaller still: map by pixel value, not by name. A mode C self-paced view follows self-paced-mode-c from 480px wide.",
       "ref": [
         "C19",
         "§2b"
@@ -777,7 +783,7 @@
       "verdict": "N/A — per-surface"
     },
     {
-      "label": "primary copy 16px (--aha-size-l, not --aha-size-sm); one accent via --aha-color-primary; <aha-*> elements from all.js, no ported CSS; ink #1A1A1A; 1px borders, 12px cards; motion tokens on persistent nodes",
+      "label": "primary copy 16px (--aha-size-l, not --aha-size-sm); self-painted section titles and results 20px (--aha-size-xl) at 600/700 only; one accent via --aha-color-primary; <aha-*> elements from all.js, no ported CSS; ink #1A1A1A; 1px borders, 12px cards; motion tokens on persistent nodes",
       "verdict": "N/A — per-surface"
     }
   ],
