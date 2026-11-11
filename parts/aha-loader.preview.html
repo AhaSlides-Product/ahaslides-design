@@ -1,10 +1,9 @@
-<!-- Imports the REAL shipped runtime (../lib/aha-loader.js → registers <aha-loader> + the reused
-     <aha-illustration> spot art). No inlined element copy, so the doc renders the exact loading
-     screen consumers get, and qa.mjs measures the real element (it can't drift from lib). The
-     Label control below is generated from contracts/aha-loader.json → playground and drives the
-     [data-pg-target] probe's `label` live. -->
+<!-- Imports the REAL shipped runtime (../lib/aha-loader.js → registers <aha-loader>). No inlined
+     element copy, so the doc renders the exact loading screen consumers get, and qa.mjs measures the
+     real element (it can't drift from lib). The Label and Variant controls below are generated from
+     contracts/aha-loader.json → playground and drive the [data-pg-target] probe live. -->
 <script type="module">
-  import '../lib/aha-loader.js';   // registers <aha-loader> (+ <aha-illustration>)
+  import '../lib/aha-loader.js';   // registers <aha-loader> (+ <aha-illustration> for the tiles variant)
 </script>
 
 <div class="pad">
@@ -15,9 +14,14 @@
     </div>
   </div>
 
-  <div class="lbl" style="margin-top:22px">Five branded tiles cycle with a staggered soft-flow — each fades + slides + unblurs in, holds, then out</div>
+  <div class="lbl" style="margin-top:22px">Inside a small box — the logo keeps its size, centred (min-height 240px)</div>
+  <div class="row" style="padding:14px 0">
+    <div style="position:relative; width:100%; max-width:360px; height:240px; border:1px solid var(--aha-gray-40,#E3E3E3); border-radius:var(--aha-radius-lg,12px); overflow:hidden">
+      <aha-loader label="Loading the settings…"></aha-loader>
+    </div>
+  </div>
 
   <div class="note" style="margin-top:20px">
-    <code>&lt;aha-loader&gt;</code> fills its container on a white ground — make the container full-screen for a real environment transition. The five tiles are the shared <code>&lt;aha-illustration&gt;</code> spot art (the <code>loader-*</code> family), called by name — never an inline SVG. It is decorative brand motion, not a progress bar: pass a present-tense <code>label</code> (announced via <code>role="status"</code>), never a percentage. The loop stills under <code>prefers-reduced-motion</code>. For an inline indeterminate wait inside an existing surface, reach for <a href="../spin/index.html">Spin →</a> instead.
+    <code>&lt;aha-loader&gt;</code> fills its container on a white ground and centres the animated AhaSlides splash: eight brand dots gather, the petals bloom with a quarter-turn, hold, then close one by one. Make the container full-screen for a real environment transition; size the logo with <code>--aha-loader-size</code> (default 112px). It is decorative brand motion, not a progress bar: pass a present-tense <code>label</code> (announced via <code>role="status"</code>), never a percentage. Under <code>prefers-reduced-motion</code> it shows the finished logo, still. <code>variant="tiles"</code> keeps the previous five-tile look; <code>&lt;html data-aha-loader="tiles"&gt;</code> switches every loader on the page at once. For an inline indeterminate wait inside an existing surface, reach for <a href="../spin/index.html">Spin →</a> instead.
   </div>
 </div>

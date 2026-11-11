@@ -33,6 +33,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## Unreleased
+### Changed
+- `<aha-loader>` now shows the animated AhaSlides splash by default: a ring of eight brand dots gathers, the four logo petals bloom with a quarter-turn, hold, then close one by one (3.65s loop). The logo is `--aha-loader-size` wide (default 112px), centred on the same white ground, so it also fits small inline boxes (min-height 240px stays); under `prefers-reduced-motion` it shows the finished logo, still (#541)
+### Added
+- `<aha-loader variant="tiles">` keeps the previous five-tile look, and `<html data-aha-loader="tiles">` (read when each loader connects) switches every loader on the page to it at one entry point, for a flagged rollout; the attribute wins (#541)
+
 ## 0.1097.0 — 2026-11-11
 ### Removed
 - Audience criterion C5 no longer judges touch targets (~44-48px height, 8px between tappables): its title is now "WCAG AA contrast + mobile readability", and the clause is gone from the criteria store, the agent copy, `guidelines/audience.json` (the `touch-targets` rule), the audience guide and the C5 eval, since slides use the DS components. The `touch` variants of `aha-rank-list`, `aha-button` and the slider field stay available (#738)
