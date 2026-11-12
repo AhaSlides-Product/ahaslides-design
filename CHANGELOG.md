@@ -25,9 +25,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1103.0 — 2026-11-12
+## 0.1106.0 — 2026-11-12
 
 - **G2 brand colour for the G2 rating badge stars (DESY-544).** New colour token `color.primitives.g2Orange` (`--aha-g2-orange`, #FF492C, G2's published colour from `logo/original/g2.svg`) and `<aha-rate brand="g2">`, which draws the filled stars and focus ring in it. New colour rule 2.6c (colour rules v39) allows it only on a G2 rating badge on hover and keyboard focus; rules 2.6 and 2.6b are unchanged, and `standards.mjs` allows the hex at that token path only. Existing ratings are unchanged without the attribute. Revert: remove the token, the `brand` styles in `lib/aha-rate.js`, rule 2.6c and the standards allowance. (#751)
+
+## 0.1105.0 — 2026-11-12
+### Changed
+- Audience judge C9 lets a mode C self-paced view centre its submit from 600px wide at `max(240px, 50%)` of the answer area, with Skip and Next question the same width, so it no longer stretches across a wide answer grid. The full-width block still passes there and is the only pass below 600px. The `submit-button-spec` guideline and the `aha-audience-submit` spec say the same. Two new audience eval cases. (#755)
 
 ## 0.1102.0 — 2026-11-12
 ### Added
