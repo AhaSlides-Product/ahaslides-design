@@ -533,7 +533,7 @@
     },
     {
       "id": "submit-button-spec",
-      "rule": "Use the standard submit button: on the Developer Platform it is <aha-audience-submit> from lib/audience.js (it wraps <aha-button variant=\"primary\" size=\"touch\" block> and adds the busy, locked and closed states plus the submission lock; never a hand-ported copy of its CSS); a built plugin without the package rebuilds the same spec. Full-width block, ~44–48px tall, 8px corners, fill from the deck accent via --aha-color-primary (never a hard-coded brand colour, never a bare type=\"primary\" fixed purple), readable ink chosen by fill luminance (white or #1A1A1A), semi-bold, positioned at the end of the answer area with ~16px below.",
+      "rule": "Use the standard submit button: on the Developer Platform it is <aha-audience-submit> from lib/audience.js (it wraps <aha-button variant=\"primary\" size=\"touch\" block> and adds the busy, locked and closed states plus the submission lock; never a hand-ported copy of its CSS); a built plugin without the package rebuilds the same spec. Full-width block, ~44–48px tall, 8px corners, fill from the deck accent via --aha-color-primary (never a hard-coded brand colour, never a bare type=\"primary\" fixed purple), readable ink chosen by fill luminance (white or #1A1A1A), semi-bold, positioned at the end of the answer area with ~16px below. On a mode C self-paced view from 600px wide it may instead be centred at max(240px, 50%) of the answer area's width, with Skip and Next question the same width; below 600px it stays the full-width block.",
       "ref": [
         "C15",
         "C9",

@@ -25,9 +25,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1104.0 — 2026-11-12
+## 0.1106.0 — 2026-11-12
 ### Added
 - **aha-loader waits for one full splash cycle** (#752). `AhaLoader.CYCLE_MS` (3652) is the length of one cycle, `loader.cycleDone` is a Promise that resolves once the splash has played in full since it connected (at once under reduced motion, for variant="tiles" and for logo-only), and an `aha-loader-cycle` event (detail.count) fires at each completed cycle. Apps await it with their data so the splash is never cut off mid-bloom and no second loader is needed. Default rendering is unchanged.
+
+## 0.1105.0 — 2026-11-12
+### Changed
+- Audience judge C9 lets a mode C self-paced view centre its submit from 600px wide at `max(240px, 50%)` of the answer area, with Skip and Next question the same width, so it no longer stretches across a wide answer grid. The full-width block still passes there and is the only pass below 600px. The `submit-button-spec` guideline and the `aha-audience-submit` spec say the same. Two new audience eval cases. (#755)
 
 ## 0.1102.0 — 2026-11-12
 ### Added
