@@ -27,7 +27,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1101.1 — 2026-11-12
 ### Changed
-- Audience judge C3: from 960px a mode C self-paced view may keep a single centred column with a bounded max-width when the interaction maps a primary object to the controls directly below it (a swipe card above the True and False buttons its swipe directions match, a gesture surface above its legend). The reviewer must name the object and the control; no max-width, unscaled type or a tap-only stack still FAILs. `guidelines/audience.json` `self-paced-mode-c` and the audience guide say the same; eval cases 96 and 97 cover it (#NNN)
+- Audience judge C3: from 960px a mode C self-paced view may keep a single centred column with a bounded max-width when the interaction maps a primary object to the controls directly below it (a swipe card above the True and False buttons its swipe directions match, a gesture surface above its legend). The reviewer must name the object and the control; no max-width, unscaled type or a tap-only stack still FAILs. `guidelines/audience.json` `self-paced-mode-c` and the audience guide say the same; eval cases 96 and 97 cover it (#748)
 
 ## 0.1101.0 — 2026-11-12
 ### Added
