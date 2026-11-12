@@ -16,6 +16,13 @@
   <aha-loader label="Loading the settings…" style="--aha-loader-size:96px"></aha-loader>
 </div>
 
+<!-- Hold the screen until the app is ready AND the splash has played in full once. -->
+<script type="module">
+  const loader = document.querySelector('aha-loader');
+  await Promise.all([loader.cycleDone, fetch('/api/ready')]);   // cycleDone: one full cycle (AhaLoader.CYCLE_MS = 3652)
+  loader.remove();
+</script>
+
 <!-- Short or inline loads: the finished logo alone, no dot ring; the box is exactly --aha-loader-size. -->
 <aha-loader logo-only label="Loading" style="width:auto; height:auto; --aha-loader-size:24px"></aha-loader>
 

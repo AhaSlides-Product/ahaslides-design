@@ -7,7 +7,8 @@ const stub = () => {
   return { attrs, setAttribute: (k, v) => attrs.set(k, String(v)), removeAttribute: k => attrs.delete(k) };
 };
 globalThis.HTMLElement = class {
-  constructor() { this.attributes = new Map(); }
+  constructor() { this.attributes = new Map(); this.fired = []; }
+  dispatchEvent(e) { this.fired.push(e); }
   attachShadow() {
     const nodes = { blur: stub(), liquid: stub(), logo: stub(), petals: [0, 1, 2, 3].map(stub), dots: Array.from({ length: 8 }, stub) };
     let html = '';
@@ -31,8 +32,9 @@ globalThis.document = { documentElement: { dataset: {} } };
 let reduced = false;
 globalThis.matchMedia = () => ({ matches: reduced });
 const frames = new Set();
-let nextFrame = 1;
-globalThis.requestAnimationFrame = () => { const id = nextFrame++; frames.add(id); return id; };
+let nextFrame = 1, lastTick = null;
+globalThis.requestAnimationFrame = cb => { const id = nextFrame++; frames.add(id); lastTick = cb; return id; };
+globalThis.CustomEvent = class { constructor(type, init) { this.type = type; this.detail = init.detail; } };
 globalThis.cancelAnimationFrame = id => frames.delete(id);
 
 const { AhaLoader } = await import('../lib/aha-loader.js');
@@ -109,4 +111,40 @@ test('logo-only paints the finished logo first, never draws the dot ring, and lo
   document.documentElement.dataset = { ahaLoader: 'tiles' };
   assert.match(mount({ 'logo-only': '' }).shadowRoot.innerHTML, /loader-award/);
   document.documentElement.dataset = {};
+});
+
+test('cycleDone resolves after one full splash cycle and aha-loader-cycle fires per cycle', async () => {
+  reduced = false; frames.clear();
+  assert.equal(AhaLoader.CYCLE_MS, 3652);
+  const el = mount();
+  const t0 = performance.now();
+  let done = false;
+  el.cycleDone.then(() => { done = true; });
+  lastTick(t0 + AhaLoader.CYCLE_MS - 50);
+  await Promise.resolve();
+  assert.equal(done, false);
+  assert.equal(el.fired.length, 0);
+  lastTick(t0 + AhaLoader.CYCLE_MS + 50);
+  await Promise.resolve();
+  assert.equal(done, true);
+  assert.deepEqual(el.fired.map(e => [e.type, e.detail.count]), [['aha-loader-cycle', 1]]);
+  lastTick(t0 + 2 * AhaLoader.CYCLE_MS + 50);
+  assert.equal(el.fired.at(-1).detail.count, 2);
+});
+
+test('a cycle listener that removes the loader stops the loop', () => {
+  reduced = false; frames.clear();
+  const el = mount();
+  el.dispatchEvent = e => { el.fired.push(e); el.disconnectedCallback(); };
+  lastTick(performance.now() + AhaLoader.CYCLE_MS + 50);
+  assert.equal(el.fired.length, 1);
+  assert.equal(frames.size, 0);
+});
+
+test('cycleDone is already resolved under reduced motion, for tiles and for logo-only', async () => {
+  reduced = true;
+  await mount().cycleDone;
+  reduced = false;
+  await mount({ variant: 'tiles' }).cycleDone;
+  await mount({ 'logo-only': '' }).cycleDone;
 });
