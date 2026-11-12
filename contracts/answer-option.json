@@ -31,11 +31,11 @@
   "spec": [
     {
       "label": "Row",
-      "value": "min-height 48, padding 8/16, radius 8, frosted surface, 1px ink hairline at 10%; hover lightens the surface to 60%; keyboard focus shows a 2px outline in the row ink, offset 2px"
+      "value": "min-height 48, padding 8/16, radius 8, frosted surface, 1px ink hairline at 10%; hover lightens the surface to 60% and raises the hairline to ink at 40% (hover devices only); keyboard focus shows a 2px outline in the row ink, offset 2px"
     },
     {
       "label": "Control",
-      "value": "20px radio or checkbox (6px corners) with a 1px border, ink at 60% unchecked (76% on hover, so the outline holds 3:1); a picked radio rings 1px in the deck accent around a 12px accent dot, a picked checkbox fills with the accent and a white tick; the label is 400, 600 on my pick"
+      "value": "20px radio or checkbox (6px corners) with a 1px border, ink at 60% unchecked (full ink on hover, so the outline holds 3:1); a picked radio rings 1px in the deck accent around a 12px accent dot, a picked checkbox fills with the accent and a white tick; the label is 400, 600 on my pick"
     },
     {
       "label": "States",
