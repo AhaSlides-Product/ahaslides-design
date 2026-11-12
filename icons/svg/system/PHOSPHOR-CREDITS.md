@@ -12,6 +12,8 @@ Glyphs for survey building (5): system-arrows-split, system-flag, system-hash, s
 
 Glyphs for survey blocks and rating states (7): system-door, system-chalkboard and system-address-book are the same redraw (Phosphor Regular stroke centrelines of `Door`, `Chalkboard` and `AddressBook`, scaled 1.1x onto 16x16, stroke 1.5, the door knob a filled dot). system-check-circle-filled and system-smiley-filled are the Phosphor Fill `CheckCircle` and `Smiley` shapes, scaled so the disc matches the outer edge of their outline twins (radius 7.75), with the tick, eyes and mouth knocked out (even-odd fill). system-heart-straight-filled is the `system-heart-straight` outline filled; system-thumbs-up-filled fills the hand of `system-thumbs-up` and keeps the cuff open, as the Phosphor Fill `ThumbsUp` does.
 
+Glyph for the support agent (1): system-user-headset is the Phosphor Regular `Headset` shape, redrawn as stroke centrelines (band arc, two ear cups, mic boom) scaled 1.1x about the 256 frame centre onto 16x16, stroke 1.5, so it keeps the weight of its siblings.
+
 Not derived from Phosphor (kept as drawn in Figma): system-file, system-files, system-file-arrow-down, system-file-arrow-up, system-file-audio, system-file-xls.
 
 ## Licence
