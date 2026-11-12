@@ -25,6 +25,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1101.0 — 2026-11-12
+### Added
+- `<aha-loader logo-only>`: the finished AhaSlides logo alone, with no dot ring or bloom, for short and inline loads at 16–48px. The first frame is the logo; it holds, turns once with a gentle shrink and settles upright again (2.2s loop). Its drawing box is exactly `--aha-loader-size` with no min-height; reduced motion shows it still. Without the attribute the splash is unchanged. (#747)
+
 ## 0.1100.0 — 2026-11-11
 ### Removed
 - Auto-versioning: `auto-version.mjs`, its tests, the `AUTO_VERSION` switch and the `AUTO_VERSION_PUSH_TOKEN` release step are gone from `publish.yml`, `ci.yml` and `standards.mjs`. Every PR bumps the version by hand: head the entry `## X.Y.Z — YYYY-MM-DD` and set `package.json` and `agent/.claude-plugin/plugin.json` to the same version. A PR whose entry is headed with an undated placeholder now fails the gate. Revert the PR to bring the code back (still gated by the `AUTO_VERSION` variable) (#734)
