@@ -25,9 +25,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1104.1 — 2026-11-12
+## 0.1105.1 — 2026-11-12
 ### Fixed
 - AnswerOption: hovering an enabled row you have not picked now draws the row hairline at 40% ink and the control outline at full ink (radio, checkbox and letter chip), so the hover reads on a white panel; every hover rule sits in `@media (hover: hover)`, so a tap on touch no longer leaves a row looking hovered; picked and verdict rows keep their own edge (#754)
+
+## 0.1105.0 — 2026-11-12
+### Changed
+- Audience judge C9 lets a mode C self-paced view centre its submit from 600px wide at `max(240px, 50%)` of the answer area, with Skip and Next question the same width, so it no longer stretches across a wide answer grid. The full-width block still passes there and is the only pass below 600px. The `submit-button-spec` guideline and the `aha-audience-submit` spec say the same. Two new audience eval cases. (#755)
 
 ## 0.1102.0 — 2026-11-12
 ### Added
