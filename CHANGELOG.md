@@ -27,7 +27,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1104.0 — 2026-11-12
 ### Added
-- **aha-loader waits for one full splash cycle** (#NNN). `AhaLoader.CYCLE_MS` (3652) is the length of one cycle, `loader.cycleDone` is a Promise that resolves once the splash has played in full since it connected (at once under reduced motion, for variant="tiles" and for logo-only), and an `aha-loader-cycle` event (detail.count) fires at each completed cycle. Apps await it with their data so the splash is never cut off mid-bloom and no second loader is needed. Default rendering is unchanged.
+- **aha-loader waits for one full splash cycle** (#752). `AhaLoader.CYCLE_MS` (3652) is the length of one cycle, `loader.cycleDone` is a Promise that resolves once the splash has played in full since it connected (at once under reduced motion, for variant="tiles" and for logo-only), and an `aha-loader-cycle` event (detail.count) fires at each completed cycle. Apps await it with their data so the splash is never cut off mid-bloom and no second loader is needed. Default rendering is unchanged.
 
 ## 0.1102.0 — 2026-11-12
 ### Added
