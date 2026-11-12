@@ -27,6 +27,10 @@
       "value": "<aha-button variant=\"primary\" size=\"touch\" block>: 48px, radius 8, 16px semibold, full width, 1px edge in --aha-deck-stroke, the ink at 12% (also on hover), keyboard focus a 2px --aha-border-focus outline 1px off the button, the spinner 16px so the button never grows while loading"
     },
     {
+      "label": "Self-paced width",
+      "value": "on a mode C self-paced view from 600px wide the host may size the element to max(240px, 50%) of the answer area and centre it (margin-inline: auto), Skip and Next question the same width; below 600px it stays full width"
+    },
+    {
       "label": "Fill",
       "value": "the deck accent via --aha-button-primary-* (applyDeck); label the readable #1A1A1A or white for it"
     },

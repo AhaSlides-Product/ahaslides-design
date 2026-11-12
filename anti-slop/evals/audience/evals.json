@@ -2399,6 +2399,52 @@
         "authored": "ahaslides-design",
         "why": "DESY-543: a swipe card needs its True and False buttons directly below it so each swipe direction maps to the button under it, so C3 lets a bounded centred column pass from 960px when the interaction needs that vertical mapping"
       }
+    },
+    {
+      "id": 98,
+      "prompt": "Review this self-paced view. The judge brief has `entry_setting.audienceQuizSelfPaced: true`. `self-paced-view.html` is a Pick Answer grid with Submit, then Skip, below it. The submit is `<aha-audience-submit>` in the deck accent with its grey disabled, busy and closed states wired. At every width, phones included, Submit and Skip are `width: max(240px, 50%)` of the answer grid and centred, so at 560px wide they are 280px in a 560px column. Is this correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C9 self-paced half-width submit below 600px, DESY-547.",
+      "expected_output": "C9 FAILs. A centred part-width submit is allowed only from 600px view width on a self-paced view; below 600px the submit must be the full-width block, and at 560px this one is half width. Fix: keep the full-width block below 600px and apply `max(240px, 50%)` centred from 600px. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C9 is marked FAIL",
+        "Says the submit must be full width below 600px"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C9": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-547: on a self-paced view a full-width submit stretches across a wide answer grid (an 880px bar at 1456px), so C9 lets a centred max(240px, 50%) submit pass from 600px and keeps the full-width block below it"
+      }
+    },
+    {
+      "id": 99,
+      "prompt": "Review this self-paced view. The judge brief has `entry_setting.audienceQuizSelfPaced: true`. `self-paced-view.html` is a Pick Answer grid with Submit, then Skip, below it. The submit is `<aha-audience-submit>` in the deck accent with its grey disabled, busy and closed states wired. Below 600px wide Submit and Skip are full-width blocks. From 600px they are `width: max(240px, 50%)` of the answer grid with `margin-inline: auto`, so at 1456px, under an 880px grid, both are 440px and centred. Is this correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C9 self-paced centred half-width submit from 600px, DESY-547.",
+      "expected_output": "C9 PASSes. On a self-paced view from 600px wide a submit centred at `max(240px, 50%)` of the answer area is allowed, Skip matches it, and below 600px both stay the full-width block. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C9 is marked PASS",
+        "Names the 600px threshold and the max(240px, 50%) centred width"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C9": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-547: on a self-paced view a full-width submit stretches across a wide answer grid (an 880px bar at 1456px), so C9 lets a centred max(240px, 50%) submit pass from 600px and keeps the full-width block below it"
+      }
     }
   ]
 }
