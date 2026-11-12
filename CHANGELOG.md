@@ -25,12 +25,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1103.0 — 2026-11-12
+## 0.1106.0 — 2026-11-12
 ### Changed
 - **Product lockup: the word AhaSlides is the official wordmark artwork** (#753). `<aha-product-lockup>` no longer types AhaSlides in Plus Jakarta Sans 600, which drew a heavier A and S than the logo. It now draws `logo/ahaslides-wordmark.svg` (white: `ahaslides-wordmark-white.svg`), the official logo's own paths in its ink `#1A1A2E`, with capitals level with the product name, and the official logo's Splash-to-word gap (0.188em, was 0.36em). With no product the lockup matches the logo file. The product name stays live Plus Jakarta Sans. Attributes, sizes, variants and the accessible name are unchanged.
 - Product lockup contract, app-shell C1, the C1 criterion, the logo page, the agent nudge and the prompt mandate now say the word AhaSlides is always the wordmark artwork, never typed text.
 ### Added
 - screen-lint `typed-wordmark` (warning): the word AhaSlides typed as text beside The Splash or in a header brand slot. `ds-lint-allow: lockup` covers it.
+
+## 0.1105.0 — 2026-11-12
+### Changed
+- Audience judge C9 lets a mode C self-paced view centre its submit from 600px wide at `max(240px, 50%)` of the answer area, with Skip and Next question the same width, so it no longer stretches across a wide answer grid. The full-width block still passes there and is the only pass below 600px. The `submit-button-spec` guideline and the `aha-audience-submit` spec say the same. Two new audience eval cases. (#755)
 
 ## 0.1102.0 — 2026-11-12
 ### Added
