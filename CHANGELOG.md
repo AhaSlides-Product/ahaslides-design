@@ -25,11 +25,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1107.0 — 2026-11-12
+## 0.1108.0 — 2026-11-12
 ### Added
-- **aha-loader waits for one full splash cycle** (#752). `AhaLoader.CYCLE_MS` (3652) is the length of one cycle, `loader.cycleDone` is a Promise that resolves once the splash has played in full since it connected (at once under reduced motion, for variant="tiles" and for logo-only), and an `aha-loader-cycle` event (detail.count) fires at each completed cycle. Apps await it with their data so the splash is never cut off mid-bloom and no second loader is needed. Default rendering is unchanged.
+- **aha-loader waits for one full splash cycle** (#752). `AhaLoader.CYCLE_MS` (3652) is the length of one cycle, `loader.cycleDone` is a Promise that resolves once the splash has played in full since it connected (at once under reduced motion, for variant="tiles" and for logo-only), and an `aha-loader-cycle` event (detail.count) fires at each completed cycle. An app that wants the splash to finish a bloom before it lifts can await it. Default rendering is unchanged.
 ### Changed
 - aha-loader loads the illustration catalogue only when `variant="tiles"` renders, so the default splash no longer downloads it (about 166 KB gzipped). Importing `aha-loader` alone no longer registers `<aha-illustration>`; import `@ahaslides-product/design/illustrations` where you use it (#752).
+
+## 0.1106.1 — 2026-11-12
+### Fixed
+- AnswerOption: hovering an enabled row you have not picked now draws the row hairline at 40% ink and the control outline at full ink (radio, checkbox and letter chip), so the hover reads on a white panel; every hover rule sits in `@media (hover: hover)`, so a tap on touch no longer leaves a row looking hovered; picked and verdict rows keep their own edge (#754)
 
 ## 0.1106.0 — 2026-11-12
 
