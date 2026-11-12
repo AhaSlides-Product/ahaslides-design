@@ -143,6 +143,20 @@ test('a logo file on a brand-classed element outside a header is a hand-set lock
   assert.deepEqual(rulesOf('<img className="topbar-logo" src={"/brand/thesplash.svg"} />'), ['hand-set-lockup']);
 });
 
+test('the word AhaSlides typed beside The Splash is a typed wordmark warning', () => {
+  const source = '<footer>\n  <img src="/logo/thesplash.svg" alt="">\n  <span>AhaSlides</span>\n</footer>';
+  const findings = lintHtml(source, { surface: 'product' }).findings;
+  assert.deepEqual(findings.map(f => [f.rule, f.line, f.severity]), [['typed-wordmark', 3, 'warn']]);
+});
+
+test('the word AhaSlides typed in a header brand slot is a typed wordmark warning', () => {
+  assert.deepEqual(rulesOf('<header>\n  <a class="brand-name" href="/">AhaSlides Docs</a>\n</header>'), ['typed-wordmark']);
+});
+
+test('the word AhaSlides in a header nav link that is not a brand slot passes', () => {
+  assert.deepEqual(rulesOf('<header>\n  <a href="/pricing">Why AhaSlides</a>\n</header>'), []);
+});
+
 test('the product lockup in a header passes', () => {
   const source = '<header>\n  <a href="/"><aha-product-lockup product="Docs"></aha-product-lockup></a>\n</header>';
   assert.deepEqual(lintHtml(source, { surface: 'product' }).findings, []);

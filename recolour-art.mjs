@@ -4,7 +4,7 @@
  *
  *   illustrations/svg/**      every fill, stroke and gradient stop → the illustration tints (a Vivid Pink
  *                             ramp, pale to full), white, the default ink or a neutral grey
- *   logo/*.svg                third-party brand logos → greyscale (the AhaSlides logo, The Splash and logo/original/ are skipped)
+ *   logo/*.svg                third-party brand logos → greyscale (the AhaSlides logo, its wordmark, The Splash and logo/original/ are skipped)
  *   icons/svg/filetype/*.svg  the one baked brand colour → the DS icon ink, so the glyph follows the text colour
  *
  * The mappings are deterministic and idempotent: a colour already on the list is left alone, so
@@ -24,7 +24,7 @@ const root = dirname(fileURLToPath(import.meta.url));
 const VIVID_PINK = '#E70E68', DARKER_PINK = '#DB005B', PINK_30 = '#F8B7D2', PINK_5 = '#FEF3F7';
 export const ALLOWED_COLOURS = [VIVID_PINK, DARKER_PINK, PINK_30, PINK_5];
 const INK = '#1A1A1A', ICON_INK = '#4A4A4A';
-const OWN_LOGOS = /^(ahaslides-logo|thesplash)/;
+const OWN_LOGOS = /^(ahaslides-logo|ahaslides-wordmark|thesplash)/;
 /** Colour rule 2.6 shows these on hover, keyboard focus and listing pages, so they keep the brand's own colours. */
 const ORIGINAL_COLOUR_LOGOS = join(root, 'logo', 'original');
 

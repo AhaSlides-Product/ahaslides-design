@@ -68,6 +68,28 @@
       "section": "The Splash"
     },
     {
+      "id": "ahaslides-wordmark",
+      "name": "AhaSlides wordmark",
+      "category": "Lockup part",
+      "file": "ahaslides-wordmark.svg",
+      "source": "the wordmark paths of ahaslides-logo.svg, unchanged, viewBox cropped to the ink (tests/aha-product-lockup.test.mjs); drawn only by <aha-product-lockup>, never used alone",
+      "environment": [
+        "product",
+        "web"
+      ]
+    },
+    {
+      "id": "ahaslides-wordmark-white",
+      "name": "AhaSlides wordmark, white",
+      "category": "Lockup part",
+      "file": "ahaslides-wordmark-white.svg",
+      "source": "the wordmark paths of ahaslides-logo-white.svg, unchanged, viewBox cropped to the ink (tests/aha-product-lockup.test.mjs); drawn only by <aha-product-lockup>, never used alone",
+      "environment": [
+        "product",
+        "web"
+      ]
+    },
+    {
       "id": "favicon-32",
       "name": "Favicon, 32 px",
       "category": "AhaSlides",
