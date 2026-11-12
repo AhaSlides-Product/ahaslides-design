@@ -3,7 +3,7 @@
  "id": "voice-rules",
  "title": "AhaSlides brand voice rules",
  "lede": "The single source for how AhaSlides talks: what we believe, who we serve, what we say and how we write. It follows [brand guidelines v2.3](https://design.ahaslides.io/brand/ahaslides-brand-guidelines-v2.3.pdf) (29 October 2026, final) and the decisions made since. Visual rules are not here: the design system holds them.",
- "updated": "2026-11-05",
+ "updated": "2026-11-12",
  "environment": [
   "product",
   "audience",
@@ -819,8 +819,8 @@
       },
       {
        "id": "10.7",
-       "text": "Headlines and CTA labels are in sentence case, with no end punctuation: no full stop, no exclamation mark. A product or feature name keeps its own capitals inside a sentence-case line, for example \"Try the AhaSlides AI Presentation Maker\". When a brief or requester supplies title-case copy, change it to sentence case and tell the requester which lines you changed.",
-       "origin": "Brand guidelines v2.2, applied to every headline and CTA. Product names and brief copy: Brand director decision, 29 October 2026 (BRGO-20 retro)"
+       "text": "Headlines, eyebrows (the short label above a headline, as in an email or a landing page) and CTA labels are in sentence case, never all capitals, with no end punctuation: no full stop, no exclamation mark. A product or feature name keeps its own capitals inside a sentence-case line, for example \"Try the AhaSlides AI Presentation Maker\". When a brief or requester supplies title-case copy, change it to sentence case and tell the requester which lines you changed.",
+       "origin": "Brand guidelines v2.2, applied to every headline and CTA. Product names and brief copy: Brand director decision, 29 October 2026 (BRGO-20 retro). Eyebrows: Brand director decision, 12 November 2026 (BRGO-30 retro)"
       },
       {
        "id": "10.8",
@@ -1281,6 +1281,11 @@
        "id": "16.4",
        "text": "The three sources of truth are the design system (visual rules), this voice rules page (verbal rules) and the [brand guidelines v2.3 PDF](https://design.ahaslides.io/brand/ahaslides-brand-guidelines-v2.3.pdf), the designed reference book. Where they differ, the design system and the voice rules online win. Report a clash in #brand-governance so the book gets fixed.",
        "origin": "Decided on 29 October 2026, with brand guidelines v2.3"
+      },
+      {
+       "id": "16.5",
+       "text": "A piece that breaks one of these rules or a brand director call (for example a black ground, ruled out on 29 October 2026) does not ship or publish on a requester's say-so. It waits for the brand director's OK. Until he gives it, send the piece back to its creator to bring it in line with the rules, and ship only the version that follows them.",
+       "origin": "Brand director decision, 12 November 2026 (BRGO-30 retro)"
       }
      ]
     }
@@ -1337,6 +1342,11 @@
   }
  ],
  "changes": [
+  {
+   "version": "v7",
+   "date": "12 Nov",
+   "text": "Brand director decisions from the BRGO-30 retro. Rule 10.7 now covers eyebrows: sentence case, never all capitals. New rule 16.5: a piece that breaks a rule or a brand director call waits for the brand director's OK, and without it goes back to its creator to be brought in line before it ships."
+  },
   {
    "version": "v6",
    "date": "5 Nov",
