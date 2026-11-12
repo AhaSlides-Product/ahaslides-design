@@ -27,7 +27,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1104.1 — 2026-11-12
 ### Fixed
-- AnswerOption: hovering an enabled row you have not picked now draws the row hairline at 40% ink and the control outline at full ink (radio, checkbox and letter chip), so the hover reads on a white panel; every hover rule sits in `@media (hover: hover)`, so a tap on touch no longer leaves a row looking hovered; picked and verdict rows keep their own edge (#NNN)
+- AnswerOption: hovering an enabled row you have not picked now draws the row hairline at 40% ink and the control outline at full ink (radio, checkbox and letter chip), so the hover reads on a white panel; every hover rule sits in `@media (hover: hover)`, so a tap on touch no longer leaves a row looking hovered; picked and verdict rows keep their own edge (#754)
 
 ## 0.1102.0 — 2026-11-12
 ### Added
