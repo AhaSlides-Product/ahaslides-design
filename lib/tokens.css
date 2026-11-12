@@ -1,6 +1,6 @@
 /* @ahaslides-product/design/tokens.css, generated from tokens.canonical.json. */
 :root{
-  --aha-white:#FFFFFF; --aha-black:var(--aha-gray-100); --aha-logo-purple:#6A1EBB;
+  --aha-white:#FFFFFF; --aha-black:var(--aha-gray-100); --aha-logo-purple:#6A1EBB; --aha-g2-orange:#FF492C;
   --aha-vivid-pink-5:#E70E680D; --aha-vivid-pink-30:#E70E684D; --aha-vivid-pink-100:#E70E68; --aha-vivid-pink-dark:#DB005B;
   --aha-gray-0:#FFFFFF; --aha-gray-10:#FDFDFD; --aha-gray-15:#FAFAFA; --aha-gray-20:#F7F7F7; --aha-gray-25:#F3F3F3; --aha-gray-30:#F1F1F1; --aha-gray-35:#EBEBEB; --aha-gray-40:#E3E3E3; --aha-gray-50:#D4D4D4; --aha-gray-55:#CCCCCC; --aha-gray-60:#B5B5B5; --aha-gray-65:#A8A8A8; --aha-gray-70:#8A8A8A; --aha-gray-80:#616161; --aha-gray-90:#4A4A4A; --aha-gray-95:#303030; --aha-gray-100:#1A1A1A;
   --aha-color-primary:#E70E68; --aha-color-primary-hover:#DB005B; --aha-color-primary-active:#DB005B;
