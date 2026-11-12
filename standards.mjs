@@ -802,7 +802,7 @@ const repoChecks = [];
    The AhaSlides logo itself is the one drawing that keeps its own colours. */
 {
   const rchk = (name, cond, note = '') => repoChecks.push([name, !!cond, cond ? '' : note]);
-  const VIVID_PINK = '#E70E68', LOGO_PURPLE = '#6A1EBB';
+  const VIVID_PINK = '#E70E68', LOGO_PURPLE = '#6A1EBB', G2_ORANGE = '#FF492C';
   const ALLOWED_COLOURS = new Set([VIVID_PINK, '#DB005B', '#FEF3F7', '#F8B7D2']);
   /* Colour rules section 11: the correct and wrong answer pair and its tints, allowed at color.answer.* and on the Colour page only. */
   const ANSWER_COLOURS = ['#008A05', '#F2F9F2', '#B2DCB4', '#C7401E', '#FCF5F4', '#EEC6BC'];
@@ -811,20 +811,20 @@ const repoChecks = [];
     ...[...String(text).matchAll(/(?<![&\w])#([0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{3})(?![\w-])/g)].map(m => normHex(m[0]).slice(0, 7)),
     ...[...String(text).matchAll(/rgba?\(\s*\d+[\s,]+\d+[\s,]+\d+/g)].map(m => rgbToHex(m[0].replace(/\s+/g, ',').replace(/,+/g, ', '))),
   ];
-  const offList = (text, purpleAllowed, alsoAllowed = []) => [...new Set(coloursIn(text).filter(hex => !(isNeutral(hex) || ALLOWED_COLOURS.has(hex) || alsoAllowed.includes(hex) || (purpleAllowed && hex === LOGO_PURPLE))))];
+  const offList = (text, purpleAllowed, alsoAllowed = [], g2Allowed = false) => [...new Set(coloursIn(text).filter(hex => !(isNeutral(hex) || ALLOWED_COLOURS.has(hex) || alsoAllowed.includes(hex) || (purpleAllowed && hex === LOGO_PURPLE) || (g2Allowed && hex === G2_ORANGE))))];
   /* Black is the default ink #1A1A1A. Pure black survives only as a transparency: a shadow, a scrim, an ink alpha. */
   const solidPureBlack = (text) => /(?<![&\w])#(?:000|000000)(?![\w-])|rgb\(\s*0\s*,\s*0\s*,\s*0\s*\)/i.test(String(text));
   const tokenLeaves = (node, path = '') => (node && typeof node === 'object')
     ? Object.entries(node).filter(([key]) => !key.startsWith('$')).flatMap(([key, value]) => tokenLeaves(value, path ? `${path}.${key}` : key))
     : [[path, node]];
-  const offListTokens = tokenLeaves(TOKENS).flatMap(([path, value]) => offList(value, path === 'color.primitives.logoPurple', path.startsWith('color.answer.') ? ANSWER_COLOURS : []).map(hex => `${path} ${hex}`));
+  const offListTokens = tokenLeaves(TOKENS).flatMap(([path, value]) => offList(value, path === 'color.primitives.logoPurple', path.startsWith('color.answer.') ? ANSWER_COLOURS : [], path === 'color.primitives.g2Orange').map(hex => `${path} ${hex}`));
   rchk('every colour token is on the allowed colour list', offListTokens.length === 0,
-    `allowed: Vivid Pink ${VIVID_PINK}, Darker Pink #DB005B, #FEF3F7, #F8B7D2, white, black #1A1A1A, neutral greys, ${LOGO_PURPLE} at color.primitives.logoPurple only, and the answer pair at color.answer.* only — off the list: ${offListTokens.slice(0, 8).join(', ')}${offListTokens.length > 8 ? ` (+${offListTokens.length - 8} more)` : ''}`);
+    `allowed: Vivid Pink ${VIVID_PINK}, Darker Pink #DB005B, #FEF3F7, #F8B7D2, white, black #1A1A1A, neutral greys, ${LOGO_PURPLE} at color.primitives.logoPurple only, ${G2_ORANGE} at color.primitives.g2Orange only, and the answer pair at color.answer.* only — off the list: ${offListTokens.slice(0, 8).join(', ')}${offListTokens.length > 8 ? ` (+${offListTokens.length - 8} more)` : ''}`);
   const pureBlackTokens = tokenLeaves(TOKENS).filter(([, value]) => solidPureBlack(value)).map(([path]) => path);
   rchk('no colour token is solid pure black (black is the default ink #1A1A1A)', pureBlackTokens.length === 0,
     `alias {color.primitives.black} or {color.textDefault}; pure black is allowed only with an alpha, as rgba(0,0,0,a): ${pureBlackTokens.join(', ')}`);
   const colourPagePath = join(DIST, 'foundations', 'colour.html');
-  const offListOnPage = existsSync(colourPagePath) ? offList(read(colourPagePath).replace(/<svg class="logo"[\s\S]*?<\/svg>/g, '').replace(/<section class="illustration-tints"[\s\S]*?<\/section>/g, '').replace(/href="#[^"]*"/g, ''), true, ANSWER_COLOURS) : null;
+  const offListOnPage = existsSync(colourPagePath) ? offList(read(colourPagePath).replace(/<svg class="logo"[\s\S]*?<\/svg>/g, '').replace(/<section class="illustration-tints"[\s\S]*?<\/section>/g, '').replace(/href="#[^"]*"/g, ''), true, ANSWER_COLOURS, true) : null;
   rchk('the built Colour page shows only allowed colours', offListOnPage && offListOnPage.length === 0,
     offListOnPage ? `off the list on dist/foundations/colour.html: ${offListOnPage.slice(0, 12).join(', ')}` : 'dist/foundations/colour.html is missing — run node generate.mjs first');
 
@@ -909,8 +909,9 @@ const repoChecks = [];
   const NAMES_ILLUSTRATION_TINTS = new Set(['contracts/illustration.json', 'parts/illustration.preview.html']);
   const sourceText = (f) => read(join(root, f)).replace(/%23(?=[0-9a-fA-F]{6}\b)/g, '#');
   /* The loader draws the AhaSlides splash itself, so it keeps the logo purple beside Vivid Pink, and nothing else off the list. */
+  const DRAWS_G2_STARS = new Set(['lib/aha-rate.js', 'contracts/rate.json']);
   const DRAWS_THE_LOGO = new Set(['lib/aha-loader.js', 'contracts/aha-loader.json']);
-  const offListSources = sourceFiles.flatMap(f => offList(sourceText(f), DRAWS_THE_LOGO.has(f), NAMES_ILLUSTRATION_TINTS.has(f) ? ILLUSTRATION_TINTS : []).map(hex => `${f} ${hex}`));
+  const offListSources = sourceFiles.flatMap(f => offList(sourceText(f), DRAWS_THE_LOGO.has(f), NAMES_ILLUSTRATION_TINTS.has(f) ? ILLUSTRATION_TINTS : [], DRAWS_G2_STARS.has(f)).map(hex => `${f} ${hex}`));
   rchk('demos, contracts, guidelines and element sources use only allowed colours', offListSources.length === 0,
     `use Vivid Pink, its tints, black, white or a grey (a demo placeholder too) — off the list: ${offListSources.slice(0, 10).join(', ')}${offListSources.length > 10 ? ` (+${offListSources.length - 10} more)` : ''}`);
 
