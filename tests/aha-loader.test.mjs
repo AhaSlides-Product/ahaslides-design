@@ -132,6 +132,15 @@ test('cycleDone resolves after one full splash cycle and aha-loader-cycle fires 
   assert.equal(el.fired.at(-1).detail.count, 2);
 });
 
+test('a cycle listener that removes the loader stops the loop', () => {
+  reduced = false; frames.clear();
+  const el = mount();
+  el.dispatchEvent = e => { el.fired.push(e); el.disconnectedCallback(); };
+  lastTick(performance.now() + AhaLoader.CYCLE_MS + 50);
+  assert.equal(el.fired.length, 1);
+  assert.equal(frames.size, 0);
+});
+
 test('cycleDone is already resolved under reduced motion, for tiles and for logo-only', async () => {
   reduced = true;
   await mount().cycleDone;
