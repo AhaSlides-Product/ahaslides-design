@@ -25,6 +25,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1104.1 — 2026-11-12
+### Fixed
+- AnswerOption: hovering an enabled row you have not picked now draws the row hairline at 40% ink and the control outline at full ink (radio, checkbox and letter chip), so the hover reads on a white panel; every hover rule sits in `@media (hover: hover)`, so a tap on touch no longer leaves a row looking hovered; picked and verdict rows keep their own edge (#NNN)
+
 ## 0.1102.0 — 2026-11-12
 ### Added
 - **Voice rules v7: eyebrows and rule breaches** (#750). Rule 10.7 now puts eyebrows in sentence case, never all capitals. New rule 16.5: a piece that breaks a voice rule or a brand director call waits for the brand director's OK, and without it goes back to its creator to be brought in line before it ships.
