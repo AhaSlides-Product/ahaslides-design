@@ -11,11 +11,11 @@
   "summary": "The full-surface branded loading screen shown while a new environment boots — the animated AhaSlides splash, centred on white.",
   "highlights": [
     "Animated AhaSlides splash logo, centred at a fixed size",
-    "Shown while a new environment boots",
+    "Shown while a new environment boots; await cycleDone so the splash always plays in full once",
     "logo-only shows the finished logo alone, no dot ring, for short and inline loads",
     "variant=\"tiles\" keeps the previous five-tile look for a flagged rollout"
   ],
-  "lead": "ONE custom element — <aha-loader> — the branded loading SCREEN for an environment transition (landing in the editor, opening the presenting view). It fills its container on a white ground and centres the animated AhaSlides splash at a fixed size: a ring of eight brand dots gathers into the centre, the four logo petals bloom out of it with a quarter-turn, hold, then close one by one and throw the dots back out (a 3.65s loop that opens on the finished logo). The petals are the DS splash logo (logo/thesplash.svg) verbatim, filled from the --aha-vivid-pink-100 and --aha-logo-purple tokens; the logo is --aha-loader-size wide (default 112px) whatever the container, so it fits a small inline box as well as a full screen. One requestAnimationFrame loop per element, started on connect and cancelled on disconnect; under prefers-reduced-motion it shows the finished logo, still. logo-only drops the dot ring and the bloom: the very first frame is the finished logo, which holds, turns once with a gentle shrink and settles upright again (a 2.2s loop); its drawing box is exactly --aha-loader-size with no min-height, so it reads at 16–48px in a short or inline load that ends before a bloom would. variant=\"tiles\" keeps the previous look (five <aha-illustration> loader-* tiles cycling with a staggered soft-flow); with no attribute, <html data-aha-loader=\"tiles\"> picks the tiles for every loader on the page, so an app can switch all of them at one entry point behind a flag (the attribute wins). This is the full-screen SCREEN — for an inline indeterminate spinner reach for <aha-spin>.",
+  "lead": "ONE custom element — <aha-loader> — the branded loading SCREEN for an environment transition (landing in the editor, opening the presenting view). It fills its container on a white ground and centres the animated AhaSlides splash at a fixed size: a ring of eight brand dots gathers into the centre, the four logo petals bloom out of it with a quarter-turn, hold, then close one by one and throw the dots back out (a 3.65s loop that opens on the finished logo). The petals are the DS splash logo (logo/thesplash.svg) verbatim, filled from the --aha-vivid-pink-100 and --aha-logo-purple tokens; the logo is --aha-loader-size wide (default 112px) whatever the container, so it fits a small inline box as well as a full screen. One requestAnimationFrame loop per element, started on connect and cancelled on disconnect; under prefers-reduced-motion it shows the finished logo, still. logo-only drops the dot ring and the bloom: the very first frame is the finished logo, which holds, turns once with a gentle shrink and settles upright again (a 2.2s loop); its drawing box is exactly --aha-loader-size with no min-height, so it reads at 16–48px in a short or inline load that ends before a bloom would. variant=\"tiles\" keeps the previous look (five <aha-illustration> loader-* tiles cycling with a staggered soft-flow); with no attribute, <html data-aha-loader=\"tiles\"> picks the tiles for every loader on the page, so an app can switch all of them at one entry point behind a flag (the attribute wins). Show it until the app is ready: a loader swapped out mid-bloom reads as a glitch, so wait for `await loader.cycleDone` (resolves after one full cycle since connect, at once under reduced motion, tiles and logo-only) as well as for the data; AhaLoader.CYCLE_MS is the cycle length and an `aha-loader-cycle` event fires at each completed cycle. This is the full-screen SCREEN — for an inline indeterminate spinner reach for <aha-spin>.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) and Vue both render <aha-loader> directly via attributes. Defined once in @ahaslides-product/design; the splash petals are the DS logo's own paths and the tiles variant reuses the DS's <aha-illustration> spot art (registry family `loader`), never redrawn here. To switch every loader in an app back to the tiles at one entry point, set document.documentElement.dataset.ahaLoader = 'tiles' before the loaders connect.",
   "tokensUsed": [
     "white",
@@ -49,6 +49,10 @@
     {
       "label": "Logo only",
       "value": "logo-only: the four petals only, never the dot ring; opens on the finished logo, holds 0.8s, then turns 360° over 1.4s (ease-in-out) shrinking to 78% at the midpoint so the tips stay in the box; 2.2s loop; drawing box = --aha-loader-size square, host min-height 0; ignored by the tiles variant"
+    },
+    {
+      "label": "Full cycle",
+      "value": "AhaLoader.CYCLE_MS = 3652 (one loop at 1.15x); element.cycleDone resolves once one full cycle has played since connect (at once under prefers-reduced-motion, variant=\"tiles\" and logo-only); aha-loader-cycle fires at each completed cycle with detail.count, bubbling and composed"
     },
     {
       "label": "Reduced motion",
@@ -94,7 +98,7 @@
         "when": "the layout of the content being loaded is known — show its shape rather than a spinner"
       }
     ],
-    "note": "One Loader per transition, filling the whole surface. It is decorative brand motion, not a progress bar — don't pair it with a percentage. Keep the `label` a short present-tense phrase naming the destination (\"Opening the editor…\"). Size it with --aha-loader-size, never by scaling the element.",
+    "note": "One Loader per transition, filling the whole surface. It is decorative brand motion, not a progress bar — don't pair it with a percentage. Keep the `label` a short present-tense phrase naming the destination (\"Opening the editor…\"). Size it with --aha-loader-size, never by scaling the element. Do not swap the loader out before `await loader.cycleDone`, so the splash always plays through once.",
     "dsv3": "COVERED — the default look is the animated AhaSlides splash (design: Trang, logo animation option 1 v5, final pick: bloom, flower close, gathering ring of 8 dots, no circle). The previous look, ported from the product Loader (stpancras-storybook UI/AhaLoader: five icon-cards, 7.5s soft-flow, 1.5s stagger), stays as variant=\"tiles\". a11y: host role=status + aria-live=polite + aria-label from `label`; reduced motion shows the still logo."
   },
   "surfaces": [
@@ -231,5 +235,12 @@
       "pinkFill": "rgb(231, 14, 104)",
       "purpleFill": "rgb(106, 30, 187)"
     }
-  }
+  },
+  "events": [
+    {
+      "name": "aha-loader-cycle",
+      "detail": "{ count }",
+      "desc": "Fired each time the splash completes a full cycle since it connected (count 1, 2, …); never fires under prefers-reduced-motion, for tiles or for logo-only"
+    }
+  ]
 }
