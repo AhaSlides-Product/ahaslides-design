@@ -27,7 +27,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1105.0 — 2026-11-12
 ### Changed
-- Audience judge C9 lets a mode C self-paced view centre its submit from 600px wide at `max(240px, 50%)` of the answer area, with Skip and Next question the same width, so it no longer stretches across a wide answer grid. The full-width block still passes there and is the only pass below 600px. The `submit-button-spec` guideline and the `aha-audience-submit` spec say the same. Two new audience eval cases. (#PRNUM)
+- Audience judge C9 lets a mode C self-paced view centre its submit from 600px wide at `max(240px, 50%)` of the answer area, with Skip and Next question the same width, so it no longer stretches across a wide answer grid. The full-width block still passes there and is the only pass below 600px. The `submit-button-spec` guideline and the `aha-audience-submit` spec say the same. Two new audience eval cases. (#755)
 
 ## 0.1102.0 — 2026-11-12
 ### Added
