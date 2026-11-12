@@ -32,6 +32,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - screen-lint `typed-wordmark` (warning): the word AhaSlides typed as text beside The Splash or in a header brand slot. `ds-lint-allow: lockup` covers it.
 
+## 0.1106.1 — 2026-11-12
+### Fixed
+- AnswerOption: hovering an enabled row you have not picked now draws the row hairline at 40% ink and the control outline at full ink (radio, checkbox and letter chip), so the hover reads on a white panel; every hover rule sits in `@media (hover: hover)`, so a tap on touch no longer leaves a row looking hovered; picked and verdict rows keep their own edge (#754)
+
 ## 0.1106.0 — 2026-11-12
 
 - **G2 brand colour for the G2 rating badge stars (DESY-544).** New colour token `color.primitives.g2Orange` (`--aha-g2-orange`, #FF492C, G2's published colour from `logo/original/g2.svg`) and `<aha-rate brand="g2">`, which draws the filled stars and focus ring in it. New colour rule 2.6c (colour rules v39) allows it only on a G2 rating badge on hover and keyboard focus; rules 2.6 and 2.6b are unchanged, and `standards.mjs` allows the hex at that token path only. Existing ratings are unchanged without the attribute. Revert: remove the token, the `brand` styles in `lib/aha-rate.js`, rule 2.6c and the standards allowance. (#751)
