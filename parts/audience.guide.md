@@ -120,7 +120,9 @@ here applies to `audience.*` or to modes A and B.
   | Countdown numeral | none, as long as it fits |
 
 - **Layout:** grids, rows and side rails are allowed from 480px. From 960px a stretched phone column
-  fails. Horizontal scroll and the height report rules hold at every width.
+  fails. The one exception is a single centred column with a bounded max-width when the interaction
+  maps a primary object to the controls directly below it: a swipe card above the True and False
+  buttons its swipe directions match, or a gesture surface above its legend. Type still scales. Horizontal scroll and the height report rules hold at every width.
 - **Submit:** full width of its own region, not of the whole view.
 - **Time's up and verdict:** the page draws one of each, from its own timer. The host draws neither here.
 
