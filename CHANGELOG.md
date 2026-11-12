@@ -25,6 +25,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1104.0 — 2026-11-12
+### Added
+- **aha-loader waits for one full splash cycle** (#NNN). `AhaLoader.CYCLE_MS` (3652) is the length of one cycle, `loader.cycleDone` is a Promise that resolves once the splash has played in full since it connected (at once under reduced motion, for variant="tiles" and for logo-only), and an `aha-loader-cycle` event (detail.count) fires at each completed cycle. Apps await it with their data so the splash is never cut off mid-bloom and no second loader is needed. Default rendering is unchanged.
+
 ## 0.1102.0 — 2026-11-12
 ### Added
 - **Voice rules v7: eyebrows and rule breaches** (#750). Rule 10.7 now puts eyebrows in sentence case, never all capitals. New rule 16.5: a piece that breaks a voice rule or a brand director call waits for the brand director's OK, and without it goes back to its creator to be brought in line before it ships.
