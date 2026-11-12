@@ -2353,6 +2353,52 @@
         "authored": "ahaslides-design",
         "why": "DESY-537: the native audience app paints the Idea Board rank and the Pick Answer result at 20px bold, so C5 allows a 20px tier at weight 600 or 700 for self-painted section titles and results; 16px stays the minimum for text a participant must read"
       }
+    },
+    {
+      "id": 96,
+      "prompt": "Review this self-paced view. The judge brief has `entry_setting.audienceQuizSelfPaced: true`. At 1440px wide `self-paced-view.html` is one centred column with `max-width: 1120px`: the question card, then four multiple-choice option buttons stacked below it, then Skip. Answers are tapped only; there is no swipe or drag. Type scales up to the C5 caps. The developer says a bounded centred column is allowed now. Is this correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C3 bounded-column exception misuse, DESY-543.",
+      "expected_output": "C3 FAILs. A bounded max-width does not make a phone stack pass from 960px: the exception needs a primary object whose gesture maps to the control placed directly below it, and tapped options have no such mapping. Fix: lay the options out in a grid or beside the question from 960px. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C3 is marked FAIL",
+        "Says tapped options give no spatial mapping for the exception"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C3": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-543: a swipe card needs its True and False buttons directly below it so each swipe direction maps to the button under it, so C3 lets a bounded centred column pass from 960px when the interaction needs that vertical mapping"
+      }
+    },
+    {
+      "id": 97,
+      "prompt": "Review this self-paced view. The judge brief has `entry_setting.audienceQuizSelfPaced: true`. At 1440px wide `self-paced-view.html` is one centred column with `max-width: 1120px`: the swipe card (swipe left for False, right for True), then the False and True buttons side by side directly under it (False on the left, True on the right), then Skip. Type scales up to the C5 caps. Below 480px the same parts stack at phone values. There is no horizontal scroll at 320px and height is reported. Is this correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C3 bounded-column exception, DESY-543.",
+      "expected_output": "C3 PASSes. The swipe card is the primary object and the False and True buttons sit directly below it on the side each swipe goes, so a single centred column with a bounded max-width is the allowed exception; a two-column layout would break that mapping. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C3 is marked PASS",
+        "Names the swipe card and the True and False buttons below it as the mapping"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C3": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-543: a swipe card needs its True and False buttons directly below it so each swipe direction maps to the button under it, so C3 lets a bounded centred column pass from 960px when the interaction needs that vertical mapping"
+      }
     }
   ]
 }

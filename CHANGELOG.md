@@ -25,6 +25,18 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1102.0 — 2026-11-12
+### Added
+- **Voice rules v7: eyebrows and rule breaches** (#750). Rule 10.7 now puts eyebrows in sentence case, never all capitals. New rule 16.5: a piece that breaks a voice rule or a brand director call waits for the brand director's OK, and without it goes back to its creator to be brought in line before it ships.
+
+## 0.1101.2 — 2026-11-12
+### Changed
+- `system-user-headset` now draws the Phosphor Regular headset (band, two ear cups, mic boom) on the 16 grid with the DS 1.5 stroke, in place of the person-with-headset glyph. The name is unchanged, so consumers need no rename. (#749)
+
+## 0.1101.1 — 2026-11-12
+### Changed
+- Audience judge C3: from 960px a mode C self-paced view may keep a single centred column with a bounded max-width when the interaction maps a primary object to the controls directly below it (a swipe card above the True and False buttons its swipe directions match, a gesture surface above its legend). The reviewer must name the object and the control; no max-width, unscaled type or a tap-only stack still FAILs. `guidelines/audience.json` `self-paced-mode-c` and the audience guide say the same; eval cases 96 and 97 cover it (#748)
+
 ## 0.1101.0 — 2026-11-12
 ### Added
 - `<aha-loader logo-only>`: the finished AhaSlides logo alone, with no dot ring or bloom, for short and inline loads at 16–48px. The first frame is the logo; it holds, turns once with a gentle shrink and settles upright again (2.2s loop). Its drawing box is exactly `--aha-loader-size` with no min-height; reduced motion shows it still. Without the attribute the splash is unchanged. (#747)
