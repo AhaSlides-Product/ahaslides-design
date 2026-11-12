@@ -25,6 +25,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1103.0 — 2026-11-12
+### Changed
+- **Product lockup: the word AhaSlides is the official wordmark artwork** (#751). `<aha-product-lockup>` no longer types AhaSlides in Plus Jakarta Sans 600, which drew a heavier A and S than the logo. It now draws `logo/ahaslides-wordmark.svg` (white: `ahaslides-wordmark-white.svg`), the official logo's own paths in its ink `#1A1A2E`, with capitals level with the product name, and the official logo's Splash-to-word gap (0.188em, was 0.36em). With no product the lockup matches the logo file. The product name stays live Plus Jakarta Sans. Attributes, sizes, variants and the accessible name are unchanged.
+- Product lockup contract, app-shell C1, the C1 criterion, the logo page, the agent nudge and the prompt mandate now say the word AhaSlides is always the wordmark artwork, never typed text.
+### Added
+- screen-lint `typed-wordmark` (warning): the word AhaSlides typed as text beside The Splash or in a header brand slot. `ds-lint-allow: lockup` covers it.
+
 ## 0.1102.0 — 2026-11-12
 ### Added
 - **Voice rules v7: eyebrows and rule breaches** (#750). Rule 10.7 now puts eyebrows in sentence case, never all capitals. New rule 16.5: a piece that breaks a voice rule or a brand director call waits for the brand director's OK, and without it goes back to its creator to be brought in line before it ships.

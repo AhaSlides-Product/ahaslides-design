@@ -3436,19 +3436,20 @@ const LOGO_AHA = LOGO_MANIFEST.filter(l => l.category === 'AhaSlides');
 const LOGO_DARK_TILE = new Set(['ahaslides-logo-white', 'thesplash-white', 'claude-white']);
 const LOGO_DONTS = ['Change the colours', 'Stretch the logo', 'Rotate or tilt the logo', 'Apply a gradient to The Splash', 'Apply a gradient to the wordmark', 'Separate and move the elements'];
 const LOCKUP_SPEC = [
-  ['Full', 'The Splash, AhaSlides (Plus Jakarta Sans 600), one normal space, the product name (400)'],
-  ['Compact', 'The Splash and the product name (600), no word AhaSlides'],
+  ['Full', 'The Splash, the AhaSlides wordmark (the official logo artwork), one normal space, the product name (Plus Jakarta Sans 400)'],
+  ['Compact', 'The Splash and the product name (600), no wordmark'],
   ['Type size', '20 px reference; 18 px minimum'],
   ['Line height', '1.3 (26 px)'],
   ['Letter spacing', '-0.03em (-0.6 px)'],
   ['The Splash', '1.325em high (26.5 px; about 24 px at the 18 px minimum), centred on the capitals'],
-  ['Gap, The Splash to the text', '0.36em (7.2 px)'],
-  ['Ink', 'text-default #1A1A1A with the full-colour Splash on light; all white on a dark or brand-colour header'],
+  ['Gap, The Splash to the words', '0.188em (3.76 px), the official logo\'s gap'],
+  ['Wordmark', 'logo/ahaslides-wordmark.svg (white: ahaslides-wordmark-white.svg), the official logo\'s paths unchanged; capitals 0.75em, level with the product name'],
+  ['Ink', 'the full-colour Splash, the wordmark in the logo ink and the name in text-default #1A1A1A on light; all white on a dark or brand-colour header'],
   ['Full to compact', 'below a header 480 px wide'],
   ['Splash only', 'a slot narrower than the compact lockup, such as a 72 px icon rail'],
   ['No approved product name', 'The Splash and AhaSlides only; never invent a name'],
 ];
-const LOCKUP_DONTS = ['Hand-set the lockup from the logo file and a text span: use <aha-product-lockup>', 'Put a divider or a bar between The Splash and the words', 'Scale The Splash and the text separately: one size drives both', 'Use a product name nobody approved'];
+const LOCKUP_DONTS = ['Type the word AhaSlides in a font beside The Splash: the wordmark is always the logo artwork', 'Hand-set the lockup from the logo file and a text span: use <aha-product-lockup>', 'Put a divider or a bar between The Splash and the words', 'Scale The Splash and the text separately: one size drives both', 'Use a product name nobody approved'];
 const COBRAND_SPEC = [
   ['Order', 'AhaSlides first, the multiplication sign, then the partner'],
   ['The ×', 'The multiplication sign ×, not the letter x, in text-secondary #4A4A4A (white on Vivid Pink), centred on the capitals'],
@@ -3517,7 +3518,7 @@ function renderLogoPage() {
   <h3 class="tok-h3">AhaSlides logo rules</h3>
   <p class="body">The logo is The Splash plus the wordmark. Two versions are allowed: the full-colour file on white and the white file on Vivid Pink. An all-pink logo on white is not allowed. Minimum size <b>154 &times; 35 px</b> on screen, <b>175 &times; 40 mm</b> in print.</p>
   <h3 class="tok-h3" id="product-lockup">Product lockup</h3>
-  <p class="body">The top-left brand of every AhaSlides site, microsite and app header (Docs, Games, Careers, Agent Fleet, a pre-launch site) is the product lockup, rendered by <a href="../product-lockup/index.html"><code>&lt;aha-product-lockup&gt;</code></a>. Full is The Splash, AhaSlides and the product name; compact drops AhaSlides. The element sets the text live in Plus Jakarta Sans and sizes everything from one type size, so the proportions below hold at every size.</p>
+  <p class="body">The top-left brand of every AhaSlides site, microsite and app header (Docs, Games, Careers, Agent Fleet, a pre-launch site) is the product lockup, rendered by <a href="../product-lockup/index.html"><code>&lt;aha-product-lockup&gt;</code></a>. Full is The Splash, AhaSlides and the product name; compact drops AhaSlides. The element draws The Splash and the AhaSlides wordmark from the logo artwork (never typed text), sets only the product name live in Plus Jakarta Sans, and sizes everything from one type size, so the proportions below hold at every size.</p>
   <div class="lockup-demo"><aha-product-lockup product="Docs" variant="full"></aha-product-lockup><aha-product-lockup product="Docs" variant="compact"></aha-product-lockup><aha-product-lockup></aha-product-lockup></div>
   <div class="lockup-demo lockup-demo--dark"><aha-product-lockup product="Games" tone="inverse" variant="full"></aha-product-lockup><aha-product-lockup product="Games" tone="inverse" variant="compact"></aha-product-lockup></div>
   ${docTable('<th>Measure</th><th>Value</th>', LOCKUP_SPEC.map(([k, v]) => `<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>`).join(''))}
@@ -3936,7 +3937,7 @@ const indexLines = [
   `> Reports, as static images (charts, tables, number plates and KPI tiles rendered to PNG for Slack, email or an export) or as read-only report pages a report routine publishes: follow ${SITE}/guidelines/report-images/report-images.md (light grey zebra tables, <aha-stat-tile look="accent"> plates, colour rule 3.11); in an image, take status and how-to glyphs as single-colour SVG from https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@${CDN_REF}/lib/static-icons/<ink>/<size>/<name>.svg (registry names; ink or white; 12, 16, 24, 32).`,
   `> Logos: every logo, AhaSlides or third-party brand, comes from the DS: the AhaSlides logo from the Logo library (${SITE}/foundations/logo.html), a third-party brand from the brand family of the Icon library (${SITE}/${BRANDS_HOME}) — never redrawn, inlined as a hand-made SVG, recoloured or swapped for a letter tile. A third-party brand logo in any interface, website headers and page rows included, is <aha-icon name="brand-<id>"> and follows the icon rules (sizes, stroke by size, currentColor ink), no tile or border around it, the name beside it; the brand's own file (${SITE}/logo/original/<id>.svg) only on a page listing other products (Marketplace: greyscale at rest, colour on hover and keyboard focus) and on a Sign in with Google, Microsoft or Apple button; colour rule 2.6.`,
   `> Page title and favicon: every page, route, site and app sets its own document <title> as "<specific part> | AhaSlides" (brand last, one " | " separator; a named site ends "| AhaSlides <Site name>"; only the marketing home page is brand-first) and links the one favicon set, The Splash in ${SITE}/logo/favicon/, with /favicon.ico answering at the site root. Rules: ${SITE}/guidelines/page-title-favicon/page-title-favicon.md`,
-  `> Product lockup: the top-left brand of EVERY AhaSlides site, microsite, docs site, careers, landing or pricing page and app header is <aha-product-lockup product="<name>"> (${SITE}/product-lockup/index.html; spec on ${SITE}/foundations/logo.html#product-lockup) — The Splash + AhaSlides + the product name as one mark, full above a 480px header and compact below; no product attribute when no name is approved. Never hand-set it from the logo file and a text span.`,
+  `> Product lockup: the top-left brand of EVERY AhaSlides site, microsite, docs site, careers, landing or pricing page and app header is <aha-product-lockup product="<name>"> (${SITE}/product-lockup/index.html; spec on ${SITE}/foundations/logo.html#product-lockup) — The Splash + AhaSlides + the product name as one mark, full above a 480px header and compact below; no product attribute when no name is approved. Never hand-set it from the logo file and a text span, and never type the word AhaSlides in a font: it is always the wordmark artwork.`,
   '>',
   '> ⚑ Before you build: this is the OFFICIAL AhaSlides anti-slop tool. Read anti-slop.md and',
   `>   run the binary judge for your surface — build → self-judge (PASS/FAIL each) → fix → repeat.`,
