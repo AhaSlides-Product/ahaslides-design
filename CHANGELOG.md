@@ -25,6 +25,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1105.0 — 2026-11-12
+### Changed
+- Audience judge C9 lets a mode C self-paced view centre its submit from 600px wide at `max(240px, 50%)` of the answer area, with Skip and Next question the same width, so it no longer stretches across a wide answer grid. The full-width block still passes there and is the only pass below 600px. The `submit-button-spec` guideline and the `aha-audience-submit` spec say the same. Two new audience eval cases. (#755)
+
 ## 0.1102.0 — 2026-11-12
 ### Added
 - **Voice rules v7: eyebrows and rule breaches** (#750). Rule 10.7 now puts eyebrows in sentence case, never all capitals. New rule 16.5: a piece that breaks a voice rule or a brand director call waits for the brand director's OK, and without it goes back to its creator to be brought in line before it ships.
