@@ -27,7 +27,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1102.0 — 2026-11-12
 ### Added
-- **Voice rules v7: eyebrows and rule breaches** (#PR). Rule 10.7 now puts eyebrows in sentence case, never all capitals. New rule 16.5: a piece that breaks a voice rule or a brand director call waits for the brand director's OK, and without it goes back to its creator to be brought in line before it ships.
+- **Voice rules v7: eyebrows and rule breaches** (#750). Rule 10.7 now puts eyebrows in sentence case, never all capitals. New rule 16.5: a piece that breaks a voice rule or a brand director call waits for the brand director's OK, and without it goes back to its creator to be brought in line before it ships.
 
 ## 0.1101.2 — 2026-11-12
 ### Changed
