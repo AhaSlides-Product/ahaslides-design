@@ -23,6 +23,9 @@ function EnvironmentTransition({ loading, children }) {
   <aha-loader label="Loading the settings…" style={{ '--aha-loader-size': '96px' }} />
 </div>
 
+// Short or inline loads: the finished logo alone, no dot ring; the box is exactly --aha-loader-size.
+<aha-loader logo-only="" label="Loading" style={{ width: 'auto', height: 'auto', '--aha-loader-size': '24px' }} />
+
 // Flagged rollout: switch every loader back to the previous five-tile look at one entry point,
 // before the loaders mount. A variant="tiles" attribute on one loader does the same for that one.
 if (!flags.newLoader) document.documentElement.dataset.ahaLoader = 'tiles';

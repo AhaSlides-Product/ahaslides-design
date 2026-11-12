@@ -9,18 +9,19 @@ const stub = () => {
 globalThis.HTMLElement = class {
   constructor() { this.attributes = new Map(); }
   attachShadow() {
-    const nodes = { blur: stub(), liquid: stub(), petals: [0, 1, 2, 3].map(stub), dots: Array.from({ length: 8 }, stub) };
+    const nodes = { blur: stub(), liquid: stub(), logo: stub(), petals: [0, 1, 2, 3].map(stub), dots: Array.from({ length: 8 }, stub) };
     let html = '';
     this.shadowRoot = {
       nodes,
       get firstChild() { return html ? {} : null; },
       get innerHTML() { return html; },
       set innerHTML(v) { html = v; },
-      querySelector: s => ({ '.goo-blur': nodes.blur, '.liquid': nodes.liquid })[s] ?? null,
+      querySelector: s => ({ '.goo-blur': nodes.blur, '.liquid': nodes.liquid, '.logo': nodes.logo })[s] ?? null,
       querySelectorAll: s => (s === '.petal' ? nodes.petals : nodes.dots),
     };
     return this.shadowRoot;
   }
+  hasAttribute(n) { return this.attributes.has(n); }
   getAttribute(n) { return this.attributes.has(n) ? this.attributes.get(n) : null; }
   setAttribute(n, v) { this.attributes.set(n, String(v)); }
   removeAttribute(n) { this.attributes.delete(n); }
@@ -91,4 +92,21 @@ test('reduced motion draws the finished logo once and never loops', () => {
   assert.equal(el.getAttribute('role'), 'status');
   assert.equal(el.getAttribute('aria-label'), 'Opening the editor…');
   reduced = false;
+});
+
+test('logo-only paints the finished logo first, never draws the dot ring, and loops on the logo alone', () => {
+  reduced = false; frames.clear();
+  const el = mount({ 'logo-only': '' });
+  const html = el.shadowRoot.innerHTML;
+  assert.equal((html.match(/class="petal /g) || []).length, 4);
+  assert.doesNotMatch(html, /<circle|class="dot/);
+  assert.equal(el.shadowRoot.nodes.logo.attrs.get('transform'), 'rotate(0)');
+  assert.equal(frames.size, 1);
+  el.removeAttribute('logo-only');
+  el.isConnected = true;
+  el.attributeChangedCallback('logo-only');
+  assert.match(el.shadowRoot.innerHTML, /class="dot/);
+  document.documentElement.dataset = { ahaLoader: 'tiles' };
+  assert.match(mount({ 'logo-only': '' }).shadowRoot.innerHTML, /loader-award/);
+  document.documentElement.dataset = {};
 });
