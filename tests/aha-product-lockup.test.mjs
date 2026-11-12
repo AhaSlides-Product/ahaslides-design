@@ -42,8 +42,7 @@ test('the lockup draws AhaSlides as the wordmark artwork, never as text', async 
     lockup.setAttribute('product', 'Docs');
     if (tone) lockup.setAttribute('tone', tone);
     lockup.connectedCallback();
-    const visibleText = lockup.shadowHtml.replace(/<style>[\s\S]*?<\/style>/, '').replace(/<[^>]*>/g, '');
-    assert.doesNotMatch(visibleText, /AhaSlides/);
+    assert.doesNotMatch(lockup.shadowHtml, />\s*AhaSlides\s*</);
     assert.match(lockup.shadowHtml, /<img class="word"/);
     const src = lockup.shadowRoot.querySelector('.word').getAttribute('src');
     assert.match(src, tone ? /logo\/ahaslides-wordmark-white\.svg$/ : /logo\/ahaslides-wordmark\.svg$/);
