@@ -27,7 +27,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1101.2 — 2026-11-12
 ### Changed
-- `system-user-headset` now draws the Phosphor Regular headset (band, two ear cups, mic boom) on the 16 grid with the DS 1.5 stroke, in place of the person-with-headset glyph. The name is unchanged, so consumers need no rename. (#PRNUM)
+- `system-user-headset` now draws the Phosphor Regular headset (band, two ear cups, mic boom) on the 16 grid with the DS 1.5 stroke, in place of the person-with-headset glyph. The name is unchanged, so consumers need no rename. (#749)
 
 ## 0.1101.0 — 2026-11-12
 ### Added
