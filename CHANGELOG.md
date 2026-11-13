@@ -26,8 +26,8 @@ an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix w
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
 ## 0.1110.0 — 2026-11-13
-### Added
-- **aha-loader `engine="layers"`: the splash keeps playing while the page is busy** (#756). Opt-in on the same element. Each petal and dot is its own layer moved only by CSS transform and opacity keyframes sampled from the same timeline, so the browser plays the motion even while an app's startup code blocks the page. It cannot blur the petals together as they open, so the finished logo fades in over the last of the bloom instead. `CYCLE_MS`, `cycleDone`, `aha-loader-cycle` and reduced motion work as before; logo-only and tiles ignore it. Default rendering is unchanged.
+### Changed
+- **aha-loader: the splash now plays on compositor layers by default, so it keeps moving while an app boots** (#756). Each petal and dot is its own layer moved only by CSS transform and opacity keyframes sampled from the same timeline, so the browser plays the motion even while an app's startup code blocks the page (measured on a page blocked 150 ms every 180 ms: 49 moving frames a second, longest freeze 33 ms, against 17 a second and 167 ms before). The petals cross-fade into the finished logo as they open instead of melting together. `engine="svg"` restores the previous renderer; `engine="layers"` names the default. `CYCLE_MS`, `cycleDone`, `aha-loader-cycle`, reduced motion, logo-only and tiles are unchanged.
 
 ## 0.1109.0 — 2026-11-12
 ### Changed

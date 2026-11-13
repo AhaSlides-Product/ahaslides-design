@@ -23,10 +23,10 @@
   loader.remove();
 </script>
 
-<!-- Opt-in: the same splash as separate layers the browser moves itself, so it keeps playing while
-     the app's startup code keeps the page busy (no petal melt: it fades into the finished logo). -->
-<div style="position:fixed; inset:0">
-  <aha-loader engine="layers" label="Opening the editor…"></aha-loader>
+<!-- The splash plays on layers the browser moves itself, so it keeps going while the app boots.
+     engine="svg" restores the previous renderer (one SVG redrawn by the page, petals melt together). -->
+<div style="width:100%; height:240px">
+  <aha-loader engine="svg" label="Loading"></aha-loader>
 </div>
 
 <!-- Short or inline loads: the finished logo alone, no dot ring; the box is exactly --aha-loader-size. -->

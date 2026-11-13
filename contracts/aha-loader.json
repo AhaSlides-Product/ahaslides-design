@@ -15,7 +15,7 @@
     "logo-only shows the finished logo alone, no dot ring, for short and inline loads",
     "variant=\"tiles\" keeps the previous five-tile look for a flagged rollout"
   ],
-  "lead": "ONE custom element — <aha-loader> — the branded loading SCREEN for an environment transition (landing in the editor, opening the presenting view). It fills its container on a white ground and centres the animated AhaSlides splash at a fixed size: a ring of eight brand dots gathers into the centre, the four logo petals bloom out of it with a quarter-turn, hold, then close one by one and throw the dots back out (a 3.65s loop that opens on the finished logo). The petals are the DS splash logo (logo/thesplash.svg) verbatim, filled from the --aha-vivid-pink-100 and --aha-logo-purple tokens; the logo is --aha-loader-size wide (default 112px) whatever the container, so it fits a small inline box as well as a full screen. One requestAnimationFrame loop per element, started on connect and cancelled on disconnect; under prefers-reduced-motion it shows the finished logo, still. logo-only drops the dot ring and the bloom: the very first frame is the finished logo, which holds, turns once with a gentle shrink and settles upright again (a 2.2s loop); its drawing box is exactly --aha-loader-size with no min-height, so it reads at 16–48px in a short or inline load that ends before a bloom would. variant=\"tiles\" keeps the previous look (five <aha-illustration> loader-* tiles cycling with a staggered soft-flow); with no attribute, <html data-aha-loader=\"tiles\"> picks the tiles for every loader on the page, so an app can switch all of them at one entry point behind a flag (the attribute wins). Show it until the app is ready: a loader swapped out mid-bloom reads as a glitch, so wait for `await loader.cycleDone` (resolves after one full cycle since connect, at once under reduced motion, tiles and logo-only) as well as for the data; AhaLoader.CYCLE_MS is the cycle length and an `aha-loader-cycle` event fires at each completed cycle. engine=\"layers\" is an opt-in way to play the same splash: each petal and dot is its own layer moved only by CSS transform and opacity keyframes sampled from the same timeline, so the browser keeps it moving while the page's main thread is busy booting an app; it cannot blur the petals together as they open, so it fades into the finished logo instead. This is the full-screen SCREEN — for an inline indeterminate spinner reach for <aha-spin>.",
+  "lead": "ONE custom element — <aha-loader> — the branded loading SCREEN for an environment transition (landing in the editor, opening the presenting view). It fills its container on a white ground and centres the animated AhaSlides splash at a fixed size: a ring of eight brand dots gathers into the centre, the four logo petals bloom out of it with a quarter-turn, hold, then close one by one and throw the dots back out (a 3.65s loop that opens on the finished logo). The petals are the DS splash logo (logo/thesplash.svg) verbatim, filled from the --aha-vivid-pink-100 and --aha-logo-purple tokens; the logo is --aha-loader-size wide (default 112px) whatever the container, so it fits a small inline box as well as a full screen. One requestAnimationFrame loop per element, started on connect and cancelled on disconnect; under prefers-reduced-motion it shows the finished logo, still. logo-only drops the dot ring and the bloom: the very first frame is the finished logo, which holds, turns once with a gentle shrink and settles upright again (a 2.2s loop); its drawing box is exactly --aha-loader-size with no min-height, so it reads at 16–48px in a short or inline load that ends before a bloom would. variant=\"tiles\" keeps the previous look (five <aha-illustration> loader-* tiles cycling with a staggered soft-flow); with no attribute, <html data-aha-loader=\"tiles\"> picks the tiles for every loader on the page, so an app can switch all of them at one entry point behind a flag (the attribute wins). Show it until the app is ready: a loader swapped out mid-bloom reads as a glitch, so wait for `await loader.cycleDone` (resolves after one full cycle since connect, at once under reduced motion, tiles and logo-only) as well as for the data; AhaLoader.CYCLE_MS is the cycle length and an `aha-loader-cycle` event fires at each completed cycle. The splash plays on compositor layers: each petal and dot is its own layer moved only by CSS transform and opacity keyframes sampled from the splash timeline, so the browser keeps it moving while the page's main thread is busy booting an app. Layers cannot blur the petals together as they open, so the petals cross-fade into the finished logo instead of melting. engine=\"svg\" restores the previous renderer (one SVG with a goo filter, redrawn every frame by the page) for comparison or revert. This is the full-screen SCREEN — for an inline indeterminate spinner reach for <aha-spin>.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) and Vue both render <aha-loader> directly via attributes. Defined once in @ahaslides-product/design; the splash petals are the DS logo's own paths and the tiles variant reuses the DS's <aha-illustration> spot art (registry family `loader`), never redrawn here. To switch every loader in an app back to the tiles at one entry point, set document.documentElement.dataset.ahaLoader = 'tiles' before the loaders connect.",
   "tokensUsed": [
     "white",
@@ -44,7 +44,7 @@
     },
     {
       "label": "Loop lifecycle",
-      "value": "one requestAnimationFrame loop per element, started in connectedCallback, cancelled in disconnectedCallback; browsers suspend it in a hidden tab"
+      "value": "CSS keyframes play the splash; one requestAnimationFrame loop per element counts cycles (and draws, for engine=\"svg\" and logo-only), started in connectedCallback, cancelled in disconnectedCallback; browsers suspend both in a hidden tab"
     },
     {
       "label": "Logo only",
@@ -55,8 +55,8 @@
       "value": "AhaLoader.CYCLE_MS = 3652 (one loop at 1.15x); element.cycleDone resolves once one full cycle has played since connect (at once under prefers-reduced-motion, variant=\"tiles\" and logo-only); aha-loader-cycle fires at each completed cycle with detail.count, bubbling and composed"
     },
     {
-      "label": "Layers engine",
-      "value": "engine=\"layers\" (opt-in, full splash only): 4 petal layers, 1 finished-logo layer and 8 dot layers, each with its own @keyframes on transform or opacity only (180 samples of the same timeline per 3652ms cycle, linear between them), so the compositor plays them while the main thread is blocked; no SVG attribute animation and no filter, so the petals do not melt together while they open: the finished logo fades in over the last of the bloom instead; CYCLE_MS, cycleDone, aha-loader-cycle and reduced motion behave as on the default engine; ignored by logo-only and tiles"
+      "label": "Renderer",
+      "value": "default (engine unset or \"layers\"): 4 petal layers, 1 finished-logo layer and 8 dot layers, each with its own @keyframes on transform or opacity only (180 samples of the splash timeline per 3652ms cycle, linear between them), so the compositor plays them while the main thread is blocked; no SVG attribute animation and no filter, so the petals cross-fade into the finished logo over the last of the bloom instead of melting. engine=\"svg\": the previous renderer, one SVG whose petal transforms, dot positions and goo filter are set every frame. CYCLE_MS, cycleDone, aha-loader-cycle and reduced motion behave the same on both; logo-only and tiles ignore engine"
     },
     {
       "label": "Reduced motion",
@@ -88,9 +88,9 @@
     },
     {
       "name": "engine",
-      "type": "'svg' | 'layers'",
-      "default": "svg",
-      "desc": "How the full splash is played. svg (default) redraws one drawing every frame from the page; layers moves each petal and dot as its own layer with CSS keyframes, so the motion keeps playing while the app's startup code keeps the page busy. Ignored by logo-only and the tiles variant"
+      "type": "'layers' | 'svg'",
+      "default": "layers",
+      "desc": "How the full splash is played. layers (default) moves each petal and dot as its own layer with CSS keyframes, so the motion keeps playing while the app's startup code keeps the page busy; the petals cross-fade into the logo instead of melting. svg restores the previous renderer, one drawing redrawn every frame by the page, with the goo melt. Ignored by logo-only and the tiles variant"
     }
   ],
   "opinion": {
@@ -200,12 +200,12 @@
         "label": "Engine",
         "options": [
           {
-            "label": "Default",
+            "label": "Layers (default)",
             "value": null
           },
           {
-            "label": "Layers",
-            "value": "layers"
+            "label": "SVG (previous)",
+            "value": "svg"
           }
         ]
       }
@@ -225,7 +225,7 @@
       "verdict": "PASS"
     },
     {
-      "label": "rAF loop starts on connect, cancelled on disconnect",
+      "label": "rAF loop (cycle count, and drawing for engine=\"svg\") starts on connect, cancelled on disconnect",
       "verdict": "PASS"
     },
     {
@@ -245,12 +245,12 @@
       "verdict": "PASS"
     },
     {
-      "label": "engine=\"layers\" animates only transform and opacity, one layer per petal and dot",
+      "label": "the default splash animates only transform and opacity, one layer per petal and dot; engine=\"svg\" keeps the previous renderer",
       "verdict": "PASS"
     }
   ],
   "conformance": {
-    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. Probes the default splash: white ground, the drawing box at 1.5 × the default 112px logo size, four petals and eight dots, and the two petal fills resolving to the brand tokens. Per-frame transforms are NOT measured — size, colour and counts are stable across the loop.",
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. Probes the default (layers) splash: white ground, the drawing box at 1.5 × the default 112px logo size, four petals and eight dots, and the two petal fills resolving to the brand tokens. Per-frame transforms are NOT measured — size, colour and counts are stable across the loop.",
     "ready": "!!(document.querySelector('aha-loader[data-probe]') && document.querySelector('aha-loader[data-probe]').shadowRoot && document.querySelector('aha-loader[data-probe]').shadowRoot.querySelector('.splash'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-loader[data-probe]');var host=el?getComputedStyle(el):null;var r=el&&el.shadowRoot;var svg=r&&r.querySelector('.splash');var cs=svg?getComputedStyle(svg):null;var p=r?r.querySelectorAll('.petal'):[];return{hostBg:host?host.backgroundColor:null,splashW:cs?cs.width:null,splashH:cs?cs.height:null,petals:p.length,dots:r?r.querySelectorAll('.dot').length:0,pinkFill:p[0]?getComputedStyle(p[0]).fill:null,purpleFill:p[1]?getComputedStyle(p[1]).fill:null};})()",

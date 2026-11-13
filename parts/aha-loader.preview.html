@@ -21,10 +21,10 @@
     </div>
   </div>
 
-  <div class="lbl" style="margin-top:22px">engine="layers": the same splash, played by the browser on separate layers</div>
+  <div class="lbl" style="margin-top:22px">engine="svg": the previous renderer, one SVG redrawn by the page (petals melt together)</div>
   <div class="row" style="padding:14px 0">
     <div style="position:relative; width:100%; max-width:360px; height:240px; border:1px solid var(--aha-gray-40,#E3E3E3); border-radius:var(--aha-radius-lg,12px); overflow:hidden">
-      <aha-loader engine="layers" label="Loading"></aha-loader>
+      <aha-loader engine="svg" label="Loading"></aha-loader>
     </div>
   </div>
 
@@ -37,6 +37,6 @@
   </div>
 
   <div class="note" style="margin-top:20px">
-    <code>&lt;aha-loader&gt;</code> fills its container on a white ground and centres the animated AhaSlides splash: eight brand dots gather, the petals bloom with a quarter-turn, hold, then close one by one. Make the container full-screen for a real environment transition; size the logo with <code>--aha-loader-size</code> (default 112px). It is decorative brand motion, not a progress bar: pass a present-tense <code>label</code> (announced via <code>role="status"</code>), never a percentage. Under <code>prefers-reduced-motion</code> it shows the finished logo, still. <code>logo-only</code> shows the finished logo alone, with no dot ring, for short or inline loads; it opens on the logo, so a load that ends in a moment never shows dots. <code>engine="layers"</code> plays the same splash as separate layers that the browser moves itself, so it keeps playing while an app's startup code keeps the page busy; it fades into the finished logo where the default melts the petals together. <code>variant="tiles"</code> keeps the previous five-tile look; <code>&lt;html data-aha-loader="tiles"&gt;</code> switches every loader on the page at once. For an inline indeterminate wait inside an existing surface, reach for <a href="../spin/index.html">Spin →</a> instead.
+    <code>&lt;aha-loader&gt;</code> fills its container on a white ground and centres the animated AhaSlides splash: eight brand dots gather, the petals bloom with a quarter-turn, hold, then close one by one. Make the container full-screen for a real environment transition; size the logo with <code>--aha-loader-size</code> (default 112px). It is decorative brand motion, not a progress bar: pass a present-tense <code>label</code> (announced via <code>role="status"</code>), never a percentage. Under <code>prefers-reduced-motion</code> it shows the finished logo, still. <code>logo-only</code> shows the finished logo alone, with no dot ring, for short or inline loads; it opens on the logo, so a load that ends in a moment never shows dots. The splash plays on separate layers that the browser moves itself, so it keeps playing while an app's startup code keeps the page busy; the petals cross-fade into the finished logo as they open. <code>engine="svg"</code> restores the previous renderer, which melts the petals together but stops whenever the page is busy. <code>variant="tiles"</code> keeps the previous five-tile look; <code>&lt;html data-aha-loader="tiles"&gt;</code> switches every loader on the page at once. For an inline indeterminate wait inside an existing surface, reach for <a href="../spin/index.html">Spin →</a> instead.
   </div>
 </div>
