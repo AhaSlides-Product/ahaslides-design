@@ -32,6 +32,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - **Screen lint `stat-tile-accent`** (`--surface=product`): a second `<aha-stat-tile look="accent">` (or `<AhaStatTile>`, Vue `:look`) in one file hard-fails, citing rules 3.7 and 6.8; opt out per line with `ds-lint-allow: stat-tile-accent (why)`.
 
+## 0.1110.0 — 2026-11-13
+### Changed
+- **aha-loader: the splash now plays on compositor layers by default, so it keeps moving while an app boots** (#756). Each petal and dot is its own layer moved only by CSS transform and opacity keyframes sampled from the same timeline, so the browser plays the motion even while an app's startup code blocks the page (measured on a page blocked 150 ms every 180 ms: 49 moving frames a second, longest freeze 33 ms, against 17 a second and 167 ms before). The petals cross-fade into the finished logo as they open instead of melting together. `engine="svg"` restores the previous renderer; `engine="layers"` names the default. `CYCLE_MS`, `cycleDone`, `aha-loader-cycle`, reduced motion, logo-only and tiles are unchanged.
+
 ## 0.1109.0 — 2026-11-12
 ### Changed
 - **Product lockup: the word AhaSlides is the official wordmark artwork** (#753). `<aha-product-lockup>` no longer types AhaSlides in Plus Jakarta Sans 600, which drew a heavier A and S than the logo. It now draws `logo/ahaslides-wordmark.svg` (white: `ahaslides-wordmark-white.svg`), the official logo's own paths in its ink `#1A1A2E`, with capitals level with the product name, and the official logo's Splash-to-word gap (0.188em, was 0.36em). With no product the lockup matches the logo file. The product name stays live Plus Jakarta Sans. Attributes, sizes, variants and the accessible name are unchanged.
