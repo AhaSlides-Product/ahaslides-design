@@ -5,14 +5,14 @@
   "tier": "leaf-lit",
   "badge": "shared web component",
   "element": "aha-stat-tile",
-  "summary": "A KPI stat tile: one headline figure, its change against the previous period as an absolute number and a percent, and a comparison caption, on a flat Vivid Pink at 5% card with a Vivid Pink top bar.",
+  "summary": "A KPI stat tile: one headline figure, its change against the previous period as an absolute number and a percent, and a comparison caption, on a flat card with an ink top bar: white with a border by default, or Vivid Pink at 5% with a Vivid Pink top bar for emphasis.",
   "highlights": [
     "Large semibold value, change as absolute and percent",
     "Rise in black with an up arrow, fall in a black pill with a down arrow",
     "1 to 6 tiles per row, wrapping on narrow screens",
     "Stat strip: up to 5 tiles a row, also as a class layer (lib/stat-strip.css) for Discourse"
   ],
-  "lead": "ONE custom element — <aha-stat-tile> — defined once, imported unchanged by React and Vue. Give it `value` and `previous` and it works out the change: the absolute difference and a whole percent of the previous value (<1% for a tiny change, never a misleading 0%) (whole percentage points for `format=\"percent\"`: 3 pts, 1 pt, <1 pt for a non-zero change under one point), followed by the `caption` that names the comparison. A rise is plain black with an up arrow; a fall is white on a black pill with a down arrow (colour rule 7.3), so direction never depends on a status hue. The card is flat with a 4px Vivid Pink top bar and black text: white with a border by default (`look=\"plain\"`), or Vivid Pink at 5% (`look=\"accent\"`). On an app screen the accent look is only for the one highlighted panel colour rule 3.7 allows; in a report (a static report image, or a read-only report page a report routine publishes) it is the number plate colour rule 3.11 gives, on every tile. Lay 1 to 6 tiles in a row with <aha-grid min=\"160px\" gap=\"middle\">, which wraps them to fewer columns as the row narrows. See the Report images guideline for the static form.",
+  "lead": "ONE custom element — <aha-stat-tile> — defined once, imported unchanged by React and Vue. Give it `value` and `previous` and it works out the change: the absolute difference and a whole percent of the previous value (<1% for a tiny change, never a misleading 0%) (whole percentage points for `format=\"percent\"`: 3 pts, 1 pt, <1 pt for a non-zero change under one point), followed by the `caption` that names the comparison. A rise is plain black with an up arrow; a fall is white on a black pill with a down arrow (colour rule 7.3), so direction never depends on a status hue. The card is flat with a 4px top bar and black text: white with a border and an ink bar by default (`look=\"plain\"`), or Vivid Pink at 5% with a Vivid Pink bar (`look=\"accent\"`), the emphasis look. A row of tiles stays quiet in ink; the pink bar marks the one that matters. On an app screen the accent look is only for the one highlighted panel colour rule 3.7 allows (one per screen, so a row never carries two; the screen lint fails a second); in a report (a static report image, or a read-only report page a report routine publishes) it is the number plate colour rule 3.11 gives, on every tile. Lay 1 to 6 tiles in a row with <aha-grid min=\"160px\" gap=\"middle\">, which wraps them to fewer columns as the row narrows. See the Report images guideline for the static form.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render across frameworks. The change is computed in the element, so every consumer rounds and words it the same way.",
   "tokensUsed": [
     "bg-accent",
@@ -40,7 +40,7 @@
   "spec": [
     {
       "label": "Card",
-      "value": "flat, radius 8, padding 20/20/16, white with a 1px #E3E3E3 border and a 4px Vivid Pink top bar; accent look Vivid Pink at 5% (#E70E680D, #FEF3F7 on white) with the same bar"
+      "value": "flat, radius 8, padding 20/20/16, white with a 1px #E3E3E3 border and a 4px ink top bar (#1A1A1A, text-default); accent look Vivid Pink at 5% (#E70E680D, #FEF3F7 on white) with a 4px Vivid Pink top bar"
     },
     {
       "label": "Label",
@@ -72,7 +72,7 @@
     },
     {
       "label": "Stat strip on host markup",
-      "value": ".aha-stat-strip__item, __label, __icon and __value draw the plain tile (white, 1px #E3E3E3 border, Vivid Pink top bar, radius 8; label 14/1.5 Regular; value 32/1.2 SemiBold 600, tabular figures) on markup that cannot use the element"
+      "value": ".aha-stat-strip__item, __label, __icon and __value draw the plain tile (white, 1px #E3E3E3 border, ink top bar, radius 8; label 14/1.5 Regular; value 32/1.2 SemiBold 600, tabular figures) on markup that cannot use the element"
     },
     {
       "label": "Discourse",
@@ -114,7 +114,7 @@
       "name": "look",
       "type": "plain | accent",
       "default": "plain",
-      "desc": "plain: white card with a border. accent: Vivid Pink at 5% card, for every tile in a report, image or read-only report page (colour rule 3.11), or the one highlighted panel colour rule 3.7 allows on an app screen"
+      "desc": "plain: white card with a border and an ink top bar. accent: the emphasis look, Vivid Pink at 5% card with a Vivid Pink top bar, for every tile in a report, image or read-only report page (colour rule 3.11), or the one highlighted panel colour rule 3.7 allows on an app screen"
     },
     {
       "name": "icon",
@@ -154,7 +154,7 @@
         "when": "how a figure moved over many periods, not just against the last one"
       }
     ],
-    "note": "Name the metric in sentence case and always say what the change is compared with in the caption. Direction is shape, not hue: never tint a tile, the value or the change green or red. Leave the tile white on an app screen; use look=\"accent\" only for the one highlighted panel (colour rule 3.7), or on every tile of a report, image or read-only report page (colour rule 3.11). Keep a row to 6 tiles at most."
+    "note": "Name the metric in sentence case and always say what the change is compared with in the caption. Direction is shape, not hue: never tint a tile, the value or the change green or red. Leave the tile white with its ink bar on an app screen; use look=\"accent\" only for the one highlighted panel (colour rule 3.7), or on every tile of a report, image or read-only report page (colour rule 3.11). Keep a row to 6 tiles at most."
   },
   "surfaces": [
     "dashboard",
@@ -232,7 +232,7 @@
       "verdict": "PASS"
     },
     {
-      "label": "flat card, radius 8, Vivid Pink top bar, no shadow",
+      "label": "flat card, radius 8, ink top bar (Vivid Pink with look=accent), no shadow",
       "verdict": "PASS"
     },
     {
@@ -241,7 +241,7 @@
     }
   ],
   "conformance": {
-    "$about": "Measured by qa.mjs against the RENDERED UI. The [data-probe] tile is a rise in the default look: white card, Vivid Pink top bar, 32px semibold black value, black change with an up arrow.",
+    "$about": "Measured by qa.mjs against the RENDERED UI. The [data-probe] tile is a rise in the default look: white card, ink top bar, 32px semibold black value, black change with an up arrow.",
     "ready": "!!(function(){var el=document.querySelector('aha-stat-tile[data-probe]');return el&&el.shadowRoot&&el.shadowRoot.querySelector('.change aha-icon');})()",
     "singleUI": true,
     "measure": "(function(){var r=document.querySelector('aha-stat-tile[data-probe]').shadowRoot;var tile=getComputedStyle(r.querySelector('.tile'));var value=getComputedStyle(r.querySelector('.value'));var change=r.querySelector('.change');return{tileBg:tile.backgroundColor,tileRadius:tile.borderTopLeftRadius,valueColor:value.color,valueSize:value.fontSize,valueWeight:value.fontWeight,changeColor:getComputedStyle(change).color,changeText:change.textContent.trim(),glyph:change.querySelector('aha-icon').getAttribute('name')};})()",

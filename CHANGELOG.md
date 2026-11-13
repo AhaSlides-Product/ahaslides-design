@@ -25,6 +25,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1111.0 — 2026-11-13
+### Changed
+- **Stat tile: the plain look draws an ink top bar; the pink bar is the accent look's** (#NNN). `<aha-stat-tile>` (look `plain`, the default) and the `.aha-stat-strip__item` and Discourse `.about__stats-item` tiles in `lib/stat-strip.css` now draw the 4px top bar in `--aha-text-default` (`#1A1A1A`) instead of Vivid Pink, so a row of six to eight tiles stays quiet. `look="accent"` is unchanged (Vivid Pink at 5% with the Vivid Pink bar) and is the emphasis look; report number plates (rule 3.11) stay accent. No new attribute. Every consumer sees the ink bar on its next DS bump; to revert, restore `--aha-color-primary` in the plain look's `box-shadow`.
+- **Colour rule 6.8** names the accent Stat tile's bar instead of "the Stat tile bar", and says the accent tile on an app screen is still the one highlighted panel of rule 3.7 (colour-rules v40, requested by Dave Bui, DESY-549; no rule id changed).
+### Added
+- **Screen lint `stat-tile-accent`** (`--surface=product`): a second `<aha-stat-tile look="accent">` (or `<AhaStatTile>`, Vue `:look`) in one file hard-fails, citing rules 3.7 and 6.8; opt out per line with `ds-lint-allow: stat-tile-accent (why)`.
+
 ## 0.1109.0 — 2026-11-12
 ### Changed
 - **Product lockup: the word AhaSlides is the official wordmark artwork** (#753). `<aha-product-lockup>` no longer types AhaSlides in Plus Jakarta Sans 600, which drew a heavier A and S than the logo. It now draws `logo/ahaslides-wordmark.svg` (white: `ahaslides-wordmark-white.svg`), the official logo's own paths in its ink `#1A1A2E`, with capitals level with the product name, and the official logo's Splash-to-word gap (0.188em, was 0.36em). With no product the lockup matches the logo file. The product name stays live Plus Jakarta Sans. Attributes, sizes, variants and the accessible name are unchanged.
