@@ -27,7 +27,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1110.0 — 2026-11-13
 ### Added
-- **aha-loader `engine="layers"`: the splash keeps playing while the page is busy** (#PRNUM). Opt-in on the same element. Each petal and dot is its own layer moved only by CSS transform and opacity keyframes sampled from the same timeline, so the browser plays the motion even while an app's startup code blocks the page. It cannot blur the petals together as they open, so the finished logo fades in over the last of the bloom instead. `CYCLE_MS`, `cycleDone`, `aha-loader-cycle` and reduced motion work as before; logo-only and tiles ignore it. Default rendering is unchanged.
+- **aha-loader `engine="layers"`: the splash keeps playing while the page is busy** (#756). Opt-in on the same element. Each petal and dot is its own layer moved only by CSS transform and opacity keyframes sampled from the same timeline, so the browser plays the motion even while an app's startup code blocks the page. It cannot blur the petals together as they open, so the finished logo fades in over the last of the bloom instead. `CYCLE_MS`, `cycleDone`, `aha-loader-cycle` and reduced motion work as before; logo-only and tiles ignore it. Default rendering is unchanged.
 
 ## 0.1109.0 — 2026-11-12
 ### Changed
