@@ -25,6 +25,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1111.0 — 2026-11-13
+### Changed
+- **Stat tile: the plain look draws a soft grey top bar; the pink bar is the accent look's** (#757). `<aha-stat-tile>` (look `plain`, the default) and the `.aha-stat-strip__item` and Discourse `.about__stats-item` tiles in `lib/stat-strip.css` now draw the 4px top bar in `--aha-border-strong` (`#D4D4D4`, a soft grey) instead of Vivid Pink, so a row of six to eight tiles stays quiet. `look="accent"` is unchanged (Vivid Pink at 5% with the Vivid Pink bar) and is the emphasis look; report number plates (rule 3.11) stay accent. No new attribute. Every consumer sees the soft grey bar on its next DS bump; to revert, restore `--aha-color-primary` in the plain look's `box-shadow`.
+- **Colour rule 6.8** names the accent Stat tile's bar instead of "the Stat tile bar", and says the accent tile on an app screen is still the one highlighted panel of rule 3.7 (colour-rules v40, requested by Dave Bui, DESY-549; no rule id changed).
+### Added
+- **Screen lint `stat-tile-accent`** (`--surface=product`): a second `<aha-stat-tile look="accent">` (or `<AhaStatTile>`, Vue `:look`) in one file hard-fails, citing rules 3.7 and 6.8; opt out per line with `ds-lint-allow: stat-tile-accent (why)`. Tiles inside HTML comments are not counted.
+
 ## 0.1110.0 — 2026-11-13
 ### Changed
 - **aha-loader: the splash now plays on compositor layers by default, so it keeps moving while an app boots** (#756). Each petal and dot is its own layer moved only by CSS transform and opacity keyframes sampled from the same timeline, so the browser plays the motion even while an app's startup code blocks the page (measured on a page blocked 150 ms every 180 ms: 49 moving frames a second, longest freeze 33 ms, against 17 a second and 167 ms before). The petals cross-fade into the finished logo as they open instead of melting together. `engine="svg"` restores the previous renderer; `engine="layers"` names the default. `CYCLE_MS`, `cycleDone`, `aha-loader-cycle`, reduced motion, logo-only and tiles are unchanged.
