@@ -23,6 +23,12 @@
   loader.remove();
 </script>
 
+<!-- Opt-in: the same splash as separate layers the browser moves itself, so it keeps playing while
+     the app's startup code keeps the page busy (no petal melt: it fades into the finished logo). -->
+<div style="position:fixed; inset:0">
+  <aha-loader engine="layers" label="Opening the editor…"></aha-loader>
+</div>
+
 <!-- Short or inline loads: the finished logo alone, no dot ring; the box is exactly --aha-loader-size. -->
 <aha-loader logo-only label="Loading" style="width:auto; height:auto; --aha-loader-size:24px"></aha-loader>
 
