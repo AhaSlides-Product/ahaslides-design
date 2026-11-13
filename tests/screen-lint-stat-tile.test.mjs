@@ -28,3 +28,9 @@ test('ds-lint-allow: stat-tile-accent with a reason opts a tile out; the other s
   assert.equal(hits(allowed).length, 0);
   assert.equal(hits([tile('accent'), tile('accent')].join('\n'), 'settings').length, 0);
 });
+
+test('an accent tile inside an HTML comment does not count, single or multi-line', () => {
+  assert.equal(hits(`<!-- ${tile('accent')} -->\n${tile('accent')}`).length, 0);
+  assert.equal(hits(`<!--\n${tile('accent')}\n-->\n${tile('accent')}`).length, 0);
+  assert.deepEqual(hits(`<!-- ${tile('accent')} -->\n${tile('accent')}\n${tile('accent')}`).map((f) => f.line), [3]);
+});
