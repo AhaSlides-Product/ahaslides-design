@@ -89,7 +89,8 @@ LOCKUP = (
     "site, microsite, docs site, careers, landing or pricing page, internal tool or app "
     "header is the DS <aha-product-lockup product=\"<name>\"> (The Splash + AhaSlides + "
     "the product name; no product attribute when no name is approved). Never hand-set "
-    "it from the logo file and a text span. Spec: " + ds_criteria.FEED_SITE + "/product-lockup/index.html"
+    "it from the logo file and a text span, and never type the word AhaSlides in a font: "
+    "it is always the wordmark artwork. Spec: " + ds_criteria.FEED_SITE + "/product-lockup/index.html"
 )
 
 SETTINGS_MANDATE = (

@@ -83,9 +83,9 @@ test('the loop starts on connect and is cancelled on disconnect', () => {
   assert.equal(frames.size, 0);
 });
 
-test('reduced motion draws the finished logo once and never loops', () => {
+test('engine="svg" under reduced motion draws the finished logo once and never loops', () => {
   reduced = true; frames.clear();
-  const el = mount({ label: 'Opening the editor…' });
+  const el = mount({ engine: 'svg', label: 'Opening the editor…' });
   assert.equal(frames.size, 0);
   const { petals, dots, liquid } = el.shadowRoot.nodes;
   for (const p of petals) assert.equal(p.attrs.get('transform'), 'translate(410 340) rotate(0.00) scale(1.0000) translate(-410 -340)');
@@ -107,7 +107,7 @@ test('logo-only paints the finished logo first, never draws the dot ring, and lo
   el.removeAttribute('logo-only');
   el.isConnected = true;
   el.attributeChangedCallback('logo-only');
-  assert.match(el.shadowRoot.innerHTML, /class="dot/);
+  assert.match(el.shadowRoot.innerHTML, /class="[^"]*\bdot\b/);
   document.documentElement.dataset = { ahaLoader: 'tiles' };
   assert.match(mount({ 'logo-only': '' }).shadowRoot.innerHTML, /loader-award/);
   document.documentElement.dataset = {};
@@ -147,4 +147,31 @@ test('cycleDone is already resolved under reduced motion, for tiles and for logo
   reduced = false;
   await mount({ variant: 'tiles' }).cycleDone;
   await mount({ 'logo-only': '' }).cycleDone;
+});
+
+test('the splash defaults to layers: each petal and dot its own layer, moved only by transform and opacity keyframes', async () => {
+  reduced = false; frames.clear();
+  const el = mount();
+  const html = el.shadowRoot.innerHTML;
+  assert.equal((html.match(/class="layer layer-svg layer-petal-\d/g) || []).length, 4);
+  assert.equal((html.match(/class="layer layer-dot layer-dot-\d/g) || []).length, 8);
+  assert.doesNotMatch(html, /<filter|<circle|stdDeviation/);
+  const keyframes = [...html.matchAll(/@keyframes [\w-]+\{((?:[\d.]+%\{[^}]*\})+)\}/g)];
+  assert.equal(keyframes.length, 13);
+  const props = new Set(keyframes.flatMap(k => [...k[1].matchAll(/\{([a-z-]+):/g)].map(m => m[1])));
+  assert.deepEqual([...props].sort(), ['opacity', 'transform']);
+  assert.match(html, /@keyframes aha-loader-layer-petal-0\{0\.000%\{transform:rotate\(0\.00deg\) scale\(1\.0000\)\}/);
+  assert.match(html, /prefers-reduced-motion: reduce\)\{ \.layer\{ animation:none \}/);
+  assert.equal(frames.size, 1);
+  let done = false;
+  el.cycleDone.then(() => { done = true; });
+  lastTick(performance.now() + AhaLoader.CYCLE_MS + 50);
+  await Promise.resolve();
+  assert.equal(done, true);
+  assert.equal(mount({ engine: 'layers' }).shadowRoot.innerHTML, html);
+  assert.doesNotMatch(mount({ 'logo-only': '' }).shadowRoot.innerHTML, /class="layer/);
+  el.setAttribute('engine', 'svg');
+  el.isConnected = true;
+  el.attributeChangedCallback('engine');
+  assert.match(el.shadowRoot.innerHTML, /<filter/);
 });

@@ -128,7 +128,8 @@ Read the list from the DS each time — surfaces get added.
    brand-colour file or `icon-maintain-color` at rest.
    The top-left brand of any site, microsite, docs site, careers, landing or pricing page, internal
    tool or app header is `<aha-product-lockup product="<name>">` (no `product` when no name is
-   approved), never the logo file hand-set beside a text span; the header is judged on `app-shell` C1.
+   approved), never the logo file hand-set beside a text span, and the word AhaSlides is always the
+   wordmark artwork, never typed text; the header is judged on `app-shell` C1.
 5. Any data or result chart (bar, column, stacked, donut / pie, radial, treemap, quadrant, bell,
    radar, word cloud, mind map, line) is `<aha-chart>` from the DS: read
    `https://design.ahaslides.io/chart.agent.json` first, use

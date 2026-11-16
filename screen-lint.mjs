@@ -41,6 +41,7 @@
  * other icon libraries) and brand-logo-colour (a logo/original/ file outside the sign-in or listing pattern in the Icon library's brand note, or the
  * kit's icon-maintain-color, colour rule 2.6).
  * Every surface also hard-fails alert-button-link: an <aha-button> inside an <aha-alert> or <aha-info-box> message (a link there is a plain <a href>; only slot="action" takes a button).
+ * --surface=product also hard-fails stat-tile-accent: a second <aha-stat-tile look="accent"> in one file (the accent look is the emphasis look, at most one per screen, colour rules 3.7 and 6.8).
  *
  * UX writing: on every surface, four hard rules read the user-visible UI strings only (HTML text nodes,
  * the title, aria-label, aria-description, placeholder, alt, label and heading attributes, and string literals

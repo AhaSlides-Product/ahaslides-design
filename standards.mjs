@@ -847,7 +847,7 @@ const repoChecks = [];
   /* The AhaSlides logo is drawn in the logo purple, Vivid Pink and its wordmark ink; a mono variant is one neutral. */
   const OWN_LOGO_COLOURS = [LOGO_PURPLE, VIVID_PINK, '#1A1A2E'];
   const logoFiles = readdirSync(join(root, 'logo')).filter(f => f.endsWith('.svg'));
-  const offListOwnLogos = logoFiles.filter(f => /^(ahaslides-logo|thesplash)/.test(f))
+  const offListOwnLogos = logoFiles.filter(f => /^(ahaslides-logo|ahaslides-wordmark|thesplash)/.test(f))
     .filter(f => coloursInSvg(read(join(root, 'logo', f))).some(hex => { const colour = normHex(hex).slice(0, 7); return !(isNeutral(colour) || OWN_LOGO_COLOURS.includes(colour)); }));
   rchk('the AhaSlides logo and The Splash use the logo purple and Vivid Pink only', offListOwnLogos.length === 0,
     `the pink hooks are Vivid Pink ${VIVID_PINK}, never Radical Pink #FF4081: ${offListOwnLogos.map(f => `logo/${f}`).join(', ')}`);

@@ -6,15 +6,15 @@
   "tier": "leaf-lit",
   "badge": "shared web component",
   "element": "aha-product-lockup",
-  "summary": "The AhaSlides product lockup: The Splash, the word AhaSlides and a product name as one brand mark, for the top-left of every AhaSlides site, microsite and app header.",
+  "summary": "The AhaSlides product lockup: The Splash, the AhaSlides wordmark and a product name as one brand mark, for the top-left of every AhaSlides site, microsite and app header.",
   "highlights": [
     "The Splash, AhaSlides and the product name as one mark",
     "Full, compact below a 480 px header, or the Splash alone",
-    "Live Plus Jakarta Sans text, never a hand-set wordmark",
+    "The word AhaSlides is the Logo library wordmark artwork, never typed text",
     "The top-left brand of every AhaSlides site and app header"
   ],
-  "lead": "ONE custom element — <aha-product-lockup> — defined once, imported unchanged by React and Vue. It renders The Splash from the Logo library beside live Plus Jakarta Sans text, everything sized in em from one type size, so the Splash and the words can never be scaled apart. Full is The Splash, AhaSlides (600) and the product name (400); compact drops the word AhaSlides and sets the name in 600. `variant=\"auto\"` (the default) shows full and flips to compact below 480 px: the viewport, or a header that declares `container: aha-header / inline-size`. With no `product` it renders The Splash and AhaSlides only. The accessible name is always the full lockup text. A static brand mark with no interactive state, so it carries no motion.",
-  "codeNote": "Same element, same shadow-DOM CSS → identical render. React and Vue pass plain string attributes. The element loads The Splash and Plus Jakarta Sans from the package itself (relative to its own URL), so the lockup is right even on a page that never loaded the DS font.",
+  "lead": "ONE custom element — <aha-product-lockup> — defined once, imported unchanged by React and Vue. It renders The Splash and the AhaSlides wordmark from the Logo library (the wordmark is the official logo's own artwork, never typed in a font) beside the product name in live Plus Jakarta Sans, everything sized in em from one type size, so nothing can be scaled apart. Full is The Splash, the AhaSlides wordmark and the product name (400); compact drops the wordmark and sets the name in 600. With no product it matches the official AhaSlides logo file. `variant=\"auto\"` (the default) shows full and flips to compact below 480 px: the viewport, or a header that declares `container: aha-header / inline-size`. With no `product` it renders The Splash and AhaSlides only. The accessible name is always the full lockup text. A static brand mark with no interactive state, so it carries no motion.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React and Vue pass plain string attributes. The element loads The Splash, the wordmark and Plus Jakarta Sans from the package itself (relative to its own URL), so the lockup is right even on a page that never loaded the DS font.",
   "tokensUsed": [
     "text-default",
     "text-inverse",
@@ -23,11 +23,11 @@
   "spec": [
     {
       "label": "Full",
-      "value": "The Splash · AhaSlides (Plus Jakarta Sans 600) · one normal space · product name (400)"
+      "value": "The Splash · the AhaSlides wordmark (logo/ahaslides-wordmark.svg, the official logo's paths) · one normal space · product name (Plus Jakarta Sans 400)"
     },
     {
       "label": "Compact",
-      "value": "The Splash · product name (600); no word AhaSlides"
+      "value": "The Splash · product name (600); no wordmark"
     },
     {
       "label": "Type",
@@ -39,11 +39,11 @@
     },
     {
       "label": "Gap",
-      "value": "0.36em (7.2px) from The Splash to the text"
+      "value": "0.188em (3.76px) from The Splash to the wordmark or name, the official logo's gap; the wordmark capitals are 0.75em, the product name's cap height"
     },
     {
       "label": "Colour",
-      "value": "text-default #1A1A1A with the full-colour Splash on light; tone=\"inverse\": all white (text-inverse #FFFFFF, the white Splash) on a dark or brand-colour header"
+      "value": "the full-colour Splash, the wordmark in the logo's own ink and the name in text-default #1A1A1A on light; tone=\"inverse\": all white (the white Splash and wordmark, text-inverse #FFFFFF) on a dark or brand-colour header"
     },
     {
       "label": "Switch",
@@ -95,7 +95,7 @@
         "when": "a brand appearance that is not a header: a footer, an email, a slide, a favicon"
       }
     ],
-    "note": "Never hand-set the lockup from the logo file and a text span, never add a divider between The Splash and the words, and never scale The Splash and the text separately: one size attribute drives both. Do not invent a product name; with no approved name, leave product empty."
+    "note": "Never type the word AhaSlides in a font beside The Splash: it is always the wordmark artwork. Never hand-set the lockup from the logo file and a text span, never add a divider between The Splash and the words, and never scale The Splash and the text separately: one size attribute drives both. Do not invent a product name; with no approved name, leave product empty."
   },
   "surfaces": [
     "dashboard",
@@ -175,11 +175,11 @@
   },
   "selfCheck": [
     {
-      "label": "20px type, -0.6px tracking, AhaSlides 600 and name 400",
+      "label": "20px type, -0.6px tracking, name 400; AhaSlides is the wordmark artwork, not text",
       "verdict": "PASS"
     },
     {
-      "label": "The Splash 26.5px high, 7.2px gap, centred on the capitals",
+      "label": "The Splash 26.5px high, 3.76px gap, centred on the capitals",
       "verdict": "PASS"
     },
     {
@@ -195,15 +195,17 @@
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP), on the full Docs lockup at the 20px reference size.",
     "ready": "!!(document.querySelector('aha-product-lockup[data-probe]')&&document.querySelector('aha-product-lockup[data-probe]').shadowRoot&&document.querySelector('aha-product-lockup[data-probe]').shadowRoot.querySelector('.lockup'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-product-lockup[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var l=cs(q('.lockup'));var s=cs(q('.splash'));return{size:l.fontSize,ink:l.color,tracking:l.letterSpacing,lineHeight:l.lineHeight,gap:l.columnGap,splashHeight:s.height,wordWeight:cs(q('.word')).fontWeight,nameWeight:cs(q('.name')).fontWeight,label:q('.lockup')&&q('.lockup').getAttribute('aria-label')};})()",
+    "measure": "(function(){var el=document.querySelector('aha-product-lockup[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var l=cs(q('.lockup'));var s=cs(q('.splash'));return{size:l.fontSize,ink:l.color,tracking:l.letterSpacing,lineHeight:l.lineHeight,gap:l.columnGap,splashHeight:s.height,wordmark:q('.word')&&q('.word').tagName+' '+(q('.word').getAttribute('src')||'').split('/').pop(),wordmarkWidth:cs(q('.word')).width,typedWord:/AhaSlides/.test(q('.text')&&q('.text').textContent),nameWeight:cs(q('.name')).fontWeight,label:q('.lockup')&&q('.lockup').getAttribute('aria-label')};})()",
     "expect": {
       "size": "20px",
       "ink": "rgb(26, 26, 26)",
       "tracking": "-0.6px",
       "lineHeight": "26px",
-      "gap": "7.2px",
+      "gap": "3.76px",
       "splashHeight": "26.5px",
-      "wordWeight": "600",
+      "wordmark": "IMG ahaslides-wordmark.svg",
+      "wordmarkWidth": "87.4375px",
+      "typedWord": false,
       "nameWeight": "400",
       "label": "AhaSlides Docs"
     }
