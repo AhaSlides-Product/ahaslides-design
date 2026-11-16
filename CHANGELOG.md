@@ -13,10 +13,6 @@ The gate rejects an unfilled `(#129)` placeholder in every released entry: link 
 **Format** — one entry per version:
 
 ```
-## 0.1112.0 — 2026-11-16
-### Removed
-- Footer: the WhatsApp contact icon and its link are gone; the footer now has seven contact and social icons (LAPA-577)
-
 ## X.Y.Z — YYYY-MM-DD
 ### Added        ← new component / prop / token / export
 ### Changed      ← behaviour or API change to something that already shipped
@@ -28,6 +24,10 @@ The gate rejects an unfilled `(#129)` placeholder in every released entry: link 
 Include only the sections you touched. **Versioning is [SemVer](https://semver.org)** — pre-1.0:
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
+
+## 0.1112.0 — 2026-11-16
+### Removed
+- Footer: remove the WhatsApp contact icon and link, leaving seven contact and social icons (LAPA-577, #759).
 
 ## 0.1111.0 — 2026-11-13
 ### Changed
