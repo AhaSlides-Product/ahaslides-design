@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { ALTERNATIVE_ENTRIES } from '../loader-entries.mjs';
 import { evaluateInPage, resolveChrome } from '../cdp.mjs';
 
 const libDir = new URL('../lib/', import.meta.url);
@@ -17,8 +18,6 @@ const closure = (file, seen = new Set()) => {
   importedModules(file).forEach((next) => closure(next, seen));
   return seen;
 };
-// a second entry for <aha-loader>, whose tag aha-loader.js registers in every surface and in all.js
-const ALTERNATIVE_ENTRIES = new Set(['aha-loader-splash.js']);
 const elementModules = readdirSync(libDir).filter((file) => file.endsWith('.js') && !ALTERNATIVE_ENTRIES.has(file) && /customElements\.define\(/.test(source(file)));
 const tagOf = (file) => (file === 'icons.js' ? 'aha-icon' : file.replace(/\.js$/, ''));
 
@@ -30,6 +29,12 @@ test('every element module is registered by at least one surface entry', () => {
 test('all.js still registers every element module', () => {
   const imported = new Set(importedModules('all.js'));
   assert.deepEqual(elementModules.filter((file) => !imported.has(file)), []);
+});
+
+test('all.js imports aha-loader.js and no other file that defines <aha-loader>', () => {
+  const definers = [...closure('all.js')].filter((file) => /defineAhaLoader\(|customElements\.define\([^)]*aha-loader/.test(source(file)) && file !== 'aha-loader-core.js');
+  assert.deepEqual(definers, ['aha-loader.js']);
+  assert.ok(importedModules('all.js').includes('aha-loader.js'));
 });
 
 test('audience.js re-exports applyDeck', () => {

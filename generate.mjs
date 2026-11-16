@@ -28,6 +28,7 @@ import { ACHIEVEMENT_BADGE_CSS, ACHIEVEMENT_BADGE_DISCOURSE_CSS } from './lib/ac
 import { TOPIC_ROW_CSS } from './lib/topic-row-css.js';
 import { POST_CSS, DISCOURSE_POST_CSS } from './lib/post-css.js';
 import { ILLUSTRATION_TINTS } from './recolour-art.mjs';
+import { ALTERNATIVE_ENTRIES } from './loader-entries.mjs';
 import { loadEnvironmentTable, routeLines, withRouteHeader } from './environments.mjs';
 import { documentTitle, documentHead, withDocumentHead, uniqueTitleRegistry, FAVICON_FOLDER, ROOT_FAVICON_FILE } from './document-head.mjs';
 import { COLOUR_RULES_FILE, COLOUR_RULES_TEMPLATE_FILE, COLOUR_RULES_PAGE, BACKGROUND_LIBRARY_PAGE, loadColourRules, loadBackgrounds, renderColourRulesPage, splitFragment, renderColourRulesAgent, renderColourRulesMd, renderBackgroundLibrary, colourRulesIndexLines, answerSection, markupToHtml } from './colour-rules.mjs';
@@ -3711,7 +3712,7 @@ writeFileSync(join(root, 'lib', 'tokens.js'),
 const ELEMENT_MODULES = readdirSync(join(root, 'lib'))
   .filter(f => f.endsWith('.js') && f !== 'all.js')
   // it sorts before aha-loader.js and would define <aha-loader> without the tiles
-  .filter(f => f !== 'aha-loader-splash.js')
+  .filter(f => !ALTERNATIVE_ENTRIES.has(f))
   .filter(f => /customElements\.define\(/.test(read(join(root, 'lib', f))))
   .sort();
 writeFileSync(join(root, 'lib', 'all.js'),

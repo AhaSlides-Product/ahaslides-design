@@ -201,3 +201,47 @@ test('aha-loader-splash exports what aha-loader does, shows the splash when tile
     globalThis.customElements = real;
   }
 });
+
+test('mounting variant="tiles" loads the tile art, the default splash does not', () => {
+  const calls = [];
+  const original = AhaLoader.prototype._loadTileArt;
+  AhaLoader.prototype._loadTileArt = function () { calls.push(this); };
+  try {
+    document.documentElement.dataset = {};
+    mount();
+    assert.equal(calls.length, 0);
+    const tiles = mount({ variant: 'tiles' });
+    assert.deepEqual(calls, [tiles]);
+  } finally {
+    AhaLoader.prototype._loadTileArt = original;
+  }
+});
+
+test('the splash entry warns once per page when tiles are asked for, and never for the default splash', async () => {
+  const { AhaLoaderCore } = await import('../lib/aha-loader-core.js?fresh-warning');
+  class SplashEntry extends AhaLoaderCore {}
+  const warnings = [];
+  const realWarn = console.warn;
+  console.warn = (...args) => warnings.push(args.join(' '));
+  const mountSplash = (attrs = {}) => {
+    const el = new SplashEntry();
+    for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+    el.connectedCallback();
+    return el;
+  };
+  try {
+    document.documentElement.dataset = {};
+    mountSplash();
+    mountSplash({ variant: 'splash' });
+    assert.deepEqual(warnings, []);
+    assert.equal(mountSplash({ variant: 'tiles' }).getAttribute('data-variant'), 'splash');
+    document.documentElement.dataset = { ahaLoader: 'tiles' };
+    mountSplash();
+    mountSplash({ variant: 'tiles' });
+    assert.equal(warnings.length, 1);
+    assert.match(warnings[0], /@ahaslides-product\/design\/aha-loader;/);
+  } finally {
+    console.warn = realWarn;
+    document.documentElement.dataset = {};
+  }
+});
