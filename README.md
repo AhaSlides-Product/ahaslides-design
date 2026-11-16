@@ -212,7 +212,10 @@ font-size or radius set through `::part(button)` or an inline style on `<aha-but
 (`hand-made-key-chip`). A control the DS does not ship (a draggable tile, a seek-bar grip) keeps its
 tag with `ds-lint-allow: raw-button (why)`. Lint a slide type's `presenter.*` as `canvas`, its
 `audience.*` as `audience` and its `settings.*` as `product`; the 16px and viewport-unit font rules
-are canvas only.
+are canvas only. The 16px floor (`canvas-tiny-font`) and the audience tap size (`audience-button-size`)
+are build defaults: when the slide-type developer explicitly asks for smaller, mark the line
+`ds-lint-allow: size (developer request: <their words>)`. A `size` marker whose reason does not name
+the developer request suppresses nothing and warns (`ds-lint-allow-size-reason`).
 
 **One button** — on every surface `hand-rolled-button` hard-fails a button the screen draws itself:
 a CSS rule on a `button`, `[role=button]`, `input[type=submit]` or a class named `button` / `btn` /

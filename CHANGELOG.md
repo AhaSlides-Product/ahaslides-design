@@ -25,9 +25,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1113.0 — 2026-11-16
+## 0.1114.0 — 2026-11-16
 ### Added
 - **Loader: a splash-only entry, `@ahaslides-product/design/aha-loader-splash`** (DESY-539, #760). It registers the same `<aha-loader>` with the same exports (`AhaLoader`, `defineAhaLoader`, default) and never refers to an illustration, so a bundler adds no illustration chunk: importing `aha-loader` emits the 166 KB gzip catalogue chunk for its tiles even in an app that never shows them. On this entry `variant="tiles"` and `<html data-aha-loader="tiles">` show the splash. `@ahaslides-product/design/aha-loader` is unchanged: the tiles still load the catalogue on first render, so current consumers see no change when they bump. On the splash entry, an element that asks for the tiles logs one `console.warn` per page naming `@ahaslides-product/design/aha-loader`. Both entries define the same tag, so an app imports only one of them; the first to load defines the element and the other is a no-op. The shared element moved to `lib/aha-loader-core.js`, which is not an entry. To revert, delete `lib/aha-loader-splash.js` and its `exports` and `sideEffects` lines.
+
+## 0.1113.0 — 2026-11-16
+### Changed
+- **Slide-type minimum sizes are build defaults, not hard floors** (#758). The 16px canvas floor, the audience type scale and the 48px audience touch actions stay the default every build and judge applies. When the slide-type developer explicitly asks for smaller, mark the declaring line `ds-lint-allow: size (developer request: <their words>)` (`/* … */` in CSS or JS, `<!-- … -->` in HTML): `screen-lint.mjs` group `size` then silences `canvas-tiny-font` and `audience-button-size`, and the judges pass that size (canvas C13 and C5's size axis; audience C5, C9, C19 and C28; the canvas and audience guidelines). A `size` marker whose reason does not name a developer request suppresses nothing and warns (`ds-lint-allow-size-reason`); viewport-unit fonts, contrast, deck ink and font family are unchanged. Six matched bad/good eval pairs plus one bad case for a marker without a developer request. To revert, drop the `size` group in `lib/screen-lint.js` and the carve-out sentences.
 
 ## 0.1112.0 — 2026-11-16
 ### Removed
