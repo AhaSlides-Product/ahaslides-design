@@ -25,6 +25,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1113.1 — 2026-11-16
+### Fixed
+- Modal, Drawer, Toast and Notification: the ✕ close button is now a Tab stop, so forward Tab reaches it inside antd's focus trap (DESY-541, #NNN).
+- antd controls (Cancel, Apply and every other antd button or input) draw the 2px DS focus ring instead of antd's 3px default (DESY-541, #NNN).
+
 ## 0.1112.0 — 2026-11-16
 ### Removed
 - Footer: remove the WhatsApp contact icon and link, leaving seven contact and social icons (LAPA-577, #759).

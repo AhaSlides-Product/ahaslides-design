@@ -23,3 +23,7 @@ test('a destructive confirm has one primary: Cancel, with a default confirm butt
 test('the popconfirm small button radius is the aha-button sm radius', () => {
   assert.equal(popconfirmTheme.components.Button.borderRadiusSM, 4);
 });
+
+test('every antd control draws the 2px DS focus ring, not antd\'s 3px default', () => {
+  assert.equal(antdBaseTheme.token.lineWidthFocus, 2);
+});
