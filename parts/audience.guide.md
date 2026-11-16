@@ -246,7 +246,8 @@ outer column with `gap-6`. The 8px gap is for rows INSIDE one group; don't stand
   No 700 anywhere else, and no 800 / 900.
 
 **Borders are hairlines** (C32): a bounded white card **1px `--aha-border-default`** (#E3E3E3); a deck-owned
-surface (field, track, panel) a **1px** `--aha-deck-stroke` (the ink at 12%) on every deck, light or dark. The 20% controls: a tappable chip, the dashed image drop area and an answer row's letter chip take `--aha-deck-stroke-chip` (the ink at 20%); an answer row's radio / checkbox control takes `--aha-deck-stroke-hover` (the ink at 60%), so its outline holds 3:1 (the dashed image drop area is the one 2px edge, dashed).
+surface (field, track, panel) a **1px** `--aha-deck-stroke` (the ink at 12%) on every deck, light or dark. The 20% controls: a tappable chip, the dashed image drop area and an answer row's letter chip take `--aha-deck-stroke-chip` (the ink at 20%); an answer row's radio / checkbox control takes `--aha-deck-stroke-hover` (the ink at 60%), so its outline holds 3:1 (the dashed image drop area is one 2px edge, dashed).
+The other 2px edge is the **selected-answer ring**: one solid ring of at most 2px, in the deck text colour (C17), with an optional small gap, on the picked answer option only (the native quiz option draws the same 2px ring).
 No other 2px outline: never at heavy ink (55% `textColour` on a chip is the miss).
 
 **One dark ink** (C33): `--aha-text-default` **#1A1A1A** on every surface — never the retired
