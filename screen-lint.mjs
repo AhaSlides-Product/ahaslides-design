@@ -61,7 +61,9 @@
  * Escape hatch (auditable, greppable, per-line): name the rule(s) AND give a reason —
  *   ...  <!-- ds-lint-allow: hex,radius (why) -->     or     /* ds-lint-allow: hex (why) *​/
  * It silences only the named rules on that line. A bare `ds-lint-allow` suppresses nothing and is
- * reported as a warning.
+ * reported as a warning. The min-size rules (canvas-tiny-font, audience-button-size) are build
+ * defaults; group `size` silences them only when the reason names the slide-type developer's ask:
+ *   /* ds-lint-allow: size (developer request: <their words>) *​/
  *
  * Programmatic use (pure, no fs/process — Node and Cloudflare workerd):
  *   import { lintHtml } from '@ahaslides-product/design/screen-lint';

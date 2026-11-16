@@ -30,6 +30,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Modal, Drawer, Toast and Notification: the ✕ close button is now a Tab stop, so forward Tab reaches it inside antd's focus trap (DESY-541, #761).
 - antd controls (Cancel, Apply and every other antd button or input) draw the 2px DS focus ring instead of antd's 3px default (DESY-541, #761).
 
+## 0.1113.0 — 2026-11-16
+### Changed
+- **Slide-type minimum sizes are build defaults, not hard floors** (#758). The 16px canvas floor, the audience type scale and the 48px audience touch actions stay the default every build and judge applies. When the slide-type developer explicitly asks for smaller, mark the declaring line `ds-lint-allow: size (developer request: <their words>)` (`/* … */` in CSS or JS, `<!-- … -->` in HTML): `screen-lint.mjs` group `size` then silences `canvas-tiny-font` and `audience-button-size`, and the judges pass that size (canvas C13 and C5's size axis; audience C5, C9, C19 and C28; the canvas and audience guidelines). A `size` marker whose reason does not name a developer request suppresses nothing and warns (`ds-lint-allow-size-reason`); viewport-unit fonts, contrast, deck ink and font family are unchanged. Six matched bad/good eval pairs plus one bad case for a marker without a developer request. To revert, drop the `size` group in `lib/screen-lint.js` and the carve-out sentences.
+
 ## 0.1112.0 — 2026-11-16
 ### Removed
 - Footer: remove the WhatsApp contact icon and link, leaving seven contact and social icons (LAPA-577, #759).

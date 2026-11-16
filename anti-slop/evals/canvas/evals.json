@@ -2107,6 +2107,121 @@
         "authored": "ahaslides-design",
         "why": "DESY-410: tertiary-deck is allowed on a photographic deck when it sits on a filled surface that clears the contrast floor (Brainstorm card Remove ✕)"
       }
+    },
+    {
+      "id": 78,
+      "prompt": "Review a leaderboard canvas. Colour reads from xprops.slide.textColour, the font is xprops.presentation.fontFamily, contrast is AA against the deck, the title is 48px and the answers 18px. It sets `.name { font-size: 12px; }` with no comment on that line, and the developer's brief asks for nothing smaller. Is this canvas correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C13 developer-requested size, bad half: 12px leaderboard names below the 16px canvas floor, no size marker, so the build default holds. Isolation: only C13 should FAIL.",
+      "expected_output": "C13 FAILs: 12px leaderboard names below the 16px canvas floor. The default holds unless the slide-type developer asked for smaller and the declaring line carries the size marker; this line carries none. Fix: restore the default, or, only when the developer asked, mark the line `/* ds-lint-allow: size (developer request: <their words>) */`. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C13 is marked FAIL",
+        "Names the below-default size as the failure"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C13": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "SLPV-335: the min sizes are build defaults; a smaller size passes when the slide-type developer asked for it and its line carries the size marker"
+      }
+    },
+    {
+      "id": 79,
+      "prompt": "Review a leaderboard canvas. Colour reads from xprops.slide.textColour, the font is xprops.presentation.fontFamily, contrast is AA against the deck, the title is 48px and the answers 18px. The developer asked for a smaller size to fit 20 names without scrolling, so it sets `.name { font-size: 12px; } /* ds-lint-allow: size (developer request: fit 20 names without scrolling) */`. Is this canvas correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C13 developer-requested size, good half: the bad case's size, now carrying the developer-request size marker. Guards against failing a size the developer asked for.",
+      "expected_output": "C13 PASSes: the size is below the default, but the slide-type developer asked for it and the declaring line carries `ds-lint-allow: size (developer request: …)`, so the size clause passes. Contrast, deck ink and font family still hold. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C13 is marked PASS",
+        "Accepts the developer-request marker instead of failing the size"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C13": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "SLPV-335: the min sizes are build defaults; a smaller size passes when the slide-type developer asked for it and its line carries the size marker"
+      }
+    },
+    {
+      "id": 80,
+      "prompt": "Review a word-pair vote canvas. Colour reads from xprops.slide.textColour, the font is xprops.presentation.fontFamily, contrast is AA against the deck, the title is 48px and the answers 18px. It sets `.vote-count { font-size: 14px; }` with no comment on that line, and the developer's brief asks for nothing smaller. Is this canvas correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C5 developer-requested size, bad half: 14px vote counts below the 16px floor on the size axis, no size marker, so the build default holds. Isolation: only C5 should FAIL.",
+      "expected_output": "C5 FAILs: 14px vote counts below the 16px floor on the size axis. The default holds unless the slide-type developer asked for smaller and the declaring line carries the size marker; this line carries none. Fix: restore the default, or, only when the developer asked, mark the line `/* ds-lint-allow: size (developer request: <their words>) */`. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C5 is marked FAIL",
+        "Names the below-default size as the failure"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C5": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "SLPV-335: the min sizes are build defaults; a smaller size passes when the slide-type developer asked for it and its line carries the size marker"
+      }
+    },
+    {
+      "id": 81,
+      "prompt": "Review a word-pair vote canvas. Colour reads from xprops.slide.textColour, the font is xprops.presentation.fontFamily, contrast is AA against the deck, the title is 48px and the answers 18px. The developer asked for a smaller size to keep the counts quieter than the words, so it sets `.vote-count { font-size: 14px; } /* ds-lint-allow: size (developer request: keep the counts quieter than the words) */`. Is this canvas correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C5 developer-requested size, good half: the bad case's size, now carrying the developer-request size marker. Guards against failing a size the developer asked for.",
+      "expected_output": "C5 PASSes: the size is below the default, but the slide-type developer asked for it and the declaring line carries `ds-lint-allow: size (developer request: …)`, so the size clause passes. Contrast, deck ink and font family still hold. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C5 is marked PASS",
+        "Accepts the developer-request marker instead of failing the size"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C5": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "SLPV-335: the min sizes are build defaults; a smaller size passes when the slide-type developer asked for it and its line carries the size marker"
+      }
+    },
+    {
+      "id": 82,
+      "prompt": "Review a leaderboard canvas. Colour reads from xprops.slide.textColour, the font is xprops.presentation.fontFamily, contrast is AA against the deck, the title is 48px and the answers 18px. It sets `.name { font-size: 12px; } /* ds-lint-allow: size (looks tidier) */`; nobody asked for a smaller size. Is this canvas correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C13 developer-requested size: a size marker whose reason names no developer request does not count. Isolation: only C13 should FAIL.",
+      "expected_output": "C13 FAILs: the 12px names are below the 16px floor and the marker's reason ('looks tidier') names no developer request, so it does not count. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C13 is marked FAIL",
+        "Rejects the marker because its reason names no developer request"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C13": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "SLPV-335: the min sizes are build defaults; a smaller size passes when the slide-type developer asked for it and its line carries the size marker"
+      }
     }
   ]
 }
