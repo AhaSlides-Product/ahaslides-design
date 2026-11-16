@@ -3,7 +3,7 @@
  "spacingPx": {
   "lib/aha-add-item-button.js": 0,
   "lib/aha-loader.js": 0,
-  "lib/aha-alert.js": 6,
+  "lib/aha-alert.js": 5,
   "lib/aha-answer-list.js": 0,
   "lib/aha-answer-option.js": 0,
   "lib/aha-audience-chip.js": 0,

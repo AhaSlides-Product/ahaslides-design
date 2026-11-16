@@ -25,6 +25,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1112.0 — 2026-11-16
+### Removed
+- Footer: remove the WhatsApp contact icon and link, leaving seven contact and social icons (LAPA-577, #759).
+
 ## 0.1111.0 — 2026-11-13
 ### Changed
 - **Stat tile: the plain look draws a soft grey top bar; the pink bar is the accent look's** (#757). `<aha-stat-tile>` (look `plain`, the default) and the `.aha-stat-strip__item` and Discourse `.about__stats-item` tiles in `lib/stat-strip.css` now draw the 4px top bar in `--aha-border-strong` (`#D4D4D4`, a soft grey) instead of Vivid Pink, so a row of six to eight tiles stays quiet. `look="accent"` is unchanged (Vivid Pink at 5% with the Vivid Pink bar) and is the emphasis look; report number plates (rule 3.11) stay accent. No new attribute. Every consumer sees the soft grey bar on its next DS bump; to revert, restore `--aha-color-primary` in the plain look's `box-shadow`.
