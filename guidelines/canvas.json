@@ -283,14 +283,14 @@
       ]
     },
     {
-      "rule": "Size every meaningful text with a fixed logical px from the Tailwind preset roles (text-base 16 / text-lg 18 / text-2xl 24 / text-5xl 48 / text-7xl 72). Primary content (title/question/answer) sits at body 18px or larger; only secondary meta may touch the 16px floor.",
+      "rule": "Size every meaningful text with a fixed logical px from the Tailwind preset roles (text-base 16 / text-lg 18 / text-2xl 24 / text-5xl 48 / text-7xl 72). Primary content (title/question/answer) sits at body 18px or larger; only secondary meta may touch the 16px floor. The floor is the build default: a smaller size passes only when the slide-type developer explicitly asked for it and its declaring line carries ds-lint-allow: size (developer request: <their words>); contrast and every other rule still apply.",
       "ref": [
         "§3",
         "C12"
       ]
     },
     {
-      "rule": "Never a vh/vw font-size on the canvas (vh resolves against the framed iframe viewport ~498px, not the 720 stage, so text-[2.3vh] ≈ 11px), no clamp() px floor (it breaks proportion on the transform-scaled stage), never text-xs/text-sm (12/14px), and no arbitrary text-[…] font-size — pick a role. (em is fine.) The one exception is the 14px / 400 key inside a shortcut chip, which aha-button and aha-tooltip draw themselves.",
+      "rule": "Never a vh/vw font-size on the canvas (vh resolves against the framed iframe viewport ~498px, not the 720 stage, so text-[2.3vh] ≈ 11px), no clamp() px floor (it breaks proportion on the transform-scaled stage), never text-xs/text-sm (12/14px), and no arbitrary text-[…] font-size — pick a role. (em is fine.) The one exception is the 14px / 400 key inside a shortcut chip, which aha-button and aha-tooltip draw themselves. A developer-requested smaller size (the rule above) may use text-xs/text-sm; a vh/vw or clamp() font-size stays out.",
       "ref": [
         "§3",
         "C12"

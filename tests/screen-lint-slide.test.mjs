@@ -44,6 +44,20 @@ test('the short group name silences the button rules', () => {
   assert.deepEqual(rulesOf(source, 'canvas'), []);
 });
 
+test('the size group silences a below-default size only when its reason names the developer request', () => {
+  const requested = '(developer request: dense leaderboard names)';
+  assert.deepEqual(rulesOf(`<span style="font-size: 12px"></span> <!-- ds-lint-allow: size ${requested} -->`, 'canvas'), []);
+  assert.deepEqual(rulesOf(`.meta { font-size: 12px; } /* ds-lint-allow: size ${requested} */`, 'canvas'), []);
+  assert.deepEqual(rulesOf(`<aha-button size="sm">Skip</aha-button> <!-- ds-lint-allow: size ${requested} -->`, 'audience'), []);
+  for (const marker of ['size (looks tidier)', 'canvas-tiny-font (looks tidier)'])
+    assert.deepEqual(rulesOf(`<span style="font-size: 12px"></span> <!-- ds-lint-allow: ${marker} -->`, 'canvas').sort(), ['canvas-tiny-font', 'ds-lint-allow-size-reason']);
+  assert.deepEqual(rulesOf(`<span style="font-size: 2vw"></span> <!-- ds-lint-allow: size ${requested} -->`, 'canvas'), ['canvas-viewport-font']);
+  assert.deepEqual(rulesOf(`<div style="font-size: 12px; color: #fff"></div> <!-- ds-lint-allow: size ${requested} -->`, 'canvas'), ['canvas-hardcoded-colour']);
+  assert.deepEqual(rulesOf(`<div style="font-size: 12px; color: #fff"></div> <!-- ds-lint-allow: hex,size ${requested} -->`, 'canvas'), []);
+  const reasonWarning = findingsOf('<aha-button size="sm">Skip</aha-button> <!-- ds-lint-allow: size (compact) -->', 'audience').find(f => f.rule === 'ds-lint-allow-size-reason');
+  assert.match(reasonWarning.message, /canvas-tiny-font or audience-button-size/);
+});
+
 test('the audience surface keeps the deck colour rule and drops the canvas font floor', () => {
   assert.deepEqual(rulesOf('<div style="color: #fff"></div>', 'audience'), ['canvas-hardcoded-colour']);
   assert.deepEqual(rulesOf('<span style="font-size: 14px"></span>', 'audience'), []);

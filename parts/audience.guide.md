@@ -97,6 +97,12 @@ hands you** so they look native to AhaSlides.
 
 Spacing follows a multiple-of-8 rhythm (8 / 16 / 24).
 
+**These sizes, and the 48px touch actions, are the build default.** When the slide-type developer
+explicitly asks for a smaller size or tap target, set it and mark the declaring line
+`/* ds-lint-allow: size (developer request: <their words>) */` (`<!-- … -->` in HTML): screen-lint and the judge (C5, C9,
+C19, C28) then pass that size. A bare marker or a reason that does not name the developer request
+does not count; a larger size is not covered, and contrast and deck ink still apply.
+
 **Token trap:** `--aha-size-sm` is **12px**, not the 14px that Tailwind calls `text-sm`. Map by
 pixel value, not by name: primary copy is `--aha-size-l` (16px), and a "text-sm 14px" note means
 `--aha-size-default`. Primary copy bound to `--aha-size-sm` is the classic miss (C19).
