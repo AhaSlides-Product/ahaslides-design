@@ -13,6 +13,10 @@ The gate rejects an unfilled `(#129)` placeholder in every released entry: link 
 **Format** — one entry per version:
 
 ```
+## 0.1112.0 — 2026-11-16
+### Removed
+- Footer: the WhatsApp contact icon and its link are gone; the footer now has seven contact and social icons (LAPA-577)
+
 ## X.Y.Z — YYYY-MM-DD
 ### Added        ← new component / prop / token / export
 ### Changed      ← behaviour or API change to something that already shipped
