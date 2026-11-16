@@ -721,7 +721,7 @@
     },
     {
       "id": "border-weight",
-      "rule": "Borders are hairlines: a bounded white card takes 1px --aha-border-default (#E3E3E3); a deck-owned surface (field, track, panel) takes 1px --aha-deck-stroke (the ink at 12%), except the 20% --aha-deck-stroke-chip controls: a tappable chip, the dashed image drop area and the radio / checkbox control of an answer row take the ink at 20%; the dashed image drop area is the one 2px edge, dashed. No other 2px outline, and never one at heavy ink (e.g. 55% textColour) on chips, cards or inputs.",
+      "rule": "Borders are hairlines: a bounded white card takes 1px --aha-border-default (#E3E3E3); a deck-owned surface (field, track, panel) takes 1px --aha-deck-stroke (the ink at 12%), except the 20% --aha-deck-stroke-chip controls: a tappable chip, the dashed image drop area and the radio / checkbox control of an answer row take the ink at 20%; the dashed image drop area is one 2px edge, dashed, and the picked answer option takes one solid ring of at most 2px in the deck text colour (C17), optional small gap. No other 2px outline, and never one at heavy ink (e.g. 55% textColour) on chips, cards or inputs.",
       "ref": [
         "C32",
         "§2a"
