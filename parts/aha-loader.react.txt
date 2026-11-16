@@ -1,4 +1,6 @@
 import '@ahaslides-product/design/aha-loader';   // registers <aha-loader> (+ the reused <aha-illustration> for the tiles variant)
+// An app that never shows the tiles imports '@ahaslides-product/design/aha-loader-splash' instead: the splash
+// only, with no illustration chunk in the bundle. Both register the same <aha-loader> tag: import only one.
 
 // The full-surface branded loading SCREEN for an environment transition — workspace → editor,
 // editor → presenting: the animated AhaSlides splash, centred on white. It fills its container, so

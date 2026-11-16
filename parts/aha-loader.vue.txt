@@ -1,5 +1,7 @@
 // main.ts — register the element and mark aha-* as custom elements
 import '@ahaslides-product/design/aha-loader';   // registers <aha-loader> (+ the reused <aha-illustration> for the tiles variant)
+// An app that never shows the tiles imports '@ahaslides-product/design/aha-loader-splash' instead: the splash
+// only, with no illustration chunk in the bundle. Both register the same <aha-loader> tag: import only one.
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
 // Flagged rollout: switch every loader back to the previous five-tile look at one entry point,
