@@ -27,8 +27,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1113.1 — 2026-11-16
 ### Fixed
-- Modal, Drawer, Toast and Notification: the ✕ close button is now a Tab stop, so forward Tab reaches it inside antd's focus trap (DESY-541, #NNN).
-- antd controls (Cancel, Apply and every other antd button or input) draw the 2px DS focus ring instead of antd's 3px default (DESY-541, #NNN).
+- Modal, Drawer, Toast and Notification: the ✕ close button is now a Tab stop, so forward Tab reaches it inside antd's focus trap (DESY-541, #761).
+- antd controls (Cancel, Apply and every other antd button or input) draw the 2px DS focus ring instead of antd's 3px default (DESY-541, #761).
 
 ## 0.1112.0 — 2026-11-16
 ### Removed
