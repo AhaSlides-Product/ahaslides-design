@@ -2445,6 +2445,190 @@
         "authored": "ahaslides-design",
         "why": "DESY-547: on a self-paced view a full-width submit stretches across a wide answer grid (an 880px bar at 1456px), so C9 lets a centred max(240px, 50%) submit pass from 600px and keeps the full-width block below it"
       }
+    },
+    {
+      "id": 100,
+      "prompt": "Review an audience short-answer view. Ink is xprops.slide.textColour, the font is xprops.presentation.fontFamily and contrast is AA on both deck polarities. It sets `input.answer { font-size: 14px; }` with no comment on that line, and the developer's brief asks for nothing smaller. Is this audience correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C5 developer-requested size, bad half: 14px answer-field text below the 16px default, no size marker, so the build default holds. Isolation: only C5 should FAIL.",
+      "expected_output": "C5 FAILs: 14px answer-field text below the 16px default. The default holds unless the slide-type developer asked for smaller and the declaring line carries the size marker; this line carries none. Fix: restore the default, or, only when the developer asked, mark the line `/* ds-lint-allow: size (developer request: <their words>) */`. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C5 is marked FAIL",
+        "Names the below-default size as the failure"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C5": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "SLPV-335: the min sizes are build defaults; a smaller size passes when the slide-type developer asked for it and its line carries the size marker"
+      }
+    },
+    {
+      "id": 101,
+      "prompt": "Review an audience short-answer view. Ink is xprops.slide.textColour, the font is xprops.presentation.fontFamily and contrast is AA on both deck polarities. The developer asked for a smaller size to match our compact form, so it sets `input.answer { font-size: 14px; } /* ds-lint-allow: size (developer request: match our compact form) */`. Is this audience correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C5 developer-requested size, good half: the bad case's size, now carrying the developer-request size marker. Guards against failing a size the developer asked for.",
+      "expected_output": "C5 PASSes: the size is below the default, but the slide-type developer asked for it and the declaring line carries `ds-lint-allow: size (developer request: …)`, so the size clause passes. Contrast, deck ink and font family still hold. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C5 is marked PASS",
+        "Accepts the developer-request marker instead of failing the size"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C5": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "SLPV-335: the min sizes are build defaults; a smaller size passes when the slide-type developer asked for it and its line carries the size marker"
+      }
+    },
+    {
+      "id": 102,
+      "prompt": "Review an audience poll with 12 options. Ink is xprops.slide.textColour, the font is xprops.presentation.fontFamily and contrast is AA on both deck polarities. It sets `.option-label { font-size: 14px; }` with no comment on that line, and the developer's brief asks for nothing smaller. Is this audience correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C19 developer-requested size, bad half: 14px option labels below the 16px default, no size marker, so the build default holds. Isolation: only C19 should FAIL.",
+      "expected_output": "C19 FAILs: 14px option labels below the 16px default. The default holds unless the slide-type developer asked for smaller and the declaring line carries the size marker; this line carries none. Fix: restore the default, or, only when the developer asked, mark the line `/* ds-lint-allow: size (developer request: <their words>) */`. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C19 is marked FAIL",
+        "Names the below-default size as the failure"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C19": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "SLPV-335: the min sizes are build defaults; a smaller size passes when the slide-type developer asked for it and its line carries the size marker"
+      }
+    },
+    {
+      "id": 103,
+      "prompt": "Review an audience poll with 12 options. Ink is xprops.slide.textColour, the font is xprops.presentation.fontFamily and contrast is AA on both deck polarities. The developer asked for a smaller size to fit 12 options on one phone screen, so it sets `.option-label { font-size: 14px; } /* ds-lint-allow: size (developer request: fit 12 options on one phone screen) */`. Is this audience correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C19 developer-requested size, good half: the bad case's size, now carrying the developer-request size marker. Guards against failing a size the developer asked for.",
+      "expected_output": "C19 PASSes: the size is below the default, but the slide-type developer asked for it and the declaring line carries `ds-lint-allow: size (developer request: …)`, so the size clause passes. Contrast, deck ink and font family still hold. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C19 is marked PASS",
+        "Accepts the developer-request marker instead of failing the size"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C19": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "SLPV-335: the min sizes are build defaults; a smaller size passes when the slide-type developer asked for it and its line carries the size marker"
+      }
+    },
+    {
+      "id": 104,
+      "prompt": "Review an audience name field. Ink is xprops.slide.textColour, the font is xprops.presentation.fontFamily and contrast is AA on both deck polarities. It sets `.field-label { font-size: 14px; color: currentColor; }` with no comment on that line, and the developer's brief asks for nothing smaller. Is this audience correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C28 developer-requested size, bad half: a 14px field label below the 16px default, no size marker, so the build default holds. Isolation: only C28 should FAIL.",
+      "expected_output": "C28 FAILs: a 14px field label below the 16px default. The default holds unless the slide-type developer asked for smaller and the declaring line carries the size marker; this line carries none. Fix: restore the default, or, only when the developer asked, mark the line `/* ds-lint-allow: size (developer request: <their words>) */`. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C28 is marked FAIL",
+        "Names the below-default size as the failure"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C28": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "SLPV-335: the min sizes are build defaults; a smaller size passes when the slide-type developer asked for it and its line carries the size marker"
+      }
+    },
+    {
+      "id": 105,
+      "prompt": "Review an audience name field. Ink is xprops.slide.textColour, the font is xprops.presentation.fontFamily and contrast is AA on both deck polarities. The developer asked for a smaller size to keep the label lighter than the field, so it sets `.field-label { font-size: 14px; color: currentColor; } /* ds-lint-allow: size (developer request: keep the label lighter than the field) */`. Is this audience correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C28 developer-requested size, good half: the bad case's size, now carrying the developer-request size marker. Guards against failing a size the developer asked for.",
+      "expected_output": "C28 PASSes: the size is below the default, but the slide-type developer asked for it and the declaring line carries `ds-lint-allow: size (developer request: …)`, so the size clause passes. Contrast, deck ink and font family still hold. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C28 is marked PASS",
+        "Accepts the developer-request marker instead of failing the size"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C28": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "SLPV-335: the min sizes are build defaults; a smaller size passes when the slide-type developer asked for it and its line carries the size marker"
+      }
+    },
+    {
+      "id": 106,
+      "prompt": "Review the audience view of a built plugin without the DS package, which rebuilds the submit spec (full-width, deck-accent fill, contrast-picked ink, all four states and the wiring). Ink is xprops.slide.textColour, the font is xprops.presentation.fontFamily and contrast is AA on both deck polarities. It sets `.submit { height: 40px; }` with no comment on that line, and the developer's brief asks for nothing smaller. Is this audience correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C9 developer-requested size, bad half: a 40px submit below the 44-48px default, no size marker, so the build default holds. Isolation: only C9 should FAIL.",
+      "expected_output": "C9 FAILs: a 40px submit below the 44-48px default. The default holds unless the slide-type developer asked for smaller and the declaring line carries the size marker; this line carries none. Fix: restore the default, or, only when the developer asked, mark the line `/* ds-lint-allow: size (developer request: <their words>) */`. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C9 is marked FAIL",
+        "Names the below-default size as the failure"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C9": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "SLPV-335: the min sizes are build defaults; a smaller size passes when the slide-type developer asked for it and its line carries the size marker"
+      }
+    },
+    {
+      "id": 107,
+      "prompt": "Review the audience view of a built plugin without the DS package, which rebuilds the submit spec (full-width, deck-accent fill, contrast-picked ink, all four states and the wiring). Ink is xprops.slide.textColour, the font is xprops.presentation.fontFamily and contrast is AA on both deck polarities. The developer asked for a smaller size to slim the submit under a tall grid, so it sets `.submit { height: 40px; } /* ds-lint-allow: size (developer request: slim the submit under a tall grid) */`. Is this audience correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C9 developer-requested size, good half: the bad case's size, now carrying the developer-request size marker. Guards against failing a size the developer asked for.",
+      "expected_output": "C9 PASSes: the size is below the default, but the slide-type developer asked for it and the declaring line carries `ds-lint-allow: size (developer request: …)`, so the size clause passes. Contrast, deck ink and font family still hold. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C9 is marked PASS",
+        "Accepts the developer-request marker instead of failing the size"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C9": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "SLPV-335: the min sizes are build defaults; a smaller size passes when the slide-type developer asked for it and its line carries the size marker"
+      }
     }
   ]
 }

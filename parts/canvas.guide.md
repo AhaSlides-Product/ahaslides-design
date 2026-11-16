@@ -196,6 +196,10 @@ seat** — the same bar applies to the small editor preview.
 
   - **Primary content (title / question / answer) sits at body (18px) or larger;** only
     secondary meta may touch the 16px floor. Text below 16px is illegible on a projector.
+  - **The floor is the build default.** When the slide-type developer explicitly asks for a
+    smaller size, set it and mark the declaring line `/* ds-lint-allow: size (developer request: <their words>) */`
+    (`<!-- … -->` in HTML). screen-lint and the judge (C13) then pass that size; a bare marker or
+    a reason that does not name the developer request does not count, and contrast still applies.
   - **Never a `vh`/`vw` font-size** — `vh` resolves against the framed iframe viewport
     (~498px, not 720), so `text-[2.3vh]` renders ~11px, and its basis wobbles by framing.
   - **No `clamp()` px floor** — a px floor pins an absolute size while siblings scale,
