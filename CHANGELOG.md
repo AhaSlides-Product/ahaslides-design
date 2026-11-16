@@ -25,6 +25,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1115.0 — 2026-11-16
+### Changed
+- **Audience criterion C32 allows a 2px selected-answer ring** (#PRNUM). The picked answer option may draw one solid ring of at most 2px in the deck text colour (C17), with an optional small gap, matching the native quiz option; every other outline stays a 1px hairline, and a 2px border on a card, chip or input still fails. C17 states the 1px to 2px width, the audience guide and guideline carry the same rule, and two evals (a 2px picked ring passes, a 2px card or chip border fails) cover it.
+
 ## 0.1113.0 — 2026-11-16
 ### Changed
 - **Slide-type minimum sizes are build defaults, not hard floors** (#758). The 16px canvas floor, the audience type scale and the 48px audience touch actions stay the default every build and judge applies. When the slide-type developer explicitly asks for smaller, mark the declaring line `ds-lint-allow: size (developer request: <their words>)` (`/* … */` in CSS or JS, `<!-- … -->` in HTML): `screen-lint.mjs` group `size` then silences `canvas-tiny-font` and `audience-button-size`, and the judges pass that size (canvas C13 and C5's size axis; audience C5, C9, C19 and C28; the canvas and audience guidelines). A `size` marker whose reason does not name a developer request suppresses nothing and warns (`ds-lint-allow-size-reason`); viewport-unit fonts, contrast, deck ink and font family are unchanged. Six matched bad/good eval pairs plus one bad case for a marker without a developer request. To revert, drop the `size` group in `lib/screen-lint.js` and the carve-out sentences.

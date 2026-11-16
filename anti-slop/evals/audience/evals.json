@@ -2629,6 +2629,53 @@
         "authored": "ahaslides-design",
         "why": "SLPV-335: the min sizes are build defaults; a smaller size passes when the slide-type developer asked for it and its line carries the size marker"
       }
+    },
+    {
+      "id": 108,
+      "prompt": "Review this audience view's answer options. `.opt{border:1px solid var(--aha-border-default);border-radius:var(--aha-radius-md)} .opt.is-selected{box-shadow:0 0 0 2px var(--deck-ink);transition:box-shadow var(--aha-motion-mid) var(--aha-ease-out)}` where `--deck-ink` is xprops.slide.textColour. Is the picked-answer ring right?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C32 good: the 2px selected-answer ring is allowed.",
+      "expected_output": "C32 and C17 PASS. A single 2px solid ring in the deck text colour on the picked option only is the allowed selected-answer state; every other edge stays a 1px hairline. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C32 is marked PASS",
+        "No criterion is marked FAIL"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C17": "PASS",
+          "C32": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-554: native quiz parity, a 2px selected-answer ring is allowed so a pick reads as selected"
+      }
+    },
+    {
+      "id": 109,
+      "prompt": "Review this audience view. Every answer option is a card with `border:2px solid var(--deck-ink)` at rest, and the vote chips have `border:2px solid color-mix(in srgb, currentColor 20%, transparent)`. The picked option changes only the fill. Are the borders right?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C32 bad: a 2px border on a card or chip is not the selected ring.",
+      "expected_output": "C32 FAILs. The 2px allowance is only the ring on the picked option; a 2px border on every resting card and on chips is a heavy outline. Use 1px hairlines and put the one 2px ring on the selected option only. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C32 is marked FAIL",
+        "Fix keeps resting cards and chips at a 1px hairline and moves the 2px ring to the picked option only"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C32": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-554: native quiz parity, a 2px selected-answer ring is allowed so a pick reads as selected"
+      }
     }
   ]
 }
