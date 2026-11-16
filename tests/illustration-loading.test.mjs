@@ -9,7 +9,7 @@ const fixtureUrl = pathToFileURL(fileURLToPath(new URL('./illustration-loading.h
 const skip = existsSync(resolveChrome()) ? false : 'needs headless Chrome (set CHROME_BIN)';
 
 const importsOf = (file) => [...readFileSync(new URL(file, libDir), 'utf8')
-  .matchAll(/\bimport\s*(?:\(\s*|[^'";]*?\s+from\s+)?'\.\/([\w.-]+\.js)'/g)].map((match) => match[1]);
+  .matchAll(/\b(?:import|export)\s*(?:\(\s*|[^'";]*?\s+from\s+)?'\.\/([\w.-]+\.js)'/g)].map((match) => match[1]);
 const everythingABundlerPulls = (file, seen = new Set()) => {
   if (!seen.has(file)) { seen.add(file); importsOf(file).forEach((next) => everythingABundlerPulls(next, seen)); }
   return seen;
@@ -22,6 +22,14 @@ for (const entry of ['aha-empty.js', 'aha-data-table.js', 'antd-render-empty.js'
     assert.ok(!pulled.has('illustrations-registry.js'), `${entry} reaches the whole catalogue`);
   });
 }
+
+test('aha-loader-splash reaches no illustration module, while aha-loader still loads the catalogue for its tiles', () => {
+  const splash = everythingABundlerPulls('aha-loader-splash.js');
+  for (const file of ['illustrations.js', 'illustrations-registry.js', 'illustrations-empty.js', 'aha-illustration.js']) {
+    assert.ok(!splash.has(file), `aha-loader-splash.js reaches ${file}`);
+  }
+  assert.ok(everythingABundlerPulls('aha-loader.js').has('illustrations.js'));
+});
 
 test('the small art modules survive tree-shaking', () => {
   const { sideEffects } = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
