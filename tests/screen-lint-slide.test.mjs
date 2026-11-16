@@ -53,6 +53,9 @@ test('the size group silences a below-default size only when its reason names th
     assert.deepEqual(rulesOf(`<span style="font-size: 12px"></span> <!-- ds-lint-allow: ${marker} -->`, 'canvas').sort(), ['canvas-tiny-font', 'ds-lint-allow-size-reason']);
   assert.deepEqual(rulesOf(`<span style="font-size: 2vw"></span> <!-- ds-lint-allow: size ${requested} -->`, 'canvas'), ['canvas-viewport-font']);
   assert.deepEqual(rulesOf(`<div style="font-size: 12px; color: #fff"></div> <!-- ds-lint-allow: size ${requested} -->`, 'canvas'), ['canvas-hardcoded-colour']);
+  assert.deepEqual(rulesOf(`<div style="font-size: 12px; color: #fff"></div> <!-- ds-lint-allow: hex,size ${requested} -->`, 'canvas'), []);
+  const reasonWarning = findingsOf('<aha-button size="sm">Skip</aha-button> <!-- ds-lint-allow: size (compact) -->', 'audience').find(f => f.rule === 'ds-lint-allow-size-reason');
+  assert.match(reasonWarning.message, /canvas-tiny-font or audience-button-size/);
 });
 
 test('the audience surface keeps the deck colour rule and drops the canvas font floor', () => {
