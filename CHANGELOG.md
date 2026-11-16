@@ -25,10 +25,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1113.1 — 2026-11-16
+## 0.1115.1 — 2026-11-16
 ### Fixed
 - Modal, Drawer, Toast and Notification: the ✕ close button is now a Tab stop, so forward Tab reaches it inside antd's focus trap (DESY-541, #761).
 - antd controls (Cancel, Apply and every other antd button or input) draw the 2px DS focus ring instead of antd's 3px default (DESY-541, #761).
+
+## 0.1115.0 — 2026-11-16
+### Changed
+- **Audience criterion C32 allows a 2px selected-answer ring** (#762). The picked answer option may draw one solid ring of at most 2px in the deck text colour (C17), with an optional small gap, matching the native quiz option; every other outline stays a 1px hairline, and a 2px border on a card, chip or input still fails. C17 states the 1px to 2px width, the audience guide and guideline carry the same rule, and two evals (a 2px picked ring passes, a 2px card or chip border fails) cover it.
 
 ## 0.1113.0 — 2026-11-16
 ### Changed
