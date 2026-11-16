@@ -27,7 +27,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1115.0 — 2026-11-16
 ### Changed
-- **Audience criterion C32 allows a 2px selected-answer ring** (#PRNUM). The picked answer option may draw one solid ring of at most 2px in the deck text colour (C17), with an optional small gap, matching the native quiz option; every other outline stays a 1px hairline, and a 2px border on a card, chip or input still fails. C17 states the 1px to 2px width, the audience guide and guideline carry the same rule, and two evals (a 2px picked ring passes, a 2px card or chip border fails) cover it.
+- **Audience criterion C32 allows a 2px selected-answer ring** (#762). The picked answer option may draw one solid ring of at most 2px in the deck text colour (C17), with an optional small gap, matching the native quiz option; every other outline stays a 1px hairline, and a 2px border on a card, chip or input still fails. C17 states the 1px to 2px width, the audience guide and guideline carry the same rule, and two evals (a 2px picked ring passes, a 2px card or chip border fails) cover it.
 
 ## 0.1113.0 — 2026-11-16
 ### Changed
