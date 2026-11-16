@@ -3710,6 +3710,8 @@ writeFileSync(join(root, 'lib', 'tokens.js'),
    (every lib/*.js that calls customElements.define) so the set can never drift from what ships. */
 const ELEMENT_MODULES = readdirSync(join(root, 'lib'))
   .filter(f => f.endsWith('.js') && f !== 'all.js')
+  // it sorts before aha-loader.js and would define <aha-loader> without the tiles
+  .filter(f => f !== 'aha-loader-splash.js')
   .filter(f => /customElements\.define\(/.test(read(join(root, 'lib', f))))
   .sort();
 writeFileSync(join(root, 'lib', 'all.js'),

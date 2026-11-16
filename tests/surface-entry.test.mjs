@@ -17,7 +17,9 @@ const closure = (file, seen = new Set()) => {
   importedModules(file).forEach((next) => closure(next, seen));
   return seen;
 };
-const elementModules = readdirSync(libDir).filter((file) => file.endsWith('.js') && /customElements\.define\(/.test(source(file)));
+// a second entry for <aha-loader>, whose tag aha-loader.js registers in every surface and in all.js
+const ALTERNATIVE_ENTRIES = new Set(['aha-loader-splash.js']);
+const elementModules = readdirSync(libDir).filter((file) => file.endsWith('.js') && !ALTERNATIVE_ENTRIES.has(file) && /customElements\.define\(/.test(source(file)));
 const tagOf = (file) => (file === 'icons.js' ? 'aha-icon' : file.replace(/\.js$/, ''));
 
 test('every element module is registered by at least one surface entry', () => {

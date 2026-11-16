@@ -175,3 +175,29 @@ test('the splash defaults to layers: each petal and dot its own layer, moved onl
   el.attributeChangedCallback('engine');
   assert.match(el.shadowRoot.innerHTML, /<filter/);
 });
+
+test('aha-loader-splash exports what aha-loader does, shows the splash when tiles are asked for, and either define leaves the other a no-op', async () => {
+  const tiles = await import('../lib/aha-loader.js');
+  const splash = await import('../lib/aha-loader-splash.js');
+  assert.deepEqual(Object.keys(splash).sort(), Object.keys(tiles).sort());
+  assert.deepEqual(Object.keys(splash.default).sort(), ['AhaLoader', 'defineAhaLoader']);
+  assert.equal(splash.AhaLoader.CYCLE_MS, AhaLoader.CYCLE_MS);
+  document.documentElement.dataset = { ahaLoader: 'tiles' };
+  for (const attrs of [{}, { variant: 'tiles' }]) {
+    const el = new splash.AhaLoader();
+    for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+    el.connectedCallback();
+    assert.equal(el.getAttribute('data-variant'), 'splash');
+    assert.doesNotMatch(el.shadowRoot.innerHTML, /aha-illustration/);
+  }
+  document.documentElement.dataset = {};
+  const real = globalThis.customElements, registry = new Map();
+  globalThis.customElements = { get: tag => registry.get(tag), define: (tag, cls) => { if (registry.has(tag)) throw new Error(`${tag} already defined`); registry.set(tag, cls); } };
+  try {
+    splash.defineAhaLoader();
+    tiles.defineAhaLoader();
+    assert.equal(registry.get('aha-loader'), splash.AhaLoader);
+  } finally {
+    globalThis.customElements = real;
+  }
+});
