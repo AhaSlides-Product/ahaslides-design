@@ -27,7 +27,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1116.3 — 2026-11-17
 ### Fixed
-- Answer option and Answer result: a wrong answer now has the same 1px `--aha-answer-wrong` edge as a right one, with the cross mark and the 5% tint; the 2px ring (3px in the audience row) is gone. Colour rule 11.5, the contracts, the feedback guide and the answer criteria say so (DESY-558, #NNN).
+- Answer option and Answer result: a wrong answer now has the same 1px `--aha-answer-wrong` edge as a right one, with the cross mark and the 5% tint; the 2px ring (3px in the audience row) is gone. Colour rule 11.5, the contracts, the feedback guide and the answer criteria say so (DESY-558, #764).
 
 ## 0.1116.1 — 2026-11-16
 ### Fixed
