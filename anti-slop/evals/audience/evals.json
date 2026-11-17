@@ -2676,6 +2676,53 @@
         "authored": "ahaslides-design",
         "why": "DESY-554: native quiz parity, a 2px selected-answer ring is allowed so a pick reads as selected"
       }
+    },
+    {
+      "id": 113,
+      "prompt": "Review this audience view for a Short Answer slide. The answer box is `<aha-audience-field label=\"Your answer\"><aha-counted-input maxlength=\"60\"></aha-counted-input></aha-audience-field>` with no size attribute, so it renders at the default 40px, and the submit is `<aha-audience-submit>`. Is the field right?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C5 bad: an audience text field without size=\"lg\" is the 40px default.",
+      "expected_output": "C5 FAILs. Every audience text field is the large 48px size: <aha-counted-input size=\"lg\"> inside <aha-audience-field>. The default 40px field is below it, and screen-lint reports audience-field-size on the same line. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C5 is marked FAIL",
+        "Fix adds size=\"lg\" to the <aha-counted-input>",
+        "Names the screen-lint rule audience-field-size or the 48px field size"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C5": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-559: audience text fields are the large 48px size; screen-lint audience-field-size is the mechanical twin"
+      }
+    },
+    {
+      "id": 114,
+      "prompt": "Review this audience view for a Short Answer slide. The answer box is `<aha-audience-field label=\"Your answer\"><aha-counted-input size=\"lg\" maxlength=\"60\"></aha-counted-input></aha-audience-field>` and the submit is `<aha-audience-submit>`. Is the field size right?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C5 good: the audience text field is size=\"lg\".",
+      "expected_output": "C5 PASSes on field size. The <aha-counted-input size=\"lg\"> inside <aha-audience-field> is the large 48px audience field. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C5 is marked PASS",
+        "No criterion is marked FAIL"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C5": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-559: audience text fields are the large 48px size; screen-lint audience-field-size is the mechanical twin"
+      }
     }
   ]
 }

@@ -25,6 +25,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1118.0 — 2026-11-17
+### Added
+- screen-lint hard-fails `audience-field-size`: on the audience surface, and on any page named `self-paced-view.*` whatever its surface, an `aha-input`, `aha-counted-input`, `aha-counted-textarea`, `aha-select` or `aha-autocomplete` without `size="lg"` (or `large`) fails, in markup, in `el('…', { size })` and through `setAttribute`. A line marked `ds-lint-allow: size (developer request: …)` keeps another size (DESY-559, #765).
+- Audience criterion C5 names the 48px field size and the lint rule as its mechanical twin, with a bad and a good eval pair (DESY-559, #765).
+
 ## 0.1116.4 — 2026-11-17
 ### Changed
 - **Button: a `text-link` has a transparent background** (DESY-557, #763). `:host([variant=text-link]) button` drew `var(--aha-button-default-bg, #FFFFFF)`, a white box carried over from the antd port; only `tone="ink"` overrode it. It is now `transparent` for every text-link (inline size already was); disabled was already transparent, and a text-link on white looks unchanged.
