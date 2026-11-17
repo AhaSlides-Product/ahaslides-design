@@ -29,7 +29,7 @@ function AhaAlert({ type, heading, size, padding, banner, hideIcon, closable, on
 
 // usage
 <AhaAlert type="success" heading="Saved">Your changes are live.</AhaAlert>
-<AhaAlert type="branding" heading="New: AI slides" action={<button>Try it</button>}>Turn a prompt into a deck.</AhaAlert>
+<AhaAlert type="branding" heading="New: AI slides" action={<aha-button variant="secondary" size="sm">Try it</aha-button>}>Turn a prompt into a deck.</AhaAlert>
 <AhaAlert type="warning" banner closable onClose={() => setBanner(null)}>Scheduled maintenance tonight.</AhaAlert>
 <AhaAlert type="error" size="small" closable onClose={() => setBanner(null)}>Upload failed. Try a smaller file.</AhaAlert>
 <AhaAlert type="info" size="small" padding="even" hideIcon closable onClose={() => setBanner(null)}>This slide type is used in 3 presentations.</AhaAlert>

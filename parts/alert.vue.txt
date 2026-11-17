@@ -12,7 +12,7 @@ const banner = ref(true);
   <aha-alert type="success" heading="Saved">Your changes are live.</aha-alert>
   <aha-alert type="branding" heading="New: AI slides">
     Turn a prompt into a deck.
-    <button slot="action">Try it</button>
+    <aha-button slot="action" variant="secondary" size="sm">Try it</aha-button>
   </aha-alert>
   <aha-alert type="error" size="small">Upload failed. Try a smaller file.</aha-alert>
   <aha-alert type="info" size="small" padding="even" hide-icon>This slide type is used in 3 presentations.</aha-alert>

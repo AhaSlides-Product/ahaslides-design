@@ -25,6 +25,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1116.2 — 2026-11-17
+### Changed
+- **Alert: the action is a secondary button, centred on the text, and the banner has a light shadow** (DESY-557, #PRNUM). A button in `slot="action"` is `<aha-button variant="secondary" size="sm">` in every example, snippet and in Feedback criterion C4; the element does not restyle a primary a consumer passes. Beside the text the action is now centred vertically on the text block (`.main` `align-items: center`, was `flex-start`); on a one-line message the 28px button overhangs the line by 3.5px each way (5px on small), so the icon, the text and the ✕ stay on one line. When the action wraps below the text it stays left-aligned, 8px under it (6 small), as before. `banner` adds `box-shadow: 0 2px 8px var(--aha-ink-a10)`; inline alerts stay flat. To revert, restore `lib/aha-alert.js` from 0.1116.1.
+
 ## 0.1116.1 — 2026-11-16
 ### Fixed
 - Modal, Drawer, Toast and Notification: the ✕ close button is now a Tab stop, so forward Tab reaches it inside antd's focus trap (DESY-541, #761).

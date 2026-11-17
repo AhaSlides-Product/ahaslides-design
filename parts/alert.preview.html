@@ -5,11 +5,15 @@
     <aha-alert type="success">Slide saved. <a href="#undo">Undo</a> or <a href="#history">see version history</a>.</aha-alert>
     <aha-alert type="warning" heading="Almost at the limit">You have used 9 of 10 slides on the Free plan.</aha-alert>
     <aha-alert type="error" closable>Upload failed. The file is over 20&nbsp;MB.</aha-alert>
-    <aha-alert type="branding" heading="New: AI slide generation">Turn a prompt into a full deck.
-      <button slot="action" style="border:0;background:var(--aha-color-primary,#E70E68);color:#fff;border-radius:6px;padding:4px 10px;font:inherit;font-weight:600;cursor:pointer">Try it</button>
-    </aha-alert>
+    <aha-alert type="branding" heading="New: AI slide generation">Turn a prompt into a full deck.<aha-button slot="action" variant="secondary" size="sm">Try it</aha-button></aha-alert>
+    <aha-alert type="branding" closable>Turn a prompt into a full deck.<aha-button slot="action" variant="secondary" size="sm">Try it</aha-button></aha-alert>
     <aha-alert type="success" size="small" hide-icon>Compact confirmation, no icon.</aha-alert>
     <aha-alert type="warning" banner closable>Scheduled maintenance tonight 22:00 to 23:00 UTC.</aha-alert>
+  </div>
+  <div class="lbl">Banner (full width, light shadow, action centred)</div>
+  <div style="display:flex; flex-direction:column; gap:24px; padding-bottom:12px">
+    <aha-alert type="branding" banner closable><b>All slide types and features. Bigger audience.</b> No strings attached. One payment, no auto-renew.<aha-button slot="action" variant="secondary" size="sm">Get the 24-hour pass</aha-button></aha-alert>
+    <aha-alert type="info" banner closable heading="Heads up">Your poll closes in 5 minutes.<aha-button slot="action" variant="secondary" size="sm">Extend</aha-button></aha-alert>
   </div>
   <div class="lbl">Even padding (padding="even")</div>
   <div style="display:flex; flex-direction:column; gap:12px; max-width:560px">

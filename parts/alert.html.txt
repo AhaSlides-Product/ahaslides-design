@@ -16,12 +16,16 @@
   <aha-alert type="error" closable id="err">Upload failed. The file is over 20&nbsp;MB.</aha-alert>
   <aha-alert type="branding" heading="New: AI slide generation">
     Turn a prompt into a full deck.
-    <button slot="action">Try it</button>
+    <aha-button slot="action" variant="secondary" size="sm">Try it</aha-button>
   </aha-alert>
 </div>
 
-<!-- banner = full-width, square-cornered page notice (drop it at the top of the layout) -->
+<!-- banner = full-width, square-cornered page notice with a light shadow (drop it at the top of the layout);
+     a trailing action is a secondary small button, centred on the text -->
 <aha-alert type="warning" banner closable>Scheduled maintenance tonight 22:00 to 23:00 UTC.</aha-alert>
+<aha-alert type="branding" banner closable><b>All slide types and features. Bigger audience.</b> No strings attached.
+  <aha-button slot="action" variant="secondary" size="sm">Get the 24-hour pass</aha-button>
+</aha-alert>
 
 <script>
   document.getElementById('err').addEventListener('close', () => console.log('alert dismissed'));
