@@ -136,6 +136,6 @@ test('tone ink draws the link in the default ink, underlined at rest, with no fi
     assert.equal(byId[id].active.colour, 'rgb(219, 0, 91)', `${id} press`);
     assert.equal(byId[id].active.decoration, 'underline', `${id} press`);
   }
-  assert.deepEqual(byId.link.rest, { colour: 'rgb(219, 0, 91)', decoration: 'none', background: 'rgb(255, 255, 255)' }, 'the default tone is unchanged');
+  assert.deepEqual(byId.link.rest, { colour: 'rgb(219, 0, 91)', decoration: 'none', background: 'rgba(0, 0, 0, 0)' }, 'the default tone draws no white box');
   assert.equal(byId.disabled, 'rgb(181, 181, 181)');
 });
