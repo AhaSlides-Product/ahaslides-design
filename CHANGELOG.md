@@ -25,6 +25,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1118.0 — 2026-11-17
+### Added
+- screen-lint hard-fails `audience-field-size`: on the audience surface, and on any page named `self-paced-view.*` whatever its surface, an `aha-input`, `aha-counted-input`, `aha-counted-textarea`, `aha-select` or `aha-autocomplete` without `size="lg"` (or `large`) fails, in markup, in `el('…', { size })` and through `setAttribute`. A line marked `ds-lint-allow: size (developer request: …)` keeps another size (DESY-559, #NNN).
+- Audience criterion C5 names the 48px field size and the lint rule as its mechanical twin, with a bad and a good eval pair (DESY-559, #NNN).
+
 ## 0.1116.1 — 2026-11-16
 ### Fixed
 - Modal, Drawer, Toast and Notification: the ✕ close button is now a Tab stop, so forward Tab reaches it inside antd's focus trap (DESY-541, #761).

@@ -209,7 +209,9 @@ suppresses nothing and is reported as a `ds-lint-allow-bare` warning.
 `role="button"` (`raw-button`), `<aha-button size="xl">` (`button-size-xl`), height, padding,
 font-size or radius set through `::part(button)` or an inline style on `<aha-button>`
 (`button-hand-sizing`), and a `<kbd>` inside `<aha-button>` instead of its `shortcut` attribute
-(`hand-made-key-chip`). A control the DS does not ship (a draggable tile, a seek-bar grip) keeps its
+(`hand-made-key-chip`). On `audience` (and on any `self-paced-view.*` page, whatever its surface) a text field
+(`aha-input`, `aha-counted-input`, `aha-counted-textarea`, `aha-select`, `aha-autocomplete`) without `size="lg"` hard-fails
+`audience-field-size`; `ds-lint-allow: size (developer request: …)` keeps another size. A control the DS does not ship (a draggable tile, a seek-bar grip) keeps its
 tag with `ds-lint-allow: raw-button (why)`. Lint a slide type's `presenter.*` as `canvas`, its
 `audience.*` as `audience` and its `settings.*` as `product`; the 16px and viewport-unit font rules
 are canvas only. The 16px floor (`canvas-tiny-font`) and the audience tap size (`audience-button-size`)
