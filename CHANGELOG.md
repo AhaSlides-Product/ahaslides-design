@@ -30,6 +30,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - screen-lint hard-fails `audience-field-size`: on the audience surface, and on any page named `self-paced-view.*` whatever its surface, an `aha-input`, `aha-counted-input`, `aha-counted-textarea`, `aha-select` or `aha-autocomplete` without `size="lg"` (or `large`) fails, in markup, in `el('…', { size })` and through `setAttribute`. A line marked `ds-lint-allow: size (developer request: …)` keeps another size (DESY-559, #765).
 - Audience criterion C5 names the 48px field size and the lint rule as its mechanical twin, with a bad and a good eval pair (DESY-559, #765).
 
+## 0.1116.3 — 2026-11-17
+### Fixed
+- Answer option and Answer result: a wrong answer now has the same 1px `--aha-answer-wrong` edge as a right one, with the cross mark and the 5% tint; the 2px ring (3px in the audience row) is gone. Colour rule 11.5, the contracts, the feedback guide and the answer criteria say so (DESY-558, #764).
+
 ## 0.1116.1 — 2026-11-16
 ### Fixed
 - Modal, Drawer, Toast and Notification: the ✕ close button is now a Tab stop, so forward Tab reaches it inside antd's focus trap (DESY-541, #761).
