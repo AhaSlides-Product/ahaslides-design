@@ -38,7 +38,7 @@ test('wrong, correct and key rows differ in edge, tint and mark but never in tex
   })()`, { readyExpr: '!!window.ready && !!customElements.get("aha-answer-result")' });
   assert.equal(result.wrong.edge, result.wrongToken);
   assert.equal(result.wrong.border, '1px');
-  assert.ok(result.wrong.ring.includes('inset') && result.wrong.ring.includes(result.wrongToken) && result.wrong.ring.endsWith('0px 0px 0px 1px inset'));
+  assert.equal(result.wrong.ring, 'none');
   assert.equal(result.wrong.fill, result.wrongTint);
   assert.equal(result.wrong.mark, 'Incorrect');
   assert.equal(result.right.edge, result.rightToken);
