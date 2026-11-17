@@ -27,8 +27,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1118.0 — 2026-11-17
 ### Added
-- screen-lint hard-fails `audience-field-size`: on the audience surface, and on any page named `self-paced-view.*` whatever its surface, an `aha-input`, `aha-counted-input`, `aha-counted-textarea`, `aha-select` or `aha-autocomplete` without `size="lg"` (or `large`) fails, in markup, in `el('…', { size })` and through `setAttribute`. A line marked `ds-lint-allow: size (developer request: …)` keeps another size (DESY-559, #NNN).
-- Audience criterion C5 names the 48px field size and the lint rule as its mechanical twin, with a bad and a good eval pair (DESY-559, #NNN).
+- screen-lint hard-fails `audience-field-size`: on the audience surface, and on any page named `self-paced-view.*` whatever its surface, an `aha-input`, `aha-counted-input`, `aha-counted-textarea`, `aha-select` or `aha-autocomplete` without `size="lg"` (or `large`) fails, in markup, in `el('…', { size })` and through `setAttribute`. A line marked `ds-lint-allow: size (developer request: …)` keeps another size (DESY-559, #765).
+- Audience criterion C5 names the 48px field size and the lint rule as its mechanical twin, with a bad and a good eval pair (DESY-559, #765).
 
 ## 0.1116.1 — 2026-11-16
 ### Fixed
