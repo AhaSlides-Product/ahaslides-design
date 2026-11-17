@@ -25,6 +25,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1116.3 — 2026-11-17
+### Fixed
+- Answer option and Answer result: a wrong answer now has the same 1px `--aha-answer-wrong` edge as a right one, with the cross mark and the 5% tint; the 2px ring (3px in the audience row) is gone. Colour rule 11.5, the contracts, the feedback guide and the answer criteria say so (DESY-558, #764).
+
 ## 0.1116.1 — 2026-11-16
 ### Fixed
 - Modal, Drawer, Toast and Notification: the ✕ close button is now a Tab stop, so forward Tab reaches it inside antd's focus trap (DESY-541, #761).
