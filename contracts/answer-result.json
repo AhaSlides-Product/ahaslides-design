@@ -13,14 +13,14 @@
       "defineAhaAnswerResult"
     ]
   },
-  "summary": "A read-only answer row for product screens: a wrong response is a 2px answer-red ring over the 5% wrong tint with the cross mark, a correct response a 1px answer-green edge over the 5% correct tint with the tick mark, and the answer key stays plain.",
+  "summary": "A read-only answer row for product screens: a wrong response is a 1px answer-red edge over the 5% wrong tint with the cross mark, a correct response a 1px answer-green edge over the 5% correct tint with the tick mark, and the answer key stays plain.",
   "highlights": [
-    "Wrong: 2px --aha-answer-wrong ring, 5% wrong tint, cross mark",
+    "Wrong: 1px --aha-answer-wrong edge, 5% wrong tint, cross mark",
     "Correct: 1px --aha-answer-correct edge, 5% correct tint, tick mark",
     "Answer key: default border, no tint, no edge, no mark",
     "Text stays the default ink at regular weight"
   ],
-  "lead": "ONE custom element — <aha-answer-result> — for the \"Response\" and \"Correct answer\" boxes on the Report and Session Report participant view. `result=\"incorrect\"` draws the 2px --aha-answer-wrong ring (a 1px border plus a 1px inset ring, so the row does not grow) over --aha-answer-wrong-tint-5, with <aha-answer-mark result=\"incorrect\">. `result=\"correct\"` draws a 1px --aha-answer-correct edge over --aha-answer-correct-tint-5 with <aha-answer-mark result=\"correct\">. With no `result` (or `key`) the row is the answer key: the default border, no tint, no edge and no mark (colour rule 11.5). Right and wrong carry equal weight apart from the wrong ring, which colour rule 11.5 allows only on answer reveal and review screens. The text is always the default ink at regular weight (rules 11.2, 11.5): a page never colours it, and screen-lint fails an answer token on `color`. The slot holds the answer text; `label` adds a small caption above it (\"Response\", \"Correct answer\").",
+  "lead": "ONE custom element — <aha-answer-result> — for the \"Response\" and \"Correct answer\" boxes on the Report and Session Report participant view. `result=\"incorrect\"` draws a 1px --aha-answer-wrong edge over --aha-answer-wrong-tint-5, with <aha-answer-mark result=\"incorrect\">. `result=\"correct\"` draws a 1px --aha-answer-correct edge over --aha-answer-correct-tint-5 with <aha-answer-mark result=\"correct\">. With no `result` (or `key`) the row is the answer key: the default border, no tint, no edge and no mark (colour rule 11.5). Right and wrong carry equal weight: the same 1px edge, no extra ring (colour rule 11.5). The text is always the default ink at regular weight (rules 11.2, 11.5): a page never colours it, and screen-lint fails an answer token on `color`. The slot holds the answer text; `label` adds a small caption above it (\"Response\", \"Correct answer\").",
   "codeNote": "Same element, same shadow-DOM CSS → identical render across frameworks. Attributes and a text slot only, no events. Reuses <aha-answer-mark> for the tick or cross; never redraw the disc.",
   "tokensUsed": [
     "answer-correct",
@@ -40,7 +40,7 @@
     },
     {
       "label": "Wrong response",
-      "value": "result=\"incorrect\": 1px --aha-answer-wrong border plus a 1px inset --aha-answer-wrong ring (2px in all, inside the box so the row does not move) over --aha-answer-wrong-tint-5; 20px cross mark leads"
+      "value": "result=\"incorrect\": 1px --aha-answer-wrong border (no ring) over --aha-answer-wrong-tint-5; 20px cross mark leads"
     },
     {
       "label": "Correct response",
@@ -98,7 +98,7 @@
         "when": "an editable answer in a settings panel; its correct state is a different, editable control"
       }
     ],
-    "note": "Do not hand-compose a Response or Correct answer box from the answer tokens: this element is it. The ring around a wrong row is for answer reveal and review screens only (colour rule 11.5); the answer key never gets a green edge."
+    "note": "Do not hand-compose a Response or Correct answer box from the answer tokens: this element is it. A wrong row gets no ring (colour rule 11.5); the answer key never gets a green edge."
   },
   "a11y": {
     "role": "The row is static text; the leading mark is role=\"img\" named \"Correct\" or \"Incorrect\" (or `mark-label`), so a screen reader hears the verdict before the answer",
@@ -135,11 +135,11 @@
     "$about": "Measured by qa.mjs against the RENDERED UI. The probes are a wrong response, a correct response and the plain answer key.",
     "ready": "!!(document.querySelector('aha-answer-result[data-probe]') && document.querySelector('aha-answer-result[data-probe]').shadowRoot && document.querySelector('aha-answer-result[data-probe-wrong]') && document.querySelector('aha-answer-result[data-probe-wrong]').shadowRoot && document.querySelector('aha-answer-result[data-probe-key]') && document.querySelector('aha-answer-result[data-probe-key]').shadowRoot)",
     "singleUI": true,
-    "measure": "(function(){var tok=function(n){var t=document.createElement('div');t.style.color='var(--aha-'+n+')';document.body.appendChild(t);var v=getComputedStyle(t).color;t.remove();return v;};var row=function(sel){var h=document.querySelector(sel);var r=h.shadowRoot.querySelector('.row');var s=getComputedStyle(r);var mk=h.shadowRoot.querySelector('.mark');var tx=getComputedStyle(h.shadowRoot.querySelector('.text'));return{border:s.borderTopWidth,borderColor:s.borderTopColor,ring:s.boxShadow,bg:s.backgroundColor,mark:getComputedStyle(mk).display,markResult:mk.getAttribute('result'),ink:tx.color,weight:tx.fontWeight,height:r.getBoundingClientRect().height};};var w=row('aha-answer-result[data-probe-wrong]');var c=row('aha-answer-result[data-probe]');var k=row('aha-answer-result[data-probe-key]');return{wrongBorder:w.border,wrongEdgeIsAnswerWrong:w.borderColor===tok('answer-wrong'),wrongRing:w.ring.indexOf('inset')>-1&&w.ring.indexOf(tok('answer-wrong'))>-1,wrongTint:w.bg===tok('answer-wrong-tint-5'),wrongMark:w.mark+' '+w.markResult,correctBorder:c.border,correctEdgeIsAnswerCorrect:c.borderColor===tok('answer-correct'),correctRing:c.ring,correctTint:c.bg===tok('answer-correct-tint-5'),correctMark:c.mark+' '+c.markResult,keyBorderColor:k.borderColor===tok('border-default'),keyRing:k.ring,keyMark:k.mark,keyBg:k.bg,ink:w.ink===tok('text-default')&&c.ink===tok('text-default')&&k.ink===tok('text-default'),weight:w.weight+' '+c.weight+' '+k.weight};})()",
+    "measure": "(function(){var tok=function(n){var t=document.createElement('div');t.style.color='var(--aha-'+n+')';document.body.appendChild(t);var v=getComputedStyle(t).color;t.remove();return v;};var row=function(sel){var h=document.querySelector(sel);var r=h.shadowRoot.querySelector('.row');var s=getComputedStyle(r);var mk=h.shadowRoot.querySelector('.mark');var tx=getComputedStyle(h.shadowRoot.querySelector('.text'));return{border:s.borderTopWidth,borderColor:s.borderTopColor,ring:s.boxShadow,bg:s.backgroundColor,mark:getComputedStyle(mk).display,markResult:mk.getAttribute('result'),ink:tx.color,weight:tx.fontWeight,height:r.getBoundingClientRect().height};};var w=row('aha-answer-result[data-probe-wrong]');var c=row('aha-answer-result[data-probe]');var k=row('aha-answer-result[data-probe-key]');return{wrongBorder:w.border,wrongEdgeIsAnswerWrong:w.borderColor===tok('answer-wrong'),wrongRing:w.ring,wrongTint:w.bg===tok('answer-wrong-tint-5'),wrongMark:w.mark+' '+w.markResult,correctBorder:c.border,correctEdgeIsAnswerCorrect:c.borderColor===tok('answer-correct'),correctRing:c.ring,correctTint:c.bg===tok('answer-correct-tint-5'),correctMark:c.mark+' '+c.markResult,keyBorderColor:k.borderColor===tok('border-default'),keyRing:k.ring,keyMark:k.mark,keyBg:k.bg,ink:w.ink===tok('text-default')&&c.ink===tok('text-default')&&k.ink===tok('text-default'),weight:w.weight+' '+c.weight+' '+k.weight};})()",
     "expect": {
       "wrongBorder": "1px",
       "wrongEdgeIsAnswerWrong": true,
-      "wrongRing": true,
+      "wrongRing": "none",
       "wrongTint": true,
       "wrongMark": "flex incorrect",
       "correctBorder": "1px",

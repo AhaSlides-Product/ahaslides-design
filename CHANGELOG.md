@@ -30,6 +30,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - **Quiz rules: `<aha-quiz-rules>`, the rules (Get ready) screen of a mode C self-paced quiz** (DESY-559, #766), in `lib/audience.js` and as `@ahaslides-product/design/aha-quiz-rules`. One block centred in the page's height: the title (20px, 24px from 480px, 48px from 960px), the rule lines (icon and text, 16px with 24px icons, 24px with 32px icons from 960px, left-aligned together, the list centred) and Skip rules (`<aha-button variant="secondary-deck" size="touch" block>`, full width on a phone, from 480px as wide as the rule list, 240 to 480px) counting down "Skip rules (N)" off `ends-at` or `seconds`. The page passes `heading`, `rules` (`[{ icon, text }]`, attribute or property), `skip-label` and `skip-testid`, and gets a `skip` event. Deck ink, `dir="auto"` text, the arrow mirrors right to left. Self-paced quiz pages that adopt it get every later fix from `latest` without a resubmit. To revert, delete `lib/aha-quiz-rules.js`, its contract and parts, and its `exports` and `files` lines.
 - Audience guideline rule `self-paced-rules-screen` and judge criterion C15: a mode C rules screen is `<aha-quiz-rules>`; a hand-built one fails unless its declaring line carries `ds-lint-allow: rules-screen (developer request: <their words>)`. Three new audience eval cases (110 to 112) (DESY-559, #766).
 
+## 0.1116.3 — 2026-11-17
+### Fixed
+- Answer option and Answer result: a wrong answer now has the same 1px `--aha-answer-wrong` edge as a right one, with the cross mark and the 5% tint; the 2px ring (3px in the audience row) is gone. Colour rule 11.5, the contracts, the feedback guide and the answer criteria say so (DESY-558, #764).
+
 ## 0.1116.1 — 2026-11-16
 ### Fixed
 - Modal, Drawer, Toast and Notification: the ✕ close button is now a Tab stop, so forward Tab reaches it inside antd's focus trap (DESY-541, #761).

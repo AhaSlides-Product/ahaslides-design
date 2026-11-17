@@ -291,7 +291,7 @@
      { "id": "11.2", "text": "Text is never green or red; it stays the default ink, on a tint too." },
      { "id": "11.3", "text": "Solid colour is only for the tick or cross disc, an answer row's edge and the correct column of a result chart; areas use the 5% or 30% tint." },
      { "id": "11.4", "text": "The pair is fixed: never replaced by deck colours, a theme or Vivid Pink." },
-     { "id": "11.5", "text": "Right and wrong carry equal weight: the edge, the 5% tint and the mark. Only on answer reveal and review screens (the audience reveal, the Report participant drawer) may a wrong answer add a 2px ring in the wrong red outside its edge so it reads first. The answer key, the correct answer shown beside a response, stays plain: default border, no green edge. Text never changes weight by verdict." }
+     { "id": "11.5", "text": "Right and wrong carry equal weight: the same 1px edge, the 5% tint and the mark. A wrong answer never adds a ring or a thicker border to read first; the cross mark, the tint and the colour carry the verdict. The answer key, the correct answer shown beside a response, stays plain: default border, no green edge. Text never changes weight by verdict." }
     ] }
     ] }
    ]
@@ -305,6 +305,7 @@
  ],
  "open": [],
  "changes": [
+  { "version": "v41", "date": "17 Nov", "text": "Rule 11.5: a wrong answer no longer adds a 2px ring. Right and wrong carry the same 1px edge over the 5% tint with the mark, so a wrong row is not drawn heavier than a right one. Requested by Lan, DESY-558. No existing rule id changed." },
   { "version": "v40", "date": "13 Nov", "text": "Rule 6.8: the Stat tile's Vivid Pink top bar now belongs to the accent look only; the plain Stat tile, the default, draws a soft grey bar (border-strong #D4D4D4) so a row of tiles stays quiet. On an app screen the accent tile is still the one highlighted panel rule 3.7 allows, and the screen lint fails a second one in a file. Rule 3.11 is unchanged: report number plates stay accent with the pink bar. Requested by Dave Bui, DESY-549. No existing rule id changed." },
   { "version": "v39", "date": "12 Nov", "text": "New rule 2.6c and token `--aha-g2-orange` (#FF492C): the stars of a G2 rating badge take G2's own brand colour on hover and keyboard focus, with `<aha-rate brand=\"g2\">`, and nowhere else. Rules 2.6 and 2.6b are unchanged. Asked in DESY-544." },
   { "version": "v38", "date": "5 Nov", "text": "New rule 2.6b and exemption 9.6: third-party award badges (G2, Capterra and similar) sit only in an award row, all at one fixed height (80px, 64px on mobile), in full colour as published. Rules 2.6 and 2.6a are unchanged. Found in the DESY-510 audit of the Community home and footer." },
