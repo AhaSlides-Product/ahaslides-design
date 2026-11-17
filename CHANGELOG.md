@@ -25,6 +25,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1116.1 — 2026-11-16
+### Fixed
+- Modal, Drawer, Toast and Notification: the ✕ close button is now a Tab stop, so forward Tab reaches it inside antd's focus trap (DESY-541, #761).
+- antd controls (Cancel, Apply and every other antd button or input) draw the 2px DS focus ring instead of antd's 3px default (DESY-541, #761).
+
 ## 0.1116.0 — 2026-11-16
 ### Added
 - **Loader: a splash-only entry, `@ahaslides-product/design/aha-loader-splash`** (DESY-539, #760). It registers the same `<aha-loader>` with the same exports (`AhaLoader`, `defineAhaLoader`, default) and never refers to an illustration, so a bundler adds no illustration chunk: importing `aha-loader` emits the 166 KB gzip catalogue chunk for its tiles even in an app that never shows them. On this entry `variant="tiles"` and `<html data-aha-loader="tiles">` show the splash. `@ahaslides-product/design/aha-loader` is unchanged: the tiles still load the catalogue on first render, so current consumers see no change when they bump. On the splash entry, an element that asks for the tiles logs one `console.warn` per page naming `@ahaslides-product/design/aha-loader`. Both entries define the same tag, so an app imports only one of them; the first to load defines the element and the other is a no-op. The shared element moved to `lib/aha-loader-core.js`, which is not an entry. To revert, delete `lib/aha-loader-splash.js` and its `exports` and `sideEffects` lines.
