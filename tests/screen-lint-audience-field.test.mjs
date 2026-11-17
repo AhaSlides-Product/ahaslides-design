@@ -151,3 +151,8 @@ test('comment stripping stays linear on pathological input', () => {
   hits('<!--'.repeat(30000));
   assert.ok(Date.now() - started < 2000);
 });
+
+test('naming audience-button-size explicitly still silences it without a reason, as before', () => {
+  const source = '<aha-button size="sm">Skip</aha-button> <!-- ds-lint-allow: audience-button-size (compact) -->';
+  assert.deepEqual(lintHtml(source, { surface: 'audience' }).findings.filter((f) => f.rule === 'audience-button-size'), []);
+});
