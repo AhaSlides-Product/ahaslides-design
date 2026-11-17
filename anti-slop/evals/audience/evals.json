@@ -2676,6 +2676,75 @@
         "authored": "ahaslides-design",
         "why": "DESY-554: native quiz parity, a 2px selected-answer ring is allowed so a pick reads as selected"
       }
+    },
+    {
+      "id": 110,
+      "prompt": "Review the self-paced view (`self-paced-view.html`, `setting.audienceQuizSelfPaced: true`) of a quiz slide type on the Developer Platform; it loads `lib/audience.js`. Ink is xprops.slide.textColour via applyDeck, the font is the deck font, contrast is AA on both deck polarities, and every other element on the page is the DS element. Its rules (Get ready) screen is pasted markup: `<section class=\"sp-rules\"><h2 class=\"sp-rules-title\" dir=\"auto\">Question 2 of 7</h2><div class=\"sp-rules-body\"><div class=\"sp-rule-list\"><p class=\"sp-rule\"><aha-icon name=\"system-timer\" size=\"24\" decorative></aha-icon><span dir=\"auto\">20 seconds to answer</span></p></div><aha-button class=\"sp-rules-skip\" variant=\"secondary-deck\" size=\"touch\" block><span>Skip rules (5)</span><aha-icon slot=\"icon-end\" name=\"system-arrow-right\" size=\"16\" decorative></aha-icon></aha-button></div></section>` with its own `.sp-rules{…}` CSS that renders exactly like the DS screen. No line carries a marker, and the developer's brief asks for nothing different. Is this audience correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C15 self-paced rules screen, bad half: a hand-built rules screen identical in look, no rules-screen marker, so the element default holds. Isolation: only C15 should FAIL.",
+      "expected_output": "C15 FAILs: the rules screen is hand-built (a pasted .sp-rules block with its own title, rule lines and Skip rules button) instead of <aha-quiz-rules> from lib/audience.js, and looking identical does not save it: a DS fix would not reach this page. No developer asked for a different screen and no line carries the marker. Fix: replace the block with <aha-quiz-rules heading=… skip-label=… ends-at=…> fed the same rule lines, ending the rules on its skip event. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C15 is marked FAIL",
+        "Names <aha-quiz-rules> as the fix for the hand-built rules screen"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C15": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-559 (SLPV-315): every mode C quiz pasted the same rules block; <aha-quiz-rules> is the build default, and a developer who deliberately asks for another screen marks it"
+      }
+    },
+    {
+      "id": 111,
+      "prompt": "Review the self-paced view (`self-paced-view.html`, `setting.audienceQuizSelfPaced: true`) of a quiz slide type on the Developer Platform; it loads `lib/audience.js`. Ink is xprops.slide.textColour via applyDeck, the font is the deck font, contrast is AA on both deck polarities, and every other element on the page is the DS element. Its rules (Get ready) screen is `<aha-quiz-rules heading=\"Question 2 of 7\" skip-label=\"Skip rules\" ends-at=\"…\" skip-testid=\"audience-quiz-skip-rules\">` as a direct child of the page's flex-column root, its `rules` property set to the translated lines (`system-timer` \"20 seconds to answer\", `system-star` \"Answer faster to get more points\"), and the page ends the rules on the element's `skip` event. While it shows, the page hides its timer, progress row and question. Is this audience correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C15 self-paced rules screen, good half: the DS element, fed by the page. Guards against failing the element itself.",
+      "expected_output": "C15 PASSes: the rules screen is <aha-quiz-rules> from lib/audience.js, the page supplies every text and the end time and handles skip, so the shared position, sizes and Skip rules button come from the DS. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C15 is marked PASS",
+        "No criterion is marked FAIL"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C15": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-559 (SLPV-315): every mode C quiz pasted the same rules block; <aha-quiz-rules> is the build default, and a developer who deliberately asks for another screen marks it"
+      }
+    },
+    {
+      "id": 112,
+      "prompt": "Review the self-paced view (`self-paced-view.html`, `setting.audienceQuizSelfPaced: true`) of a quiz slide type on the Developer Platform; it loads `lib/audience.js`. Ink is xprops.slide.textColour via applyDeck, the font is the deck font, contrast is AA on both deck polarities, and every other element on the page is the DS element. The slide-type developer asked for the rules as a single sentence under a large clock, so the page draws its own rules screen: `<section class=\"rules-clock\"> <!-- ds-lint-allow: rules-screen (developer request: show the rules as one sentence under a large clock) -->` holding a 48px tabular clock in the deck ink, one 16px rule sentence and `<aha-button variant=\"secondary-deck\" size=\"touch\" block>` for Skip rules. Is this audience correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C15 self-paced rules screen, developer-request half: a deliberately different screen carrying the rules-screen marker with the developer's words. Guards against failing a screen the developer asked for.",
+      "expected_output": "C15 PASSes: the screen is hand-built, but the slide-type developer deliberately asked for a different one and its declaring line carries `ds-lint-allow: rules-screen (developer request: …)`, so the element default gives way. The other criteria still hold on it. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C15 is marked PASS",
+        "Accepts the developer-request rules-screen marker instead of failing the hand-built screen"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C15": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-559 (SLPV-315): every mode C quiz pasted the same rules block; <aha-quiz-rules> is the build default, and a developer who deliberately asks for another screen marks it"
+      }
     }
   ]
 }

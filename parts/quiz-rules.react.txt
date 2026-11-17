@@ -1,0 +1,14 @@
+import '@ahaslides-product/design/aha-quiz-rules';
+import { useEffect, useRef } from 'react';
+
+// React < 19: set the rules property and bind the skip event through a ref.
+export function QuizRules({ t, index, total, rulesEnd, lines, onSkip }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    el.rules = lines;   // [{ icon: 'system-timer', text: t('rulesTime', { count: 20 }) }, …]
+    el.addEventListener('skip', onSkip);
+    return () => el.removeEventListener('skip', onSkip);
+  }, [lines, onSkip]);
+  return <aha-quiz-rules ref={ref} heading={t('questionOf', { index, total })} skip-label={t('skipRules')} ends-at={rulesEnd} />;
+}
