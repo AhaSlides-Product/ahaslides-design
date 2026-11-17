@@ -25,10 +25,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1117.0 — 2026-11-17
+## 0.1119.0 — 2026-11-17
 ### Added
 - **Quiz rules: `<aha-quiz-rules>`, the rules (Get ready) screen of a mode C self-paced quiz** (DESY-559, #766), in `lib/audience.js` and as `@ahaslides-product/design/aha-quiz-rules`. One block centred in the page's height: the title (20px, 24px from 480px, 48px from 960px), the rule lines (icon and text, 16px with 24px icons, 24px with 32px icons from 960px, left-aligned together, the list centred) and Skip rules (`<aha-button variant="secondary-deck" size="touch" block>`, full width on a phone, from 480px as wide as the rule list, 240 to 480px) counting down "Skip rules (N)" off `ends-at` or `seconds`. The page passes `heading`, `rules` (`[{ icon, text }]`, attribute or property), `skip-label` and `skip-testid`, and gets a `skip` event. Deck ink, `dir="auto"` text, the arrow mirrors right to left. Self-paced quiz pages that adopt it get every later fix from `latest` without a resubmit. To revert, delete `lib/aha-quiz-rules.js`, its contract and parts, and its `exports` and `files` lines.
 - Audience guideline rule `self-paced-rules-screen` and judge criterion C15: a mode C rules screen is `<aha-quiz-rules>`; a hand-built one fails unless its declaring line carries `ds-lint-allow: rules-screen (developer request: <their words>)`. Three new audience eval cases (110 to 112) (DESY-559, #766).
+
+## 0.1118.0 — 2026-11-17
+### Added
+- screen-lint hard-fails `audience-field-size`: on the audience surface, and on any page named `self-paced-view.*` whatever its surface, an `aha-input`, `aha-counted-input`, `aha-counted-textarea`, `aha-select` or `aha-autocomplete` without `size="lg"` (or `large`) fails, in markup, in `el('…', { size })` and through `setAttribute`. A line marked `ds-lint-allow: size (developer request: …)` keeps another size (DESY-559, #765).
+- Audience criterion C5 names the 48px field size and the lint rule as its mechanical twin, with a bad and a good eval pair (DESY-559, #765).
 
 ## 0.1116.4 — 2026-11-17
 ### Changed

@@ -58,6 +58,10 @@
  * conditions while any other min-width stays a min-width-trap; a second <h1> hard-fails (multiple-h1); and an
  * <img> without alt hard-fails (img-no-alt).
  *
+ * audience-field-size (hard): on the audience surface, and on any file named self-paced-view.* whatever its
+ * surface, an aha-input, aha-counted-input, aha-counted-textarea, aha-select or aha-autocomplete without a literal
+ * size lg/large fails; a size that is a variable or spread is skipped. Group `size` keeps another size on a developer request.
+ *
  * Escape hatch (auditable, greppable, per-line): name the rule(s) AND give a reason —
  *   ...  <!-- ds-lint-allow: hex,radius (why) -->     or     /* ds-lint-allow: hex (why) *​/
  * It silences only the named rules on that line. A bare `ds-lint-allow` suppresses nothing and is
