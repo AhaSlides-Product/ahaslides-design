@@ -2678,7 +2678,7 @@
       }
     },
     {
-      "id": 110,
+      "id": 113,
       "prompt": "Review this audience view for a Short Answer slide. The answer box is `<aha-audience-field label=\"Your answer\"><aha-counted-input maxlength=\"60\"></aha-counted-input></aha-audience-field>` with no size attribute, so it renders at the default 40px, and the submit is `<aha-audience-submit>`. Is the field right?",
       "files": [],
       "label": "bad-example",
@@ -2702,7 +2702,7 @@
       }
     },
     {
-      "id": 111,
+      "id": 114,
       "prompt": "Review this audience view for a Short Answer slide. The answer box is `<aha-audience-field label=\"Your answer\"><aha-counted-input size=\"lg\" maxlength=\"60\"></aha-counted-input></aha-audience-field>` and the submit is `<aha-audience-submit>`. Is the field size right?",
       "files": [],
       "label": "good-control",

@@ -76,3 +76,52 @@ test('an allow marker without a developer request still fails and warns', () => 
   assert.equal(hits(source).length, 1);
   assert.ok(lintHtml(source, { surface: 'audience' }).findings.some((f) => f.rule === 'ds-lint-allow-size-reason'));
 });
+
+test('a large size written as a backtick, Vue-bound or JSX literal passes', () => {
+  for (const source of [
+    'el(\'aha-input\', { size: `lg` })',
+    `<aha-input :size="'lg'"></aha-input>`,
+    '<aha-input size={"lg"} />',
+    `<aha-input size={'large'} />`,
+  ]) assert.deepEqual(hits(source), [], source);
+  assert.equal(hits(`<aha-input :size="'sm'"></aha-input>`).length, 1);
+});
+
+test('a size that is not a literal is skipped, never a hard failure', () => {
+  for (const source of [
+    `const SIZE = 'lg';\nel('aha-input', { size: SIZE });`,
+    '<aha-input size="${size}"></aha-input>',
+    '<aha-input :size="fieldSize"></aha-input>',
+    '<aha-input size={size} />',
+    `el('aha-input', { ...props });`,
+    `el('aha-input', props);`,
+    `const f = Object.assign(document.createElement('aha-input'), { size: 'lg' });`,
+  ]) assert.deepEqual(hits(source), [], source);
+});
+
+test('a developer request on the setAttribute line keeps another size', () => {
+  const source = `const f = document.createElement('aha-input');\nf.setAttribute('size', 'sm'); // ds-lint-allow: size (developer request: compact)`;
+  assert.deepEqual(hits(source), []);
+  const found = hits(source.replace(/ \/\/ ds-lint-allow.*/, ''));
+  assert.equal(found.length, 1);
+  assert.match(found[0].message, /setAttribute/);
+});
+
+test('fields inside block and HTML comments are not linted', () => {
+  assert.deepEqual(hits('/*\n  <aha-input></aha-input>\n*/'), []);
+  assert.deepEqual(hits('<!--\n  <aha-input></aha-input>\n-->'), []);
+  assert.equal(hits('/* note */ <aha-input></aha-input>').length, 1);
+});
+
+test('a setter is only searched from its own declaration to the next one of the same name', () => {
+  const lateSetter = `const f = document.createElement('aha-input');\nconst f2 = 1;\nf = document.createElement('aha-select');\nf.size = 'lg';`;
+  assert.equal(hits(lateSetter).length, 1);
+  const other = `const f = document.createElement('aha-input');\nconst g = document.createElement('aha-select');\ng.size = 'lg';`;
+  assert.equal(hits(other).length, 1);
+});
+
+test('size is read only from the props argument of el(), not from its children', () => {
+  assert.equal(hits(`el('aha-input', {}, [el('aha-button', { size: 'lg' })])`).length, 1);
+  assert.deepEqual(hits(`el('aha-input', { size: 'lg' }, [el('aha-button', { size: 'sm' })])`), []);
+  assert.deepEqual(hits(`el('aha-input', {\n  // don't shrink it\n  size: 'lg',\n});`), []);
+});
