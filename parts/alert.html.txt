@@ -20,7 +20,7 @@
   </aha-alert>
 </div>
 
-<!-- banner = full-width, square-cornered page notice with a light shadow (drop it at the top of the layout);
+<!-- banner = full-width, square-cornered page notice with a hairline shadow (drop it at the top of the layout);
      a trailing action is the pink text-link small button (no box), centred on the text -->
 <aha-alert type="warning" banner closable>Scheduled maintenance tonight 22:00 to 23:00 UTC.</aha-alert>
 <aha-alert type="branding" banner closable>All slide types and features. No strings attached.

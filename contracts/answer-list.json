@@ -46,7 +46,7 @@
     },
     {
       "label": "Reveal",
-      "value": "a tick or cross on every row; the correct row edged in --aha-answer-correct, my wrong pick edged and ringed (2px) in --aha-answer-wrong, both on the 5% tint, the other rows mute to 55%"
+      "value": "a tick or cross on every row; the correct row edged in --aha-answer-correct, my wrong pick edged the same 1px in --aha-answer-wrong, both on the 5% tint, the other rows mute to 55%"
     },
     {
       "label": "Locked",

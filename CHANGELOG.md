@@ -25,11 +25,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1116.2 — 2026-11-17
+## 0.1116.4 — 2026-11-17
 ### Changed
 - **Button: a `text-link` has a transparent background** (DESY-557, #763). `:host([variant=text-link]) button` drew `var(--aha-button-default-bg, #FFFFFF)`, a white box carried over from the antd port; only `tone="ink"` overrode it. It is now `transparent` for every text-link (inline size already was); disabled was already transparent, and a text-link on white looks unchanged.
 - **Alert: a `banner` action is the pink text-link button; colour rule 6.7 covers it** (DESY-557, #763). The trailing action of a full-width banner is `<aha-button slot="action" variant="text-link" size="sm">` (Darker Pink `#DB005B`, 4.65:1 on the branding fill, 4.55:1 on grey); rule 6.7 is extended in place (requested by UKVEE87DY). Guidance only: the element does not force a variant. In a banner the heading runs on in the same line as the message as one paragraph, at the message's 14px / 21px and still weight 600; the inline alert keeps its stacked heading.
-- **Alert: the action is a secondary button, centred on the text, and the banner has a light shadow** (DESY-557, #763). A button in `slot="action"` of an inline alert is `<aha-button variant="secondary" size="sm">` in every example, snippet and in Feedback criterion C4; the element does not restyle a primary a consumer passes. Beside the text the action is now centred vertically on the text block (`.main` `align-items: center`, was `flex-start`); on a one-line message the 28px button overhangs the line by 3.5px each way (5px on small), so the icon, the text and the ✕ stay on one line. When the action wraps below the text it stays left-aligned, 8px under it (6 small), as before. `banner` adds `box-shadow: 0 2px 8px var(--aha-ink-a10)` and makes the host `position: relative`, so the shadow paints over the page content that follows; inline alerts stay flat. To revert, restore `lib/aha-alert.js` from 0.1116.1.
+- **Alert: the action is a secondary button, centred on the text, and the banner has a hairline shadow** (DESY-557, #763). A button in `slot="action"` of an inline alert is `<aha-button variant="secondary" size="sm">` in every example, snippet and in Feedback criterion C4; the element does not restyle a primary a consumer passes. Beside the text the action is now centred vertically on the text block (`.main` `align-items: center`, was `flex-start`); on a one-line message the 28px button overhangs the line by 3.5px each way (5px on small), so the icon, the text and the ✕ stay on one line. When the action wraps below the text it stays left-aligned, 8px under it (6 small), as before. `banner` adds `box-shadow: 0 2px 8px var(--aha-ink-a10)` and makes the host `position: relative`, so the shadow paints over the page content that follows; inline alerts stay flat. To revert, restore `lib/aha-alert.js` from 0.1116.1.
+
+## 0.1116.3 — 2026-11-17
+### Fixed
+- Answer option and Answer result: a wrong answer now has the same 1px `--aha-answer-wrong` edge as a right one, with the cross mark and the 5% tint; the 2px ring (3px in the audience row) is gone. Colour rule 11.5, the contracts, the feedback guide and the answer criteria say so (DESY-558, #764).
 
 ## 0.1116.1 — 2026-11-16
 ### Fixed

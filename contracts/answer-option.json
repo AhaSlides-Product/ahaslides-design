@@ -39,7 +39,7 @@
     },
     {
       "label": "States",
-      "value": "open · locked (others mute to 55%) · revealed (a 20px <aha-answer-mark> on every row in place of the pick control: white tick on the --aha-answer-correct disc or white cross on the --aha-answer-wrong disc; the correct row takes the 1px --aha-answer-correct edge, my wrong pick is ringed (2px) and tinted in --aha-answer-wrong, the rest mute to 55%)"
+      "value": "open · locked (others mute to 55%) · revealed (a 20px <aha-answer-mark> on every row in place of the pick control: white tick on the --aha-answer-correct disc or white cross on the --aha-answer-wrong disc; the correct row takes the 1px --aha-answer-correct edge, my wrong pick takes the same 1px --aha-answer-wrong edge on the 5% tint, the rest mute to 55%)"
     },
     {
       "label": "Helper",
