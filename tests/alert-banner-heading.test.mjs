@@ -7,7 +7,7 @@ import { withPage, resolveChrome } from '../cdp.mjs';
 const fixture = pathToFileURL(fileURLToPath(new URL('./alert-banner-heading.html', import.meta.url))).href;
 const skip = existsSync(resolveChrome()) ? false : 'needs headless Chrome (set CHROME_BIN)';
 
-test('a banner heading is body text in the message line; an inline alert keeps its stacked bold heading', { skip }, async () => {
+test('a banner heading runs on in the message line, bold and at the message size; an inline alert stacks it', { skip }, async () => {
   const read = await withPage(fixture, async (command) => {
     const result = await command('Runtime.evaluate', {
       expression: `(() => {
@@ -23,6 +23,6 @@ test('a banner heading is body text in the message line; an inline alert keeps i
     });
     return result.result.value;
   }, { readyExpr: '!!window.alertFixtureReady' });
-  assert.deepEqual(read.banner, { size: '14px', line: '21px', weight: '400', sameLine: true });
+  assert.deepEqual(read.banner, { size: '14px', line: '21px', weight: '600', sameLine: true });
   assert.deepEqual(read.inline, { size: '14px', line: '21px', weight: '600', sameLine: false });
 });
