@@ -12,11 +12,12 @@ const RULES = JSON.stringify([{ icon: 'system-timer', text: '20 seconds to answe
 
 // Each case renders in a srcdoc iframe of its own width, so the element's view-width steps apply.
 async function run(frames, body) {
-  const doc = (attrs, dir) => `<!doctype html><html dir="${dir || 'ltr'}"><body style="margin:0"><main style="display:flex;flex-direction:column;height:600px;margin:0 16px">
+  const doc = (attrs, dir, pre) => `<!doctype html><html dir="${dir || 'ltr'}"><body style="margin:0"><main style="display:flex;flex-direction:column;height:600px;margin:0 16px">
 <aha-quiz-rules heading="Question 2 of 7" rules='${RULES}' ${attrs}></aha-quiz-rules></main>
+${pre ? `<script>${pre}</script>` : ''}
 <script type="module">import '${lib}'; await customElements.whenDefined('aha-quiz-rules'); await new Promise((r) => setTimeout(r, 300)); window.ready = true;</script>`;
-  const iframes = frames.map(({ width, attrs, dir }) =>
-    `<iframe style="width:${width}px;height:600px;border:0;display:block" srcdoc="${doc(attrs, dir).replaceAll('&', '&amp;').replaceAll('"', '&quot;')}"></iframe>`).join('');
+  const iframes = frames.map(({ width, attrs, dir, pre }) =>
+    `<iframe style="width:${width}px;height:600px;border:0;display:block" srcdoc="${doc(attrs, dir, pre).replaceAll('&', '&amp;').replaceAll('"', '&quot;')}"></iframe>`).join('');
   const file = join(mkdtempSync(join(tmpdir(), 'quiz-rules-')), 'page.html');
   writeFileSync(file, `<!doctype html><body style="margin:0">${iframes}</body>`);
   return evaluateInPage(pathToFileURL(file).href, `(() => {
@@ -75,4 +76,24 @@ test('right to left: the rule lines start on the right edge of the list and the 
     });`);
   assert.deepEqual(result.map((r) => r.iconAtStart), [0, 0]);
   assert.deepEqual(result.map((r) => r.arrow), ['matrix(-1, 0, 0, 1, 0, 0)', 'none']);
+});
+
+test('a rules property set before the element upgrades still gives way to a later rules property', { skip }, async () => {
+  const result = await run([{ width: 375, pre: `document.querySelector('aha-quiz-rules').rules = [{ icon: 'system-star', text: 'Before upgrade' }];` }], `
+    const { el, r } = pick(frames[0]);
+    const before = [...r.querySelectorAll('.rule')].map((row) => row.textContent);
+    el.rules = [{ icon: 'system-timer', text: 'One' }, { icon: 'system-star', text: 'Two' }];
+    return { before, after: [...r.querySelectorAll('.rule')].map((row) => row.textContent) };`);
+  assert.deepEqual(result.before, ['Before upgrade']);
+  assert.deepEqual(result.after, ['One', 'Two']);
+});
+
+test('a blank or non-numeric ends-at falls back to seconds, and a non-finite seconds shows no count', { skip }, async () => {
+  const result = await run([
+    { width: 375, attrs: 'ends-at="abc" seconds="5"' },
+    { width: 375, attrs: 'ends-at="" seconds="4"' },
+    { width: 375, attrs: 'ends-at="2026-01-01T00:00:00Z"' },
+    { width: 375, attrs: 'seconds="1e999"' },
+  ], `return frames.map((w) => pick(w).r.querySelector('.skip-label').textContent);`);
+  assert.deepEqual(result, ['Skip rules (5)', 'Skip rules (4)', 'Skip rules', 'Skip rules']);
 });

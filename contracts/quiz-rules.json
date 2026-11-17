@@ -71,19 +71,19 @@
       "name": "skip-label",
       "type": "string",
       "default": "Skip rules",
-      "desc": "The button label, translated; the seconds left are added as \"(N)\". A label holding {n} places the number itself instead"
+      "desc": "The button label, translated; the seconds left are added as \"(N)\". A label holding {n} places the number itself instead. The number is formatted with Intl.NumberFormat for the nearest lang; a page that wants its own digits leaves out ends-at and seconds and writes the formatted number into skip-label itself"
     },
     {
       "name": "ends-at",
       "type": "epoch ms",
       "default": "—",
-      "desc": "When the rules end; the label counts down once a second on its own, never below 1"
+      "desc": "When the rules end; the label counts down once a second on its own, never below 1, and stops ticking at 1. A blank or non-numeric value is ignored and seconds applies"
     },
     {
       "name": "seconds",
       "type": "number",
       "default": "—",
-      "desc": "The seconds left, when the page drives the count itself; ignored while ends-at is set. Neither set = the label without a count"
+      "desc": "The seconds left, when the page drives the count itself; ignored while a valid ends-at is set; a non-finite value shows no count. Neither set = the label without a count"
     },
     {
       "name": "skip-testid",
