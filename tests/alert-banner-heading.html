@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Alert banner heading</title></head>
+<body>
+  <aha-alert id="inline" type="info" heading="Heads up">Your poll closes in 5 minutes.</aha-alert>
+  <aha-alert id="banner" type="branding" banner heading="All slide types and features.">No strings attached.</aha-alert>
+  <script type="module">
+    await import('../lib/aha-alert.js');
+    await customElements.whenDefined('aha-alert');
+    window.alertFixtureReady = !!document.querySelector('#banner').shadowRoot?.querySelector('.title');
+  </script>
+</body></html>

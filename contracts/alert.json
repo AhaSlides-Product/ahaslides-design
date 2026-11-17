@@ -13,7 +13,7 @@
   "tokensUsed": ["gray-25", "icon-default", "bg-accent", "color-primary", "text-default", "radius-default", "ink-a10"],
   "spec": [
     { "label": "Box", "value": "flex row, gap 10 · padding 10 14 · radius 8 · no border on any type; on info, success, warning and error the neutral grey fill is the status surface, the same on every type (colour rule 7.2)" },
-    { "label": "Text", "value": "Plus Jakarta 14/1.5; heading SemiBold 600" },
+    { "label": "Text", "value": "Plus Jakarta 14/1.5; heading SemiBold 600 (a banner heading is weight 400, in the message line)" },
     { "label": "Info", "value": "bg gray-25 #F3F3F3, no border, icon-default #4A4A4A" },
     { "label": "Success", "value": "bg gray-25 #F3F3F3, no border, icon-default #4A4A4A" },
     { "label": "Warning", "value": "bg gray-25 #F3F3F3, no border, icon-default #4A4A4A" },
@@ -21,7 +21,7 @@
     { "label": "Branding", "value": "bg-accent #E70E680D, no border, icon/text color-primary #E70E68" },
     { "label": "Small", "value": "padding 6 10 · gap 8 · 12px text · 16px glyph" },
     { "label": "Even padding", "value": "padding=\"even\" → the same padding on all four sides at the size's side value: regular 14, small 10; gap, text, glyph and the ✕ position are unchanged. The only sanctioned way to get even padding: never a ::part(alert) or inline padding override" },
-    { "label": "Banner", "value": "full-width, square (radius 0), no border, a light shadow 0 2px 8px ink-a10 (black at 10%), and the host is position: relative so the shadow paints over the page content after it; an inline alert has no shadow. The heading and the message share one size and line height (14px / 1.5; 12px on size small), the heading differing only in weight 600; its action is the pink text-link button" },
+    { "label": "Banner", "value": "full-width, square (radius 0), no border, a light shadow 0 2px 8px ink-a10 (black at 10%), and the host is position: relative so the shadow paints over the page content after it; an inline alert has no shadow. The heading is body text: 14px / 21px weight 400 (12px on size small), the same as the message, and runs on in the same line as the message as one paragraph (an inline alert keeps the stacked weight-600 heading); its action is the pink text-link button" },
     { "label": "Link", "value": "a plain `<a href>` written in the message is an inline text link: inherits the message size, weight 400 and line height, no padding, the DS text-link exactly: --aha-text-link Darker Pink #DB005B, no underline at rest, underline and --aha-text-link-hover #DB005B on hover and focus, the Button focus ring. Darker Pink on the #F3F3F3 fill is 4.55:1 and on the branding fill #FEF3F7 4.65:1, so these links pass AA (colour rule 6.7). Never an <aha-button> inside the sentence" },
     { "label": "Action", "value": "trailing slot=\"action\": on the inline alert a button is <aha-button variant=\"secondary\" size=\"sm\"> (28px; never primary); on a `banner` it is the pink DS link button <aha-button variant=\"text-link\" size=\"sm\"> (default tone, Darker Pink #DB005B, transparent background; colour rule 6.7), not a boxed button. Guidance only: the element does not force a variant. Beside the text it is centred vertically on the text block (heading + message); on a one-line message the 28px button overhangs the 21px line by 3.5px each way (5px on small), so the row, the icon and the ✕ keep the line height. The icon and the ✕ stay on the first line. When the alert leaves under 200px of text beside it, the action moves below the text, left-aligned, 8px under it (6 small)" },
     { "label": "Icon", "value": "status glyph via <aha-icon> (system-info / system-check-circle / system-warning-circle / system-x-circle / system-sparkle), 16px in both sizes, icon-default #4A4A4A" },
@@ -29,7 +29,7 @@
   ],
   "props": [
     { "name": "type", "type": "info | success | warning | error | branding", "default": "info", "desc": "Tone + status icon + surface tokens" },
-    { "name": "heading", "type": "string", "default": "—", "desc": "Optional bold title above the message" },
+    { "name": "heading", "type": "string", "default": "—", "desc": "Optional bold title above the message; in a `banner` it is weight 400 and runs on in the message line" },
     { "name": "size", "type": "regular | small", "default": "regular", "desc": "Compact padding + type scale" },
     { "name": "padding", "type": "even", "default": "—", "desc": "Opt-in even padding: all four sides take the size's side value (regular 14, small 10). Absent keeps the default 10 14 / 6 10" },
     { "name": "banner", "type": "boolean", "default": "false", "desc": "Full-width, square-cornered edge-to-edge page notice with a light shadow (0 2px 8px ink-a10)" },
