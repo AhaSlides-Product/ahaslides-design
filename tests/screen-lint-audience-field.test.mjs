@@ -125,3 +125,29 @@ test('size is read only from the props argument of el(), not from its children',
   assert.deepEqual(hits(`el('aha-input', { size: 'lg' }, [el('aha-button', { size: 'sm' })])`), []);
   assert.deepEqual(hits(`el('aha-input', {\n  // don't shrink it\n  size: 'lg',\n});`), []);
 });
+
+test('a size read from another attribute value or a longer value does not count as large', () => {
+  for (const source of [
+    '<aha-input placeholder="Preferred size=lg"></aha-input>',
+    '<aha-input size="lg other"></aha-input>',
+    `<aha-input :placeholder="'size=lg'"></aha-input>`,
+    '<aha-input title={"size=lg"} />',
+    `el('aha-input', { placeholder: 'size: "lg"' })`,
+    `el('aha-input', { placeholder: "size: 'lg'" })`,
+  ]) assert.equal(hits(source).length, 1, source);
+  assert.deepEqual(hits('<aha-input placeholder="Pick a size" size="lg"></aha-input>'), []);
+  assert.deepEqual(hits(`el('aha-input', { placeholder: 'size: lg', size: 'lg' })`), []);
+});
+
+test('the explicit rule id needs the developer request as the size alias does', () => {
+  const marker = (reason) => `<aha-input></aha-input> <!-- ds-lint-allow: audience-field-size (${reason}) -->`;
+  assert.equal(hits(marker('looks tidier')).length, 1);
+  assert.deepEqual(hits(marker('developer request: compact code box')), []);
+});
+
+test('comment stripping stays linear on pathological input', () => {
+  const started = Date.now();
+  hits('/*'.repeat(30000) + 'a/*'.repeat(30000));
+  hits('<!--'.repeat(30000));
+  assert.ok(Date.now() - started < 2000);
+});
