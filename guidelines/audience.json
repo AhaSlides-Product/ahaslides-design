@@ -234,6 +234,12 @@
       "status": "available"
     },
     {
+      "ref": "quiz-rules",
+      "as": "component",
+      "use": "the rules (Get ready) screen of a mode C self-paced quiz page — <aha-quiz-rules> from lib/audience.js: the title, the icon rule lines and Skip rules counting down, one block centred in the page's height; the page passes every text, translated, and ends the rules on its skip event",
+      "status": "available"
+    },
+    {
       "ref": "audience-image-upload",
       "as": "component",
       "use": "a participant photo — <aha-audience-image-upload>, the host uploads via xprops.uploadImage",
@@ -321,6 +327,14 @@
         "C9",
         "C14",
         "C19",
+        "§1"
+      ]
+    },
+    {
+      "id": "self-paced-rules-screen",
+      "rule": "A mode C self-paced view draws its rules (Get ready) screen with <aha-quiz-rules> from lib/audience.js, a direct child of the page's flex-column root, passing the title, the rule lines (icon name and text) and the Skip label translated, plus ends-at or seconds, and ending the rules on its skip event. Never a pasted .sp-rules block or another hand-built rules screen: one element keeps every quiz slide type on the same position, sizes and Skip rules button, and a DS fix reaches them all. The element is the default an agent builds with; when the slide-type developer deliberately asks for a different rules screen, build it and mark its declaring line `ds-lint-allow: rules-screen (developer request: <their words>)`. While the rules show, the page hides its timer, progress row, question and its own Skip and Next.",
+      "ref": [
+        "C15",
         "§1"
       ]
     },
@@ -705,7 +719,7 @@
     },
     {
       "id": "consume-ds-elements",
-      "rule": "On the Developer Platform the audience iframe loads lib/audience.js, so every control the DS ships is consumed as the element: the audience set (<aha-answer-list>, <aha-rank-list>, <aha-scale-slider>, <aha-audience-chip>, <aha-audience-field> around <aha-counted-input> / <aha-counted-textarea size=\"lg\"> / <aha-select>, <aha-audience-image-upload>, <aha-audience-submit>, <aha-countdown>, <aha-instruction-line>, <aha-waiting-for-host>, <aha-submitted-card>, <aha-identity-strip>, <aha-swipe-card>; the Audience Library page maps each upstream component to its element) plus the shared ones (<aha-button>, <aha-stepper>, <aha-autocomplete>) — never 'ported 1:1' by copying its CSS, which freezes the copy at the version of the day it was built. Keep a control custom only where the DS has no element yet, and build it on DS tokens.",
+      "rule": "On the Developer Platform the audience iframe loads lib/audience.js, so every control the DS ships is consumed as the element: the audience set (<aha-answer-list>, <aha-rank-list>, <aha-scale-slider>, <aha-audience-chip>, <aha-audience-field> around <aha-counted-input> / <aha-counted-textarea size=\"lg\"> / <aha-select>, <aha-audience-image-upload>, <aha-audience-submit>, <aha-countdown>, <aha-quiz-rules>, <aha-instruction-line>, <aha-waiting-for-host>, <aha-submitted-card>, <aha-identity-strip>, <aha-swipe-card>; the Audience Library page maps each upstream component to its element) plus the shared ones (<aha-button>, <aha-stepper>, <aha-autocomplete>) — never 'ported 1:1' by copying its CSS, which freezes the copy at the version of the day it was built. Keep a control custom only where the DS has no element yet, and build it on DS tokens.",
       "ref": [
         "C15",
         "§5"

@@ -1,0 +1,193 @@
+{
+  "name": "Quiz rules",
+  "slug": "quiz-rules",
+  "group": "Audience",
+  "environment": [
+    "audience"
+  ],
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-quiz-rules",
+  "summary": "The \"Get ready\" rules screen a self-paced quiz page shows before each question: the title, the rule lines (icon and text) and a Skip rules button counting down, as one block centred in the height the page gives it.",
+  "highlights": [
+    "Self-paced quiz rules screen, one block for every slide type",
+    "Title, icon rule lines and Skip rules with a countdown",
+    "Steps up at 480px and 960px; deck ink, right-to-left safe",
+    "Every text comes from the page, translated"
+  ],
+  "lead": "ONE custom element — <aha-quiz-rules> — for the rules screen of a mode C self-paced quiz page (self-paced-view.html on a slide type with setting.audienceQuizSelfPaced: true). It is in lib/audience.js, which the self-paced view already loads, so a fix here reaches every quiz slide type at once instead of a pasted block per page. Put it as a direct child of the page's flex-column root; it fills the height and centres itself. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) binds the skip event and the rules property through a ref; Vue binds the custom element natively.",
+  "tokensUsed": [
+    "text-default",
+    "space-12",
+    "space-16",
+    "space-24",
+    "space-32",
+    "size-l",
+    "size-xl",
+    "size-h4",
+    "size-h1"
+  ],
+  "spec": [
+    {
+      "label": "Block",
+      "value": "title, rule list and Skip rules as one column centred in the height the page gives (flex 1, centred); 16px padding above and below, so on a content-height phone it starts 16px under the top"
+    },
+    {
+      "label": "Title",
+      "value": "\"Question x of y\" from the page: 20px semibold on a 1.5 line, 24px from 480px, 48px on a 1.2 line from 960px; centred, balanced wrap"
+    },
+    {
+      "label": "Rule lines",
+      "value": "16px semibold on a 1.5 line, 24px icon, 12px icon gap, lines 16px apart; from 960px 24px on a 1.3 line, 32px icon, 16px icon gap, lines 24px apart. The lines are left-aligned together and the list is centred"
+    },
+    {
+      "label": "Gaps",
+      "value": "title to rules and rules to Skip rules 24px, 32px from 960px"
+    },
+    {
+      "label": "Skip rules",
+      "value": "<aha-button variant=\"secondary-deck\" size=\"touch\" block>, label \"Skip rules (N)\" counting down and never below 1, a 16px system-arrow-right in the icon-end slot (the button's 8px gap); full width on a phone, from 480px as wide as the rule list, at least min(100%, 240px), at most min(100%, 480px)"
+    },
+    {
+      "label": "Ink and direction",
+      "value": "deck ink on title and lines; dir=\"auto\" on every text; the arrow mirrors in a right-to-left page"
+    }
+  ],
+  "props": [
+    {
+      "name": "heading",
+      "type": "string",
+      "default": "—",
+      "desc": "The title, translated by the page: \"Question 2 of 7\", or \"Get ready\" when the position is unknown. No title is drawn when it is empty"
+    },
+    {
+      "name": "rules",
+      "type": "[{ icon, text }]",
+      "default": "[]",
+      "desc": "The rule lines, each a DS icon name and its translated text (\"system-timer\" + \"20 seconds to answer\"; \"system-star\" + \"Answer faster to get more points\"). A JSON attribute, or the `rules` property (an array), which wins until the attribute changes. A line without an icon is drawn without one"
+    },
+    {
+      "name": "skip-label",
+      "type": "string",
+      "default": "Skip rules",
+      "desc": "The button label, translated; the seconds left are added as \"(N)\". A label holding {n} places the number itself instead. The number is formatted with Intl.NumberFormat for the nearest lang; a page that wants its own digits leaves out ends-at and seconds and writes the formatted number into skip-label itself"
+    },
+    {
+      "name": "ends-at",
+      "type": "epoch ms",
+      "default": "—",
+      "desc": "When the rules end; the label counts down once a second on its own, never below 1, and stops ticking at 1. A blank or non-numeric value is ignored and seconds applies"
+    },
+    {
+      "name": "seconds",
+      "type": "number",
+      "default": "—",
+      "desc": "The seconds left, when the page drives the count itself; ignored while a valid ends-at is set; a non-finite value shows no count. Neither set = the label without a count"
+    },
+    {
+      "name": "skip-testid",
+      "type": "string",
+      "default": "—",
+      "desc": "The data-testid put on the inner Skip rules button (\"audience-<slide-type>-skip-rules\")"
+    },
+    {
+      "name": "skip (event)",
+      "type": "CustomEvent",
+      "default": "—",
+      "desc": "Fired on every Skip rules tap (bubbles, composed). The page ends the rules and keeps its own double-tap guard, so the same tap cannot also press the question's Skip"
+    },
+    {
+      "name": "ink",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck ink (xprops.slide.textColour) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "accent",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck accent (presentationColorPalette[0]) for this element only; normally inherited from applyDeck()"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Quiz rules",
+        "when": "the rules (Get ready) screen of a mode C self-paced quiz page, before each question: the default every agent builds with"
+      },
+      {
+        "what": "A page's own rules screen",
+        "when": "only when the slide-type developer deliberately asks for a different one; mark its declaring line `ds-lint-allow: rules-screen (developer request: <their words>)`"
+      },
+      {
+        "what": "Waiting for host",
+        "when": "the participant waits for the presenter, not for a self-paced question"
+      }
+    ],
+    "note": "While the rules show, the page hides its timer, progress row, question and its own Skip and Next: the element is the whole scene. It draws the screen only: when to show it, how long the rules last and what Skip does are the page's. Every text comes from the page, translated. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font."
+  },
+  "surfaces": [
+    "audience"
+  ],
+  "reuse": {
+    "entry": "./aha-quiz-rules",
+    "registers": "aha-quiz-rules",
+    "exportsNamed": [
+      "AhaQuizRules",
+      "defineAhaQuizRules"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "quiz-rules.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a version-pinned CDN import and plain HTML, for a build-less slide page."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "quiz-rules.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "quiz-rules.vue.txt"
+    }
+  ],
+  "preview": "quiz-rules.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP), on the light-deck example with no deck applied (DS defaults), in the doc page's preview frame.",
+    "ready": "!!(function(){var el=document.querySelector('aha-quiz-rules[data-probe]');var r=el&&el.shadowRoot;var b=r&&r.querySelector('.skip');return r&&r.querySelector('.rule')&&b&&b.shadowRoot&&b.shadowRoot.querySelector('button')})()",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-quiz-rules[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var h=cs(q('.heading'));var l=cs(q('.rule'));var b=q('.skip');var btn=cs(b&&b.shadowRoot&&b.shadowRoot.querySelector('button'));return{headingWeight:h.fontWeight,ink:h.color,ruleWeight:l.fontWeight,blockPadding:cs(q('.rules')).paddingTop,skipHeight:btn.height,skipInk:btn.color};})()",
+    "expect": {
+      "headingWeight": "600",
+      "ink": "rgb(26, 26, 26)",
+      "ruleWeight": "600",
+      "blockPadding": "16px",
+      "skipHeight": "48px",
+      "skipInk": "rgb(26, 26, 26)"
+    }
+  },
+  "selfCheck": [
+    {
+      "label": "one block centred in the page's height; title, rules and Skip rules 24px apart (32px from 960px)",
+      "verdict": "PASS"
+    },
+    {
+      "label": "title 20 / 24 / 48px; rule text 16px then 24px; icons 24px then 32px",
+      "verdict": "PASS"
+    },
+    {
+      "label": "Skip rules: secondary-deck touch block, counts down never below 1, arrow in icon-end; full width on a phone, 240 to 480px as wide as the list from 480px",
+      "verdict": "PASS"
+    },
+    {
+      "label": "deck ink, dir=auto on every text, arrow mirrored right to left",
+      "verdict": "PASS"
+    }
+  ]
+}

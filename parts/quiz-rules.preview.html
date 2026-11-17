@@ -1,0 +1,25 @@
+<div class="pad">
+  <div class="lbl">Light deck: the sizes step up at 480px and 960px of view width</div>
+  <div class="row" style="display:flex;flex-direction:column;width:100%;min-height:360px;box-sizing:border-box">
+    <aha-quiz-rules data-probe heading="Question 2 of 7" skip-label="Skip rules"
+      rules='[{"icon":"system-timer","text":"20 seconds to answer"},{"icon":"system-star","text":"Answer faster to get more points"}]'></aha-quiz-rules>
+  </div>
+  <div class="lbl">Dark deck: applyDeck() with a white ink and a Vivid Pink accent; no timer, so the hourglass line</div>
+  <div class="row aud-dark" style="display:flex;flex-direction:column;width:100%;min-height:320px;box-sizing:border-box;padding:var(--aha-space-16);background:var(--aha-bg-dark);border-radius:var(--aha-radius-lg)">
+    <aha-quiz-rules heading="Get ready" skip-label="Skip rules"
+      rules='[{"icon":"system-hourglass-high","text":"No time limit"}]'></aha-quiz-rules>
+  </div>
+  <div class="lbl">Right to left (dir="rtl", Arabic copy from the page): lines start on the right, the arrow mirrors</div>
+  <div class="row" dir="rtl" lang="ar" style="display:flex;flex-direction:column;width:100%;min-height:320px;box-sizing:border-box">
+    <aha-quiz-rules heading="السؤال 2 من 7" skip-label="تخطي القواعد"
+      rules='[{"icon":"system-timer","text":"20 ثانية للإجابة"},{"icon":"system-star","text":"أجب أسرع لتحصل على نقاط أكثر"}]'></aha-quiz-rules>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element, so the preview can never drift from lib/ and qa measures what consumers get. -->
+<script type="module">
+  import '../lib/aha-quiz-rules.js';   // registers <aha-quiz-rules>
+  import { applyDeck } from '../lib/audience-deck.js';
+  for (const deck of document.querySelectorAll('.aud-dark')) applyDeck(deck, { textColour: '#FFFFFF', presentationColorPalette: ['#E70E68'] });
+  for (const rules of document.querySelectorAll('aha-quiz-rules')) rules.setAttribute('ends-at', String(Date.now() + 5000));
+</script>

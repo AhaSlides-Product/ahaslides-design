@@ -1,0 +1,9 @@
+<script setup>
+import '@ahaslides-product/design/aha-quiz-rules';
+defineProps({ heading: String, skipLabel: String, rulesEnd: Number, lines: Array });
+const emit = defineEmits(['skip']);
+</script>
+
+<template>
+  <aha-quiz-rules :heading="heading" :skip-label="skipLabel" :ends-at="rulesEnd" :rules.prop="lines" @skip="emit('skip')" />
+</template>

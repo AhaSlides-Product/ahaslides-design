@@ -129,6 +129,13 @@ here applies to `audience.*` or to modes A and B.
   fails. The one exception is a single centred column with a bounded max-width when the interaction
   maps a primary object to the controls directly below it: a swipe card above the True and False
   buttons its swipe directions match, or a gesture surface above its legend. Type still scales. Horizontal scroll and the height report rules hold at every width.
+- **Rules (Get ready) screen:** `<aha-quiz-rules>` from `lib/audience.js`, a direct child of the
+  page's flex-column root. The page passes the title, the rule lines (icon name and text) and the Skip
+  label, translated, plus `ends-at` or `seconds`, and ends the rules on its `skip` event; while it
+  shows, the page hides its timer, progress row, question and its own Skip and Next. Never paste a
+  rules block or hand-build one: that is the default an agent builds with. Only when the slide-type
+  developer deliberately asks for a different screen, build it and mark its declaring line
+  `ds-lint-allow: rules-screen (developer request: <their words>)` (C15).
 - **Submit:** full width of its own region, not of the whole view.
 - **Time's up and verdict:** the page draws one of each, from its own timer. The host draws neither here.
 
