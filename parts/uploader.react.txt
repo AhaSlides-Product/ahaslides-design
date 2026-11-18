@@ -30,7 +30,7 @@ function AhaUploader({ multiple, accept, disabled, listType, maxCount, descripti
 // usage — a drop zone with managed rows (done / uploading / error) + a remove handler
 <AhaUploader
   accept="image/png,image/jpeg,image/gif,image/svg+xml"
-  description="PNG, JPEG, GIF, SVG - Max: 15MB"
+  description="PNG, JPEG, GIF or SVG, up to 15 MB"
   multiple
   items={[
     { name: 'cover.png', status: 'done' },

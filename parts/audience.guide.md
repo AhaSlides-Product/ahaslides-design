@@ -130,7 +130,7 @@ here applies to `audience.*` or to modes A and B.
   maps a primary object to the controls directly below it: a swipe card above the True and False
   buttons its swipe directions match, or a gesture surface above its legend. Type still scales. Horizontal scroll and the height report rules hold at every width.
 - **Rules (Get ready) screen:** `<aha-quiz-rules>` from `lib/audience.js`, a direct child of the
-  page's flex-column root. The page passes the title, the rule lines (icon name and text) and the Skip
+  page's flex-column root. The page passes the title, one scoring line (text, no icon) and the Play now
   label, translated, plus `ends-at` or `seconds`, and ends the rules on its `skip` event; while it
   shows, the page hides its timer, progress row, question and its own Skip and Next. Never paste a
   rules block or hand-build one: that is the default an agent builds with. Only when the slide-type

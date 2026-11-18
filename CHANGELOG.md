@@ -27,11 +27,15 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1122.0 — 2026-11-18
 ### Added
-- **`aha-uploader` takes a `description` attribute** for the accepted formats and size limit, shown inside the drop zone under "Click to upload or drag files here": `<aha-uploader accept="image/png,image/jpeg,image/gif,image/svg+xml" description="PNG, JPEG, GIF, SVG - Max: 15MB">`. One 14/21 line in text-secondary (the image dropzone's detail line), escaped, in the text-mode zone only (not in picture-card mode or at the upload limit); without it the zone renders exactly as before. Put format and size text here, never in a line under the zone (DESY-563, #769).
+- **`aha-uploader` takes a `description` attribute** for the accepted formats and size limit, shown inside the drop zone under "Click to upload or drag files here": `<aha-uploader accept="image/png,image/jpeg,image/gif,image/svg+xml" description="PNG, JPEG, GIF or SVG, up to 15 MB">`. One 14/21 line in text-secondary (the image dropzone's detail line), escaped, in the text-mode zone only (not in picture-card mode or at the upload limit); without it the zone renders exactly as before. Put format and size text here, never in a line under the zone (DESY-563, #769).
 - **Overlays rule `focus-ring-never-clipped` (OVERLAY-10) and judge criterion overlays C9: a focus ring is never clipped by an overflow container.** DS rings reach out 4px at most (2px `--aha-border-focus` outline at a 2px offset; a field's 2px `--aha-focus-ring-soft` shadow), so a scroll container pads 4px (`--aha-space-4`) and pulls back with an equal negative margin. `screen-lint.mjs --measure` hard-fails `focus-ring-clip`: it focuses every reachable control on the screen and fails a ring an overflow container cuts off (DESY-563, #769).
 ### Fixed
 - `<aha-modal>`: a control at the edge of the body (a search field on its first line) no longer loses the top and side of its focus ring. The scrolling body pads 4px and pulls back 4px, so content and the body's own ring stay where they were. A consumer that sets both `padding` and `margin` on `::part(body)` keeps its own values (DESY-563, #769).
 - Revert: revert the PR; it touches `lib/aha-uploader.js`, `lib/aha-modal.js`, `lib/focus-ring-clip.js`, `screen-lint.mjs`, the uploader and modal contracts and parts, `guidelines/overlays.json` and `anti-slop/criteria.json`.
+
+## 0.1121.0 — 2026-11-18
+### Changed
+- **Quiz rules screen v2: one scoring line, Play now, new sizes** (DESY-562, #768), for Lan's self-paced build skill (SLPV-315). A rule line carries no icon by default: pages pass one scoring line (the time line is dropped) and a list whose lines all lack an icon is centred; the `icon` field stays optional. Rule text is regular weight (400). Sizes step once at 960px: title 24px (h4) then 32px (h3), rule text 16px then 20px, optional icons 24px at every width, gaps 24px, list gap 16px, rule gap 12px. The Play now button is as wide as the rule line at every width, including phones (240 to 480px, never wider than the view). The fallback `skip-label` is "Play now" (countdown kept: "Play now (5)"). Doc, contract, preview, snippets, guideline `self-paced-rules-screen`, criterion C15 and the tests follow.
 
 ## 0.1119.0 — 2026-11-17
 ### Added

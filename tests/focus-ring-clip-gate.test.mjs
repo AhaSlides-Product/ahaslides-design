@@ -20,3 +20,9 @@ test('screen-lint --measure passes a search field at the top edge of an aha-moda
   assert.equal(run.status, 0, run.stdout + run.stderr);
   assert.match(run.stdout, /1 control\(s\) focused, no focus ring clipped/);
 });
+
+test('screen-lint --measure fails a checkbox whose inner box ring an unpadded scroll panel cuts off', { skip }, () => {
+  const run = measure('checkbox-in-scroll-panel.html');
+  assert.equal(run.status, 1, run.stdout + run.stderr);
+  assert.match(run.stdout, /FAIL \[focus-ring-clip\] 360px: focus ring of aha-checkbox cut off by section\.panel \(top 2px, left 4px\)/);
+});

@@ -33,8 +33,8 @@ function zoneMarkup(attributes) {
 }
 
 test('description renders escaped inside the drop zone, under the prompt', () => {
-  assert.match(zoneMarkup({ description: 'PNG, <SVG> & GIF - Max: 15MB' }),
-    /<div class="zone"[^>]*>.*<div><div><b>Click to upload<\/b> or drag files here<\/div><div class="description" part="description">PNG, &lt;SVG&gt; &amp; GIF - Max: 15MB<\/div><\/div><\/div>/);
+  assert.match(zoneMarkup({ description: 'PNG, <SVG> & GIF, up to 15 MB' }),
+    /<div class="zone"[^>]*>.*<div><div><b>Click to upload<\/b> or drag files here<\/div><div class="description" part="description">PNG, &lt;SVG&gt; &amp; GIF, up to 15 MB<\/div><\/div><\/div>/);
 });
 
 test('without description the zone markup is unchanged', () => {

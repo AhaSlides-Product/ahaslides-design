@@ -7,7 +7,7 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 <template>
   <aha-uploader
     accept="image/png,image/jpeg,image/gif,image/svg+xml"
-    description="PNG, JPEG, GIF, SVG - Max: 15MB"
+    description="PNG, JPEG, GIF or SVG, up to 15 MB"
     multiple
     listtype="text"
     :items="JSON.stringify(items)"          // [{ name, status?, percent?, thumb? }]
