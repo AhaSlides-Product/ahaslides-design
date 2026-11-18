@@ -56,3 +56,31 @@ for (const [tag, Element, properties, observed] of controls) {
     assert.equal(element.hasAttribute(observed), true);
   });
 }
+
+const { AhaPoll } = await import('../lib/aha-poll.js');
+const { readdirSync, readFileSync } = await import('node:fs');
+
+test('aha-poll routes pre-upgrade value, options and counts through its setters on connect', () => {
+  const element = new AhaPoll();
+  const early = { value: ['a'], options: ['a', 'b'], counts: { a: 1 } };
+  for (const [name, value] of Object.entries(early)) {
+    Object.defineProperty(element, name, { value, writable: true, configurable: true, enumerable: true });
+  }
+  element._build = element._sync = () => {};
+  element.connectedCallback();
+  for (const name of Object.keys(early)) assert.equal(Object.hasOwn(element, name), false);
+  assert.deepEqual(element.value, ['a']);
+  element.setAttribute('value', JSON.stringify(['b']));
+  assert.deepEqual(element.value, ['b']);
+});
+
+test('every control with a value setter upgrades an early value on connect', () => {
+  const libUrl = new URL('../lib/', import.meta.url);
+  const missing = readdirSync(libUrl)
+    .filter((file) => /^aha-.*\.js$/.test(file))
+    .filter((file) => {
+      const source = readFileSync(new URL(file, libUrl), 'utf8');
+      return /\n\s*set value\(/.test(source) && !/upgradeProperties\(this, \[[^\]]*'value'/.test(source);
+    });
+  assert.deepEqual(missing, []);
+});
