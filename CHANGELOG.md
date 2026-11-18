@@ -28,7 +28,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.1127.0 — 2026-11-18
 
 ### Changed
-- `aha-setting-group`: the gap from a labelled heading to its first setting now equals the group's own row gap (24px; 8px for the `data-option-rows` layout), where it was a fixed 8px. Contract text updated. Every labelled `aha-setting-group` in a settings panel changes visibly, with the heading-to-first-setting gap growing from 8px to 24px; groups of Option Rows and groups with no label render as before. Requested by Lan (DESY-565) (#PRNUM).
+- `aha-setting-group`: the gap from a labelled heading to its first setting now equals the group's own row gap (24px; 8px for the `data-option-rows` layout), where it was a fixed 8px. Contract text updated. Every labelled `aha-setting-group` in a settings panel changes visibly, with the heading-to-first-setting gap growing from 8px to 24px; groups of Option Rows and groups with no label render as before. Requested by Lan (DESY-565) (#771).
 
 ## 0.1126.0 — 2026-11-18
 ### Added
