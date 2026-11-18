@@ -321,6 +321,33 @@
       "source": {
         "authored": "DESY-490 — DS-authored good control for a retryable error inside an overlay"
       }
+    },
+    {
+      "id": 14,
+      "prompt": "Review the tooltips in this presenter editor header (EditorHeader.html).",
+      "files": [
+        {
+          "path": "fixtures/fail-c9-editor-lg-tooltip/EditorHeader.html"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets C9, modelled on the shipped Virtual host entry: every button is size=\"md\", but the Virtual host tooltip is size=\"lg\" (the canvas tooltip) beside a default Share tooltip.",
+      "expected_output": "C9 FAILs: the Virtual host tooltip is size=\"lg\", the canvas tooltip with a 16px name, in the editor header, where the Share tooltip next to it is the default 12px size. Fix: drop size=\"lg\" so it is the default tooltip. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C9 is marked FAIL",
+        "Says size=\"lg\" is the canvas tooltip",
+        "Recommends removing size=\"lg\""
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C9": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "the presenter editor header shipped an unsized icon-only Virtual host button (40px beside 36px Preview and Present) and an lg tooltip, and screen-lint passed both (PRE-332, DESY-561)"
+      }
     }
   ]
 }

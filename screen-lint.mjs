@@ -41,6 +41,10 @@
  * other icon libraries) and brand-logo-colour (a logo/original/ file outside the sign-in or listing pattern in the Icon library's brand note, or the
  * kit's icon-maintain-color, colour rule 2.6).
  * Every surface also hard-fails alert-button-link: an <aha-button> inside an <aha-alert> or <aha-info-box> message (a link there is a plain <a href>; only slot="action" takes a button).
+ * Every surface but canvas hard-fails tooltip-size (lib/screen-lint-control-size.js): a literal size="lg" on <aha-tooltip> or any tag
+ * whose name contains tooltip (a wrapper that passes it through); lg is the canvas tooltip. --surface=product also warns
+ * button-size-unset: an <aha-button> (or a DesignSystemButton / ds-button wrapper) with no size inside a header or toolbar
+ * row, in a file whose other buttons set a size, or icon-only (header and toolbar actions are size="md", app-shell C7).
  * --surface=product also hard-fails stat-tile-accent: a second <aha-stat-tile look="accent"> in one file (the accent look is the emphasis look, at most one per screen, colour rules 3.7 and 6.8).
  *
  * UX writing: on every surface, four hard rules read the user-visible UI strings only (HTML text nodes,

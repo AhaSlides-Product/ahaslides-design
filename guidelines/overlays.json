@@ -175,6 +175,13 @@
       "ref": [
         "OVERLAY-09"
       ]
+    },
+    {
+      "id": "tooltip-size-by-surface",
+      "rule": "A tooltip is the default size (12px name, wraps at 280px) on every product, settings, audience and website screen, the editor header and toolbars included. size=\"lg\" (16px name on a 24px line) is the canvas tooltip: only for a control inside the slide canvas and the presenting view's control bar (app-shell C6). An lg tooltip beside 12px ones in the editor reads as a different component. Gated: screen-lint.mjs hard-fails tooltip-size on any tooltip tag (<aha-tooltip>, a wrapper whose name contains tooltip) with a literal size=\"lg\" on every surface but canvas; a presenter control-bar line opts out with ds-lint-allow: tooltip-size (presenter control bar).",
+      "ref": [
+        "OVERLAY-10"
+      ]
     }
   ],
   "reuse": null,

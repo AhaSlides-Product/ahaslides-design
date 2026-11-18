@@ -23,7 +23,7 @@
 <!-- Presenter controls drawn inside a slide canvas are lg (40px), themed once with applyCanvasDeck from lib/canvas.js
      (never ::part(button)). shortcut draws the key as a display-only chip after the label. -->
 <aha-button variant="primary" size="lg" shortcut="Enter">Reveal results</aha-button>
-<aha-tooltip size="lg" text="Mute music" shortcut="M">
+<aha-tooltip size="lg" text="Mute music" shortcut="M"> <!-- ds-lint-allow: tooltip-size (an in-canvas control: the canvas tooltip) -->
   <aha-button variant="secondary-deck" size="lg" icon-only aria-label="Mute music (M)"><aha-icon name="system-speaker-simple-high" size="16" decorative></aha-icon></aha-button>
 </aha-tooltip>
 
