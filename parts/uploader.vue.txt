@@ -6,7 +6,8 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 // Component.vue — text mode: a drop zone + managed file rows (done / uploading / error)
 <template>
   <aha-uploader
-    accept="image/*"
+    accept="image/png,image/jpeg,image/gif,image/svg+xml"
+    description="PNG, JPEG, GIF, SVG - Max: 15MB"
     multiple
     listtype="text"
     :items="JSON.stringify(items)"          // [{ name, status?, percent?, thumb? }]

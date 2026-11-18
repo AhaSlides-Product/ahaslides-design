@@ -175,6 +175,14 @@
       "ref": [
         "OVERLAY-09"
       ]
+    },
+    {
+      "id": "focus-ring-never-clipped",
+      "rule": "A focus ring is never clipped by an overflow container: a control at the edge of a modal body, drawer, popover list or any overflow: auto / hidden / scroll box shows its whole ring. The DS rings reach out 4px at most: a keyboard ring is a 2px outline at a 2px offset (--aha-border-focus, 4px out), a field ring (<aha-input>, select, textarea) is a 2px box-shadow (--aha-focus-ring-soft, 2px out). Fix it on the container, never on the control: give the scroll container padding of at least 4px (--aha-space-4) and pull it back with an equal negative margin (margin: calc(-1 * var(--aha-space-4))) so the content stays where it was; <aha-modal> does this for its own body. Never remove, shrink or restyle the ring to dodge the clip: the DS ships no inset ring, and an inset ring on a DS control is a restyle. Gated: screen-lint.mjs --measure hard-fails focus-ring-clip on a consumer screen (it focuses every reachable control and measures the ring against its overflow containers).",
+      "ref": [
+        "OVERLAY-10",
+        "C9"
+      ]
     }
   ],
   "reuse": null,
@@ -194,6 +202,10 @@
     },
     {
       "label": "async confirm awaits, stays open on failure with an inline AhaAlert; danger on the button",
+      "verdict": "N/A — per-surface"
+    },
+    {
+      "label": "no focus ring clipped: scroll containers pad 4px (--aha-space-4) with an equal negative margin; aha-modal body does it built in",
       "verdict": "N/A — per-surface"
     }
   ],
