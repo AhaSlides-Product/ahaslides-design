@@ -58,10 +58,12 @@ test('quiz-rules: Play now keeps one name while the count ticks, and heading-lev
 test('option-row: drag handle and Delete name their row; strings take {label}; an empty row keeps the bare name', { skip }, async () => {
   const result = await run(`<aha-option-row id="a" orderable reorderable value="Venus"></aha-option-row>
     <aha-option-row id="b" orderable value="Sao Kim" deletelabel="Xoá {label}" reorderlabel="Kéo {label}"></aha-option-row>
-    <aha-option-row id="c" orderable></aha-option-row>`, `
+    <aha-option-row id="c" orderable></aha-option-row>
+    <aha-option-row id="e" orderable value="USD $&amp; $$"></aha-option-row>`, `
     const names = (id) => { const r = document.getElementById(id).shadowRoot; return [r.querySelector('.handle').getAttribute('aria-label'), r.querySelector('.delete-button').getAttribute('aria-label')]; };
-    return { a: names('a'), b: names('b'), c: names('c') };`);
+    return { a: names('a'), b: names('b'), c: names('c'), e: names('e') };`);
   assert.deepEqual(result.a, ['Drag Venus to reorder, or use the arrow keys', 'Delete Venus']);
   assert.deepEqual(result.b, ['Kéo Sao Kim', 'Xoá Sao Kim']);
   assert.deepEqual(result.c, ['Drag to reorder', 'Delete']);
+  assert.equal(result.e[1], 'Delete USD $& $$');
 });
