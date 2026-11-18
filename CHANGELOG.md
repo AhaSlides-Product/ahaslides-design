@@ -28,7 +28,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.1128.0 — 2026-11-18
 
 ### Changed
-- `aha-uploader`: the drop-zone upload icon takes the zone's neutral text colour (`currentColor`: tertiary at rest, default on hover) instead of the brand pink; only the "Click to upload" link stays primary. The description line sits 4px (`space-4`) below the prompt, where it touched it (DESY-566, #PRNUM).
+- `aha-uploader`: the drop-zone upload icon takes the zone's neutral text colour (`currentColor`: tertiary at rest, default on hover) instead of the brand pink; only the "Click to upload" link stays primary. The description line sits 4px (`space-4`) below the prompt, where it touched it (DESY-566, #772).
 
 ## 0.1127.0 — 2026-11-18
 
