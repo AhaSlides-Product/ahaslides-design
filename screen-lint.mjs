@@ -20,6 +20,8 @@
  *                                                                # and on overlay-clip (OVERLAY-09): every <aha-tooltip> and <aha-popover>
  *                                                                # is opened, and it and any shown [role=tooltip] must paint whole inside
  *                                                                # every clipping ancestor (shadow roots included) and the viewport
+ *                                                                # and on focus-ring-clip (OVERLAY-10): every reachable control is focused
+ *                                                                # and its ring must paint whole inside its overflow containers
  *   node screen-lint.mjs --self-test                       # dogfood: run over this repo's snippets
  *
  * --surface is REQUIRED and mirrors the judge's J0: you cannot grade a screen without first routing
@@ -107,9 +109,10 @@ const WEBSITE_MEASURE_VIEWPORTS = [
 async function runMeasure(fileList, viewports = MEASURE_VIEWPORTS) {
   const { measureAtViewports } = await import('./cdp.mjs');
   const { overlayClipProbe, formatOverlayClip } = await import('./lib/overlay-clip.js');
-  const expr = `(async function(){var de=document.documentElement;var ow=Math.round(de.scrollWidth),cw=de.clientWidth;var overlays=await ${overlayClipProbe};return {ow:ow,cw:cw,overlays:overlays};})()`;
+  const { focusRingClipProbe, formatFocusRingClip } = await import('./lib/focus-ring-clip.js');
+  const expr = `(async function(){var de=document.documentElement;var ow=Math.round(de.scrollWidth),cw=de.clientWidth;var overlays=await ${overlayClipProbe};var rings=await ${focusRingClipProbe};return {ow:ow,cw:cw,overlays:overlays,rings:rings};})()`;
   let hardCount = 0;
-  console.log(`\n=== SCREEN-LINT · measured pass: overflow + overlay-clip (${viewports.map(v => v.label).join('/')}) ===\n`);
+  console.log(`\n=== SCREEN-LINT · measured pass: overflow + overlay-clip + focus-ring-clip (${viewports.map(v => v.label).join('/')}) ===\n`);
   for (const f of fileList) {
     try {
       const r = await measureAtViewports('file://' + f, expr, { viewports, readyExpr: "document.readyState==='complete'", timeout: 45000 });
@@ -117,12 +120,18 @@ async function runMeasure(fileList, viewports = MEASURE_VIEWPORTS) {
         .map(v => `${v.label}px +${(r[v.label].ow - r[v.label].cw)}`);
       const clipped = viewports.flatMap(v => ((r[v.label] || {}).overlays?.findings || []).map(finding => `${v.label}px: ${formatOverlayClip(finding)}`));
       const checked = Math.max(0, ...viewports.map(v => (r[v.label] || {}).overlays?.checked || 0));
-      const failed = over.length > 0 || clipped.length > 0;
+      const ringsCut = viewports.flatMap(v => ((r[v.label] || {}).rings?.findings || []).map(finding => `${v.label}px: ${formatFocusRingClip(finding)}`));
+      const truncated = viewports.map(v => ({ label: v.label, rings: (r[v.label] || {}).rings })).filter(({ rings }) => rings?.truncated);
+      const failed = over.length > 0 || clipped.length > 0 || ringsCut.length > 0;
       console.log(`${failed ? '✗' : '✓'} ${f.replace(root + '/', '')}`);
       if (over.length) console.log(`      ✗ FAIL [overflow] horizontal scroll at ${over.join(', ')} — the screen must reflow to fit the phone floor`);
       else console.log('      · fits every viewport (no horizontal overflow)');
       for (const line of clipped) console.log(`      ✗ FAIL [overlay-clip] ${line} — an overlay is never clipped by its panel or the viewport (OVERLAY-09): use <aha-tooltip>, <aha-popover flip> or <aha-dropdown>`);
       if (!clipped.length) console.log(`      · ${checked} overlay(s) opened, none clipped by a panel or the viewport`);
+      const focused = Math.max(0, ...viewports.map(v => (r[v.label] || {}).rings?.checked || 0));
+      if (!ringsCut.length) console.log(`      · ${focused} control(s) focused, no focus ring clipped by an overflow container`);
+      for (const { label, rings } of truncated) console.log(`      ! WARN [focus-ring-clip] ${label}px: ${rings.total} reachable controls, only the first ${rings.limit} were checked; split the screen or check the rest by hand`);
+      for (const line of ringsCut) console.log(`      ✗ FAIL [focus-ring-clip] ${line} — a focus ring is never clipped by an overflow container (OVERLAY-10): pad the scroll container by at least 4px (--aha-space-4) and pull it back with an equal negative margin`);
       if (failed) hardCount++;
     } catch (e) {
       hardCount++;
