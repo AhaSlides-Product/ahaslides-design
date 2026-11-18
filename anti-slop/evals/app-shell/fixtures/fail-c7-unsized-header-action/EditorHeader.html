@@ -1,0 +1,17 @@
+<header class="editor-header">
+  <aha-product-lockup product="Presenter"></aha-product-lockup>
+  <div class="editor-header__actions">
+    <aha-tooltip text="Virtual host" placement="bottom">
+      <aha-button variant="secondary" icon-only aria-label="Virtual host">
+        <aha-icon slot="icon" name="system-microphone" size="16" decorative></aha-icon>
+      </aha-button>
+    </aha-tooltip>
+    <aha-button variant="secondary" size="md">Preview</aha-button>
+    <aha-button variant="secondary" size="md">Results</aha-button>
+    <aha-button variant="primary" size="md">Present</aha-button>
+  </div>
+</header>
+<style>
+  .editor-header { display: flex; align-items: center; justify-content: space-between; padding: var(--aha-space-8) var(--aha-space-16); }
+  .editor-header__actions { display: flex; align-items: center; gap: var(--aha-space-8); }
+</style>

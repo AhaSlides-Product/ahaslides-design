@@ -25,6 +25,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1126.0 — 2026-11-18
+### Added
+- **Screen lint `tooltip-size`** (hard, every surface but canvas) (#767): a literal `size="lg"` on `<aha-tooltip>`, `<AhaTooltip>` or any tag whose name contains tooltip (a wrapper such as `<DesignSystemTooltip size="lg">`) fails, since lg is the canvas tooltip (16px name) and renders larger than every other tooltip on an editor screen. A presenting-view control-bar line opts out with `ds-lint-allow: tooltip-size (presenter control bar)`; the in-canvas Button snippet carries that marker. New overlays criterion C10 and guideline rule OVERLAY-11, the tooltip contract's `size` prop says where lg belongs.
+- **Screen lint `button-size-unset`** (warning, `--surface=product`): an `<aha-button>` (or `AhaButton`, `DesignSystemButton`, `ds-button`) with no `size` inside a header or toolbar row (`<header>`, `role="toolbar"`, a header/toolbar/top-bar class or tag), in a file whose other buttons set a size, or icon-only. New app-shell rule and criterion C7: header and toolbar actions are `size="md"` (36px), set on every button. A bound or spread size is skipped; opt out per line with `ds-lint-allow: button-size-unset (why)`.
+- One bad eval case each (app-shell C7, overlays C10), modelled on the presenter editor's Virtual host entry, which shipped with both mistakes while screen-lint passed it (PRE-332). To revert, drop `lib/screen-lint-control-size.js` and its two calls in `lib/screen-lint.js`.
+
 ## 0.1125.0 — 2026-11-18
 ### Added
 - **`aha-uploader` takes a `description` attribute** for the accepted formats and size limit, shown inside the drop zone under "Click to upload or drag files here": `<aha-uploader accept="image/png,image/jpeg,image/gif,image/svg+xml" description="PNG, JPEG, GIF or SVG, up to 15 MB">`. One 14/21 line in text-secondary (the image dropzone's detail line), escaped, in the text-mode zone only (not in picture-card mode or at the upload limit); without it the zone renders exactly as before. Put format and size text here, never in a line under the zone (DESY-563, #769).
