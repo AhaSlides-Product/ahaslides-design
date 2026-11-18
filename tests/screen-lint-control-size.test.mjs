@@ -21,6 +21,7 @@ test('size="lg" on any tooltip tag hard-fails on every surface but canvas; a def
   for (const source of lg) assert.equal(hits(source, 'tooltip-size', 'canvas').length, 0);
   assert.equal(hits('<aha-tooltip text="Share" placement="bottom"></aha-tooltip><aha-icon size="lg"></aha-icon>', 'tooltip-size').length, 0);
   assert.equal(hits('<!-- <aha-tooltip size="lg" text="x"> -->', 'tooltip-size').length, 0);
+  assert.equal(hits(`<aha-tooltip text='Use size="lg" on canvas'></aha-tooltip>`, 'tooltip-size').length, 0);
   assert.equal(hits('<aha-tooltip size="lg" text="Annotate" shortcut="D"> <!-- ds-lint-allow: tooltip-size (presenter control bar) -->', 'tooltip-size').length, 0);
 });
 
