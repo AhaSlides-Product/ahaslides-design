@@ -1,0 +1,224 @@
+{
+  "name": "Audio player",
+  "slug": "audio-player",
+  "environment": [
+    "product"
+  ],
+  "group": "Data display",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-audio-player",
+  "summary": "Play an audio file in place: play and pause, a seek bar with current and total time, mute and volume, with a compact one-row layout for a narrow side panel or a table row.",
+  "highlights": [
+    "Play, seek, time, mute and volume around one audio element",
+    "Compact: one 56px row for a 300px panel or a table row; any width under 400px does the same",
+    "play, pause, ended, timeupdate and volumechange events"
+  ],
+  "lead": "ONE custom element, <aha-audio-player>, defined once and imported unchanged by React, Vue 3 and Vue 2: the DS replacement for a native <audio controls>, whose look changes per browser and cannot be themed. It wraps one <audio> in its shadow root and is built from DS parts: a secondary icon-only <aha-button> to play and pause (secondary, as a list of players holds no primary), an <aha-slider> to seek (its value label shows the time), the current and total time, a tertiary icon-only <aha-button> to mute and a second <aha-slider> for volume. From 400px wide the title sits above one row of controls; with `compact`, or in any box under 400px, it is one 56px row: play, the title over \"0:12 / 3:05\", the seek bar, mute and a 40px volume slider, the same layout as <aha-audio-track>. `track-title` shows the file name and names the group for a screen reader. Events are composed CustomEvents on the host (play, pause, ended, timeupdate, volumechange); the sliders' own input and change events stay inside.",
+  "codeNote": "Native <audio controls> → <aha-audio-player>: src → src · the file name → track-title (not title: the global title attribute would show a browser tooltip over the whole player) · muted → muted (initial) or the muted property · audio.volume / currentTime / duration / paused / play() / pause() → the same properties and methods on the element · events play, pause, ended, timeupdate (detail { currentTime, duration }) and volumechange (detail { volume, muted }) fire on the host, composed and bubbling. Keyboard: Tab reaches play, seek, mute and volume in that order; Enter or Space plays and pauses, and mutes; the arrow keys seek by one second (Page Up / Page Down a tenth of the track, Home / End the start and end) and change the volume. Translate the labels with play-label, pause-label, mute-label, unmute-label, seek-label and volume-label. One player plays at a time is the consumer's job: on play, call pause() on the others. React 18: listen with ref.current.addEventListener, since React 18 does not wire CustomEvents; React 19 can use the element directly. Vue binds it natively (@play, @timeupdate). Vue 2 apps import '@ahaslides-product/design/aha-audio-player' and add aha-audio-player to the app's list of DS elements.",
+  "tokensUsed": [
+    "border-default",
+    "radius-default",
+    "bg-container",
+    "space-12",
+    "space-8",
+    "space-4",
+    "size-default",
+    "size-sm",
+    "weight-semibold",
+    "text-default",
+    "text-tertiary",
+    "font-product"
+  ],
+  "spec": [
+    {
+      "label": "Box",
+      "value": "white (bg-container), 1px #E3E3E3 (border-default) border, radius 8, padding 12; fills the width it is given"
+    },
+    {
+      "label": "Title",
+      "value": "track-title above the controls: 14/22 semibold #1A1A1A, one line with an ellipsis, 8px below; hidden when empty"
+    },
+    {
+      "label": "One row (400px and up)",
+      "value": "play (secondary icon-only sm Button, 28px) · current time · seek Slider (fills) · total time · mute (tertiary icon-only sm Button) · volume Slider 80px; 8px gaps, items centred"
+    },
+    {
+      "label": "Compact (one row)",
+      "value": "`compact`, or a box under 400px: one row, 56px minimum, padding 8 and no border: play · the title (14/22 semibold, ellipsis) over current / total time (12/18) · seek Slider (40px minimum) · mute · volume Slider 40px; 12px gaps so the slider thumbs clear the text; the same layout as <aha-audio-track>"
+    },
+    {
+      "label": "Time",
+      "value": "12/18 #616161 (text-tertiary), tabular numbers, m:ss (h:mm:ss from an hour); 0:00 until the file's length is known"
+    },
+    {
+      "label": "Seek",
+      "value": "the Slider from 0 to the duration in seconds, step 1; its value label shows the time while dragging, on hover and on keyboard focus; disabled until the length is known and with no src"
+    },
+    {
+      "label": "Volume",
+      "value": "the Slider from 0 to 100 percent; it shows 0 while muted, and moving it above 0 unmutes. Mute swaps the speaker glyph (system-speaker-simple-high / system-speaker-simple-slash); unmuting at volume 0 sets the volume to 100%"
+    },
+    {
+      "label": "Play",
+      "value": "system-play, then system-pause while playing; disabled with no src. The host carries a `playing` attribute while it plays"
+    }
+  ],
+  "props": [
+    {
+      "name": "src",
+      "type": "string (URL)",
+      "default": "—",
+      "desc": "The audio file. Changing it loads the new file; removing it stops playback and disables the controls"
+    },
+    {
+      "name": "track-title",
+      "type": "string",
+      "default": "—",
+      "desc": "The file name or track title shown above the controls and used as the group's accessible name (\"Audio player\" without it)"
+    },
+    {
+      "name": "compact",
+      "type": "boolean",
+      "default": "false",
+      "desc": "The one-row layout for a narrow side panel or a table row; a box under 400px wide uses it anyway"
+    },
+    {
+      "name": "muted",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Start muted; the muted property reads and sets it after that"
+    },
+    {
+      "name": "currentTime / duration / paused",
+      "type": "number / number / boolean",
+      "default": "0 / 0 / true",
+      "desc": "The playback position in seconds (settable), the length in seconds (0 until known) and whether it is paused"
+    },
+    {
+      "name": "volume",
+      "type": "number (0 to 1)",
+      "default": "1",
+      "desc": "The volume, clamped to 0 to 1"
+    },
+    {
+      "name": "play() / pause()",
+      "type": "method",
+      "default": "—",
+      "desc": "Start and pause playback; play() returns a promise that never rejects (a blocked autoplay just stays paused)"
+    },
+    {
+      "name": "play-label / pause-label / mute-label / unmute-label / seek-label / volume-label",
+      "type": "string",
+      "default": "Play / Pause / Mute / Unmute / Seek / Volume",
+      "desc": "Accessible names for translation"
+    },
+    {
+      "name": "play / pause / ended",
+      "type": "CustomEvent",
+      "default": "—",
+      "desc": "Composed and bubbling; fire when playback starts, pauses and reaches the end"
+    },
+    {
+      "name": "timeupdate",
+      "type": "CustomEvent<{currentTime: number, duration: number}>",
+      "default": "—",
+      "desc": "Composed and bubbling; fires as the position moves, about four times a second while playing, and after a seek"
+    },
+    {
+      "name": "volumechange",
+      "type": "CustomEvent<{volume: number, muted: boolean}>",
+      "default": "—",
+      "desc": "Composed and bubbling; fires when the volume or mute changes"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Audio player (this leaf)",
+        "when": "play one audio file in place: a slide's background audio in the editor panel, an uploaded recording"
+      },
+      {
+        "what": "Audio track",
+        "when": "a list of tracks to choose from, each with a short preview (the audio upload modal's Existing tracks)"
+      },
+      {
+        "what": "Empty state with empty-audio",
+        "when": "no audio tracks yet"
+      }
+    ],
+    "note": "Use the player for a file the user has already chosen, and give it the file name. Never show a native <audio controls>: it looks different in every browser and ignores the DS. Only one player plays at a time; pause the others on play.",
+    "dsv3": "NEW — the DS had no audio player; consumers used the native <audio controls>."
+  },
+  "surfaces": [
+    "editor",
+    "dashboard"
+  ],
+  "reuse": {
+    "entry": "./aha-audio-player",
+    "registers": "aha-audio-player",
+    "exportsNamed": [
+      "AhaAudioPlayer",
+      "defineAhaAudioPlayer",
+      "formatAudioTime"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "audio-player.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form: a version-pinned CDN import and plain HTML, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "audio-player.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "audio-player.vue.txt"
+    }
+  ],
+  "preview": "audio-player.preview.html",
+  "selfCheck": [
+    {
+      "label": "box border-default · radius 8 · padding 12",
+      "verdict": "PASS"
+    },
+    {
+      "label": "time text-tertiary 12/18 tabular",
+      "verdict": "PASS"
+    },
+    {
+      "label": "play / mute are DS Buttons, seek / volume are DS Sliders",
+      "verdict": "PASS"
+    },
+    {
+      "label": "compact and under 400px fit one row, matching aha-audio-track",
+      "verdict": "PASS"
+    },
+    {
+      "label": "play, pause, ended, timeupdate, volumechange fire on the host",
+      "verdict": "PASS"
+    }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI on the [data-probe] player: a track title, no src (0:00, controls disabled).",
+    "ready": "!!(document.querySelector('aha-audio-player[data-probe]') && document.querySelector('aha-audio-player[data-probe]').shadowRoot && document.querySelector('aha-audio-player[data-probe]').shadowRoot.querySelector('.player'))",
+    "singleUI": true,
+    "measure": "(function(){var r=document.querySelector('aha-audio-player[data-probe]').shadowRoot;var g=function(s){return getComputedStyle(r.querySelector(s));};return{border:g('.player').borderTopColor,radius:g('.player').borderTopLeftRadius,padding:g('.player').paddingTop,timeColor:g('.current').color,timeSize:g('.current').fontSize,titleColor:g('.title').color,role:r.querySelector('.player').getAttribute('role'),total:r.querySelector('.total').textContent};})()",
+    "expect": {
+      "border": "rgb(227, 227, 227)",
+      "radius": "8px",
+      "padding": "12px",
+      "timeColor": "rgb(97, 97, 97)",
+      "timeSize": "12px",
+      "titleColor": "rgb(26, 26, 26)",
+      "role": "group",
+      "total": "0:00"
+    }
+  }
+}

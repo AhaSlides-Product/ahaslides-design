@@ -1,0 +1,23 @@
+// main.ts: register the element and mark aha-* as custom elements
+import '@ahaslides-product/design/aha-audio-player';   // registers <aha-audio-player>
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+// Vue 2: Vue.config.ignoredElements = [/^aha-/] and add aha-audio-player to the app's DS element list
+
+// SlideAudio.vue
+<script setup>
+const props = defineProps({ audio: Object });
+const emit = defineEmits(['played']);
+</script>
+
+<template>
+  <!-- compact: one row for the 300px editor panel -->
+  <aha-audio-player
+    compact
+    :src="props.audio.url"
+    :track-title="props.audio.fileName"
+    :play-label="$t('audio.play')"
+    :pause-label="$t('audio.pause')"
+    @play="emit('played')"
+    @ended="onEnded"
+  />
+</template>
