@@ -174,7 +174,7 @@ The same two-jobs split as the canvas, with less theme forwarded.
 - **Job 1 — chart / visualization layer.** Bar fills, ring segments, plot dots, selection
   highlights carry magnitude/proportion — pull from `xprops.presentationColorPalette` (or
   `presentationLighterColorPalette`); pick the shade that contrasts your chosen background.
-- **Job 2 — state indicator layer.** Submitted ✓, error ✗, correct / incorrect, warning,
+- **Job 2 — state indicator layer.** Error ✗, correct / incorrect, warning,
   info must **not depend on the deck palette** and must **not** come from `--aha-*` vars.
   Bundle the function tokens into the plugin build from the design-system package, so the
   audience sees the same state colours as the presenter canvas. A correct or wrong answer
@@ -183,7 +183,7 @@ The same two-jobs split as the canvas, with less theme forwarded.
 
 | Token | Where it goes |
 | --- | --- |
-| `colorSuccess` | ✓ icon, "submitted" badge |
+| `colorSuccess` | ✓ icon on a real success state |
 | `colorError` | ✗ icon, validation error, destructive |
 | `--aha-answer-correct` / `--aha-answer-wrong` | the correct-answer and wrong-answer disc (drawn only by `<aha-answer-mark>`), row edge and tints, answers only (colour rules section 11) |
 | `colorWarning` | caution, "are you sure?" prompt body |

@@ -25,6 +25,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1124.0 — 2026-11-18
+
+### Changed
+- `<aha-submitted-card>` shows no icon unless the caller passes `icon`; the default `system-check-circle` is gone. Visible change: every consumer that relied on the default (the audience submitted state in `audience/library.json`, its html, React and Vue snippets and the preview) now renders heading and subtitle only. The card's own submitted and waiting state stays (#770)
+- Audience criterion C4 and the `self-render-states` guideline no longer ask for a ✓ on the just-submitted state; the plugin still renders its own submitted and waiting state. Quiz correct and incorrect marks and any ✓ that carries information, such as a selected option, are unchanged (#770)
+
 ## 0.1121.0 — 2026-11-18
 ### Changed
 - **Quiz rules screen v2: one scoring line, Play now, new sizes** (DESY-562, #768), for Lan's self-paced build skill (SLPV-315). A rule line carries no icon by default: pages pass one scoring line (the time line is dropped) and a list whose lines all lack an icon is centred; the `icon` field stays optional. Rule text is regular weight (400). Sizes step once at 960px: title 24px (h4) then 32px (h3), rule text 16px then 20px, optional icons 24px at every width, gaps 24px, list gap 16px, rule gap 12px. The Play now button is as wide as the rule line at every width, including phones (240 to 480px, never wider than the view). The fallback `skip-label` is "Play now" (countdown kept: "Play now (5)"). Doc, contract, preview, snippets, guideline `self-paced-rules-screen`, criterion C15 and the tests follow.
