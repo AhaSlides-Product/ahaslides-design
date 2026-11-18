@@ -25,11 +25,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1120.0 — 2026-11-18
+## 0.1123.0 — 2026-11-18
 ### Added
 - **Screen lint `tooltip-size`** (hard, every surface but canvas) (#767): a literal `size="lg"` on `<aha-tooltip>`, `<AhaTooltip>` or any tag whose name contains tooltip (a wrapper such as `<DesignSystemTooltip size="lg">`) fails, since lg is the canvas tooltip (16px name) and renders larger than every other tooltip on an editor screen. A presenting-view control-bar line opts out with `ds-lint-allow: tooltip-size (presenter control bar)`; the in-canvas Button snippet carries that marker. New overlays criterion C9 and guideline rule OVERLAY-10, the tooltip contract's `size` prop says where lg belongs.
 - **Screen lint `button-size-unset`** (warning, `--surface=product`): an `<aha-button>` (or `AhaButton`, `DesignSystemButton`, `ds-button`) with no `size` inside a header or toolbar row (`<header>`, `role="toolbar"`, a header/toolbar/top-bar class or tag), in a file whose other buttons set a size, or icon-only. New app-shell rule and criterion C7: header and toolbar actions are `size="md"` (36px), set on every button. A bound or spread size is skipped; opt out per line with `ds-lint-allow: button-size-unset (why)`.
 - One bad eval case each (app-shell C7, overlays C9), modelled on the presenter editor's Virtual host entry, which shipped with both mistakes while screen-lint passed it (PRE-332). To revert, drop `lib/screen-lint-control-size.js` and its two calls in `lib/screen-lint.js`.
+
+## 0.1121.0 — 2026-11-18
+### Changed
+- **Quiz rules screen v2: one scoring line, Play now, new sizes** (DESY-562, #768), for Lan's self-paced build skill (SLPV-315). A rule line carries no icon by default: pages pass one scoring line (the time line is dropped) and a list whose lines all lack an icon is centred; the `icon` field stays optional. Rule text is regular weight (400). Sizes step once at 960px: title 24px (h4) then 32px (h3), rule text 16px then 20px, optional icons 24px at every width, gaps 24px, list gap 16px, rule gap 12px. The Play now button is as wide as the rule line at every width, including phones (240 to 480px, never wider than the view). The fallback `skip-label` is "Play now" (countdown kept: "Play now (5)"). Doc, contract, preview, snippets, guideline `self-paced-rules-screen`, criterion C15 and the tests follow.
 
 ## 0.1119.0 — 2026-11-17
 ### Added
