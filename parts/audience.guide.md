@@ -126,9 +126,12 @@ here applies to `audience.*` or to modes A and B.
   | Countdown numeral | none, as long as it fits |
 
 - **Layout:** grids, rows and side rails are allowed from 480px. From 960px a stretched phone column
-  fails. The one exception is a single centred column with a bounded max-width when the interaction
-  maps a primary object to the controls directly below it: a swipe card above the True and False
-  buttons its swipe directions match, or a gesture surface above its legend. Type still scales. Horizontal scroll and the height report rules hold at every width.
+  fails: the phone's stack at phone proportions, or a column with no max-width or stretched edge to edge. Two exceptions pass,
+  both single centred columns with a bounded max-width and type that still scales. A capped quiz column, when the
+  question has no image: max-width 560px to 720px (Pick Answer uses about 680px), the question on top, then the
+  options, then a Submit the full width of that column. A gesture column, when the interaction maps a primary
+  object to the controls directly below it: a swipe card above the True and False buttons its swipe directions
+  match, or a gesture surface above its legend. The capped column fails over 720px, under 560px or with a question image. Horizontal scroll and the height report rules hold at every width.
 - **Rules (Get ready) screen:** `<aha-quiz-rules>` from `lib/audience.js`, a direct child of the
   page's flex-column root. The page passes the title, one scoring line (text, no icon) and the Play now
   label, translated, plus `ends-at` or `seconds`, and ends the rules on its `skip` event; while it

@@ -30,6 +30,12 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Fixed
 - `aha-poll`: `value`, `options` and `counts` set on the element before its tag was defined are now applied when it connects, where they sat as own properties and shadowed the setters. Every form control with a `value` property now does this (the shared `upgrade-properties.js` helper), and a new test fails the build if one is added without it. A page on a release before 0.581.1 still needs the DS upgraded for `aha-counted-textarea` and the other controls. (#773)
 
+## 0.1129.1 — 2026-11-18
+
+### Changed
+
+- Audience judge C3 Mode C adds the capped quiz column exception: with no question image, one centred column with a max-width from 560px to 720px (Pick Answer about 680px) passes from 960px; a stretched, uncapped, over-720px, under-560px or image-question column still fails. The audience guideline and guide match, eval 96 now fails for its 1120px width, and evals 115 and 116 are the bad and good pair (#775).
+
 ## 0.1128.0 — 2026-11-18
 
 ### Changed
