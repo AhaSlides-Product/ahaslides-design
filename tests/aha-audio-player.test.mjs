@@ -62,6 +62,14 @@ test('aha-audio-player seeks and mutes from the keyboard with only its own event
     await settle();
     out.selected = await evaluate(`[document.getElementById('track').hasAttribute('selected'), ${track}.querySelector('.select').getAttribute('aria-pressed'), ${track}.querySelector('.duration').textContent]`);
     out.trackEvents = await log();
+
+    out.preConnect = await evaluate(`(() => { const p = document.createElement('aha-audio-player'); p.volume = 0.4; p.currentTime = 2; document.body.append(p); const v = [p.volume, p.shadowRoot.querySelector('.volume').value]; p.remove(); return v; })()`);
+
+    await evaluate(`${shadow('.play')}.focus()`);
+    await press('Enter');
+    await settle();
+    out.playing = await evaluate(`document.getElementById('player').paused`);
+    out.removed = await evaluate(`(() => { const p = document.getElementById('player'); const a = p.shadowRoot.querySelector('audio'); p.remove(); return a.paused; })()`);
     return out;
   }, { readyExpr: '!!window.fixtureReady' });
 
@@ -77,4 +85,7 @@ test('aha-audio-player seeks and mutes from the keyboard with only its own event
   assert.deepEqual(r.preview, [true, false, 'Pause preview: applause.wav']);
   assert.deepEqual(r.selected, [true, 'true', '3:05']);
   assert.deepEqual(r.trackEvents, ['track:play:applause.wav', 'track:select:applause.wav']);
+  assert.deepEqual(r.preConnect, [0.4, 40]);
+  assert.equal(r.playing, false);
+  assert.equal(r.removed, true);
 });
