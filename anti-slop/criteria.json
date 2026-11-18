@@ -1024,6 +1024,11 @@
         },
         {
           "id": "C9",
+          "title": "A focus ring is never clipped by an overflow container",
+          "test": "**Rule.** Every control's keyboard focus ring shows whole, also when the control sits at the edge of a modal body, drawer, list or any `overflow: auto` / `hidden` / `scroll` container. The DS rings reach out at most 4px (a 2px `--aha-border-focus` outline at a 2px offset; a field's 2px `--aha-focus-ring-soft` box-shadow), so the container carries `padding` of at least 4px (`--aha-space-4`) pulled back with an equal negative `margin`, which keeps the content in place; `<aha-modal>` does this for its own body. **FAIL** on a ring cut off at a container edge in a screenshot (a search field at the top of a scrolling modal body missing the top of its ring), a scroll container with no padding around controls at its edge, or a ring removed, shrunk or made inset to dodge the clip. `screen-lint.mjs --measure` reports it as `focus-ring-clip`."
+        },
+        {
+          "id": "C10",
           "title": "A tooltip is the default size outside the slide canvas",
           "test": "**Rule.** Every tooltip on a product, settings, audience or website screen (the editor header, toolbars, panels, drawers and modals included) is the default size: 12px name, wrapping at 280px. `size=\"lg\"` (16px name on a 24px line, one line) is the canvas tooltip, only for a control inside the slide canvas and on the presenting view's control bar (app-shell C6). **FAIL** on `size=\"lg\"` on `<aha-tooltip>`, or on a wrapper that passes it through (`<DesignSystemTooltip size=\"lg\">`), anywhere else, or on a screenshot where one tooltip's text is visibly larger than the other tooltips on the same screen. `screen-lint.mjs` hard-fails `tooltip-size` on the literal attribute."
         }

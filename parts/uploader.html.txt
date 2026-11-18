@@ -9,7 +9,8 @@
 </script>
 
 <!-- text mode: a drop zone + managed file rows (done / uploading / error) -->
-<aha-uploader id="up" accept="image/*" multiple
+<aha-uploader id="up" accept="image/png,image/jpeg,image/gif,image/svg+xml" multiple
+  description="PNG, JPEG, GIF or SVG, up to 15 MB"
   items='[{"name":"cover.png","status":"done"},{"name":"clip.mov","status":"uploading","percent":40},{"name":"bad.zip","status":"error"}]'>
 </aha-uploader>
 

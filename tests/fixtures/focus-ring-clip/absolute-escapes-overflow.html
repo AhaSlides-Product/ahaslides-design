@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Absolute control escaping an overflow parent | AhaSlides</title>
+<link rel="stylesheet" href="../../../lib/tokens.css">
+<script type="module" src="../../../lib/aha-button.js"></script>
+<style>
+  .frame { position: relative; }
+  .panel { height: 160px; overflow: auto; }
+  .row { height: 96px; }
+  .floating { position: absolute; top: 0; left: 0; }
+</style>
+</head>
+<body>
+  <div class="frame">
+    <section class="panel">
+      <aha-button class="floating" variant="primary">Add</aha-button>
+      <div class="row">Row</div>
+    </section>
+  </div>
+</body>
+</html>
