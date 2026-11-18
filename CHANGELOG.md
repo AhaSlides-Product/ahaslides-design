@@ -25,10 +25,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1129.0 — 2026-11-18
+## 0.1131.0 — 2026-11-18
 
 ### Fixed
 - `aha-poll`: `value`, `options` and `counts` set on the element before its tag was defined are now applied when it connects, where they sat as own properties and shadowed the setters. Every form control with a `value` property now does this (the shared `upgrade-properties.js` helper), and a new test fails the build if one is added without it. A page on a release before 0.581.1 still needs the DS upgraded for `aha-counted-textarea` and the other controls. (#773)
+
+## 0.1128.0 — 2026-11-18
+
+### Changed
+- `aha-uploader`: the drop-zone upload icon takes the zone's neutral text colour (`currentColor`: tertiary at rest, default on hover) instead of the brand pink; only the "Click to upload" link stays primary. The description line sits 4px (`space-4`) below the prompt, where it touched it (DESY-566, #772).
 
 ## 0.1127.0 — 2026-11-18
 
