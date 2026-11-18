@@ -25,12 +25,18 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1130.0 — 2026-11-18
+## 0.1132.0 — 2026-11-18
 
 ### Added
 - `<aha-audio-player>` (`@ahaslides-product/design/aha-audio-player`): play and pause, a seek bar with current and total time, mute and volume around one audio file, built from `<aha-button>` and `<aha-slider>`. `compact`, or any box under 400px, is one 56px row (play, name over time, seek, mute, volume) for a 300px side panel or a table row. Attributes `src`, `track-title`, `compact`, `muted`; events `play`, `pause`, `ended`, `timeupdate` and `volumechange` (with `muted` in the detail). Replaces the native `<audio controls>` (DESY-568, #774)
 - `<aha-audio-track>` (`@ahaslides-product/design/aha-audio-track`): one row of an audio track list in the compact player's layout: a preview play and pause button, the file name over its duration and a check when selected; emits `play`, `pause` and `select`, and the consumer plays the audio (DESY-568, #774)
 - `empty-audio` illustration for "no audio tracks yet": the empty-files document with a music note in place of the text lines; the Empty state guideline lists it (DESY-568, #774)
+
+## 0.1129.1 — 2026-11-18
+
+### Changed
+
+- Audience judge C3 Mode C adds the capped quiz column exception: with no question image, one centred column with a max-width from 560px to 720px (Pick Answer about 680px) passes from 960px; a stretched, uncapped, over-720px, under-560px or image-question column still fails. The audience guideline and guide match, eval 96 now fails for its 1120px width, and evals 115 and 116 are the bad and good pair (#775).
 
 ## 0.1128.0 — 2026-11-18
 

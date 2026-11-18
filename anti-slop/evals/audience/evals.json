@@ -2265,7 +2265,7 @@
       "files": [],
       "label": "bad-example",
       "notes": "Mode C scope, DESY-513.",
-      "expected_output": "C3 FAILs: from 960px wide a stretched phone column fails in mode C. Overall: NEEDS FIX",
+      "expected_output": "C3 FAILs: from 960px wide a stretched phone column fails in mode C; a 420px column is under the 560px floor of the capped quiz column and has phone proportions with empty sides. Overall: NEEDS FIX",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C3 is marked FAIL"
@@ -2360,11 +2360,11 @@
       "files": [],
       "label": "bad-example",
       "notes": "C3 bounded-column exception misuse, DESY-543.",
-      "expected_output": "C3 FAILs. A bounded max-width does not make a phone stack pass from 960px: the exception needs a primary object whose gesture maps to the control placed directly below it, and tapped options have no such mapping. Fix: lay the options out in a grid or beside the question from 960px. Overall: NEEDS FIX",
+      "expected_output": "C3 FAILs. 1120px is over the 720px cap of the capped quiz column, and tapped options have no gesture mapping for exception b (a primary object whose gesture maps to the control directly below it). Fix: cap the column at 560 to 720px and centre it. Overall: NEEDS FIX",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C3 is marked FAIL",
-        "Says tapped options give no spatial mapping for the exception"
+        "Says 1120px is over the 720px cap of the capped quiz column and tapped options have no gesture mapping for exception b"
       ],
       "expected": {
         "overall": "NEEDS_FIX",
@@ -2791,6 +2791,52 @@
       "source": {
         "authored": "ahaslides-design",
         "why": "DESY-559: audience text fields are the large 48px size; screen-lint audience-field-size is the mechanical twin"
+      }
+    },
+    {
+      "id": 115,
+      "prompt": "Review this self-paced view. The judge brief has `entry_setting.audienceQuizSelfPaced: true`. The question has no image. At 1440px wide `self-paced-view.html` is one column with `width: 100%` and no max-width: the question, four tapped option buttons and Submit are each stretched edge to edge. Type scales up to the C5 caps. Is this correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C3 capped quiz column, DESY-569.",
+      "expected_output": "C3 FAILs: the column is stretched edge to edge with no max-width. Fix: cap the column at 560 to 720px and centre it. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C3 is marked FAIL",
+        "Says the column is stretched edge to edge with no max-width and should be capped at 560 to 720px"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C3": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-569: a quiz self-paced view with no question image may use one centred column capped at 560 to 720px (Pick Answer about 680px); a stretched or uncapped column still fails"
+      }
+    },
+    {
+      "id": 116,
+      "prompt": "Review this self-paced view. The judge brief has `entry_setting.audienceQuizSelfPaced: true`. The question has no image. At 1440px wide `self-paced-view.html` is one centred column with `max-width: 680px`: the question on top, then four tapped option buttons stacked, then Submit the full width of the column. Type scales up to the C5 caps. Below 480px the same parts use phone values. There is no horizontal scroll at 320px and height is reported. Is this correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C3 capped quiz column, DESY-569.",
+      "expected_output": "C3 PASSes. With no question image, one centred column capped at 680px (inside 560 to 720px) with the question, then the options, then a full-width Submit is the capped quiz column exception. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C3 is marked PASS",
+        "Names the capped quiz column exception (560 to 720px, no question image)"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C3": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-569: a quiz self-paced view with no question image may use one centred column capped at 560 to 720px (Pick Answer about 680px); a stretched or uncapped column still fails"
       }
     }
   ]
