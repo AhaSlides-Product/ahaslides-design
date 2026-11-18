@@ -169,8 +169,8 @@
     {
       "name": "deletelabel / deletehint / reorderlabel / reorderhint",
       "type": "string",
-      "default": "Delete / Delete (Backspace when empty) / Drag to reorder / Drag to reorder, or use the arrow keys",
-      "desc": "Translated copy: the delete's name (and its tooltip when Backspace-delete is off), its tooltip when Backspace-delete is on, the drag handle's name, and its name when reorderable. `placeholder` already translates the field"
+      "default": "Delete {label} / Delete (Backspace when empty) / Drag {label} to reorder / Drag {label} to reorder, or use the arrow keys",
+      "desc": "Translated copy: the delete's name (and its tooltip when Backspace-delete is off), its tooltip when Backspace-delete is on, the drag handle's name, and its name when reorderable. `placeholder` already translates the field. Each string may hold {label}, replaced by the row's text so the button names its row (\"Delete Venus\"); an empty row drops it"
     },
     {
       "name": "correctlabel",
