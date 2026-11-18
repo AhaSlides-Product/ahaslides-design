@@ -27,7 +27,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1121.0 — 2026-11-18
 ### Changed
-- **Quiz rules screen v2: one scoring line, Play now, new sizes** (DESY-562, #PR), for Lan's self-paced build skill (SLPV-315). A rule line carries no icon by default: pages pass one scoring line (the time line is dropped) and a list whose lines all lack an icon is centred; the `icon` field stays optional. Rule text is regular weight (400). Sizes step once at 960px: title 24px (h4) then 32px (h3), rule text 16px then 20px, optional icons 24px at every width, gaps 24px, list gap 16px, rule gap 12px. The Play now button is as wide as the rule line at every width, including phones (240 to 480px, never wider than the view). The fallback `skip-label` is "Play now" (countdown kept: "Play now (5)"). Doc, contract, preview, snippets, guideline `self-paced-rules-screen`, criterion C15 and the tests follow.
+- **Quiz rules screen v2: one scoring line, Play now, new sizes** (DESY-562, #768), for Lan's self-paced build skill (SLPV-315). A rule line carries no icon by default: pages pass one scoring line (the time line is dropped) and a list whose lines all lack an icon is centred; the `icon` field stays optional. Rule text is regular weight (400). Sizes step once at 960px: title 24px (h4) then 32px (h3), rule text 16px then 20px, optional icons 24px at every width, gaps 24px, list gap 16px, rule gap 12px. The Play now button is as wide as the rule line at every width, including phones (240 to 480px, never wider than the view). The fallback `skip-label` is "Play now" (countdown kept: "Play now (5)"). Doc, contract, preview, snippets, guideline `self-paced-rules-screen`, criterion C15 and the tests follow.
 
 ## 0.1119.0 — 2026-11-17
 ### Added
