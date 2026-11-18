@@ -90,7 +90,7 @@
       "files": [],
       "label": "bad-example",
       "notes": "C4 — blank after submit + custom banner/modal instead of host utilities",
-      "expected_output": "C4 (Self-rendered submitted/waiting; host utilities used) FAILs. The plugin renders nothing after submit and relies on a host waiting screen that does not exist for plugins — the iframe goes blank. It also reinvents host utilities: a custom in-iframe error banner instead of xprops.showToastError, and a custom modal overlay instead of openPluginModal. Fix: render the submitted/waiting state inside the iframe (✓ confirmation + calm hold state), route the 'Submitted' notification through xprops.showToastSuccess, surface errors via xprops.showToastError, and use openPluginModal for the bottom-sheet modal. Overall: NEEDS FIX",
+      "expected_output": "C4 (Self-rendered submitted/waiting; host utilities used) FAILs. The plugin renders nothing after submit and relies on a host waiting screen that does not exist for plugins — the iframe goes blank. It also reinvents host utilities: a custom in-iframe error banner instead of xprops.showToastError, and a custom modal overlay instead of openPluginModal. Fix: render the submitted/waiting state inside the iframe (a plugin-rendered submitted state with no default ✓, plus a calm hold state), route the 'Submitted' notification through xprops.showToastSuccess, surface errors via xprops.showToastError, and use openPluginModal for the bottom-sheet modal. Overall: NEEDS FIX",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C4 is marked FAIL",

@@ -62,7 +62,7 @@
     {
       "ref": "icon",
       "as": "component",
-      "use": "the non-colour state cue paired with every colour signal — ✓ on submit, ✗ incorrect, lock icon on closed, leader trophy (glyph choice / size / stroke per the `icons` guide)",
+      "use": "the non-colour state cue paired with every colour signal — ✗ incorrect, lock icon on closed, leader trophy (glyph choice / size / stroke per the `icons` guide)",
       "status": "available"
     },
     {
@@ -386,7 +386,7 @@
     },
     {
       "id": "bundle-semantic-state",
-      "rule": "State colours (submitted ✓, error ✗, correct/incorrect, warning, info) must NOT depend on the deck palette and must NOT come from --aha-* vars (they don't exist in this iframe). Bundle colorSuccess/colorError/colorWarning/colorInfo into the plugin build from the design-system package, so the audience sees the same state colours as the presenter canvas. A correct or wrong answer uses the bundled answer pair (--aha-answer-correct, --aha-answer-wrong and their tints, colour rules section 11).",
+      "rule": "State colours (error ✗, correct/incorrect, warning, info) must NOT depend on the deck palette and must NOT come from --aha-* vars (they don't exist in this iframe). Bundle colorSuccess/colorError/colorWarning/colorInfo into the plugin build from the design-system package, so the audience sees the same state colours as the presenter canvas. A correct or wrong answer uses the bundled answer pair (--aha-answer-correct, --aha-answer-wrong and their tints, colour rules section 11).",
       "ref": [
         "C3",
         "§2"
@@ -523,7 +523,7 @@
     },
     {
       "id": "self-render-states",
-      "rule": "The plugin self-renders every post-submission state inside the iframe (host shows no generic 'Waiting…' screen for plugins): just-submitted, waiting-for-next-slide (calm, no noisy spinner), quiz correct/incorrect (semantic colour + non-colour ✓/✗ cue + answer text, bar fills stay palette), and a pre-submission empty state (show the input affordance with placeholder copy, never a giant '0' or empty chart).",
+      "rule": "The plugin self-renders every post-submission state inside the iframe (host shows no generic 'Waiting…' screen for plugins): just-submitted (no default ✓), waiting-for-next-slide (calm, no noisy spinner), quiz correct/incorrect (semantic colour + non-colour ✓/✗ cue + answer text, bar fills stay palette), and a pre-submission empty state (show the input affordance with placeholder copy, never a giant '0' or empty chart).",
       "ref": [
         "C13",
         "§4"

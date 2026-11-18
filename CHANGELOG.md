@@ -25,13 +25,19 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1122.0 — 2026-11-18
+## 0.1125.0 — 2026-11-18
 ### Added
 - **`aha-uploader` takes a `description` attribute** for the accepted formats and size limit, shown inside the drop zone under "Click to upload or drag files here": `<aha-uploader accept="image/png,image/jpeg,image/gif,image/svg+xml" description="PNG, JPEG, GIF or SVG, up to 15 MB">`. One 14/21 line in text-secondary (the image dropzone's detail line), escaped, in the text-mode zone only (not in picture-card mode or at the upload limit); without it the zone renders exactly as before. Put format and size text here, never in a line under the zone (DESY-563, #769).
 - **Overlays rule `focus-ring-never-clipped` (OVERLAY-10) and judge criterion overlays C9: a focus ring is never clipped by an overflow container.** DS rings reach out 4px at most (2px `--aha-border-focus` outline at a 2px offset; a field's 2px `--aha-focus-ring-soft` shadow), so a scroll container pads 4px (`--aha-space-4`) and pulls back with an equal negative margin. `screen-lint.mjs --measure` hard-fails `focus-ring-clip`: it focuses every reachable control on the screen and fails a ring an overflow container cuts off, and warns (never fails) when a screen has more than 200 reachable controls and only the first 200 were checked (DESY-563, #769).
 ### Fixed
 - `<aha-modal>`: a control at the edge of the body (a search field on its first line) no longer loses the top and side of its focus ring. The scrolling body pads 4px and pulls back 4px, so content and the body's own ring stay where they were. A consumer that sets both `padding` and `margin` on `::part(body)` keeps its own values; one that sets only `padding` should also set `margin: 0` (or keep the 4px inset) (DESY-563, #769).
 - Revert: revert the PR; it touches `lib/aha-uploader.js`, `lib/aha-modal.js`, `lib/focus-ring-clip.js`, `lib/clip-geometry.js`, `lib/overlay-clip.js`, `screen-lint.mjs`, the uploader and modal contracts and parts, `guidelines/overlays.json` and `anti-slop/criteria.json`.
+
+## 0.1124.0 — 2026-11-18
+
+### Changed
+- `<aha-submitted-card>` shows no icon unless the caller passes `icon`; the default `system-check-circle` is gone. Visible change: every consumer that relied on the default (the audience submitted state in `audience/library.json`, its html, React and Vue snippets and the preview) now renders heading and subtitle only. The card's own submitted and waiting state stays (#770)
+- Audience criterion C4 and the `self-render-states` guideline no longer ask for a ✓ on the just-submitted state; the plugin still renders its own submitted and waiting state. Quiz correct and incorrect marks and any ✓ that carries information, such as a selected option, are unchanged (#770)
 
 ## 0.1121.0 — 2026-11-18
 ### Changed

@@ -10,7 +10,7 @@
   "highlights": [
     "Post-submit waiting state",
     "Frosted card that reads on any deck",
-    "Glyph pip or the picked image"
+    "Optional glyph pip or the picked image"
   ],
   "lead": "ONE custom element — <aha-submitted-card> — for the audience phone of a slide type (a cross-origin iframe on the Developer Platform). Framework-free, loaded by URL from the version-pinned CDN with tokens.css, so a build-less page imports it instead of copying CSS. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) binds events through a ref; Vue binds the custom element natively.",
@@ -30,7 +30,7 @@
     },
     {
       "label": "Pip",
-      "value": "a 32px glyph in the secondary ink, 76% (system-check-circle by default), no background; or a 96px image, radius 8"
+      "value": "a 32px glyph in the secondary ink, 76% (only when the caller passes `icon`; no icon by default), no background; or a 96px image, radius 8"
     },
     {
       "label": "Text",
@@ -63,8 +63,8 @@
     {
       "name": "icon",
       "type": "icon name",
-      "default": "system-hourglass-high",
-      "desc": "The glyph, from the DS icon library; system-check-circle by default"
+      "default": "—",
+      "desc": "The glyph, from the DS icon library; without it the card shows no pip"
     },
     {
       "name": "size",
@@ -127,13 +127,13 @@
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP), on the light-deck example with no deck applied (DS defaults).",
     "ready": "!!(document.querySelector('aha-submitted-card[data-probe]')&&document.querySelector('aha-submitted-card[data-probe]').shadowRoot)",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-submitted-card[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var c=cs(q('.card'));var h=cs(q('.heading'));return{radius:c.borderTopLeftRadius,padding:c.paddingTop,ink:h.color,headingSize:h.fontSize,pip:cs(q('.pip aha-icon')).width};})()",
+    "measure": "(function(){var el=document.querySelector('aha-submitted-card[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var c=cs(q('.card'));var h=cs(q('.heading'));return{radius:c.borderTopLeftRadius,padding:c.paddingTop,ink:h.color,headingSize:h.fontSize,pip:cs(q('.pip')).display};})()",
     "expect": {
       "radius": "12px",
       "padding": "20px",
       "ink": "rgb(26, 26, 26)",
       "headingSize": "16px",
-      "pip": "32px"
+      "pip": "none"
     }
   }
 }
