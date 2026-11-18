@@ -100,7 +100,7 @@
       "name": "answered / revealed / awaiting-reveal",
       "type": "boolean",
       "default": "false",
-      "desc": "The host's quiz flags: this phone answered; results are shown; the round ended with the verdict withheld"
+      "desc": "The host's quiz flags: this phone answered; results are shown; the round ended with the verdict withheld. Once revealed the list is a plain list and each row a list item named with its state (\"Venus, correct, position 2\")"
     },
     {
       "name": "counts",
@@ -131,6 +131,12 @@
       "type": "string",
       "default": "Answer options",
       "desc": "The radiogroup's accessible name: pass the translated question"
+    },
+    {
+      "name": "correct-label / incorrect-label / position-label",
+      "type": "string",
+      "default": "Correct / Incorrect / position {n}",
+      "desc": "Translated words in a revealed row's name (\"Venus, correct, position 2\"); {n} is the row's place"
     },
     {
       "name": "roving",

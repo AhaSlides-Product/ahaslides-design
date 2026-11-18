@@ -25,10 +25,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1131.0 — 2026-11-18
+## 0.1137.0 — 2026-11-18
 
 ### Fixed
 - `aha-poll`: `value`, `options` and `counts` set on the element before its tag was defined are now applied when it connects, where they sat as own properties and shadowed the setters. Every form control with a `value` property now does this (the shared `upgrade-properties.js` helper), and a new test fails the build if one is added without it. A page on a release before 0.581.1 still needs the DS upgraded for `aha-counted-textarea` and the other controls. (#773)
+
+## 0.1134.0 — 2026-11-18
+
+### Added
+
+- Screen-reader fixes found in the Correct Order self-paced audit (DESY-571, #777). `aha-rank-list` takes `move-up-label`, `move-down-label` (both with {name}), `moved-label` (with {name}, {position}, {total}) and `image-option-label`, English defaults kept. `aha-answer-list` takes `position-label`; once `revealed` it is a plain list and each row a list item named with its state ("Venus, correct, position 2"). `aha-quiz-rules` keeps the Play now button's name stable ("Play now") while the count ticks and takes `heading-level` (1 to 6) for its title. `aha-option-row` names its drag handle and Delete with the row's text ("Delete Venus"), and its label attributes take {label}.
 
 ## 0.1129.1 — 2026-11-18
 
