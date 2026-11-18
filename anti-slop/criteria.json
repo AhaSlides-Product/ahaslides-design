@@ -1215,7 +1215,7 @@
         {
           "id": "C4",
           "title": "Plugin self-renders submitted / waiting / correct-incorrect; host utilities used where they fit",
-          "test": "**Rule.** For built-in slide types the host overlays a \"Waiting…\" screen after submit. **Plugins do not get that** — the iframe stays mounted and the plugin must render the post-submission UX itself: - **Just submitted** — ✓ confirmation rendered inside the iframe - **Waiting for the next slide** — same surface, calm hold state - **Quiz correct/incorrect** — state colour on indicator (icon), bar in palette - **Pre-submission empty state** — input affordance with placeholder copy, not a giant empty zero"
+          "test": "**Rule.** For built-in slide types the host overlays a \"Waiting…\" screen after submit. **Plugins do not get that** — the iframe stays mounted and the plugin must render the post-submission UX itself: - **Just submitted** — a submitted state rendered inside the iframe, with no default ✓ - **Waiting for the next slide** — same surface, calm hold state - **Quiz correct/incorrect** — state colour on indicator (icon), bar in palette - **Pre-submission empty state** — input affordance with placeholder copy, not a giant empty zero"
         },
         {
           "id": "C5",

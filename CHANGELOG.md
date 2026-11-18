@@ -25,11 +25,17 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1123.0 — 2026-11-18
+## 0.1126.0 — 2026-11-18
 ### Added
 - **Screen lint `tooltip-size`** (hard, every surface but canvas) (#767): a literal `size="lg"` on `<aha-tooltip>`, `<AhaTooltip>` or any tag whose name contains tooltip (a wrapper such as `<DesignSystemTooltip size="lg">`) fails, since lg is the canvas tooltip (16px name) and renders larger than every other tooltip on an editor screen. A presenting-view control-bar line opts out with `ds-lint-allow: tooltip-size (presenter control bar)`; the in-canvas Button snippet carries that marker. New overlays criterion C9 and guideline rule OVERLAY-10, the tooltip contract's `size` prop says where lg belongs.
 - **Screen lint `button-size-unset`** (warning, `--surface=product`): an `<aha-button>` (or `AhaButton`, `DesignSystemButton`, `ds-button`) with no `size` inside a header or toolbar row (`<header>`, `role="toolbar"`, a header/toolbar/top-bar class or tag), in a file whose other buttons set a size, or icon-only. New app-shell rule and criterion C7: header and toolbar actions are `size="md"` (36px), set on every button. A bound or spread size is skipped; opt out per line with `ds-lint-allow: button-size-unset (why)`.
 - One bad eval case each (app-shell C7, overlays C9), modelled on the presenter editor's Virtual host entry, which shipped with both mistakes while screen-lint passed it (PRE-332). To revert, drop `lib/screen-lint-control-size.js` and its two calls in `lib/screen-lint.js`.
+
+## 0.1124.0 — 2026-11-18
+
+### Changed
+- `<aha-submitted-card>` shows no icon unless the caller passes `icon`; the default `system-check-circle` is gone. Visible change: every consumer that relied on the default (the audience submitted state in `audience/library.json`, its html, React and Vue snippets and the preview) now renders heading and subtitle only. The card's own submitted and waiting state stays (#770)
+- Audience criterion C4 and the `self-render-states` guideline no longer ask for a ✓ on the just-submitted state; the plugin still renders its own submitted and waiting state. Quiz correct and incorrect marks and any ✓ that carries information, such as a selected option, are unchanged (#770)
 
 ## 0.1121.0 — 2026-11-18
 ### Changed
