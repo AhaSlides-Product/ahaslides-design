@@ -91,6 +91,12 @@
       "desc": "The data-testid put on the inner Play now button (\"audience-<slide-type>-skip-rules\")"
     },
     {
+      "name": "heading-level",
+      "type": "string",
+      "default": "—",
+      "desc": "1 to 6: sets the title's aria-level (it is an h2), e.g. 1 when this screen is the only content of the page"
+    },
+    {
       "name": "skip (event)",
       "type": "CustomEvent",
       "default": "—",
