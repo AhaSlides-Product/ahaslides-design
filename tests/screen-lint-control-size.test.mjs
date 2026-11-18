@@ -30,11 +30,14 @@ test('an unsized button warns in a header or toolbar, beside sized siblings, or 
   assert.deepEqual(hits('<div role="toolbar">\n<DesignSystemButton>Bold</DesignSystemButton>\n</div>', 'button-size-unset'), [[2, 'warn']]);
   assert.deepEqual(hits('<aha-button size="md">Preview</aha-button>\n<aha-button>Present</aha-button>', 'button-size-unset'), [[2, 'warn']]);
   assert.deepEqual(hits('<AhaButton icon-only aria-label="More" />', 'button-size-unset'), [[1, 'warn']]);
+  assert.deepEqual(hits('<div id="top" class="editor-header">\n<aha-button>Share</aha-button>\n</div>', 'button-size-unset'), [[2, 'warn']]);
+  assert.deepEqual(hits('<header>\n<aha-button :style="{ ...base }">Share</aha-button>\n</header>', 'button-size-unset'), [[2, 'warn']]);
 });
 
 test('a sized, bound or spread button passes, a lone text button passes, and only the product surface is checked', () => {
   assert.equal(hits('<header>\n<aha-button size="md">A</aha-button>\n<aha-button :size="s">B</aha-button>\n<aha-button v-bind="$attrs">C</aha-button>\n</header>', 'button-size-unset').length, 0);
   assert.equal(hits('<div class="card"><aha-button variant="primary">Save</aha-button></div>', 'button-size-unset').length, 0);
+  assert.equal(hits('<aha-button :icon-only="false">Save</aha-button>', 'button-size-unset').length, 0);
   assert.deepEqual(hits('<header><aha-button>Back</aha-button></header>\n<aha-button>Next</aha-button>', 'button-size-unset'), [[1, 'warn']]);
   assert.equal(hits('<header><aha-button icon-only aria-label="x"></aha-button></header>', 'button-size-unset', 'canvas').length, 0);
   assert.equal(hits('<header></header>\n<aha-button>Next</aha-button>', 'button-size-unset').length, 0);
