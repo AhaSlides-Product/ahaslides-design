@@ -29,7 +29,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ### Added
 
-- `aha-uploader` `size="lg"`: a larger text-mode drop zone for zones that fill a modal body or large panel (image and audio upload modals). 48px icon, 18px prompt, 16px description, 16px gap and 48/24 padding, all from DS type and spacing tokens; the neutral icon colour and the 4px description gap are kept. The default zone is unchanged (DESY-570, #NNN).
+- `aha-uploader` `size="lg"`: a larger text-mode drop zone for zones that fill a modal body or large panel (image and audio upload modals). 48px icon, 18px prompt, 16px description, 16px gap and 48/24 padding, all from DS type and spacing tokens; the neutral icon colour and the 4px description gap are kept. The default zone is unchanged (DESY-570, #776).
 
 ## 0.1129.1 — 2026-11-18
 
