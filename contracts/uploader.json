@@ -14,7 +14,7 @@
   "spec": [
     { "label": "Zone", "value": "1px dashed border-strong #D4D4D4, radius 8, pad 24 16" },
     { "label": "Rest text", "value": "text-tertiary #616161, 14/21" },
-    { "label": "Description", "value": "optional line inside the zone under the prompt, text-secondary #4A4A4A, 14/21 (the image dropzone's detail line); active text-mode zone only" },
+    { "label": "Description", "value": "optional line inside the zone under the prompt, 4px below it (space-4), text-secondary #4A4A4A, 14/21 (the image dropzone's detail line); active text-mode zone only" },
     { "label": "Hover / drag", "value": "border + accent tint color-primary / bg-accent (motion-mid, persistent zone)" },
     { "label": "File row", "value": "1px border #E3E3E3, radius 8, file icon + name + the shared remove ✕ (tertiary icon-only <aha-button> xs, 20 × 20, 16px system-x)" },
     { "label": "Uploading", "value": "4px pill progress track (split), color-primary fill, width animates (motion-slow)" },
