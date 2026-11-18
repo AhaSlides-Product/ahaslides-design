@@ -25,6 +25,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1127.0 — 2026-11-18
+
+### Changed
+- `aha-setting-group`: the gap from a labelled heading to its first setting now equals the group's own row gap (24px; 8px for the `data-option-rows` layout), where it was a fixed 8px. Contract text updated. Every labelled `aha-setting-group` in a settings panel changes visibly, with the heading-to-first-setting gap growing from 8px to 24px; groups of Option Rows and groups with no label render as before. Requested by Lan (DESY-565) (#771).
+
 ## 0.1126.0 — 2026-11-18
 ### Added
 - **Screen lint `tooltip-size`** (hard, every surface but canvas) (#767): a literal `size="lg"` on `<aha-tooltip>`, `<AhaTooltip>` or any tag whose name contains tooltip (a wrapper such as `<DesignSystemTooltip size="lg">`) fails, since lg is the canvas tooltip (16px name) and renders larger than every other tooltip on an editor screen. A presenting-view control-bar line opts out with `ds-lint-allow: tooltip-size (presenter control bar)`; the in-canvas Button snippet carries that marker. New overlays criterion C10 and guideline rule OVERLAY-11, the tooltip contract's `size` prop says where lg belongs.

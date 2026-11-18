@@ -12,7 +12,7 @@
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
   "tokensUsed": ["text-default", "text-tertiary", "bg-container"],
   "spec": [
-    { "label": "Rows", "value": "column · 24px between sibling settings (the settings scale) · header→rows 8px (space-8)" },
+    { "label": "Rows", "value": "column · 24px between sibling settings (the settings scale) · header→first row equals the row gap (24px; 8px for Option Rows)" },
     { "label": "Between groups", "value": "24px (space-24) automatically (:host(:not(:first-child))) — no divider, no wiring" },
     { "label": "Danger zone", "value": "tone=danger → 48px above (overrides the 24); the danger CTA styling lives on the button, not here" },
     { "label": "Header", "value": "optional (label) · 14/21 Semibold (600) #1A1A1A · optional \"?\" help (composed <aha-tooltip help>, system-question glyph) · action slot pushed right (margin-left:auto), plain text only (a count), never a control" },
@@ -27,7 +27,7 @@
   ],
   "opinion": {
     "whenToUse": [
-      { "what": "Setting group", "when": "a titled cluster of related settings in a panel — it bakes in the 24/24/48 spacing scale (rows / groups / danger zone) and 8px under the header" },
+      { "what": "Setting group", "when": "a titled cluster of related settings in a panel — it bakes in the 24/24/48 spacing scale (rows / groups / danger zone) and a header gap equal to the row gap" },
       { "what": "Sub setting group", "when": "dependent child settings that appear under one parent toggle (indent + tight gap)" },
       { "what": "Settings list", "when": "you want the whole surface rendered from a schema (rows + reused DS controls) in one element" }
     ],
@@ -59,7 +59,7 @@
   },
   "selfCheck": [
     { "label": "rows 24px apart (settings scale)", "verdict": "PASS" },
-    { "label": "between groups 24px automatically; header→rows 8px", "verdict": "PASS" },
+    { "label": "between groups 24px automatically; header→first row equals the row gap", "verdict": "PASS" },
     { "label": "tone=danger drops 48px (overrides 24)", "verdict": "PASS" },
     { "label": "header label semibold (600) #1A1A1A", "verdict": "PASS" },
     { "label": "\"?\" help = composed <aha-tooltip help>, action slot right-aligned (plain text only)", "verdict": "PASS" },
