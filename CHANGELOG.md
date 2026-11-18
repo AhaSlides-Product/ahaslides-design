@@ -25,12 +25,18 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1132.0 — 2026-11-18
+## 0.1136.0 — 2026-11-18
 
 ### Added
 - `<aha-audio-player>` (`@ahaslides-product/design/aha-audio-player`): play and pause, a seek bar with current and total time, mute and volume around one audio file, built from `<aha-button>` and `<aha-slider>`. `compact`, or any box under 400px, is one 56px row (play, name over time, seek, mute, volume) for a 300px side panel or a table row. Attributes `src`, `track-title`, `compact`, `muted`; events `play`, `pause`, `ended`, `timeupdate` and `volumechange` (with `muted` in the detail). Replaces the native `<audio controls>` (DESY-568, #774)
 - `<aha-audio-track>` (`@ahaslides-product/design/aha-audio-track`): one row of an audio track list in the compact player's layout: a preview play and pause button, the file name over its duration and a check when selected; emits `play`, `pause` and `select`, and the consumer plays the audio (DESY-568, #774)
 - `empty-audio` illustration for "no audio tracks yet": the empty-files document with a music note in place of the text lines; the Empty state guideline lists it (DESY-568, #774)
+
+## 0.1134.0 — 2026-11-18
+
+### Added
+
+- Screen-reader fixes found in the Correct Order self-paced audit (DESY-571, #777). `aha-rank-list` takes `move-up-label`, `move-down-label` (both with {name}), `moved-label` (with {name}, {position}, {total}) and `image-option-label`, English defaults kept. `aha-answer-list` takes `position-label`; once `revealed` it is a plain list and each row a list item named with its state ("Venus, correct, position 2"). `aha-quiz-rules` keeps the Play now button's name stable ("Play now") while the count ticks and takes `heading-level` (1 to 6) for its title. `aha-option-row` names its drag handle and Delete with the row's text ("Delete Venus"), and its label attributes take {label}.
 
 ## 0.1129.1 — 2026-11-18
 

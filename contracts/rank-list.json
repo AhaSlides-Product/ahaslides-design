@@ -128,6 +128,30 @@
       "desc": "Translated name of the full-picture overlay button that opens a picture large in a bottom sheet (rows that are not expandable)"
     },
     {
+      "name": "move-up-label",
+      "type": "string",
+      "default": "Move {name} up",
+      "desc": "Translated name of a row's move-up button; {name} is the row's text"
+    },
+    {
+      "name": "move-down-label",
+      "type": "string",
+      "default": "Move {name} down",
+      "desc": "Translated name of a row's move-down button; {name} is the row's text"
+    },
+    {
+      "name": "moved-label",
+      "type": "string",
+      "default": "Moved {name} to position {position} of {total}",
+      "desc": "Translated live announcement after a move"
+    },
+    {
+      "name": "image-option-label",
+      "type": "string",
+      "default": "Image option",
+      "desc": "Translated name of a row that has a picture and no text"
+    },
+    {
       "name": "change",
       "type": "CustomEvent<{value}>",
       "default": "—",
