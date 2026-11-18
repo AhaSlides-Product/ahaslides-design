@@ -2683,7 +2683,7 @@
       "files": [],
       "label": "bad-example",
       "notes": "C15 self-paced rules screen, bad half: a hand-built rules screen identical in look, no rules-screen marker, so the element default holds. Isolation: only C15 should FAIL.",
-      "expected_output": "C15 FAILs: the rules screen is hand-built (a pasted .sp-rules block with its own title, rule lines and Skip rules button) instead of <aha-quiz-rules> from lib/audience.js, and looking identical does not save it: a DS fix would not reach this page. No developer asked for a different screen and no line carries the marker. Fix: replace the block with <aha-quiz-rules heading=… skip-label=… ends-at=…> fed the same rule lines, ending the rules on its skip event. Overall: NEEDS FIX",
+      "expected_output": "C15 FAILs: the rules screen is hand-built (a pasted .sp-rules block with its own title, rule lines and Play now button) instead of <aha-quiz-rules> from lib/audience.js, and looking identical does not save it: a DS fix would not reach this page. No developer asked for a different screen and no line carries the marker. Fix: replace the block with <aha-quiz-rules heading=… skip-label=… ends-at=…> fed the same rule lines, ending the rules on its skip event. Overall: NEEDS FIX",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C15 is marked FAIL",
@@ -2702,11 +2702,11 @@
     },
     {
       "id": 111,
-      "prompt": "Review the self-paced view (`self-paced-view.html`, `setting.audienceQuizSelfPaced: true`) of a quiz slide type on the Developer Platform; it loads `lib/audience.js`. Ink is xprops.slide.textColour via applyDeck, the font is the deck font, contrast is AA on both deck polarities, and every other element on the page is the DS element. Its rules (Get ready) screen is `<aha-quiz-rules heading=\"Question 2 of 7\" skip-label=\"Skip rules\" ends-at=\"…\" skip-testid=\"audience-quiz-skip-rules\">` as a direct child of the page's flex-column root, its `rules` property set to the translated lines (`system-timer` \"20 seconds to answer\", `system-star` \"Answer faster to get more points\"), and the page ends the rules on the element's `skip` event. While it shows, the page hides its timer, progress row and question. Is this audience correct?",
+      "prompt": "Review the self-paced view (`self-paced-view.html`, `setting.audienceQuizSelfPaced: true`) of a quiz slide type on the Developer Platform; it loads `lib/audience.js`. Ink is xprops.slide.textColour via applyDeck, the font is the deck font, contrast is AA on both deck polarities, and every other element on the page is the DS element. Its rules (Get ready) screen is `<aha-quiz-rules heading=\"Question 2 of 7\" skip-label=\"Play now\" ends-at=\"…\" skip-testid=\"audience-quiz-skip-rules\">` as a direct child of the page's flex-column root, its `rules` property set to the translated lines (\"Answer faster to get more points\", no icon), and the page ends the rules on the element's `skip` event. While it shows, the page hides its timer, progress row and question. Is this audience correct?",
       "files": [],
       "label": "good-control",
       "notes": "C15 self-paced rules screen, good half: the DS element, fed by the page. Guards against failing the element itself.",
-      "expected_output": "C15 PASSes: the rules screen is <aha-quiz-rules> from lib/audience.js, the page supplies every text and the end time and handles skip, so the shared position, sizes and Skip rules button come from the DS. Overall: OK TO SHIP",
+      "expected_output": "C15 PASSes: the rules screen is <aha-quiz-rules> from lib/audience.js, the page supplies every text and the end time and handles skip, so the shared position, sizes and Play now button come from the DS. Overall: OK TO SHIP",
       "assertions": [
         "Overall verdict is OK TO SHIP",
         "C15 is marked PASS",
