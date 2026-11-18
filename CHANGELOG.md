@@ -29,7 +29,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ### Changed
 
-- Audience judge C3 Mode C adds the capped quiz column exception: with no question image, one centred column with a max-width from 560px to 720px (Pick Answer about 680px) passes from 960px; a stretched, uncapped, over-720px, under-560px or image-question column still fails. The audience guideline and guide match, eval 96 now fails for its 1120px width, and evals 115 and 116 are the bad and good pair (#NNN).
+- Audience judge C3 Mode C adds the capped quiz column exception: with no question image, one centred column with a max-width from 560px to 720px (Pick Answer about 680px) passes from 960px; a stretched, uncapped, over-720px, under-560px or image-question column still fails. The audience guideline and guide match, eval 96 now fails for its 1120px width, and evals 115 and 116 are the bad and good pair (#775).
 
 ## 0.1128.0 — 2026-11-18
 
