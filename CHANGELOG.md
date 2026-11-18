@@ -30,6 +30,13 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Fixed
 - `aha-poll`: `value`, `options` and `counts` set on the element before its tag was defined are now applied when it connects, where they sat as own properties and shadowed the setters. Every form control with a `value` property now does this (the shared `upgrade-properties.js` helper), and a new test fails the build if one is added without it. A page on a release before 0.581.1 still needs the DS upgraded for `aha-counted-textarea` and the other controls. (#773)
 
+## 0.1136.0 — 2026-11-18
+
+### Added
+- `<aha-audio-player>` (`@ahaslides-product/design/aha-audio-player`): play and pause, a seek bar with current and total time, mute and volume around one audio file, built from `<aha-button>` and `<aha-slider>`. `compact`, or any box under 400px, is one 56px row (play, name over time, seek, mute, volume) for a 300px side panel or a table row. Attributes `src`, `track-title`, `compact`, `muted`; events `play`, `pause`, `ended`, `timeupdate` and `volumechange` (with `muted` in the detail). Replaces the native `<audio controls>` (DESY-568, #774)
+- `<aha-audio-track>` (`@ahaslides-product/design/aha-audio-track`): one row of an audio track list in the compact player's layout: a preview play and pause button, the file name over its duration and a check when selected; emits `play`, `pause` and `select`, and the consumer plays the audio (DESY-568, #774)
+- `empty-audio` illustration for "no audio tracks yet": the empty-files document with a music note in place of the text lines; the Empty state guideline lists it (DESY-568, #774)
+
 ## 0.1134.0 — 2026-11-18
 
 ### Added

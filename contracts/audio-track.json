@@ -1,0 +1,192 @@
+{
+  "name": "Audio track",
+  "slug": "audio-track",
+  "environment": [
+    "product"
+  ],
+  "group": "Data display",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-audio-track",
+  "summary": "One row of an audio track list: a preview play and pause button, the file name, its duration and a check when selected; a click on the row selects it.",
+  "highlights": [
+    "Preview play and pause, file name, duration and a selected check",
+    "The row plays nothing itself: it emits play, pause and select",
+    "Selected rows take the Vivid Pink 5% tint, like a Menu item"
+  ],
+  "lead": "ONE custom element, <aha-audio-track>, for listing existing audio tracks to choose from (the audio upload modal's Existing tracks tab). It uses the compact <aha-audio-player> layout so a list and a player look the same: a secondary icon-only <aha-button> previews the track, then the file name on one line over its duration, and a pink check when selected. A click anywhere on the row but the preview button selects it. The row holds no audio: the preview button toggles `playing` and emits `play` or `pause`, and the consumer plays the file, keeps one row playing at a time and clears `selected` on the other rows. Stack rows in a column with no gap; for a picker without previews, a selectable <aha-list> is enough.",
+  "codeNote": "Attributes: track-title (the file name), duration (seconds; shown as m:ss, hidden when absent), selected, playing, play-label (default \"Play preview\") and pause-label (\"Pause preview\"), each followed by \": <track-title>\" in the button's accessible name. Properties: trackTitle, selected, playing. Events (composed, bubbling, detail { trackTitle }): play and pause from the preview button (it has already toggled `playing`), select from a click elsewhere on the row (it has already set `selected`). The select target is a native button with aria-pressed, so Tab reaches the preview and then the row, and Enter or Space selects. One row playing and one selected at a time are the consumer's job: on play remove `playing` from the other rows and pause their audio; on the audio's ended remove `playing`; on select remove `selected` from the others. React 18: listen with ref.current.addEventListener; Vue binds it natively (@play, @pause, @select). Vue 2 apps import '@ahaslides-product/design/aha-audio-track' and add aha-audio-track to the app's list of DS elements.",
+  "tokensUsed": [
+    "bg-container",
+    "bg-hover",
+    "bg-accent",
+    "radius-default",
+    "radius-xs",
+    "space-8",
+    "space-4",
+    "space-2",
+    "size-default",
+    "size-sm",
+    "weight-semibold",
+    "text-default",
+    "text-tertiary",
+    "icon-active",
+    "border-focus",
+    "motion-fast",
+    "font-product"
+  ],
+  "spec": [
+    {
+      "label": "Row",
+      "value": "56px minimum height (the compact player's), padding 8, radius 8, white; #F7F7F7 (bg-hover) on hover; selected #E70E68 at 5% (bg-accent), the Menu's selected tint, also on hover"
+    },
+    {
+      "label": "Preview",
+      "value": "secondary icon-only sm Button (28px), as on the compact player: system-play, system-pause while `playing`"
+    },
+    {
+      "label": "Name",
+      "value": "14/22 semibold #1A1A1A, one line with an ellipsis, the duration below it"
+    },
+    {
+      "label": "Duration",
+      "value": "12/18 #616161 (text-tertiary), tabular numbers, m:ss"
+    },
+    {
+      "label": "Check",
+      "value": "system-check 16 in #E70E68 (icon-active), shown when selected, so the state is not colour alone"
+    },
+    {
+      "label": "Focus",
+      "value": "keyboard focus on the row's select button draws a 2px #E70E68 outline (border-focus)"
+    }
+  ],
+  "props": [
+    {
+      "name": "track-title",
+      "type": "string",
+      "default": "—",
+      "desc": "The file name or track title"
+    },
+    {
+      "name": "duration",
+      "type": "number (seconds)",
+      "default": "—",
+      "desc": "The track's length, shown as m:ss; hidden when absent"
+    },
+    {
+      "name": "selected",
+      "type": "boolean",
+      "default": "false",
+      "desc": "The chosen track: tint, check and aria-pressed=\"true\""
+    },
+    {
+      "name": "playing",
+      "type": "boolean",
+      "default": "false",
+      "desc": "The preview is playing: the preview button shows pause"
+    },
+    {
+      "name": "play-label / pause-label",
+      "type": "string",
+      "default": "Play preview / Pause preview",
+      "desc": "The preview button's accessible name for translation; the track title is appended"
+    },
+    {
+      "name": "play / pause",
+      "type": "CustomEvent<{trackTitle: string}>",
+      "default": "—",
+      "desc": "Composed and bubbling; the preview button was pressed and `playing` has toggled. The consumer plays or pauses the audio"
+    },
+    {
+      "name": "select",
+      "type": "CustomEvent<{trackTitle: string}>",
+      "default": "—",
+      "desc": "Composed and bubbling; the row was clicked or its select button pressed, and `selected` is set"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Audio track (this leaf)",
+        "when": "a list of audio tracks to choose from, each with a preview"
+      },
+      {
+        "what": "List (selectable)",
+        "when": "a single-choice list with no control inside a row"
+      },
+      {
+        "what": "Audio player",
+        "when": "the track already chosen, played in place"
+      }
+    ],
+    "note": "Keep one row playing and one selected at a time. Show the empty-audio illustration in an Empty state when there are no tracks.",
+    "dsv3": "NEW — no audio track row existed in the DS."
+  },
+  "surfaces": [
+    "editor",
+    "dashboard"
+  ],
+  "reuse": {
+    "entry": "./aha-audio-track",
+    "registers": "aha-audio-track",
+    "exportsNamed": [
+      "AhaAudioTrack",
+      "defineAhaAudioTrack"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "audio-track.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form: a version-pinned CDN import and plain HTML, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "audio-track.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "audio-track.vue.txt"
+    }
+  ],
+  "preview": "audio-track.preview.html",
+  "selfCheck": [
+    {
+      "label": "row 56 min · radius 8 · hover bg-hover · selected bg-accent",
+      "verdict": "PASS"
+    },
+    {
+      "label": "duration text-tertiary 12/18 tabular",
+      "verdict": "PASS"
+    },
+    {
+      "label": "selected check icon-active, aria-pressed",
+      "verdict": "PASS"
+    },
+    {
+      "label": "play, pause and select emit composed events",
+      "verdict": "PASS"
+    }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI on the [data-probe] row: selected, 185 seconds.",
+    "ready": "!!(document.querySelector('aha-audio-track[data-probe]') && document.querySelector('aha-audio-track[data-probe]').shadowRoot && document.querySelector('aha-audio-track[data-probe]').shadowRoot.querySelector('.row'))",
+    "singleUI": true,
+    "measure": "(function(){var r=document.querySelector('aha-audio-track[data-probe]').shadowRoot;var g=function(s){return getComputedStyle(r.querySelector(s));};return{minH:g('.row').minHeight,radius:g('.row').borderTopLeftRadius,nameColor:g('.name').color,nameWeight:g('.name').fontWeight,durColor:g('.duration').color,durSize:g('.duration').fontSize,pressed:r.querySelector('.select').getAttribute('aria-pressed'),duration:r.querySelector('.duration').textContent};})()",
+    "expect": {
+      "minH": "56px",
+      "radius": "8px",
+      "nameColor": "rgb(26, 26, 26)",
+      "nameWeight": "600",
+      "durColor": "rgb(97, 97, 97)",
+      "durSize": "12px",
+      "pressed": "true",
+      "duration": "3:05"
+    }
+  }
+}
