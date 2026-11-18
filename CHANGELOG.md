@@ -25,6 +25,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1134.0 — 2026-11-18
+
+### Added
+
+- Screen-reader fixes found in the Correct Order self-paced audit (DESY-571, #777). `aha-rank-list` takes `move-up-label`, `move-down-label` (both with {name}), `moved-label` (with {name}, {position}, {total}) and `image-option-label`, English defaults kept. `aha-answer-list` takes `position-label`; once `revealed` it is a plain list and each row a list item named with its state ("Venus, correct, position 2"). `aha-quiz-rules` keeps the Play now button's name stable ("Play now") while the count ticks and takes `heading-level` (1 to 6) for its title. `aha-option-row` names its drag handle and Delete with the row's text ("Delete Venus"), and its label attributes take {label}.
+
 ## 0.1129.1 — 2026-11-18
 
 ### Changed

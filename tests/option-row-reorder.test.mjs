@@ -34,7 +34,7 @@ test('the handle is not focusable without reorderable, focusable with it, and in
     };`);
   assert.deepEqual(result, {
     plain: { tabIndex: -1, role: null },
-    r: { tabIndex: 0, role: 'button', label: 'Drag to reorder, or use the arrow keys' },
+    r: { tabIndex: 0, role: 'button', label: 'Drag B to reorder, or use the arrow keys' },
     d: { tabIndex: -1, role: null },
   });
 });
