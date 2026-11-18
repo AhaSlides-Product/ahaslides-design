@@ -8,13 +8,13 @@
   "tier": "leaf-lit",
   "badge": "shared web component",
   "element": "aha-audio-player",
-  "summary": "Play an audio file in place: play and pause, a seek bar with current and total time, mute and volume, with a compact two-row layout for a narrow side panel.",
+  "summary": "Play an audio file in place: play and pause, a seek bar with current and total time, mute and volume, with a compact one-row layout for a narrow side panel or a table row.",
   "highlights": [
     "Play, seek, time, mute and volume around one audio element",
-    "Compact two rows for a 300px panel; any width under 400px stacks the same way",
+    "Compact: one 56px row for a 300px panel or a table row; any width under 400px does the same",
     "play, pause, ended, timeupdate and volumechange events"
   ],
-  "lead": "ONE custom element, <aha-audio-player>, defined once and imported unchanged by React, Vue 3 and Vue 2: the DS replacement for a native <audio controls>, whose look changes per browser and cannot be themed. It wraps one <audio> in its shadow root and is built from DS parts: a primary icon-only <aha-button> to play and pause, an <aha-slider> to seek (its value label shows the time), the current and total time, a tertiary icon-only <aha-button> to mute and a second <aha-slider> for volume. From 400px wide it is one row; with `compact`, or in any box under 400px, it stacks into two rows: play beside the seek bar, then the time, mute and volume. `track-title` shows the file name above the controls and names the group for a screen reader. Events are composed CustomEvents on the host (play, pause, ended, timeupdate, volumechange); the sliders' own input and change events stay inside.",
+  "lead": "ONE custom element, <aha-audio-player>, defined once and imported unchanged by React, Vue 3 and Vue 2: the DS replacement for a native <audio controls>, whose look changes per browser and cannot be themed. It wraps one <audio> in its shadow root and is built from DS parts: a secondary icon-only <aha-button> to play and pause (secondary, as a list of players holds no primary), an <aha-slider> to seek (its value label shows the time), the current and total time, a tertiary icon-only <aha-button> to mute and a second <aha-slider> for volume. From 400px wide the title sits above one row of controls; with `compact`, or in any box under 400px, it is one 56px row: play, the title over \"0:12 / 3:05\", the seek bar, mute and a 40px volume slider, the same layout as <aha-audio-track>. `track-title` shows the file name and names the group for a screen reader. Events are composed CustomEvents on the host (play, pause, ended, timeupdate, volumechange); the sliders' own input and change events stay inside.",
   "codeNote": "Native <audio controls> → <aha-audio-player>: src → src · the file name → track-title (not title: the global title attribute would show a browser tooltip over the whole player) · muted → muted (initial) or the muted property · audio.volume / currentTime / duration / paused / play() / pause() → the same properties and methods on the element · events play, pause, ended, timeupdate (detail { currentTime, duration }) and volumechange (detail { volume, muted }) fire on the host, composed and bubbling. Keyboard: Tab reaches play, seek, mute and volume in that order; Enter or Space plays and pauses, and mutes; the arrow keys seek by one second (Page Up / Page Down a tenth of the track, Home / End the start and end) and change the volume. Translate the labels with play-label, pause-label, mute-label, unmute-label, seek-label and volume-label. One player plays at a time is the consumer's job: on play, call pause() on the others. React 18: listen with ref.current.addEventListener, since React 18 does not wire CustomEvents; React 19 can use the element directly. Vue binds it natively (@play, @timeupdate). Vue 2 apps import '@ahaslides-product/design/aha-audio-player' and add aha-audio-player to the app's list of DS elements.",
   "tokensUsed": [
     "border-default",
@@ -41,11 +41,11 @@
     },
     {
       "label": "One row (400px and up)",
-      "value": "play (primary icon-only sm Button, 28px) · current time · seek Slider (fills) · total time · mute (tertiary icon-only sm Button) · volume Slider 80px; 8px gaps, items centred"
+      "value": "play (secondary icon-only sm Button, 28px) · current time · seek Slider (fills) · total time · mute (tertiary icon-only sm Button) · volume Slider 80px; 8px gaps, items centred"
     },
     {
-      "label": "Compact (two rows)",
-      "value": "`compact`, or a box under 400px: row 1 play and the seek Slider across the rest; row 2 current / total time on the left, mute and a 64px volume Slider on the right; 4px between rows"
+      "label": "Compact (one row)",
+      "value": "`compact`, or a box under 400px: one row, 56px minimum, padding 8 and no border: play · the title (14/22 semibold, ellipsis) over current / total time (12/18) · seek Slider (40px minimum) · mute · volume Slider 40px; 12px gaps so the slider thumbs clear the text; the same layout as <aha-audio-track>"
     },
     {
       "label": "Time",
@@ -81,7 +81,7 @@
       "name": "compact",
       "type": "boolean",
       "default": "false",
-      "desc": "The two-row layout for a narrow side panel; a box under 400px wide uses it anyway"
+      "desc": "The one-row layout for a narrow side panel or a table row; a box under 400px wide uses it anyway"
     },
     {
       "name": "muted",
@@ -197,7 +197,7 @@
       "verdict": "PASS"
     },
     {
-      "label": "compact and under 400px stack into two rows",
+      "label": "compact and under 400px fit one row, matching aha-audio-track",
       "verdict": "PASS"
     },
     {

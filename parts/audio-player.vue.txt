@@ -10,7 +10,7 @@ const emit = defineEmits(['played']);
 </script>
 
 <template>
-  <!-- compact: two rows for the 300px editor panel -->
+  <!-- compact: one row for the 300px editor panel -->
   <aha-audio-player
     compact
     :src="props.audio.url"

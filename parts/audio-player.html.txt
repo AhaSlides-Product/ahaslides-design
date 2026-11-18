@@ -14,7 +14,7 @@
 <!-- one row from 400px wide -->
 <aha-audio-player id="slide-audio" src="https://example.com/media/intro-music.mp3" track-title="intro-music.mp3"></aha-audio-player>
 
-<!-- compact: two rows for a narrow side panel (any box under 400px stacks the same way) -->
+<!-- compact: one row for a narrow side panel or a table row (any box under 400px does the same) -->
 <div style="width:300px">
   <aha-audio-player compact src="https://example.com/media/intro-music.mp3" track-title="intro-music.mp3"></aha-audio-player>
 </div>

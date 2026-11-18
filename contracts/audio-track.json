@@ -14,7 +14,7 @@
     "The row plays nothing itself: it emits play, pause and select",
     "Selected rows take the Vivid Pink 5% tint, like a Menu item"
   ],
-  "lead": "ONE custom element, <aha-audio-track>, for listing existing audio tracks to choose from (the audio upload modal's Existing tracks tab). A tertiary icon-only <aha-button> previews the track, then the file name on one line, its duration and a pink check when selected. A click anywhere on the row but the preview button selects it. The row holds no audio: the preview button toggles `playing` and emits `play` or `pause`, and the consumer plays the file, keeps one row playing at a time and clears `selected` on the other rows. Stack rows in a column with no gap; for a picker without previews, a selectable <aha-list> is enough.",
+  "lead": "ONE custom element, <aha-audio-track>, for listing existing audio tracks to choose from (the audio upload modal's Existing tracks tab). It uses the compact <aha-audio-player> layout so a list and a player look the same: a secondary icon-only <aha-button> previews the track, then the file name on one line over its duration, and a pink check when selected. A click anywhere on the row but the preview button selects it. The row holds no audio: the preview button toggles `playing` and emits `play` or `pause`, and the consumer plays the file, keeps one row playing at a time and clears `selected` on the other rows. Stack rows in a column with no gap; for a picker without previews, a selectable <aha-list> is enough.",
   "codeNote": "Attributes: track-title (the file name), duration (seconds; shown as m:ss, hidden when absent), selected, playing, play-label (default \"Play preview\") and pause-label (\"Pause preview\"), each followed by \": <track-title>\" in the button's accessible name. Properties: trackTitle, selected, playing. Events (composed, bubbling, detail { trackTitle }): play and pause from the preview button (it has already toggled `playing`), select from a click elsewhere on the row (it has already set `selected`). The select target is a native button with aria-pressed, so Tab reaches the preview and then the row, and Enter or Space selects. One row playing and one selected at a time are the consumer's job: on play remove `playing` from the other rows and pause their audio; on the audio's ended remove `playing`; on select remove `selected` from the others. React 18: listen with ref.current.addEventListener; Vue binds it natively (@play, @pause, @select). Vue 2 apps import '@ahaslides-product/design/aha-audio-track' and add aha-audio-track to the app's list of DS elements.",
   "tokensUsed": [
     "bg-container",
@@ -27,7 +27,6 @@
     "space-2",
     "size-default",
     "size-sm",
-    "weight-regular",
     "weight-semibold",
     "text-default",
     "text-tertiary",
@@ -39,15 +38,15 @@
   "spec": [
     {
       "label": "Row",
-      "value": "44px minimum height, padding 8, radius 8, white; #F7F7F7 (bg-hover) on hover; selected #E70E68 at 5% (bg-accent), the Menu's selected tint, also on hover"
+      "value": "56px minimum height (the compact player's), padding 8, radius 8, white; #F7F7F7 (bg-hover) on hover; selected #E70E68 at 5% (bg-accent), the Menu's selected tint, also on hover"
     },
     {
       "label": "Preview",
-      "value": "tertiary icon-only sm Button (28px): system-play, system-pause while `playing`"
+      "value": "secondary icon-only sm Button (28px), as on the compact player: system-play, system-pause while `playing`"
     },
     {
       "label": "Name",
-      "value": "14/22 #1A1A1A, one line with an ellipsis, regular; semibold when selected"
+      "value": "14/22 semibold #1A1A1A, one line with an ellipsis, the duration below it"
     },
     {
       "label": "Duration",
@@ -79,7 +78,7 @@
       "name": "selected",
       "type": "boolean",
       "default": "false",
-      "desc": "The chosen track: tint, semibold name, check and aria-pressed=\"true\""
+      "desc": "The chosen track: tint, check and aria-pressed=\"true\""
     },
     {
       "name": "playing",
@@ -158,7 +157,7 @@
   "preview": "audio-track.preview.html",
   "selfCheck": [
     {
-      "label": "row 44 min · radius 8 · hover bg-hover · selected bg-accent",
+      "label": "row 56 min · radius 8 · hover bg-hover · selected bg-accent",
       "verdict": "PASS"
     },
     {
@@ -180,7 +179,7 @@
     "singleUI": true,
     "measure": "(function(){var r=document.querySelector('aha-audio-track[data-probe]').shadowRoot;var g=function(s){return getComputedStyle(r.querySelector(s));};return{minH:g('.row').minHeight,radius:g('.row').borderTopLeftRadius,nameColor:g('.name').color,nameWeight:g('.name').fontWeight,durColor:g('.duration').color,durSize:g('.duration').fontSize,pressed:r.querySelector('.select').getAttribute('aria-pressed'),duration:r.querySelector('.duration').textContent};})()",
     "expect": {
-      "minH": "44px",
+      "minH": "56px",
       "radius": "8px",
       "nameColor": "rgb(26, 26, 26)",
       "nameWeight": "600",
