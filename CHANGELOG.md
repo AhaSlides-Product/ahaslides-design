@@ -25,7 +25,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1121.0 — 2026-11-18
+## 0.1122.0 — 2026-11-18
 ### Added
 - **`aha-uploader` takes a `description` attribute** for the accepted formats and size limit, shown inside the drop zone under "Click to upload or drag files here": `<aha-uploader accept="image/png,image/jpeg,image/gif,image/svg+xml" description="PNG, JPEG, GIF, SVG - Max: 15MB">`. One 14/21 line in text-secondary (the image dropzone's detail line), escaped, in the text-mode zone only (not in picture-card mode or at the upload limit); without it the zone renders exactly as before. Put format and size text here, never in a line under the zone (DESY-563, #PR).
 - **Overlays rule `focus-ring-never-clipped` (OVERLAY-10) and judge criterion overlays C9: a focus ring is never clipped by an overflow container.** DS rings reach out 4px at most (2px `--aha-border-focus` outline at a 2px offset; a field's 2px `--aha-focus-ring-soft` shadow), so a scroll container pads 4px (`--aha-space-4`) and pulls back with an equal negative margin. `screen-lint.mjs --measure` hard-fails `focus-ring-clip`: it focuses every reachable control on the screen and fails a ring an overflow container cuts off (DESY-563, #PR).
