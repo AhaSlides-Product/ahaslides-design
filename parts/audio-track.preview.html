@@ -1,0 +1,26 @@
+<div class="pad">
+  <div class="lbl">Existing tracks: one selected, one playing</div>
+  <div id="tracks" style="max-width:480px">
+    <aha-audio-track track-title="intro-music.mp3" duration="185"></aha-audio-track>
+    <aha-audio-track data-probe track-title="applause.wav" duration="185" selected></aha-audio-track>
+    <aha-audio-track track-title="drum-roll-and-cymbal-crash-for-the-quiz-winner-reveal.mp3" duration="7" playing></aha-audio-track>
+    <aha-audio-track track-title="background-ambience.ogg" duration="3725"></aha-audio-track>
+  </div>
+  <div class="lbl">No tracks yet: Empty state with empty-audio</div>
+  <div style="max-width:480px">
+    <aha-empty description="No audio tracks yet">
+      <aha-illustration slot="image" name="empty-audio" size="100"></aha-illustration>
+    </aha-empty>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped elements (../lib/*.js); no inlined copy, so the preview never drifts from lib/. -->
+<script type="module">
+  import '../lib/aha-audio-track.js';   // registers <aha-audio-track>
+  import '../lib/aha-empty.js';         // registers <aha-empty>
+  import '../lib/illustrations.js';     // the full illustration set, for empty-audio
+  const list = document.getElementById('tracks');
+  const rows = () => list.querySelectorAll('aha-audio-track');
+  list.addEventListener('play', (e) => rows().forEach((row) => { if (row !== e.target) row.playing = false; }));
+  list.addEventListener('select', (e) => rows().forEach((row) => { if (row !== e.target) row.selected = false; }));
+</script>

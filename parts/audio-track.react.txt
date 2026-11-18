@@ -1,0 +1,31 @@
+import '@ahaslides-product/design/aha-audio-track'; // registers <aha-audio-track>
+import { useRef, useEffect } from 'react';
+
+// React 18 needs a thin wrapper for the CustomEvents; React 19 can use <aha-audio-track> directly.
+function AhaAudioTrack({ title, duration, selected, playing, onPlay, onPause, onSelect }) {
+  const ref = useRef();
+  useEffect(() => {
+    const el = ref.current;
+    const handlers = { play: () => onPlay?.(), pause: () => onPause?.(), select: () => onSelect?.() };
+    Object.entries(handlers).forEach(([type, fn]) => el.addEventListener(type, fn));
+    return () => Object.entries(handlers).forEach(([type, fn]) => el.removeEventListener(type, fn));
+  });
+  return (
+    <aha-audio-track
+      ref={ref}
+      track-title={title}
+      duration={duration}
+      {...(selected ? { selected: '' } : {})}
+      {...(playing ? { playing: '' } : {})}
+    />
+  );
+}
+
+// usage: one row selected and one playing at a time, owned by the list
+{tracks.map((t) => (
+  <AhaAudioTrack key={t.id} title={t.fileName} duration={t.seconds}
+                 selected={t.id === selectedId} playing={t.id === playingId}
+                 onPlay={() => { setPlayingId(t.id); preview.play(t.url); }}
+                 onPause={() => { setPlayingId(null); preview.pause(); }}
+                 onSelect={() => setSelectedId(t.id)} />
+))}

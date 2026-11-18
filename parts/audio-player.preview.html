@@ -1,0 +1,30 @@
+<div class="pad">
+  <div class="lbl">Default: one row from 400px wide</div>
+  <div style="max-width:560px">
+    <aha-audio-player class="demo" track-title="intro-music.mp3"></aha-audio-player>
+  </div>
+  <div class="lbl">Compact: two rows for a 300px side panel</div>
+  <div style="width:300px; max-width:100%">
+    <aha-audio-player class="demo" compact track-title="a-very-long-background-music-file-name-from-the-library.mp3"></aha-audio-player>
+  </div>
+  <div class="lbl">No file yet: controls disabled</div>
+  <div style="max-width:560px">
+    <aha-audio-player data-probe track-title="applause.wav"></aha-audio-player>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element (../lib/*.js); no inlined copy, so the preview never drifts from lib/. -->
+<script type="module">
+  import '../lib/aha-audio-player.js';   // registers <aha-audio-player>
+  // a generated 8-second tone, so the demo plays with no external file
+  const rate = 8000, seconds = 8, samples = rate * seconds;
+  const view = new DataView(new ArrayBuffer(44 + samples * 2));
+  const ascii = (offset, text) => [...text].forEach((c, i) => view.setUint8(offset + i, c.charCodeAt(0)));
+  ascii(0, 'RIFF'); view.setUint32(4, 36 + samples * 2, true); ascii(8, 'WAVEfmt ');
+  view.setUint32(16, 16, true); view.setUint16(20, 1, true); view.setUint16(22, 1, true);
+  view.setUint32(24, rate, true); view.setUint32(28, rate * 2, true); view.setUint16(32, 2, true); view.setUint16(34, 16, true);
+  ascii(36, 'data'); view.setUint32(40, samples * 2, true);
+  for (let i = 0; i < samples; i++) view.setInt16(44 + i * 2, Math.sin(2 * Math.PI * 440 * i / rate) * 6000 * Math.min(1, (samples - i) / rate), true);
+  const url = URL.createObjectURL(new Blob([view], { type: 'audio/wav' }));
+  document.querySelectorAll('aha-audio-player.demo').forEach((player) => { player.src = url; });
+</script>

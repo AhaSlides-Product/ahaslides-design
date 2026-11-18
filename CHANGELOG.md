@@ -25,6 +25,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1130.0 — 2026-11-18
+### Added
+- `<aha-audio-player>` (`@ahaslides-product/design/aha-audio-player`): play and pause, a seek bar with current and total time, mute and volume around one audio file, built from `<aha-button>` and `<aha-slider>`. `compact`, or any box under 400px, stacks it in two rows for a 300px side panel. Attributes `src`, `track-title`, `compact`, `muted`; events `play`, `pause`, `ended`, `timeupdate` and `volumechange` (with `muted` in the detail). Replaces the native `<audio controls>` (#PR)
+- `<aha-audio-track>` (`@ahaslides-product/design/aha-audio-track`): one row of an audio track list with a preview play and pause button, the file name, its duration and a check when selected; emits `play`, `pause` and `select`, and the consumer plays the audio (#PR)
+- `empty-audio` illustration for "no audio tracks yet", in the empty-* family; the Empty state guideline lists it (#PR)
+
 ## 0.1127.0 — 2026-11-18
 
 ### Changed
