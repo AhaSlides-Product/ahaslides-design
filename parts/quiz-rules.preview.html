@@ -1,18 +1,18 @@
 <div class="pad">
-  <div class="lbl">Light deck: the sizes step up at 480px and 960px of view width</div>
+  <div class="lbl">Light deck: one scoring line, no icon; the title and rule text step up at 960px of view width</div>
   <div class="row" style="display:flex;flex-direction:column;width:100%;min-height:360px;box-sizing:border-box">
-    <aha-quiz-rules data-probe heading="Question 2 of 7" skip-label="Skip rules"
-      rules='[{"icon":"system-timer","text":"20 seconds to answer"},{"icon":"system-star","text":"Answer faster to get more points"}]'></aha-quiz-rules>
+    <aha-quiz-rules data-probe heading="Question 2 of 7" skip-label="Play now"
+      rules='[{"text":"Answer faster to get more points"}]'></aha-quiz-rules>
   </div>
-  <div class="lbl">Dark deck: applyDeck() with a white ink and a Vivid Pink accent; no timer, so the hourglass line</div>
+  <div class="lbl">Dark deck: applyDeck() with a white ink and a Vivid Pink accent; no timer, so no countdown in the label</div>
   <div class="row aud-dark" style="display:flex;flex-direction:column;width:100%;min-height:320px;box-sizing:border-box;padding:var(--aha-space-16);background:var(--aha-bg-dark);border-radius:var(--aha-radius-lg)">
-    <aha-quiz-rules heading="Get ready" skip-label="Skip rules"
-      rules='[{"icon":"system-hourglass-high","text":"No time limit"}]'></aha-quiz-rules>
+    <aha-quiz-rules heading="Get ready" skip-label="Play now"
+      rules='[{"text":"Answer faster to get more points"}]'></aha-quiz-rules>
   </div>
-  <div class="lbl">Right to left (dir="rtl", Arabic copy from the page): lines start on the right, the arrow mirrors</div>
+  <div class="lbl">Right to left (dir="rtl", Arabic copy from the page): the line is centred, the arrow mirrors</div>
   <div class="row" dir="rtl" lang="ar" style="display:flex;flex-direction:column;width:100%;min-height:320px;box-sizing:border-box">
-    <aha-quiz-rules heading="السؤال 2 من 7" skip-label="تخطي القواعد"
-      rules='[{"icon":"system-timer","text":"20 ثانية للإجابة"},{"icon":"system-star","text":"أجب أسرع لتحصل على نقاط أكثر"}]'></aha-quiz-rules>
+    <aha-quiz-rules heading="السؤال 2 من 7" skip-label="العب الآن"
+      rules='[{"text":"أجب أسرع لتحصل على نقاط أكثر"}]'></aha-quiz-rules>
   </div>
 </div>
 

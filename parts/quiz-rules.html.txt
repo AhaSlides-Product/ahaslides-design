@@ -8,13 +8,10 @@
   applyDeck(document.documentElement, window.xprops?.slide ?? { textColour: '#1A1A1A', presentationColorPalette: ['#E70E68'] });
   const rules = document.querySelector('aha-quiz-rules');
   rules.setAttribute('ends-at', String(Date.now() + 5000));   // when the rules end, from the page's own clock
-  rules.rules = [
-    { icon: 'system-timer', text: '20 seconds to answer' },
-    { icon: 'system-star', text: 'Answer faster to get more points' },
-  ];
+  rules.rules = [{ text: 'Answer faster to get more points' }];
   rules.addEventListener('skip', () => { rules.hidden = true; });   // the page ends the rules and shows the question
 </script>
 
 <main style="display:flex;flex-direction:column;min-height:100vh;margin:0 16px">
-  <aha-quiz-rules heading="Question 2 of 7" skip-label="Skip rules" skip-testid="audience-quiz-skip-rules"></aha-quiz-rules>
+  <aha-quiz-rules heading="Question 2 of 7" skip-label="Play now" skip-testid="audience-quiz-skip-rules"></aha-quiz-rules>
 </main>

@@ -6,9 +6,9 @@ export function QuizRules({ t, index, total, rulesEnd, lines, onSkip }) {
   const ref = useRef(null);
   useEffect(() => {
     const el = ref.current;
-    el.rules = lines;   // [{ icon: 'system-timer', text: t('rulesTime', { count: 20 }) }, …]
+    el.rules = lines;   // [{ text: t('rulesScoring') }]
     el.addEventListener('skip', onSkip);
     return () => el.removeEventListener('skip', onSkip);
   }, [lines, onSkip]);
-  return <aha-quiz-rules ref={ref} heading={t('questionOf', { index, total })} skip-label={t('skipRules')} ends-at={rulesEnd} />;
+  return <aha-quiz-rules ref={ref} heading={t('questionOf', { index, total })} skip-label={t('playNow')} ends-at={rulesEnd} />;
 }
