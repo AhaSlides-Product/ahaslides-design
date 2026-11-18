@@ -48,7 +48,7 @@
     },
     {
       "label": "Body",
-      "value": "14/22 ink, scrolls on its own past the cap and becomes a Tab stop only then; scroll does not chain to the page; the scroller reaches 4 into the panel padding (padding 4, margin −4) so a control's focus ring at its edge is never clipped (overlays C9) while the content stays where it was"
+      "value": "14/22 ink, scrolls on its own past the cap and becomes a Tab stop only then; scroll does not chain to the page; the scroller reaches 4 into the panel padding (padding 4, margin −4) so a control's focus ring at its edge is never clipped (overlays C9) while the content stays where it was; a consumer that sets only padding on ::part(body) should also set margin 0, or keep the 4 inset"
     },
     {
       "label": "Footer",

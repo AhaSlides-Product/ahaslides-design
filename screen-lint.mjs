@@ -121,6 +121,7 @@ async function runMeasure(fileList, viewports = MEASURE_VIEWPORTS) {
       const clipped = viewports.flatMap(v => ((r[v.label] || {}).overlays?.findings || []).map(finding => `${v.label}px: ${formatOverlayClip(finding)}`));
       const checked = Math.max(0, ...viewports.map(v => (r[v.label] || {}).overlays?.checked || 0));
       const ringsCut = viewports.flatMap(v => ((r[v.label] || {}).rings?.findings || []).map(finding => `${v.label}px: ${formatFocusRingClip(finding)}`));
+      const truncated = viewports.map(v => ({ label: v.label, rings: (r[v.label] || {}).rings })).filter(({ rings }) => rings?.truncated);
       const failed = over.length > 0 || clipped.length > 0 || ringsCut.length > 0;
       console.log(`${failed ? '✗' : '✓'} ${f.replace(root + '/', '')}`);
       if (over.length) console.log(`      ✗ FAIL [overflow] horizontal scroll at ${over.join(', ')} — the screen must reflow to fit the phone floor`);
@@ -129,6 +130,7 @@ async function runMeasure(fileList, viewports = MEASURE_VIEWPORTS) {
       if (!clipped.length) console.log(`      · ${checked} overlay(s) opened, none clipped by a panel or the viewport`);
       const focused = Math.max(0, ...viewports.map(v => (r[v.label] || {}).rings?.checked || 0));
       if (!ringsCut.length) console.log(`      · ${focused} control(s) focused, no focus ring clipped by an overflow container`);
+      for (const { label, rings } of truncated) console.log(`      ! WARN [focus-ring-clip] ${label}px: ${rings.total} reachable controls, only the first ${rings.limit} were checked; split the screen or check the rest by hand`);
       for (const line of ringsCut) console.log(`      ✗ FAIL [focus-ring-clip] ${line} — a focus ring is never clipped by an overflow container (OVERLAY-10): pad the scroll container by at least 4px (--aha-space-4) and pull it back with an equal negative margin`);
       if (failed) hardCount++;
     } catch (e) {

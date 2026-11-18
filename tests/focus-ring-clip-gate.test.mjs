@@ -26,3 +26,9 @@ test('screen-lint --measure fails a checkbox whose inner box ring an unpadded sc
   assert.equal(run.status, 1, run.stdout + run.stderr);
   assert.match(run.stdout, /FAIL \[focus-ring-clip\] 360px: focus ring of aha-checkbox cut off by section\.panel \(top 2px, left 4px\)/);
 });
+
+test('screen-lint --measure passes an absolutely positioned control whose containing block is outside the overflow parent', { skip }, () => {
+  const run = measure('absolute-escapes-overflow.html');
+  assert.equal(run.status, 0, run.stdout + run.stderr);
+  assert.match(run.stdout, /1 control\(s\) focused, no focus ring clipped/);
+});
