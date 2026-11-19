@@ -40,6 +40,12 @@
     <aha-setting-row label="Deck title" layout="stack"><aha-input slot="control" value="Untitled"></aha-input></aha-setting-row>
     <aha-setting-row label="Speaker notes" help="Notes only you can see." layout="stack"><aha-input slot="control" placeholder="Add a note"></aha-input></aha-setting-row>
   </div>
+
+  <div class="lbl">Required</div>
+  <div class="stack">
+    <aha-setting-row label="Question" required layout="stack"><aha-input slot="control" placeholder="Type your question"></aha-input></aha-setting-row>
+    <aha-setting-row label="Slide title" help="Shown at the top of the slide." required><aha-input slot="control" value="Untitled"></aha-input></aha-setting-row>
+  </div>
 </div>
 
 <!-- Imports the REAL shipped element (../lib/aha-setting-row.js) — no inlined copy, so the preview
