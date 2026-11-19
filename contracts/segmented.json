@@ -18,13 +18,13 @@
     { "label": "Content", "value": "label · leading icon (16) + label · icon-only (aria-label required)" },
     { "label": "Selected", "value": "text-default #1A1A1A over the thumb" },
     { "label": "Disabled", "value": "per-option or whole control → text-disabled, not-allowed" },
-    { "label": "Block", "value": "full-width track, options flex-equal" }
+    { "label": "Block", "value": "full-width track, every option the same width" }
   ],
   "props": [
     { "name": "options", "type": "string | JSON array", "default": "—", "desc": "Pipe labels \"Day|Week|Month\" OR items [{value,label?,icon?,disabled?,ariaLabel?,testid?}] (`testid` is rendered as data-testid on that option's button)" },
     { "name": "value", "type": "string", "default": "first option", "desc": "Selected option value" },
     { "name": "size", "type": "'small' | 'medium' | 'large'", "default": "medium", "desc": "Height/padding/font/radius scale" },
-    { "name": "block", "type": "boolean", "default": "false", "desc": "Full-width; options flex-equal" },
+    { "name": "block", "type": "boolean", "default": "false", "desc": "Full-width; every option the same width (flex 1 1 0); inside a stacked setting row the track fills the row" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Dims and disables the whole control" },
     { "name": "change", "type": "CustomEvent<{value,index}>", "default": "—", "desc": "Composed event; read e.detail.value" }
   ],
