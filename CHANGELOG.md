@@ -28,7 +28,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.1137.1 — 2026-11-19
 
 ### Fixed
-- `aha-segmented`: with `block`, every option is now the same width (`flex: 1 1 0`) as the contract says; before, options sized to their label (127, 111 and 108px in the Radar slide type). A segmented control in a stacked `aha-setting-row` now fills the row width (DESY-574, #PR)
+- `aha-segmented`: with `block`, every option is now the same width (`flex: 1 1 0`) as the contract says; before, options sized to their label (127, 111 and 108px in the Radar slide type). A segmented control in a stacked `aha-setting-row` now fills the row width (DESY-574, #778)
 
 ## 0.1137.0 — 2026-11-18
 
