@@ -20,6 +20,7 @@
     { "label": "Disabled", "value": "label dims to text-disabled (#B5B5B5); the control disables itself" },
     { "label": "Locked (plan-gated)", "value": "locked → the shared <aha-paywall> crown sits after the label in place of the \"?\" (no \"?\" while locked), the slotted control is disabled, the label keeps its normal colour (not the disabled grey), aria-disabled is set; the crown never replaces the control" },
     { "label": "Badge (New / Beta)", "value": "slot=\"badge\" holds a DS <aha-badge kind=\"new|beta\"> in the label line, after the \"?\" help or the locked crown, 4px gap; never in the control area; same in inline and stack, locked and unlocked" },
+    { "label": "Required", "value": "required → a neutral <aha-tag> \"Required\" in the label line after the \"?\" or the crown (before a badge), and aria-required=\"true\" on the slotted control; no asterisk, no plain-text line" },
     { "label": "Leading icon", "value": "NONE — no decorative leading-icon slot on the label (SETTINGS-40)" }
   ],
   "props": [
@@ -31,6 +32,7 @@
     { "name": "plan", "type": "essential | pro", "default": "pro", "desc": "The plan the Paywall names in its \"Unlock with the … plan\" line (used while locked)" },
     { "name": "feature-key", "type": "string", "default": "—", "desc": "Analytics key carried in the Paywall events (paywall-shown / paywall-upgrade / paywall-plans)" },
     { "name": "upgrade-body", "type": "string", "default": "—", "desc": "One sentence on the benefit of unlocking; passed to the Paywall body. The Paywall feature label is the row label" },
+    { "name": "required", "type": "boolean", "default": "false", "desc": "Marks the setting as required: a neutral <aha-tag> \"Required\" sits in the label line after the \"?\" help or the locked crown, and aria-required=\"true\" is set on the slotted control (removed again when the attribute goes). Use it instead of a plain-text \"Required\" line or a bare asterisk" },
     { "name": "badge", "type": "slot", "default": "—", "desc": "An optional status tag (slot=\"badge\") — a DS <aha-badge kind=\"new\"> or kind=\"beta\". It sits in the label line right after the \"?\" help or the locked crown, never beside the control. Shown in both layouts, locked or not" },
     { "name": "control", "type": "slot", "default": "—", "desc": "The DS control (slot=\"control\") — an existing element like <aha-switch> / <aha-checkbox> / <aha-input>; reuse, never a re-implemented control" }
   ],
@@ -67,6 +69,10 @@
       { "prop": "disabled", "label": "Disabled", "default": "off", "options": [
         { "label": "Off", "value": null },
         { "label": "On", "value": "" }
+      ] },
+      { "prop": "required", "label": "Required", "default": "off", "options": [
+        { "label": "Off", "value": null },
+        { "label": "On", "value": "" }
       ] }
     ]
   },
@@ -77,6 +83,7 @@
     { "label": "\"?\" help (system-question glyph) renders after the label when help is set", "verdict": "PASS" },
     { "label": "locked row: Paywall crown in place of the \"?\", help hidden, control disabled, label colour unchanged", "verdict": "PASS" },
     { "label": "New / Beta badge (slot=badge) sits in the label line after the \"?\" or the crown, not in the control area", "verdict": "PASS" },
+    { "label": "required: a neutral Required tag after the \"?\" and aria-required on the control, both removed with the attribute", "verdict": "PASS" },
     { "label": "no decorative leading-icon slot (SETTINGS-40)", "verdict": "PASS" }
   ],
   "conformance": {

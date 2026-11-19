@@ -27,6 +27,11 @@
   <aha-input slot="control" placeholder="Notes only you can see"></aha-input>
 </aha-setting-row>
 
+<!-- required — a neutral "Required" tag after the label (and the "?"), aria-required on the control -->
+<aha-setting-row label="Question" required layout="stack">
+  <aha-input slot="control"></aha-input>
+</aha-setting-row>
+
 <!-- New / Beta tag — slot="badge" sits in the label line after the "?" or the crown, never beside the control -->
 <aha-setting-row label="Live captions" help="Subtitles for the speaker's voice.">
   <aha-badge slot="badge" kind="new"></aha-badge>
