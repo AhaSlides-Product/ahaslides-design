@@ -27,7 +27,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1139.0 — 2026-11-19
 ### Added
-- Colour rule 1.2a: the colour standard for house-style 3D icons (five reference icons, body pink with lilac, within ΔE 3.65, lilac at least 3.5%, no other variation); rules 1.1 and 1.2 point to it (#PRNUM)
+- Colour rule 1.2a: the colour standard for house-style 3D icons (five reference icons, body pink with lilac, within ΔE 3.65, lilac at least 3.5%, no other variation); rules 1.1 and 1.2 point to it (#780)
 
 ## 0.1138.0 — 2026-11-19
 
