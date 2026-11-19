@@ -18,7 +18,7 @@ const page = `<!doctype html><body style="width:360px">
 test('required shows a neutral tag after the help and sets aria-required, both removed with the attribute', { skip }, async () => {
   const file = join(mkdtempSync(join(tmpdir(), 'setting-row-required-')), 'page.html');
   writeFileSync(file, page);
-  const r = await evaluateInPage(pathToFileURL(file).href, `(() => {
+  const r = await evaluateInPage(pathToFileURL(file).href, `(async () => {
     const state = (id) => {
       const host = document.getElementById(id);
       const tag = host.shadowRoot.querySelector('.req');
@@ -34,12 +34,20 @@ test('required shows a neutral tag after the help and sets aria-required, both r
     const on = state('req');
     const plain = state('plain');
     const fr = document.getElementById('fr').shadowRoot.querySelector('.req').textContent;
-    document.getElementById('req').removeAttribute('required');
+    const host = document.getElementById('req');
+    const moved = host.querySelector('[slot=control]');
+    host.appendChild(Object.assign(document.createElement('aha-input'), { slot: 'control' }));
+    moved.remove();
+    document.body.appendChild(moved);
+    await new Promise((r) => setTimeout(r, 0));
+    const movedAria = moved.getAttribute('aria-required');
+    host.removeAttribute('required');
     const off = state('req');
-    return { on, plain, off, fr };
+    return { on, plain, off, fr, movedAria };
   })()`, { readyExpr: '!!window.ready && !!customElements.get("aha-input") && !!customElements.get("aha-tag")' });
   assert.deepEqual(r.on, { shown: true, text: 'Required', color: null, afterHelp: true, aria: 'true' });
   assert.equal(r.fr, 'Obligatoire');
+  assert.equal(r.movedAria, null);
   assert.equal(r.plain.shown, false);
   assert.equal(r.plain.aria, null);
   assert.equal(r.off.shown, false);
