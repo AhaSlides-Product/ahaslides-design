@@ -28,7 +28,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.1138.0 — 2026-11-19
 
 ### Added
-- `aha-setting-row`: a `required` attribute puts a neutral `<aha-tag>` "Required" after the label's "?" help (or the locked crown) and sets `aria-required="true"` on the slotted control, removing both when the attribute goes. Replaces a plain-text "Required" line or a bare asterisk; the Settings guideline says so (DESY-574, #779)
+- `aha-setting-row`: a `required` attribute puts a neutral `<aha-tag>` "Required" after the label's "?" help (or the locked crown) and sets `aria-required="true"` on the slotted control, removing both when the attribute goes. Replaces a plain-text "Required" line or a bare asterisk; `required-label` sets the tag text for a translated app. The Settings guideline says so (DESY-574, #779)
 
 ## 0.1137.0 — 2026-11-18
 

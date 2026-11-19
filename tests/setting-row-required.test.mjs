@@ -11,6 +11,7 @@ const lib = pathToFileURL(fileURLToPath(new URL('../lib/all.js', import.meta.url
 
 const page = `<!doctype html><body style="width:360px">
 <aha-setting-row id="req" label="Question" help="Tip." required><aha-input slot="control"></aha-input></aha-setting-row>
+<aha-setting-row id="fr" label="Question" required required-label="Obligatoire"><aha-input slot="control"></aha-input></aha-setting-row>
 <aha-setting-row id="plain" label="Title"><aha-input slot="control"></aha-input></aha-setting-row>
 <script type="module">import '${lib}'; window.ready = true;</script>`;
 
@@ -32,11 +33,13 @@ test('required shows a neutral tag after the help and sets aria-required, both r
     };
     const on = state('req');
     const plain = state('plain');
+    const fr = document.getElementById('fr').shadowRoot.querySelector('.req').textContent;
     document.getElementById('req').removeAttribute('required');
     const off = state('req');
-    return { on, plain, off };
+    return { on, plain, off, fr };
   })()`, { readyExpr: '!!window.ready && !!customElements.get("aha-input") && !!customElements.get("aha-tag")' });
   assert.deepEqual(r.on, { shown: true, text: 'Required', color: null, afterHelp: true, aria: 'true' });
+  assert.equal(r.fr, 'Obligatoire');
   assert.equal(r.plain.shown, false);
   assert.equal(r.plain.aria, null);
   assert.equal(r.off.shown, false);
