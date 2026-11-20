@@ -25,6 +25,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1140.1 — 2026-11-20
+### Changed
+- Usability U11 and the overlays rule say a timer the user set is their own action: a slide timer that closes submissions and shows Time's up on the presenting screen is not an uninvited popup, and the rule never asks to change an existing feature (#PR)
+
 ## 0.1140.0 — 2026-11-20
 ### Added
 - Usability criterion U11, "No uninvited popup or popover", judged on every UI change: an overlay opens only from an explicit user action, never on load, a timer, scroll, sign-in or a first visit, with two exceptions (information whose absence causes obvious damage; a promotional popup for free users past 14 days). Added to the overlays guidelines and the overlay nudge, per product leadership (#781)
