@@ -27,7 +27,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1140.0 — 2026-11-20
 ### Added
-- Usability criterion U11, "No uninvited popup or popover", judged on every UI change: an overlay opens only from an explicit user action, never on load, a timer, scroll, sign-in or a first visit, with two exceptions (information whose absence causes obvious damage; a promotional popup for free users past 14 days). Added to the overlays guidelines and the overlay nudge, per product leadership (#PRNUM)
+- Usability criterion U11, "No uninvited popup or popover", judged on every UI change: an overlay opens only from an explicit user action, never on load, a timer, scroll, sign-in or a first visit, with two exceptions (information whose absence causes obvious damage; a promotional popup for free users past 14 days). Added to the overlays guidelines and the overlay nudge, per product leadership (#781)
 
 ## 0.1139.0 — 2026-11-19
 ### Added
