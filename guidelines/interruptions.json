@@ -1,0 +1,144 @@
+{
+  "name": "Popups and interruptions",
+  "slug": "interruptions",
+  "kind": "guideline",
+  "environment": [
+    "product",
+    "audience",
+    "web"
+  ],
+  "group": "Patterns",
+  "patternsNav": true,
+  "badge": "pattern — composition guide",
+  "summary": "Never interrupt the user: a popup, popover, modal, drawer, toast, coachmark, tour or announcement opens only as the direct result of an explicit user action, never on load, a timer, scroll, idle, exit intent, sign-in or a first visit. A timer the user set is their action. Two exceptions: information whose absence causes obvious damage, and a promotional popup for a free-plan user past 14 days.",
+  "highlights": [
+    "Opens only from an explicit user action on that screen",
+    "Never on load, timer, scroll, idle, exit intent, sign-in or first visit",
+    "A timer the user set (a slide timer, Time's up) is their action",
+    "Two exceptions: obvious damage, and a promotion after 14 days on free"
+  ],
+  "lead": "Every unsolicited popup is an interruption. Never interrupt the user unless missing the information would cause them obvious damage. An overlay opens only because the user asked for it: a click, tap, key press or submit on the thing it belongs to, or a hover or focus on a tooltip's trigger. Information that would otherwise be announced in a popup goes in the page, where the user meets it. The rule judges what a change adds; it never asks to change or remove a feature that already ships. Which surface to use is the Overlays guideline's call.",
+  "skillRef": {
+    "build": "DS guideline — guidelines/interruptions.json",
+    "judge": "DS anti-slop feed — anti-slop.md (usability U11)",
+    "note": "This page is the human-readable source of the rule; usability U11 in anti-slop/criteria.json is its check. The overlay surfaces themselves are in the overlays guideline."
+  },
+  "surfaces": [
+    "dashboard",
+    "editor",
+    "settings",
+    "audience",
+    "canvas"
+  ],
+  "surfaceChoice": [
+    {
+      "surface": "A click, tap, key press or submit on the thing the overlay belongs to",
+      "useFor": "allowed: a modal from a Delete button, a drawer from a row, a popover from its trigger, a tooltip on hover or focus",
+      "example": "Click Delete, confirm modal opens"
+    },
+    {
+      "surface": "A timer the user set",
+      "useFor": "allowed: a slide timer the presenter set runs out, submissions close and the presenting screen shows Time's up; a countdown the user started ends",
+      "example": "Time's up"
+    },
+    {
+      "surface": "Information whose absence would cause obvious damage",
+      "useFor": "allowed: unsaved work about to be lost, a session about to expire, a failed payment that will cut access",
+      "example": "Your session is about to expire"
+    },
+    {
+      "surface": "A promotional popup for a free-plan user who signed up over 14 days ago",
+      "useFor": "allowed: the only promotion that may open unasked",
+      "example": "Upgrade to remove the participant limit"
+    },
+    {
+      "surface": "Page load, route change, sign-in or a first visit",
+      "useFor": "not allowed: a welcome modal, a product tour or a what's-new announcement; put it in the page instead",
+      "example": "Welcome! Take a quick tour"
+    },
+    {
+      "surface": "A timer the user did not set, scroll, idle or exit intent",
+      "useFor": "not allowed: a rating or survey prompt after a delay, an upgrade popup on scroll, a stay-with-us popup when the cursor leaves",
+      "example": "Enjoying AhaSlides? Rate us"
+    }
+  ],
+  "composedOf": [
+    {
+      "ref": "modal",
+      "as": "component",
+      "use": "an overlay this rule governs: opened only from an explicit user action",
+      "status": "available"
+    },
+    {
+      "ref": "popover",
+      "as": "component",
+      "use": "an overlay this rule governs: opened only from its trigger",
+      "status": "available"
+    },
+    {
+      "ref": "toast",
+      "as": "component",
+      "use": "an overlay this rule governs: shown only as the result of the user's action",
+      "status": "available"
+    },
+    {
+      "ref": "tooltip",
+      "as": "component",
+      "use": "opens only on hover or focus of its trigger",
+      "status": "available"
+    }
+  ],
+  "rules": [
+    {
+      "id": "direct-user-action",
+      "rule": "A popup, popover, modal, drawer, toast, coachmark, product tour or announcement opens only as the direct result of an explicit user action on that screen: a click, tap, key press or submit on the thing it belongs to (for a tooltip, a hover or focus on its trigger).",
+      "ref": [
+        "usability U11"
+      ]
+    },
+    {
+      "id": "never-unasked",
+      "rule": "Nothing opens by itself: not on page load, on a timer, on scroll, when idle, on exit intent, after sign-in or on a first visit, and never to announce a feature or ask for a rating, survey or upgrade. Put that information in the page where the user will meet it.",
+      "ref": [
+        "usability U11"
+      ]
+    },
+    {
+      "id": "user-set-timer",
+      "rule": "A timer the user set is their own action: when a slide timer the presenter set runs out and the presenting screen closes submissions and shows Time's up, or a countdown the user started ends, that is the consequence of their setting, not an uninvited popup.",
+      "ref": [
+        "usability U11"
+      ]
+    },
+    {
+      "id": "exceptions",
+      "rule": "Two exceptions only: (1) information that, if missed, would cause the user obvious damage (unsaved work about to be lost, a session about to expire, a failed payment that will cut access); (2) a promotional popup shown to a free-plan user who signed up more than 14 days ago.",
+      "ref": [
+        "usability U11"
+      ]
+    },
+    {
+      "id": "judges-additions",
+      "rule": "The rule judges what a change adds; it never asks to change or remove an existing feature.",
+      "ref": [
+        "usability U11"
+      ]
+    }
+  ],
+  "reuse": null,
+  "reuseNote": "Doc-only rule. It ships no component: the overlay surfaces are the overlays guideline's, and usability U11 in anti-slop/criteria.json is the check.",
+  "selfCheck": [
+    {
+      "label": "every overlay opens from an explicit user action on that screen, or from a timer the user set",
+      "verdict": "N/A — per surface"
+    },
+    {
+      "label": "nothing opens on load, scroll, idle, exit intent, sign-in or a first visit, and no overlay announces a feature or asks for a rating, survey or upgrade",
+      "verdict": "N/A — per surface"
+    },
+    {
+      "label": "an overlay opened unasked is one of the two exceptions: obvious damage, or a promotion to a free user past 14 days",
+      "verdict": "N/A — per surface"
+    }
+  ]
+}

@@ -1509,6 +1509,10 @@
         {
           "source": "tokens.canonical.json",
           "use": "the DS tokens and components a screen must reuse (U4); the Nielsen Norman Group heuristics are at https://www.nngroup.com/articles/ten-usability-heuristics/ (U1 to U10); U11 is the AhaSlides interruption rule, not a Nielsen heuristic"
+        },
+        {
+          "source": "guidelines/interruptions.json",
+          "use": "the popups and interruptions rule (U11)"
         }
       ],
       "criteria": [
@@ -1565,7 +1569,7 @@
         {
           "id": "U11",
           "title": "No uninvited popup or popover",
-          "test": "**Rule.** A popup, popover, modal, drawer, toast, coachmark, product tour or announcement opens only as the direct result of an explicit user action on that screen: a click, tap, key press or submit on the thing it belongs to (for a tooltip, a hover or focus on its trigger). Nothing opens by itself: not on page load, on a timer, on scroll, when idle, on exit intent, after sign-in or on a first visit, and never to announce a feature or ask for a rating, survey or upgrade. A timer the user set is their own action: when a slide timer the presenter set runs out and the presenting screen closes submissions and shows Time's up, or a countdown the user started ends, that is the consequence of their setting, not an uninvited popup. The rule judges what a change adds; it never asks to change or remove an existing feature. Put that information where the user will meet it in the page instead. Two exceptions only: (1) information that, if missed, would cause the user obvious damage (unsaved work about to be lost, a session about to expire, a failed payment that will cut access); (2) a promotional popup shown to a free-plan user who signed up more than 14 days ago. **FAIL** on any overlay opened from a mount, load, timer (other than one the user set), scroll, route-change or sign-in handler, or from a first-visit or 'not seen yet' flag, that is neither exception. N/A when the change opens no overlay."
+          "test": "The rule lives in the Popups and interruptions guideline (guidelines/interruptions.json); this checks it. **Rule.** A popup, popover, modal, drawer, toast, coachmark, product tour or announcement opens only as the direct result of an explicit user action on that screen: a click, tap, key press or submit on the thing it belongs to (for a tooltip, a hover or focus on its trigger). Nothing opens by itself: not on page load, on a timer, on scroll, when idle, on exit intent, after sign-in or on a first visit, and never to announce a feature or ask for a rating, survey or upgrade. A timer the user set is their own action: when a slide timer the presenter set runs out and the presenting screen closes submissions and shows Time's up, or a countdown the user started ends, that is the consequence of their setting, not an uninvited popup. The rule judges what a change adds; it never asks to change or remove an existing feature. Put that information where the user will meet it in the page instead. Two exceptions only: (1) information that, if missed, would cause the user obvious damage (unsaved work about to be lost, a session about to expire, a failed payment that will cut access); (2) a promotional popup shown to a free-plan user who signed up more than 14 days ago. **FAIL** on any overlay opened from a mount, load, timer (other than one the user set), scroll, route-change or sign-in handler, or from a first-visit or 'not seen yet' flag, that is neither exception. N/A when the change opens no overlay."
         }
       ]
     },

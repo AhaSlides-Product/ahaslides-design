@@ -114,9 +114,10 @@
     },
     {
       "id": "no-uninvited-overlays",
-      "rule": "Open an overlay (modal, drawer, popover, toast, coachmark) only as the direct result of an explicit user action on that screen, never on load, a timer, scroll, sign-in or a first visit (a timer the user set, such as a slide timer closing submissions with Time's up, is their action); the only exceptions are information whose absence would cause the user obvious damage (unsaved work, an expiring session, a failed payment) and a promotional popup for a free-plan user who signed up over 14 days ago.",
+      "rule": "Open an overlay only as the direct result of an explicit user action, never on load, a timer, scroll, sign-in or a first visit; the exceptions and the rest of the rule are in the Popups and interruptions guideline (guidelines/interruptions.json).",
       "ref": [
-        "usability U11"
+        "usability U11",
+        "guideline interruptions"
       ]
     },
     {
