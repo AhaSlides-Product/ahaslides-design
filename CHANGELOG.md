@@ -27,7 +27,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1142.0 — 2026-11-20
 ### Added
-- New icon `system-headphones` (16 grid, 1.5 stroke, same style as `system-user-headset`), meaning: audio, listening. For the Audio Quiz slide type (#PRNUM)
+- New icon `system-headphones` (16 grid, 1.5 stroke, same style as `system-user-headset`), meaning: audio, listening. For the Audio Quiz slide type (#783)
 
 ## 0.1141.0 — 2026-11-20
 ### Added
