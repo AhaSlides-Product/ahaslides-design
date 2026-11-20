@@ -27,7 +27,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1140.1 — 2026-11-20
 ### Changed
-- Usability U11 and the overlays rule say a timer the user set is their own action: a slide timer that closes submissions and shows Time's up on the presenting screen is not an uninvited popup, and the rule never asks to change an existing feature (#PR)
+- Usability U11 and the overlays rule say a timer the user set is their own action: a slide timer that closes submissions and shows Time's up on the presenting screen is not an uninvited popup, and the rule never asks to change an existing feature (#782)
 
 ## 0.1140.0 — 2026-11-20
 ### Added
