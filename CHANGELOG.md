@@ -25,6 +25,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1142.0 — 2026-11-20
+### Added
+- New icon `system-headphones` (16 grid, 1.5 stroke, same style as `system-user-headset`), meaning: audio, listening. For the Audio Quiz slide type (#PRNUM)
+
 ## 0.1141.0 — 2026-11-20
 ### Added
 - New guideline page "Popups and interruptions": a popup, popover, modal, drawer, toast, coachmark, tour or announcement opens only as the direct result of an explicit user action, never on load, a timer, scroll, idle, exit intent, sign-in or a first visit; a timer the user set (a slide timer closing submissions with Time's up) is their own action; two exceptions (obvious damage; a promotional popup for a free-plan user past 14 days); the rule never asks to change an existing feature. Usability U11 now points to it as its check and the overlays guideline links to it (#782)
