@@ -286,10 +286,10 @@ def render_block(files, surfaces, criteria, usability=False, settings_files=()):
     if usability:
         lines += [
             "",
-            "Usability review (Nielsen Norman Group heuristics, surface `usability`, tier 1): judge U1-U10 "
+            "Usability review (Nielsen Norman Group heuristics, surface `usability`, tier 1): judge U1-U11 (U1-U10 are the Nielsen heuristics, U11 is the AhaSlides no-uninvited-popups rule) "
             "from the diff in the same pass, PASS / FAIL / N/A with one line of evidence each (N/A is "
             "expected on a small edit); fix every FAIL; a FAIL that needs a product decision becomes a "
-            "question to the human. Put the 10-row table in the PR body and one line in the reply.",
+            "question to the human. Put the 11-row table in the PR body and one line in the reply.",
         ]
         flows = flow_files(files)
         if flows:

@@ -124,7 +124,7 @@ class Usability(unittest.TestCase):
 
     def test_with_usability_fills_in_from_the_plugin_copy(self):
         merged = dj.with_usability(CRITERIA)
-        self.assertEqual(len(merged["surfaces"]["usability"]), 10)
+        self.assertEqual(len(merged["surfaces"]["usability"]), 11)
         self.assertNotIn("usability", CRITERIA["surfaces"])
 
     def test_with_usability_keeps_the_package_surface_when_present(self):
@@ -235,6 +235,7 @@ class MainEndToEnd(unittest.TestCase):
         reason = self._card_run("Card.tsx")
         self.assertIn("usability: U1 ", reason)
         self.assertIn("U10 ", reason)
+        self.assertIn("U11 ", reason)
         self.assertIn("Usability review", reason)
         self.assertNotIn("tier 2", reason)
 

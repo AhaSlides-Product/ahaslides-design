@@ -211,10 +211,10 @@ Read the list from the DS each time — surfaces get added.
 ## 4b. Usability review
 
 The anti-slop judge says how the screen looks and is built; the `usability` surface (U1 to U10, one per
-Nielsen Norman Group heuristic) says whether people can use it. Judge it on **every** UI change, in the
+Nielsen Norman Group heuristic, plus U11, the AhaSlides rule that no popup or popover opens uninvited) says whether people can use it. Judge it on **every** UI change, in the
 same pass as §4, with the same PASS / FAIL / N/A report and one line of evidence per row.
 
-1. **Tier 1, every UI change, from the diff.** All ten rows. N/A is expected on a small edit (a
+1. **Tier 1, every UI change, from the diff.** All eleven rows. N/A is expected on a small edit (a
    colour, a label): write N/A with the reason, not a long justification. Costs a few hundred tokens.
 2. **Tier 2, only when the change adds or reshapes a screen, dialog, form or multi-step flow.**
    Judge U1, U3, U5 and U9 from a real screenshot (`fleet-browser`, or the Storybook / DS preview when
@@ -222,8 +222,8 @@ same pass as §4, with the same PASS / FAIL / N/A report and one line of evidenc
    it for copy, colour and spacing edits.
 3. **Fix every FAIL and re-judge.** A FAIL that needs a product decision (a missing confirmation
    step, an undefined error path) goes to the human as a question; do not guess.
-4. **Report.** Put the 10-row table in the PR body and one line in the reply: "Usability review:
-   10/10 pass" (N/A counts as pass), or which rows failed.
+4. **Report.** Put the 11-row table in the PR body and one line in the reply: "Usability review:
+   11/11 pass" (N/A counts as pass), or which rows failed.
 
 The Stop hook adds the surface automatically. `AHA_DESIGN_USABILITY_DISABLE=1` turns off only this
 review and leaves the DS judge on.

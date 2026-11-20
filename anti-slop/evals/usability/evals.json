@@ -129,6 +129,48 @@
         "authored": "ahaslides-design",
         "why": "no plugin usability judge dataset exists"
       }
+    },
+    {
+      "id": 7,
+      "prompt": "Review this change. A React Dashboard screen adds a useEffect with an empty dependency array that, on mount, opens a DS Modal titled \"What's new\" announcing a feature to every user on every visit. The Modal is built from DS components and has a Close button.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets U11",
+      "expected_output": "U11 FAILs: the Modal opens from a mount handler with no user action and is neither exception. Fix: remove the auto-open and put the news in the page, for example a quiet inline banner or a What's new link the user clicks. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "U11": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "no plugin usability judge dataset exists"
+      }
+    },
+    {
+      "id": 8,
+      "prompt": "Review this change. A React Dashboard screen adds a \"What's new\" button; its onClick opens a DS Modal listing the latest features. Nothing opens by itself. It is built from DS components and tokens.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Targets U11",
+      "expected_output": "U11 PASSes: the Modal opens only from the button's onClick. No FAIL. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "U11": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "no plugin usability judge dataset exists"
+      }
     }
   ]
 }
