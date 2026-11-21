@@ -46,3 +46,9 @@ test('description is not shown in picture-card mode or at the upload limit', () 
   assert.doesNotMatch(zoneMarkup({ description: 'PNG', listtype: 'picture-card' }), /description/);
   assert.doesNotMatch(zoneMarkup({ description: 'PNG', maxcount: '1', items: '[{"name":"a.png"}]' }), /class="description"/);
 });
+
+test('size lg renders a 48px icon, default stays 24px', () => {
+  assert.match(zoneMarkup({ size: 'lg' }), /name="system-upload-simple" size="48"/);
+  assert.match(zoneMarkup({}), /name="system-upload-simple" size="24"/);
+  assert.match(zoneMarkup({ size: 'lg', maxcount: '0' }), /aria-disabled="true"><aha-icon name="system-upload-simple" size="48"/);
+});

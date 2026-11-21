@@ -25,6 +25,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1144.0 — 2026-11-21
+
+### Added
+
+- `aha-uploader` `size="lg"`: a larger text-mode drop zone for zones that fill a modal body or large panel (image and audio upload modals). 48px icon, 18px prompt, 16px description, 16px gap and 48/24 padding, all from DS type and spacing tokens; the neutral icon colour and the 4px description gap are kept. The default zone is unchanged (DESY-570, #776).
+
 ## 0.1142.0 — 2026-11-20
 ### Added
 - New icon `system-headphones` (16 grid, 1.5 stroke, same style as `system-user-headset`), meaning: audio, listening. For the Audio Quiz slide type (#783)
