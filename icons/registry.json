@@ -7,7 +7,7 @@
     "slidetype",
     "system"
   ],
-  "count": 418,
+  "count": 419,
   "icons": {
     "brand-canva": {
       "family": "brand",
@@ -4642,6 +4642,22 @@
         "faq",
         "info",
         "unknown"
+      ]
+    },
+    "system-rectangle": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M2.15 3.5H13.85C14.209 3.5 14.5 3.79101 14.5 4.15V11.85C14.5 12.209 14.209 12.5 13.85 12.5H2.15C1.79101 12.5 1.5 12.209 1.5 11.85V4.15C1.5 3.79101 1.79101 3.5 2.15 3.5Z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "rectangle",
+        "box",
+        "box tool",
+        "draw shape",
+        "frame",
+        "wireframe block",
+        "shape",
+        "outline"
       ]
     },
     "system-reddit-logo": {
