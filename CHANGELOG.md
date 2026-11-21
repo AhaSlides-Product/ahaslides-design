@@ -25,6 +25,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1144.0 — 2026-11-21
+### Added
+- New icon `system-circle` (16 grid, 1.5 stroke, same weight and grid as `system-rectangle`), meaning: circle, oval, ellipse, shape, round, draw circle. For the Oval tool in a sketch board toolbar, instead of the dashed circle that reads as pending (#785)
+
 ## 0.1143.0 — 2026-11-21
 ### Added
 - New icon `system-rectangle` (16 grid, 1.5 stroke, rounded corners like `system-square-split-horizontal`), meaning: rectangle, box, draw shape, frame, wireframe block. For the Box tool in a sketch board toolbar (#784)
