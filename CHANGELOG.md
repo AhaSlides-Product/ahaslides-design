@@ -27,7 +27,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1143.0 — 2026-11-21
 ### Added
-- New icon `system-rectangle` (16 grid, 1.5 stroke, rounded corners like `system-square-split-horizontal`), meaning: rectangle, box, draw shape, frame, wireframe block. For the Box tool in a sketch board toolbar (#PRNUM)
+- New icon `system-rectangle` (16 grid, 1.5 stroke, rounded corners like `system-square-split-horizontal`), meaning: rectangle, box, draw shape, frame, wireframe block. For the Box tool in a sketch board toolbar (#784)
 
 ## 0.1142.0 — 2026-11-20
 ### Added
