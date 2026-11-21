@@ -1,0 +1,31 @@
+import '@ahaslides-product/design/aha-audio-player'; // registers <aha-audio-player>
+import { useRef, useEffect } from 'react';
+
+// React 18 needs a thin wrapper for the CustomEvents; React 19 can use <aha-audio-player> directly.
+function AhaAudioPlayer({ src, trackTitle, compact, onPlay, onPause, onEnded, onTimeUpdate, onVolumeChange }) {
+  const ref = useRef();
+  useEffect(() => {
+    const el = ref.current;
+    const handlers = {
+      play: () => onPlay?.(),
+      pause: () => onPause?.(),
+      ended: () => onEnded?.(),
+      timeupdate: (e) => onTimeUpdate?.(e.detail),
+      volumechange: (e) => onVolumeChange?.(e.detail),
+    };
+    Object.entries(handlers).forEach(([type, fn]) => el.addEventListener(type, fn));
+    return () => Object.entries(handlers).forEach(([type, fn]) => el.removeEventListener(type, fn));
+  });
+  return (
+    <aha-audio-player
+      ref={ref}
+      src={src}
+      track-title={trackTitle}
+      {...(compact ? { compact: '' } : {})}
+    />
+  );
+}
+
+// usage: the slide's audio in a 300px editor panel
+<AhaAudioPlayer compact src={audio.url} trackTitle={audio.fileName}
+                onPlay={() => track('slide_audio_preview')} />

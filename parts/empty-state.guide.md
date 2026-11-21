@@ -62,6 +62,7 @@ Import `@ahaslides-product/design/illustrations` to draw these names: `<aha-empt
 | `empty-automation` | no automation rules |
 | `empty-trash` | an empty trash |
 | `empty-files` | no files in a mixed list (My files) |
+| `empty-audio` | no audio tracks (a slide's audio, an audio library) |
 | `empty-folder` | an empty folder, or no folders to choose |
 | `empty-search` | a search or filter with no match, on any list |
 | `empty-shared` | nothing shared with this person |

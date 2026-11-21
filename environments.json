@@ -10,6 +10,7 @@
      "{site}/guidelines/settings/settings.md",
      "{site}/guidelines/app-shell/app-shell.md",
      "{site}/guidelines/overlays/overlays.md",
+     "{site}/guidelines/interruptions/interruptions.md",
      "{site}/guidelines/feedback/feedback.md",
      "{site}/guidelines/ux-writing/ux-writing.md",
      "{site}/guidelines/empty-state/empty-state.md",
@@ -30,6 +31,7 @@
    "route": {
     "guidelines": [
      "{site}/guidelines/audience/audience.md",
+     "{site}/guidelines/interruptions/interruptions.md",
      "{site}/guidelines/canvas/canvas.md",
      "{site}/guidelines/ux-writing/ux-writing.md",
      "{site}/colour-rules.md",
@@ -49,6 +51,7 @@
     "guidelines": [
      "{site}/marketing.llms.txt",
      "{site}/guidelines/website/website.md",
+     "{site}/guidelines/interruptions/interruptions.md",
      "{site}/guidelines.llms.txt",
      "{site}/guidelines/ux-writing/ux-writing.md",
      "{site}/colour-rules.md",

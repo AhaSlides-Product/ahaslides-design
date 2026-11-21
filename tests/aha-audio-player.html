@@ -1,0 +1,30 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../lib/tokens.css">
+<style>body{ margin:40px; width:560px }</style>
+<aha-audio-player id="player" track-title="tone.wav"></aha-audio-player>
+<aha-audio-track id="track" track-title="applause.wav" duration="185"></aha-audio-track>
+<script type="module">
+  import '../lib/aha-audio-player.js';
+  import '../lib/aha-audio-track.js';
+  const rate = 8000, samples = rate * 8;
+  const view = new DataView(new ArrayBuffer(44 + samples * 2));
+  const ascii = (offset, text) => [...text].forEach((c, i) => view.setUint8(offset + i, c.charCodeAt(0)));
+  ascii(0, 'RIFF'); view.setUint32(4, 36 + samples * 2, true); ascii(8, 'WAVEfmt ');
+  view.setUint32(16, 16, true); view.setUint16(20, 1, true); view.setUint16(22, 1, true);
+  view.setUint32(24, rate, true); view.setUint32(28, rate * 2, true); view.setUint16(32, 2, true); view.setUint16(34, 16, true);
+  ascii(36, 'data'); view.setUint32(40, samples * 2, true);
+  window.log = [];
+  const player = document.getElementById('player');
+  for (const type of ['play', 'pause', 'ended', 'volumechange', 'input', 'change']) {
+    player.addEventListener(type, (e) => window.log.push(type === 'volumechange' ? `${type}:${e.detail.volume}:${e.detail.muted}` : type));
+  }
+  for (const type of ['play', 'pause', 'select']) {
+    document.getElementById('track').addEventListener(type, (e) => window.log.push(`track:${type}:${e.detail.trackTitle}`));
+  }
+  const loaded = new Promise((resolve) => player.addEventListener('timeupdate', resolve, { once: true }));
+  player.shadowRoot.querySelector('audio').addEventListener('loadedmetadata', () => { window.metadata = true; }, { once: true });
+  player.src = URL.createObjectURL(new Blob([view], { type: 'audio/wav' }));
+  window.loaded = loaded;
+  window.fixtureReady = true;
+</script>

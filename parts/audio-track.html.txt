@@ -1,0 +1,28 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-audio-track> is the SAME shared custom element React and Vue consume, here in its native form. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-audio-track.js';   // registers <aha-audio-track>
+
+  // the rows play nothing: one shared <audio> plays the preview, one row at a time
+  const list = document.getElementById('tracks');
+  const audio = new Audio();
+  const rows = () => list.querySelectorAll('aha-audio-track');
+  list.addEventListener('play', (e) => {
+    rows().forEach((row) => { if (row !== e.target) row.playing = false; });
+    audio.src = e.target.dataset.src;
+    audio.play();
+  });
+  list.addEventListener('pause', () => audio.pause());
+  audio.addEventListener('ended', () => rows().forEach((row) => { row.playing = false; }));
+  list.addEventListener('select', (e) => {
+    rows().forEach((row) => { if (row !== e.target) row.selected = false; });
+    console.log('chosen', e.detail.trackTitle);
+  });
+</script>
+
+<div id="tracks" style="max-width:480px">
+  <aha-audio-track track-title="intro-music.mp3" duration="185" data-src="https://example.com/media/intro-music.mp3"></aha-audio-track>
+  <aha-audio-track track-title="applause.wav" duration="12" data-src="https://example.com/media/applause.wav" selected></aha-audio-track>
+  <aha-audio-track track-title="drum-roll.mp3" duration="7" data-src="https://example.com/media/drum-roll.mp3"></aha-audio-track>
+</div>

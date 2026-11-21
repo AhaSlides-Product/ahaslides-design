@@ -25,11 +25,50 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1135.0 — 2026-11-18
+## 0.1144.0 — 2026-11-21
 
 ### Added
 
 - `aha-uploader` `size="lg"`: a larger text-mode drop zone for zones that fill a modal body or large panel (image and audio upload modals). 48px icon, 18px prompt, 16px description, 16px gap and 48/24 padding, all from DS type and spacing tokens; the neutral icon colour and the 4px description gap are kept. The default zone is unchanged (DESY-570, #776).
+
+## 0.1142.0 — 2026-11-20
+### Added
+- New icon `system-headphones` (16 grid, 1.5 stroke, same style as `system-user-headset`), meaning: audio, listening. For the Audio Quiz slide type (#783)
+
+## 0.1141.0 — 2026-11-20
+### Added
+- New guideline page "Popups and interruptions": a popup, popover, modal, drawer, toast, coachmark, tour or announcement opens only as the direct result of an explicit user action, never on load, a timer, scroll, idle, exit intent, sign-in or a first visit; a timer the user set (a slide timer closing submissions with Time's up) is their own action; two exceptions (obvious damage; a promotional popup for a free-plan user past 14 days); the rule never asks to change an existing feature. Usability U11 now points to it as its check and the overlays guideline links to it (#782)
+
+## 0.1140.0 — 2026-11-20
+### Added
+- Usability criterion U11, "No uninvited popup or popover", judged on every UI change: an overlay opens only from an explicit user action, never on load, a timer, scroll, sign-in or a first visit, with two exceptions (information whose absence causes obvious damage; a promotional popup for free users past 14 days). Added to the overlays guidelines and the overlay nudge, per product leadership (#781)
+
+## 0.1139.0 — 2026-11-19
+### Added
+- Colour rule 1.2a: the colour standard for house-style 3D icons (five reference icons, body pink with lilac, within ΔE 3.65, lilac at least 3.5%, no other variation); rules 1.1 and 1.2 point to it (#780)
+
+## 0.1138.0 — 2026-11-19
+
+### Added
+- `aha-setting-row`: a `required` attribute puts a neutral `<aha-tag>` "Required" after the label's "?" help (or the locked crown) and sets `aria-required="true"` on the slotted control, removing both when the attribute goes. Replaces a plain-text "Required" line or a bare asterisk; `required-label` sets the tag text for a translated app. The Settings guideline says so (DESY-574, #779)
+
+## 0.1137.1 — 2026-11-19
+
+### Fixed
+- `aha-segmented`: with `block`, every option is now the same width (`flex: 1 1 0`) as the contract says; before, options sized to their label (127, 111 and 108px in the Radar slide type). A segmented control in a stacked `aha-setting-row` now fills the row width (DESY-574, #778)
+
+## 0.1137.0 — 2026-11-18
+
+### Fixed
+- `aha-poll`: `value`, `options` and `counts` set on the element before its tag was defined are now applied when it connects, where they sat as own properties and shadowed the setters. Every form control with a `value` property now does this (the shared `upgrade-properties.js` helper), and a new test fails the build if one is added without it. A page on a release before 0.581.1 still needs the DS upgraded for `aha-counted-textarea` and the other controls. (#773)
+
+## 0.1136.0 — 2026-11-18
+
+### Added
+- `<aha-audio-player>` (`@ahaslides-product/design/aha-audio-player`): play and pause, a seek bar with current and total time, mute and volume around one audio file, built from `<aha-button>` and `<aha-slider>`. `compact`, or any box under 400px, is one 56px row (play, name over time, seek, mute, volume) for a 300px side panel or a table row. Attributes `src`, `track-title`, `compact`, `muted`; events `play`, `pause`, `ended`, `timeupdate` and `volumechange` (with `muted` in the detail). Replaces the native `<audio controls>` (DESY-568, #774)
+- `<aha-audio-track>` (`@ahaslides-product/design/aha-audio-track`): one row of an audio track list in the compact player's layout: a preview play and pause button, the file name over its duration and a check when selected; emits `play`, `pause` and `select`, and the consumer plays the audio (DESY-568, #774)
+- `empty-audio` illustration for "no audio tracks yet": the empty-files document with a music note in place of the text lines; the Empty state guideline lists it (DESY-568, #774)
+
 ## 0.1134.0 — 2026-11-18
 
 ### Added

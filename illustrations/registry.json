@@ -12,12 +12,19 @@
     "state",
     "team"
   ],
-  "count": 60,
+  "count": 61,
   "illustrations": {
     "empty-activity": {
       "family": "empty",
       "viewBox": "0 0 100 84",
       "body": "<rect x=\"14\" y=\"8\" width=\"72\" height=\"62\" rx=\"8\" transform=\"rotate(-5 50 39)\" fill=\"#FACFE1\"/><rect x=\"8\" y=\"16\" width=\"80\" height=\"62\" rx=\"8\" fill=\"#F8B7D2\"/><path d=\"M16 52H30L38 34L50 68L58 46L63 52H80\" stroke=\"#E70E68\" stroke-width=\"5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"79\" cy=\"20\" r=\"15\" fill=\"#E70E68\"/><circle cx=\"79\" cy=\"20\" r=\"8.5\" stroke=\"white\" stroke-width=\"3\"/><path d=\"M79 15.5V20.5L82.5 22.5\" stroke=\"white\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "w": 100,
+      "h": 84
+    },
+    "empty-audio": {
+      "family": "empty",
+      "viewBox": "0 0 100 84",
+      "body": "<rect x=\"20\" y=\"10\" width=\"42\" height=\"58\" rx=\"6\" transform=\"rotate(-13 41 39)\" fill=\"#FACFE1\"/><rect x=\"38\" y=\"10\" width=\"42\" height=\"58\" rx=\"6\" transform=\"rotate(12 59 39)\" fill=\"#F493BB\"/><path d=\"M35 18H58L71 31V72Q71 78 65 78H35Q29 78 29 72V24Q29 18 35 18Z\" fill=\"#F8B7D2\"/><path d=\"M58 18V28Q58 31 61 31H71L58 18Z\" fill=\"#E70E68\"/><path d=\"M45 62V43L61 39V58\" stroke=\"white\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><ellipse cx=\"40.5\" cy=\"62.5\" rx=\"5.5\" ry=\"4.5\" fill=\"white\"/><ellipse cx=\"56.5\" cy=\"58.5\" rx=\"5.5\" ry=\"4.5\" fill=\"white\"/>",
       "w": 100,
       "h": 84
     },

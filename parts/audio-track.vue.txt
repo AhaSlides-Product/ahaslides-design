@@ -1,0 +1,30 @@
+// main.ts: register the element and mark aha-* as custom elements
+import '@ahaslides-product/design/aha-audio-track';   // registers <aha-audio-track>
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+// Vue 2: Vue.config.ignoredElements = [/^aha-/] and add aha-audio-track to the app's DS element list
+
+// ExistingTracks.vue
+<script setup>
+import { ref } from 'vue';
+const props = defineProps({ tracks: Array });
+const selectedId = ref(null);
+const playingId = ref(null);
+const audio = new Audio();
+audio.addEventListener('ended', () => { playingId.value = null; });
+function play(track) { playingId.value = track.id; audio.src = track.url; audio.play(); }
+function pause() { playingId.value = null; audio.pause(); }
+</script>
+
+<template>
+  <aha-audio-track
+    v-for="track in props.tracks"
+    :key="track.id"
+    :track-title="track.fileName"
+    :duration="track.seconds"
+    :selected.prop="track.id === selectedId"
+    :playing.prop="track.id === playingId"
+    @play="play(track)"
+    @pause="pause"
+    @select="selectedId = track.id"
+  />
+</template>
