@@ -27,7 +27,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1144.0 — 2026-11-21
 ### Added
-- New icon `system-circle` (16 grid, 1.5 stroke, same weight and grid as `system-rectangle`), meaning: circle, oval, ellipse, shape, round, draw circle. For the Oval tool in a sketch board toolbar, instead of the dashed circle that reads as pending (#PRNUM)
+- New icon `system-circle` (16 grid, 1.5 stroke, same weight and grid as `system-rectangle`), meaning: circle, oval, ellipse, shape, round, draw circle. For the Oval tool in a sketch board toolbar, instead of the dashed circle that reads as pending (#785)
 
 ## 0.1143.0 — 2026-11-21
 ### Added
