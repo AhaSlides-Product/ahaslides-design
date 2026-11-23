@@ -204,6 +204,12 @@
       "desc": "With colordots: how many deck palette colours to cycle; without it each option takes its own number (n)"
     },
     {
+      "name": "enternext",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Opt-in: Enter in an option moves focus to the question's next option, caret at the end; Enter on the last option stays put (each option row's cancelable enter-next event bubbles out)"
+    },
+    {
       "name": "singlecorrect",
       "type": "boolean",
       "default": "false",

@@ -25,6 +25,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1146.0 — 2026-11-23
+### Added
+- OptionRow `enternext` (opt-in): Enter in the field moves focus to the next option row, caret at the end, and fires a cancelable `enter-next`; Shift+Enter still adds a line in a multiline row, and the last row stays put. QuestionList takes the same `enternext` attribute and passes it to every option row. (#PRNUM)
+
 ## 0.1144.1 — 2026-11-23
 ### Fixed
 - Audience Submit and every primary button on an audience page: the hover glow now takes the deck accent, like the fill, instead of a fixed Vivid Pink. `deckVars()` / `applyDeck()` publish `--aha-button-elevate-primary-hover` from the accent (#786)

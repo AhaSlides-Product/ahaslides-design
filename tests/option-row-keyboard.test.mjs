@@ -105,3 +105,77 @@ test('question list: Backspace on an empty option moves focus to the previous op
     afterPointer: { count: 2, focused: -1 },
   });
 });
+
+async function runEnter(body) {
+  const file = join(mkdtempSync(join(tmpdir(), 'option-row-enter-')), 'page.html');
+  writeFileSync(file, `<!doctype html><body>
+<div id="on"><aha-option-row enternext value="One"></aha-option-row><aha-option-row enternext disabled value="Skip"></aha-option-row><aha-option-row enternext value="Three"></aha-option-row><aha-option-row enternext value="Last"></aha-option-row></div>
+<div id="off"><aha-option-row value="x"></aha-option-row><aha-option-row value="y"></aha-option-row></div>
+<script type="module">import '${lib}'; await customElements.whenDefined('aha-option-row'); await new Promise((r) => requestAnimationFrame(r)); window.ready = true;</script>`);
+  return evaluateInPage(pathToFileURL(file).href, `(() => {
+    const rows = (id) => [...document.querySelectorAll('#' + id + ' aha-option-row')];
+    const area = (r) => r.shadowRoot.querySelector('.field').shadowRoot.querySelector('textarea');
+    const press = (r, init = {}) => {
+      const e = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, composed: true, cancelable: true, ...init });
+      area(r).dispatchEvent(e);
+      return e.defaultPrevented;
+    };
+    const focusedIndex = (id) => rows(id).findIndex((r) => r.shadowRoot.querySelector('.field').shadowRoot.activeElement === area(r));
+    ${body}
+  })()`, { readyExpr: '!!window.ready' });
+}
+
+test('enternext: Enter moves focus to the next enabled row with the caret at the end, skipping a disabled row', { skip }, async () => {
+  const result = await runEnter(`
+    const [one, , three] = rows('on');
+    const seen = []; one.addEventListener('enter-next', (e) => seen.push(e.detail));
+    const prevented = press(one);
+    const t = area(three);
+    return { prevented, seen, focused: focusedIndex('on'), caret: [t.selectionStart, t.selectionEnd, t.value.length], shortcut: area(one).getAttribute('aria-keyshortcuts') };`);
+  assert.deepEqual(result, { prevented: true, seen: [{ source: 'keyboard' }], focused: 2, caret: [5, 5, 5], shortcut: 'Backspace Enter' });
+});
+
+test('enternext is off by default: Enter does nothing special and no event fires', { skip }, async () => {
+  const result = await runEnter(`
+    const [x] = rows('off');
+    let fired = false; x.addEventListener('enter-next', () => { fired = true; });
+    return { prevented: press(x), fired, focused: focusedIndex('off'), shortcut: area(x).getAttribute('aria-keyshortcuts') };`);
+  assert.deepEqual(result, { prevented: false, fired: false, focused: -1, shortcut: 'Backspace' });
+});
+
+test('enternext ignores Shift+Enter, composition, repeat and other modifiers', { skip }, async () => {
+  const result = await runEnter(`
+    const [one] = rows('on');
+    let fired = 0; one.addEventListener('enter-next', () => { fired++; });
+    const out = [{ shiftKey: true }, { isComposing: true }, { repeat: true }, { ctrlKey: true }, { altKey: true }, { metaKey: true }].map((i) => press(one, i));
+    return { out, fired, focused: focusedIndex('on') };`);
+  assert.deepEqual(result, { out: [false, false, false, false, false, false], fired: 0, focused: -1 });
+});
+
+test('enternext on the last row keeps focus and still fires; preventDefault on the event stops the move', { skip }, async () => {
+  const result = await runEnter(`
+    const all = rows('on');
+    const last = all[3];
+    last.focus();
+    let fired = 0; last.addEventListener('enter-next', () => { fired++; });
+    press(last);
+    const afterLast = { fired, focused: focusedIndex('on') };
+    all[0].addEventListener('enter-next', (e) => e.preventDefault());
+    press(all[0]);
+    return { afterLast, afterCancelled: focusedIndex('on') };`);
+  assert.deepEqual(result, { afterLast: { fired: 1, focused: 3 }, afterCancelled: 3 });
+});
+
+test('question list enternext passes through to every option row', { skip }, async () => {
+  const file = join(mkdtempSync(join(tmpdir(), 'option-row-enter-')), 'page.html');
+  writeFileSync(file, `<!doctype html><body>
+<aha-question-list id="list" enternext questions='[{"prompt":"Q","options":[{"text":"A"},{"text":"B"}]}]'></aha-question-list>
+<script type="module">import '${lib}'; await customElements.whenDefined('aha-question-list'); await new Promise((r) => requestAnimationFrame(r)); window.ready = true;</script>`);
+  const result = await evaluateInPage(pathToFileURL(file).href, `(() => {
+    const rows = [...document.getElementById('list').shadowRoot.querySelectorAll('aha-option-row')];
+    const area = (r) => r.shadowRoot.querySelector('.field').shadowRoot.querySelector('textarea');
+    area(rows[0]).dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, composed: true, cancelable: true }));
+    return { all: rows.every((r) => r.hasAttribute('enternext')), focused: rows.findIndex((r) => r.shadowRoot.querySelector('.field').shadowRoot.activeElement === area(r)) };
+  })()`, { readyExpr: '!!window.ready' });
+  assert.deepEqual(result, { all: true, focused: 1 });
+});
