@@ -22,4 +22,5 @@ test('6 and 3-digit hex and rgba() are unchanged', () => {
 
 test('the primary hover glow takes the deck accent, not the brand pink', () => {
   assert.equal(deckVars({ accent: '#3B5BA5' })['--aha-button-elevate-primary-hover'], '0 4px 12px rgba(59,91,165,.32)');
+  assert.equal(deckVars({ accent: 'var(--brand)' })['--aha-button-elevate-primary-hover'], '0 4px 12px color-mix(in srgb, var(--brand) 32%, transparent)');
 });
