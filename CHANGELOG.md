@@ -26,8 +26,8 @@ an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix w
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
 ## 0.1146.0 — 2026-11-23
-### Added
-- OptionRow `enternext` (opt-in): Enter in the field moves focus to the next option row, caret at the end, and fires a cancelable `enter-next`; Shift+Enter still adds a line in a multiline row, and the last row stays put. QuestionList takes the same `enternext` attribute and passes it to every option row. (#787)
+### Changed
+- Behaviour change: OptionRow Enter now moves focus to the next option row (caret at the end) and fires a cancelable `enter-next`, on by default. In multi-line rows Enter no longer inserts a newline; Shift+Enter does. The last row stays put. `enternext="false"` on a row, or on QuestionList for all its rows, restores the old behaviour. (#787)
 
 ## 0.1144.1 — 2026-11-23
 ### Fixed

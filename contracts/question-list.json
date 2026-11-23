@@ -206,8 +206,8 @@
     {
       "name": "enternext",
       "type": "boolean",
-      "default": "false",
-      "desc": "Opt-in: Enter in an option moves focus to the question's next option, caret at the end; Enter on the last option stays put (each option row's cancelable enter-next event bubbles out)"
+      "default": "true",
+      "desc": "On by default; enternext=\"false\" turns it off for every option row. Enter in an option moves focus to the question's next option, caret at the end; Enter on the last option stays put (each option row's cancelable enter-next event bubbles out)"
     },
     {
       "name": "singlecorrect",
