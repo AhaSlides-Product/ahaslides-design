@@ -27,7 +27,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1144.1 — 2026-11-23
 ### Fixed
-- Audience Submit and every primary button on an audience page: the hover glow now takes the deck accent, like the fill, instead of a fixed Vivid Pink. `deckVars()` / `applyDeck()` publish `--aha-button-elevate-primary-hover` from the accent (#PR)
+- Audience Submit and every primary button on an audience page: the hover glow now takes the deck accent, like the fill, instead of a fixed Vivid Pink. `deckVars()` / `applyDeck()` publish `--aha-button-elevate-primary-hover` from the accent (#786)
 
 ## 0.1144.0 — 2026-11-21
 ### Added
