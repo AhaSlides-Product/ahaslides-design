@@ -27,7 +27,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1146.0 — 2026-11-23
 ### Added
-- OptionRow `enternext` (opt-in): Enter in the field moves focus to the next option row, caret at the end, and fires a cancelable `enter-next`; Shift+Enter still adds a line in a multiline row, and the last row stays put. QuestionList takes the same `enternext` attribute and passes it to every option row. (#PRNUM)
+- OptionRow `enternext` (opt-in): Enter in the field moves focus to the next option row, caret at the end, and fires a cancelable `enter-next`; Shift+Enter still adds a line in a multiline row, and the last row stays put. QuestionList takes the same `enternext` attribute and passes it to every option row. (#787)
 
 ## 0.1144.1 — 2026-11-23
 ### Fixed
