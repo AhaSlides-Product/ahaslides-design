@@ -25,6 +25,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1147.0 — 2026-11-24
+
+### Added
+
+- `aha-uploader` `size="lg"`: a larger text-mode drop zone for zones that fill a modal body or large panel (image and audio upload modals). 48px icon, 18px prompt, 16px description, 16px gap and 48/24 padding, all from DS type and spacing tokens; the neutral icon colour and the 4px description gap are kept. The default zone is unchanged (DESY-570, #776).
+
 ## 0.1146.0 — 2026-11-23
 ### Changed
 - Behaviour change: OptionRow Enter now moves focus to the next option row (caret at the end) and fires a cancelable `enter-next`, on by default. In multi-line rows Enter no longer inserts a newline; Shift+Enter does. The last row stays put. `enternext="false"` on a row, or on QuestionList for all its rows, restores the old behaviour. (#787)
