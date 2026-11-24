@@ -107,6 +107,12 @@
       "desc": "With orderable (and not disabled), makes the drag handle a tab stop that reorders by pointer or keyboard — the host wires both and moves the row itself; emits reorder-move / reorder-grab / reorder-activate"
     },
     {
+      "name": "enternext",
+      "type": "boolean",
+      "default": "true",
+      "desc": "On by default; enternext=\"false\" turns it off (like candelete). Enter in the field (no modifier, not composing) never inserts a newline and moves focus to the next enabled aha-option-row sibling, caret at the end of its text; Shift+Enter still adds a line in a multiline row. Fires a cancelable composed enter-next (detail.source \"keyboard\") first, so a host can preventDefault and handle it (on the last row focus stays, so a host can add an option). Declares aria-keyshortcuts Enter"
+    },
+    {
       "name": "correctable",
       "type": "boolean",
       "default": "false",

@@ -21,6 +21,12 @@
   <div class="row" style="display:flex; flex-direction:column; gap:10px; max-width:440px; align-items:stretch">
     <aha-option-row correctable singleline value="A single-line answer" maxlength="80"></aha-option-row>
   </div>
+  <div class="lbl">Enter to next (on by default): Enter moves focus to the next row, caret at the end; the last row stays put; Shift+Enter adds a line; enternext="false" turns it off</div>
+  <div class="row" style="display:flex; flex-direction:column; gap:10px; max-width:440px; align-items:stretch">
+    <aha-option-row orderable value="Paris" maxlength="80"></aha-option-row>
+    <aha-option-row orderable value="London" maxlength="80"></aha-option-row>
+    <aha-option-row orderable enternext="false" value="Rome: Enter-to-next off" maxlength="80"></aha-option-row>
+  </div>
   <div class="lbl">Unordered set</div>
   <div class="row" style="display:flex; flex-direction:column; gap:10px; max-width:440px; align-items:stretch">
     <aha-option-row value="Category A" maxlength="80"></aha-option-row>
