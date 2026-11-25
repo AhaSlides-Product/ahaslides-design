@@ -46,6 +46,7 @@ palette, or a system font stack:
 - `<link rel="stylesheet" href="https://assets-cdn-public.ahaslides.com/ahaslides-design/latest/lib/tokens.css">`
 - `<link rel="stylesheet" href="https://assets-cdn-public.ahaslides.com/ahaslides-design/latest/lib/fonts.css">` (tokens.css only names Plus Jakarta Sans; this file loads it, so the page does not fall back to a system font)
 - `<script type="module" src="https://assets-cdn-public.ahaslides.com/ahaslides-design/latest/lib/all.js"></script>`
+- `<meta name="aha-surface" content="report">` (declares a report page, so the screen lint lets it carry as many accent Stat tiles as it needs, colour rule 3.11)
 - `<style> body { margin: 0; background: var(--aha-bg-container); color: var(--aha-text-default); font: 14px/1.5 var(--aha-font-product); } </style>`
 
 Load from the AhaSlides CDN (`latest`, or a version folder to pin one), not jsDelivr. A name you

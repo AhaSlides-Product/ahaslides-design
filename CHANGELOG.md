@@ -25,6 +25,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1152.0 — 2026-11-25
+### Changed
+- screen-lint: a report page declares itself with `<meta name="aha-surface" content="report">` and may then carry as many accent Stat tiles as it needs (colour rule 3.11); the one-accent-tile limit stays on app screens. The report page head guide lists the line (#794)
+
 ## 0.1151.1 — 2026-11-25
 ### Changed
 - Site navbar: the Products, Solutions, Resources and language menus open 8 px below their menu item (`--aha-space-8`, was 0 px, flush with the item). An invisible strip fills the gap, so a hover-opened menu stays open while the pointer moves from the item into it. The 991 px and below drawer is unchanged (#793)
