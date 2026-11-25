@@ -28,6 +28,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.1151.1 — 2026-11-25
 ### Changed
 - Site navbar: the Products, Solutions, Resources and language menus open 8 px below their menu item (`--aha-space-8`, was 0 px, flush with the item). An invisible strip fills the gap, so a hover-opened menu stays open while the pointer moves from the item into it. The 991 px and below drawer is unchanged (#793)
+- Site navbar: every dropdown entry and every language entry is now a DS Menu row: 36 px minimum height (was 34 px for a text row, 40 px for a row with an app logo), 12 px side padding (was 8 px), a 20 px line (was 1.3) and an 8 px radius (was 4 px). The top-level items were already 36 px (#793)
 
 ## 0.1151.0 — 2026-11-25
 ### Added
