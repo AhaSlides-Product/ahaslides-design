@@ -27,7 +27,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1153.0 — 2026-11-25
 ### Added
-- `<aha-upgrade-mark>` (`@ahaslides-product/design/aha-upgrade-mark`): the paywall's 16px Vivid Pink circle with a white crown as the `slot="icon"` of an `<aha-button>`; inside a primary button it inverts itself to a white circle with a pink crown, `inverse` forces it elsewhere (DESY-594) (#PR)
+- `<aha-upgrade-mark>` (`@ahaslides-product/design/aha-upgrade-mark`): the paywall's 16px Vivid Pink circle with a white crown as the `slot="icon"` of an `<aha-button>`; inside a primary button it inverts itself to a white circle with a pink crown, `inverse` forces it elsewhere (DESY-594) (#796)
 
 ## 0.1152.0 — 2026-11-25
 ### Changed
