@@ -27,9 +27,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1148.0 — 2026-11-25
 ### Changed
-- Site navbar (Marketing > Navigation): menu items take the DS Menu row states. Top links and the language button are 36px tall with 0 12px padding, 14px SemiBold, text-default, 4px apart; hover and open use the hover fill, the current page the accent fill, focus a 2px inset ring; the carets are 12px and follow the text colour; dividers use border-secondary; mega-menu entries fade their fill; the language menu has an 8px padded 1px-bordered large-radius panel with Regular entries (current one accent and SemiBold). The drawer below 992px keeps its row style (#NNN)
+- Site navbar (Marketing > Navigation): menu items take the DS Menu row states. Top links and the language button are 36px tall with 0 12px padding, 14px SemiBold, text-default, 4px apart; hover and open use the hover fill, the current page the accent fill, focus a 2px inset ring; the carets are 12px and follow the text colour; dividers use border-secondary; mega-menu entries fade their fill; the language menu has an 8px padded 1px-bordered large-radius panel with Regular entries (current one accent and SemiBold). The drawer below 992px keeps its row style (#789)
 ### Added
-- Site navbar: a View all integrations entry after MCP Server in the Solutions panel, reusing the `system-plus` icon (#NNN)
+- Site navbar: a View all integrations entry after MCP Server in the Solutions panel, reusing the `system-plus` icon (#789)
 
 ## 0.1146.0 — 2026-11-23
 ### Changed
