@@ -25,6 +25,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1146.1 — 2026-11-25
+### Fixed
+- Every Hero layout title (the page h1) was 32 px on tablet and 24 px on a phone, the same as a section heading. It is now 40 px at 991 px and below and 32 px at 479 px and below, so the h1 stays one step above the h2 at every width. Desktop 48 px and the gallery and page-header titles are unchanged. The website type ramp (W14) and its criterion state the Hero title sizes. (#NNN)
+
 ## 0.1146.0 — 2026-11-23
 ### Changed
 - Behaviour change: OptionRow Enter now moves focus to the next option row (caret at the end) and fires a cancelable `enter-next`, on by default. In multi-line rows Enter no longer inserts a newline; Shift+Enter does. The last row stays put. `enternext="false"` on a row, or on QuestionList for all its rows, restores the old behaviour. (#787)
