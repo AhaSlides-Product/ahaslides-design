@@ -12,7 +12,8 @@
     "The highlighted column is the Pricing Large table's 2 px ink outline with a Recommended <aha-tag>; drop the aha-comparison__col--highlight classes for a neutral table",
     "Phone: two and three columns stay a table (36% feature column, 14 px cells, column descriptions hidden); four and five scroll sideways inside a focusable region with the feature column sticky",
     "Same header (h2 title, lead), Group call-to-action gap, section spacing levels and gutters (64, 24 and 16 px) as the other Marketing sections, ending with one Sign up call to action",
-    "Each section is a container-query block: it steps down at 767 px and tightens again below 480 px, wherever it sits"
+    "Each section is a container-query block: it steps down at 767 px and tightens again below 480 px, wherever it sits",
+    "Scroll-in reveal: with lib/marketing-motion.js on the page the header, the table and the call to action each fade in and slide up 24 px as they scroll into view, 80 ms apart"
   ],
   "layoutsIntro": "Each section is one comparison table. They share one set of class names (aha-comparison), so the base CSS is pasted once; the four and five column layouts add aha-comparison--scroll and one min-width rule.",
   "guidance": {

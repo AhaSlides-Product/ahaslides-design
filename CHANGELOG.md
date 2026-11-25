@@ -25,11 +25,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1150.0 — 2026-11-25
+## 0.1151.0 — 2026-11-25
 ### Added
 - screen-lint: three hard rules for a complete standalone HTML page (a report or dashboard page, a demo), in `lib/screen-lint-document.js`. `ds-not-loaded` fails a page that styles itself but never loads the DS (no tokens.css, all.js or other `lib/` file, no `var(--aha-…)`), naming the report-images guideline and the AhaSlides CDN head lines; a page with a local script or stylesheet entry, an app shell and an email are skipped. Off the slide surfaces, `custom-property-hex` (group `hex`) fails raw hex in a custom property that is not an `--aha-*` token, the private palette the raw-hex rule never read, and `off-ds-font` (group `font`) fails a `font-family` or `font` that names a family without Plus Jakarta Sans. Snippets and component files are not checked. Revert: drop the `documentFindings` loop in `lib/screen-lint.js` (#790)
 - Report images guideline: a "page head" rule, self-check line and guide section with a minimal report page head on the AhaSlides CDN `latest` paths; the `report-image` lint route and the aha-design skill name the new rules (#790)
 - `lib/fonts.css` (`@ahaslides-product/design/fonts.css`): the Plus Jakarta Sans `@font-face` rules (400, 600, relative `../fonts/` URLs, so it works from the CDN and node_modules). tokens.css only names the family, so a page that loaded just tokens.css and all.js still rendered in a system font; the report page head, the `ds-not-loaded` message and the llms.txt line now include it (#790)
+
+## 0.1150.0 — 2026-11-25
+### Added
+- `lib/marketing-motion.js` reveals every section below the hero as it scrolls into view: Comparison (header, table, call to action), Logos (label and strip as one block each, the loop keeps running) and Footer banner (the card as one block) join Features, Numbers, Testimonials, FAQ, Pricing and Cards. The Hero stays still, and so does a Logos strip nested in a Vivid Pink hero (`aha-logos--brand`). A Footer banner with the `--reveal` modifier keeps its own reveal script; the motion script leaves it alone so nothing animates twice. Same once-only, reduced-motion, no-IntersectionObserver and `data-aha-motion="off"` behaviour (#792)
 
 ## 0.1149.2 — 2026-11-25
 ### Fixed
