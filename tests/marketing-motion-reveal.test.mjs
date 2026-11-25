@@ -6,6 +6,7 @@ import { runInNewContext } from 'node:vm';
 const script = readFileSync(new URL('../lib/marketing-motion.js', import.meta.url), 'utf8');
 const readSection = (slug) => JSON.parse(readFileSync(new URL(`../marketing/${slug}.json`, import.meta.url), 'utf8'));
 
+const RAW_TEXT = new Set(['script', 'style']);
 const VOID = new Set(['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'source', 'track', 'wbr']);
 
 class Element {
@@ -86,8 +87,16 @@ class Element {
 const parse = (html) => {
   const root = new Element('', {}, null);
   let current = root;
-  const markup = html.replace(/<script\b[\s\S]*?<\/script>/g, '');
-  for (const [, closing, tag, rest] of markup.matchAll(/<(\/?)([a-z][\w-]*)([^>]*)>/gi)) {
+  const lower = html.toLowerCase();
+  const tags = /<(\/?)([a-z][\w-]*)([^>]*)>/gi;
+  for (let match = tags.exec(html); match; match = tags.exec(html)) {
+    const [, closing, tag, rest] = match;
+    if (!closing && RAW_TEXT.has(tag.toLowerCase())) {
+      const end = lower.indexOf(`</${tag.toLowerCase()}`, tags.lastIndex);
+      tags.lastIndex = end === -1 ? html.length : end;
+      continue;
+    }
+    if (closing && RAW_TEXT.has(tag.toLowerCase())) continue;
     if (closing) {
       while (current !== root && current.tag !== tag.toLowerCase()) current = current.parent;
       if (current !== root) current = current.parent;
