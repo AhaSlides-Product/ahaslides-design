@@ -44,6 +44,7 @@ elements; never a palette of your own in raw hex custom properties (`--ink: <hex
 palette, or a system font stack:
 
 - `<link rel="stylesheet" href="https://assets-cdn-public.ahaslides.com/ahaslides-design/latest/lib/tokens.css">`
+- `<link rel="stylesheet" href="https://assets-cdn-public.ahaslides.com/ahaslides-design/latest/lib/fonts.css">` (tokens.css only names Plus Jakarta Sans; this file loads it, so the page does not fall back to a system font)
 - `<script type="module" src="https://assets-cdn-public.ahaslides.com/ahaslides-design/latest/lib/all.js"></script>`
 - `<style> body { margin: 0; background: var(--aha-bg-container); color: var(--aha-text-default); font: 14px/1.5 var(--aha-font-product); } </style>`
 
@@ -214,7 +215,7 @@ drawn by hand.
 
 ## Before you post or publish
 
-- Page: the DS head (tokens.css and all.js from the AhaSlides CDN), colours and font from the tokens, `screen-lint.mjs --surface=product` clean
+- Page: the DS head (tokens.css, fonts.css and all.js from the AhaSlides CDN), colours and font from the tokens, `screen-lint.mjs --surface=product` clean
 - Image: 2x export, text at least 12 px at 1x, white background, under 1 MB
 - Page: white, reflows from 360 px with no horizontal scroll, checked at 390 and 1280 px
 - Plus Jakarta Sans 400 and 600 only; a fallback font for any script in the data

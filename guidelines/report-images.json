@@ -116,7 +116,7 @@
     },
     {
       "id": "page-head",
-      "rule": "A report page loads the DS in its head (lib/tokens.css and lib/all.js from the AhaSlides CDN, https://assets-cdn-public.ahaslides.com/ahaslides-design/latest/lib/) and takes every colour and its font from the --aha-* tokens: no private palette in raw hex custom properties, no dark-mode palette, no system font stack. screen-lint fails all three (ds-not-loaded, custom-property-hex, off-ds-font).",
+      "rule": "A report page loads the DS in its head (lib/tokens.css, lib/fonts.css and lib/all.js from the AhaSlides CDN, https://assets-cdn-public.ahaslides.com/ahaslides-design/latest/lib/) and takes every colour and its font from the --aha-* tokens: no private palette in raw hex custom properties, no dark-mode palette, no system font stack. screen-lint fails all three (ds-not-loaded, custom-property-hex, off-ds-font).",
       "ref": [
         "C2"
       ]
@@ -201,7 +201,7 @@
   ],
   "selfCheck": [
     {
-      "label": "page: DS head (tokens.css and all.js from the AhaSlides CDN), colours and font from the tokens, screen-lint clean",
+      "label": "page: DS head (tokens.css, fonts.css and all.js from the AhaSlides CDN), colours and font from the tokens, screen-lint clean",
       "verdict": "N/A — per report"
     },
     {

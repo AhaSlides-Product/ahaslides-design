@@ -254,6 +254,7 @@
     "./datepicker-theme": "./lib/datepicker-theme.js",
     "./tokens": "./lib/tokens.js",
     "./tokens.css": "./lib/tokens.css",
+    "./fonts.css": "./lib/fonts.css",
     "./package.json": "./package.json",
     "./aha-radio": "./lib/aha-radio.js",
     "./input-number-theme": "./lib/input-number-theme.js",

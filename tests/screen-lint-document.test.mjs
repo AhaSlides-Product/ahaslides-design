@@ -30,6 +30,7 @@ test('a hand-rolled report page fails all three: no DS load, a private hex palet
   assert.match(notLoaded.message, /report-images\/report-images\.md/);
   assert.match(notLoaded.message, /assets-cdn-public\.ahaslides\.com\/ahaslides-design\/latest\/lib\/tokens\.css/);
   assert.match(notLoaded.message, /latest\/lib\/all\.js/);
+  assert.match(notLoaded.message, /latest\/lib\/fonts\.css/);
 });
 
 test('the same page on the DS head, aliasing tokens and the DS font, passes', () => {
