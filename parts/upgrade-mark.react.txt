@@ -1,0 +1,11 @@
+import '@ahaslides-product/design/aha-button';
+import '@ahaslides-product/design/aha-upgrade-mark';
+
+export function LockedAction() {
+  return (
+    <aha-button variant="secondary">
+      <aha-upgrade-mark slot="icon" />
+      Add slide
+    </aha-button>
+  );
+}

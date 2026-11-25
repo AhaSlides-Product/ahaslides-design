@@ -25,6 +25,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1153.0 — 2026-11-25
+### Added
+- `<aha-upgrade-mark>` (`@ahaslides-product/design/aha-upgrade-mark`): the paywall's 16px Vivid Pink circle with a white crown as the `slot="icon"` of an `<aha-button>`; inside a primary button it inverts itself to a white circle with a pink crown, `inverse` forces it elsewhere (DESY-594) (#PR)
+
 ## 0.1152.0 — 2026-11-25
 ### Changed
 - screen-lint: a report page declares itself with `<meta name="aha-surface" content="report">` and may then carry as many accent Stat tiles as it needs (colour rule 3.11); the one-accent-tile limit stays on app screens. The report page head guide lists the line (#794)
