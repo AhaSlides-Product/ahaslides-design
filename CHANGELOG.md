@@ -31,6 +31,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Report images guideline: a "page head" rule, self-check line and guide section with a minimal report page head on the AhaSlides CDN `latest` paths; the `report-image` lint route and the aha-design skill name the new rules (#790)
 - `lib/fonts.css` (`@ahaslides-product/design/fonts.css`): the Plus Jakarta Sans `@font-face` rules (400, 600, relative `../fonts/` URLs, so it works from the CDN and node_modules). tokens.css only names the family, so a page that loaded just tokens.css and all.js still rendered in a system font; the report page head, the `ds-not-loaded` message and the llms.txt line now include it (#790)
 
+## 0.1149.2 — 2026-11-25
+### Fixed
+- Every Hero layout title (the page h1) was 32 px on tablet and 24 px on a phone, the same as a section heading. It is now 40 px at 991 px and below and 32 px at 479 px and below, so the h1 stays one step above the h2 at every width. Desktop 48 px and the gallery and page-header titles are unchanged. The website type ramp (W14) and its criterion state the Hero title sizes. (#788)
+
 ## 0.1149.1 — 2026-11-25
 ### Fixed
 - Site navbar: View all integrations links to `https://ahaslides.com/marketplace/`, the page live headers already use (`/integrations/` redirects there) (#791)
