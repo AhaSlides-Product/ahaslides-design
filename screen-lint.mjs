@@ -49,6 +49,19 @@
  * row, in a file whose other buttons set a size, or icon-only (header and toolbar actions are size="md", app-shell C7).
  * --surface=product also hard-fails stat-tile-accent: a second <aha-stat-tile look="accent"> in one file (the accent look is the emphasis look, at most one per screen, colour rules 3.7 and 6.8).
  *
+ * A complete standalone HTML page (it has a doctype, <html> or <head>: a report or dashboard page, a demo)
+ * gets three more hard rules (lib/screen-lint-document.js). ds-not-loaded, on every surface: a page that styles
+ * itself but never loads the DS (no tokens.css, variables.css, all.js or other lib/ file from the AhaSlides CDN,
+ * jsDelivr or @ahaslides-product/design, and no var(--aha-…)); the finding sits on the <head> line and names the
+ * report-images guideline and the two AhaSlides CDN head lines (…/ahaslides-design/latest/lib/tokens.css and
+ * lib/all.js). A page with a local script or stylesheet entry, an app shell (an empty #app or #root mount, a
+ * build template) and an email are skipped, since their DS arrives from a bundle or cannot arrive at all.
+ * Off the slide surfaces, two more: custom-property-hex, raw hex declared as a custom property that is not an
+ * --aha-* token (--ink: #1d1d1f; the raw-hex rule never reads custom properties, so a private palette passed it),
+ * in group hex; and off-ds-font, a font-family or font shorthand that names a family without Plus Jakarta Sans
+ * (a system stack, Inter, Roboto; var(--aha-font-product), monospace and @font-face are fine), in group font.
+ * A snippet or component file is not a standalone page and is never checked by these three.
+ *
  * UX writing: on every surface, four hard rules read the user-visible UI strings only (HTML text nodes,
  * the title, aria-label, aria-description, placeholder, alt, label and heading attributes, and string literals
  * under UI-text keys in scripts; never comments, CSS, URLs, identifiers, <code>, <pre> or <kbd>):
