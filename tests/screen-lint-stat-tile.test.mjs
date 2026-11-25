@@ -34,3 +34,22 @@ test('an accent tile inside an HTML comment does not count, single or multi-line
   assert.equal(hits(`<!--\n${tile('accent')}\n-->\n${tile('accent')}`).length, 0);
   assert.deepEqual(hits(`<!-- ${tile('accent')} -->\n${tile('accent')}\n${tile('accent')}`).map((f) => f.line), [3]);
 });
+
+const three = [tile('accent'), tile('accent'), tile('accent')].join('\n');
+const metaReport = '<meta name="aha-surface" content="report">';
+
+test('a page with the report surface meta may carry any number of accent tiles', () => {
+  assert.equal(hits(`<head>${metaReport}</head>\n${three}`).length, 0);
+});
+
+test('the same page without the meta still fails the second and third accent tile', () => {
+  assert.equal(hits(`<head></head>\n${three}`).length, 2);
+});
+
+test('the report meta inside an HTML comment does not exempt the page', () => {
+  assert.equal(hits(`<!-- ${metaReport} -->\n${three}`).length, 2);
+});
+
+test('the report meta works with its attributes in either order', () => {
+  assert.equal(hits(`<META CONTENT='report' NAME='aha-surface'>\n${three}`).length, 0);
+});

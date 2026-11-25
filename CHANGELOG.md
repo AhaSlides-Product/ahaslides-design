@@ -25,6 +25,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1152.0 — 2026-11-25
+### Changed
+- screen-lint: a report page declares itself with `<meta name="aha-surface" content="report">` and may then carry as many accent Stat tiles as it needs (colour rule 3.11); the one-accent-tile limit stays on app screens. The report page head guide lists the line (#NNN)
+
 ## 0.1151.0 — 2026-11-25
 ### Added
 - screen-lint: three hard rules for a complete standalone HTML page (a report or dashboard page, a demo), in `lib/screen-lint-document.js`. `ds-not-loaded` fails a page that styles itself but never loads the DS (no tokens.css, all.js or other `lib/` file, no `var(--aha-…)`), naming the report-images guideline and the AhaSlides CDN head lines; a page with a local script or stylesheet entry, an app shell and an email are skipped. Off the slide surfaces, `custom-property-hex` (group `hex`) fails raw hex in a custom property that is not an `--aha-*` token, the private palette the raw-hex rule never read, and `off-ds-font` (group `font`) fails a `font-family` or `font` that names a family without Plus Jakarta Sans. Snippets and component files are not checked. Revert: drop the `documentFindings` loop in `lib/screen-lint.js` (#790)
