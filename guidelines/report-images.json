@@ -115,6 +115,13 @@
       ]
     },
     {
+      "id": "page-head",
+      "rule": "A report page loads the DS in its head (lib/tokens.css, lib/fonts.css and lib/all.js from the AhaSlides CDN, https://assets-cdn-public.ahaslides.com/ahaslides-design/latest/lib/) and takes every colour and its font from the --aha-* tokens: no private palette in raw hex custom properties, no dark-mode palette, no system font stack. screen-lint fails all three (ds-not-loaded, custom-property-hex, off-ds-font).",
+      "ref": [
+        "C2"
+      ]
+    },
+    {
       "id": "series-order",
       "rule": "Colour series in the chart order (Vivid Pink, Vivid Pink at 30%, dark grey #303030, light grey #A8A8A8), the main series first. A breakdown with more than four parts shows the top three by value and folds the rest into Other, in light grey and last. Never more than four colours.",
       "ref": [
@@ -193,6 +200,10 @@
     }
   ],
   "selfCheck": [
+    {
+      "label": "page: DS head (tokens.css, fonts.css and all.js from the AhaSlides CDN), colours and font from the tokens, screen-lint clean",
+      "verdict": "N/A — per report"
+    },
     {
       "label": "image: 2x export, text at least 12 px at 1x, white background, under 1 MB; page: reflows from 360 px with no horizontal scroll",
       "verdict": "N/A — per report"

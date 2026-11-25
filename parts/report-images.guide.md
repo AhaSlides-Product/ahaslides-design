@@ -36,6 +36,23 @@ Reports are their own environment in the colour rules, `report-image` (Reports: 
 
 On a screen of the product app the same pale pink is not free: the live `<aha-stat-tile>` is white (`look="plain"`) by default, and `look="accent"` is for the one highlighted panel rule 3.7 allows. On a report page every plate is `look="accent"`.
 
+## The page head: load the DS
+
+A report page is a standalone HTML document, so it loads the DS itself. Put these lines in its
+`<head>`, after the charset, viewport and title, and style with the `--aha-*` tokens and `<aha-*>`
+elements; never a palette of your own in raw hex custom properties (`--ink: <hex>`), a dark-mode
+palette, or a system font stack:
+
+- `<link rel="stylesheet" href="https://assets-cdn-public.ahaslides.com/ahaslides-design/latest/lib/tokens.css">`
+- `<link rel="stylesheet" href="https://assets-cdn-public.ahaslides.com/ahaslides-design/latest/lib/fonts.css">` (tokens.css only names Plus Jakarta Sans; this file loads it, so the page does not fall back to a system font)
+- `<script type="module" src="https://assets-cdn-public.ahaslides.com/ahaslides-design/latest/lib/all.js"></script>`
+- `<style> body { margin: 0; background: var(--aha-bg-container); color: var(--aha-text-default); font: 14px/1.5 var(--aha-font-product); } </style>`
+
+Load from the AhaSlides CDN (`latest`, or a version folder to pin one), not jsDelivr. A name you
+want for a colour aliases a token (`--ink: var(--aha-text-default)`). `screen-lint.mjs --surface=product`
+fails a standalone page that never loads the DS (`ds-not-loaded`), raw hex in a custom property
+(`custom-property-hex`) and a font without Plus Jakarta Sans (`off-ds-font`).
+
 ## Size and density (C1)
 
 ### Report images
@@ -198,6 +215,7 @@ drawn by hand.
 
 ## Before you post or publish
 
+- Page: the DS head (tokens.css, fonts.css and all.js from the AhaSlides CDN), colours and font from the tokens, `screen-lint.mjs --surface=product` clean
 - Image: 2x export, text at least 12 px at 1x, white background, under 1 MB
 - Page: white, reflows from 360 px with no horizontal scroll, checked at 390 and 1280 px
 - Plus Jakarta Sans 400 and 600 only; a fallback font for any script in the data
