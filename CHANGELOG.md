@@ -27,7 +27,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1149.1 — 2026-11-25
 ### Fixed
-- Site navbar: View all integrations links to `https://ahaslides.com/marketplace/`, the page live headers already use (`/integrations/` redirects there) (#NNN)
+- Site navbar: View all integrations links to `https://ahaslides.com/marketplace/`, the page live headers already use (`/integrations/` redirects there) (#791)
 
 ## 0.1148.0 — 2026-11-25
 ### Changed
