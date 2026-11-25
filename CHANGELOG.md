@@ -25,9 +25,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1146.1 — 2026-11-25
+## 0.1148.1 — 2026-11-25
 ### Fixed
 - Every Hero layout title (the page h1) was 32 px on tablet and 24 px on a phone, the same as a section heading. It is now 40 px at 991 px and below and 32 px at 479 px and below, so the h1 stays one step above the h2 at every width. Desktop 48 px and the gallery and page-header titles are unchanged. The website type ramp (W14) and its criterion state the Hero title sizes. (#788)
+
+## 0.1148.0 — 2026-11-25
+### Changed
+- Site navbar (Marketing > Navigation): menu items take the DS Menu row states. Top links and the language button are 36px tall with 0 12px padding, 14px SemiBold, text-default, 4px apart; hover and open use the hover fill, the current page the accent fill, focus a 2px inset ring; the carets are 12px and follow the text colour; dividers use border-secondary; mega-menu entries fade their fill; the language menu has an 8px padded 1px-bordered large-radius panel with Regular entries (current one accent and SemiBold). The drawer below 992px keeps its row style (#789)
+### Added
+- Site navbar: a View all integrations entry after MCP Server in the Solutions panel, reusing the `system-plus` icon (#789)
 
 ## 0.1146.0 — 2026-11-23
 ### Changed
