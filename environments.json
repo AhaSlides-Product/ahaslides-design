@@ -117,7 +117,7 @@
      "{site}/stat-tile/index.html"
     ],
     "judge": "{site}/anti-slop.md (surfaces report-images, charts and colour; an image is judged on the rendered PNG, a report page on its screenshot at 390 and 1280 px)",
-    "lint": "an image has nothing mechanical: judge the rendered PNG on the report-images criteria; a report page, and any HTML screenshotted into an image, runs node node_modules/@ahaslides-product/design/screen-lint.mjs --surface=product <files>",
+    "lint": "an image has nothing mechanical: judge the rendered PNG on the report-images criteria; a report page, and any HTML screenshotted into an image, runs node node_modules/@ahaslides-product/design/screen-lint.mjs --surface=product <files> (a report page must load the DS head: ds-not-loaded, custom-property-hex and off-ds-font fail a page with its own palette or font)",
     "plugin": "ahaslides-design:aha-design",
     "owner": "Design system team (#design-system-agents)"
    }

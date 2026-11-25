@@ -111,6 +111,11 @@ Read the list from the DS each time — surfaces get added.
    hand-roll a look-alike. Status takes no hue: error text stays the default ink in
    `<aha-field-error>` or `<aha-alert type="error">`, never a `text-red-*` or other status-hue
    utility class (the `status-hue-class` lint, colour rules 7.1 and 7.2).
+   A standalone HTML page (a report or dashboard page a routine publishes, a demo) loads the DS
+   in its `<head>` (`https://assets-cdn-public.ahaslides.com/ahaslides-design/latest/lib/tokens.css`
+   and `lib/all.js`) and takes every colour and its font from the tokens: no private palette of
+   raw hex custom properties, no system font stack (the `ds-not-loaded`, `custom-property-hex` and
+   `off-ds-font` lints).
 4. Every logo (the AhaSlides logo / The Splash, or a third-party brand such as Google, Zoom or
    Microsoft) comes from the DS: the AhaSlides logo from the Logo library
    (`https://design.ahaslides.io/foundations/logo.html`), a third-party brand from the Brand icons in
