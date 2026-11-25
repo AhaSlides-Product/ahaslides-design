@@ -81,9 +81,9 @@
   "preview": "upgrade-mark.preview.html",
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
-    "ready": "!!(document.querySelector('aha-upgrade-mark') && document.querySelector('aha-upgrade-mark').shadowRoot)",
+    "ready": "!!(document.querySelector('aha-upgrade-mark[data-probe]') && document.querySelector('aha-upgrade-mark[data-probe]').shadowRoot)",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-upgrade-mark');if(!el)return{};var s=getComputedStyle(el);return{bg:s.backgroundColor,fg:s.color,height:s.height,width:s.width};})()",
+    "measure": "(function(){var el=document.querySelector('aha-upgrade-mark[data-probe]');if(!el)return{};var s=getComputedStyle(el);return{bg:s.backgroundColor,fg:s.color,height:s.height,width:s.width};})()",
     "expect": {
       "bg": "rgb(231, 14, 104)",
       "fg": "rgb(255, 255, 255)",
