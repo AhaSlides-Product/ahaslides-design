@@ -2,6 +2,7 @@
    Load lib/tokens.css first, then paste the section HTML with no <style> block. */
 /* Navigation (marketing/navigation.json) */
 .aha-header{
+  --aha-header-panel-gap:var(--aha-space-8);
   container:aha-header / inline-size;
   position:sticky;top:0;z-index:10;overflow-x:clip;
   font-family:var(--aha-font-product);
@@ -61,6 +62,7 @@
 .aha-header__item.is-open .aha-header__chevron{transform:rotate(180deg)}
 .aha-header__panel{
   position:absolute;top:100%;z-index:2;
+  margin-top:var(--aha-header-panel-gap);
   inset-inline-start:calc(-1 * (var(--aha-space-96) + var(--aha-space-32)));
   display:flex;gap:var(--aha-space-16);
   padding:var(--aha-space-20);
@@ -72,6 +74,8 @@
   transform:translateY(calc(-1 * var(--aha-space-32)));
   transition:opacity var(--aha-motion-slow) var(--aha-ease-out),visibility 0s linear var(--aha-motion-slow),transform 0s linear var(--aha-motion-slow);
 }
+/* Bridges the gap so the pointer can travel from the item into the panel without a pointerleave. */
+.aha-header__panel::before{content:"";position:absolute;inset-inline:0;bottom:100%;height:calc(var(--aha-header-panel-gap) + 1px)}
 .aha-header__item.is-open>.aha-header__panel{
   visibility:visible;opacity:1;pointer-events:auto;transform:none;
   transition:opacity var(--aha-motion-mid) var(--aha-ease-out),transform var(--aha-motion-mid) var(--aha-ease-out),visibility 0s;
@@ -104,9 +108,10 @@
 }
 .aha-header__entry{
   display:flex;align-items:center;gap:var(--aha-space-8);
-  padding:var(--aha-space-8);
-  border-radius:var(--aha-radius-xs);
-  font-size:var(--aha-size-default);font-weight:var(--aha-weight-regular);line-height:1.3;
+  min-height:var(--aha-space-36);
+  padding:var(--aha-space-6) var(--aha-space-12);
+  border-radius:var(--aha-radius-default);
+  font-size:var(--aha-size-default);font-weight:var(--aha-weight-regular);line-height:var(--aha-space-20);
   color:var(--aha-text-default);
   transition:background-color var(--aha-motion-fast) var(--aha-ease-out);
 }
@@ -139,6 +144,7 @@
 .aha-header__languages{
   display:none;
   position:absolute;top:100%;inset-inline-start:0;z-index:2;
+  margin-top:var(--aha-header-panel-gap);
   min-width:128px;
   padding:var(--aha-space-8);
   background:var(--aha-bg-elevated);
@@ -148,10 +154,11 @@
 }
 .aha-header__item.is-open>.aha-header__languages{display:block}
 .aha-header__language-entry{
-  display:flex;
-  padding:var(--aha-space-8);
-  border-radius:var(--aha-radius-xs);
-  font-size:var(--aha-size-default);font-weight:var(--aha-weight-regular);line-height:1.3;
+  display:flex;align-items:center;
+  min-height:var(--aha-space-36);
+  padding:var(--aha-space-6) var(--aha-space-12);
+  border-radius:var(--aha-radius-default);
+  font-size:var(--aha-size-default);font-weight:var(--aha-weight-regular);line-height:var(--aha-space-20);
   color:var(--aha-text-default);
   transition:background-color var(--aha-motion-fast) var(--aha-ease-out);
 }
@@ -186,9 +193,10 @@
   .aha-header__chevron{color:var(--aha-icon-muted)}
   .aha-header__panel{
     position:static;display:none;flex-direction:column;gap:var(--aha-space-28);
-    width:auto;padding:0;border:0;border-radius:0;box-shadow:none;
+    width:auto;margin-top:0;padding:0;border:0;border-radius:0;box-shadow:none;
     visibility:visible;opacity:1;pointer-events:auto;transform:none;transition:none;
   }
+  .aha-header__panel::before{display:none}
   .aha-header__item.is-open>.aha-header__panel{display:flex;animation:aha-header-drop var(--aha-motion-slow) var(--aha-ease-out)}
   .aha-header__section,.aha-header__section--slides{width:auto}
   .aha-header__divider,.aha-header__preview{display:none}
