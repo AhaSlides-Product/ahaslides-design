@@ -25,6 +25,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1150.1 — 2026-11-25
+### Changed
+- Site navbar: the Products, Solutions, Resources and language menus open 8 px below their menu item (`--aha-space-8`, was 0 px, flush with the item). An invisible strip fills the gap, so a hover-opened menu stays open while the pointer moves from the item into it. The 991 px and below drawer is unchanged (#PRNUM)
+
 ## 0.1150.0 — 2026-11-25
 ### Added
 - `lib/marketing-motion.js` reveals every section below the hero as it scrolls into view: Comparison (header, table, call to action), Logos (label and strip as one block each, the loop keeps running) and Footer banner (the card as one block) join Features, Numbers, Testimonials, FAQ, Pricing and Cards. The Hero stays still, and so does a Logos strip nested in a Vivid Pink hero (`aha-logos--brand`). A Footer banner with the `--reveal` modifier keeps its own reveal script; the motion script leaves it alone so nothing animates twice. Same once-only, reduced-motion, no-IntersectionObserver and `data-aha-motion="off"` behaviour (#792)
