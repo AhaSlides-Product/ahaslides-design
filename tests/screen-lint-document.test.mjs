@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { lintHtml } from '../lib/screen-lint.js';
+import { documentFindings } from '../lib/screen-lint-document.js';
 
 const RULES = ['ds-not-loaded', 'custom-property-hex', 'off-ds-font'];
 const hits = (source, surface = 'product') =>
@@ -70,4 +71,40 @@ test('each rule honours its ds-lint-allow marker, and the hex and font groups co
 
 test('on a slide surface only the DS-load rule runs: the deck owns colour and font there', () => {
   assert.deepEqual(hits(HAND_ROLLED, 'canvas'), [['ds-not-loaded', 3, 'hard']]);
+});
+
+test('a font stack led by a DS font token passes, even with fallbacks after it; one led by another family fails', () => {
+  const head = `\n<link rel="stylesheet" href="${CDN}/tokens.css">`;
+  for (const css of [
+    'p { font-family: var(--aha-font-product), "Noto Sans", sans-serif; }',
+    'p { font: 600 15px/1.5 var(--aha-font-product), "Noto Sans", sans-serif; }',
+  ]) assert.deepEqual(hits(page({ head, css })), [], css);
+  for (const css of [
+    'p { font-family: Arial, var(--aha-font-product); }',
+    'p { font: 15px/1.5 Arial, var(--aha-font-product); }',
+  ]) assert.deepEqual(hits(page({ head, css })), [['off-ds-font', 7, 'hard']], css);
+});
+
+test('a page with <html> but no <head> or doctype reports ds-not-loaded on the <html> line', () => {
+  assert.deepEqual(hits('\n\n<html><body><style>p { margin: 0 }</style></body></html>'), [['ds-not-loaded', 3, 'hard']]);
+});
+
+test('the document rules stay linear on adversarial input', () => {
+  const N = 20000;
+  const start = '<!doctype html><head><style>a{}</style>';
+  for (const input of [
+    start + '<link stylesheet '.repeat(N),
+    start + '<script '.repeat(N),
+    start + '<div id="app" '.repeat(N),
+    start + '<table '.repeat(N),
+    start + ' from "'.repeat(N),
+    start + ' style="'.repeat(N),
+    '<!doctype html>' + '<style>'.repeat(N) + '</style>',
+    '<!doctype html><style>' + '@font-face{}p{font-family:Arial}'.repeat(N) + '</style>',
+    '<!doctype html><style>' + '--a:#fff;\n'.repeat(N) + '</style>',
+  ]) {
+    const started = performance.now();
+    documentFindings(input);
+    assert.ok(performance.now() - started < 500, input.slice(0, 60));
+  }
 });
