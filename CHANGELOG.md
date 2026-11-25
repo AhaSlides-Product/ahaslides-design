@@ -25,6 +25,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1152.1 — 2026-11-25
+### Changed
+- Site navbar: the Products, Solutions, Resources and language menus share one spacing set from the DS Menu (vertical popover): 6 px frame padding (was 20 px for the three mega-menus, 8 px for the language menu), a column title 8 px above and 4 px below its rows with its text in line with the row text (was 0 px above and below and 4 px left of the row text), 2 px between columns, grid columns and sections (was 16 px between Products columns and Solutions sections, 0 px between grid columns), and a column divider 4 px either side and 8 px short of the top and bottom (was full height). Products narrows to 914 px (was 988 px) so the preview keeps its 348 px with no empty strip. Rows stay 36 px and the menus still open 8 px below the item; the 991 px and below drawer keeps its own spacing, and its column titles now line up with the rows (#PR)
+
 ## 0.1151.1 — 2026-11-25
 ### Changed
 - Site navbar: the Products, Solutions, Resources and language menus open 8 px below their menu item (`--aha-space-8`, was 0 px, flush with the item). An invisible strip fills the gap, so a hover-opened menu stays open while the pointer moves from the item into it. The 991 px and below drawer is unchanged (#793)

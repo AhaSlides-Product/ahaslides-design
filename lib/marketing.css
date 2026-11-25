@@ -1993,6 +1993,8 @@ a.aha-footer__heading:hover{color:var(--aha-color-primary)}
 /* Navigation (marketing/navigation.json) */
 .aha-header{
   --aha-header-panel-gap:var(--aha-space-8);
+  --aha-header-menu-padding:var(--aha-space-6);
+  --aha-header-menu-gap:var(--aha-space-2);
   container:aha-header / inline-size;
   position:sticky;top:0;z-index:10;overflow-x:clip;
   font-family:var(--aha-font-product);
@@ -2054,8 +2056,8 @@ a.aha-footer__heading:hover{color:var(--aha-color-primary)}
   position:absolute;top:100%;z-index:2;
   margin-top:var(--aha-header-panel-gap);
   inset-inline-start:calc(-1 * (var(--aha-space-96) + var(--aha-space-32)));
-  display:flex;gap:var(--aha-space-16);
-  padding:var(--aha-space-20);
+  display:flex;gap:var(--aha-header-menu-gap);
+  padding:var(--aha-header-menu-padding);
   background:var(--aha-bg-elevated);
   border:1px solid var(--aha-border-default);
   border-radius:var(--aha-radius-lg);
@@ -2070,12 +2072,12 @@ a.aha-footer__heading:hover{color:var(--aha-color-primary)}
   visibility:visible;opacity:1;pointer-events:auto;transform:none;
   transition:opacity var(--aha-motion-mid) var(--aha-ease-out),transform var(--aha-motion-mid) var(--aha-ease-out),visibility 0s;
 }
-.aha-header__panel--products{width:988px;inset-inline-start:calc(-1 * (var(--aha-space-96) + var(--aha-space-28)))}
+.aha-header__panel--products{width:914px;inset-inline-start:calc(-1 * (var(--aha-space-96) + var(--aha-space-28)))}
 @supports (anchor-name:--aha-products-item){
   @container aha-header (min-width:992px){
     .aha-header__item:has(>.aha-header__panel--products){position:static;anchor-name:--aha-products-item}
     .aha-header__panel--products{
-      --aha-header-panel-width:min(988px,calc(100cqw - 2 * var(--aha-space-32)));
+      --aha-header-panel-width:min(914px,calc(100cqw - 2 * var(--aha-space-32)));
       width:var(--aha-header-panel-width);
       top:anchor(--aha-products-item bottom);
       inset-inline-start:max(var(--aha-space-32),min(calc(anchor(--aha-products-item start) - var(--aha-space-96) - var(--aha-space-28)),calc(100cqw - var(--aha-space-32) - var(--aha-header-panel-width))));
@@ -2087,12 +2089,12 @@ a.aha-footer__heading:hover{color:var(--aha-color-primary)}
 .aha-header__section{display:flex;flex-direction:column;flex:none;width:180px}
 .aha-header__section--slides{width:160px}
 .aha-header__panel--solutions .aha-header__section{width:auto}
-.aha-header__divider{flex:none;width:1px;background:var(--aha-border-secondary)}
-.aha-header__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%}
+.aha-header__divider{flex:none;width:1px;margin:var(--aha-space-8) var(--aha-space-4);background:var(--aha-border-secondary)}
+.aha-header__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:var(--aha-header-menu-gap);width:100%}
 .aha-header__panel--resources .aha-header__grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 .aha-header__label{
-  padding-inline-start:var(--aha-space-8);
-  font-size:var(--aha-size-sm);font-weight:var(--aha-weight-regular);line-height:var(--aha-space-24);
+  padding:var(--aha-space-8) var(--aha-space-12) var(--aha-space-4);
+  font-size:var(--aha-size-sm);font-weight:var(--aha-weight-regular);line-height:var(--aha-space-16);
   letter-spacing:var(--aha-letter-spacing-subheadings);
   color:var(--aha-text-tertiary);
 }
@@ -2115,7 +2117,7 @@ a.aha-footer__heading:hover{color:var(--aha-color-primary)}
 .aha-header__all-icon{flex:none;display:inline-flex;align-items:center;justify-content:center;width:var(--aha-space-24);height:var(--aha-space-24);color:var(--aha-icon-default)}
 .aha-header__preview{
   flex:0 1 348px;min-width:0;height:194px;
-  margin-inline-start:calc(var(--aha-space-12) - var(--aha-space-16));
+  margin-inline-start:var(--aha-space-4);
   overflow:hidden;
   border-radius:var(--aha-radius-default);
   background:var(--aha-bg-container-secondary);
@@ -2136,7 +2138,7 @@ a.aha-footer__heading:hover{color:var(--aha-color-primary)}
   position:absolute;top:100%;inset-inline-start:0;z-index:2;
   margin-top:var(--aha-header-panel-gap);
   min-width:128px;
-  padding:var(--aha-space-8);
+  padding:var(--aha-header-menu-padding);
   background:var(--aha-bg-elevated);
   border:1px solid var(--aha-border-default);
   border-radius:var(--aha-radius-lg);
