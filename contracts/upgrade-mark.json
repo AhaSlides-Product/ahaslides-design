@@ -1,0 +1,109 @@
+{
+  "name": "Upgrade mark",
+  "slug": "upgrade-mark",
+  "group": "General",
+  "tier": "leaf",
+  "badge": "shared web component",
+  "element": "aha-upgrade-mark",
+  "reuse": {
+    "entry": "./aha-upgrade-mark",
+    "registers": "aha-upgrade-mark",
+    "exportsNamed": [
+      "AhaUpgradeMark",
+      "defineAhaUpgradeMark"
+    ]
+  },
+  "summary": "The Vivid Pink circle with a white crown, as the leading icon of a button that opens a paywall.",
+  "lead": "ONE custom element — <aha-upgrade-mark> — the same 16px mark <aha-paywall> draws as its anchor, for the icon slot of an <aha-button>. Shadow-DOM CSS, themed only by --aha-* tokens.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render across frameworks.",
+  "tokensUsed": [
+    "color-primary",
+    "text-inverse",
+    "radius-pill"
+  ],
+  "spec": [
+    {
+      "label": "Size",
+      "value": "16px circle, 12px crown, centred with the label"
+    },
+    {
+      "label": "Default",
+      "value": "Vivid Pink circle #E70E68, white crown (on a secondary button)"
+    },
+    {
+      "label": "Inverse",
+      "value": "white circle, pink crown (on a primary button, automatic)"
+    }
+  ],
+  "props": [
+    {
+      "name": "inverse",
+      "type": "boolean",
+      "default": "auto",
+      "desc": "white circle, pink crown; set itself inside a primary <aha-button>, set it by hand elsewhere on a pink surface"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Upgrade mark in a button",
+        "when": "a button that opens an <aha-paywall> because its feature is locked to a plan"
+      }
+    ],
+    "note": "Use this, never aha-icon system-crown-badge-fill, as the icon of a locked action: the bare glyph renders flat and sits off-centre."
+  },
+  "surfaces": [
+    "editor",
+    "dashboard"
+  ],
+  "environment": [
+    "product"
+  ],
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "upgrade-mark.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a web component in an HTML file renders on open, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "upgrade-mark.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "upgrade-mark.vue.txt"
+    }
+  ],
+  "preview": "upgrade-mark.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "ready": "!!(document.querySelector('aha-upgrade-mark[data-probe]') && document.querySelector('aha-upgrade-mark[data-probe]').shadowRoot)",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-upgrade-mark[data-probe]');if(!el)return{};var s=getComputedStyle(el);return{bg:s.backgroundColor,fg:s.color,height:s.height,width:s.width};})()",
+    "expect": {
+      "bg": "rgb(231, 14, 104)",
+      "fg": "rgb(255, 255, 255)",
+      "height": "16px",
+      "width": "16px"
+    }
+  },
+  "selfCheck": [
+    {
+      "label": "brand fill #E70E68 + white crown",
+      "verdict": "PASS"
+    },
+    {
+      "label": "16px circle",
+      "verdict": "PASS"
+    }
+  ],
+  "highlights": [
+    "Slots into an aha-button as slot=\"icon\": the paywall's pink circle and white crown, centred with the label.",
+    "Inside a primary button it inverts itself: white circle, pink crown.",
+    "Use it instead of aha-icon system-crown-badge-fill on any locked action."
+  ]
+}

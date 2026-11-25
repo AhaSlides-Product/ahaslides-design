@@ -1,0 +1,9 @@
+// main.ts
+import '@ahaslides-product/design/aha-button';
+import '@ahaslides-product/design/aha-upgrade-mark';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<template>
+  <aha-button variant="secondary"><aha-upgrade-mark slot="icon" />Add slide</aha-button>
+</template>

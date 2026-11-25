@@ -1,0 +1,9 @@
+<!-- @ahaslides-product/design — the AhaSlides CDN copy of the package (latest) -->
+<link rel="stylesheet" href="https://assets-cdn-public.ahaslides.com/ahaslides-design/latest/lib/tokens.css">
+<script type="module">
+  import 'https://assets-cdn-public.ahaslides.com/ahaslides-design/latest/lib/aha-button.js';
+  import 'https://assets-cdn-public.ahaslides.com/ahaslides-design/latest/lib/aha-upgrade-mark.js';
+</script>
+
+<aha-button variant="secondary"><aha-upgrade-mark slot="icon"></aha-upgrade-mark>Add slide</aha-button>
+<aha-button variant="primary"><aha-upgrade-mark slot="icon"></aha-upgrade-mark>Add slide</aha-button>
