@@ -25,6 +25,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1151.1 — 2026-11-25
+### Changed
+- Site navbar: the Products, Solutions, Resources and language menus open 8 px below their menu item (`--aha-space-8`, was 0 px, flush with the item). An invisible strip fills the gap, so a hover-opened menu stays open while the pointer moves from the item into it. The 991 px and below drawer is unchanged (#793)
+- Site navbar: every dropdown entry and every language entry is now a DS Menu row: 36 px minimum height (was 34 px for a text row, 40 px for a row with an app logo), 12 px side padding (was 8 px), a 20 px line (was 1.3) and an 8 px radius (was 4 px). The top-level items were already 36 px (#793)
+
 ## 0.1151.0 — 2026-11-25
 ### Added
 - screen-lint: three hard rules for a complete standalone HTML page (a report or dashboard page, a demo), in `lib/screen-lint-document.js`. `ds-not-loaded` fails a page that styles itself but never loads the DS (no tokens.css, all.js or other `lib/` file, no `var(--aha-…)`), naming the report-images guideline and the AhaSlides CDN head lines; a page with a local script or stylesheet entry, an app shell and an email are skipped. Off the slide surfaces, `custom-property-hex` (group `hex`) fails raw hex in a custom property that is not an `--aha-*` token, the private palette the raw-hex rule never read, and `off-ds-font` (group `font`) fails a `font-family` or `font` that names a family without Plus Jakarta Sans. Snippets and component files are not checked. Revert: drop the `documentFindings` loop in `lib/screen-lint.js` (#790)
