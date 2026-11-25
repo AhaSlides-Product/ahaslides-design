@@ -27,7 +27,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1152.0 — 2026-11-25
 ### Changed
-- screen-lint: a report page declares itself with `<meta name="aha-surface" content="report">` and may then carry as many accent Stat tiles as it needs (colour rule 3.11); the one-accent-tile limit stays on app screens. The report page head guide lists the line (#NNN)
+- screen-lint: a report page declares itself with `<meta name="aha-surface" content="report">` and may then carry as many accent Stat tiles as it needs (colour rule 3.11); the one-accent-tile limit stays on app screens. The report page head guide lists the line (#794)
 
 ## 0.1151.0 — 2026-11-25
 ### Added
