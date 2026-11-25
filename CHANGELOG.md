@@ -30,6 +30,12 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - screen-lint: three hard rules for a complete standalone HTML page (a report or dashboard page, a demo), in `lib/screen-lint-document.js`. `ds-not-loaded` fails a page that styles itself but never loads the DS (no tokens.css, all.js or other `lib/` file, no `var(--aha-…)`), naming the report-images guideline and the AhaSlides CDN head lines; a page with a local script or stylesheet entry, an app shell and an email are skipped. Off the slide surfaces, `custom-property-hex` (group `hex`) fails raw hex in a custom property that is not an `--aha-*` token, the private palette the raw-hex rule never read, and `off-ds-font` (group `font`) fails a `font-family` or `font` that names a family without Plus Jakarta Sans. Snippets and component files are not checked. Revert: drop the `documentFindings` loop in `lib/screen-lint.js` (#790)
 - Report images guideline: a "page head" rule, self-check line and guide section with a minimal report page head on the AhaSlides CDN `latest` paths; the `report-image` lint route and the aha-design skill name the new rules (#790)
 
+## 0.1148.0 — 2026-11-25
+### Changed
+- Site navbar (Marketing > Navigation): menu items take the DS Menu row states. Top links and the language button are 36px tall with 0 12px padding, 14px SemiBold, text-default, 4px apart; hover and open use the hover fill, the current page the accent fill, focus a 2px inset ring; the carets are 12px and follow the text colour; dividers use border-secondary; mega-menu entries fade their fill; the language menu has an 8px padded 1px-bordered large-radius panel with Regular entries (current one accent and SemiBold). The drawer below 992px keeps its row style (#789)
+### Added
+- Site navbar: a View all integrations entry after MCP Server in the Solutions panel, reusing the `system-plus` icon (#789)
+
 ## 0.1146.0 — 2026-11-23
 ### Changed
 - Behaviour change: OptionRow Enter now moves focus to the next option row (caret at the end) and fires a cancelable `enter-next`, on by default. In multi-line rows Enter no longer inserts a newline; Shift+Enter does. The last row stays put. `enternext="false"` on a row, or on QuestionList for all its rows, restores the old behaviour. (#787)
