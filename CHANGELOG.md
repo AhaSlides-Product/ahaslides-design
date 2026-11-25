@@ -29,6 +29,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - `lib/marketing-motion.js` reveals every section below the hero as it scrolls into view: Comparison (header, table, call to action), Logos (label and strip as one block each, the loop keeps running) and Footer banner (the card as one block) join Features, Numbers, Testimonials, FAQ, Pricing and Cards. The Hero stays still, and so does a Logos strip nested in a Vivid Pink hero (`aha-logos--brand`). A Footer banner with the `--reveal` modifier keeps its own reveal script; the motion script leaves it alone so nothing animates twice. Same once-only, reduced-motion, no-IntersectionObserver and `data-aha-motion="off"` behaviour (#792)
 
+## 0.1149.2 — 2026-11-25
+### Fixed
+- Every Hero layout title (the page h1) was 32 px on tablet and 24 px on a phone, the same as a section heading. It is now 40 px at 991 px and below and 32 px at 479 px and below, so the h1 stays one step above the h2 at every width. Desktop 48 px and the gallery and page-header titles are unchanged. The website type ramp (W14) and its criterion state the Hero title sizes. (#788)
+
 ## 0.1149.1 — 2026-11-25
 ### Fixed
 - Site navbar: View all integrations links to `https://ahaslides.com/marketplace/`, the page live headers already use (`/integrations/` redirects there) (#791)
