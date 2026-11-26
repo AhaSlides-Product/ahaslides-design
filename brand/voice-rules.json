@@ -824,7 +824,7 @@
       },
       {
        "id": "10.8",
-       "text": "In customer-facing copy (anything people outside AhaSlides read: the product, website, emails, social posts, ads, videos, the help centre), don't use an em dash or an en dash as punctuation. Use a full stop, a comma, a colon or parentheses, a spaced hyphen (\" - \") used as a dash counts as a dash, and write a range in words, \"1 to 10\" or \"50 to 130\", never with a dash. Internal messages, such as the fleet bot's Slack status lines, may use them.",
+       "text": "In customer-facing copy (anything people outside AhaSlides read: the product, website, emails, social posts, ads, videos, the help centre), don't use an em dash or an en dash as punctuation. A spaced hyphen (\" - \") used as a dash counts as a dash too. Use a full stop, a comma, a colon or parentheses instead, and write a range in words, \"1 to 10\" or \"50 to 130\", never with a dash. Internal messages, such as the fleet bot's Slack status lines, may use them.",
        "origin": "Existing house rule (UXW-8 in guidelines/ux-writing.json). Customer-facing scope: Brand director decision, 26 November 2026 (BRGO-30 retro). Spaced hyphen and ranges in words: Brand director decision, 26 November 2026 (BRGO-38 thread)"
       },
       {
