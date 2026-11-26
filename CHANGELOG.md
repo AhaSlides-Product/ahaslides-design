@@ -25,6 +25,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1154.0 — 2026-11-26
+### Changed
+- **Voice rules v8: rule 10.8 is for customer-facing copy** (#797). No em or en dashes as punctuation in anything people outside AhaSlides read; internal messages, such as the fleet bot's Slack status lines, may use them.
+
 ## 0.1153.0 — 2026-11-25
 ### Added
 - `<aha-upgrade-mark>` (`@ahaslides-product/design/aha-upgrade-mark`): the paywall's 16px Vivid Pink circle with a white crown as the `slot="icon"` of an `<aha-button>`; inside a primary button it inverts itself to a white circle with a pink crown, `inverse` forces it elsewhere (DESY-594) (#796)
