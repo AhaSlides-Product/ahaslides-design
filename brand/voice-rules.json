@@ -3,7 +3,7 @@
  "id": "voice-rules",
  "title": "AhaSlides brand voice rules",
  "lede": "The single source for how AhaSlides talks: what we believe, who we serve, what we say and how we write. It follows [brand guidelines v2.3](https://design.ahaslides.io/brand/ahaslides-brand-guidelines-v2.3.pdf) (29 October 2026, final) and the decisions made since. Visual rules are not here: the design system holds them.",
- "updated": "2026-11-12",
+ "updated": "2026-11-26",
  "environment": [
   "product",
   "audience",
@@ -824,8 +824,8 @@
       },
       {
        "id": "10.8",
-       "text": "Don't use an em dash or an en dash as punctuation. Use a full stop, a comma, a colon or parentheses, and write a range as \"1 to 10\".",
-       "origin": "Existing house rule (UXW-8 in guidelines/ux-writing.json)"
+       "text": "In customer-facing copy (anything people outside AhaSlides read: the product, website, emails, social posts, ads, videos, the help centre), don't use an em dash or an en dash as punctuation. Use a full stop, a comma, a colon or parentheses, and write a range as \"1 to 10\". Internal messages, such as the fleet bot's Slack status lines, may use them.",
+       "origin": "Existing house rule (UXW-8 in guidelines/ux-writing.json). Customer-facing scope: Brand director decision, 26 November 2026 (BRGO-30 retro)"
       },
       {
        "id": "10.9",
@@ -1342,6 +1342,11 @@
   }
  ],
  "changes": [
+  {
+   "version": "v8",
+   "date": "26 Nov",
+   "text": "Brand director decision (BRGO-30 retro): rule 10.8, no em or en dashes as punctuation, is for customer-facing copy. Internal messages, such as the fleet bot's Slack status lines, may use them."
+  },
   {
    "version": "v7",
    "date": "12 Nov",
