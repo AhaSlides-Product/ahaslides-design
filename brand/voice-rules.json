@@ -819,13 +819,13 @@
       },
       {
        "id": "10.7",
-       "text": "Headlines, eyebrows (the short label above a headline, as in an email or a landing page) and CTA labels are in sentence case, never all capitals, with no end punctuation: no full stop, no exclamation mark. A product or feature name keeps its own capitals inside a sentence-case line, for example \"Try the AhaSlides AI Presentation Maker\". When a brief or requester supplies title-case copy, change it to sentence case and tell the requester which lines you changed.",
-       "origin": "Brand guidelines v2.2, applied to every headline and CTA. Product names and brief copy: Brand director decision, 29 October 2026 (BRGO-20 retro). Eyebrows: Brand director decision, 12 November 2026 (BRGO-30 retro)"
+       "text": "Headlines (ad headlines, Google Ads included, and template titles too), eyebrows (the short label above a headline, as in an email or a landing page) and CTA labels are in sentence case, never all capitals, with no end punctuation: no full stop, no exclamation mark. A product or feature name keeps its own capitals inside a sentence-case line, for example \"Try the AhaSlides AI Presentation Maker\". When a brief or requester supplies title-case copy, change it to sentence case and tell the requester which lines you changed.",
+       "origin": "Brand guidelines v2.2, applied to every headline and CTA. Product names and brief copy: Brand director decision, 29 October 2026 (BRGO-20 retro). Eyebrows: Brand director decision, 12 November 2026 (BRGO-30 retro). Ad headlines and template titles: Brand director decision, 26 November 2026 (BRGO-38 thread)"
       },
       {
        "id": "10.8",
-       "text": "In customer-facing copy (anything people outside AhaSlides read: the product, website, emails, social posts, ads, videos, the help centre), don't use an em dash or an en dash as punctuation. Use a full stop, a comma, a colon or parentheses, and write a range as \"1 to 10\". Internal messages, such as the fleet bot's Slack status lines, may use them.",
-       "origin": "Existing house rule (UXW-8 in guidelines/ux-writing.json). Customer-facing scope: Brand director decision, 26 November 2026 (BRGO-30 retro)"
+       "text": "In customer-facing copy (anything people outside AhaSlides read: the product, website, emails, social posts, ads, videos, the help centre), don't use an em dash or an en dash as punctuation. Use a full stop, a comma, a colon or parentheses, a spaced hyphen (\" - \") used as a dash counts as a dash, and write a range in words, \"1 to 10\" or \"50 to 130\", never with a dash. Internal messages, such as the fleet bot's Slack status lines, may use them.",
+       "origin": "Existing house rule (UXW-8 in guidelines/ux-writing.json). Customer-facing scope: Brand director decision, 26 November 2026 (BRGO-30 retro). Spaced hyphen and ranges in words: Brand director decision, 26 November 2026 (BRGO-38 thread)"
       },
       {
        "id": "10.9",
@@ -966,7 +966,7 @@
    "blocks": [
     {
      "type": "paragraph",
-     "text": "These came from the brand director's reviews of draft copy on 12 and 15 October 2026 and on 29 October 2026, plus rule 13.26 from corrections to customer emails on 3 November 2026. They apply to every kind of writing; the social-only rules (post types, LinkedIn, reels) stay with the social writing skill."
+     "text": "These came from the brand director's reviews of draft copy on 12 and 15 October 2026 and on 29 October 2026, plus rule 13.26 from corrections to customer emails on 3 November 2026 and rule 13.27 from the brand director on 26 November 2026. They apply to every kind of writing; the social-only rules (post types, LinkedIn, reels) stay with the social writing skill."
     },
     {
      "type": "rules",
@@ -1068,8 +1068,8 @@
       },
       {
        "id": "13.20",
-       "text": "Say what you mean. Be playful when it adds something, never at the expense of clarity: no needless metaphor, awkward personification or complicated sentence structure. Don't describe audiences, rooms or questions as if they were people (questions don't walk out of rooms, people do; the people in a room have the phones, not the room). Keep the humans, with their real concerns, frustrations and ambitions, at the centre, and use the plain word (\"anonymously\", not \"without a name\").",
-       "origin": "Brand director feedback, 29 October 2026 (SOMW-153)"
+       "text": "Say what you mean. Be playful when it adds something, never at the expense of clarity: no needless metaphor, awkward personification or complicated sentence structure. Don't describe audiences, rooms or questions as if they were people (questions don't walk out of rooms, people do; the people in a room have the phones, not the room). A room as the place something happens is fine: \"Warm up the room\" is a figure of speech for what the presenter does. Only a room that acts as the subject (\"the room lights up\") is out. Keep the humans, with their real concerns, frustrations and ambitions, at the centre, and use the plain word (\"anonymously\", not \"without a name\").",
+       "origin": "Brand director feedback, 29 October 2026 (SOMW-153). \"Warm up the room\": Brand director decision, 26 November 2026 (BRGO-38 thread)"
       },
       {
        "id": "13.21",
@@ -1100,6 +1100,11 @@
        "id": "13.26",
        "text": "Never invent a fact. Every name, date, quote, number and claim about a person, a customer, a colleague or a test comes from a source you can point to: the brief, the customer record, the thread or the test set-up. With no source, ask the requester instead of filling the gap. A made-up colleague, a history the sender doesn't have (\"I read your messages from April and May\") or a test arm that doesn't exist breaks trust the moment the reader notices.",
        "origin": "Brand director decision, 5 November 2026, from the Head of Growth's corrections to customer emails on 3 November (CHRE-1)"
+      },
+      {
+       "id": "13.27",
+       "text": "Offers must be true. A \"was\" or crossed-out price is a price really charged before. \"Up to N% off\" is used only when an offer has several different discounts, and N is the largest of them.",
+       "origin": "Brand director decision, 26 November 2026 (BRGO-38 thread)"
       }
      ]
     }
@@ -1129,8 +1134,8 @@
       },
       {
        "id": "14.2",
-       "text": "A retired phrase may stay as a search keyword that a specific page or ad targets (page title, H1, URL, ad headline or keyword) where data shows it brings traffic or sign-ups. It is never used to describe what AhaSlides is, and the body of that page describes AhaSlides with the section 5 wording. Measure before you change such a page (before and after, with a rollback trigger). Example: the Google Ads landing page /features/interactive-presentation-tool/, titled \"AhaSlides - Interactive Presentation Tool\". In the screen lint, mark each keyword line with `ds-lint-allow: retired-wording (14.2, keyword target: <page or ad>)`.",
-       "origin": "Brand director decision, 29 October 2026, from search and paid sign-up data"
+       "text": "A retired phrase may stay as a search keyword that a specific page or ad targets (page title, H1, URL, ad headline or keyword) where data shows it brings traffic or sign-ups. It is never used to describe what AhaSlides is, and the body of that page describes AhaSlides with the section 5 wording. Measure before you change such a page (before and after, with a rollback trigger). Example: the Google Ads landing page /features/interactive-presentation-tool/, titled \"AhaSlides - Interactive Presentation Tool\", and the homepage, whose title keeps \"Interactive Presentation Software\". In the screen lint, mark each keyword line with `ds-lint-allow: retired-wording (14.2, keyword target: <page or ad>)`.",
+       "origin": "Brand director decision, 29 October 2026, from search and paid sign-up data. Homepage title example: Brand director decision, 26 November 2026 (BRGO-38 thread)"
       },
       {
        "id": "14.3",
@@ -1284,8 +1289,13 @@
       },
       {
        "id": "16.5",
-       "text": "A piece that breaks one of these rules or a brand director call (for example a black ground, ruled out on 29 October 2026) does not ship or publish on a requester's say-so. It waits for the brand director's OK. Until he gives it, send the piece back to its creator to bring it in line with the rules, and ship only the version that follows them.",
-       "origin": "Brand director decision, 12 November 2026 (BRGO-30 retro)"
+       "text": "A piece that breaks one of these rules or a brand director call (for example a black ground on anything but a Black Friday piece, or all-capitals lettering) does not ship or publish on a requester's say-so. It waits for the brand director's OK. Until he gives it, send the piece back to its creator to bring it in line with the rules, and ship only the version that follows them.",
+       "origin": "Brand director decision, 12 November 2026 (BRGO-30 retro). Black Friday ground: Brand director decision, 26 November 2026 (BRGO-38 thread), replacing the 29 October 2026 ruling"
+      },
+      {
+       "id": "16.6",
+       "text": "A black ground is allowed for Black Friday pieces only, such as the Black Friday landing pages. Any other use of a black ground needs the brand director's OK first. All-capitals lettering stays out, Black Friday included (rule 10.7).",
+       "origin": "Brand director decision, 26 November 2026 (BRGO-38 thread), replacing the 29 October 2026 ruling"
       }
      ]
     }
@@ -1342,6 +1352,11 @@
   }
  ],
  "changes": [
+  {
+   "version": "v9",
+   "date": "26 Nov",
+   "text": "Brand director decisions of 26 November (BRGO-38 thread). New rule 13.27: a \"was\" price must be a price really charged, and \"up to N% off\" only across several different discounts. Rule 10.8 also bans a spaced hyphen used as a dash and writes ranges in words. Rule 13.20: \"Warm up the room\" is fine, only a room that acts is out. Rule 10.7 covers ad headlines and template titles. Rule 14.2 adds the homepage title as a keyword example. New rule 16.6: a black ground is allowed for Black Friday pieces only, replacing the 29 October ruling; rule 16.5 example updated."
+  },
   {
    "version": "v8",
    "date": "26 Nov",
