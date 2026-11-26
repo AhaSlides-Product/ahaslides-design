@@ -27,7 +27,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1156.0 — 2026-11-26
 ### Added
-- **Dropdown: `badgeKind` on leaf and switch rows** ('new' or 'beta') sets the badge kind outright, so a translated label such as "Neu" or "Mới" keeps the pink New tag instead of falling back to the grey Beta one. Without it, the text decides as before (DESY-597) (#PRNUM).
+- **Dropdown: `badgeKind` on leaf and switch rows** ('new' or 'beta') sets the badge kind outright, so a translated label such as "Neu" or "Mới" keeps the pink New tag instead of falling back to the grey Beta one. Without it, the text decides as before (DESY-597) (#799).
 
 ## 0.1155.0 — 2026-11-26
 ### Changed
