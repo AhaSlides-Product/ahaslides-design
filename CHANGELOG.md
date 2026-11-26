@@ -25,6 +25,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1156.0 — 2026-11-26
+### Added
+- **Dropdown: `badgeKind` on leaf and switch rows** ('new' or 'beta') sets the badge kind outright, so a translated label such as "Neu" or "Mới" keeps the pink New tag instead of falling back to the grey Beta one. Without it, the text decides as before (DESY-597) (#PRNUM).
+
 ## 0.1155.0 — 2026-11-26
 ### Changed
 - **Voice rules v9 and colour rules v44: the brand director's rulings of 26 November** (BRGO-38). New rule 13.27 (a "was" price must be a price really charged; "up to N% off" only across several different discounts). Rule 10.8 also bans a spaced hyphen used as a dash and writes ranges in words. Rule 13.20: "Warm up the room" is fine, only a room that acts is out. Rule 10.7 covers ad headlines and template titles. Rule 14.2 adds the homepage title as a keyword example. New rule 16.6 and colour rules 3.8 and 4.2: a black ground is allowed for Black Friday pieces only, replacing the 29 October ruling; rule 16.5's example updated.
