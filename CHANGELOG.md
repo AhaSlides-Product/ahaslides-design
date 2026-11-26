@@ -27,7 +27,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1154.0 — 2026-11-26
 ### Changed
-- **Voice rules v8: rule 10.8 is for customer-facing copy** (#PR). No em or en dashes as punctuation in anything people outside AhaSlides read; internal messages, such as the fleet bot's Slack status lines, may use them.
+- **Voice rules v8: rule 10.8 is for customer-facing copy** (#797). No em or en dashes as punctuation in anything people outside AhaSlides read; internal messages, such as the fleet bot's Slack status lines, may use them.
 
 ## 0.1153.0 — 2026-11-25
 ### Added
