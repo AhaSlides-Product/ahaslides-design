@@ -27,7 +27,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1155.1 — 2026-11-27
 ### Fixed
-- **`<aha-popover>` `placement="right"` and `placement="left"` centre the panel on the trigger** (#PRNUM). The cardinal side placements now sit level with the middle of the trigger, as AntD and Floating UI do, with `flip` and without; the arrow stays centred and the viewport clamp still keeps the panel 8px inside the edges. `-start`/`-end` stay edge-aligned, and `top`/`bottom` are unchanged.
+- **`<aha-popover>` `placement="right"` and `placement="left"` centre the panel on the trigger** (#800). The cardinal side placements now sit level with the middle of the trigger, as AntD and Floating UI do, with `flip` and without; the arrow stays centred and the viewport clamp still keeps the panel 8px inside the edges. `-start`/`-end` stay edge-aligned, and `top`/`bottom` are unchanged.
 
 ## 0.1155.0 — 2026-11-26
 ### Changed
