@@ -11,6 +11,7 @@ const lib = pathToFileURL(fileURLToPath(new URL('../lib/aha-dropdown.js', import
 const items = [
   { key: 'start', label: 'Present from start', icon: 'system-play' },
   { key: 'backstage', label: 'Present with Backstage', badge: 'Beta' },
+  { key: 'course', label: 'In einen Kurs umwandeln', badge: 'Neu', badgeKind: 'new' },
   { type: 'switch', key: 'fullscreen', label: 'Full screen' },
 ];
 const attr = JSON.stringify(items).replace(/"/g, '&quot;');
@@ -38,7 +39,7 @@ test('a switch row toggles in place with the menu open and emits change, never s
     node.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, composed: true }));
     const afterEnter = { open: dd.open, checked: node.getAttribute('aria-checked'), focused: root.activeElement === node };
     const next = JSON.parse(dd.getAttribute('items'));
-    next[2].checked = true;
+    next[3].checked = true;
     dd.setAttribute('items', JSON.stringify(next));
     const controlled = { sameNode: row() === node, open: dd.open, checked: row().getAttribute('aria-checked'), switchOn: toggle().hasAttribute('checked') };
     const badgeRow = root.querySelector('.item[data-key="backstage"]');
@@ -53,6 +54,7 @@ test('a switch row toggles in place with the menu open and emits change, never s
         hidden: badge && badge.getAttribute('aria-hidden'),
         name: badgeRow.textContent.trim(),
       },
+      translatedKind: root.querySelector('.item[data-key="course"] aha-badge').getAttribute('kind'),
       plainRowUnchanged: !root.querySelector('.item[data-key="start"] aha-badge') && root.querySelector('.item[data-key="start"]').getAttribute('role') === 'menuitem',
     };
   })()`, { readyExpr: '!!window.ready && !!customElements.get("aha-dropdown") && !!customElements.get("aha-switch")' });
@@ -63,6 +65,7 @@ test('a switch row toggles in place with the menu open and emits change, never s
     controlled: { sameNode: true, open: true, checked: 'true', switchOn: true },
     events: [{ key: 'fullscreen', checked: true }, { key: 'fullscreen', checked: false }],
     badge: { kind: 'beta', text: 'Beta', afterLabel: true, hidden: 'true', name: 'Present with Backstage, Beta' },
+    translatedKind: 'new',
     plainRowUnchanged: true,
   });
 });
