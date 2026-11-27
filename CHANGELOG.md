@@ -25,9 +25,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.1156.0 — 2026-11-26
+## 0.1156.0 — 2026-11-27
 ### Added
 - **Dropdown: `badgeKind` on leaf and switch rows** ('new' or 'beta') sets the badge kind outright, so a translated label such as "Neu" or "Mới" keeps the pink New tag instead of falling back to the grey Beta one. Without it, the text decides as before (DESY-597) (#799).
+
+## 0.1155.1 — 2026-11-27
+### Fixed
+- **`<aha-popover>` `placement="right"` and `placement="left"` centre the panel on the trigger** (#800). The cardinal side placements now sit level with the middle of the trigger, as AntD and Floating UI do, with `flip` and without; the arrow stays centred and the viewport clamp still keeps the panel 8px inside the edges. `-start`/`-end` stay edge-aligned, and `top`/`bottom` are unchanged.
 
 ## 0.1155.0 — 2026-11-26
 ### Changed
