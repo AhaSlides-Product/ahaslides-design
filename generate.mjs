@@ -2605,7 +2605,8 @@ function renderGuidelineExamples(p) {
     .filter(tag => !['icon', 'button'].includes(tag))
     .map(tag => tag === 'illustration' ? 'illustrations' : `aha-${tag}`)
     .filter(file => existsSync(join(root, 'lib', `${file}.js`)))
-    .concat(p.examples.flatMap(guidelineExampleScripts));
+    .concat(p.examples.flatMap(guidelineExampleScripts))
+    .filter((file, index, files) => files.indexOf(file) === index);
   const cards = p.examples.map(ex => `<section class="gex${ex.verdict ? ' gex--' + ex.verdict : ''}" id="example-${esc(ex.id)}">
     <h3 class="gex-title">${esc(ex.title)}</h3>
     <p class="body">${esc(ex.summary)}${(ex.refs || []).length ? ` ${(ex.refs).map(r => `<span class="ref">${esc(r)}</span>`).join(' ')}` : ''}</p>
