@@ -9,14 +9,14 @@
   "group": "Patterns",
   "patternsNav": true,
   "badge": "pattern — class layer",
-  "summary": "Long-form article body text (paragraphs, headings with anchors, lists, quotes, pictures, callouts, tables, inline marks) styled by one class layer, lib/article.css, under a single .aha-article-prose root. The same file styles the public library article page and the article editor canvas, so what an editor writes is what a reader sees.",
+  "summary": "Long-form article body text (paragraphs, headings with anchors, lists, quotes and pull quotes, pictures, galleries and picture sizes, callouts, tables, inline marks) styled by one class layer, lib/article.css, under a single .aha-article-prose root. The same file styles the public library article page and the article editor canvas, so what an editor writes is what a reader sees.",
   "highlights": [
     "One root class, .aha-article-prose, from lib/article.css",
     "The same body on the library article page and the editor canvas",
     "Info, tip and warning callouts carried by a DS icon",
     "Wide tables scroll sideways inside their own frame"
   ],
-  "lead": "Load lib/tokens.css and lib/article.css, then wrap the article HTML in one element with the class aha-article-prose. Plain elements need no classes; only the callout and the table wrapper carry one. Charts, cards, the FAQ and videos come from DS components and sections (Compose with, below).",
+  "lead": "Load lib/tokens.css and lib/article.css, then wrap the article HTML in one element with the class aha-article-prose. Plain elements need no classes; only the callout, the table wrapper, the pull quote, the gallery and the picture sizes carry one. Charts, cards, the FAQ and videos come from DS components and sections (Compose with, below).",
   "skillRef": {
     "build": "ahaslides-design:aha-design",
     "judge": "ahaslides-design:aha-design",
@@ -125,6 +125,24 @@
       "ref": [
         "ARTICLE-08"
       ]
+    },
+    {
+      "rule": "Use .aha-article-pullquote only to repeat and highlight a sentence from the article itself, at most once between two sections; a quote from a person or a source is a plain blockquote.",
+      "ref": [
+        "ARTICLE-09"
+      ]
+    },
+    {
+      "rule": "A gallery is a figure.aha-article-gallery with 2 to 4 .aha-article-gallery__item figures inside .aha-article-gallery__grid, and one optional figcaption after the grid. Every picture has alt text.",
+      "ref": [
+        "ARTICLE-10"
+      ]
+    },
+    {
+      "rule": "Size a picture only with aha-article-figure--wide, --full or --small on a direct child figure of the prose root; wide and full bleed need the .aha-article-frame wrapper around the root. Never set a figure width or negative margin per page.",
+      "ref": [
+        "ARTICLE-11"
+      ]
     }
   ],
   "reuse": {
@@ -157,6 +175,36 @@
       "summary": "A quote on Vivid Pink at 5% with its cite, and a figure whose caption sits centred under the picture.",
       "css": "",
       "html": "<article class=\"aha-article-prose\">\n  <blockquote>\n    <p>Our quiet students answered more questions in one week than in the whole term before.</p>\n    <cite>Maya Tran, secondary school teacher</cite>\n  </blockquote>\n  <figure>\n    <img src=\"https://design.ahaslides.io/marketing-assets/image-placeholder-wide.svg\" alt=\"A presenter's screen showing live poll results\">\n    <figcaption>Results update on the big screen as votes arrive.</figcaption>\n  </figure>\n</article>"
+    },
+    {
+      "id": "pull-quote",
+      "title": "Pull quote",
+      "refs": [
+        "ARTICLE-09"
+      ],
+      "summary": "A sentence from the article set large and centred between two hairlines, with an optional attribution. A quote from someone else stays a plain blockquote.",
+      "css": "",
+      "html": "<article class=\"aha-article-prose\">\n  <p>Ask the first question early. A room that has answered once is far more likely to answer again.</p>\n  <blockquote class=\"aha-article-pullquote\">\n    <p>A room that has answered once is far more likely to answer again.</p>\n    <cite>From this guide</cite>\n  </blockquote>\n  <p>Keep that first question light, then move to the ones you really need.</p>\n</article>"
+    },
+    {
+      "id": "gallery",
+      "title": "Image gallery",
+      "refs": [
+        "ARTICLE-10"
+      ],
+      "summary": "Two to four pictures with optional captions and one caption below. Three sit in three columns; below 480 px they stack.",
+      "css": "",
+      "html": "<div class=\"aha-article-frame\">\n<article class=\"aha-article-prose\">\n  <p>A gallery holds two to four pictures, each with its own caption if it needs one.</p>\n  <figure class=\"aha-article-gallery\">\n    <div class=\"aha-article-gallery__grid\">\n      <figure class=\"aha-article-gallery__item\"><img src=\"https://design.ahaslides.io/marketing-assets/image-placeholder-wide.svg\" alt=\"A poll slide on the presenter screen\"><figcaption>1. Ask</figcaption></figure>\n      <figure class=\"aha-article-gallery__item\"><img src=\"https://design.ahaslides.io/marketing-assets/image-placeholder-wide.svg\" alt=\"The join code on a phone\"><figcaption>2. Join</figcaption></figure>\n      <figure class=\"aha-article-gallery__item\"><img src=\"https://design.ahaslides.io/marketing-assets/image-placeholder-wide.svg\" alt=\"Live results as a bar chart\"><figcaption>3. Show</figcaption></figure>\n    </div>\n    <figcaption>A live poll from question to results.</figcaption>\n  </figure>\n</article>\n</div>"
+    },
+    {
+      "id": "sizes",
+      "title": "Picture sizes",
+      "refs": [
+        "ARTICLE-11"
+      ],
+      "summary": "Small, content width, wide and full bleed. Wide and full bleed need the .aha-article-frame wrapper.",
+      "css": "",
+      "html": "<div class=\"aha-article-frame\">\n<article class=\"aha-article-prose\">\n  <figure class=\"aha-article-figure--small\">\n    <img src=\"https://design.ahaslides.io/marketing-assets/image-placeholder-wide.svg\" alt=\"A presenter's screen showing live poll results\">\n    <figcaption>Small, beside the text.</figcaption>\n  </figure>\n  <p>A small picture sits at the start of the column and the text wraps beside it. Use it for a detail that supports the paragraph, such as one button or an icon in context. Below 480 px it takes the full column.</p>\n  <h2 id=\"sizes\">Larger sizes</h2>\n  <figure>\n    <img src=\"https://design.ahaslides.io/marketing-assets/image-placeholder-wide.svg\" alt=\"A presenter's screen showing live poll results\">\n    <figcaption>Content width, the default.</figcaption>\n  </figure>\n  <figure class=\"aha-article-figure--wide\">\n    <img src=\"https://design.ahaslides.io/marketing-assets/image-placeholder-wide.svg\" alt=\"A presenter's screen showing live poll results\">\n    <figcaption>Wide: up to the page container.</figcaption>\n  </figure>\n  <figure class=\"aha-article-figure--full\">\n    <img src=\"https://design.ahaslides.io/marketing-assets/image-placeholder-wide.svg\" alt=\"A presenter's screen showing live poll results\">\n    <figcaption>Full bleed: edge to edge.</figcaption>\n  </figure>\n</article>\n</div>"
     },
     {
       "id": "callouts",

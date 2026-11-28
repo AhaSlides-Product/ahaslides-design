@@ -25,6 +25,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1158.0 — 2026-11-28
+### Added
+- **Article body: image gallery, picture sizes and pull quote** in `lib/article.css`. `figure.aha-article-gallery` lays 2 to 4 pictures in `.aha-article-gallery__grid` (one column below 480px); `.aha-article-figure--wide`, `--full` and `--small` size a figure, with wide and full bleed needing the new `.aha-article-frame` wrapper; `blockquote.aha-article-pullquote` sets a sentence from the article large and centred with an optional cite. The [Article body](https://design.ahaslides.io/guidelines/article-prose/index.html) page has markup examples, and screen-lint checks the new class families (DESY-607) (#PR).
+
 ## 0.1157.0 — 2026-11-28
 ### Added
 - **Article body class layer: `lib/article.css`** (`@ahaslides-product/design/article.css`, and the same rules as a string from `@ahaslides-product/design/article-css`). One `.aha-article-prose` root styles long-form article text on the library article page and the article editor canvas: paragraphs, `h2` with a 96px anchor offset, `h3`, lists, quotes with a cite, figures with a caption, a 16:9 video frame, `hr`, code and inline marks (`b`, `i`, `s`, `code`, links with visited, hover, active and focus states). Callouts take `.aha-article-callout--info`, `--tip` or `--warning`, each carried by a DS icon; a table sits in `.aha-article-prose__table`, which scrolls sideways inside its own frame. Values come from the blog article section in #684. New [Article body](https://design.ahaslides.io/guidelines/article-prose/index.html) guideline page, a `llms.txt` line, and screen-lint checks the layer's classes on a page that links it (DESY-606) (#801).
