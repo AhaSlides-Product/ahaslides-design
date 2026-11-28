@@ -220,6 +220,24 @@ async function copyRuleSelfTest() {
   return broken;
 }
 
+/* The Article body layer is a host page's own stylesheet and markup, linted on both surfaces it serves. */
+function articleSelfTest() {
+  const examples = JSON.parse(readFileSync(join(root, 'guidelines', 'article-prose.json'), 'utf8')).examples;
+  const sources = [
+    ['lib/article.css', readFileSync(join(root, 'lib', 'article.css'), 'utf8')],
+    ['guidelines/article-prose.json examples', `<link rel="stylesheet" href="lib/article.css">\n${examples.map(example => example.html).join('\n')}`],
+  ];
+  let hard = 0;
+  for (const surf of ['product', 'website'])
+    for (const [path, source] of sources)
+      for (const finding of lintHtml(source, { surface: surf, path }).findings.filter(x => x.severity === 'hard')) {
+        hard++;
+        console.log(`  ✗ ${path} (${surf}) L${finding.line || '—'} [${finding.rule}] ${finding.message}`);
+      }
+  console.log(`Self-test: Article body layer (lib/article.css + its examples) on product and website: ${hard} hard finding(s).`);
+  return hard;
+}
+
 /* ---- self-test: dogfood the material/a11y rules over the repo's own snippets + previews ---- */
 if (selfTest) {
   const partsDir = join(root, 'parts');
@@ -237,7 +255,7 @@ if (selfTest) {
     .filter(f => { const slug = f.replace('.html.txt', ''); return !composite.has(slug) && !canvasSlugs.has(slug); });
   console.log(`Self-test: linting ${leaf.length} leaf paste-and-run snippet(s) as product-UI (composite theme pages + preview harnesses excluded).`);
   const hard = run(leaf.map(f => join(partsDir, f)), 'product');
-  process.exit(hard + await slideRuleSelfTest() + await copyRuleSelfTest() > 0 ? 1 : 0);
+  process.exit(hard + articleSelfTest() + await slideRuleSelfTest() + await copyRuleSelfTest() > 0 ? 1 : 0);
 }
 
 /* ---- normal CLI ---- */

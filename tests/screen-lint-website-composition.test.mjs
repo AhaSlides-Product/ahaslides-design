@@ -88,12 +88,16 @@ test('every shipped marketing snippet, html with the catalogue css, has no ds-cl
     assert.deepEqual(rulesOf(`<style>${catalogueCss}</style>${node.html}`).filter((rule) => rule === 'ds-class-without-css'), [], label);
 });
 
-test('a linked lib/marketing.css counts as the page CSS: shipped section HTML passes, a class the sheet does not style fails', () => {
+test('a linked lib/marketing.css or lib/article.css counts as the page CSS: shipped section HTML passes, a class the sheet does not style fails', () => {
   const faq = JSON.parse(readFileSync(new URL('../marketing/faq.json', import.meta.url), 'utf8')).html;
   const linked = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v1.0.0/lib/marketing.css">';
   assert.deepEqual(rulesOf(`${linked}${faq}`).filter((rule) => rule === 'ds-class-without-css'), []);
   assert.ok(rulesOf(`${linked}<style>main{display:block}</style>${faq}<div class="aha-faq__invented"></div>`).includes('ds-class-without-css'));
   assert.ok(rulesOf(`<link rel="stylesheet" href="../lib/marketing/faq.css"><div class="aha-faq"><div class="aha-faq__invented"></div></div>`).includes('ds-class-without-css'));
+  const article = JSON.parse(readFileSync(new URL('../guidelines/article-prose.json', import.meta.url), 'utf8')).examples.map((example) => example.html).join('');
+  const articleSheet = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v1.0.0/lib/article.css">';
+  assert.deepEqual(rulesOf(`${articleSheet}${article}`).filter((rule) => rule === 'ds-class-without-css'), []);
+  assert.ok(rulesOf(`${articleSheet}<div class="aha-article-prose"><div class="aha-article-prose__invented"></div></div>`).includes('ds-class-without-css'));
 });
 
 test('a Step card in an ordinary grid fails even when another Steps row exists on the page', () => {
