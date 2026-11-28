@@ -61,7 +61,7 @@
 .aha-article-frame>.aha-article-prose>.aha-article-figure--wide{width:min(1280px,100cqi);margin-inline:calc((100% - min(1280px,100cqi)) / 2)}
 .aha-article-frame>.aha-article-prose>.aha-article-figure--full{width:calc(100cqi + 2 * var(--aha-article-gutter));margin-inline:calc((100% - 100cqi) / 2 - var(--aha-article-gutter))}
 .aha-article-frame>.aha-article-prose>.aha-article-figure--full :is(img,iframe){border-radius:0}
-.aha-article-frame>.aha-article-prose>.aha-article-figure--full figcaption{padding-inline:var(--aha-article-gutter)}
+.aha-article-frame>.aha-article-prose>.aha-article-figure--full>figcaption{padding-inline:var(--aha-article-gutter)}
 .aha-article-prose>.aha-article-figure--small{float:inline-start;clear:inline-start;width:40%;margin-block:var(--aha-space-4) var(--aha-space-24);margin-inline:0 var(--aha-space-24)}
 .aha-article-prose>.aha-article-figure--small~:is(ul,ol){display:flow-root}
 .aha-article-prose>:is(h2,h3,h4,hr,blockquote,pre,figure:not(.aha-article-figure--small),.aha-article-callout,.aha-article-prose__table,aha-grid){clear:both}
