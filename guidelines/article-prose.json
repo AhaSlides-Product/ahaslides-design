@@ -9,14 +9,14 @@
   "group": "Patterns",
   "patternsNav": true,
   "badge": "pattern — class layer",
-  "summary": "Long-form article body text (paragraphs, headings with anchors, lists, quotes and pull quotes, pictures, galleries and picture sizes, callouts, tables, inline marks, click-to-load videos and chart figures) styled by one class layer, lib/article.css, under a single .aha-article-prose root. The same file styles the public library article page and the article editor canvas, so what an editor writes is what a reader sees.",
+  "summary": "Long-form article body text (paragraphs, headings with anchors, lists, quotes and pull quotes, pictures, galleries and picture sizes, callouts, tables, inline marks, click-to-load videos and games, chart figures, content cards, calls to action, and polls and quizzes) styled by one class layer, lib/article.css, under a single .aha-article-prose root. The same file styles the public library article page and the article editor canvas, so what an editor writes is what a reader sees.",
   "highlights": [
     "One root class, .aha-article-prose, from lib/article.css",
     "The same body on the library article page and the editor canvas",
-    "Videos load the player only when the reader clicks play",
-    "Chart figures keep their numbers in a Show data table"
+    "Videos and games load only when the reader clicks play",
+    "Charts, poll results and Marketing content cards built from DS parts"
   ],
-  "lead": "Load lib/tokens.css and lib/article.css, then wrap the article HTML in one element with the class aha-article-prose. Plain elements need no classes; only the callout, the table wrapper, the pull quote, the gallery, the picture sizes, the video and the chart figure carry one. Cards and the FAQ come from DS components and sections (Compose with, below).",
+  "lead": "Load lib/tokens.css and lib/article.css, then wrap the article HTML in one element with the class aha-article-prose. Plain elements need no classes; only the callout, the table wrapper, the pull quote, the gallery, the picture sizes, the video, the chart figure, the card row, the call to action, the game poster and the poll carry one. The cards themselves are the Marketing Cards, and the FAQ is the Marketing FAQ section (Compose with, below).",
   "skillRef": {
     "build": "ahaslides-design:aha-design",
     "judge": "ahaslides-design:aha-design",
@@ -37,31 +37,25 @@
     {
       "ref": "button",
       "as": "component",
-      "use": "the one action in a promo callout",
+      "use": "the one action in a promo callout; the primary and optional secondary action in a call to action; Play on a game poster",
       "status": "available"
     },
     {
       "ref": "chart",
       "as": "component",
-      "use": "the chart in a chart figure: <aha-chart palette=\"brand\"> (column, bar, line or donut) inside figure.aha-article-chart",
+      "use": "the chart in a chart figure: <aha-chart palette=\"brand\"> (column, bar, line or donut) inside figure.aha-article-chart; a poll or quiz result: <aha-chart type=\"bar\" number-format=\"percent\">, with correct and correct-style=\"fill\" on a quiz",
       "status": "available"
     },
     {
-      "ref": "card",
+      "ref": "answer-mark",
       "as": "component",
-      "use": "a course or game card",
+      "use": "the tick on the right option and the cross on a wrong pick in an answered quiz, and the mark beside the explanation",
       "status": "available"
     },
     {
-      "ref": "tag",
-      "as": "component",
-      "use": "the Course or Game label on a card, color=\"category\"",
-      "status": "available"
-    },
-    {
-      "ref": "grid",
-      "as": "component",
-      "use": "lays out a row of cards, min=\"220\"",
+      "ref": "--aha-answer-correct",
+      "as": "token",
+      "use": "the right option's edge in an answered quiz (with --aha-answer-correct-tint-5 as its fill); --aha-answer-wrong and its 5% tint on a wrong pick. Never on text",
       "status": "available"
     },
     {
@@ -115,7 +109,7 @@
       ]
     },
     {
-      "rule": "Cards and the FAQ are composed from DS parts, never new article classes: <aha-card> with <aha-tag> in <aha-grid>, and the Marketing FAQ section outside the prose root. Videos and charts use their own figure classes (ARTICLE-12, ARTICLE-13).",
+      "rule": "Content cards are the Marketing Cards inside .aha-article-cards, never new article card classes, and the FAQ is the Marketing FAQ section outside the prose root. Videos, games, charts, calls to action and polls use their own article classes (ARTICLE-12 to ARTICLE-17).",
       "ref": [
         "ARTICLE-07"
       ]
@@ -155,6 +149,33 @@
       "rule": "A chart is figure.aha-article-chart: a title, an optional unit line, one <aha-chart palette=\"brand\"> (column, bar, line or donut), a server-rendered table in <details class=\"aha-article-chart__data\"> under a Show data summary, and a figcaption \"Source: …\". The table holds the same numbers as the chart and its region is labelled \"Data for <title>\"; before the chart upgrades the table shows open in its place.",
       "ref": [
         "ARTICLE-13"
+      ]
+    },
+    {
+      "rule": "A row of content cards is div.aha-article-cards, a direct child of the prose root, holding 1 to 3 Marketing Cards (Course, Game, Template or Article card) and loading lib/marketing/cards.css. One card lies on its side, two or three share the row, and every row stacks below 768 px. Each card is one link that opens in a new tab, with rel=\"noopener\" and a visually hidden \"(opens in a new tab)\" (W15). Title, cover and counts come from the catalogue.",
+      "ref": [
+        "ARTICLE-14",
+        "W15"
+      ]
+    },
+    {
+      "rule": "A call to action is aside.aha-article-cta: an optional h3.aha-article-cta__title, one p.aha-article-cta__text line, and .aha-article-cta__actions with one primary <aha-button> and at most one secondary. The labels name the action in this article's context (\"Make a poll\", \"Use the icebreaker template\"), never \"Get started free\" (W4, W18). It also carries the old blog promo box.",
+      "ref": [
+        "ARTICLE-15",
+        "W4",
+        "W18"
+      ]
+    },
+    {
+      "rule": "A playable game is figure.aha-article-game: .aha-article-game__stage holding the cover img (empty alt), and a white .aha-article-game__panel with the game title and one primary <aha-button class=\"aha-article-game__play\" data-play-url aria-label=\"Play <title>\">Play</aha-button>. lib/article-game.js swaps the stage for the game iframe (the play URL with embed=1) on click; only https://audience.ahaslides.com play URLs load, and nothing from the game loads before the click.",
+      "ref": [
+        "ARTICLE-16"
+      ]
+    },
+    {
+      "rule": "A poll or quiz is a div.aha-article-poll with role=\"region\" and aria-labelledby on its question (add aha-article-poll--quiz) with a label, the question, 2 to 6 <button class=\"aha-article-poll__option\"> in a group, and one aria-live .aha-article-poll__result. data-state is open, answered or pending (answered, but too few answers to show); results are an <aha-chart type=\"bar\" number-format=\"percent\">. A quiz marks the right option with data-answer=\"correct\" and a wrong pick with data-answer=\"wrong\", each with its <aha-answer-mark>, so the shape carries the meaning beside the answer colour. The page owns voting and storage; the DS only renders the states.",
+      "ref": [
+        "ARTICLE-17"
       ]
     }
   ],
@@ -268,14 +289,91 @@
       ]
     },
     {
-      "id": "compose",
-      "title": "Compose with cards",
+      "id": "content-cards",
+      "title": "Content cards",
       "refs": [
-        "ARTICLE-07"
+        "ARTICLE-14",
+        "W15"
       ],
-      "summary": "Course and game cards from <aha-card> and <aha-tag> in an <aha-grid>. The FAQ recipe is in the guide below.",
+      "summary": "Course, game and template cards from the catalogue, one to three in a row. One card lies on its side; two or three share the row and stack below 768 px. Every card link opens in a new tab.",
       "css": "",
-      "html": "<article class=\"aha-article-prose\">\n  <p>Course and game cards sit in a grid.</p>\n  <aha-grid min=\"220\" gap=\"middle\">\n    <aha-card card-title=\"Team quiz night\">\n      <aha-tag color=\"category\">Game</aha-tag>\n      <p>Thirty questions, three rounds, one winning team.</p>\n    </aha-card>\n    <aha-card card-title=\"Running great workshops\">\n      <aha-tag color=\"category\">Course</aha-tag>\n      <p>Five short lessons on getting a room talking.</p>\n    </aha-card>\n  </aha-grid>\n</article>"
+      "stylesheets": [
+        "lib/marketing/cards.css"
+      ],
+      "html": "<article class=\"aha-article-prose\">\n  <p>One card sits on its side, the cover beside the text.</p>\n  <div class=\"aha-article-cards\">\n    <article class=\"aha-marketing-card aha-marketing-card--linked aha-marketing-card--course\">\n      <div class=\"aha-marketing-card__media aha-marketing-card__media--16x9\"><img src=\"https://design.ahaslides.io/marketing-assets/image-placeholder.svg\" alt=\"\" aria-hidden=\"true\" loading=\"lazy\"></div>\n      <div class=\"aha-marketing-card__body\">\n        <p class=\"aha-marketing-card__eyebrow\">Course</p>\n        <h3 class=\"aha-marketing-card__title\"><a class=\"aha-marketing-card__link\" href=\"https://ahaslides.com/library/courses/running-great-workshops\" target=\"_blank\" rel=\"noopener\">Running great workshops<span class=\"aha-marketing-card__visually-hidden\"> (opens in a new tab)</span></a></h3>\n        <p class=\"aha-marketing-card__meta\">5 lessons &middot; By Mai Tran</p>\n        <span class=\"aha-marketing-card__more\">Take the course <aha-icon name=\"system-arrow-right\" size=\"16\"></aha-icon></span>\n      </div>\n    </article>\n  </div>\n  <p>Two or three cards share one row.</p>\n  <div class=\"aha-article-cards\">\n    <article class=\"aha-marketing-card aha-marketing-card--linked aha-marketing-card--game\">\n      <div class=\"aha-marketing-card__media aha-marketing-card__media--16x9\"><img src=\"https://design.ahaslides.io/marketing-assets/image-placeholder.svg\" alt=\"\" aria-hidden=\"true\" loading=\"lazy\"></div>\n      <div class=\"aha-marketing-card__body\">\n        <p class=\"aha-marketing-card__eyebrow\">Game</p>\n        <h3 class=\"aha-marketing-card__title\"><a class=\"aha-marketing-card__link\" href=\"https://ahaslides.com/library/games/team-quiz-night\" target=\"_blank\" rel=\"noopener\">Team quiz night<span class=\"aha-marketing-card__visually-hidden\"> (opens in a new tab)</span></a></h3>\n        <p class=\"aha-marketing-card__text\">Thirty questions, three rounds, one winning team.</p>\n        <span class=\"aha-marketing-card__more\">Play <aha-icon name=\"system-arrow-right\" size=\"16\"></aha-icon></span>\n      </div>\n    </article>\n    <article class=\"aha-marketing-card aha-marketing-card--linked aha-marketing-card--template\">\n      <div class=\"aha-marketing-card__media aha-marketing-card__media--16x9\"><img src=\"https://design.ahaslides.io/marketing-assets/image-placeholder.svg\" alt=\"\" aria-hidden=\"true\" loading=\"lazy\"></div>\n      <div class=\"aha-marketing-card__body\">\n        <p class=\"aha-marketing-card__eyebrow\">Template</p>\n        <h3 class=\"aha-marketing-card__title\"><a class=\"aha-marketing-card__link\" href=\"https://ahaslides.com/templates/team-icebreaker-quiz\" target=\"_blank\" rel=\"noopener\">Team icebreaker quiz<span class=\"aha-marketing-card__visually-hidden\"> (opens in a new tab)</span></a></h3>\n        <p class=\"aha-marketing-card__meta\">12 slides</p>\n        <span class=\"aha-marketing-card__more\">Use this template <aha-icon name=\"system-arrow-right\" size=\"16\"></aha-icon></span>\n      </div>\n    </article>\n  </div>\n</article>",
+      "scripts": [
+        "icons"
+      ]
+    },
+    {
+      "id": "article-cards",
+      "title": "Related articles",
+      "refs": [
+        "ARTICLE-14",
+        "W15"
+      ],
+      "summary": "Up to three other library articles: cover, topic and title, the Marketing Article card. The topic is its own link.",
+      "css": "",
+      "stylesheets": [
+        "lib/marketing/cards.css"
+      ],
+      "html": "<article class=\"aha-article-prose\">\n  <h2 id=\"read-next\">Read next</h2>\n  <div class=\"aha-article-cards\">\n    <article class=\"aha-marketing-card aha-marketing-card--linked aha-marketing-card--article\">\n      <div class=\"aha-marketing-card__media aha-marketing-card__media--3x2\"><img src=\"https://design.ahaslides.io/marketing-assets/image-placeholder.svg\" alt=\"\" aria-hidden=\"true\" loading=\"lazy\"></div>\n      <div class=\"aha-marketing-card__body\">\n        <p class=\"aha-marketing-card__eyebrow\"><a href=\"https://ahaslides.com/library/topics/facilitation\">Facilitation</a></p>\n        <h3 class=\"aha-marketing-card__title\"><a class=\"aha-marketing-card__link\" href=\"https://ahaslides.com/library/articles/open-a-workshop\" target=\"_blank\" rel=\"noopener\">Seven ways to open a workshop without a slide of rules<span class=\"aha-marketing-card__visually-hidden\"> (opens in a new tab)</span></a></h3>\n      </div>\n    </article>\n    <article class=\"aha-marketing-card aha-marketing-card--linked aha-marketing-card--article\">\n      <div class=\"aha-marketing-card__media aha-marketing-card__media--3x2\"><img src=\"https://design.ahaslides.io/marketing-assets/image-placeholder.svg\" alt=\"\" aria-hidden=\"true\" loading=\"lazy\"></div>\n      <div class=\"aha-marketing-card__body\">\n        <p class=\"aha-marketing-card__eyebrow\"><a href=\"https://ahaslides.com/library/topics/meetings\">Meetings</a></p>\n        <h3 class=\"aha-marketing-card__title\"><a class=\"aha-marketing-card__link\" href=\"https://ahaslides.com/library/articles/ten-minute-stand-up\" target=\"_blank\" rel=\"noopener\">How to run a ten-minute stand-up people look forward to<span class=\"aha-marketing-card__visually-hidden\"> (opens in a new tab)</span></a></h3>\n      </div>\n    </article>\n    <article class=\"aha-marketing-card aha-marketing-card--linked aha-marketing-card--article\">\n      <div class=\"aha-marketing-card__media aha-marketing-card__media--3x2\"><img src=\"https://design.ahaslides.io/marketing-assets/image-placeholder.svg\" alt=\"\" aria-hidden=\"true\" loading=\"lazy\"></div>\n      <div class=\"aha-marketing-card__body\">\n        <p class=\"aha-marketing-card__eyebrow\"><a href=\"https://ahaslides.com/library/topics/teaching\">Teaching</a></p>\n        <h3 class=\"aha-marketing-card__title\"><a class=\"aha-marketing-card__link\" href=\"https://ahaslides.com/library/articles/exit-tickets\" target=\"_blank\" rel=\"noopener\">Exit tickets that tell you what the class really learned<span class=\"aha-marketing-card__visually-hidden\"> (opens in a new tab)</span></a></h3>\n      </div>\n    </article>\n  </div>\n</article>"
+    },
+    {
+      "id": "cta",
+      "title": "Call to action",
+      "refs": [
+        "ARTICLE-15",
+        "W4",
+        "W18"
+      ],
+      "summary": "An optional heading, one line, one primary and an optional secondary button. The labels name the action in context.",
+      "css": "",
+      "html": "<article class=\"aha-article-prose\">\n  <aside class=\"aha-article-cta\">\n    <h3 class=\"aha-article-cta__title\">Run your next workshop with live polls</h3>\n    <p class=\"aha-article-cta__text\">Ask the room a question and watch the answers come in from every phone.</p>\n    <div class=\"aha-article-cta__actions\">\n      <aha-button variant=\"primary\" href=\"https://presenter.ahaslides.com/signup\">Make a poll</aha-button>\n      <aha-button variant=\"secondary\" href=\"https://ahaslides.com/templates/polls\">See poll templates</aha-button>\n    </div>\n  </aside>\n  <aside class=\"aha-article-cta\">\n    <p class=\"aha-article-cta__text\">Want every question from this article as a ready-made presentation?</p>\n    <div class=\"aha-article-cta__actions\">\n      <aha-button variant=\"primary\" href=\"https://ahaslides.com/templates/team-icebreaker-quiz\">Use the icebreaker template</aha-button>\n    </div>\n  </aside>\n</article>",
+      "scripts": [
+        "aha-button"
+      ]
+    },
+    {
+      "id": "game",
+      "title": "Game, click to play",
+      "refs": [
+        "ARTICLE-16"
+      ],
+      "summary": "The game's cover with its name and a Play button. The game loads in the article only after Play is clicked.",
+      "css": "",
+      "scripts": [
+        "aha-button",
+        "article-game"
+      ],
+      "html": "<div class=\"aha-article-frame\">\n<article class=\"aha-article-prose\">\n  <figure class=\"aha-article-game\">\n    <div class=\"aha-article-game__stage\">\n      <img class=\"aha-article-game__poster\" src=\"https://design.ahaslides.io/marketing-assets/image-placeholder.svg\" alt=\"\">\n      <div class=\"aha-article-game__panel\">\n        <p class=\"aha-article-game__title\">Team quiz night</p>\n        <aha-button variant=\"primary\" class=\"aha-article-game__play\" data-play-url=\"https://audience.ahaslides.com/ujmza4ei2d\" aria-label=\"Play Team quiz night\">Play</aha-button>\n      </div>\n    </div>\n    <figcaption>Free to play. No sign-up for players.</figcaption>\n  </figure>\n</article>\n</div>"
+    },
+    {
+      "id": "poll",
+      "title": "Poll, three states",
+      "refs": [
+        "ARTICLE-17"
+      ],
+      "summary": "Open, answered with the results as percentages, and answered while the sample is too small to show. The page owns the voting; these are the three renders.",
+      "css": "",
+      "scripts": [
+        "aha-chart"
+      ],
+      "html": "<article class=\"aha-article-prose\">\n  <div class=\"aha-article-poll\" role=\"region\" data-state=\"open\" aria-labelledby=\"poll-open-q\">\n    <p class=\"aha-article-poll__label\">Poll</p>\n    <p class=\"aha-article-poll__question\" id=\"poll-open-q\">How do you start a meeting?</p>\n    <div class=\"aha-article-poll__options\" role=\"group\" aria-labelledby=\"poll-open-q\">\n      <button type=\"button\" class=\"aha-article-poll__option\">With a question</button>\n      <button type=\"button\" class=\"aha-article-poll__option\">With the agenda</button>\n      <button type=\"button\" class=\"aha-article-poll__option\">With a game</button>\n      <button type=\"button\" class=\"aha-article-poll__option\">Straight to business</button>\n    </div>\n    <div class=\"aha-article-poll__result\" tabindex=\"-1\" aria-live=\"polite\"></div>\n  </div>\n  <div class=\"aha-article-poll\" role=\"region\" data-state=\"answered\" aria-labelledby=\"poll-answered-q\">\n    <p class=\"aha-article-poll__label\">Poll</p>\n    <p class=\"aha-article-poll__question\" id=\"poll-answered-q\">How do you start a meeting?</p>\n    <div class=\"aha-article-poll__options\" role=\"group\" aria-labelledby=\"poll-answered-q\">\n      <button type=\"button\" class=\"aha-article-poll__option\" aria-pressed=\"false\" aria-disabled=\"true\">With a question</button>\n      <button type=\"button\" class=\"aha-article-poll__option\" aria-pressed=\"false\" aria-disabled=\"true\">With the agenda</button>\n      <button type=\"button\" class=\"aha-article-poll__option\" aria-pressed=\"true\" aria-disabled=\"true\">With a game</button>\n      <button type=\"button\" class=\"aha-article-poll__option\" aria-pressed=\"false\" aria-disabled=\"true\">Straight to business</button>\n    </div>\n    <div class=\"aha-article-poll__result\" tabindex=\"-1\" aria-live=\"polite\">\n      <aha-chart type=\"bar\" palette=\"brand\" number-format=\"percent\" label=\"Results: How do you start a meeting?\" data='[{\"label\": \"With a question\", \"value\": 46}, {\"label\": \"With the agenda\", \"value\": 21}, {\"label\": \"With a game\", \"value\": 38}, {\"label\": \"Straight to business\", \"value\": 23}]'></aha-chart>\n      <p class=\"aha-article-poll__note\">128 answers</p>\n    </div>\n  </div>\n  <div class=\"aha-article-poll\" role=\"region\" data-state=\"pending\" aria-labelledby=\"poll-pending-q\">\n    <p class=\"aha-article-poll__label\">Poll</p>\n    <p class=\"aha-article-poll__question\" id=\"poll-pending-q\">How do you start a meeting?</p>\n    <div class=\"aha-article-poll__options\" role=\"group\" aria-labelledby=\"poll-pending-q\">\n      <button type=\"button\" class=\"aha-article-poll__option\" aria-pressed=\"true\" aria-disabled=\"true\">With a question</button>\n      <button type=\"button\" class=\"aha-article-poll__option\" aria-pressed=\"false\" aria-disabled=\"true\">With the agenda</button>\n      <button type=\"button\" class=\"aha-article-poll__option\" aria-pressed=\"false\" aria-disabled=\"true\">With a game</button>\n      <button type=\"button\" class=\"aha-article-poll__option\" aria-pressed=\"false\" aria-disabled=\"true\">Straight to business</button>\n    </div>\n    <div class=\"aha-article-poll__result\" tabindex=\"-1\" aria-live=\"polite\">\n      <p class=\"aha-article-poll__note\">Thanks, your answer is in. Results show after 20 answers.</p>\n    </div>\n  </div>\n</article>"
+    },
+    {
+      "id": "quiz",
+      "title": "Quiz, answered",
+      "refs": [
+        "ARTICLE-17"
+      ],
+      "summary": "After a wrong pick: the pick carries the cross, the right option the tick, then the explanation and the results with the right bar in the answer green.",
+      "css": "",
+      "scripts": [
+        "aha-chart",
+        "aha-answer-mark"
+      ],
+      "html": "<article class=\"aha-article-prose\">\n  <div class=\"aha-article-poll aha-article-poll--quiz\" role=\"region\" data-state=\"answered\" aria-labelledby=\"quiz-answered-q\">\n    <p class=\"aha-article-poll__label\">Quiz</p>\n    <p class=\"aha-article-poll__question\" id=\"quiz-answered-q\">How long should an icebreaker take?</p>\n    <div class=\"aha-article-poll__options\" role=\"group\" aria-labelledby=\"quiz-answered-q\">\n      <button type=\"button\" class=\"aha-article-poll__option\" aria-pressed=\"true\" aria-disabled=\"true\" data-answer=\"wrong\"><span>Two minutes</span><aha-answer-mark result=\"incorrect\" size=\"20\" label=\"Your answer, incorrect\"></aha-answer-mark></button>\n      <button type=\"button\" class=\"aha-article-poll__option\" aria-pressed=\"false\" aria-disabled=\"true\" data-answer=\"correct\"><span>Five minutes</span><aha-answer-mark result=\"correct\" size=\"20\" label=\"Correct answer\"></aha-answer-mark></button>\n      <button type=\"button\" class=\"aha-article-poll__option\" aria-pressed=\"false\" aria-disabled=\"true\"><span>Ten minutes</span></button>\n    </div>\n    <div class=\"aha-article-poll__result\" tabindex=\"-1\" aria-live=\"polite\">\n      <div class=\"aha-article-poll__explanation\">\n        <aha-answer-mark result=\"incorrect\" size=\"20\" decorative></aha-answer-mark>\n        <p><strong>Not quite.</strong> Five minutes is enough to warm a room up without eating into the agenda.</p>\n      </div>\n      <aha-chart type=\"bar\" palette=\"brand\" number-format=\"percent\" correct=\"1\" correct-style=\"fill\" label=\"Results: How long should an icebreaker take?\" data='[{\"label\": \"Two minutes\", \"value\": 34}, {\"label\": \"Five minutes\", \"value\": 52}, {\"label\": \"Ten minutes\", \"value\": 14}]'></aha-chart>\n      <p class=\"aha-article-poll__note\">100 answers</p>\n    </div>\n  </div>\n</article>"
     }
   ]
 }

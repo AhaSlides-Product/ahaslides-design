@@ -2599,7 +2599,11 @@ const guidelineExampleScripts = (ex) => (ex.scripts || []).map(file => {
   if (!existsSync(join(root, 'lib', `${file}.js`))) throw new Error(`guideline example ${ex.id}: script "${file}" is not a lib/ file`);
   return file;
 });
-const guidelineExampleCode = (ex, p = {}) => `${guidelineStylesheetHead(p)}${guidelineExampleScripts(ex).map(file => `<script type="module" src="${MARKETING_CDN}/${file}.js"></script>\n`).join('')}${ex.css ? `<style>\n${ex.css}\n</style>\n` : ''}${ex.html}`;
+const guidelineExampleSheets = (ex) => (ex.stylesheets || []).map(sheet => {
+  if (!/^lib\/marketing\/[a-z0-9-]+\.css$/.test(sheet) || !existsSync(join(root, sheet))) throw new Error(`guideline example ${ex.id}: stylesheet "${sheet}" is not a lib/marketing/<section>.css file`);
+  return sheet;
+});
+const guidelineExampleCode = (ex, p = {}) => `${guidelineStylesheetHead(p)}${guidelineExampleSheets(ex).map(sheet => `<link rel="stylesheet" href="${MARKETING_CDN}/${sheet.replace(/^lib\//, '')}">\n`).join('')}${guidelineExampleScripts(ex).map(file => `<script type="module" src="${MARKETING_CDN}/${file}.js"></script>\n`).join('')}${ex.css ? `<style>\n${ex.css}\n</style>\n` : ''}${ex.html}`;
 function renderGuidelineExamples(p) {
   const registered = [...new Set([...p.examples.map(ex => ex.html).join('').matchAll(/<aha-([a-z-]+)/g)].map(m => m[1]))]
     .filter(tag => !['icon', 'button'].includes(tag))
@@ -2623,6 +2627,7 @@ const guidelineExamplesCss = (p) => `
   .gex-stage{border:1px solid var(--aha-split);border-radius:var(--aha-radius-lg);overflow:hidden;background:var(--aha-white)}
   .gex--dont .gex-stage{border-style:dashed}
 ${p.stylesheet ? `${guidelineStylesheetCss(p)}\n  .gex-stage>*{margin:var(--aha-space-24)}` : ''}
+${[...new Set(p.examples.flatMap(guidelineExampleSheets))].map(sheet => read(join(root, sheet))).join('\n')}
 ${[...new Set(p.examples.map(ex => ex.css).filter(Boolean))].join('\n')}`;
 
 function renderGuidelineHtml(p) {
@@ -2712,7 +2717,7 @@ function renderGuidelineAgent(p) {
     generatedFrom: `guidelines/${p.slug}.json`, kind: 'guideline', pattern: p.name, slug: p.slug,
     summary: p.summary, skillRef: p.skillRef || null, surfaces: p.surfaces || null,
     surfaceChoice: p.surfaceChoice || null,
-    ...(p.examples ? { examples: p.examples.map(ex => ({ id: ex.id, title: ex.title, verdict: ex.verdict || null, rules: ex.refs || [], summary: ex.summary, html: ex.html, css: ex.css || '', ...(ex.scripts ? { scripts: ex.scripts.map(file => `${MARKETING_CDN}/${file}.js`) } : {}) })) } : {}),
+    ...(p.examples ? { examples: p.examples.map(ex => ({ id: ex.id, title: ex.title, verdict: ex.verdict || null, rules: ex.refs || [], summary: ex.summary, html: ex.html, css: ex.css || '', ...(ex.stylesheets ? { stylesheets: guidelineExampleSheets(ex).map(sheet => `${MARKETING_CDN}/${sheet.replace(/^lib\//, '')}`) } : {}), ...(ex.scripts ? { scripts: ex.scripts.map(file => `${MARKETING_CDN}/${file}.js`) } : {}) })) } : {}),
     ...(p.stylesheet ? { stylesheet: guidelineStylesheetUrl(p) } : {}),
     composedOf: p.composedOf || [],
     componentBacklog: p.componentBacklog || null, rules: p.rules || [],
@@ -3953,7 +3958,7 @@ const indexLines = [
   `>   <script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@${CDN_REF}/lib/all.js"></script>`,
   `>   (loads the whole set; for bundled apps prefer per-element imports so unused elements tree-shake out)`,
   `> Website or landing page with no build step: tokens.css + lib/marketing.css (every Marketing section's CSS; lib/marketing/<slug>.css for one) + all.js + lib/marketing-motion.js, then paste only each section's HTML: ${SITE}/marketing.llms.txt`,
-  `> Article body text (a library article page, an article editor canvas): tokens.css + lib/article.css, then put the body inside one .aha-article-prose root (videos also load lib/article-video.js, charts lib/aha-chart.js): ${SITE}/guidelines/article-prose/article-prose.md`,
+  `> Article body text (a library article page, an article editor canvas): tokens.css + lib/article.css, then put the body inside one .aha-article-prose root (videos also load lib/article-video.js, game posters lib/article-game.js, charts and poll results lib/aha-chart.js, content cards lib/marketing/cards.css): ${SITE}/guidelines/article-prose/article-prose.md`,
   `> One tag per surface (only the elements that surface uses): lib/audience.js (also exports applyDeck and the shared applyDeckTokens), lib/settings.js, lib/canvas.js (the whole Canvas Library: <aha-chart> plus the canvas controls, applyCanvasDeck and applyDeckTokens), same CDN path and tag:`,
   ...Object.keys(SURFACE_ENTRIES).map(surface => `>   <script type="module" src="${surfaceCdnUrl(surface)}"></script>`),
   '>',

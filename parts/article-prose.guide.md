@@ -19,17 +19,21 @@ Link `lib/tokens.css`, then `lib/article.css`, once in the page head (or `import
 | Picture sizes | `<figure>` alone is the content width; add `aha-article-figure--wide`, `--full` or `--small` |
 | Pull quote | `<blockquote class="aha-article-pullquote"><p>…</p><cite>Name, role</cite></blockquote>`, the cite is optional |
 | Callout | `<aside class="aha-article-callout aha-article-callout--info">` (or `--tip`, `--warning`) holding `<aha-icon class="aha-article-callout__icon">` and `<div class="aha-article-callout__body">` |
-| Promo callout | `<aside class="aha-article-callout">` with an `<h3>`, a `<p>` and one `<aha-button>` |
+| Promo callout | `<aside class="aha-article-callout">` with an `<h3>`, a `<p>` and one `<aha-button>`. New content uses the call to action, which takes two buttons |
 | Divider | `<hr>` |
 | Inline | `<b>` or `<strong>`, `<i>` or `<em>`, `<code>`, `<s>` or `<del>`, `<a href>` |
 | Code block | `<pre><code>…</code></pre>` |
 | Table | `<div class="aha-article-prose__table" tabindex="0" role="region" aria-label="…"><table><thead>…</thead><tbody>…</tbody></table></div>` |
 | Video | `<figure class="aha-article-video">` holding `<div class="aha-article-video__frame">` with one `<button class="aha-article-video__play">` (see Video below) |
 | Chart | `<figure class="aha-article-chart">` with a title, an optional unit, `<aha-chart>`, the Show data table and a source line (see Chart figure below) |
+| Content cards | `<div class="aha-article-cards">` holding 1 to 3 Marketing Cards: Course, Game, Template or Article card (see Content cards below) |
+| Call to action | `<aside class="aha-article-cta">` with an optional `h3.aha-article-cta__title`, a `p.aha-article-cta__text` and `div.aha-article-cta__actions` (see Call to action below) |
+| Game | `<figure class="aha-article-game">` holding `<div class="aha-article-game__stage">` with the cover and a Play panel (see Game below) |
+| Poll or quiz | `<div class="aha-article-poll" role="region" data-state="open">` with a question, 2 to 6 option buttons and a live result region (see Poll and quiz below) |
 
 ## Picture sizes
 
-The size classes go on any direct child `<figure>` of the prose root (a picture, a gallery, a video or a chart). A video takes content width, wide or full bleed; a chart takes content width or wide. Neither takes small: a 40% video is too small to watch and a 40% chart too small to read.
+The size classes go on any direct child `<figure>` of the prose root (a picture, a gallery, a video, a game or a chart), and `--wide` also on a card row. A video or a game takes content width, wide or full bleed; a chart or a card row takes content width or wide; a call to action and a poll always take the content width. Neither takes small: a 40% video is too small to watch and a 40% chart too small to read.
 
 | Size | Class | Result |
 |---|---|---|
@@ -128,9 +132,114 @@ A chart figure carries its numbers twice: drawn by `<aha-chart>`, and as a plain
 - The table holds the same numbers as the chart, one row per bar, slice or period, with one header row. Its region label is `Data for <title>`. It is rendered closed, so the page shows the chart and a Show data link; opening it shows the table and the label turns to Hide data.
 - **Before the chart upgrades** (no JavaScript, or `lib/aha-chart.js` not loaded yet), the empty `<aha-chart>` is hidden and the table shows open in its place, with no summary. This uses `aha-chart:not(:defined)` and the `::details-content` pseudo-element, in browsers that support it. In a browser without it the table stays closed under Show data, still one click away, and crawlers read it either way. Once the chart is defined, the chart shows and the table folds away under Show data.
 
+## Content cards
+
+Course, game, template and article cards are the [Marketing Cards](../../marketing/cards/index.html), never new article card classes. Put 1 to 3 of them in one `<div class="aha-article-cards">`, a direct child of the prose root, and link `lib/marketing/cards.css` after `lib/article.css`. The card row resets the body rules for its cards (headings, paragraphs, links and pictures), so each card looks the same as on a marketing page.
+
+```html
+<div class="aha-article-cards">
+  <article class="aha-marketing-card aha-marketing-card--linked aha-marketing-card--course">
+    <div class="aha-marketing-card__media aha-marketing-card__media--16x9"><img src="<cover>" alt="" aria-hidden="true" loading="lazy"></div>
+    <div class="aha-marketing-card__body">
+      <p class="aha-marketing-card__eyebrow">Course</p>
+      <h3 class="aha-marketing-card__title"><a class="aha-marketing-card__link" href="<course URL>" target="_blank" rel="noopener">Running great workshops<span class="aha-marketing-card__visually-hidden"> (opens in a new tab)</span></a></h3>
+      <p class="aha-marketing-card__meta">5 lessons &middot; By Mai Tran</p>
+      <span class="aha-marketing-card__more">Take the course <aha-icon name="system-arrow-right" size="16"></aha-icon></span>
+    </div>
+  </article>
+</div>
+```
+
+| Card | Modifier | Eyebrow | Below the title | Cue (`__more`) | Cover |
+|---|---|---|---|---|---|
+| Course | `aha-marketing-card--course` | Course | `__meta`: `<n> lessons · By <author>` (`1 lesson` for one) | Take the course | 16:9 |
+| Game | `aha-marketing-card--game` | Game | `__text`: one short line on how it plays | Play | 16:9 |
+| Template | `aha-marketing-card--template` | the template's category, or Template | `__meta`: `<n> slides` (`1 slide` for one) | Use this template | 16:9 |
+| Article | `aha-marketing-card--article` | the topic, as its own `<a>` to the topic page | none | none | 3:2 (`__media--3x2`) |
+
+- One card lies on its side, the cover taking 40% beside the text; two or three share the row equally. Every row is one column below 768 px, and a lone card stands up again below 480 px.
+- The title link is the whole card's link (the Marketing stretched link) and opens in a new tab with `rel="noopener"` and the visually hidden " (opens in a new tab)" (W15). A topic link inside an Article card is its own link above it.
+- Title, cover, counts and author come from the catalogue by reference; the article stores only the id. Before the catalogue answers, or when the item is gone, render nothing rather than an empty card.
+- The cover `<img>` has an empty `alt`: the title link names the card. With no cover, keep the placeholder media block of the Marketing snippet.
+- Related articles at the end of an article are a row of up to 3 Article cards under an `<h2 id="read-next">Read next</h2>`.
+
+## Call to action
+
+```html
+<aside class="aha-article-cta">
+  <h3 class="aha-article-cta__title">Run your next workshop with live polls</h3>
+  <p class="aha-article-cta__text">Ask the room a question and watch the answers come in from every phone.</p>
+  <div class="aha-article-cta__actions">
+    <aha-button variant="primary" href="<sign-up or app URL>">Make a poll</aha-button>
+    <aha-button variant="secondary" href="<templates URL>">See poll templates</aha-button>
+  </div>
+</aside>
+```
+
+- The heading is optional; the text is one line. At most one primary and one secondary `<aha-button>`, primary first (W4).
+- Write each label for this article's context, a verb and the thing ("Make a poll", "Use the icebreaker template"), never "Get started free" or "Learn more" (W4, W18). The labels above are examples.
+- It sits on Vivid Pink at 5% with the marketing radius, the same box as the promo callout. An old blog promo box (heading, text, two buttons) maps onto it one to one.
+- The buttons stay in the same tab: they move the reader on to the product.
+
+## Game
+
+A game is a poster until the reader presses Play, like the [library game page](https://ahaslides.com/library/games): the cover, a white panel with the title and one Play button.
+
+```html
+<figure class="aha-article-game">
+  <div class="aha-article-game__stage">
+    <img class="aha-article-game__poster" src="<cover>" alt="">
+    <div class="aha-article-game__panel">
+      <p class="aha-article-game__title">Team quiz night</p>
+      <aha-button variant="primary" class="aha-article-game__play" data-play-url="https://audience.ahaslides.com/ujmza4ei2d" aria-label="Play Team quiz night">Play</aha-button>
+    </div>
+  </div>
+  <figcaption>Optional caption.</figcaption>
+</figure>
+```
+
+- The stage is 16:10, and 3:4 below 480 px so the game fits a phone. With no cover, leave the `<img>` out and the panel sits on the light grey tile.
+- `data-play-url` is the game's play URL from the catalogue. Load `lib/article-game.js` once (`import '@ahaslides-product/design/article-game'`): on a click it replaces the stage contents with `<iframe src="<play URL>?embed=1" title="Play <title>" allow="fullscreen; autoplay; clipboard-write">` and moves focus into it, so keyboard focus draws the ring around the game.
+- Only play URLs on `ARTICLE_GAME_ORIGINS` (`https://audience.ahaslides.com`) load; any other URL leaves the poster. Nothing from the game loads before the click.
+- **Vue and React.** A component that keeps the playing state itself calls `event.preventDefault()` in its click handler and renders the iframe from `articleGameEmbedUrl(playUrl)`, which returns `null` for a URL that is not allowed.
+
+## Poll and quiz
+
+The reader picks one option without signing in, then sees the results. The DS renders the states; the page owns the voting, the storage and the counts.
+
+```html
+<div class="aha-article-poll" role="region" data-state="open" aria-labelledby="poll-1-q">
+  <p class="aha-article-poll__label">Poll</p>
+  <p class="aha-article-poll__question" id="poll-1-q">How do you start a meeting?</p>
+  <div class="aha-article-poll__options" role="group" aria-labelledby="poll-1-q">
+    <button type="button" class="aha-article-poll__option">With a question</button>
+    <button type="button" class="aha-article-poll__option">With the agenda</button>
+  </div>
+  <div class="aha-article-poll__result" tabindex="-1" aria-live="polite"></div>
+</div>
+```
+
+| State | Root | Options | Result region |
+|---|---|---|---|
+| Unanswered | `data-state="open"` | 2 to 6 buttons, `aria-pressed="false"` | empty, hidden |
+| Answered | `data-state="answered"` | the pick `aria-pressed="true"`, every option `aria-disabled="true"`; hidden on a poll | `<aha-chart type="bar" palette="brand" number-format="percent" label="Results: <question>" data='[{"label":"…","value":46}]'>` then `<p class="aha-article-poll__note">128 answers</p>` |
+| Below the threshold | `data-state="pending"` | as answered | `<p class="aha-article-poll__note">Thanks, your answer is in. Results show after 20 answers.</p>` |
+| Quiz, right pick | `aha-article-poll--quiz`, `data-state="answered"` | the right option `data-answer="correct"` with `<aha-answer-mark result="correct" size="20" label="Correct answer">` after its label in a `<span>` | `<div class="aha-article-poll__explanation">` with `<aha-answer-mark result="correct" size="20" decorative>` and `<p><strong>Correct.</strong> <explanation></p>`, then the chart with `correct="<index>" correct-style="fill"` |
+| Quiz, wrong pick | as above | the pick also gets `data-answer="wrong"` and `<aha-answer-mark result="incorrect" size="20" label="Your answer, incorrect">` | the explanation opens `<strong>Not quite.</strong>` with the incorrect mark |
+
+- The options are real `<button>`s in a labelled group, so Tab, Enter and Space work with no script. After a pick, move focus to the result region (`tabindex="-1"`), since a poll hides its options; the `aria-live` region also announces the new result.
+- Keep the options `aria-disabled`, not `disabled`, once answered, so they stay readable and focusable.
+- Percentages come from `number-format="percent"`; pass the counts as `value`. Show "Results show after <n> answers." until the page's own threshold is met, and the answer count under the chart once it is shown ("1 answer", "128 answers").
+- A quiz reveals the right option only after the pick: render `data-answer` and the marks then, never in the open state. The answer green and red sit only on the option edge and its 5% fill and the correct bar (colour rules section 11), never on text, and the tick or cross carries the meaning on its own.
+- The explanation is optional; leave the `<div>` out when there is none.
+
+## Vue SSR and React
+
+The public article page (Vue SSR) and the article editor preview (React) render the same markup for every block above, so the author sees what the reader sees. Server-render each block in its current state; the client swaps the state attributes and the result region. The video and game scripts listen on the document, so they also cover blocks rendered later in the editor.
+
 ## Compose with
 
-These blocks are DS components or sections, never new article classes. Each one sits between paragraphs as a direct child of the prose root, except the FAQ. Videos and charts have their own figures, above.
+These blocks are DS sections, never new article classes. Videos, games, charts, card rows, calls to action and polls have their own classes, above.
 
 - FAQ: the Marketing FAQ section (`marketing/faq`, linked with `lib/marketing/faq.css`). Close the prose root before it and open a new one after it, so the article headings rules never restyle the FAQ title and questions.
-- Course and game cards: `<aha-card>` with `<aha-tag>` labels, laid out by `<aha-grid min="220" gap="middle">`.
+- Course, game, template and article cards: the Marketing Cards in `.aha-article-cards` (Content cards, above).

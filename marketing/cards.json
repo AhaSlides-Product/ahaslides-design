@@ -5,13 +5,13 @@
   "environment": [
     "web"
   ],
-  "summary": "Nine meaning cards for the AhaSlides marketing sites (Webflow Cards), built on the Card anatomy (cover, title, body, actions) with the marketing radius: Testimonial card, Case study card, Template card, Feature card, Step card, Statistic card, Article card, Integration card and Pricing card, plus a Steps row that lays three Step cards in one horizontal row. A Template card can also show a New badge in its cover's top-left corner (off by default). Framework-free HTML and CSS, bound to the shared --aha-* tokens. Each type has its own copyable snippet; linked types use one stretched link over the whole card.",
+  "summary": "Eleven meaning cards for the AhaSlides marketing sites (Webflow Cards), built on the Card anatomy (cover, title, body, actions) with the marketing radius: Testimonial card, Case study card, Template card, Feature card, Step card, Statistic card, Article card, Course card, Game card, Integration card and Pricing card, plus a Steps row that lays three Step cards in one horizontal row. A Template card can also show a New badge in its cover's top-left corner (off by default). Framework-free HTML and CSS, bound to the shared --aha-* tokens. Each type has its own copyable snippet; linked types use one stretched link over the whole card.",
   "highlights": [
-    "Nine card types on one page, each with its own paste-and-run snippet",
+    "Eleven card types on one page, each with its own paste-and-run snippet",
     "Built on the Card anatomy (cover, title, body, actions) with the marketing radius and marketing type scale; not the aha-card web component",
-    "Whole card is one link (stretched-link pattern) on Case study, Template, Feature, Article and Integration cards; Testimonial, Statistic and Step cards are static",
+    "Whole card is one link (stretched-link pattern) on Case study, Template, Feature, Article, Course, Game and Integration cards; Testimonial, Statistic and Step cards are static",
     "Hover lift only on linked cards, a visible focus ring around the whole card, and no motion under reduced motion",
-    "16:9 template thumbnails, 3:2 case-study and article covers; neutral placeholders until a real image replaces the media block",
+    "16:9 template, course and game thumbnails, 3:2 case-study and article covers; neutral placeholders until a real image replaces the media block",
     "Grid steps from three columns to one at 991px (Templates and the image-led grid keep two columns from 768 to 991px); padding tightens at 479px",
     "Every value is an --aha-* token",
     "Pictures fill the media slot edge to edge at their own ratio (aha-marketing-card__media--fill), whatever the ratio. A screenshot whose own edge is white adds aha-marketing-card__media--outline: a 1 px --aha-border-default line between the picture and the card body (the card border already draws the outer edge), no fill, no shadow; never on a photo or with the pink frame. The optional Vivid Pink frame (aha-marketing-card__media--pink-frame) holds a picture whole with an even inset and the centre Splash behind it; a grid where readers compare the pictures adds aha-marketing-cards__grid--image-led: two columns at most, every image at least half the content width, one column below 768px",
@@ -111,6 +111,20 @@
       "name": "Article card",
       "summary": "A blog post or resource: 3:2 image, topic, headline, excerpt and reading time. The whole card is the link. The topic is its own link: any link other than the card link sits above the stretched one (position:relative, z-index:1) so it is clickable and takes its own focus ring.",
       "html": "<article class=\"aha-marketing-card aha-marketing-card--linked aha-marketing-card--article\">\n  <div class=\"aha-marketing-card__media aha-marketing-card__media--3x2\" aria-hidden=\"true\"><aha-icon name=\"system-image-square\" size=\"32\"></aha-icon></div>\n  <div class=\"aha-marketing-card__body\">\n    <p class=\"aha-marketing-card__eyebrow\"><a href=\"#facilitation\">Facilitation</a></p>\n    <h3 class=\"aha-marketing-card__title\"><a class=\"aha-marketing-card__link\" href=\"#article\" target=\"_blank\" rel=\"noopener\">Seven ways to open a workshop without a slide of rules<span class=\"aha-marketing-card__visually-hidden\"> (opens in a new tab)</span></a></h3>\n    <p class=\"aha-marketing-card__text\">Warm-ups that get a quiet room talking in the first two minutes.</p>\n    <p class=\"aha-marketing-card__meta\">By Tom Okafor &middot; 6 min read</p>\n  </div>\n</article>",
+      "css": ""
+    },
+    {
+      "slug": "course",
+      "name": "Course card",
+      "summary": "A library course: 16:9 cover, a Course category label, the course name, the lesson count and author, and a Take the course cue. The whole card is the link.",
+      "html": "<article class=\"aha-marketing-card aha-marketing-card--linked aha-marketing-card--course\">\n  <div class=\"aha-marketing-card__media aha-marketing-card__media--16x9\" aria-hidden=\"true\"><aha-icon name=\"system-image-square\" size=\"32\"></aha-icon></div>\n  <div class=\"aha-marketing-card__body\">\n    <p class=\"aha-marketing-card__eyebrow\">Course</p>\n    <h3 class=\"aha-marketing-card__title\"><a class=\"aha-marketing-card__link\" href=\"#course\" target=\"_blank\" rel=\"noopener\">Running great workshops<span class=\"aha-marketing-card__visually-hidden\"> (opens in a new tab)</span></a></h3>\n    <p class=\"aha-marketing-card__meta\">5 lessons &middot; By Mai Tran</p>\n    <span class=\"aha-marketing-card__more\">Take the course <aha-icon name=\"system-arrow-right\" size=\"16\"></aha-icon></span>\n  </div>\n</article>",
+      "css": ""
+    },
+    {
+      "slug": "game",
+      "name": "Game card",
+      "summary": "A library game: 16:9 cover, a Game category label, the game name, one short line on how it plays, and a Play cue. The whole card is the link.",
+      "html": "<article class=\"aha-marketing-card aha-marketing-card--linked aha-marketing-card--game\">\n  <div class=\"aha-marketing-card__media aha-marketing-card__media--16x9\" aria-hidden=\"true\"><aha-icon name=\"system-image-square\" size=\"32\"></aha-icon></div>\n  <div class=\"aha-marketing-card__body\">\n    <p class=\"aha-marketing-card__eyebrow\">Game</p>\n    <h3 class=\"aha-marketing-card__title\"><a class=\"aha-marketing-card__link\" href=\"#game\" target=\"_blank\" rel=\"noopener\">Team quiz night<span class=\"aha-marketing-card__visually-hidden\"> (opens in a new tab)</span></a></h3>\n    <p class=\"aha-marketing-card__text\">Thirty questions, three rounds, one winning team.</p>\n    <span class=\"aha-marketing-card__more\">Play <aha-icon name=\"system-arrow-right\" size=\"16\"></aha-icon></span>\n  </div>\n</article>",
       "css": ""
     },
     {

@@ -96,9 +96,10 @@ test('a linked lib/marketing.css or lib/article.css counts as the page CSS: ship
   assert.ok(rulesOf(`<link rel="stylesheet" href="../lib/marketing/faq.css"><div class="aha-faq"><div class="aha-faq__invented"></div></div>`).includes('ds-class-without-css'));
   const article = JSON.parse(readFileSync(new URL('../guidelines/article-prose.json', import.meta.url), 'utf8')).examples.map((example) => example.html).join('');
   const articleSheet = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v1.0.0/lib/article.css">';
-  assert.deepEqual(rulesOf(`${articleSheet}${article}`).filter((rule) => rule === 'ds-class-without-css'), []);
+  const cardsSheet = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v1.0.0/lib/marketing/cards.css">';
+  assert.deepEqual(rulesOf(`${articleSheet}${cardsSheet}${article}`).filter((rule) => rule === 'ds-class-without-css'), []);
   assert.ok(rulesOf(`${articleSheet}<div class="aha-article-prose"><div class="aha-article-prose__invented"></div></div>`).includes('ds-class-without-css'));
-  for (const family of ['frame', 'gallery', 'figure', 'pullquote', 'video', 'chart'])
+  for (const family of ['frame', 'gallery', 'figure', 'pullquote', 'video', 'chart', 'cards', 'cta', 'game', 'poll'])
     assert.ok(rulesOf(`${articleSheet}<div class="aha-article-${family}__invented"></div>`).includes('ds-class-without-css'), family);
 });
 
