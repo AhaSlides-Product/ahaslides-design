@@ -81,7 +81,7 @@ A video is a facade until the reader clicks it (W9): the poster, a centred play 
 - `data-provider` is `youtube`, `vimeo` or `loom`, and `data-video-id` the provider's id (YouTube 11 characters, Vimeo digits, Loom 32 hex characters). An unlisted Vimeo video adds `data-video-hash`.
 - The poster is YouTube's still, `https://i.ytimg.com/vi/<id>/hqdefault.jpg`, with an empty `alt` (the button's label names the video). Vimeo and Loom have no stable poster URL: leave the `<img>` out and the button sits on the neutral light grey tile.
 - The accessible name is `Play video: <title>`, and the same title shows on the poster in a white label (two lines at most, one below 768 px). Enter and Space work because it is a real button.
-- States: on hover the play circle turns from Vivid Pink to its hover shade, on press to its press shade; keyboard focus draws the focus ring around the whole 16:9 frame. The colour change is a short transition, off under `prefers-reduced-motion`.
+- States: on hover the play circle turns from Vivid Pink to its hover shade, on press to its press shade; keyboard focus draws the focus ring around the whole 16:9 frame, on the button and then on the player it opens. The colour change is a short transition, off under `prefers-reduced-motion`.
 
 **The click.** Load `lib/article-video.js` once (`<script type="module" src=".../lib/article-video.js">`, or `import '@ahaslides-product/design/article-video'`). It listens for clicks on the document, so it also covers videos rendered later (the editor preview). On a click it replaces the button with the player and moves focus into it:
 
