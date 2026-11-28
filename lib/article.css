@@ -73,7 +73,7 @@
 .aha-article-prose .aha-article-video__frame>iframe{display:block;width:100%;height:100%;border:0;border-radius:0}
 .aha-article-prose .aha-article-video__play{position:absolute;inset:0;display:block;width:100%;height:100%;margin:0;padding:0;border:0;background:none;font:inherit;color:inherit;text-align:start;cursor:pointer}
 .aha-article-prose .aha-article-video__play:focus-visible{outline:none}
-.aha-article-prose .aha-article-video__poster{position:absolute;inset:0;width:100%;height:100%;max-width:none;border-radius:0;object-fit:cover} /* ds-lint-allow: img-cover-crop (a YouTube poster frame is 4:3 with black bars baked around the 16:9 still; cover trims only those bars) */
+.aha-article-prose .aha-article-video__poster{position:absolute;inset:-1.5%;width:103%;height:103%;max-width:none;border-radius:0;object-fit:cover} /* ds-lint-allow: img-cover-crop (a YouTube poster frame is 4:3 with black bars baked around the 16:9 still; cover plus a 3% overscan trims only those bars and their soft edge) */
 .aha-article-prose .aha-article-video__icon{position:absolute;top:50%;left:50%;display:grid;place-items:center;width:var(--aha-space-64);height:var(--aha-space-64);border-radius:var(--aha-radius-pill);background:var(--aha-color-primary);color:var(--aha-white);transform:translate(-50%,-50%);transition:background-color var(--aha-motion-fast) var(--aha-ease-out)}
 .aha-article-prose .aha-article-video__play:hover .aha-article-video__icon{background:var(--aha-color-primary-hover)}
 .aha-article-prose .aha-article-video__play:active .aha-article-video__icon{background:var(--aha-color-primary-active)}
