@@ -27,6 +27,7 @@ import { antdBaseTheme, dsAntdTheme } from './lib/antd-base-theme.js';
 import { ACHIEVEMENT_BADGE_CSS, ACHIEVEMENT_BADGE_DISCOURSE_CSS } from './lib/achievement-badge-css.js';
 import { TOPIC_ROW_CSS } from './lib/topic-row-css.js';
 import { POST_CSS, DISCOURSE_POST_CSS } from './lib/post-css.js';
+import { ARTICLE_PROSE_CSS } from './lib/article-css.js';
 import { ILLUSTRATION_TINTS } from './recolour-art.mjs';
 import { ALTERNATIVE_ENTRIES } from './loader-entries.mjs';
 import { loadEnvironmentTable, routeLines, withRouteHeader } from './environments.mjs';
@@ -2587,7 +2588,14 @@ const redirectStub = (target) => `<!doctype html><html lang="en"><head><meta cha
 </head><body><p>This page moved to <a href="${target}">${target}</a>.</p></body></html>
 `;
 
-const guidelineExampleCode = (ex) => `<style>\n${ex.css}\n</style>\n${ex.html}`;
+const GUIDELINE_STYLESHEETS = { 'lib/article.css': ARTICLE_PROSE_CSS };
+const guidelineStylesheetCss = (p) => {
+  if (!(p.stylesheet in GUIDELINE_STYLESHEETS)) throw new Error(`guidelines/${p.slug}.json: stylesheet "${p.stylesheet}" is not one of ${Object.keys(GUIDELINE_STYLESHEETS).join(', ')}`);
+  return GUIDELINE_STYLESHEETS[p.stylesheet];
+};
+const guidelineStylesheetUrl = (p) => `${MARKETING_CDN}/${p.stylesheet.replace(/^lib\//, '')}`;
+const guidelineStylesheetHead = (p) => p.stylesheet ? `<link rel="stylesheet" href="${MARKETING_CDN}/tokens.css">\n<link rel="stylesheet" href="${guidelineStylesheetUrl(p)}">\n` : '';
+const guidelineExampleCode = (ex, p = {}) => `${guidelineStylesheetHead(p)}${ex.css ? `<style>\n${ex.css}\n</style>\n` : ''}${ex.html}`;
 function renderGuidelineExamples(p) {
   const registered = [...new Set([...p.examples.map(ex => ex.html).join('').matchAll(/<aha-([a-z-]+)/g)].map(m => m[1]))]
     .filter(tag => !['icon', 'button'].includes(tag))
@@ -2596,7 +2604,7 @@ function renderGuidelineExamples(p) {
   const cards = p.examples.map(ex => `<section class="gex${ex.verdict ? ' gex--' + ex.verdict : ''}" id="example-${esc(ex.id)}">
     <h3 class="gex-title">${esc(ex.title)}</h3>
     <p class="body">${esc(ex.summary)}${(ex.refs || []).length ? ` ${(ex.refs).map(r => `<span class="ref">${esc(r)}</span>`).join(' ')}` : ''}</p>
-    <div class="demo"><div class="demo-stage gex-stage"${ex.width ? ` style="max-width:${Number(ex.width)}px"` : ''}>${ex.html}</div>${marketingCodeToggle('html', guidelineExampleCode(ex))}</div>
+    <div class="demo"><div class="demo-stage gex-stage"${ex.width ? ` style="max-width:${Number(ex.width)}px"` : ''}>${ex.html}</div>${marketingCodeToggle('html', guidelineExampleCode(ex, p))}</div>
   </section>`).join('\n');
   return `<h2>Examples</h2>
   <p class="body">Live renders of the rules above, built only from design-system components and tokens. Each one has a Show code toggle with the markup and the CSS to copy.</p>
@@ -2608,7 +2616,8 @@ const guidelineExamplesCss = (p) => `
   .gex-title{font-size:var(--aha-size-l);margin:20px 0 6px}
   .gex-stage{border:1px solid var(--aha-split);border-radius:var(--aha-radius-lg);overflow:hidden;background:var(--aha-white)}
   .gex--dont .gex-stage{border-style:dashed}
-${[...new Set(p.examples.map(ex => ex.css))].join('\n')}`;
+${p.stylesheet ? `${guidelineStylesheetCss(p)}\n  .gex-stage>*{margin:var(--aha-space-24)}` : ''}
+${[...new Set(p.examples.map(ex => ex.css).filter(Boolean))].join('\n')}`;
 
 function renderGuidelineHtml(p) {
   const missing = (p.composedOf || []).filter(x => x.status === 'missing');
@@ -2668,7 +2677,7 @@ function renderGuidelineMd(p) {
   const co = (p.composedOf || []).map(x => `- ${x.ref} (${x.as}) — ${x.use} [${x.status}]`).join('\n');
   const rules = (p.rules || []).map(r => `- ${r.rule} (${(r.ref||[]).join(', ')})`).join('\n');
   const surf = (p.surfaceChoice || []).map(s => `- **${s.surface}** — ${s.useFor} (e.g. ${s.example})`).join('\n');
-  const examplesMd = p.examples ? `## Examples\n${p.examples.map(ex => `\n### ${ex.title}\n${ex.summary}\n\n\`\`\`html\n${guidelineExampleCode(ex)}\n\`\`\`\n`).join('')}\n` : '';
+  const examplesMd = p.examples ? `## Examples\n${p.examples.map(ex => `\n### ${ex.title}\n${ex.summary}\n\n\`\`\`html\n${guidelineExampleCode(ex, p)}\n\`\`\`\n`).join('')}\n` : '';
   return `# ${p.name} — pattern
 > Generated from guidelines/${p.slug}.json — do not edit by hand. Composition guide, not a component.
 
@@ -2697,7 +2706,8 @@ function renderGuidelineAgent(p) {
     generatedFrom: `guidelines/${p.slug}.json`, kind: 'guideline', pattern: p.name, slug: p.slug,
     summary: p.summary, skillRef: p.skillRef || null, surfaces: p.surfaces || null,
     surfaceChoice: p.surfaceChoice || null,
-    ...(p.examples ? { examples: p.examples.map(ex => ({ id: ex.id, title: ex.title, verdict: ex.verdict || null, rules: ex.refs || [], summary: ex.summary, html: ex.html, css: ex.css })) } : {}),
+    ...(p.examples ? { examples: p.examples.map(ex => ({ id: ex.id, title: ex.title, verdict: ex.verdict || null, rules: ex.refs || [], summary: ex.summary, html: ex.html, css: ex.css || '' })) } : {}),
+    ...(p.stylesheet ? { stylesheet: guidelineStylesheetUrl(p) } : {}),
     composedOf: p.composedOf || [],
     componentBacklog: p.componentBacklog || null, rules: p.rules || [],
     shipsCode: !!p.reuse, reuse: p.reuse || null,
@@ -3782,6 +3792,9 @@ writeFileSync(join(root, 'lib', 'post.css'),
 writeFileSync(join(root, 'lib', 'discourse-post.css'),
   `/* ${PKGNAME}/discourse-post.css, generated by generate.mjs from lib/post-css.js. Do not edit by hand.\n   Load lib/tokens.css first. Discourse post stream mapped to the Post card: https://design.ahaslides.io/post/index.html */\n${DISCOURSE_POST_CSS.trim()}\n`);
 console.log('  ✓ lib/post.css + lib/discourse-post.css — Post card class layers');
+writeFileSync(join(root, 'lib', 'article.css'),
+  `/* ${PKGNAME}/article.css, generated by generate.mjs from lib/article-css.js. Do not edit by hand.\n   Load lib/tokens.css first. Classes: ${LIVE_SITE}/guidelines/article-prose/index.html */\n${ARTICLE_PROSE_CSS.trim()}\n`);
+console.log('  ✓ lib/article.css — Article body class layer');
 
 /* Per-surface entries — lib/audience.js, lib/settings.js, lib/canvas.js. ONE <script> registers the
    elements a surface uses. The set is read from the surface's guideline (guidelines/<surface>.json):
@@ -3934,6 +3947,7 @@ const indexLines = [
   `>   <script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@${CDN_REF}/lib/all.js"></script>`,
   `>   (loads the whole set; for bundled apps prefer per-element imports so unused elements tree-shake out)`,
   `> Website or landing page with no build step: tokens.css + lib/marketing.css (every Marketing section's CSS; lib/marketing/<slug>.css for one) + all.js + lib/marketing-motion.js, then paste only each section's HTML: ${SITE}/marketing.llms.txt`,
+  `> Article body text (a library article page, an article editor canvas): tokens.css + lib/article.css, then put the body inside one .aha-article-prose root: ${SITE}/guidelines/article-prose/article-prose.md`,
   `> One tag per surface (only the elements that surface uses): lib/audience.js (also exports applyDeck and the shared applyDeckTokens), lib/settings.js, lib/canvas.js (the whole Canvas Library: <aha-chart> plus the canvas controls, applyCanvasDeck and applyDeckTokens), same CDN path and tag:`,
   ...Object.keys(SURFACE_ENTRIES).map(surface => `>   <script type="module" src="${surfaceCdnUrl(surface)}"></script>`),
   '>',

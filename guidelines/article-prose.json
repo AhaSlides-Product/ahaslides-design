@@ -1,0 +1,192 @@
+{
+  "name": "Article body",
+  "slug": "article-prose",
+  "kind": "guideline",
+  "environment": [
+    "web",
+    "product"
+  ],
+  "group": "Patterns",
+  "patternsNav": true,
+  "badge": "pattern — class layer",
+  "summary": "Long-form article body text (paragraphs, headings with anchors, lists, quotes, pictures, callouts, tables, inline marks) styled by one class layer, lib/article.css, under a single .aha-article-prose root. The same file styles the public library article page and the article editor canvas, so what an editor writes is what a reader sees.",
+  "highlights": [
+    "One root class, .aha-article-prose, from lib/article.css",
+    "The same body on the library article page and the editor canvas",
+    "Info, tip and warning callouts carried by a DS icon",
+    "Wide tables scroll sideways inside their own frame"
+  ],
+  "lead": "Load lib/tokens.css and lib/article.css, then wrap the article HTML in one element with the class aha-article-prose. Plain elements need no classes; only the callout and the table wrapper carry one. Charts, cards, the FAQ and videos come from DS components and sections (Compose with, below).",
+  "skillRef": {
+    "build": "ahaslides-design:aha-design",
+    "judge": "ahaslides-design:aha-design",
+    "note": "Authored in the DS. The class layer is lib/article-css.js, written to lib/article.css by generate.mjs; screen-lint checks the classes a page uses against it."
+  },
+  "surfaces": [
+    "library article page",
+    "article editor canvas"
+  ],
+  "stylesheet": "lib/article.css",
+  "composedOf": [
+    {
+      "ref": "icon",
+      "as": "component",
+      "use": "the callout tone glyph: <aha-icon name=\"system-info|system-lightbulb-filament|system-warning-circle\" size=\"24\"> in the default icon ink",
+      "status": "available"
+    },
+    {
+      "ref": "button",
+      "as": "component",
+      "use": "the one action in a promo callout",
+      "status": "available"
+    },
+    {
+      "ref": "chart",
+      "as": "component",
+      "use": "a data chart between paragraphs, <aha-chart palette=\"brand\"> inside a figure",
+      "status": "available"
+    },
+    {
+      "ref": "card",
+      "as": "component",
+      "use": "a course or game card",
+      "status": "available"
+    },
+    {
+      "ref": "tag",
+      "as": "component",
+      "use": "the Course or Game label on a card, color=\"category\"",
+      "status": "available"
+    },
+    {
+      "ref": "grid",
+      "as": "component",
+      "use": "lays out a row of cards, min=\"220\"",
+      "status": "available"
+    },
+    {
+      "ref": "--aha-size-l",
+      "as": "token",
+      "use": "body text size",
+      "status": "available"
+    },
+    {
+      "ref": "--aha-text-link",
+      "as": "token",
+      "use": "link colour at rest and visited; hover is --aha-text-link-hover",
+      "status": "available"
+    }
+  ],
+  "rules": [
+    {
+      "rule": "Put the whole article body inside one .aha-article-prose root and load lib/tokens.css then lib/article.css. Never restyle the body elements per page, and never copy the rules into a page stylesheet.",
+      "ref": [
+        "ARTICLE-01"
+      ]
+    },
+    {
+      "rule": "Body text is 16 px (--aha-size-l) at a 720 px measure; h2 is 32 px and h3 24 px, stepping down to 24 px and 20 px below 768 px. Use h2 for sections and h3 inside them; the article title (h1) sits outside the prose root.",
+      "ref": [
+        "ARTICLE-02"
+      ]
+    },
+    {
+      "rule": "Every h2 carries an id so a table of contents or a shared link can jump to it; the heading lands 96 px below the top of the window.",
+      "ref": [
+        "ARTICLE-03"
+      ]
+    },
+    {
+      "rule": "A callout is info, tip or warning: the tone class plus its icon (system-info, system-lightbulb-filament, system-warning-circle). The icon carries the tone; never add a status colour, border or tinted text.",
+      "ref": [
+        "ARTICLE-04"
+      ]
+    },
+    {
+      "rule": "Wrap every table in .aha-article-prose__table with tabindex=\"0\", role=\"region\" and an aria-label. It has one header row in thead and no merged cells; a wide table scrolls sideways inside its frame while the page stays put.",
+      "ref": [
+        "ARTICLE-05"
+      ]
+    },
+    {
+      "rule": "Inline marks are b or strong, i or em, code, s or del, and links. A link is underlined in the link colour, keeps that colour once visited, and shows the focus ring on keyboard focus; inside a quote or callout it is the text colour at rest and turns Darker Pink on hover and press (colour rule 6.5).",
+      "ref": [
+        "ARTICLE-06"
+      ]
+    },
+    {
+      "rule": "Charts, course and game cards, the FAQ and videos are composed from DS parts, never new article classes: <aha-chart> in a figure, <aha-card> with <aha-tag> in <aha-grid>, the Marketing FAQ section outside the prose root, and a figure wrapping a titled 16:9 iframe.",
+      "ref": [
+        "ARTICLE-07"
+      ]
+    },
+    {
+      "rule": "Every picture has alt text, and a caption goes in figcaption, never in a paragraph under the image.",
+      "ref": [
+        "ARTICLE-08"
+      ]
+    }
+  ],
+  "reuse": {
+    "entry": "./article-css",
+    "exportsNamed": [
+      "ARTICLE_PROSE_CSS"
+    ]
+  },
+  "reuseNote": "lib/article.css is the class layer (import '@ahaslides-product/design/article.css'); ARTICLE_PROSE_CSS from '@ahaslides-product/design/article-css' is the same rules as a string, for a host that injects styles (an editor iframe or shadow root).",
+  "guide": "article-prose.guide.md",
+  "examples": [
+    {
+      "id": "body",
+      "title": "Headings, lists and inline marks",
+      "refs": [
+        "ARTICLE-02",
+        "ARTICLE-03",
+        "ARTICLE-06"
+      ],
+      "summary": "Paragraphs, an h2 with an anchor id, an h3, nested and numbered lists, bold, italic, code, a struck-through word, a link and a divider.",
+      "css": "",
+      "html": "<article class=\"aha-article-prose\">\n  <p>Live polls turn a talk into a conversation. This guide shows how to run one in <b>three steps</b>, with an <i>optional</i> word cloud at the end. Find every setting in the <a href=\"#poll-settings\">settings panel</a>, or type <code>/poll</code> on a new slide.</p>\n  <h2 id=\"poll-settings\">Set up your first poll</h2>\n  <p>Pick a question your audience can answer in five seconds. Short options beat long ones.</p>\n  <h3>What you need</h3>\n  <ul>\n    <li>A free AhaSlides account</li>\n    <li>A question with two to five options\n      <ul><li>Keep each option under six words</li></ul>\n    </li>\n  </ul>\n  <ol>\n    <li>Create a new presentation.</li>\n    <li>Add a Poll slide and type your question.</li>\n    <li>Share the join code and present.</li>\n  </ol>\n  <p>The old <s>Quick vote</s> slide is now the Poll slide.</p>\n  <hr>\n  <p>Next, read how to show the results live.</p>\n</article>"
+    },
+    {
+      "id": "quote-figure",
+      "title": "Quote and picture",
+      "refs": [
+        "ARTICLE-08"
+      ],
+      "summary": "A quote on Vivid Pink at 5% with its cite, and a figure whose caption sits centred under the picture.",
+      "css": "",
+      "html": "<article class=\"aha-article-prose\">\n  <blockquote>\n    <p>Our quiet students answered more questions in one week than in the whole term before.</p>\n    <cite>Maya Tran, secondary school teacher</cite>\n  </blockquote>\n  <figure>\n    <img src=\"https://design.ahaslides.io/marketing-assets/image-placeholder-wide.svg\" alt=\"A presenter's screen showing live poll results\">\n    <figcaption>Results update on the big screen as votes arrive.</figcaption>\n  </figure>\n</article>"
+    },
+    {
+      "id": "callouts",
+      "title": "Callouts",
+      "refs": [
+        "ARTICLE-04"
+      ],
+      "summary": "Info and warning on the light grey fill, tip on Vivid Pink at 5%, each carried by its icon; the promo callout below them has a heading and one button.",
+      "css": "",
+      "html": "<article class=\"aha-article-prose\">\n  <aside class=\"aha-article-callout aha-article-callout--info\">\n    <aha-icon class=\"aha-article-callout__icon\" name=\"system-info\" size=\"24\"></aha-icon>\n    <div class=\"aha-article-callout__body\"><p>Polls work on any phone browser. Your audience never installs an app.</p></div>\n  </aside>\n  <aside class=\"aha-article-callout aha-article-callout--tip\">\n    <aha-icon class=\"aha-article-callout__icon\" name=\"system-lightbulb-filament\" size=\"24\"></aha-icon>\n    <div class=\"aha-article-callout__body\"><p>Ask the warm-up question before your first slide, while people are still finding their seats.</p></div>\n  </aside>\n  <aside class=\"aha-article-callout aha-article-callout--warning\">\n    <aha-icon class=\"aha-article-callout__icon\" name=\"system-warning-circle\" size=\"24\"></aha-icon>\n    <div class=\"aha-article-callout__body\"><p>Closing a poll hides it from phones straight away. Close it only after the last vote.</p></div>\n  </aside>\n  <aside class=\"aha-article-callout\">\n    <h3>Try it with your next talk</h3>\n    <p>Make a poll in under a minute, free.</p>\n    <aha-button variant=\"primary\" href=\"https://ahaslides.com/\">Get started</aha-button>\n  </aside>\n</article>"
+    },
+    {
+      "id": "table",
+      "title": "Table",
+      "refs": [
+        "ARTICLE-05"
+      ],
+      "summary": "One header row, no merged cells. Narrow the window: the table scrolls sideways inside its frame and the page does not.",
+      "css": "",
+      "html": "<article class=\"aha-article-prose\">\n  <div class=\"aha-article-prose__table\" tabindex=\"0\" role=\"region\" aria-label=\"Slide types compared\">\n    <table>\n      <thead>\n        <tr><th>Slide type</th><th>Best for</th><th>Answers</th><th>Shows results</th><th>Free plan</th></tr>\n      </thead>\n      <tbody>\n        <tr><td>Poll</td><td>Quick opinions</td><td>One or several options</td><td>Bar, donut or pie chart</td><td>Yes</td></tr>\n        <tr><td>Word cloud</td><td>Brainstorms</td><td>Short words</td><td>Words sized by count</td><td>Yes</td></tr>\n        <tr><td>Open ended</td><td>Longer ideas</td><td>Free text</td><td>Cards on a grid</td><td>Yes</td></tr>\n      </tbody>\n    </table>\n  </div>\n</article>"
+    },
+    {
+      "id": "compose",
+      "title": "Compose with a chart and cards",
+      "refs": [
+        "ARTICLE-07"
+      ],
+      "summary": "An <aha-chart> in a figure, and course and game cards from <aha-card> and <aha-tag> in an <aha-grid>. The FAQ and video recipes are in the guide below.",
+      "css": "",
+      "html": "<article class=\"aha-article-prose\">\n  <p>A chart goes between paragraphs inside a figure.</p>\n  <figure>\n    <aha-chart type=\"bar\" label=\"Favourite warm-up question\" data='[{\"label\":\"Two truths and a lie\",\"value\":42},{\"label\":\"Rate your weekend\",\"value\":31},{\"label\":\"Emoji check-in\",\"value\":18}]'></aha-chart>\n    <figcaption>Votes from 91 people at a team meeting.</figcaption>\n  </figure>\n  <p>Course and game cards sit in a grid.</p>\n  <aha-grid min=\"220\" gap=\"middle\">\n    <aha-card card-title=\"Team quiz night\">\n      <aha-tag color=\"category\">Game</aha-tag>\n      <p>Thirty questions, three rounds, one winning team.</p>\n    </aha-card>\n    <aha-card card-title=\"Running great workshops\">\n      <aha-tag color=\"category\">Course</aha-tag>\n      <p>Five short lessons on getting a room talking.</p>\n    </aha-card>\n  </aha-grid>\n</article>"
+    }
+  ]
+}
