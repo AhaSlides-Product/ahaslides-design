@@ -27,7 +27,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.1158.0 — 2026-11-28
 ### Added
-- **Article body: image gallery, picture sizes and pull quote** in `lib/article.css`. `figure.aha-article-gallery` lays 2 to 4 pictures in `.aha-article-gallery__grid` (one column below 480px); `.aha-article-figure--wide`, `--full` and `--small` size a figure, with wide and full bleed needing the new `.aha-article-frame` wrapper; `blockquote.aha-article-pullquote` sets a sentence from the article large and centred with an optional cite. The [Article body](https://design.ahaslides.io/guidelines/article-prose/index.html) page has markup examples, and screen-lint checks the new class families (DESY-607) (#PR).
+- **Article body: image gallery, picture sizes and pull quote** in `lib/article.css`. `figure.aha-article-gallery` lays 2 to 4 pictures in `.aha-article-gallery__grid` (one column below 480px); `.aha-article-figure--wide`, `--full` and `--small` size a figure, with wide and full bleed needing the new `.aha-article-frame` wrapper; `blockquote.aha-article-pullquote` sets a sentence from the article large and centred with an optional cite. The [Article body](https://design.ahaslides.io/guidelines/article-prose/index.html) page has markup examples, and screen-lint checks the new class families (DESY-607) (#802).
 
 ## 0.1157.0 — 2026-11-28
 ### Added
