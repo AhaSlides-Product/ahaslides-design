@@ -2589,7 +2589,12 @@ const redirectStub = (target) => `<!doctype html><html lang="en"><head><meta cha
 `;
 
 const GUIDELINE_STYLESHEETS = { 'lib/article.css': ARTICLE_PROSE_CSS };
-const guidelineStylesheetHead = (p) => p.stylesheet ? `<link rel="stylesheet" href="${MARKETING_CDN}/tokens.css">\n<link rel="stylesheet" href="${MARKETING_CDN}/${p.stylesheet.replace(/^lib\//, '')}">\n` : '';
+const guidelineStylesheetCss = (p) => {
+  if (!(p.stylesheet in GUIDELINE_STYLESHEETS)) throw new Error(`guidelines/${p.slug}.json: stylesheet "${p.stylesheet}" is not one of ${Object.keys(GUIDELINE_STYLESHEETS).join(', ')}`);
+  return GUIDELINE_STYLESHEETS[p.stylesheet];
+};
+const guidelineStylesheetUrl = (p) => `${MARKETING_CDN}/${p.stylesheet.replace(/^lib\//, '')}`;
+const guidelineStylesheetHead = (p) => p.stylesheet ? `<link rel="stylesheet" href="${MARKETING_CDN}/tokens.css">\n<link rel="stylesheet" href="${guidelineStylesheetUrl(p)}">\n` : '';
 const guidelineExampleCode = (ex, p = {}) => `${guidelineStylesheetHead(p)}${ex.css ? `<style>\n${ex.css}\n</style>\n` : ''}${ex.html}`;
 function renderGuidelineExamples(p) {
   const registered = [...new Set([...p.examples.map(ex => ex.html).join('').matchAll(/<aha-([a-z-]+)/g)].map(m => m[1]))]
@@ -2611,7 +2616,7 @@ const guidelineExamplesCss = (p) => `
   .gex-title{font-size:var(--aha-size-l);margin:20px 0 6px}
   .gex-stage{border:1px solid var(--aha-split);border-radius:var(--aha-radius-lg);overflow:hidden;background:var(--aha-white)}
   .gex--dont .gex-stage{border-style:dashed}
-${p.stylesheet ? `${GUIDELINE_STYLESHEETS[p.stylesheet] || ''}\n  .gex-stage>*{margin:var(--aha-space-24)}` : ''}
+${p.stylesheet ? `${guidelineStylesheetCss(p)}\n  .gex-stage>*{margin:var(--aha-space-24)}` : ''}
 ${[...new Set(p.examples.map(ex => ex.css).filter(Boolean))].join('\n')}`;
 
 function renderGuidelineHtml(p) {
@@ -2702,7 +2707,7 @@ function renderGuidelineAgent(p) {
     summary: p.summary, skillRef: p.skillRef || null, surfaces: p.surfaces || null,
     surfaceChoice: p.surfaceChoice || null,
     ...(p.examples ? { examples: p.examples.map(ex => ({ id: ex.id, title: ex.title, verdict: ex.verdict || null, rules: ex.refs || [], summary: ex.summary, html: ex.html, css: ex.css || '' })) } : {}),
-    ...(p.stylesheet ? { stylesheet: `${MARKETING_CDN}/${p.stylesheet.replace(/^lib\//, '')}` } : {}),
+    ...(p.stylesheet ? { stylesheet: guidelineStylesheetUrl(p) } : {}),
     composedOf: p.composedOf || [],
     componentBacklog: p.componentBacklog || null, rules: p.rules || [],
     shipsCode: !!p.reuse, reuse: p.reuse || null,

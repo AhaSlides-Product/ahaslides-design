@@ -19,7 +19,9 @@
 .aha-article-prose a:hover{color:var(--aha-text-link-hover)}
 .aha-article-prose a:active{color:var(--aha-color-primary-active)}
 .aha-article-prose a:focus-visible{outline:var(--aha-space-2) solid var(--aha-focus);outline-offset:var(--aha-space-2)}
-.aha-article-prose :is(blockquote,.aha-article-callout) a,.aha-article-prose :is(blockquote,.aha-article-callout) a:is(:visited,:hover){color:var(--aha-text-default)}
+.aha-article-prose :is(blockquote,.aha-article-callout) a,.aha-article-prose :is(blockquote,.aha-article-callout) a:visited{color:var(--aha-text-default)}
+.aha-article-prose :is(blockquote,.aha-article-callout) a:hover{color:var(--aha-text-link-hover)}
+.aha-article-prose :is(blockquote,.aha-article-callout) a:active{color:var(--aha-color-primary-active)}
 .aha-article-prose blockquote{margin:var(--aha-space-24) 0;padding:var(--aha-space-24);border:0;border-radius:var(--aha-radius-default);background:var(--aha-bg-accent)}
 .aha-article-prose blockquote>:last-child{margin-bottom:0}
 .aha-article-prose cite{display:block;margin-top:var(--aha-space-8);font-size:var(--aha-size-default);font-style:normal;color:var(--aha-text-secondary)}

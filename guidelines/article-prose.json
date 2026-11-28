@@ -109,7 +109,7 @@
       ]
     },
     {
-      "rule": "Inline marks are b or strong, i or em, code, s or del, and links. A link is underlined in the link colour, keeps that colour once visited, and shows the focus ring on keyboard focus; inside a quote or callout it keeps the text colour.",
+      "rule": "Inline marks are b or strong, i or em, code, s or del, and links. A link is underlined in the link colour, keeps that colour once visited, and shows the focus ring on keyboard focus; inside a quote or callout it is the text colour at rest and turns Darker Pink on hover and press (colour rule 6.5).",
       "ref": [
         "ARTICLE-06"
       ]
