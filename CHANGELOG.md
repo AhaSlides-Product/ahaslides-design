@@ -25,6 +25,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.1159.0 — 2026-11-28
+### Added
+- **Article body: click-to-load video and chart figure** in `lib/article.css`. `figure.aha-article-video` is a facade, one `button.aha-article-video__play` with a YouTube poster or a neutral tile, a play circle and the title, and the new `lib/article-video.js` (`@ahaslides-product/design/article-video`) swaps it for a youtube-nocookie, Vimeo or Loom player on click, with `articleVideoEmbedUrl` and `articleVideoPosterUrl` for hosts that render the player themselves. `figure.aha-article-chart` holds a title, an optional unit, `<aha-chart palette="brand">`, the server-rendered numbers under a Show data `<details>` (shown open before the chart upgrades) and a `Source:` line. The [Article body](https://design.ahaslides.io/guidelines/article-prose/index.html) page has markup, states and the embed URLs per provider, and screen-lint checks both class families (DESY-608) (#803).
+
 ## 0.1158.0 — 2026-11-28
 ### Added
 - **Article body: image gallery, picture sizes and pull quote** in `lib/article.css`. `figure.aha-article-gallery` lays 2 to 4 pictures in `.aha-article-gallery__grid` (one column below 480px); `.aha-article-figure--wide`, `--full` and `--small` size a figure, with wide and full bleed needing the new `.aha-article-frame` wrapper; `blockquote.aha-article-pullquote` sets a sentence from the article large and centred with an optional cite. The [Article body](https://design.ahaslides.io/guidelines/article-prose/index.html) page has markup examples, and screen-lint checks the new class families (DESY-607) (#802).

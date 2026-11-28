@@ -9,14 +9,14 @@
   "group": "Patterns",
   "patternsNav": true,
   "badge": "pattern — class layer",
-  "summary": "Long-form article body text (paragraphs, headings with anchors, lists, quotes and pull quotes, pictures, galleries and picture sizes, callouts, tables, inline marks) styled by one class layer, lib/article.css, under a single .aha-article-prose root. The same file styles the public library article page and the article editor canvas, so what an editor writes is what a reader sees.",
+  "summary": "Long-form article body text (paragraphs, headings with anchors, lists, quotes and pull quotes, pictures, galleries and picture sizes, callouts, tables, inline marks, click-to-load videos and chart figures) styled by one class layer, lib/article.css, under a single .aha-article-prose root. The same file styles the public library article page and the article editor canvas, so what an editor writes is what a reader sees.",
   "highlights": [
     "One root class, .aha-article-prose, from lib/article.css",
     "The same body on the library article page and the editor canvas",
-    "Info, tip and warning callouts carried by a DS icon",
-    "Wide tables scroll sideways inside their own frame"
+    "Videos load the player only when the reader clicks play",
+    "Chart figures keep their numbers in a Show data table"
   ],
-  "lead": "Load lib/tokens.css and lib/article.css, then wrap the article HTML in one element with the class aha-article-prose. Plain elements need no classes; only the callout, the table wrapper, the pull quote, the gallery and the picture sizes carry one. Charts, cards, the FAQ and videos come from DS components and sections (Compose with, below).",
+  "lead": "Load lib/tokens.css and lib/article.css, then wrap the article HTML in one element with the class aha-article-prose. Plain elements need no classes; only the callout, the table wrapper, the pull quote, the gallery, the picture sizes, the video and the chart figure carry one. Cards and the FAQ come from DS components and sections (Compose with, below).",
   "skillRef": {
     "build": "ahaslides-design:aha-design",
     "judge": "ahaslides-design:aha-design",
@@ -31,7 +31,7 @@
     {
       "ref": "icon",
       "as": "component",
-      "use": "the callout tone glyph: <aha-icon name=\"system-info|system-lightbulb-filament|system-warning-circle\" size=\"24\"> in the default icon ink",
+      "use": "the callout tone glyph: <aha-icon name=\"system-info|system-lightbulb-filament|system-warning-circle\" size=\"24\"> in the default icon ink; system-play (32 px) in the video play circle; system-caret-down (16 px) on the chart Show data summary",
       "status": "available"
     },
     {
@@ -43,7 +43,7 @@
     {
       "ref": "chart",
       "as": "component",
-      "use": "a data chart between paragraphs, <aha-chart palette=\"brand\"> inside a figure",
+      "use": "the chart in a chart figure: <aha-chart palette=\"brand\"> (column, bar, line or donut) inside figure.aha-article-chart",
       "status": "available"
     },
     {
@@ -115,7 +115,7 @@
       ]
     },
     {
-      "rule": "Charts, course and game cards, the FAQ and videos are composed from DS parts, never new article classes: <aha-chart> in a figure, <aha-card> with <aha-tag> in <aha-grid>, the Marketing FAQ section outside the prose root, and a figure wrapping a titled 16:9 iframe.",
+      "rule": "Cards and the FAQ are composed from DS parts, never new article classes: <aha-card> with <aha-tag> in <aha-grid>, and the Marketing FAQ section outside the prose root. Videos and charts use their own figure classes (ARTICLE-12, ARTICLE-13).",
       "ref": [
         "ARTICLE-07"
       ]
@@ -142,6 +142,19 @@
       "rule": "Size a picture only with aha-article-figure--wide, --full or --small on a direct child figure of the prose root; wide and full bleed need the .aha-article-frame wrapper around the root. Never set a figure width or negative margin per page.",
       "ref": [
         "ARTICLE-11"
+      ]
+    },
+    {
+      "rule": "A video is a click-to-load facade: figure.aha-article-video holding .aha-article-video__frame with one <button type=\"button\" class=\"aha-article-video__play\" aria-label=\"Play video: <title>\" data-provider data-video-id>, a poster img (YouTube only; else the neutral tile), the play icon and the visible title. lib/article-video.js swaps the button for the provider's iframe (youtube-nocookie.com, player.vimeo.com or loom.com/embed) on click; nothing plays or loads from the provider before the click, and nothing ever plays with sound on its own.",
+      "ref": [
+        "ARTICLE-12",
+        "W9"
+      ]
+    },
+    {
+      "rule": "A chart is figure.aha-article-chart: a title, an optional unit line, one <aha-chart palette=\"brand\"> (column, bar, line or donut), a server-rendered table in <details class=\"aha-article-chart__data\"> under a Show data summary, and a figcaption \"Source: …\". The table holds the same numbers as the chart and its region is labelled \"Data for <title>\"; before the chart upgrades the table shows open in its place.",
+      "ref": [
+        "ARTICLE-13"
       ]
     }
   ],
@@ -227,14 +240,42 @@
       "html": "<article class=\"aha-article-prose\">\n  <div class=\"aha-article-prose__table\" tabindex=\"0\" role=\"region\" aria-label=\"Slide types compared\">\n    <table>\n      <thead>\n        <tr><th>Slide type</th><th>Best for</th><th>Answers</th><th>Shows results</th><th>Free plan</th></tr>\n      </thead>\n      <tbody>\n        <tr><td>Poll</td><td>Quick opinions</td><td>One or several options</td><td>Bar, donut or pie chart</td><td>Yes</td></tr>\n        <tr><td>Word cloud</td><td>Brainstorms</td><td>Short words</td><td>Words sized by count</td><td>Yes</td></tr>\n        <tr><td>Open ended</td><td>Longer ideas</td><td>Free text</td><td>Cards on a grid</td><td>Yes</td></tr>\n      </tbody>\n    </table>\n  </div>\n</article>"
     },
     {
+      "id": "video",
+      "title": "Video, click to load",
+      "refs": [
+        "ARTICLE-12",
+        "W9"
+      ],
+      "summary": "A YouTube facade with its poster, and a wide Vimeo facade on the neutral tile. Click either to load the player.",
+      "css": "",
+      "scripts": [
+        "icons",
+        "article-video"
+      ],
+      "html": "<div class=\"aha-article-frame\">\n<article class=\"aha-article-prose\">\n  <p>The poster, the play button and the title are a button. The player loads only when it is clicked.</p>\n  <figure class=\"aha-article-video\">\n    <div class=\"aha-article-video__frame\">\n      <button type=\"button\" class=\"aha-article-video__play\" data-provider=\"youtube\" data-video-id=\"cVfaZNj-T-c\" aria-label=\"Play video: How to set up an interactive poll\">\n        <img class=\"aha-article-video__poster\" src=\"https://i.ytimg.com/vi/cVfaZNj-T-c/hqdefault.jpg\" alt=\"\">\n        <span class=\"aha-article-video__icon\"><aha-icon name=\"system-play\" size=\"32\"></aha-icon></span>\n        <span class=\"aha-article-video__title\">How to set up an interactive poll</span>\n      </button>\n    </div>\n    <figcaption>A one-minute walkthrough of a live poll.</figcaption>\n  </figure>\n  <p>Vimeo and Loom have no poster, so the button sits on the neutral tile.</p>\n  <figure class=\"aha-article-video aha-article-figure--wide\">\n    <div class=\"aha-article-video__frame\">\n      <button type=\"button\" class=\"aha-article-video__play\" data-provider=\"vimeo\" data-video-id=\"76979871\" aria-label=\"Play video: A video with no poster\">\n        <span class=\"aha-article-video__icon\"><aha-icon name=\"system-play\" size=\"32\"></aha-icon></span>\n        <span class=\"aha-article-video__title\">A video with no poster</span>\n      </button>\n    </div>\n  </figure>\n</article>\n</div>"
+    },
+    {
+      "id": "chart",
+      "title": "Chart figure",
+      "refs": [
+        "ARTICLE-13"
+      ],
+      "summary": "A column chart with a unit and a source line, and a wide line chart. Show data opens the same numbers as a table.",
+      "css": "",
+      "html": "<article class=\"aha-article-prose\">\n  <p>A chart figure has a title, an optional unit, the chart, the numbers under Show data and a source line.</p>\n  <figure class=\"aha-article-chart\" aria-labelledby=\"chart-warmups\">\n    <p class=\"aha-article-chart__title\" id=\"chart-warmups\">Favourite warm-up question</p>\n    <p class=\"aha-article-chart__unit\">Votes</p>\n    <aha-chart type=\"column\" palette=\"brand\" label=\"Favourite warm-up question\" number-format=\"count\" data='[{\"label\": \"Two truths and a lie\", \"value\": 42}, {\"label\": \"Rate your weekend\", \"value\": 31}, {\"label\": \"Emoji check-in\", \"value\": 18}]'></aha-chart>\n    <details class=\"aha-article-chart__data\">\n      <summary><span class=\"aha-article-chart__show\">Show data</span><span class=\"aha-article-chart__hide\">Hide data</span><aha-icon name=\"system-caret-down\" size=\"16\"></aha-icon></summary>\n      <div class=\"aha-article-prose__table\" tabindex=\"0\" role=\"region\" aria-label=\"Data for Favourite warm-up question\"><table><thead><tr><th scope=\"col\">Question</th><th scope=\"col\">Votes</th></tr></thead><tbody><tr><td>Two truths and a lie</td><td>42</td></tr><tr><td>Rate your weekend</td><td>31</td></tr><tr><td>Emoji check-in</td><td>18</td></tr></tbody></table></div>\n    </details>\n    <figcaption class=\"aha-article-chart__source\">Source: a poll of 91 people at a team meeting</figcaption>\n  </figure>\n  <figure class=\"aha-article-chart aha-article-figure--wide\" aria-labelledby=\"chart-sessions\">\n    <p class=\"aha-article-chart__title\" id=\"chart-sessions\">Live sessions per month</p>\n    <aha-chart type=\"line\" palette=\"brand\" label=\"Live sessions per month\" data='{\"labels\": [\"Jan\", \"Feb\", \"Mar\", \"Apr\", \"May\", \"Jun\"], \"series\": [{\"label\": \"Live sessions\", \"values\": [120, 180, 240, 310, 290, 380]}]}'></aha-chart>\n    <details class=\"aha-article-chart__data\">\n      <summary><span class=\"aha-article-chart__show\">Show data</span><span class=\"aha-article-chart__hide\">Hide data</span><aha-icon name=\"system-caret-down\" size=\"16\"></aha-icon></summary>\n      <div class=\"aha-article-prose__table\" tabindex=\"0\" role=\"region\" aria-label=\"Data for Live sessions per month\"><table><thead><tr><th scope=\"col\">Month</th><th scope=\"col\">Live sessions</th></tr></thead><tbody><tr><td>Jan</td><td>120</td></tr><tr><td>Feb</td><td>180</td></tr><tr><td>Mar</td><td>240</td></tr><tr><td>Apr</td><td>310</td></tr><tr><td>May</td><td>290</td></tr><tr><td>Jun</td><td>380</td></tr></tbody></table></div>\n    </details>\n    <figcaption class=\"aha-article-chart__source\">Source: example figures</figcaption>\n  </figure>\n</article>",
+      "scripts": [
+        "aha-chart"
+      ]
+    },
+    {
       "id": "compose",
-      "title": "Compose with a chart and cards",
+      "title": "Compose with cards",
       "refs": [
         "ARTICLE-07"
       ],
-      "summary": "An <aha-chart> in a figure, and course and game cards from <aha-card> and <aha-tag> in an <aha-grid>. The FAQ and video recipes are in the guide below.",
+      "summary": "Course and game cards from <aha-card> and <aha-tag> in an <aha-grid>. The FAQ recipe is in the guide below.",
       "css": "",
-      "html": "<article class=\"aha-article-prose\">\n  <p>A chart goes between paragraphs inside a figure.</p>\n  <figure>\n    <aha-chart type=\"bar\" label=\"Favourite warm-up question\" data='[{\"label\":\"Two truths and a lie\",\"value\":42},{\"label\":\"Rate your weekend\",\"value\":31},{\"label\":\"Emoji check-in\",\"value\":18}]'></aha-chart>\n    <figcaption>Votes from 91 people at a team meeting.</figcaption>\n  </figure>\n  <p>Course and game cards sit in a grid.</p>\n  <aha-grid min=\"220\" gap=\"middle\">\n    <aha-card card-title=\"Team quiz night\">\n      <aha-tag color=\"category\">Game</aha-tag>\n      <p>Thirty questions, three rounds, one winning team.</p>\n    </aha-card>\n    <aha-card card-title=\"Running great workshops\">\n      <aha-tag color=\"category\">Course</aha-tag>\n      <p>Five short lessons on getting a room talking.</p>\n    </aha-card>\n  </aha-grid>\n</article>"
+      "html": "<article class=\"aha-article-prose\">\n  <p>Course and game cards sit in a grid.</p>\n  <aha-grid min=\"220\" gap=\"middle\">\n    <aha-card card-title=\"Team quiz night\">\n      <aha-tag color=\"category\">Game</aha-tag>\n      <p>Thirty questions, three rounds, one winning team.</p>\n    </aha-card>\n    <aha-card card-title=\"Running great workshops\">\n      <aha-tag color=\"category\">Course</aha-tag>\n      <p>Five short lessons on getting a room talking.</p>\n    </aha-card>\n  </aha-grid>\n</article>"
     }
   ]
 }
