@@ -112,7 +112,7 @@ A chart figure carries its numbers twice: drawn by `<aha-chart>`, and as a plain
   <aha-chart type="column" palette="brand" label="Favourite warm-up question" number-format="count" data='[{"label":"Two truths and a lie","value":42},{"label":"Rate your weekend","value":31},{"label":"Emoji check-in","value":18}]'></aha-chart>
   <details class="aha-article-chart__data">
     <summary><span class="aha-article-chart__show">Show data</span><span class="aha-article-chart__hide">Hide data</span><aha-icon name="system-caret-down" size="16"></aha-icon></summary>
-    <div class="aha-article-prose__table" tabindex="0" role="region" aria-label="Favourite warm-up question, data">
+    <div class="aha-article-prose__table" tabindex="0" role="region" aria-label="Data for Favourite warm-up question">
       <table>
         <thead><tr><th scope="col">Question</th><th scope="col">Votes</th></tr></thead>
         <tbody><tr><td>Two truths and a lie</td><td>42</td></tr><tr><td>Rate your weekend</td><td>31</td></tr><tr><td>Emoji check-in</td><td>18</td></tr></tbody>
@@ -125,7 +125,7 @@ A chart figure carries its numbers twice: drawn by `<aha-chart>`, and as a plain
 
 - `type` is `column`, `bar`, `line` or `donut`, always with `palette="brand"`, and `label` repeats the title (it is the chart's accessible name). Load `<aha-chart>` from `lib/aha-chart.js`. Data shapes are on the [Chart](../../chart/index.html) page.
 - The unit line is optional; leave the `<p>` out when the numbers need no unit. The source line is the figure's `figcaption`, last, and starts with `Source:`.
-- The table holds the same numbers as the chart, one row per bar, slice or period, with one header row. It is rendered closed, so the page shows the chart and a Show data link; opening it shows the table and the label turns to Hide data.
+- The table holds the same numbers as the chart, one row per bar, slice or period, with one header row. Its region label is `Data for <title>`. It is rendered closed, so the page shows the chart and a Show data link; opening it shows the table and the label turns to Hide data.
 - **Before the chart upgrades** (no JavaScript, or `lib/aha-chart.js` not loaded yet), the empty `<aha-chart>` is hidden and the table shows open in its place, with no summary. This uses `aha-chart:not(:defined)` and the `::details-content` pseudo-element, in browsers that support it. In a browser without it the table stays closed under Show data, still one click away, and crawlers read it either way. Once the chart is defined, the chart shows and the table folds away under Show data.
 
 ## Compose with
